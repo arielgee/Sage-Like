@@ -1,0 +1,69 @@
+﻿html, body {
+  height: 100%;
+  --top-height: 350px;
+  --splitter-height: 5px;
+}
+
+.top {  
+  position: fixed;
+  width: 100%;
+  height: var(--top-height);
+  overflow-y: auto;
+  background-color: cadetblue;
+}
+
+.top .toolbar {
+  width: 100%;
+  height: 32px;
+  background-color: coral;
+  border-top: 2px gray groove;
+  border-bottom: 2px gray groove;
+  padding: 4px;
+}
+
+.top .toolbar .button {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-color: ButtonFace;
+  text-align: center;
+  margin-right: 4px;
+  box-sizing:content-box;
+  border: 1px solid coral;
+}
+
+.top .toolbar .button:hover {
+  filter: drop-shadow(0 0 4px #FFFFFF);
+}
+
+.top .toolbar .button:active {
+  margin: 1px 3px -1px 1px;
+}
+
+#expandall {
+  background: transparent url("../icons/expandall.png") no-repeat left center;
+}
+#collapseall {
+  background: transparent url("../icons/collapseall.png") no-repeat left center;
+}
+
+
+.splitter {  
+  position: fixed;
+  top: var(--top-height);
+  width: 100%;
+  height: var(--splitter-height);
+  background-color: #c0c0c0;
+  cursor: n-resize;
+  border-top: 2px gray groove;
+  border-bottom: 2px gray groove;
+}
+
+.bottom {
+  position: fixed;
+  top: calc(var(--top-height) + var(--splitter-height));
+  width: 100%;
+  height: auto;
+  overflow-y: auto;
+  background-color: yellowgreen;
+}

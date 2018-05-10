@@ -1,0 +1,35 @@
+﻿.treeview {
+  margin: 0;
+  padding: 4px 0 4px 4px;
+  font-weight: bold;
+  white-space: nowrap;
+  background-color: transparent;
+}
+
+  .treeview ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .treeview li { /*Style for LI elements in general (excludes an LI that contains sub lists)*/
+    background: transparent url("../icons/rss.png") no-repeat left center;
+    list-style-type: none;
+    padding-left: 22px;
+    /*margin-bottom: 3px;*/
+    margin: 2px 0 2px 0;
+    cursor: pointer;
+  }
+
+    .treeview li.subtree { /* Style for LI that contains sub lists (other ULs). */
+      background: transparent url("../icons/closed.gif") no-repeat left 1px;
+      cursor: pointer;
+    }
+
+
+      .treeview li.subtree ul { /*Style for ULs that are children of LIs (submenu) */
+        display: none; /*Hide them by default. Don't delete. */
+      }
+
+  .treeview .subtree ul li { /*Style for LIs of ULs that are children of LIs (submenu) */
+    cursor: pointer;
+  }
