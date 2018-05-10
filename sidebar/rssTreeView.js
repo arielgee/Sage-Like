@@ -36,8 +36,8 @@
 
 		removeTreeEventListeners();
 
-		elmExpandAll.removeEventListener("click", onClickExpandAll);
-		elmCollapseAll.removeEventListener("click", onClickCollapseAll);
+		elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
+		elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -158,35 +158,7 @@
 			elm.parentElement.style.backgroundImage = "url(" + img + ")";
 		}
 	}
-	/*
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function onClickExpandAll(evt) {
 
-		console.log(this.id);
-		let elems = elmTreeRoot.getElementsByTagName("ul");
-
-		for (let elm of elems) {
-			elm.style.display = "block";
-			elm.setAttribute("rel", "open");
-			elm.parentElement.style.backgroundImage = "url(" + IMG_OPEN_FOLDER + ")";
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function onClickCollapseAll(evt) {
-
-		console.log(this.id);
-		let elems = elmTreeRoot.getElementsByTagName("ul");
-
-		for (let elm of elems) {
-			elm.style.display = "none";
-			elm.setAttribute("rel", "closed");
-			elm.parentElement.style.backgroundImage = "url(" + IMG_CLOSED_FOLDER + ")";
-		}
-	}
-	*/
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function removeTreeEventListeners() {
