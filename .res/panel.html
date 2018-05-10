@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="simpletreemenu.js"></script>
+    <link rel="stylesheet" type="text/css" href="simpletree.css" />
+</head>
+
+<body>
+    <div><a href="javascript:ddtreemenu.flatten('treemenu2', 'expand')">Expand All</a> | <a href="javascript:ddtreemenu.flatten('treemenu2', 'contact')">Contact All</a></div>
+
+    <ul id="treemenu" class="treeview">
+        <li>
+            Folder 1
+            <ul>
+                <!--<li>Sub Item 1.1</li>-->
+                <li>
+                    Folder 1.1
+                    <ul rel="open">
+                        <li>Sub Item 1.1.1</li>
+                        <li>Sub Item 1.1.2</li>
+                        <li>
+                            Folder 1.1.1
+                            <ul>
+                                <li>Sub item 1.1.1.1</li>
+                                <li>Sub item 1.1.1.2</li>
+                                <li>Sub item 1.1.1.3</li>
+                                <li>Sub item 1.1.1.4</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <!--<li>Item 1</li>
+        <li>Item 2</li>-->
+    </ul>
+</body>
+
+</html>
