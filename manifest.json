@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "applications": {
     "gecko": {
-      "id": "sagelike@webExtension.arielg.il",
+      "id": "sage-like@webExtension.arielg.il",
       "strict_min_version": "56.0"
     }
   },
@@ -33,7 +33,7 @@
 
   "browser_action": {
     "browser_style": true,
-    "default_title": "Sage Like",
+    "default_title": "Sage-Like",
     "default_icon": {
       "16": "icons/sageLike-16.png",
       "32": "icons/sageLike-32.png",
@@ -57,11 +57,11 @@
       "suggested_key": {
         "default": "Ctrl+Shift+S"
       },
-      "description": "Open Sage Like Sidebar"
+      "description": "Open Sage-Like Sidebar"
     }
   },
 
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["common.js", "background.js"]
   }
 }

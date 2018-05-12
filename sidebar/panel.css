@@ -1,7 +1,7 @@
 ﻿html, body {
   height: 100%;
-  --top-height: 350px;
-  --splitter-height: 5px;
+  --top-height: 66%;
+  --splitter-height: 7px;
 }
 
 .top {  
@@ -9,16 +9,16 @@
   width: 100%;
   height: var(--top-height);
   overflow-y: auto;
-  background-color: cadetblue;
+  background-color: Window;
 }
 
 .top .toolbar {
   width: 100%;
-  height: 32px;
-  background-color: coral;
+  height: 31px;
+  background-color: AppWorkspace;
   border-top: 2px gray groove;
   border-bottom: 2px gray groove;
-  padding: 4px;
+  padding: 5px;
 }
 
 .top .toolbar .button {
@@ -28,8 +28,6 @@
   background-color: ButtonFace;
   text-align: center;
   margin-right: 4px;
-  box-sizing:content-box;
-  border: 1px solid coral;
 }
 
 .top .toolbar .button:hover {
@@ -46,7 +44,6 @@
 #collapseall {
   background: transparent url("../icons/collapseall.png") no-repeat left center;
 }
-
 
 .splitter {  
   position: fixed;
@@ -65,5 +62,5 @@
   width: 100%;
   height: auto;
   overflow-y: auto;
-  background-color: yellowgreen;
+  background-color: Window; /*rgb(211 211 211);*/
 }

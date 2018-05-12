@@ -2,11 +2,15 @@
 
 (function () {
 
-	const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";		// id of 'RSS Feeds (Sage) 'clean' profile
-	//const BOOKMARK_FOLDER_ROOT_ID = "7ddrxyguHW8l";		// id of 'RSS Feeds (Sage)' '' 'Fx64-Primary' profile
+	// ID's of 'RSS Feeds (Sage)
+	const BOOKMARK_FOLDER_ROOT_ID = "3kd0htXHfE_n";		// Home 'clean' profile
+	//const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";	// Work 'clean' profile
+	//const BOOKMARK_FOLDER_ROOT_ID = "7ddrxyguHW8l";	// Work 'Fx64-Primary' profile
 
-	const IMG_CLOSED_FOLDER = "../icons/closed.gif";
-	const IMG_OPEN_FOLDER = "../icons/open.gif";
+	const CLS_LI_SUB_TREE = "subtree";
+
+	const IMG_CLOSED_FOLDER = "../icons/closed.png";
+	const IMG_OPEN_FOLDER = "../icons/open.png";
 
 	let elmTreeRoot;
 	let elmExpandAll;
@@ -56,7 +60,7 @@
 	function createRSSTree() {
 
 		/*browser.bookmarks.search("RSS Feeds (Sage)").then((bookmarkItems) => {
-			console.log(bookmarkItems[0].title, bookmarkItems[0].id);
+			lzUtil.log(bookmarkItems[0].title, bookmarkItems[0].id);
 		});*/
 
 		browser.bookmarks.getSubTree(BOOKMARK_FOLDER_ROOT_ID).then((bookmarkItems) => {
@@ -65,6 +69,8 @@
 					createRSSTreeItem(elmTreeRoot, child);
 				}
 			}
+		}).catch((error) => {			
+			elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
 		});
 	}
 
@@ -81,7 +87,7 @@
 			parentElement.appendChild(elmLI);
 		} else {
 
-			elmLI.className = "subtree";
+			lzUtil.concatClassName(elmLI, CLS_LI_SUB_TREE);
 			parentElement.appendChild(elmLI);
 
 			elmUL = createTagUL(false);
@@ -95,29 +101,38 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
+	function createTagUL(isOpen) {
+		let elm = document.createElement("ul");
+		//lzUtil.concatClassName(elm, "treeitem");
+		return elm;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
 	function createTagLI(id, textContent) {
 		let elm = document.createElement("li");
 		elm.id = id;
-		//elm.className = "treeitem";
+		//lzUtil.concatClassName(elm, "treeitem");
 		elm.textContent = textContent;
 		return elm;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function createTagUL(isOpen) {
-		let elm = document.createElement("ul");
-		//elm.className = "treeitem";
+	function createErrorTagLI(textContent) {
+		let elm = document.createElement("li");
+		lzUtil.concatClassName(elm, "errormsg");
+		elm.textContent = textContent;
 		return elm;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onclickRssTreeItem(evt) {
+	function onclickRssTreeItem(event) {
 
 		let elmItem = this;
-
-		if (elmItem.className === "subtree") {
+		
+		if(RegExp("\\b" + CLS_LI_SUB_TREE + "\\b").test(elmItem.className)) {
 
 			let elmUL = elmItem.getElementsByTagName("ul")[0];
 
@@ -132,18 +147,21 @@
 			}
 		} else {
 			browser.bookmarks.get(elmItem.id).then((bookmarkItem) => {
-				console.log(elmItem.textContent, bookmarkItem[0].url);
-				rssListView.setListFromUrl(bookmarkItem[0].url);
+				lzUtil.log(elmItem.textContent, bookmarkItem[0].url);
+
+				lzUtil.concatClassName(elmItem, "loading");				
+				rssListView.setFeedUrl(bookmarkItem[0].url).then(() => {
+					lzUtil.removeClassName(elmItem, "loading");
+				});
 			});
 		}
 
-		evt.stopPropagation();
+		event.stopPropagation();
 	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onClickExpandCollapseAll(evt) {
+	function onClickExpandCollapseAll(event) {
 
 		let isExpand = (this.id === "expandall");
 		let dis = isExpand ? "block" : "none";
@@ -168,8 +186,6 @@
 		for(let el of elems) {
 			el.removeEventListener("click", onclickRssTreeItem);
 		}
-
-		console.log("THOSE EVENTS ARE NOT REMOVED", elems);		
 	}
 
 })();
