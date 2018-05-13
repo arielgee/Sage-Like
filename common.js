@@ -4,8 +4,6 @@
 ///
 let lzUtil = (function () {
 
-	let git_hub_commit_test = 242;
-
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function (args) {
 		let str = this;
