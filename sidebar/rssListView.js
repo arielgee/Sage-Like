@@ -39,18 +39,19 @@ let rssListView = (function () {
 						setFeedItems(xmlTxt);
 					});					
 				} else {
-					setListErrorMsg("Fail to load feed items from '" + res.url + "'. [" + res.status + ", " + res.statusText + "]");
+					setListErrorMsg("Fail to load feed items from '" + res.url + "', " + res.status + " " + res.statusText + ".");
 				}
 				resolve();
 			}).catch((error) => {
-				setListErrorMsg("[FIX MSG] Fail to fetch feed items: " + error.message);
+				lzUtil.log(error);
+				setListErrorMsg("Fail to fetch feed from '" + feedUrl + "', " + error.message);
 				resolve();
 			});
 
-			/***************************************************************/
-			/***************************************************************/
-			/***************************************************************/
 /*
+			/***************************************************************
+			/***************************************************************
+			/***************************************************************
 			let xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function() {
 				lzUtil.log(xhr);
@@ -120,6 +121,28 @@ let rssListView = (function () {
 					}
 					desc = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
 
+					appendTagIL(title, link, desc);
+				});
+			});
+		}
+
+		// if 'Atom' fail let's try 'RDF Site Summary (RSS) 1.0'
+		if (feeder.length === 0) {
+			
+			(feeder = doc.querySelectorAll("rdf:RDF")).forEach((item) => {
+
+				// using forEach but there is just one <rdf:RDF> in decument
+
+				lzUtil.log("Feed: RDF v", item.getAttribute("version"));
+
+				disposeList();
+
+				doc.querySelectorAll("item").forEach((item) => {
+
+					title = item.querySelector("title").textContent;
+					link = item.querySelector("link").textContent;
+					desc = item.querySelector("description") ? item.querySelector("description").textContent : "";
+	
 					appendTagIL(title, link, desc);
 				});
 			});
