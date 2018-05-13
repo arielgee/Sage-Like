@@ -5,8 +5,8 @@
 	//////////////////////////////////////////////////////////////////////
 	// Sage-Like Toolbar button
 	browser.browserAction.onClicked.addListener((tab) => {
-		browser.sidebarAction.open();
-		});
+		browser.sidebarAction.open();		// not supported in  56.0
+	});
 
 	//////////////////////////////////////////////////////////////////////
 	// firefox commands (keyboard)

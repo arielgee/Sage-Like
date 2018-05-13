@@ -18,7 +18,7 @@ let rssListView = (function () {
 	//
 	function onUnload (event) {
 
-		removeListEventListeners();
+		disposeList();
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -30,22 +30,20 @@ let rssListView = (function () {
 
 		return new Promise((resolve) => {
 
-			removeListEventListeners();
-			emptyList();
+			disposeList();
 
-			fetch(feedUrl).then((res) => {
+			fetch(feedUrl).then((res) => {				
 
 				if (res.ok) {
 					res.text().then((xmlTxt) => {
 						setFeedItems(xmlTxt);
 					});					
 				} else {
-					lzUtil.log(res);
-					appendErrorTagIL("Failed to load feed items: " + res.status + ", " + res.statusText);
+					setListErrorMsg("Fail to load feed items from '" + res.url + "'. [" + res.status + ", " + res.statusText + "]");
 				}
 				resolve();
 			}).catch((error) => {
-				appendErrorTagIL("Failed to fetch feed items: " + error.message);
+				setListErrorMsg("[FIX MSG] Fail to fetch feed items: " + error.message);
 				resolve();
 			});
 
@@ -75,62 +73,86 @@ let rssListView = (function () {
 		let domParser = new DOMParser();
 		let doc = domParser.parseFromString(xmlTxt, "text/xml");
 
-		doc.querySelectorAll("rss").forEach((item) => {
-			switch(item.getAttribute("version")) {
-				case "0.90":
-					lzUtil.log("rss 0.90: ", item.getAttribute("version"));
-					break;
-					////////////////////////////////////////////////////////
+		let feeder;
+		let elm;
+		let title, link, desc;
 
-				case "0.91":
-					lzUtil.log("rss 0.91: ", item.getAttribute("version"));
-					break;
-					////////////////////////////////////////////////////////
 
-				case "0.92":
-					lzUtil.log("rss 0.29: ", item.getAttribute("version"));
-					break;
-					////////////////////////////////////////////////////////
+		// First lets try 'RSS'
+		(feeder = doc.querySelectorAll("rss")).forEach((item) => {
 
-				case "1.0":
-					lzUtil.log("rss 1.0: ", item.getAttribute("version"));
-					break;
-					////////////////////////////////////////////////////////
+			// using forEach but there is just one <RSS> in decument			
 
-				case "1.1":
-					lzUtil.log("rss 1.0: ", item.getAttribute("version"));
-					break;
-					////////////////////////////////////////////////////////
+			lzUtil.log("Feed: RSS v", item.getAttribute("version"));
 
-				case "2.0":
-					lzUtil.log("rss 2.0: ", item.getAttribute("version"));
-					break;
-					////////////////////////////////////////////////////////
+			disposeList();
 
-				case "2.0.1":
-					lzUtil.log("rss 2.0: ", item.getAttribute("version"));
-					break;
-					////////////////////////////////////////////////////////
-			};
+			doc.querySelectorAll("item").forEach((item) => {
+
+				// all versions have <title> & <link>. 0.90 did do not have <description>
+				title = item.querySelector("title").textContent;
+				link = item.querySelector("link").textContent;
+				desc = item.querySelector("description") ? item.querySelector("description").textContent : "";
+
+				appendTagIL(title, link, desc);
+			});
+		});
+
+
+		// if 'RSS' fail let's try 'Atom'
+		if (feeder.length === 0) {
 			
-		});
+			(feeder = doc.querySelectorAll("feed")).forEach((item) => {
 
-		doc.querySelectorAll("item").forEach((item) => {		
-			if(item.querySelector("title") && item.querySelector("link")) {
-				appendTagIL(	item.querySelector("title").textContent,
-								item.querySelector("link").textContent);
-			}
-		});
+				// using forEach but there is just one <FEED> in decument
+
+				lzUtil.log("Feed: Atom v", item.getAttribute("version"));
+
+				disposeList();
+
+				doc.querySelectorAll("entry").forEach((item) => {
+
+					title = item.querySelector("title").textContent;					
+					if(	(elm = item.querySelector("link:not([rel])")) ||
+						(elm = item.querySelector("link[rel=alternate]")) ||
+						(elm = item.querySelector("link"))	) {
+						link = elm.getAttribute("href");
+					}
+					desc = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
+
+					appendTagIL(title, link, desc);
+				});
+			});
+		}
+
+		//				case "RDF Site Summary":
+		// http://www.rssboard.org/rss-history
+		// https://validator.w3.org/feed/docs/
+		// http://web.resource.org/rss/1.0/
+		// http://web.resource.org/rss/1.0/spec
+		// https://validator.w3.org/feed/docs/error/InvalidRDF.html
+
 
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let appendTagIL = function (textContent, href) {
-		let elm = document.createElement("li");
-		//lzUtil.concatClassName(elm, "listitem");
-		elm.textContent = textContent;
-		elm.setAttribute("href", encodeURI(href));
+	let appendTagIL = function (title, link, desc) {
+
+		//lzUtil.log("history: ", textContent, href, decodeURI(href), encodeURI(href));
+
+		let elm = document.createElement("li");		
+
+		// url's in history are decoded and encodeURI in the rss's XML.
+		browser.history.search({ text: decodeURI(link), maxResults: 1 }).then((hItems) => {
+			if (hItems.length > 0) {
+				lzUtil.concatClassName(elm, "visited");
+			}
+		});
+
+		elm.textContent = title;
+		elm.setAttribute("href", link);
+		elm.setAttribute("title", desc);	// show my own box to show html tags
 
 		elm.addEventListener("click", onclickFeedItem);
 		elm.addEventListener("auxclick", onclickFeedItem);
@@ -156,6 +178,7 @@ let rssListView = (function () {
 	let onclickFeedItem = function(event) {
 
 		let elm = this;
+		let handled = false;
 		let feedItemUrl = elm.getAttribute("href");
 
 		if (event.type === "click" && event.button === 0 && !event.ctrlKey && !event.shiftKey) {
@@ -164,6 +187,7 @@ let rssListView = (function () {
 			// left click, no keys
 
 			browser.tabs.update({ url: feedItemUrl });
+			handled = true;
 
 		} else if ((event.type === "auxclick" && event.button === 1) || (event.type === "click" && event.button === 0 && event.ctrlKey)) {
 
@@ -172,6 +196,7 @@ let rssListView = (function () {
 			// left click + ctrl key
 
 			browser.tabs.create({ url: feedItemUrl });
+			handled = true;
 
 		} else if (event.type === "click" && event.button === 0 && event.shiftKey) {
 
@@ -179,10 +204,14 @@ let rssListView = (function () {
 			// left click + shift key
 
 			browser.windows.create({ url: feedItemUrl, type: "normal" });
+			handled = true;
 		}
 
-		event.stopPropagation();
-		event.preventDefault();		// a must when using <a>
+		if(handled) {
+			lzUtil.concatClassName(elm, "visited");
+			event.stopPropagation();
+			event.preventDefault();		// a must when using <a>
+		}
 	};
 
 
@@ -202,33 +231,28 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let appendErrorTagIL = function (textContent) {
+	let setListErrorMsg = function (textContent) {
 		let elm = document.createElement("li");
 		lzUtil.concatClassName(elm, "errormsg");
 		elm.textContent = textContent;
+
+		disposeList();
 		elmList.appendChild(elm);
 	};
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let emptyList = function () {
-		while (elmList.firstChild) {
-			elmList.removeChild(elmList.firstChild);
-		}
-	};
-	
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function removeListEventListeners() {
+	let disposeList = function () {
 
-		let elems = elmList.getElementsByTagName("li");
+		let el;
 
-		for(let el of elems) {
+		while (el = elmList.firstChild) {
 			el.removeEventListener("click", onclickFeedItem);
 			el.removeEventListener("auxclick", onclickFeedItem);
 			el.removeEventListener("mousedown", onclickFeedItem_preventDefault);
+			elmList.removeChild(el);
 		}
-	}
+	};
 	
 	return {
 		setFeedUrl: setFeedUrl,

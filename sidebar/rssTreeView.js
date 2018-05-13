@@ -3,8 +3,8 @@
 (function () {
 
 	// ID's of 'RSS Feeds (Sage)
-	const BOOKMARK_FOLDER_ROOT_ID = "3kd0htXHfE_n";		// Home 'clean' profile
-	//const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";	// Work 'clean' profile
+	//const BOOKMARK_FOLDER_ROOT_ID = "3kd0htXHfE_n";		// Home 'clean' profile
+	const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";	// Work 'clean' profile
 	//const BOOKMARK_FOLDER_ROOT_ID = "7ddrxyguHW8l";	// Work 'Fx64-Primary' profile
 
 	const CLS_LI_SUB_TREE = "subtree";
@@ -15,6 +15,8 @@
 	let elmTreeRoot;
 	let elmExpandAll;
 	let elmCollapseAll;
+
+	let elmCurrentlyLoading = null;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -147,11 +149,12 @@
 			}
 		} else {
 			browser.bookmarks.get(elmItem.id).then((bookmarkItem) => {
+
 				lzUtil.log(elmItem.textContent, bookmarkItem[0].url);
 
-				lzUtil.concatClassName(elmItem, "loading");				
+				setFeedLoadingState(elmItem, true);
 				rssListView.setFeedUrl(bookmarkItem[0].url).then(() => {
-					lzUtil.removeClassName(elmItem, "loading");
+					setFeedLoadingState(elmItem, false);
 				});
 			});
 		}
@@ -174,6 +177,23 @@
 			elm.style.display = dis;
 			elm.setAttribute("rel", rel);
 			elm.parentElement.style.backgroundImage = "url(" + img + ")";
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setFeedLoadingState(elm, isLoading) {
+
+		if (isLoading === true) {
+
+			if (elmCurrentlyLoading !== null) {
+				lzUtil.removeClassName(elmCurrentlyLoading, "loading");
+			}
+			lzUtil.concatClassName(elm, "loading");
+			elmCurrentlyLoading = elm;
+		} else {
+			lzUtil.removeClassName(elm, "loading");
+			elmCurrentlyLoading = null;
 		}
 	}
 

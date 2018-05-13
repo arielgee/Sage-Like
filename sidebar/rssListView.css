@@ -14,10 +14,16 @@
     cursor: pointer;
   }
 
+  .listview li.visited {
+    font-weight: normal ;
+  }
+
   .listview li.errormsg {
     background: transparent url("../icons/error.png") no-repeat left center;
     color: crimson;
     font-weight: normal;
+    cursor: default;
+    -moz-user-select: text;
+    user-select: text;
   }
-
   

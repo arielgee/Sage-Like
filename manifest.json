@@ -13,6 +13,7 @@
 
   "permissions": [
     "bookmarks",
+    "history",
     "<all_urls>",
     "activeTab",
     "menus",
