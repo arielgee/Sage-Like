@@ -66,8 +66,8 @@ let rssListView = (function () {
 		let domParser = new DOMParser();
 		let doc = domParser.parseFromString(xmlTxt, "text/xml");
 
-		let feeder, items, elm;
-		let title, link, desc;
+		let feeder, elm;
+		let title, desc, link;
 
 
 		// First lets try 'RSS'
@@ -89,17 +89,17 @@ let rssListView = (function () {
 			lzUtil.log("Feed: " + feeder.localName.toUpperCase(), "v" + (feeder.getAttribute("version") || "?"));
 
 			disposeList();
-			
-			feeder.querySelectorAll("item").forEach((item) => {
+
+			sortFeederByDate(feeder.querySelectorAll("item")).forEach((item) => {
 
 				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
 				title = item.querySelector("title").textContent;
-				desc = item.querySelector("description") ? item.querySelector("description").textContent: "";
+				desc = item.querySelector("description") ? item.querySelector("description").textContent : "";
 				link = item.querySelector("link").textContent;
 				appendTagIL(title, desc, link);
 			});
 
-			} else {
+		} else {
 
 
 			// If both 'RSS' and 'RDF Site Summary (RSS) 1.0' failed let's try 'Atom'
@@ -112,8 +112,7 @@ let rssListView = (function () {
 
 				disposeList();
 
-				//sortFeederByDate(feeder.querySelectorAll("entry"), "modified").forEach((item) => {
-				feeder.querySelectorAll("entry").forEach((item) => {
+				sortFeederByDate(feeder.querySelectorAll("entry")).forEach((item) => {
 
 					title = item.querySelector("title").textContent;
 					desc = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
@@ -224,15 +223,24 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let sortFeederByDate = function (feeder, selector) {
+	let sortFeederByDate = function (feeder) {
+		
+		const selectores = [ "pubDate", "modified", "updated", "published", "created" , "published" ];
+
 		let ary = Array.prototype.slice.call(feeder, 0);
 
-		ary.sort((a, b) => {
-			let d1 = Date.parse(a.querySelector(selector).textContent);
-			let d2 = Date.parse(b.querySelector(selector).textContent);
-			return d2 - d1;
-		});
+		for (let selector of selectores) {
+			if(ary[0].querySelector(selector) !== null) {
 
+				ary.sort((a, b) => {
+					let d1 = Date.parse(a.querySelector(selector).textContent);
+					let d2 = Date.parse(b.querySelector(selector).textContent);
+					return d2 - d1;
+				});
+
+				break;
+			}
+		}		
 		return ary;
 	};
 
@@ -240,18 +248,31 @@ let rssListView = (function () {
 	//
 	let setItemVisitedStatus = function (elm, link) {
 
-		let query = {
-		text: decodeURI(link),
-		startTime: ((new Date()) - (1000*60*60*24*365*5)),		// about five year back
-			maxResults: 1,
-			};
+		// Not good enough.
+		// Redirect are not saved in history. So when a feed link is
+		// redirected from http to https or from feedproxy.google.com
+		// to the target page it cannot be found in browser.history.
+		// https://wiki.mozilla.org/Browser_History:Redirects
+		browser.history.getVisits({ url: link }).then((vItems) => {
+			if (vItems.length > 0) {
+				lzUtil.concatClassName(elm, "visited");
+			}
+		});
 
-				// url's in history are decoded and encodeURI in the rss's XML.
-				browser.history.search(query).then((hItems) => {
+/*
+		let query = {
+			text: decodeURI(link),
+			startTime: ((new Date()) - (1000 * 60 * 60 * 24 * 365 * 5)),		// about five year back
+			maxResults: 1,
+		};
+
+		// url's in history are decoded and encodeURI in the rss's XML.
+		browser.history.search(query).then((hItems) => {
 			if (hItems.length > 0) {
 				lzUtil.concatClassName(elm, "visited");
 			}
-		});		
+		});
+ */
 	};
 	
 	////////////////////////////////////////////////////////////////////////////////////

@@ -14,6 +14,7 @@
   "permissions": [
     "bookmarks",
     "history",
+    "tabs",   // this is for Tab.url
     "<all_urls>",
     "activeTab",
     "menus",
