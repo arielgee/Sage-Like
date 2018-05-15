@@ -15,20 +15,23 @@
 
 <body>
 
-        <div id="top" class="top">
-            <div class="toolbar">
-                <span id="expandall" class="button" title="Expand all"></span>
-                <span id="collapseall" class="button" title="Collapse all"></span>
-
-            </div>
-            <ul id="rssTreeView" class="treeview" />
+    <div id="top" class="top">
+        <div id="toolbar" class="toolbar">
+            <span id="expandall" class="button" title="Expand all"></span>
+            <span id="collapseall" class="button" title="Collapse all"></span>
         </div>
-
-        <div id="splitter" class="splitter"></div>
-
-        <div id="bottom" class="bottom">
-            <ul id="rssListView" class="listview" />
+        <ul id="rssTreeView" class="treeview"></ul>
+        <div id="mnuTreeView" class="contextmenu" tabindex="0">
+            <div id="mnuCopyFeedUrl" class="contextmenuitem">Copy Feed Url</div>
         </div>
+    </div>
+
+    <div id="splitter" class="splitter"></div>
+
+    <div id="bottom" class="bottom">
+        <ul id="rssListView" class="listview" />
+    </div>
 
 </body>
+
 </html>

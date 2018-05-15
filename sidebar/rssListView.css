@@ -6,24 +6,27 @@
   background-color: transparent;
 }
 
-  .listview li {
-    background: transparent url("../icons/rssItem.png") no-repeat left center;
-    list-style-type: none;
-    padding-left: 22px;
-    margin-bottom: 3px;
-    cursor: pointer;
-  }
+.listview li {
+  background: transparent url("../icons/rssItem.png") no-repeat left center;
+  list-style-type: none;
+  padding-left: 22px;
+  margin-bottom: 3px;
+  cursor: pointer;
+}
 
-  .listview li.visited {
-    font-weight: normal ;
-  }
+.listview li.visited {
+  font-weight: normal ;
+}
 
-  .listview li.errormsg {
-    background: transparent url("../icons/error.png") no-repeat left center;
-    color: crimson;
-    font-weight: normal;
-    cursor: default;
-    -moz-user-select: text;
-    user-select: text;
-  }
-  
+.listview li.selected {
+  background-color: lightblue;
+}
+
+.listview li.errormsg {
+  background: transparent url("../icons/error.png") no-repeat left center;
+  color: crimson;
+  font-weight: normal;
+  cursor: default;
+  -moz-user-select: text;
+  user-select: text;
+}

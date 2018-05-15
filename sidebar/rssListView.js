@@ -4,6 +4,8 @@ let rssListView = (function () {
 
 	let elmList;
 
+	let elmCurrentlySelected = null;
+
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
@@ -26,14 +28,14 @@ let rssListView = (function () {
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setFeedUrl = function (feedUrl) {
+	let setFeedUrl = function (feedUrl, reload) {
 
 		return new Promise((resolve) => {
 
 			disposeList();
 
 			let init = {
-				cache: "reload",
+				cache: reload ? "reload" : "default",
 			};
 
 			fetch(feedUrl, init).then((res) => {
@@ -88,9 +90,10 @@ let rssListView = (function () {
 
 			lzUtil.log("Feed: " + feeder.localName.toUpperCase(), "v" + (feeder.getAttribute("version") || "?"));
 
-			disposeList();
+			feeder = sortFeederByDate(feeder.querySelectorAll("item"));
 
-			sortFeederByDate(feeder.querySelectorAll("item")).forEach((item) => {
+			disposeList();
+			feeder.forEach((item) => {
 
 				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
 				title = item.querySelector("title").textContent;
@@ -110,9 +113,10 @@ let rssListView = (function () {
 
 				lzUtil.log("Feed: Atom", "v" + (feeder.getAttribute("version") || "?"));
 
-				disposeList();
+				feeder = sortFeederByDate(feeder.querySelectorAll("entry"));
 
-				sortFeederByDate(feeder.querySelectorAll("entry")).forEach((item) => {
+				disposeList();
+				feeder.forEach((item) => {
 
 					title = item.querySelector("title").textContent;
 					desc = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
@@ -145,16 +149,16 @@ let rssListView = (function () {
 		elm.setAttribute("title", desc);	// show my own box to show html tags
 		elm.setAttribute("href", link);
 
-		elm.addEventListener("click", onclickFeedItem);
-		elm.addEventListener("auxclick", onclickFeedItem);
-		elm.addEventListener("mousedown", onclickFeedItem_preventDefault);
+		elm.addEventListener("click", onClickFeedItem);
+		elm.addEventListener("auxclick", onClickFeedItem);
+		elm.addEventListener("mousedown", onClickFeedItem_preventDefault);
 
 		elmList.appendChild(elm);
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let onclickFeedItem_preventDefault = function (event) {
+	let onClickFeedItem_preventDefault = function (event) {
 
 		// This is to prevent the default behaviour of Fx when
 		// clicking with the middle button (scroll).
@@ -166,7 +170,7 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let onclickFeedItem = function (event) {
+	let onClickFeedItem = function (event) {
 
 		let elm = this;
 		let handled = true;		// optimistic
@@ -174,23 +178,19 @@ let rssListView = (function () {
 
 		if (event.type === "click" && event.button === 0 && !event.ctrlKey && !event.shiftKey) {
 
-			// open in current tab
-			// left click, no keys
+			// open in current tab; click
 
 			browser.tabs.update({ url: feedItemUrl });
 
 		} else if ((event.type === "auxclick" && event.button === 1) || (event.type === "click" && event.button === 0 && event.ctrlKey)) {
 
-			// open in new tab
-			// middle click
-			// left click + ctrl key
+			// open in new tab; middle click or ctrl+click
 
 			browser.tabs.create({ url: feedItemUrl });
 
 		} else if (event.type === "click" && event.button === 0 && event.shiftKey) {
 
-			// open in new window
-			// left click + shift key
+			// open in new window; shift+click
 
 			browser.windows.create({ url: feedItemUrl, type: "normal" });
 
@@ -199,12 +199,15 @@ let rssListView = (function () {
 		}
 
 		if(handled) {
+
+			setFeedItemSelectionState(elm);
 			lzUtil.concatClassName(elm, "visited");
+			addFeedItemUrlToHistory(feedItemUrl, elm.textContent);
+
 			event.stopPropagation();
 			event.preventDefault();
 		}
 	};
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -214,7 +217,7 @@ let rssListView = (function () {
 
 		a.textContent = textContent;
 		a.setAttribute("href", encodeURI(href));
-		a.addEventListener("click", onclickFeedItem);
+		a.addEventListener("click", onClickFeedItem);
 
 		li.appendChild(a);
 		elmList.appendChild(li);
@@ -225,7 +228,7 @@ let rssListView = (function () {
 	//
 	let sortFeederByDate = function (feeder) {
 		
-		const selectores = [ "pubDate", "modified", "updated", "published", "created" , "published" ];
+		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
 
 		let ary = Array.prototype.slice.call(feeder, 0);
 
@@ -245,21 +248,33 @@ let rssListView = (function () {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
+	// Redirect are not saved in history. So when a feed link is
+	// redirected from http to https or from feedproxy.google.com
+	// to the target page it cannot be found in browser.history.
+	// So this function will record the un-redirected link in history
+	// https://wiki.mozilla.org/Browser_History:Redirects
+	let addFeedItemUrlToHistory = function (url, title) {
+		
+		let details = {
+			url: url,
+			title: "[sage-like] " + title,
+		};
+
+		browser.history.addUrl(details);
+	};
+	
+	////////////////////////////////////////////////////////////////////////////////////
 	//
 	let setItemVisitedStatus = function (elm, link) {
 
-		// Not good enough.
-		// Redirect are not saved in history. So when a feed link is
-		// redirected from http to https or from feedproxy.google.com
-		// to the target page it cannot be found in browser.history.
-		// https://wiki.mozilla.org/Browser_History:Redirects
 		browser.history.getVisits({ url: link }).then((vItems) => {
 			if (vItems.length > 0) {
 				lzUtil.concatClassName(elm, "visited");
 			}
 		});
 
-/*
+		//#region browser.history.search()
+		/*		
 		let query = {
 			text: decodeURI(link),
 			startTime: ((new Date()) - (1000 * 60 * 60 * 24 * 365 * 5)),		// about five year back
@@ -272,7 +287,20 @@ let rssListView = (function () {
 				lzUtil.concatClassName(elm, "visited");
 			}
 		});
- */
+		*/
+		//#endregion
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	let setFeedItemSelectionState = function (elm) {
+		
+		if(elmCurrentlySelected !== null) {
+			lzUtil.removeClassName(elmCurrentlySelected, "selected");
+		}
+
+		elmCurrentlySelected = elm;
+		lzUtil.concatClassName(elm, "selected");
 	};
 	
 	////////////////////////////////////////////////////////////////////////////////////
@@ -292,10 +320,12 @@ let rssListView = (function () {
 
 		let el;
 
+		elmCurrentlySelected = null;
+
 		while (el = elmList.firstChild) {
-			el.removeEventListener("click", onclickFeedItem);
-			el.removeEventListener("auxclick", onclickFeedItem);
-			el.removeEventListener("mousedown", onclickFeedItem_preventDefault);
+			el.removeEventListener("click", onClickFeedItem);
+			el.removeEventListener("auxclick", onClickFeedItem);
+			el.removeEventListener("mousedown", onClickFeedItem_preventDefault);
 			elmList.removeChild(el);
 		}
 	};

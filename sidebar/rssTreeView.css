@@ -3,46 +3,71 @@
   padding: 4px 0 4px 4px;
   font-weight: bold;
   white-space: nowrap;
-  background-color: transparent;
+  background-color: transparent;  
 }
 
-  .treeview ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  .treeview li { /*Style for LI elements in general (excludes an LI that contains sub lists)*/
-    background: transparent url("../icons/rss.png") no-repeat left center;
-    list-style-type: none;
-    padding-left: 22px;
-    margin: 2px 0 2px 0;
-    cursor: pointer;
-  }
-
-  .treeview li.errormsg {
-    background: transparent url("../icons/error.png") no-repeat left center;
-    color: crimson;
-    font-weight: normal;
-    cursor: default;
-    -moz-user-select: text;
-    user-select: text;
+.treeview ul {
+  margin: 0;
+  padding: 0;
 }
 
-  .treeview li.loading {
-    background: transparent url("../icons/loading.gif") no-repeat left center;
-  }
+/* Style for LI elements in general (excludes an LI that contains sub trees) */
+.treeview li {
+  background: transparent url("../icons/rss.png") no-repeat left center;
+  list-style-type: none;
+  padding-left: 22px;
+  margin: 2px 0 2px 0;
+  cursor: pointer;
+}
 
-  .treeview li.subtree { /* Style for LI that contains sub lists (other ULs). */
-      background: transparent url("../icons/closed.png") no-repeat left 1px;
-      cursor: pointer;
-    }
+/* Style for LI that contains sub trees (other ULs) */
+.treeview li.subtree {
+  background: transparent url("../icons/closed.png") no-repeat left 1px;
+  cursor: default;
+}
+
+.treeview li.loading {
+  background: transparent url("../icons/loading.gif") no-repeat left center;
+  cursor: wait;
+}
+
+.treeview li.selected {
+  background-color: lightblue;
+}
+
+/* Style for ULs that are children of LIs (subtree). Hide them by default. */
+.treeview li.subtree ul {
+  display: none;
+}
+
+.treeview li.errormsg {
+  background: transparent url("../icons/error.png") no-repeat left center;
+  color: crimson;
+  font-weight: normal;
+  cursor: default;
+  -moz-user-select: text;
+  user-select: text;
+}
 
 
-      .treeview li.subtree ul { /*Style for ULs that are children of LIs (submenu) */
-        display: none; /*Hide them by default. Don't delete. */
-      }
+.contextmenu {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  padding: 5px;
+}
 
+.contextmenu .contextmenuitem {
+  color: black;
+  padding: 5px 16px;
+  text-decoration: none;
+  display: block;
+}
 
-  .treeview .subtree ul li { /*Style for LIs of ULs that are children of LIs (submenu) */
-    cursor: pointer;
-  }
+.contextmenu .contextmenuitem:hover {
+  background-color: lightblue;
+}

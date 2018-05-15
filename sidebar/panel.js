@@ -7,6 +7,10 @@
 	let elmSplitter;
 	let elmBottom;
 
+	let elmToolbar;
+	let elmTree;
+	let elmList;
+
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
@@ -19,6 +23,9 @@
 		elmTop = document.getElementById("top");
 		elmSplitter = document.getElementById("splitter");
 		elmBottom = document.getElementById("bottom");
+		elmToolbar = document.getElementById("toolbar");
+		elmTree = document.getElementById("rssTreeView");
+		elmList = document.getElementById("rssListView");
 
 		elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.addEventListener("resize", () => { setPanelLayout(); }, false);
@@ -50,6 +57,9 @@
 			elmTop.style.height = (elmSplitter.offsetTop) + "px";
 			elmBottom.style.top = (elmSplitter.offsetTop + elmSplitter.offsetHeight) + "px";
 			elmBottom.style.height = (elmBody.offsetHeight - (elmTop.offsetHeight + elmSplitter.offsetHeight)) + "px";
+
+			elmTree.style.height = (elmTop.offsetHeight - elmToolbar.offsetHeight) + "px";
+			elmList.style.height = elmBottom.offsetHeight+ "px";
 		}
 	}
 

@@ -67,6 +67,16 @@ let lzUtil = (function () {
 	};
 
 	//////////////////////////////////////////////////////////////////////
+	let includedInClassName = function (elm, className) {
+
+		// check type of className. <SVG> elements are evil.
+		if (typeof elm.className === "string") {
+			return RegExp("\\b" + className + "\\b").test(elm.className);
+		}
+		return false;
+	};
+
+	//////////////////////////////////////////////////////////////////////
 	let random1to100 = function () {
 		return Math.floor(Math.random() * (100 - 1) + 1).toString();
 	};
@@ -93,11 +103,15 @@ let lzUtil = (function () {
 		}
 	};
 
+	// why not use classList ?!?!?!?!?!?!?!?!?!?!?!
+	// https://www.w3schools.com/jsref/prop_element_classlist.asp
+
 	return {
 		log: log,
 		concatClassName: concatClassName,
 		replaceClassName: replaceClassName,
 		removeClassName: removeClassName,
+		includedInClassName: includedInClassName,
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,

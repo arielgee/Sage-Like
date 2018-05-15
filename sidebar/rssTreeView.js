@@ -12,11 +12,17 @@
 	const IMG_CLOSED_FOLDER = "../icons/closed.png";
 	const IMG_OPEN_FOLDER = "../icons/open.png";
 
-	let elmTreeRoot;
 	let elmExpandAll;
 	let elmCollapseAll;
+	let elmTreeRoot;
+	let elmContextMenu;
+	let elmMnuCopyFeedUrl;
+
 
 	let elmCurrentlyLoading = null;
+	let elmCurrentlySelected = null;
+
+	let lineHeight = 15;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -25,15 +31,25 @@
 	//
 	function onDOMContentLoaded() {
 
-		elmTreeRoot = document.getElementById("rssTreeView");
 		elmExpandAll = document.getElementById("expandall");
 		elmCollapseAll = document.getElementById("collapseall");
+		elmTreeRoot = document.getElementById("rssTreeView");
+		elmContextMenu = document.getElementById("mnuTreeView");
+		elmMnuCopyFeedUrl = document.getElementById("mnuCopyFeedUrl");
 
 		elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 
+		elmTreeRoot.addEventListener('contextmenu', onContextMenu);
+		elmContextMenu.addEventListener('blur', onFocusOutContextMenu);
+		elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
+		elmMnuCopyFeedUrl.addEventListener('click', onClickMenuCopyFeedUrl);
+		
+
 		emptyTree();
 		createRSSTree();
+
+		lineHeight = parseInt(getComputedStyle(elmTreeRoot).getPropertyValue("line-height"));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -45,16 +61,13 @@
 		elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 
+		elmTreeRoot.removeEventListener('contextmenu', onContextMenu);
+		elmContextMenu.removeEventListener('blur', onFocusOutContextMenu);
+		elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
+		elmMnuCopyFeedUrl.removeEventListener('click', onClickMenuCopyFeedUrl);
+
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function emptyTree() {
-		while (elmTreeRoot.firstChild) {
-			elmTreeRoot.removeChild(elmTreeRoot.firstChild);
-		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +96,7 @@
 		let elmUL;
 		let elmLI = createTagLI(bookmarkItem.id, bookmarkItem.title);
 
-		elmLI.addEventListener("click", onclickRssTreeItem);
+		elmLI.addEventListener("click", onClickRssTreeItem);
 
 		if (bookmarkItem.url !== undefined) {
 			parentElement.appendChild(elmLI);
@@ -105,7 +118,6 @@
 	//
 	function createTagUL(isOpen) {
 		let elm = document.createElement("ul");
-		//lzUtil.concatClassName(elm, "treeitem");
 		return elm;
 	}
 	
@@ -114,7 +126,6 @@
 	function createTagLI(id, textContent) {
 		let elm = document.createElement("li");
 		elm.id = id;
-		//lzUtil.concatClassName(elm, "treeitem");
 		elm.textContent = textContent;
 		return elm;
 	}
@@ -130,11 +141,16 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onclickRssTreeItem(event) {
-
-		let elmItem = this;
+	function onClickRssTreeItem(event) {
 		
-		if(RegExp("\\b" + CLS_LI_SUB_TREE + "\\b").test(elmItem.className)) {
+		let elmItem = this;
+		let isFolder = lzUtil.includedInClassName(elmItem, CLS_LI_SUB_TREE);
+
+		if((event.pageY - elmItem.offsetTop) > lineHeight) {
+			return;
+		}
+
+		if(isFolder) {
 
 			let elmUL = elmItem.getElementsByTagName("ul")[0];
 
@@ -153,7 +169,8 @@
 				lzUtil.log(elmItem.textContent, bookmarkItem[0].url);
 
 				setFeedLoadingState(elmItem, true);
-				rssListView.setFeedUrl(bookmarkItem[0].url).then(() => {
+				setFeedSelectionState(elmItem);
+				rssListView.setFeedUrl(bookmarkItem[0].url, event.shiftKey).then(() => {
 					setFeedLoadingState(elmItem, false);
 				});
 			});
@@ -182,6 +199,82 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
+	function onContextMenu (event) {
+
+		let parent = elmContextMenu.parentElement;
+		let target = event.target;
+
+		if (target.tagName.toUpperCase() === "LI" && !target.classList.contains(CLS_LI_SUB_TREE)) {
+
+			let x = event.clientX;
+			let y = event.clientY;
+
+			// do it first so element will have dimentions (offsetWidth > 0)
+			elmContextMenu.style.display = "block";
+
+			if ((x + elmContextMenu.offsetWidth) > parent.offsetWidth) {
+				x = parent.offsetWidth - elmContextMenu.offsetWidth;
+			}
+
+			if ((y + elmContextMenu.offsetHeight) > parent.offsetHeight) {
+				y = parent.offsetHeight - elmContextMenu.offsetHeight;
+			}
+
+			elmContextMenu.style.left = x + "px";
+			elmContextMenu.style.top = y + "px";
+
+			elmContextMenu.elmFeedItem = target;
+
+			elmContextMenu.focus();
+		}
+
+		event.preventDefault();
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onFocusOutContextMenu (event) {
+		elmContextMenu.style.display = "none";	
+	};
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onKeyDownContextMenu (event) {
+
+		switch (event.key.toLowerCase()) {
+			case "escape":
+				elmContextMenu.style.display = "none";
+				break;		
+			case "enter":
+				elmContextMenu.style.display = "none";
+				break;		
+			default:
+				break;
+		}
+	};
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onClickMenuCopyFeedUrl (event) {		
+
+		if(elmContextMenu.elmFeedItem !== undefined && elmContextMenu.elmFeedItem !== null) {
+			browser.bookmarks.get(elmContextMenu.elmFeedItem.id).then((bookmarkItem) => {
+
+				let input = document.createElement("input");
+				let style = input.style;
+				style.height = style.width = style.borderWidth = style.padding = style.margin = 0;				
+				input.value = bookmarkItem[0].url;
+				document.body.appendChild(input);
+				input.select();
+				document.execCommand("copy");
+				document.body.removeChild(input);
+			});
+		}
+		elmContextMenu.style.display = "none";
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
 	function setFeedLoadingState(elm, isLoading) {
 
 		if (isLoading === true) {
@@ -199,12 +292,32 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
+	let setFeedSelectionState = function (elm) {
+		
+		if(elmCurrentlySelected !== null) {
+			lzUtil.removeClassName(elmCurrentlySelected, "selected");
+		}
+
+		elmCurrentlySelected = elm;
+		lzUtil.concatClassName(elm, "selected");
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function emptyTree() {
+		while (elmTreeRoot.firstChild) {
+			elmTreeRoot.removeChild(elmTreeRoot.firstChild);
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
 	function removeTreeEventListeners() {
 
 		let elems = elmTreeRoot.getElementsByTagName("li");
 
 		for(let el of elems) {
-			el.removeEventListener("click", onclickRssTreeItem);
+			el.removeEventListener("click", onClickRssTreeItem);
 		}
 	}
 

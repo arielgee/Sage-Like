@@ -12,6 +12,26 @@
   background-color: Window;
 }
 
+.bottom {
+  position: fixed;
+  top: calc(var(--top-height) + var(--splitter-height));
+  width: 100%;
+  height: auto;
+  overflow-y: auto;
+  background-color: Window; /*rgb(211 211 211);*/
+}
+
+.splitter {  
+  position: fixed;
+  top: var(--top-height);
+  width: 100%;
+  height: var(--splitter-height);
+  background-color: #c0c0c0;
+  cursor: n-resize;
+  border-top: 2px gray groove;
+  border-bottom: 2px gray groove;
+}
+
 .top .toolbar {
   width: 100%;
   height: 31px;
@@ -43,24 +63,4 @@
 }
 #collapseall {
   background: transparent url("../icons/collapseall.png") no-repeat left center;
-}
-
-.splitter {  
-  position: fixed;
-  top: var(--top-height);
-  width: 100%;
-  height: var(--splitter-height);
-  background-color: #c0c0c0;
-  cursor: n-resize;
-  border-top: 2px gray groove;
-  border-bottom: 2px gray groove;
-}
-
-.bottom {
-  position: fixed;
-  top: calc(var(--top-height) + var(--splitter-height));
-  width: 100%;
-  height: auto;
-  overflow-y: auto;
-  background-color: Window; /*rgb(211 211 211);*/
 }
