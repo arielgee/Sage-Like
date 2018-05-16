@@ -15,9 +15,14 @@
 .treeview li {
   background: transparent url("../icons/rss.png") no-repeat left center;
   list-style-type: none;
-  padding-left: 22px;
+  padding-left: 20px;
   margin: 2px 0 2px 0;
   cursor: pointer;
+}
+
+.treeview .caption {
+  padding-left: 2px;
+  pointer-events: none;
 }
 
 /* Style for LI that contains sub trees (other ULs) */
@@ -31,7 +36,7 @@
   cursor: wait;
 }
 
-.treeview li.selected > div {
+.treeview li.selected > .caption {
   background-color: lightblue;
 }
 

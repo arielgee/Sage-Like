@@ -256,12 +256,7 @@ let rssListView = (function () {
 	// https://wiki.mozilla.org/Browser_History:Redirects
 	let addFeedItemUrlToHistory = function (url, title) {
 		
-		let details = {
-			url: url,
-			title: "[sage-like] " + title,
-		};
-
-		browser.history.addUrl(details);
+		lzUtil.addUrlToBrowserHistory(url, title);
 	};
 	
 	////////////////////////////////////////////////////////////////////////////////////

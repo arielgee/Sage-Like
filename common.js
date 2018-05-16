@@ -3,8 +3,8 @@
 let sageLikeGlobalConsts = (function() {
 
 	// ID's of 'RSS Feeds (Sage)
-	//const BOOKMARK_FOLDER_ROOT_ID = "3kd0htXHfE_n";      // Home 'clean' profile
-	const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";      // Work 'clean' profile
+	const BOOKMARK_FOLDER_ROOT_ID = "3kd0htXHfE_n";      // Home 'clean' profile
+	//const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";      // Work 'clean' profile
 	//const BOOKMARK_FOLDER_ROOT_ID = "7ddrxyguHW8l";      // Work 'Fx64-Primary' profile
 	
 	const CLS_DIV_TOOLBAR = "toolbar";
@@ -13,6 +13,8 @@ let sageLikeGlobalConsts = (function() {
 	const CLS_LI_SUB_TREE = "subtree";
 	const CLS_LI_RSS_TREE_FEED = "rsstreefeed";
 	const CLS_LI_RSS_LIST_FEED_ITEM = "rsslistfeeditem";
+
+	const CLS_DIV_RSS_TREE_FEED_CAPTION = "caption";
 	
 	const IMG_CLOSED_FOLDER = "/icons/closed.png";
 	const IMG_OPEN_FOLDER = "/icons/open.png";
@@ -24,6 +26,7 @@ let sageLikeGlobalConsts = (function() {
 		CLS_LI_SUB_TREE: CLS_LI_SUB_TREE,
 		CLS_LI_RSS_TREE_FEED: CLS_LI_RSS_TREE_FEED,
 		CLS_LI_RSS_LIST_FEED_ITEM: CLS_LI_RSS_LIST_FEED_ITEM,
+		CLS_DIV_RSS_TREE_FEED_CAPTION: CLS_DIV_RSS_TREE_FEED_CAPTION,
 		IMG_CLOSED_FOLDER: IMG_CLOSED_FOLDER,
 		IMG_OPEN_FOLDER: IMG_OPEN_FOLDER,
 	};
@@ -133,6 +136,32 @@ let lzUtil = (function () {
 		}
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	let copyTextToClipboard = function (doc, text) {
+		let input = doc.createElement("textarea");
+		let style = input.style;
+		style.height = style.width = style.borderWidth = style.padding = style.margin = 0;				
+		input.value = text;
+		document.body.appendChild(input);
+		input.select();
+		document.execCommand("copy");
+		document.body.removeChild(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	let addUrlToBrowserHistory = function (url, title) {
+		
+		let details = {
+			url: url,
+			title: "[sage-like] " + title,
+		};
+
+		browser.history.addUrl(details);	
+	}
+
+
 	// why not use classList ?!?!?!?!?!?!?!?!?!?!?!
 	// https://www.w3schools.com/jsref/prop_element_classlist.asp
 
@@ -145,6 +174,8 @@ let lzUtil = (function () {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
+		copyTextToClipboard: copyTextToClipboard,
+		addUrlToBrowserHistory: addUrlToBrowserHistory,
 	};
 })();
 

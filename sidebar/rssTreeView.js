@@ -99,21 +99,15 @@ let rssTreeView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function createTagLI(id, textContent) {
-		let elm = document.createElement("li");
-		let elmDiv = document.createElement("div");
 
-		elm.id = id;
-		elmDiv.textContent = textContent;
-		elm.appendChild(elmDiv);
-		return elm;
-
-/*
 		let elm = document.createElement("li");
-		let elmDiv = document.createElement("dib");
+		let elmCaption = document.createElement("div");
+		
 		elm.id = id;
-		elm.textContent = textContent;
+		elmCaption.className = sageLikeGlobalConsts.CLS_DIV_RSS_TREE_FEED_CAPTION;
+		elmCaption.textContent = textContent;
+		elm.appendChild(elmCaption);
 		return elm;
-*/		
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
