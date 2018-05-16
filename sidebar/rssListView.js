@@ -143,6 +143,7 @@ let rssListView = (function () {
 
 		let elm = document.createElement("li");
 
+		lzUtil.concatClassName(elm, sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM);
 		setItemVisitedStatus(elm, link);
 
 		elm.textContent = title;
@@ -332,6 +333,7 @@ let rssListView = (function () {
 
 	return {
 		setFeedUrl: setFeedUrl,
+		setFeedItemSelectionState: setFeedItemSelectionState,
 	};
 
 })();

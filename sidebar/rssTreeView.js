@@ -1,23 +1,10 @@
 "use strict";
 
-(function () {
-
-	// ID's of 'RSS Feeds (Sage)
-	//const BOOKMARK_FOLDER_ROOT_ID = "3kd0htXHfE_n";		// Home 'clean' profile
-	const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";	// Work 'clean' profile
-	//const BOOKMARK_FOLDER_ROOT_ID = "7ddrxyguHW8l";	// Work 'Fx64-Primary' profile
-
-	const CLS_LI_SUB_TREE = "subtree";
-
-	const IMG_CLOSED_FOLDER = "../icons/closed.png";
-	const IMG_OPEN_FOLDER = "../icons/open.png";
+let rssTreeView = (function () {
 
 	let elmExpandAll;
 	let elmCollapseAll;
 	let elmTreeRoot;
-	let elmContextMenu;
-	let elmMnuCopyFeedUrl;
-
 
 	let elmCurrentlyLoading = null;
 	let elmCurrentlySelected = null;
@@ -34,17 +21,9 @@
 		elmExpandAll = document.getElementById("expandall");
 		elmCollapseAll = document.getElementById("collapseall");
 		elmTreeRoot = document.getElementById("rssTreeView");
-		elmContextMenu = document.getElementById("mnuTreeView");
-		elmMnuCopyFeedUrl = document.getElementById("mnuCopyFeedUrl");
 
 		elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
-
-		elmTreeRoot.addEventListener('contextmenu', onContextMenu);
-		elmContextMenu.addEventListener('blur', onFocusOutContextMenu);
-		elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
-		elmMnuCopyFeedUrl.addEventListener('click', onClickMenuCopyFeedUrl);
-		
 
 		emptyTree();
 		createRSSTree();
@@ -61,11 +40,6 @@
 		elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 
-		elmTreeRoot.removeEventListener('contextmenu', onContextMenu);
-		elmContextMenu.removeEventListener('blur', onFocusOutContextMenu);
-		elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
-		elmMnuCopyFeedUrl.removeEventListener('click', onClickMenuCopyFeedUrl);
-
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
 	}
@@ -78,7 +52,7 @@
 			lzUtil.log(bookmarkItems[0].title, bookmarkItems[0].id);
 		});*/
 
-		browser.bookmarks.getSubTree(BOOKMARK_FOLDER_ROOT_ID).then((bookmarkItems) => {
+		browser.bookmarks.getSubTree(sageLikeGlobalConsts.BOOKMARK_FOLDER_ROOT_ID).then((bookmarkItems) => {
 			if (bookmarkItems[0].children) {
 				for(let child of bookmarkItems[0].children) {
 					createRSSTreeItem(elmTreeRoot, child);
@@ -99,10 +73,11 @@
 		elmLI.addEventListener("click", onClickRssTreeItem);
 
 		if (bookmarkItem.url !== undefined) {
+			lzUtil.concatClassName(elmLI, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED);
 			parentElement.appendChild(elmLI);
 		} else {
 
-			lzUtil.concatClassName(elmLI, CLS_LI_SUB_TREE);
+			lzUtil.concatClassName(elmLI, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 			parentElement.appendChild(elmLI);
 
 			elmUL = createTagUL(false);
@@ -125,9 +100,20 @@
 	//
 	function createTagLI(id, textContent) {
 		let elm = document.createElement("li");
+		let elmDiv = document.createElement("div");
+
+		elm.id = id;
+		elmDiv.textContent = textContent;
+		elm.appendChild(elmDiv);
+		return elm;
+
+/*
+		let elm = document.createElement("li");
+		let elmDiv = document.createElement("dib");
 		elm.id = id;
 		elm.textContent = textContent;
 		return elm;
+*/		
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -144,8 +130,11 @@
 	function onClickRssTreeItem(event) {
 		
 		let elmItem = this;
-		let isFolder = lzUtil.includedInClassName(elmItem, CLS_LI_SUB_TREE);
+		let isFolder = lzUtil.includedInClassName(elmItem, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 
+		// when a subtree is open the height of the LI is as the Height of the entier subtree.
+		// The result is that clicking to the left of the items in the subtree (but not ON a subtree item) closes
+		// the subtree. This make sure that only clicks on the top of the elements are processed.
 		if((event.pageY - elmItem.offsetTop) > lineHeight) {
 			return;
 		}
@@ -157,24 +146,24 @@
 			if (elmUL.getAttribute("rel") === "open") {
 				elmUL.style.display = "none";
 				elmUL.setAttribute("rel", "closed");
-				elmItem.style.backgroundImage = "url(" + IMG_CLOSED_FOLDER + ")";
+				elmItem.style.backgroundImage = "url(" + sageLikeGlobalConsts.IMG_CLOSED_FOLDER + ")";
 			} else {
 				elmUL.style.display = "block";
 				elmUL.setAttribute("rel", "open");
-				elmItem.style.backgroundImage = "url(" + IMG_OPEN_FOLDER + ")";
+				elmItem.style.backgroundImage = "url(" + sageLikeGlobalConsts.IMG_OPEN_FOLDER + ")";
 			}
 		} else {
 			browser.bookmarks.get(elmItem.id).then((bookmarkItem) => {
 
 				lzUtil.log(elmItem.textContent, bookmarkItem[0].url);
 
-				setFeedLoadingState(elmItem, true);
-				setFeedSelectionState(elmItem);
+				setFeedLoadingState(elmItem, true);				
 				rssListView.setFeedUrl(bookmarkItem[0].url, event.shiftKey).then(() => {
 					setFeedLoadingState(elmItem, false);
 				});
 			});
 		}
+		setFeedSelectionState(elmItem);
 
 		event.stopPropagation();
 	}
@@ -186,7 +175,7 @@
 		let isExpand = (this.id === "expandall");
 		let dis = isExpand ? "block" : "none";
 		let rel = isExpand ? "open" : "closed";
-		let img = isExpand ? IMG_OPEN_FOLDER : IMG_CLOSED_FOLDER;
+		let img = isExpand ? sageLikeGlobalConsts.IMG_OPEN_FOLDER : sageLikeGlobalConsts.IMG_CLOSED_FOLDER;
 		
 		let elems = elmTreeRoot.getElementsByTagName("ul");
 
@@ -197,82 +186,6 @@
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function onContextMenu (event) {
-
-		let parent = elmContextMenu.parentElement;
-		let target = event.target;
-
-		if (target.tagName.toUpperCase() === "LI" && !target.classList.contains(CLS_LI_SUB_TREE)) {
-
-			let x = event.clientX;
-			let y = event.clientY;
-
-			// do it first so element will have dimentions (offsetWidth > 0)
-			elmContextMenu.style.display = "block";
-
-			if ((x + elmContextMenu.offsetWidth) > parent.offsetWidth) {
-				x = parent.offsetWidth - elmContextMenu.offsetWidth;
-			}
-
-			if ((y + elmContextMenu.offsetHeight) > parent.offsetHeight) {
-				y = parent.offsetHeight - elmContextMenu.offsetHeight;
-			}
-
-			elmContextMenu.style.left = x + "px";
-			elmContextMenu.style.top = y + "px";
-
-			elmContextMenu.elmFeedItem = target;
-
-			elmContextMenu.focus();
-		}
-
-		event.preventDefault();
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function onFocusOutContextMenu (event) {
-		elmContextMenu.style.display = "none";	
-	};
-	
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function onKeyDownContextMenu (event) {
-
-		switch (event.key.toLowerCase()) {
-			case "escape":
-				elmContextMenu.style.display = "none";
-				break;		
-			case "enter":
-				elmContextMenu.style.display = "none";
-				break;		
-			default:
-				break;
-		}
-	};
-	
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function onClickMenuCopyFeedUrl (event) {		
-
-		if(elmContextMenu.elmFeedItem !== undefined && elmContextMenu.elmFeedItem !== null) {
-			browser.bookmarks.get(elmContextMenu.elmFeedItem.id).then((bookmarkItem) => {
-
-				let input = document.createElement("input");
-				let style = input.style;
-				style.height = style.width = style.borderWidth = style.padding = style.margin = 0;				
-				input.value = bookmarkItem[0].url;
-				document.body.appendChild(input);
-				input.select();
-				document.execCommand("copy");
-				document.body.removeChild(input);
-			});
-		}
-		elmContextMenu.style.display = "none";
-	}
-	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function setFeedLoadingState(elm, isLoading) {
@@ -320,5 +233,10 @@
 			el.removeEventListener("click", onClickRssTreeItem);
 		}
 	}
+
+	return {
+		setFeedSelectionState: setFeedSelectionState,
+	};
+
 
 })();

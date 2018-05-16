@@ -1,0 +1,22 @@
+.contextmenu {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 5px;
+  }
+  
+  .contextmenu .contextmenuitem {
+    display: none;
+    color: black;
+    padding: 5px 16px;
+    text-decoration: none;
+  }
+  
+  .contextmenu .contextmenuitem:hover {
+    background-color: lightblue;
+  }
+  

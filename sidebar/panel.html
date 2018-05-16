@@ -6,9 +6,11 @@
     <meta charset="utf-8" />
     <script type="text/javascript" src="../common.js"></script>
     <script type="text/javascript" src="panel.js"></script>
+    <script type="text/javascript" src="contextMenu.js"></script>
     <script type="text/javascript" src="rssTreeView.js"></script>
     <script type="text/javascript" src="rssListView.js"></script>
     <link rel="stylesheet" type="text/css" href="panel.css" />
+    <link rel="stylesheet" type="text/css" href="contextMenu.css" />
     <link rel="stylesheet" type="text/css" href="rssTreeView.css" />
     <link rel="stylesheet" type="text/css" href="rssListView.css" />
 </head>
@@ -21,15 +23,17 @@
             <span id="collapseall" class="button" title="Collapse all"></span>
         </div>
         <ul id="rssTreeView" class="treeview"></ul>
-        <div id="mnuTreeView" class="contextmenu" tabindex="0">
-            <div id="mnuCopyFeedUrl" class="contextmenuitem">Copy Feed Url</div>
-        </div>
     </div>
 
     <div id="splitter" class="splitter"></div>
 
     <div id="bottom" class="bottom">
         <ul id="rssListView" class="listview" />
+    </div>
+
+    <div id="mnuContextMenu" class="contextmenu" tabindex="0">
+        <div id="mnuTreeCopyFeedUrl" class="contextmenuitem">Copy Feed URL</div>
+        <div id="mnuListOpenFeedItem" class="contextmenuitem">Open</div>
     </div>
 
 </body>

@@ -1,5 +1,35 @@
 "use strict"
 
+let sageLikeGlobalConsts = (function() {
+
+	// ID's of 'RSS Feeds (Sage)
+	//const BOOKMARK_FOLDER_ROOT_ID = "3kd0htXHfE_n";      // Home 'clean' profile
+	const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";      // Work 'clean' profile
+	//const BOOKMARK_FOLDER_ROOT_ID = "7ddrxyguHW8l";      // Work 'Fx64-Primary' profile
+	
+	const CLS_DIV_TOOLBAR = "toolbar";
+	const CLS_DIV_SPLITTER = "splitter";
+
+	const CLS_LI_SUB_TREE = "subtree";
+	const CLS_LI_RSS_TREE_FEED = "rsstreefeed";
+	const CLS_LI_RSS_LIST_FEED_ITEM = "rsslistfeeditem";
+	
+	const IMG_CLOSED_FOLDER = "/icons/closed.png";
+	const IMG_OPEN_FOLDER = "/icons/open.png";
+
+	return {
+		BOOKMARK_FOLDER_ROOT_ID: BOOKMARK_FOLDER_ROOT_ID,
+		CLS_DIV_TOOLBAR: CLS_DIV_TOOLBAR,
+		CLS_DIV_SPLITTER: CLS_DIV_SPLITTER,
+		CLS_LI_SUB_TREE: CLS_LI_SUB_TREE,
+		CLS_LI_RSS_TREE_FEED: CLS_LI_RSS_TREE_FEED,
+		CLS_LI_RSS_LIST_FEED_ITEM: CLS_LI_RSS_LIST_FEED_ITEM,
+		IMG_CLOSED_FOLDER: IMG_CLOSED_FOLDER,
+		IMG_OPEN_FOLDER: IMG_OPEN_FOLDER,
+	};
+
+})();
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///
 let lzUtil = (function () {
