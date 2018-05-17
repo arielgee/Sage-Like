@@ -26,7 +26,7 @@ let rssTreeView = (function () {
 		elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 
 		emptyTree();
-		createRSSTree();
+		createRSSTree();		
 
 		lineHeight = parseInt(getComputedStyle(elmTreeRoot).getPropertyValue("line-height"));
 	}
@@ -127,9 +127,9 @@ let rssTreeView = (function () {
 		let isFolder = lzUtil.includedInClassName(elmItem, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 
 		// when a subtree is open the height of the LI is as the Height of the entier subtree.
-		// The result is that clicking to the left of the items in the subtree (but not ON a subtree item) closes
+		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
 		// the subtree. This make sure that only clicks on the top of the elements are processed.
-		if((event.pageY - elmItem.offsetTop) > lineHeight) {
+		if((event.clientY - elmItem.getBoundingClientRect().top) > lineHeight) {
 			return;
 		}
 
@@ -152,9 +152,16 @@ let rssTreeView = (function () {
 				lzUtil.log(elmItem.textContent, bookmarkItem[0].url);
 
 				setFeedLoadingState(elmItem, true);				
-				rssListView.setFeedUrl(bookmarkItem[0].url, event.shiftKey).then(() => {
+				syndication.fetchFeedItems(bookmarkItem[0].url, event.shiftKey).then((list) => {
+					rssListView.setFeedItems(list);
+					setFeedLoadingState(elmItem, false);					
+				}).catch((error) => {
+					rssListView.setListErrorMsg(error);
 					setFeedLoadingState(elmItem, false);
-				});
+				})/*.finally(() => {	// wait for Fx v58
+					setFeedLoadingState(elmItem, false);
+				})*/;				
+				
 			});
 		}
 		setFeedSelectionState(elmItem);
@@ -231,6 +238,5 @@ let rssTreeView = (function () {
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 	};
-
-
+	
 })();

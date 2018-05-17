@@ -28,118 +28,17 @@ let rssListView = (function () {
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setFeedUrl = function (feedUrl, reload) {
+	let setFeedItems = function (list) {
 
-		return new Promise((resolve) => {
-
-			disposeList();
-
-			let init = {
-				cache: reload ? "reload" : "default",
-			};
-
-			fetch(feedUrl, init).then((res) => {
-
-				if (res.ok) {
-					res.text().then((xmlTxt) => {
-						setFeedItems(xmlTxt);
-					});					
-				} else {
-					setListErrorMsg("Fail to load feed items from '" + res.url + "', " + res.status + " " + res.statusText + ".");
-				}
-				resolve();
-			}).catch((error) => {
-				lzUtil.log(error);
-				setListErrorMsg("Fail to fetch feed from '" + feedUrl + "', " + error.message);
-				resolve();
-			});
-		});
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////
-	// https://validator.w3.org/feed/docs/
-	let setFeedItems = function (xmlTxt) {
-
-		lzUtil.log("\n", xmlTxt.substr(0, 512));
-
-		// try to avoid a common XML/RSS Parsing Error: junk after document element
-		xmlTxt = xmlTxt.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1")
-
-		let domParser = new DOMParser();
-		let doc = domParser.parseFromString(xmlTxt, "text/xml");
-
-		let feeder, elm;
-		let title, desc, link;
-
-
-		// First lets try 'RSS'
-		// https://validator.w3.org/feed/docs/rss2.html
-		feeder = doc.querySelector("rss");		// There Can Be Only One
-
-
-		// If 'RSS' fail let's try 'RDF Site Summary (RSS) 1.0'
-		// https://validator.w3.org/feed/docs/rss1.html
-		// Example: http://feeds.nature.com/nature/rss/current
-		if (feeder === null) {
-			feeder = doc.querySelector("RDF");		// There Can Be Only One
-		}
-
-
-		// for 'RSS' or 'RDF Site Summary (RSS) 1.0'
-		if (feeder !== null) {
-
-			lzUtil.log("Feed: " + feeder.localName.toUpperCase(), "v" + (feeder.getAttribute("version") || "?"));
-
-			feeder = sortFeederByDate(feeder.querySelectorAll("item"));
-
-			disposeList();
-			feeder.forEach((item) => {
-
-				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
-				title = item.querySelector("title").textContent;
-				desc = item.querySelector("description") ? item.querySelector("description").textContent : "";
-				link = item.querySelector("link").textContent;
-				appendTagIL(title, desc, link);
-			});
-
-		} else {
-
-
-			// If both 'RSS' and 'RDF Site Summary (RSS) 1.0' failed let's try 'Atom'
-			// https://validator.w3.org/feed/docs/atom.html
-			feeder = doc.querySelector("feed");		// There Can Be Only One
-
-			if (feeder !== null) {
-
-				lzUtil.log("Feed: Atom", "v" + (feeder.getAttribute("version") || "?"));
-
-				feeder = sortFeederByDate(feeder.querySelectorAll("entry"));
-
-				disposeList();
-				feeder.forEach((item) => {
-
-					title = item.querySelector("title").textContent;
-					desc = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
-					if ((elm = item.querySelector("link:not([rel])")) ||
-						(elm = item.querySelector("link[rel=alternate]")) ||
-						(elm = item.querySelector("link"))) {
-						link = elm.getAttribute("href");
-					}
-					appendTagIL(title, desc, link);
-				});
-			}
-		}
-
-		if (feeder === null) {
-			setListErrorMsg("No RSS feed was identified or document is not valid.");
+		disposeList();
+		for(let item of list) {
+			appendTagIL(item.title, item.desc, item.link);
 		}
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	let appendTagIL = function (title, desc, link) {
-
-		//lzUtil.log("history: ", textContent, href, decodeURI(href), encodeURI(href));
 
 		let elm = document.createElement("li");
 
@@ -159,18 +58,6 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let onClickFeedItem_preventDefault = function (event) {
-
-		// This is to prevent the default behaviour of Fx when
-		// clicking with the middle button (scroll).
-		// Next event, for middle button, will be 'auxclick'
-
-		event.preventDefault();		// The 'click' event is fired anyway.
-		event.stopPropagation();
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
 	let onClickFeedItem = function (event) {
 
 		let elm = this;
@@ -180,19 +67,16 @@ let rssListView = (function () {
 		if (event.type === "click" && event.button === 0 && !event.ctrlKey && !event.shiftKey) {
 
 			// open in current tab; click
-
 			browser.tabs.update({ url: feedItemUrl });
 
 		} else if ((event.type === "auxclick" && event.button === 1) || (event.type === "click" && event.button === 0 && event.ctrlKey)) {
 
 			// open in new tab; middle click or ctrl+click
-
 			browser.tabs.create({ url: feedItemUrl });
 
 		} else if (event.type === "click" && event.button === 0 && event.shiftKey) {
 
 			// open in new window; shift+click
-
 			browser.windows.create({ url: feedItemUrl, type: "normal" });
 
 		} else {
@@ -212,18 +96,15 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let appendTagIL_asLink_fontCannotBeUnbold = function (textContent, href) {
-		let li = document.createElement("li");
-		let a = document.createElement("a");
+	let onClickFeedItem_preventDefault = function (event) {
 
-		a.textContent = textContent;
-		a.setAttribute("href", encodeURI(href));
-		a.addEventListener("click", onClickFeedItem);
+		// This is to prevent the default behaviour of Fx when
+		// clicking with the middle button (scroll).
+		// Next event, for middle button, will be 'auxclick'
 
-		li.appendChild(a);
-		elmList.appendChild(li);
+		event.preventDefault();		// The 'click' event is fired anyway.
+		event.stopPropagation();
 	};
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -327,7 +208,8 @@ let rssListView = (function () {
 	};
 
 	return {
-		setFeedUrl: setFeedUrl,
+		setFeedItems: setFeedItems,
+		setListErrorMsg: setListErrorMsg,
 		setFeedItemSelectionState: setFeedItemSelectionState,
 	};
 
