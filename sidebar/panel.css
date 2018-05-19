@@ -58,9 +58,16 @@
   margin: 1px 3px -1px 1px;
 }
 
+#reloadtree {
+  background: transparent url("../icons/reload.png") no-repeat left center;
+}
 #expandall {
   background: transparent url("../icons/expandall.png") no-repeat left center;
 }
 #collapseall {
   background: transparent url("../icons/collapseall.png") no-repeat left center;
+}
+#preferences {
+  background: transparent url("../icons/preferences.png") no-repeat left center;
+  float: right;
 }

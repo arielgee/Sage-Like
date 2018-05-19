@@ -21,3 +21,6 @@
     background-color: lightblue;
   }
   
+  .contextmenu hr.treecontext {
+    border: 0.5px solid #e0e0e0;
+  }

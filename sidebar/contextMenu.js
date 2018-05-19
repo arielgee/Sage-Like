@@ -2,7 +2,7 @@
 
 (function () {
 
-	let ContextAction = {
+	let ContextAction = Object.freeze({
 		treeOpen: 1,
 		treeOpenNewTab: 2,
 		treeOpenNewWin: 3,
@@ -10,8 +10,8 @@
 		listOpen: 5,
 		listOpenNewTab: 6,
 		listOpenNewWin: 7,
-		listCopyUrl: 8,
-	};
+		listCopyUrl: 8,		
+	});
 
 	let elmSidebarBody;
 	let elmContextMenu;
@@ -190,31 +190,7 @@
 		let targetItem = elmContextMenu.elmTargetItem;
 
 		if (targetItem !== undefined && targetItem !== null) {
-
-			browser.bookmarks.get(targetItem.id).then((bookmarkItem) => {
-
-				switch (menuAction) {
-					case ContextAction.treeOpen:
-						browser.tabs.update({ url: bookmarkItem[0].url });
-						break;
-						///////////////////////////////////////////
-
-					case ContextAction.treeOpenNewTab:
-						browser.tabs.create({ url: bookmarkItem[0].url });
-						break;
-						///////////////////////////////////////////
-
-					case ContextAction.treeOpenNewWin:
-						browser.windows.create({ url: bookmarkItem[0].url, type: "normal" });
-						break;
-						///////////////////////////////////////////
-
-					case ContextAction.treeCopyUrl:
-						lzUtil.copyTextToClipboard(document, bookmarkItem[0].url);
-						break;
-						///////////////////////////////////////////
-				}
-			});
+			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
 		}
 		elmContextMenu.style.display = "none";
 	}
@@ -255,40 +231,49 @@
 
 		if (targetItem !== undefined && targetItem !== null) {
 
-			let visitedUrl = true;
-			let url = targetItem.getAttribute("href");
+			let urlFeed = targetItem.getAttribute("href");
+			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
 
-			switch (menuAction) {
-				case ContextAction.listOpen:
-					browser.tabs.update({ url: url });
-					break;
-					///////////////////////////////////////////
-
-				case ContextAction.listOpenNewTab:
-					browser.tabs.create({ url: url });
-					break;
-					///////////////////////////////////////////
-
-				case ContextAction.listOpenNewWin:
-					browser.windows.create({ url: url });
-					break;
-					///////////////////////////////////////////
-
-				case ContextAction.listCopyUrl:
-					lzUtil.copyTextToClipboard(document, url);
-					visitedUrl = false;
-					break;
-					///////////////////////////////////////////
-			}
-
-			if(visitedUrl) {
+			if(menuAction !== ContextAction.listCopyUrl) {
 				lzUtil.concatClassName(targetItem, "visited");
-				lzUtil.addUrlToBrowserHistory(url, targetItem.textContent);
+				lzUtil.addUrlToBrowserHistory(urlFeed, targetItem.textContent);
 			}
 		}
 		elmContextMenu.style.display = "none";
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function handleMenuActions(menuAction, actionData) {
+
+		switch (menuAction) {
+
+			case ContextAction.treeOpen:
+			case ContextAction.listOpen:
+				browser.tabs.update({ url: actionData.url });
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeOpenNewTab:
+			case ContextAction.listOpenNewTab:
+				browser.tabs.create({ url: actionData.url });
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeOpenNewWin:
+			case ContextAction.listOpenNewWin:
+				browser.windows.create({ url: actionData.url, type: "normal" });
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeCopyUrl:
+			case ContextAction.listCopyUrl:
+				lzUtil.copyTextToClipboard(document, actionData.url);
+				break;
+				///////////////////////////////////////////
+		}
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function showMenuItemsByClassName (className) {

@@ -2,8 +2,10 @@
 
 let rssTreeView = (function () {
 
+	let elmReloadTree;
 	let elmExpandAll;
 	let elmCollapseAll;
+
 	let elmTreeRoot;
 
 	let elmCurrentlyLoading = null;
@@ -20,13 +22,15 @@ let rssTreeView = (function () {
 
 		elmExpandAll = document.getElementById("expandall");
 		elmCollapseAll = document.getElementById("collapseall");
+		elmReloadTree = document.getElementById("reloadtree");
 		elmTreeRoot = document.getElementById("rssTreeView");
 
+		elmReloadTree.addEventListener("click", onClickReloadTree);
 		elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
+		
 
-		emptyTree();
-		createRSSTree();		
+		createRSSTree();
 
 		lineHeight = parseInt(getComputedStyle(elmTreeRoot).getPropertyValue("line-height"));
 	}
@@ -37,6 +41,7 @@ let rssTreeView = (function () {
 
 		removeTreeEventListeners();
 
+		elmReloadTree.removeEventListener("click", onClickReloadTree);
 		elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 
@@ -48,18 +53,18 @@ let rssTreeView = (function () {
 	//
 	function createRSSTree() {
 
-		/*browser.bookmarks.search("RSS Feeds (Sage)").then((bookmarkItems) => {
-			lzUtil.log(bookmarkItems[0].title, bookmarkItems[0].id);
-		});*/
+		emptyTree();
 
-		browser.bookmarks.getSubTree(sageLikeGlobalConsts.BOOKMARK_FOLDER_ROOT_ID).then((bookmarkItems) => {
-			if (bookmarkItems[0].children) {
-				for(let child of bookmarkItems[0].children) {
-					createRSSTreeItem(elmTreeRoot, child);
+		prefs.getRootFeedsFolderId().then((folderId) => {
+			browser.bookmarks.getSubTree(folderId).then((bookmarkItems) => {
+				if (bookmarkItems[0].children) {
+					for(let child of bookmarkItems[0].children) {
+						createRSSTreeItem(elmTreeRoot, child);
+					}
 				}
-			}
-		}).catch((error) => {			
-			elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
+			}).catch((error) => {
+				elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
+			});
 		});
 	}
 
@@ -67,26 +72,24 @@ let rssTreeView = (function () {
 	//
 	function createRSSTreeItem(parentElement, bookmarkItem) {
 
-		let elmUL;
-		let elmLI = createTagLI(bookmarkItem.id, bookmarkItem.title);
+		let elmLI;
 
-		elmLI.addEventListener("click", onClickRssTreeItem);
+		if (bookmarkItem.url === undefined) {		// it's a folder
 
-		if (bookmarkItem.url !== undefined) {
-			lzUtil.concatClassName(elmLI, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED);
-			parentElement.appendChild(elmLI);
-		} else {
+			elmLI = createTagLI(bookmarkItem.id, bookmarkItem.title, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 
-			lzUtil.concatClassName(elmLI, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
-			parentElement.appendChild(elmLI);
-
-			elmUL = createTagUL(false);
+			let elmUL = createTagUL(false);
 			elmLI.appendChild(elmUL);
 
 			for(let child of bookmarkItem.children) {
 				createRSSTreeItem(elmUL, child);
 			}
+
+		} else {			// it's a bookmark
+
+			elmLI = createTagLI(bookmarkItem.id, bookmarkItem.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmarkItem.url);
 		}
+		parentElement.appendChild(elmLI);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -95,18 +98,25 @@ let rssTreeView = (function () {
 		let elm = document.createElement("ul");
 		return elm;
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function createTagLI(id, textContent) {
+	function createTagLI(id, textContent, className, href = null) {
 
-		let elm = document.createElement("li");
 		let elmCaption = document.createElement("div");
-		
-		elm.id = id;
+		let elm = document.createElement("li");
+
 		elmCaption.className = sageLikeGlobalConsts.CLS_DIV_RSS_TREE_FEED_CAPTION;
 		elmCaption.textContent = textContent;
+
+		elm.id = id;
+		elm.className = className;
+		if(href !== null) {
+			elm.setAttribute("href", href);
+		}
 		elm.appendChild(elmCaption);
+		elm.addEventListener("click", onClickRssTreeItem);
+
 		return elm;
 	}
 
@@ -122,7 +132,7 @@ let rssTreeView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function onClickRssTreeItem(event) {
-		
+
 		let elmItem = this;
 		let isFolder = lzUtil.includedInClassName(elmItem, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 
@@ -147,22 +157,22 @@ let rssTreeView = (function () {
 				elmItem.style.backgroundImage = "url(" + sageLikeGlobalConsts.IMG_OPEN_FOLDER + ")";
 			}
 		} else {
-			browser.bookmarks.get(elmItem.id).then((bookmarkItem) => {
 
-				lzUtil.log(elmItem.textContent, bookmarkItem[0].url);
+			let urlFeed = elmItem.getAttribute("href");
 
-				setFeedLoadingState(elmItem, true);				
-				syndication.fetchFeedItems(bookmarkItem[0].url, event.shiftKey).then((list) => {
-					rssListView.setFeedItems(list);
-					setFeedLoadingState(elmItem, false);					
-				}).catch((error) => {
-					rssListView.setListErrorMsg(error);
-					setFeedLoadingState(elmItem, false);
-				})/*.finally(() => {	// wait for Fx v58
-					setFeedLoadingState(elmItem, false);
-				})*/;				
-				
-			});
+			lzUtil.log(elmItem.textContent, urlFeed);
+
+			setFeedLoadingState(elmItem, true);
+			syndication.fetchFeedItems(urlFeed, event.shiftKey).then((list) => {
+				rssListView.setFeedItems(list);
+				setFeedLoadingState(elmItem, false);
+			}).catch((error) => {
+				rssListView.setListErrorMsg(error);
+				setFeedLoadingState(elmItem, false);
+			})/*.finally(() => {	// wait for Fx v58
+				setFeedLoadingState(elmItem, false);
+			})*/;
+
 		}
 		setFeedSelectionState(elmItem);
 
@@ -171,13 +181,18 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
+	function onClickReloadTree (event) {
+		createRSSTree();		
+	}
+	////////////////////////////////////////////////////////////////////////////////////
+	//
 	function onClickExpandCollapseAll(event) {
 
 		let isExpand = (this.id === "expandall");
 		let dis = isExpand ? "block" : "none";
 		let rel = isExpand ? "open" : "closed";
 		let img = isExpand ? sageLikeGlobalConsts.IMG_OPEN_FOLDER : sageLikeGlobalConsts.IMG_CLOSED_FOLDER;
-		
+
 		let elems = elmTreeRoot.getElementsByTagName("ul");
 
 		for (let elm of elems) {
@@ -207,7 +222,7 @@ let rssTreeView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	let setFeedSelectionState = function (elm) {
-		
+
 		if(elmCurrentlySelected !== null) {
 			lzUtil.removeClassName(elmCurrentlySelected, "selected");
 		}
@@ -223,7 +238,7 @@ let rssTreeView = (function () {
 			elmTreeRoot.removeChild(elmTreeRoot.firstChild);
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function removeTreeEventListeners() {
@@ -238,5 +253,5 @@ let rssTreeView = (function () {
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 	};
-	
+
 })();

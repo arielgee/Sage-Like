@@ -2,6 +2,13 @@
 
 let syndication = (function () {
 
+	let SyndicationStandard = Object.freeze({
+		invalid: 0,
+		RSS: 1,
+		RDF: 2,
+		Atom: 3,
+	});
+
     let domParser = new DOMParser();
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +30,7 @@ let syndication = (function () {
 
                         if(list.length > 0) {
                             resolve(list);
-                        } else {                            
+                        } else {
                             reject("RSS feed not identified or document not valid at '" + feedUrl + "'.");
                         }
 
@@ -44,42 +51,19 @@ let syndication = (function () {
 
 		lzUtil.log("\n", xmlText.substr(0, 512));
 
-		// try to avoid a common XML/RSS Parsing Error: junk after document element
-		xmlText = xmlText.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1")
+        let elm, FeedItem;
+		let FeedItemList = new Array();
 
-        let doc = domParser.parseFromString(xmlText, "text/xml");
-
-        // return an empty array if XML not well-formed
-        if(doc.documentElement.nodeName === "parsererror") {
-            return [];
-        }
-
-		// First lets try 'RSS'
-		// https://validator.w3.org/feed/docs/rss2.html
-		let feeder = doc.querySelector("rss");		// There Can Be Only One
-
-
-		// If 'RSS' fail let's try 'RDF Site Summary (RSS) 1.0'
-		// https://validator.w3.org/feed/docs/rss1.html
-		// Example: http://feeds.nature.com/nature/rss/current
-		if (feeder === null) {
-			feeder = doc.querySelector("RDF");		// There Can Be Only One
-		}
-
-
-        let elm;
-        let FeedItem;
-        let FeedItemList = new Array();
-
+		let fd = getFeedData(xmlText);
 
 		// for 'RSS' or 'RDF Site Summary (RSS) 1.0'
-		if (feeder !== null) {
+		if([SyndicationStandard.RSS, SyndicationStandard.RDF].indexOf(fd.standard) !== -1) {
 
-			lzUtil.log("Feed: " + feeder.localName.toUpperCase(), "v" + (feeder.getAttribute("version") || "?"));
+			lzUtil.log("Feed: " + fd.feeder.localName.toUpperCase(), "v" + (fd.feeder.getAttribute("version") || "?"));
 
-			feeder = sortFeederByDate(feeder.querySelectorAll("item"));
+			fd.feeder = sortFeederByDate(fd.feeder.querySelectorAll("item"));
 
-			feeder.forEach((item) => {
+			fd.feeder.forEach((item) => {
 
                 FeedItem = new Object();
 
@@ -90,35 +74,60 @@ let syndication = (function () {
                 FeedItemList.push(FeedItem);
 			});
 
-		} else {
+		} else if(fd.standard === SyndicationStandard.Atom) {
 
-			// If both 'RSS' and 'RDF Site Summary (RSS) 1.0' failed let's try 'Atom'
-			// https://validator.w3.org/feed/docs/atom.html
-			feeder = doc.querySelector("feed");		// There Can Be Only One
+			lzUtil.log("Feed: Atom", "v" + (fd.feeder.getAttribute("version") || "?"));
 
-			if (feeder !== null) {
+			fd.feeder = sortFeederByDate(fd.feeder.querySelectorAll("entry"));
 
-				lzUtil.log("Feed: Atom", "v" + (feeder.getAttribute("version") || "?"));
+			fd.feeder.forEach((item) => {
 
-				feeder = sortFeederByDate(feeder.querySelectorAll("entry"));
+				FeedItem = new Object();
 
-				feeder.forEach((item) => {
-
-                    FeedItem = new Object();
-
-					FeedItem["title"] = item.querySelector("title").textContent;
-					FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
-					if ((elm = item.querySelector("link:not([rel])")) ||
-						(elm = item.querySelector("link[rel=alternate]")) ||
-						(elm = item.querySelector("link"))) {
-                        FeedItem["link"] = elm.getAttribute("href");
-					}
-					FeedItemList.push(FeedItem);
-				});
-			}
+				FeedItem["title"] = item.querySelector("title").textContent;
+				FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
+				if ((elm = item.querySelector("link:not([rel])")) ||
+					(elm = item.querySelector("link[rel=alternate]")) ||
+					(elm = item.querySelector("link"))) {
+					FeedItem["link"] = elm.getAttribute("href");
+				}
+				FeedItemList.push(FeedItem);
+			});
         }
         return FeedItemList;
     }
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function getFeedData (xmlText) {
+
+		let feedData = {
+			standard: SyndicationStandard.invalid,
+			feeder: {},
+		};
+
+		// try to avoid a common XML/RSS Parsing Error: junk after document element
+		xmlText = xmlText.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1")
+
+        let doc = domParser.parseFromString(xmlText, "text/xml");
+
+        // return if XML not well-formed
+        if(doc.documentElement.nodeName === "parsererror") {
+            return feedData;
+		}
+
+		if(doc.documentElement.localName === "rss") {				// First lets try 'RSS'
+			feedData.standard = SyndicationStandard.RSS;				// https://validator.w3.org/feed/docs/rss2.html
+			feedData.feeder = doc.querySelector("rss");
+		} else if(doc.documentElement.localName === "RDF") {		// Then let's try 'RDF (RSS) 1.0'
+			feedData.standard = SyndicationStandard.RDF;				// https://validator.w3.org/feed/docs/rss1.html; Example: http://feeds.nature.com/nature/rss/current
+			feedData.feeder = doc.querySelector("RDF");
+		} else if(doc.documentElement.localName === "feed") {		// FInally let's try 'Atom'
+			feedData.standard = SyndicationStandard.Atom;				// https://validator.w3.org/feed/docs/atom.html
+			feedData.feeder = doc.querySelector("feed");
+		}
+		return feedData;
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//

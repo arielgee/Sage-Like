@@ -11,6 +11,8 @@
 	let elmTree;
 	let elmList;
 
+	let elmPreferences;
+
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
@@ -26,9 +28,12 @@
 		elmToolbar = document.getElementById("toolbar");
 		elmTree = document.getElementById("rssTreeView");
 		elmList = document.getElementById("rssListView");
+		elmPreferences = document.getElementById("preferences");
 
 		elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.addEventListener("resize", () => { setPanelLayout(); }, false);
+
+		elmPreferences.addEventListener("click", onClickPreferences);
 
 		setPanelLayout();
 	}
@@ -39,6 +44,8 @@
 
 		elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.removeEventListener("resize", () => { setPanelLayout(); }, false);
+
+		elmPreferences.removeEventListener("click", onClickPreferences);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -83,4 +90,9 @@
 		setPanelLayout(elmSplitter.offsetTop + event.movementY);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onClickPreferences (event) {
+		browser.runtime.openOptionsPage();
+	}
 })();

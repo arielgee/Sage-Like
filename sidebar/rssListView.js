@@ -107,29 +107,6 @@ let rssListView = (function () {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	let sortFeederByDate = function (feeder) {
-		
-		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
-
-		let ary = Array.prototype.slice.call(feeder, 0);
-
-		for (let selector of selectores) {
-			if(ary[0].querySelector(selector) !== null) {
-
-				ary.sort((a, b) => {
-					let d1 = Date.parse(a.querySelector(selector).textContent);
-					let d2 = Date.parse(b.querySelector(selector).textContent);
-					return d2 - d1;
-				});
-
-				break;
-			}
-		}		
-		return ary;
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////
 	// Redirect are not saved in history. So when a feed link is
 	// redirected from http to https or from feedproxy.google.com
 	// to the target page it cannot be found in browser.history.
