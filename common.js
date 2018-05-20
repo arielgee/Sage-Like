@@ -21,6 +21,8 @@ let sageLikeGlobalConsts = (function() {
 	const IMG_CLOSED_FOLDER = "/icons/closed.png";
 	const IMG_OPEN_FOLDER = "/icons/open.png";
 
+	const ROOT_FEEDS_FOLDER_ID_NOT_SET = "_rootFeedsFolderIdNotSet_";
+
 	return {
 		CLS_DIV_TOOLBAR: CLS_DIV_TOOLBAR,
 		CLS_DIV_SPLITTER: CLS_DIV_SPLITTER,
@@ -30,6 +32,8 @@ let sageLikeGlobalConsts = (function() {
 		CLS_DIV_RSS_TREE_FEED_CAPTION: CLS_DIV_RSS_TREE_FEED_CAPTION,
 		IMG_CLOSED_FOLDER: IMG_CLOSED_FOLDER,
 		IMG_OPEN_FOLDER: IMG_OPEN_FOLDER,
+
+		ROOT_FEEDS_FOLDER_ID_NOT_SET: ROOT_FEEDS_FOLDER_ID_NOT_SET,
 	};
 
 })();
@@ -38,7 +42,7 @@ let sageLikeGlobalConsts = (function() {
 ///
 let prefs = (function () {
 
-	const PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE = "";
+	const PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE = sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
@@ -49,7 +53,7 @@ let prefs = (function () {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_ROOT_FEEDS_FOLDER_ID).then((result) => {
-				resolve(result[PREF_ROOT_FEEDS_FOLDER_ID]);
+                resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
 			});
 		});
 	};

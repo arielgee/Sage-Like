@@ -1,7 +1,7 @@
 "use strict";
 
 let preferences = (function () {
-    
+
     const menuGuid = "menu________";
 
     let elmRootFeedsFolder;
@@ -13,23 +13,27 @@ let preferences = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function onDOMContentLoaded() {
-        
+
         elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
         elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
-        
-        
+
+
         /////////////////////////////////////////////////////////////////////////////////
         // get saved preferences
         prefs.getRootFeedsFolderId().then((value) => {
             createSelectFeedFolderElements().then(() => {
                 elmRootFeedsFolder.value = value;
-            });            
+                flashRootFeedsFolderElement();
+            });
         });
 
 
        	/////////////////////////////////////////////////////////////////////////////////
     	// save preferences when changed
-	    elmRootFeedsFolder.addEventListener("change", () => { prefs.setRootFeedsFolderId(elmRootFeedsFolder.value); });
+	    elmRootFeedsFolder.addEventListener("change", () => {
+            prefs.setRootFeedsFolderId(elmRootFeedsFolder.value);
+            flashRootFeedsFolderElement();
+        });
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +43,6 @@ let preferences = (function () {
 
             elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
         });
-        
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -50,11 +53,20 @@ let preferences = (function () {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
     }
-    
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    function flashRootFeedsFolderElement () {
+        if(elmRootFeedsFolder.options[elmRootFeedsFolder.selectedIndex].value === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+            lzUtil.concatClassName(elmRootFeedsFolder, "flash");
+        } else {
+            lzUtil.removeClassName(elmRootFeedsFolder, "flash");
+        }
+    }
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function createSelectFeedFolderElements () {
-        
+
         return new Promise((resolve) => {
 
             while(elmRootFeedsFolder.firstChild) {
@@ -62,13 +74,13 @@ let preferences = (function () {
             }
 
             browser.bookmarks.getSubTree(menuGuid).then((bookmarkItems) => {
+
+                let elmOption = createTagOption(sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
+                elmRootFeedsFolder.insertBefore(elmOption, elmRootFeedsFolder.firstChild);
+
                 for(let child of bookmarkItems[0].children) {
                     createSelectFeedFolderElement(child, 0);
                 }
-
-                let elmOption = createTagOption("", "-Select feed folder-");
-                elmRootFeedsFolder.insertBefore(elmOption, elmRootFeedsFolder.firstChild);
-                elmRootFeedsFolder.selectedIndex = 0;
                 resolve();
             });
 
@@ -78,18 +90,17 @@ let preferences = (function () {
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function createSelectFeedFolderElement (bookmarkItem, indent) {
-        
-        if(bookmarkItem.url !== undefined) {        // it's not a folder
-           return;
-        }
 
-        let elmOption = createTagOption(bookmarkItem.id, "&emsp;".repeat(indent) + bookmarkItem.title);
-        elmRootFeedsFolder.appendChild(elmOption);
-        indent++;
-        for(let child of bookmarkItem.children) {
-            createSelectFeedFolderElement(child, indent);
+        // it's a folder
+        if(bookmarkItem.url === undefined) {
+            let elmOption = createTagOption(bookmarkItem.id, "&emsp;".repeat(indent) + bookmarkItem.title);
+            elmRootFeedsFolder.appendChild(elmOption);
+            indent++;
+            for(let child of bookmarkItem.children) {
+                createSelectFeedFolderElement(child, indent);
+            }
+            indent--;
         }
-        indent--;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

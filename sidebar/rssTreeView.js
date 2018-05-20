@@ -56,6 +56,13 @@ let rssTreeView = (function () {
 		emptyTree();
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
+			
+			if(folderId === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				elmTreeRoot.appendChild(createErrorTagLI("The feeds folder is not set in the Options page."));
+				browser.runtime.openOptionsPage();
+				return;
+			}
+
 			browser.bookmarks.getSubTree(folderId).then((bookmarkItems) => {
 				if (bookmarkItems[0].children) {
 					for(let child of bookmarkItems[0].children) {

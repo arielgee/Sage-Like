@@ -68,12 +68,17 @@ input[type="color"] {
   float: right;
 }
 
+select,
 .annotation,
 .controlButton {
   background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
   background-size: 200% 100%;
   background-position: right bottom;
   transition: background-position 0.2s ease-in 0s;
+}
+
+select {
+    border: 1px solid #7a7a7a;
 }
 
 .annotation {
@@ -104,6 +109,7 @@ input[type="color"] {
   background-color: rgb(218, 218, 218);
 }
 
+select.flash,
 .controlButton.flash {
   background-position: left bottom;
 }
