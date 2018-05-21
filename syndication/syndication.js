@@ -49,7 +49,7 @@ let syndication = (function () {
     //
     function createFeedItemsList (xmlText) {
 
-		lzUtil.log("\n", xmlText.substr(0, 512));
+		lzUtil.log("\n", xmlText.substr(0, 5120000));
 
         let elm, FeedItem;
 		let FeedItemList = new Array();
@@ -68,9 +68,9 @@ let syndication = (function () {
                 FeedItem = new Object();
 
 				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
-				FeedItem["title"] = item.querySelector("title").textContent;
+				FeedItem["title"] = TextDecoding(item.querySelector("title").textContent, fd.xmlEncoding);
 				FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent : "";
-                FeedItem["link"] = item.querySelector("link").textContent;
+				FeedItem["link"] = item.querySelector("link").textContent;				
                 FeedItemList.push(FeedItem);
 			});
 
@@ -84,7 +84,7 @@ let syndication = (function () {
 
 				FeedItem = new Object();
 
-				FeedItem["title"] = item.querySelector("title").textContent;
+				FeedItem["title"] = TextDecoding(item.querySelector("title").textContent, fd.xmlEncoding);
 				FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
 				if ((elm = item.querySelector("link:not([rel])")) ||
 					(elm = item.querySelector("link[rel=alternate]")) ||
@@ -104,15 +104,23 @@ let syndication = (function () {
 		let feedData = {
 			standard: SyndicationStandard.invalid,
 			feeder: {},
+			xmlEncoding: "",
 		};
 
 		// try to avoid a common XML/RSS Parsing Error: junk after document element
 		xmlText = xmlText.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1")
 
-        let doc = domParser.parseFromString(xmlText, "text/xml");
+		// try to get XML encoding from the XML prolog
+		let test = xmlText.match(/<\?xml[^>]*encoding="([^"]*)"[^>]*>/);
+		if(test && test[1]) {
+			feedData.xmlEncoding =  test[1];
+		}		
+
+		let doc = domParser.parseFromString(xmlText, "text/xml");
 
         // return if XML not well-formed
         if(doc.documentElement.nodeName === "parsererror") {
+			lzUtil.log(doc.documentElement.textContent);
             return feedData;
 		}
 
@@ -129,6 +137,44 @@ let syndication = (function () {
 		return feedData;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function TextDecoding (text, encoding) {
+		
+		// no need to decode
+		if(encoding === "" || encoding.toUpperCase() === "UTF-8") {
+			return text;
+		}
+		/*
+		let enc = new TextEncoder();
+		let dec = new TextDecoder(encoding);
+
+		let uint8Array = enc.encode(text);		
+		
+		lzUtil.log("++", dec.decode(uint8Array));
+		return dec.decode(uint8Array);
+
+		
+		
+		
+		let ary = new Uint8Array(text.length);		
+		for(let i=0; i<text.length; i++) {
+			ary[i] = text.charCodeAt(i);
+		}
+		*/
+		
+		let ary = Uint8Array.from(text, (x) => x.codePointAt(0));
+		 
+		let dec = new TextDecoder("UTF-8");
+		let newText = dec.decode(ary)
+		lzUtil.log("++", encoding, ary, text, "%%",  newText);
+
+
+		return newText;
+		
+		
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function sortFeederByDate (feeder) {

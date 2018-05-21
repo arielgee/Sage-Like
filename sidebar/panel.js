@@ -61,12 +61,12 @@
 
 		if (splitterTop > splitterMargin && (elmBody.offsetHeight - splitterTop) > splitterMargin) {
 			elmSplitter.style.top = splitterTop + "px";
-			elmTop.style.height = (elmSplitter.offsetTop) + "px";
+			elmTop.style.height = (elmSplitter.offsetTop - elmToolbar.offsetHeight) + "px";
 			elmBottom.style.top = (elmSplitter.offsetTop + elmSplitter.offsetHeight) + "px";
-			elmBottom.style.height = (elmBody.offsetHeight - (elmTop.offsetHeight + elmSplitter.offsetHeight)) + "px";
+			elmBottom.style.height = (elmBody.offsetHeight - (elmSplitter.offsetTop + elmSplitter.offsetHeight)) + "px";
 
-			elmTree.style.height = (elmTop.offsetHeight - elmToolbar.offsetHeight) + "px";
-			elmList.style.height = elmBottom.offsetHeight+ "px";
+			elmTree.style.height = (elmTop.offsetHeight) + "px";
+			elmList.style.height = elmBottom.offsetHeight + "px";
 		}
 	}
 

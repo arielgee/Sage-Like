@@ -186,6 +186,7 @@ let rssListView = (function () {
 
 	return {
 		setFeedItems: setFeedItems,
+		disposeList: disposeList,
 		setListErrorMsg: setListErrorMsg,
 		setFeedItemSelectionState: setFeedItemSelectionState,
 	};
