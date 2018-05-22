@@ -69,6 +69,12 @@ let rssTreeView = (function () {
 						createRSSTreeItem(elmTreeRoot, child);
 					}
 				}
+
+				// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
+				if(lzUtil.hasHScroll(elmTreeRoot)) {
+					elmTreeRoot.style.height = (elmTreeRoot.clientHeight - lzUtil.getScrollbarWidth(document)) + "px";
+				} 
+				
 			}).catch((error) => {
 				elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
 			});
@@ -166,8 +172,6 @@ let rssTreeView = (function () {
 		} else {
 
 			let urlFeed = elmItem.getAttribute("href");
-
-			lzUtil.log(elmItem.textContent, urlFeed);
 
 			setFeedLoadingState(elmItem, true);
 			syndication.fetchFeedItems(urlFeed, event.shiftKey).then((list) => {

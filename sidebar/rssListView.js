@@ -34,6 +34,11 @@ let rssListView = (function () {
 		for(let item of list) {
 			appendTagIL(item.title, item.desc, item.link);
 		}
+
+		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
+		if(lzUtil.hasHScroll(elmList)) {
+			elmList.style.height = (elmList.clientHeight - lzUtil.getScrollbarWidth(document)) + "px";
+		} 
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////

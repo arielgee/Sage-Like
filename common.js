@@ -88,6 +88,9 @@ let prefs = (function () {
 ///
 let lzUtil = (function () {
 
+	let local_savedScrollbarWidth = -1;
+
+
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function (args) {
 		let str = this;
@@ -198,7 +201,7 @@ let lzUtil = (function () {
 		input.select();
 		document.execCommand("copy");
 		document.body.removeChild(input);
-	}
+	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -210,8 +213,46 @@ let lzUtil = (function () {
 		};
 
 		browser.history.addUrl(details);
-	}
+	};
 
+	//////////////////////////////////////////////////////////////////////
+	//
+	let getScrollbarWidth = function (doc) {
+
+		if(local_savedScrollbarWidth === -1) {
+
+			let inner = doc.createElement("p");
+			inner.style.width = "100%";
+			inner.style.height = "200px";
+
+			let outer = doc.createElement("div");
+			outer.style.position = "absolute";
+			outer.style.top = "0px";
+			outer.style.left = "0px";
+			outer.style.visibility = "hidden";
+			outer.style.width = "200px";
+			outer.style.height = "150px";
+			outer.style.overflow = "hidden";
+			outer.appendChild(inner);
+
+			doc.body.appendChild(outer);
+			let w1 = inner.offsetWidth;
+			outer.style.overflow = "scroll";
+			let w2 = inner.offsetWidth;
+			if (w1 == w2) w2 = outer.clientWidth;
+
+			doc.body.removeChild(outer);
+
+			local_savedScrollbarWidth = (w1 - w2);
+		}
+		return local_savedScrollbarWidth;
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	let hasHScroll = function (elm) {
+		return (elm.clientWidth < elm.scrollWidth);
+	};
 
 	// why not use classList ?!?!?!?!?!?!?!?!?!?!?!
 	// https://www.w3schools.com/jsref/prop_element_classlist.asp
@@ -227,6 +268,8 @@ let lzUtil = (function () {
 		disableElementTree: disableElementTree,
 		copyTextToClipboard: copyTextToClipboard,
 		addUrlToBrowserHistory: addUrlToBrowserHistory,
+		getScrollbarWidth: getScrollbarWidth,
+		hasHScroll: hasHScroll,
 	};
 })();
 

@@ -15,16 +15,23 @@ let syndication = (function () {
     //
     function fetchFeedItems (feedUrl, reload) {
 
+		prob1(feedUrl, reload);
+
+
+
         let init = {
             cache: reload ? "reload" : "default",
-        };
-
+		};
+		
         return new Promise((resolve, reject) => {
 
-			fetch(feedUrl, init).then((result) => {
+			fetch(feedUrl, init).then((response) => {
 
-				if (result.ok) {
-					result.text().then((xmlText) => {
+				if (response.ok) {
+
+					response.text().then((xmlText) => {
+
+						lzUtil.log(feedUrl + "\n", xmlText.substr(0, 256000));
 
                         let list = createFeedItemsList(xmlText);
 
@@ -36,7 +43,7 @@ let syndication = (function () {
 
                     });
 				} else {
-                    reject("Fail to load feed items from '" + result.url + "', " + result.status + " " + result.statusText + ".");
+                    reject("Fail to load feed items from '" + response.url + "', " + response.status + " " + response.statusText + ".");
 				}
 
 			}).catch((error) => {
@@ -48,8 +55,6 @@ let syndication = (function () {
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function createFeedItemsList (xmlText) {
-
-		lzUtil.log("\n", xmlText.substr(0, 5120000));
 
         let elm, FeedItem;
 		let FeedItemList = new Array();
@@ -65,10 +70,10 @@ let syndication = (function () {
 
 			fd.feeder.forEach((item) => {
 
-                FeedItem = new Object();
-
+				FeedItem = new Object();
+				
 				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
-				FeedItem["title"] = TextDecoding(item.querySelector("title").textContent, fd.xmlEncoding);
+				FeedItem["title"] = item.querySelector("title").textContent;
 				FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent : "";
 				FeedItem["link"] = item.querySelector("link").textContent;				
                 FeedItemList.push(FeedItem);
@@ -84,7 +89,7 @@ let syndication = (function () {
 
 				FeedItem = new Object();
 
-				FeedItem["title"] = TextDecoding(item.querySelector("title").textContent, fd.xmlEncoding);
+				FeedItem["title"] = item.querySelector("title").textContent;
 				FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
 				if ((elm = item.querySelector("link:not([rel])")) ||
 					(elm = item.querySelector("link[rel=alternate]")) ||
@@ -145,6 +150,20 @@ let syndication = (function () {
 		if(encoding === "" || encoding.toUpperCase() === "UTF-8") {
 			return text;
 		}
+
+		let strLen = text.length;
+		let buf = new ArrayBuffer(strLen*2); // 2 bytes for each char
+		var bufView = new Uint16Array(buf);
+		for (var i=0; i<strLen; i++) {
+		  bufView[i] = text.charCodeAt(i);
+		}		
+	
+		let line = ""
+		for(let n of bufView) {
+			line += n + ", ";
+		}
+		lzUtil.log("[arl]", line);
+		return text;
 		/*
 		let enc = new TextEncoder();
 		let dec = new TextDecoder(encoding);
@@ -161,7 +180,7 @@ let syndication = (function () {
 		for(let i=0; i<text.length; i++) {
 			ary[i] = text.charCodeAt(i);
 		}
-		*/
+		
 		
 		let ary = Uint8Array.from(text, (x) => x.codePointAt(0));
 		 
@@ -171,7 +190,7 @@ let syndication = (function () {
 
 
 		return newText;
-		
+		*/
 		
 	}
 	
@@ -197,6 +216,106 @@ let syndication = (function () {
 		}
 		return ary;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function prob1 (feedUrl, reload) {
+
+        let init = {
+            cache: reload ? "reload" : "default",
+		};
+		
+		fetch(feedUrl, init).then((response) => {
+
+			if (response.ok) {				
+				response.blob().then((blob) => {
+					let x = URL.createObjectURL(blob)
+					console.log("PROB1-", blob);
+					console.log("PROB1-", x);
+
+					xmlDoc.load(blob);
+					xmlDoc.load(x);
+					console.log("PROB1-", xmlDoc);
+					
+				});
+			}
+			
+/*
+			if (response.ok) {				
+
+				response.text().then((xmlText) => {
+					console.log("PROB1-",  feedUrl + "\n", xmlText.substr(0, 256000));
+				});
+			} else {
+				console.log("PROB1-",  "Fuck1");	//reject("Fail to load feed items from '" + response.url + "', " + response.status + " " + response.statusText + ".");
+			}
+			*/
+
+		}).catch((error) => {
+			console.log("PROB1-",  "Fuck2", error.message);		//reject("Request failed to fetch feed from '" + feedUrl + "', " + error.message);
+		});
+	
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function prob (feedUrl) {
+
+
+		let xmlDoc, fdr;
+		let xhr = new XMLHttpRequest();
+		xhr.open('GET', feedUrl, true);
+		
+		// If specified, responseType must be empty string or "document"
+		xhr.responseType = 'document';
+		
+		// overrideMimeType() can be used to force the response to be parsed as XML
+		xhr.overrideMimeType('text/xml');
+		
+		xhr.onload = function () {
+		  if (xhr.readyState === xhr.DONE) {
+			if (xhr.status === 200) {
+			  console.log("[===]", xhr.response);
+			  console.log("[===]", xhr.responseXML);
+			  console.log("[===]", xhr.responseXML.documentElement.outerHTML);
+
+			  xmlDoc = xhr.responseXML;
+
+			  fdr = xmlDoc.querySelectorAll("item");
+
+			  fdr.forEach((item) => {
+				
+				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
+				console.log("[===+]", item.querySelector("title").textContent);
+			});
+
+
+			}
+		  }
+		};
+		
+		xhr.send(null);				
+
+	
+		/*
+		cResult.blob().then((blob) => {
+			lzUtil.log("[cResult]", blob);
+
+			let reader = new FileReader();
+			reader.addEventListener("loadend", () => {
+
+				lzUtil.log("[cResult]", reader.result);
+
+				let s = String.fromCharCode.apply(null, new Uint16Array(reader.result));
+				lzUtil.log("[cResult]", s);
+			});
+			reader.readAsArrayBuffer(blob);
+		});
+		*/
+		
+
+	}
+	
 
     //////////////////////////////////////////
     return {
