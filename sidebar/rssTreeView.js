@@ -3,6 +3,7 @@
 let rssTreeView = (function () {
 
 	let elmReloadTree;
+	let elmDiscoverFeed;
 	let elmExpandAll;
 	let elmCollapseAll;
 
@@ -23,9 +24,11 @@ let rssTreeView = (function () {
 		elmExpandAll = document.getElementById("expandall");
 		elmCollapseAll = document.getElementById("collapseall");
 		elmReloadTree = document.getElementById("reloadtree");
+		elmDiscoverFeed = document.getElementById("discoverfeed");
 		elmTreeRoot = document.getElementById("rssTreeView");
 
 		elmReloadTree.addEventListener("click", onClickReloadTree);
+		elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 		
@@ -42,6 +45,7 @@ let rssTreeView = (function () {
 		removeTreeEventListeners();
 
 		elmReloadTree.removeEventListener("click", onClickReloadTree);
+		elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
 		elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 
@@ -196,6 +200,25 @@ let rssTreeView = (function () {
 		rssListView.disposeList();
 		createRSSTree();		
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onClickDiscoverFeed (event) {
+		
+		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
+
+			syndication.discoverWebSiteFeed(tab[0].url).then((feedUrlList) => {
+
+				if(feedUrlList.length > 0) {
+
+				}
+				console.log("[Sage-Like]", feedUrlList);
+			}).catch((error) => {
+				console.log("[Sage-Like]", error);
+			});
+		});
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function onClickExpandCollapseAll(event) {

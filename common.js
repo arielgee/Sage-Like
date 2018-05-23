@@ -117,11 +117,6 @@ let lzUtil = (function () {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let log = function (...args) {
-		console.log("[Sage-Like]", ...args);
-	};
-
-	//////////////////////////////////////////////////////////////////////
 	let concatClassName = function (elm, className) {
 
 		// check type of className. <SVG> elements are evil.
@@ -258,7 +253,6 @@ let lzUtil = (function () {
 	// https://www.w3schools.com/jsref/prop_element_classlist.asp
 
 	return {
-		log: log,
 		concatClassName: concatClassName,
 		replaceClassName: replaceClassName,
 		removeClassName: removeClassName,

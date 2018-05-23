@@ -15,6 +15,7 @@
     "bookmarks",
     "history",
     "<all_urls>",
+    "tabs",
     "clipboardWrite",
     "storage"
   ],

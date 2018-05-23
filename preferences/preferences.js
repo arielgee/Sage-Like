@@ -23,7 +23,9 @@ let preferences = (function () {
         prefs.getRootFeedsFolderId().then((value) => {
             createSelectFeedFolderElements().then(() => {
                 elmRootFeedsFolder.value = value;
-                flashRootFeedsFolderElement();
+                setTimeout(() => {
+                    flashRootFeedsFolderElement();
+                }, 500);
             });
         });
 

@@ -70,6 +70,9 @@ html, body {
 #reloadtree {
   background: transparent url("../icons/reload.png") no-repeat left center;
 }
+#discoverfeed {
+  background: transparent url("../icons/discover.png") no-repeat left center;
+}
 #expandall {
   background: transparent url("../icons/expandall.png") no-repeat left center;
 }
