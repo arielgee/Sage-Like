@@ -8,14 +8,15 @@
 	let elmBottom;
 
 	let elmToolbar;
+	let elmDiscoverFeed;
+	let elmPreferences;
+	
 	let elmTree;
 	let elmList;
 
-	let elmPreferences;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -25,14 +26,18 @@
 		elmTop = document.getElementById("top");
 		elmSplitter = document.getElementById("splitter");
 		elmBottom = document.getElementById("bottom");
+
 		elmToolbar = document.getElementById("toolbar");
+		elmDiscoverFeed = document.getElementById("discoverfeed");
+		elmPreferences = document.getElementById("preferences");
+
 		elmTree = document.getElementById("rssTreeView");
 		elmList = document.getElementById("rssListView");
-		elmPreferences = document.getElementById("preferences");
 
 		elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.addEventListener("resize", () => { setPanelLayout(); }, false);
 
+		elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		elmPreferences.addEventListener("click", onClickPreferences);
 
 		setPanelLayout();
@@ -45,6 +50,7 @@
 		elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.removeEventListener("resize", () => { setPanelLayout(); }, false);
 
+		elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
 		elmPreferences.removeEventListener("click", onClickPreferences);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -97,7 +103,26 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
+	function onClickDiscoverFeed (event) {
+		
+		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
+
+			syndication.discoverWebSiteFeed(tab[0].url).then((feedUrlList) => {
+
+				console.log("[Sage-Like]", feedUrlList);
+				if(feedUrlList.length > 0) {
+
+				}
+			}).catch((error) => {
+				console.log("[Sage-Like]", error);
+			});
+		});
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
 	function onClickPreferences (event) {
 		browser.runtime.openOptionsPage();
 	}
+	
 })();
