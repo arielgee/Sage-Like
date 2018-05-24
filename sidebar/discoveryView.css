@@ -1,0 +1,76 @@
+#discoverPanel {
+  display: none;
+  position: absolute;
+  top: calc(var(--toolbar-height) + 3px);
+  left: 3px;
+  background-color: ghostwhite;
+  box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
+  min-width: 90%;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#discoverPanel .caption {
+  margin: 4px 0 4px 0;
+}
+
+.discoverFeedsList {    
+    list-style-type: none;
+    padding: 3px;
+    min-height: 150px;
+    max-height: 150px;
+    overflow: auto;
+    font-weight: normal;
+    background-color: Window;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid darkgrey;
+    border-bottom: 1px solid darkgrey;
+}
+
+.discoverFeedsList .dfItem {
+    display: table;
+    padding: 3px;
+    border: 1px dotted transparent;
+}
+
+.discoverFeedsList .dfItem:hover {
+    border: 1px dotted gray;
+    box-sizing: content-box;
+}
+
+.discoverFeedsList .dfChkBox {
+    display: table-cell;
+    margin: 0;
+}
+
+.discoverFeedsList .dfLabel {
+    display: table-cell;
+    padding-left: 6px;
+    width: 100%;
+    white-space: nowrap
+}
+.dfButtonContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dfButtonContainer .dfButton {
+    background-color: rgb(251, 251, 251);
+    border: 1px solid rgb(193, 193, 193);
+    border-radius: 2px;
+    height: 30px;
+    width: 130px;
+    text-align: center;
+    margin: 0 5px 0 5px;
+}
+
+.dfButtonContainer .dfButton:hover {
+    background-color: rgb(235, 235, 235);
+  }
+  
+.dfButtonContainer .dfButton:active:hover {
+    background-color: rgb(218, 218, 218);
+}
+

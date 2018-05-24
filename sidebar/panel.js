@@ -105,6 +105,8 @@
 	//
 	function onClickDiscoverFeed (event) {
 		
+		let dis = document.getElementById("discoverPanel");
+		dis.style.display = "block";
 		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
 
 			syndication.discoverWebSiteFeed(tab[0].url).then((feedUrlList) => {

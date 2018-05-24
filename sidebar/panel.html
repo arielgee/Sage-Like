@@ -10,32 +10,55 @@
     <script type="text/javascript" src="contextMenu.js"></script>
     <script type="text/javascript" src="rssTreeView.js"></script>
     <script type="text/javascript" src="rssListView.js"></script>
+    <script type="text/javascript" src="discoveryView.js"></script>
     <link rel="stylesheet" type="text/css" href="panel.css" />
     <link rel="stylesheet" type="text/css" href="contextMenu.css" />
     <link rel="stylesheet" type="text/css" href="rssTreeView.css" />
     <link rel="stylesheet" type="text/css" href="rssListView.css" />
+    <link rel="stylesheet" type="text/css" href="discoveryView.css" />
 </head>
 
 <body>
 
-    <div id="toolbar" class="toolbar">
-        <span id="reloadtree" class="button" title="Reload"></span>
-        <span id="discoverfeed" class="button" title="Discover feed"></span>
-        <span class="spacer"></span>
-        <span id="expandall" class="button" title="Expand all"></span>
-        <span id="collapseall" class="button" title="Collapse all"></span>
+    <div id="mainPanel">
 
-        <span id="preferences" class="button" title="Options page"></span>
+        <div id="toolbar" class="toolbar">
+            <span id="reloadtree" class="button" title="Reload"></span>
+            <span id="discoverfeed" class="button" title="Discover feed"></span>
+            <span class="spacer"></span>
+            <span id="expandall" class="button" title="Expand all"></span>
+            <span id="collapseall" class="button" title="Collapse all"></span>
+    
+            <span id="preferences" class="button" title="Options page"></span>
+        </div>
+            
+        
+        <div id="top" class="top">
+            <ul id="rssTreeView" class="treeview"></ul>
+        </div>
+
+        <div id="splitter" class="splitter"></div>
+
+        <div id="bottom" class="bottom">
+            <ul id="rssListView" class="listview"></ul>
+        </div>
+
     </div>
 
-    <div id="top" class="top">
-        <ul id="rssTreeView" class="treeview"></ul>
-    </div>
-
-    <div id="splitter" class="splitter"></div>
-
-    <div id="bottom" class="bottom">
-        <ul id="rssListView" class="listview"></ul>
+    <div id="discoverPanel">        
+        <h3 class="caption">Discover Feeds</h3>
+        <ul class="discoverFeedsList">
+            <li class="dfItem" title="format: Atom&#013;URL: http"><input id="cb1" class="dfChkBox" type="checkbox"><label for="cb1" class="dfLabel">Title 1</label></li>
+            <li class="dfItem" title="format: Atom&#013;URL: http"><input id="cb2" class="dfChkBox" type="checkbox"><label for="cb2" class="dfLabel">Title 2</label></li>
+            <li class="dfItem" title="format: Atom&#013;URL: http"><input id="cb3" class="dfChkBox" type="checkbox"><label for="cb3" class="dfLabel">Title 3</label></li>
+            <li class="dfItem" title="format: Atom&#013;URL: http"><input id="cb4" class="dfChkBox" type="checkbox"><label for="cb4" class="dfLabel">Title 4</label></li>
+            <li class="dfItem" title="format: Atom&#013;URL: http"><input id="cb5" class="dfChkBox" type="checkbox"><label for="cb5" class="dfLabel">Title 5</label></li>
+            <li class="dfItem" title="format: Atom&#013;URL: http"><input id="cb6" class="dfChkBox" type="checkbox"><label for="cb6" class="dfLabel">Title 6</label></li>
+        </ul>
+        <div class="dfButtonContainer">
+            <button type="button" class="dfButton" id="btnAdd">Add</button>
+            <button type="button" class="dfButton" id="btnCancel">Cancel</button>
+        </div>
     </div>
 
     <div id="mnuContextMenu" class="contextmenu" tabindex="0">

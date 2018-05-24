@@ -76,6 +76,7 @@ let rssTreeView = (function () {
 				
 			}).catch((error) => {
 				elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
+				browser.runtime.openOptionsPage();
 			});
 		});
 	}

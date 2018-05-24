@@ -59,7 +59,10 @@ let preferences = (function () {
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function flashRootFeedsFolderElement () {
-        if(elmRootFeedsFolder.options[elmRootFeedsFolder.selectedIndex].value === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+
+        let selected = elmRootFeedsFolder.options[elmRootFeedsFolder.selectedIndex];
+
+        if(selected === undefined || selected.value === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
             lzUtil.concatClassName(elmRootFeedsFolder, "flash");
         } else {
             lzUtil.removeClassName(elmRootFeedsFolder, "flash");
