@@ -1,23 +1,25 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
 #discoverPanel {
-  display: none;
-  position: absolute;
-  top: calc(var(--toolbar-height) + 3px);
-  left: 3px;
-  background-color: ghostwhite;
-  box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
-  min-width: 90%;
-  padding: 10px;
-  border: 1px solid black;
-  border-radius: 5px;
+    display: none;
+    position: absolute;
+    top: calc(var(--toolbar-height) + 3px);
+    left: 3px;
+    background-color: ghostwhite;
+    box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+    min-width: 90%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 #discoverPanel .caption {
-  margin: 4px 0 4px 0;
+    margin: 4px 0 4px 0;
 }
 
-.discoverFeedsList {    
+#discoverFeedsList {
     list-style-type: none;
-    padding: 3px;
+    padding: 3px 3px;
     min-height: 150px;
     max-height: 150px;
     overflow: auto;
@@ -29,31 +31,32 @@
     border-bottom: 1px solid darkgrey;
 }
 
-.discoverFeedsList .dfItem {
-    display: table;
-    padding: 3px;
-    border: 1px dotted transparent;
+#discoverFeedsList .dfItem {
+    padding: 3px 4px;
+    /*padding: 2px 3px;
+    border: 1px dotted transparent;*/
 }
-
-.discoverFeedsList .dfItem:hover {
+/*
+#discoverFeedsList .dfItem:hover {
     border: 1px dotted gray;
-    box-sizing: content-box;
 }
-
-.discoverFeedsList .dfChkBox {
-    display: table-cell;
+*/
+#discoverFeedsList .dfChkBox {
+    position: relative;
+    top: 2px;
     margin: 0;
 }
 
-.discoverFeedsList .dfLabel {
-    display: table-cell;
+#discoverFeedsList .dfLabel {
+    display: inline-block;
     padding-left: 6px;
-    width: 100%;
+    width: calc(100% - 20px);
     white-space: nowrap
 }
+
 .dfButtonContainer {
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
 }
 
 .dfButtonContainer .dfButton {
@@ -61,16 +64,15 @@
     border: 1px solid rgb(193, 193, 193);
     border-radius: 2px;
     height: 30px;
-    width: 130px;
+    width: 100px;
     text-align: center;
-    margin: 0 5px 0 5px;
+    margin-left: 10px;
 }
 
 .dfButtonContainer .dfButton:hover {
     background-color: rgb(235, 235, 235);
-  }
-  
+}
+
 .dfButtonContainer .dfButton:active:hover {
     background-color: rgb(218, 218, 218);
 }
-

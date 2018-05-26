@@ -40,7 +40,8 @@
 		elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		elmPreferences.addEventListener("click", onClickPreferences);
 
-		setPanelLayout();
+		// from all the onDOMContentLoaded() fired try to make sure its done last
+		setTimeout(() => { setPanelLayout(); }, 150);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////
@@ -103,22 +104,8 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onClickDiscoverFeed (event) {
-		
-		let dis = document.getElementById("discoverPanel");
-		dis.style.display = "block";
-		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
-
-			syndication.discoverWebSiteFeed(tab[0].url).then((feedUrlList) => {
-
-				console.log("[Sage-Like]", feedUrlList);
-				if(feedUrlList.length > 0) {
-
-				}
-			}).catch((error) => {
-				console.log("[Sage-Like]", error);
-			});
-		});
+	function onClickDiscoverFeed (event) {		
+		discoverView.open();		
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////

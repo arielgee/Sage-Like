@@ -3,85 +3,66 @@
 let syndication = (function () {
 
 	let SyndicationStandard = Object.freeze({
-		invalid: 0,
-		RSS: 1,
-		RDF: 2,
-		Atom: 3,
+		invalid: "n/a",
+		RSS: "RSS",
+		RDF: "RDF",
+		Atom: "Atom",
 	});
 
     let domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function discoverWebSiteFeed (url) {
+	function discoverWebSiteFeed (txtHTML) {
 		
-		return new Promise((resolve, reject) => {
+		let doc = domParser.parseFromString(txtHTML, "text/html");
 
-			fetch(url).then((response) => {
+		let feedUrls, feedData;
+		let feedUrlsList = new Array();
 
-				if(response.ok) {
+		let selectores = [	"link[type=\"application/rss+xml\"]", 
+							"link[type=\"application/rdf+xml\"]",
+							"link[type=\"application/atom+xml\"]"	];
 
-					response.text().then((txtHTML) => {
-						let doc = domParser.parseFromString(txtHTML, "text/html");
 
-						let feedUrlsList = new Array();
+		for (let selector of selectores) {
 
-						let feedUrls = doc.querySelectorAll("link[type=\"application/rss+xml\"]");
+			feedUrls = doc.querySelectorAll(selector);	
+			
+			feedUrls.forEach((feedUrl) => {
 
-						feedUrls.forEach((url) => {
-							feedUrlsList.push( { title: url.title, url: url.href } );
-						});
-						resolve(feedUrlsList);
-					});
+				getFeedXMLText(feedUrl.href).then((txtXML) => {
+					feedData = getFeedData(txtXML);				
 
-				} else {
-					reject("Fail to retrieve feed from '" + response.url + "', " + response.status + " " + response.statusText + ".");
-				}
-
-			}).catch((error) => {
-				reject("Request failed to discover feed from '" + url + "', " + error.message);
+					feedUrlsList.push( { title: feedUrl.title, url: feedUrl.href, lastUpdated: feedData.lastUpdated} );
+				});
 			});
-		});
+		}		
+
+		// ???????????????????????????????must be after all the getFeedXMLText(feedUrl.href).then((txtXML)'s
+		return feedUrlsList;
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function fetchFeedItems (feedUrl, reload) {
 
-        let init = {
-            cache: reload ? "reload" : "default",
-		};
+		return new Promise((resolve, reject) => {
 
-        return new Promise((resolve, reject) => {
+			getFeedXMLText(feedUrl, reload).then((txtXML) => {
 
-			fetch(feedUrl, init).then((response) => {
+				let feedData = getFeedData(txtXML);
+				let list = createFeedItemsList(feedData);
 
-				if (response.ok) {
-
-					response.blob().then((blob) => {
-
-						getXMLTextFromBlob(blob).then((txtXML) => {
-
-							console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
-
-							let feedData = getFeedData(txtXML);
-							let list = createFeedItemsList(feedData);
-
-							if(list.length > 0) {
-								resolve(list);
-							} else {
-								reject("RSS feed not identified or document not valid at '" + feedUrl + "'.");
-							}
-						});
-                    });
+				if(list.length > 0) {
+					resolve(list);
 				} else {
-                    reject("Fail to retrieve feed items from '" + response.url + "', " + response.status + " " + response.statusText + ".");
+					reject("RSS feed not identified or document not valid at '" + feedUrl + "'.");
 				}
-
 			}).catch((error) => {
-				reject("Request failed to fetch feed from '" + feedUrl + "', " + error.message);
+				reject(error);
 			});
-        });
+		});
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -134,12 +115,43 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
+	function getFeedXMLText (feedUrl, reload) {
+
+        let init = {
+            cache: reload ? "reload" : "default",
+		};
+
+        return new Promise((resolve, reject) => {
+
+			fetch(feedUrl, init).then((response) => {
+
+				if (response.ok) {
+
+					response.blob().then((blob) => {
+
+						getXMLTextFromBlob(blob).then((txtXML) => {
+							console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
+							resolve(txtXML);
+						});
+                    });
+				} else {
+                    reject("Fail to retrieve feed XML from '" + response.url + "', " + response.status + " " + response.statusText + ".");
+				}
+
+			}).catch((error) => {
+				reject("Request failed to fetch feed from '" + feedUrl + "', " + error.message);
+			});
+        });
+	}
+	////////////////////////////////////////////////////////////////////////////////////
+	//
 	function getFeedData (txtXML) {
 
 		let feedData = {
 			standard: SyndicationStandard.invalid,
-			feeder: {},
 			xmlEncoding: "",
+			feeder: {},
+			lastUpdated: "",
 		};
 
 		// try to avoid a stupid XML/RSS Parsing Error: junk after document element
@@ -162,12 +174,15 @@ let syndication = (function () {
 		if(doc.documentElement.localName === "rss") {				// First lets try 'RSS'
 			feedData.standard = SyndicationStandard.RSS;				// https://validator.w3.org/feed/docs/rss2.html
 			feedData.feeder = doc.querySelector("rss");
+			feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel");
 		} else if(doc.documentElement.localName === "RDF") {		// Then let's try 'RDF (RSS) 1.0'
 			feedData.standard = SyndicationStandard.RDF;				// https://validator.w3.org/feed/docs/rss1.html; Example: http://feeds.nature.com/nature/rss/current
 			feedData.feeder = doc.querySelector("RDF");
+			feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel");
 		} else if(doc.documentElement.localName === "feed") {		// FInally let's try 'Atom'
 			feedData.standard = SyndicationStandard.Atom;				// https://validator.w3.org/feed/docs/atom.html
 			feedData.feeder = doc.querySelector("feed");
+			feedData.lastUpdated = getFeedLastUpdate(doc, "feed");
 		}
 		return feedData;
 	}
@@ -191,6 +206,25 @@ let syndication = (function () {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function getFeedLastUpdate (doc, selectorPrefix) {
+		
+		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate"];
+
+		let lastUpdate;
+
+		for (let selector of selectorSuffixes) {		
+
+			lastUpdate = doc.querySelector(selectorPrefix + selector);
+
+			if(lastUpdate) {
+				let txtVal = lastUpdate.textContent.replace(/\ Z$/, "");
+				let dateVal = (new Date(txtVal));				
+				return (isNaN(dateVal) ? txtVal : dateVal);
+			}
+		}
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function sortFeederByDate (feeder) {
@@ -303,6 +337,47 @@ let syndication = (function () {
 		xhr.send();
 	}
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    function fetchFeedItems_OLD (feedUrl, reload) {
+
+        let init = {
+            cache: reload ? "reload" : "default",
+		};
+
+        return new Promise((resolve, reject) => {
+
+			fetch(feedUrl, init).then((response) => {
+
+				if (response.ok) {
+
+					response.blob().then((blob) => {
+
+						getXMLTextFromBlob(blob).then((txtXML) => {
+
+							console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
+
+							let feedData = getFeedData(txtXML);
+							let list = createFeedItemsList(feedData);
+
+							if(list.length > 0) {
+								resolve(list);
+							} else {
+								reject("RSS feed not identified or document not valid at '" + feedUrl + "'.");
+							}
+						});
+                    });
+				} else {
+                    reject("Fail to retrieve feed items from '" + response.url + "', " + response.status + " " + response.statusText + ".");
+				}
+
+			}).catch((error) => {
+				reject("Request failed to fetch feed from '" + feedUrl + "', " + error.message);
+			});
+        });
+    }
+
+	
     //////////////////////////////////////////
     return {
         discoverWebSiteFeed: discoverWebSiteFeed,

@@ -1,3 +1,5 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
 .treeview {
   margin: 0;
   padding: 4px 0 4px 4px;
@@ -21,8 +23,9 @@
 }
 
 .treeview .caption {
+  min-height: var(--line-height);
   padding-left: 2px;
-  pointer-events: none;
+  pointer-events: none; /* otherwise the menucontext is not fired */
 }
 
 /* Style for LI that contains sub trees (other ULs) */

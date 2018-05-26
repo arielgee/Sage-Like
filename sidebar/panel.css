@@ -1,8 +1,12 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
 html, body {
-  height: 100%;
   --toolbar-height: 31px;
   --top-height: 60%;
   --splitter-height: 7px;
+  --line-height: 17px;
+  height: 100%;
+  line-height: var(--line-height);
 }
 
 .top {  

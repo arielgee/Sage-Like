@@ -83,24 +83,24 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function createRSSTreeItem(parentElement, bookmarkItem) {
+	function createRSSTreeItem(parentElement, bookmark) {
 
 		let elmLI;
 
-		if (bookmarkItem.url === undefined) {		// it's a folder
+		if (bookmark.url === undefined) {		// it's a folder
 
-			elmLI = createTagLI(bookmarkItem.id, bookmarkItem.title, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
+			elmLI = createTagLI(bookmark.id, bookmark.title, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 
 			let elmUL = createTagUL(false);
 			elmLI.appendChild(elmUL);
 
-			for(let child of bookmarkItem.children) {
+			for(let child of bookmark.children) {
 				createRSSTreeItem(elmUL, child);
 			}
 
 		} else {			// it's a bookmark
 
-			elmLI = createTagLI(bookmarkItem.id, bookmarkItem.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmarkItem.url);
+			elmLI = createTagLI(bookmark.id, bookmark.title === "" ? bookmark.url : bookmark.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmark.url);
 		}
 		parentElement.appendChild(elmLI);
 	}
