@@ -47,16 +47,16 @@
 		elmMnuListCopyFeedItemUrl = document.getElementById("mnuListCopyFeedItemUrl");
 
 
-		elmSidebarBody.addEventListener('contextmenu', onContextMenu);
-		elmContextMenu.addEventListener('blur', onBlurContextMenu);
+		elmSidebarBody.addEventListener("contextmenu", onContextMenu);
+		elmContextMenu.addEventListener("blur", onBlurContextMenu);
 		elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
 
 		elmMnuTreeOpenFeed.addEventListener("click", onClickMenuOpenFeed);
 		elmMnuTreeOpenFeedNewTab.addEventListener("click", onClickMenuOpenFeedNewTab);
 		elmMnuTreeOpenFeedNewWin.addEventListener("click", onClickMenuOpenFeedNewWin);
-		elmMnuTreeCopyFeedUrl.addEventListener('click', onClickMenuCopyFeedUrl);
+		elmMnuTreeCopyFeedUrl.addEventListener("click", onClickMenuCopyFeedUrl);
 
-		elmMnuListOpenFeedItem.addEventListener('click', onClickMenuOpenFeedItem);
+		elmMnuListOpenFeedItem.addEventListener("click", onClickMenuOpenFeedItem);
 		elmMnuListOpenFeedItemNewTab.addEventListener("click", onClickMenuOpenFeedItemNewTab);
 		elmMnuListOpenFeedItemNewWin.addEventListener("click", onClickMenuOpenFeedItemNewWin);
 		elmMnuListCopyFeedItemUrl.addEventListener("click", onClickMenuCopyFeedItemUrl);
@@ -66,18 +66,18 @@
 	//
 	function onUnload(event) {
 
-		elmSidebarBody.removeEventListener('contextmenu', onContextMenu);
+		elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
 
-		elmContextMenu.removeEventListener('blur', onBlurContextMenu);
+		elmContextMenu.removeEventListener("blur", onBlurContextMenu);
 		elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
 
 		elmMnuTreeOpenFeed.removeEventListener("click", onClickMenuOpenFeed);
 		elmMnuTreeOpenFeedNewTab.removeEventListener("click", onClickMenuOpenFeedNewTab);
 		elmMnuTreeOpenFeedNewWin.removeEventListener("click", onClickMenuOpenFeedNewWin);
-		elmMnuTreeCopyFeedUrl.removeEventListener('click', onClickMenuCopyFeedUrl);
+		elmMnuTreeCopyFeedUrl.removeEventListener("click", onClickMenuCopyFeedUrl);
 
 
-		elmMnuListOpenFeedItem.removeEventListener('click', onClickMenuOpenFeedItem);
+		elmMnuListOpenFeedItem.removeEventListener("click", onClickMenuOpenFeedItem);
 		elmMnuListOpenFeedItemNewTab.removeEventListener("click", onClickMenuOpenFeedItemNewTab);
 		elmMnuListOpenFeedItemNewWin.removeEventListener("click", onClickMenuOpenFeedItemNewWin);
 		elmMnuListCopyFeedItemUrl.removeEventListener("click", onClickMenuCopyFeedItemUrl);

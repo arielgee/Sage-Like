@@ -46,16 +46,20 @@
     </div>
 
     
-    <div id="discoverPanel">        
-        <img src="../icons/loading.gif">
-        <h3 class="caption">Discover Feeds</h3>
-        <ul id="discoverFeedsList">
-            <li class="dfItem" title="Am&#013;B"><input id="cb1" class="dfChkBox" type="checkbox"><label for="cb1" class="dfLabel">Title 1</label></li>
-        </ul>
-        <div class="dfButtonContainer">
-            <button type="button" class="dfButton" id="btnAdd">Add</button>
-            <button type="button" class="dfButton" id="btnCancel">Cancel</button>
+    <div id="discoverPanel" tabindex="1">
+
+        <div id="captionContainer">
+            <img class="captionImage" >
+            <h3 class="caption">Discover Feeds</h3>
         </div>
+
+        <ul id="discoverFeedsList"></ul>
+
+        <div class="dfButtonContainer">
+            <button type="button" class="dfButton" id="btnDiscoverFeedsAdd">Add</button>
+            <button type="button" class="dfButton" id="btnDiscoverFeedsCancel">Cancel</button>
+        </div>
+
     </div>
 
 

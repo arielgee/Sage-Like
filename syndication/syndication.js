@@ -13,34 +13,56 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function discoverWebSiteFeed (txtHTML) {
+	function discoverWebSiteFeeds (txtHTML) {
 		
-		let doc = domParser.parseFromString(txtHTML, "text/html");
+		return new Promise((resolve) => {
 
-		let feedUrls, feedData;
-		let feedUrlsList = new Array();
+			let doc = domParser.parseFromString(txtHTML, "text/html");
 
-		let selectores = [	"link[type=\"application/rss+xml\"]", 
-							"link[type=\"application/rdf+xml\"]",
-							"link[type=\"application/atom+xml\"]"	];
+			let selector =	"link[type=\"application/rss+xml\"]," +  
+							"link[type=\"application/rdf+xml\"]," +
+							"link[type=\"application/atom+xml\"]";
 
-
-		for (let selector of selectores) {
-
-			feedUrls = doc.querySelectorAll(selector);	
+			let feeds = doc.querySelectorAll(selector);
 			
-			feedUrls.forEach((feedUrl) => {
+			if(feeds.length === 0) {
+				resolve({});		// if nothing found return empty list object
+			} else {
 
-				getFeedXMLText(feedUrl.href).then((txtXML) => {
-					feedData = getFeedData(txtXML);				
-
-					feedUrlsList.push( { title: feedUrl.title, url: feedUrl.href, lastUpdated: feedData.lastUpdated} );
+				let allPromises = [];
+				let feedData;
+				let discoveredFeedsList = {};
+				let objFeed;
+				
+				// for each feed found create a list item and create a promise that will return the feed's XML text
+				feeds.forEach((feedUrl) => {
+					discoveredFeedsList[feedUrl.href] = { title: feedUrl.title, url: feedUrl.href };
+					allPromises.push(getFeedXMLText(feedUrl.href));
 				});
-			});
-		}		
+				
+				// for all promises created above get feed data and update the list item
+				// Promise.all is fail-fast; first rejected promise will reject all immediately so convert catch error to simple regular (success) value.
+				Promise.all(allPromises.map(p => p.catch((e) => { return e; }))).then((feedXMLs) => {
 
-		// ???????????????????????????????must be after all the getFeedXMLText(feedUrl.href).then((txtXML)'s
-		return feedUrlsList;
+					feedXMLs.forEach((feedXML) => {
+
+						// if undefined then this promise was rejected; got the error (e) instead of the feedXML
+						if(feedXML.txtXML !== undefined) {
+							feedData = getFeedData(feedXML.txtXML);
+
+							discoveredFeedsList[feedXML.url] = {
+								title: discoveredFeedsList[feedXML.url].title,
+								url: discoveredFeedsList[feedXML.url].url,
+								lastUpdated: feedData.lastUpdated,
+								format: feedData.standard,
+								items: feedData.items,
+							};
+						}
+					});
+					resolve(discoveredFeedsList);
+				});
+			}	
+		});
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////
@@ -49,9 +71,9 @@ let syndication = (function () {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedXMLText(feedUrl, reload).then((txtXML) => {
+			getFeedXMLText(feedUrl, reload).then((feedXML) => {
 
-				let feedData = getFeedData(txtXML);
+				let feedData = getFeedData(feedXML.txtXML);
 				let list = createFeedItemsList(feedData);
 
 				if(list.length > 0) {
@@ -70,7 +92,7 @@ let syndication = (function () {
     function createFeedItemsList (feedData) {
 
         let elm, FeedItem;
-		let FeedItemList = new Array();
+		let FeedItemList = [];
 
 		// for 'RSS' or 'RDF Site Summary (RSS) 1.0'
 		if([SyndicationStandard.RSS, SyndicationStandard.RDF].indexOf(feedData.standard) !== -1) {
@@ -123,6 +145,8 @@ let syndication = (function () {
 
         return new Promise((resolve, reject) => {
 
+			console.log("[Sage-Like]", "88888888", feedUrl);
+
 			fetch(feedUrl, init).then((response) => {
 
 				if (response.ok) {
@@ -131,7 +155,7 @@ let syndication = (function () {
 
 						getXMLTextFromBlob(blob).then((txtXML) => {
 							console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
-							resolve(txtXML);
+							resolve( { url: feedUrl, txtXML: txtXML } );
 						});
                     });
 				} else {
@@ -152,6 +176,7 @@ let syndication = (function () {
 			xmlEncoding: "",
 			feeder: {},
 			lastUpdated: "",
+			items: "",
 		};
 
 		// try to avoid a stupid XML/RSS Parsing Error: junk after document element
@@ -171,18 +196,21 @@ let syndication = (function () {
             return feedData;
 		}
 
-		if(doc.documentElement.localName === "rss") {				// First lets try 'RSS'
-			feedData.standard = SyndicationStandard.RSS;				// https://validator.w3.org/feed/docs/rss2.html
+		if(doc.documentElement.localName === "rss") {							// First lets try 'RSS'
+			feedData.standard = SyndicationStandard.RSS;							// https://validator.w3.org/feed/docs/rss2.html
 			feedData.feeder = doc.querySelector("rss");
 			feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel");
-		} else if(doc.documentElement.localName === "RDF") {		// Then let's try 'RDF (RSS) 1.0'
-			feedData.standard = SyndicationStandard.RDF;				// https://validator.w3.org/feed/docs/rss1.html; Example: http://feeds.nature.com/nature/rss/current
+			feedData.items = feedData.feeder.querySelectorAll("item").length;
+		} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
+			feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Example: http://feeds.nature.com/nature/rss/current
 			feedData.feeder = doc.querySelector("RDF");
 			feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel");
-		} else if(doc.documentElement.localName === "feed") {		// FInally let's try 'Atom'
-			feedData.standard = SyndicationStandard.Atom;				// https://validator.w3.org/feed/docs/atom.html
+			feedData.items = feedData.feeder.querySelectorAll("item").length;
+		} else if(doc.documentElement.localName === "feed") {					// FInally let's try 'Atom'
+			feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
 			feedData.feeder = doc.querySelector("feed");
 			feedData.lastUpdated = getFeedLastUpdate(doc, "feed");
+			feedData.items = feedData.feeder.querySelectorAll("entry").length;
 		}
 		return feedData;
 	}
@@ -225,6 +253,7 @@ let syndication = (function () {
 			}
 		}
 	}
+	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function sortFeederByDate (feeder) {
@@ -340,6 +369,8 @@ let syndication = (function () {
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function fetchFeedItems_OLD (feedUrl, reload) {
+		throw "Function is not for use: Documentation only.";
+
 
         let init = {
             cache: reload ? "reload" : "default",
@@ -376,11 +407,10 @@ let syndication = (function () {
 			});
         });
     }
-
 	
     //////////////////////////////////////////
     return {
-        discoverWebSiteFeed: discoverWebSiteFeed,
+        discoverWebSiteFeeds: discoverWebSiteFeeds,
         fetchFeedItems: fetchFeedItems,
 	};
 	

@@ -171,6 +171,8 @@ let rssTreeView = (function () {
 			}
 		} else {
 
+			rssListView.disposeList();
+			
 			let urlFeed = elmItem.getAttribute("href");
 
 			setFeedLoadingState(elmItem, true);

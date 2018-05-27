@@ -11,6 +11,29 @@
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
+    z-index: 1;
+}
+
+#discoverPanel.loading {
+    cursor: wait;
+}
+
+#discoverPanel > #captionContainer {
+    display: flex;
+    justify-content: left;
+}
+
+#discoverPanel .captionImage {
+    background: transparent url("../icons/rss.png") no-repeat left center;
+    position: relative;
+    top: 5px;
+    width: 16px;
+    height: 16px;    
+    margin-right: 5px;
+}
+
+#discoverPanel.loading .captionImage {
+    background: transparent url("../icons/loading.gif") no-repeat left center;
 }
 
 #discoverPanel .caption {
