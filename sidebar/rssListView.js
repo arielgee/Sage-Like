@@ -51,7 +51,7 @@ let rssListView = (function () {
 		setItemVisitedStatus(elm, link);
 
 		elm.textContent = title;
-		elm.setAttribute("title", desc);	// show my own box to show html tags
+		//elm.setAttribute("title", desc);	// show my own box to show html tags
 		elm.setAttribute("href", link);
 
 		elm.addEventListener("click", onClickFeedItem);

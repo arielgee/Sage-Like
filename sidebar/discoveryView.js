@@ -13,34 +13,35 @@ let discoverView = (function () {
 
 
     /**************************************************/
-    browser.runtime.onMessage.addListener((message) => {        
+    browser.runtime.onMessage.addListener((message) => {
         if(message.id === MSGID_GET_DOC_TEXT_HTML) {
             loadDiscoverFeedsList(message.txtHTML);
-        }            
+        }
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
     let open = function () {
-        
+
         elmDiscoverPanel = document.getElementById("discoverPanel");
         elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
         elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
         elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 
 		elmDiscoverPanel.addEventListener("blur", onBlurDiscoverPanel);
-        elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);        
+        elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
         elmButtonAdd.addEventListener("click", onClickButtonAdd);
-        elmButtonCancel.addEventListener("click", onClickButtonCancel);        
+        elmButtonCancel.addEventListener("click", onClickButtonCancel);
 
 
-        let code = "browser.runtime.sendMessage( { id: \"" + MSGID_GET_DOC_TEXT_HTML + "\"," + 
+        emptyDescoverFeedsList();
+
+        let code = "browser.runtime.sendMessage( { id: \"" + MSGID_GET_DOC_TEXT_HTML + "\"," +
                                                   "txtHTML: document.documentElement.outerHTML } );";
 
-		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {            
+		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
 
 			browser.tabs.executeScript(tab.id, { code: code, runAt: "document_start" }).then((results) => {
-                emptyDescoverFeedsList();                
                 elmDiscoverPanel.style.display = "block";
                 elmDiscoverPanel.focus();
             }).catch((error) => {
@@ -55,36 +56,41 @@ let discoverView = (function () {
 
         elmDiscoverPanel.style.display = "none";
         emptyDescoverFeedsList();
-    
+
         elmDiscoverPanel.removeEventListener("blur", onBlurDiscoverPanel);
-        elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);       
-        
+        elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
         elmButtonAdd.removeEventListener("click", onClickButtonAdd);
-        elmButtonCancel.removeEventListener("click", onClickButtonCancel);        
+        elmButtonCancel.removeEventListener("click", onClickButtonCancel);
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
     let isOpen = function () {
         return (elmDiscoverPanel !== null && elmDiscoverPanel.style.display === "block");
-    };    
+    };
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
     let loadDiscoverFeedsList = function (txtHTML) {
-      
+
         setDiscoverLoadingState(true);
         syndication.discoverWebSiteFeeds(txtHTML).then((discoveredFeedsList) => {
 
-            console.log("[Sage-Like]", discoveredFeedsList);
-
             emptyDescoverFeedsList();
 
-            let feed;
-            let index = 1
+            let feed, index = 1
             for(let key in discoveredFeedsList) {
+
                 feed = discoveredFeedsList[key];
-                elmDiscoverFeedsList.appendChild(createTagLI(index++, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
+
+                if(feed.status === "OK") {
+                    elmDiscoverFeedsList.appendChild(createTagLI(index++, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
+                } else if(feed.status === "error") {
+                    console.log("[sage-like]", feed.message);
+                }
+            }
+            if(elmDiscoverFeedsList.children.length === 0) {
+                setNoValidFeedsFoundMsg();
             }
             setDiscoverLoadingState(false);
         });
@@ -95,13 +101,13 @@ let discoverView = (function () {
     let emptyDescoverFeedsList = function () {
         while(elmDiscoverFeedsList.firstChild) {
             elmDiscoverFeedsList.removeChild(elmDiscoverFeedsList.firstChild);
-        }        
+        }
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
     let createTagLI = function (index, text, url, lastUpdated, format, items) {
-       
+
         let elmCheckBox = document.createElement("input");
         let elmLabel = document.createElement("label");
         let elmListItem = document.createElement("li");
@@ -128,17 +134,26 @@ let discoverView = (function () {
         return elmListItem;
     };
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    let setNoValidFeedsFoundMsg = function () {
+        let elm = document.createElement("li");
+        elm.className = "dfItem novalidfeeds";
+        elm.textContent = "No valid feeds were discovered.";
+        elmDiscoverFeedsList.appendChild(elm);
+    };
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function setDiscoverLoadingState(isLoading) {
-        
+
 		if (isLoading === true) {
 			lzUtil.concatClassName(elmDiscoverPanel, "loading");
 		} else {
 			lzUtil.removeClassName(elmDiscoverPanel, "loading");
 		}
 	}
-    
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     //      Events
@@ -149,7 +164,8 @@ let discoverView = (function () {
     //
     function onBlurDiscoverPanel (event) {
 
-        if(event.relatedTarget === null || !(elmDiscoverPanel.contains(event.relatedTarget))) {
+        console.log("[sage-like-blur]", event);
+        if((event.relatedTarget === null || !(elmDiscoverPanel.contains(event.relatedTarget))) /*&& event.explicitOriginalTarget !== elmDiscoverPanel*/) {
             close();
         } else {
             setTimeout(() => { elmDiscoverPanel.focus(); }, 100);
@@ -157,7 +173,7 @@ let discoverView = (function () {
             setTimeout(() => { elmDiscoverPanel.focus(); }, 300);
         }
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function onKeyDownDiscoverPanel (event) {
@@ -178,8 +194,8 @@ let discoverView = (function () {
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function onClickButtonCancel (event) {
-        close();        
-    }    
+        close();
+    }
 
     return {
         open: open,

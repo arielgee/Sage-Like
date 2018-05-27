@@ -14,17 +14,17 @@ let syndication = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function discoverWebSiteFeeds (txtHTML) {
-		
+
 		return new Promise((resolve) => {
 
 			let doc = domParser.parseFromString(txtHTML, "text/html");
 
-			let selector =	"link[type=\"application/rss+xml\"]," +  
+			let selector =	"link[type=\"application/rss+xml\"]," +
 							"link[type=\"application/rdf+xml\"]," +
 							"link[type=\"application/atom+xml\"]";
 
 			let feeds = doc.querySelectorAll(selector);
-			
+
 			if(feeds.length === 0) {
 				resolve({});		// if nothing found return empty list object
 			} else {
@@ -33,13 +33,13 @@ let syndication = (function () {
 				let feedData;
 				let discoveredFeedsList = {};
 				let objFeed;
-				
+
 				// for each feed found create a list item and create a promise that will return the feed's XML text
 				feeds.forEach((feedUrl) => {
-					discoveredFeedsList[feedUrl.href] = { title: feedUrl.title, url: feedUrl.href };
+					discoveredFeedsList[feedUrl.href] = { status: "init", title: feedUrl.title, url: feedUrl.href };
 					allPromises.push(getFeedXMLText(feedUrl.href));
 				});
-				
+
 				// for all promises created above get feed data and update the list item
 				// Promise.all is fail-fast; first rejected promise will reject all immediately so convert catch error to simple regular (success) value.
 				Promise.all(allPromises.map(p => p.catch((e) => { return e; }))).then((feedXMLs) => {
@@ -51,20 +51,26 @@ let syndication = (function () {
 							feedData = getFeedData(feedXML.txtXML);
 
 							discoveredFeedsList[feedXML.url] = {
+								status: "OK",
 								title: discoveredFeedsList[feedXML.url].title,
 								url: discoveredFeedsList[feedXML.url].url,
 								lastUpdated: feedData.lastUpdated,
 								format: feedData.standard,
 								items: feedData.items,
 							};
+						} else {
+							discoveredFeedsList['error'] = {
+								status: "error",
+								message: feedXML,
+							};
 						}
 					});
 					resolve(discoveredFeedsList);
 				});
-			}	
+			}
 		});
 	}
-	
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function fetchFeedItems (feedUrl, reload) {
@@ -145,8 +151,6 @@ let syndication = (function () {
 
         return new Promise((resolve, reject) => {
 
-			console.log("[Sage-Like]", "88888888", feedUrl);
-
 			fetch(feedUrl, init).then((response) => {
 
 				if (response.ok) {
@@ -157,7 +161,10 @@ let syndication = (function () {
 							console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
 							resolve( { url: feedUrl, txtXML: txtXML } );
 						});
-                    });
+                    }).catch((error) => {
+						reject("Fail to get response stream (blob) from '" + feedUrl + "', " + error.message);
+					});
+
 				} else {
                     reject("Fail to retrieve feed XML from '" + response.url + "', " + response.status + " " + response.statusText + ".");
 				}
@@ -237,23 +244,23 @@ let syndication = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function getFeedLastUpdate (doc, selectorPrefix) {
-		
+
 		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate"];
 
 		let lastUpdate;
 
-		for (let selector of selectorSuffixes) {		
+		for (let selector of selectorSuffixes) {
 
 			lastUpdate = doc.querySelector(selectorPrefix + selector);
 
 			if(lastUpdate) {
 				let txtVal = lastUpdate.textContent.replace(/\ Z$/, "");
-				let dateVal = (new Date(txtVal));				
+				let dateVal = (new Date(txtVal));
 				return (isNaN(dateVal) ? txtVal : dateVal);
 			}
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function sortFeederByDate (feeder) {
@@ -283,11 +290,11 @@ let syndication = (function () {
 		throw "Function is not for use: Documentation only.";
 		/*
 			This test function is for fatching an XML file with none utf-8 encoding(Windows-1255): https://www.ynet.co.il/Integration/StoryRss1854.xml
-			
+
 			I descovered that the fetch/response.text() approach (method 2) only works when the encoding is utf-8 (XML prolog). When
 			the encoding is different (Windows-1255 in the test case) i get junk (question marks).
-			
-			The third approach (method 3) is also not resolving the issue.		
+
+			The third approach (method 3) is also not resolving the issue.
 		*/
 
 		let init = {
@@ -407,11 +414,11 @@ let syndication = (function () {
 			});
         });
     }
-	
+
     //////////////////////////////////////////
     return {
         discoverWebSiteFeeds: discoverWebSiteFeeds,
         fetchFeedItems: fetchFeedItems,
 	};
-	
+
 })();

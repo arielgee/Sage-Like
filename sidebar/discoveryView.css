@@ -59,6 +59,12 @@
     /*padding: 2px 3px;
     border: 1px dotted transparent;*/
 }
+
+#discoverFeedsList .dfItem.novalidfeeds {
+    color: gray;
+    font-style: italic;
+}
+
 /*
 #discoverFeedsList .dfItem:hover {
     border: 1px dotted gray;
