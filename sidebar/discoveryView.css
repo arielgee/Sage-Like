@@ -22,13 +22,14 @@
 #discoverPanel > #captionContainer {
     display: flex;
     justify-content: left;
+    --item-spacer: 5px;
 }
 
 #discoverPanel .captionImage {
     background: transparent url("../icons/rss.png") no-repeat left center;
     width: 16px;
     height: 16px;
-    margin: auto 5px auto 0;
+    margin: auto var(--item-spacer) auto 0;
 }
 
 #discoverPanel.loading .captionImage {
@@ -37,20 +38,22 @@
 
 #discoverPanel .caption {
     margin: 4px 0 4px 0;
+    margin: auto var(--item-spacer) auto 0;
 }
 
 #discoverPanel .captionDomainName {
     font-family: Tahoma, Sans !important;
     font-weight: normal;
     font-size: 10px !important;
-    margin: auto auto auto 3px;
+    margin: auto auto auto 0;
+    padding-top: 4px;
 }
 
 #discoverPanel #btnRediscover {
     background: transparent url("../icons/reload.png") no-repeat left center;
     width: 16px;
     height: 16px;
-    margin: auto 0 auto 3px;
+    margin: auto 0 auto var(--item-spacer);
 }
 
 #discoverPanel #btnRediscover:hover {

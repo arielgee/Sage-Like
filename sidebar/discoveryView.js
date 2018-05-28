@@ -177,7 +177,7 @@ let discoverView = (function () {
         let newFeedsList = [];
 
         for (let item of elmDiscoverFeedsList.children) {
-            if(item.firstChild.checked) {
+            if(item.firstElementChild.checked) {
                 newFeedsList.push( { title: item.textContent, link: item.getAttribute("href") } );
             }
         }
@@ -218,7 +218,7 @@ let discoverView = (function () {
         let newFeedsList = collectSelectedFeeds();
 
         if(newFeedsList.length > 0) {
-            //rssTreeView.addNewFeeds(newFeedsList);
+            rssTreeView.addNewFeeds(newFeedsList);
             close();
         }
     }

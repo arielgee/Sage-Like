@@ -55,8 +55,8 @@ let rssTreeView = (function () {
 		emptyTree();
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
-			
-			if(folderId === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+
+			if (folderId === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				elmTreeRoot.appendChild(createErrorTagLI("The feeds folder is not set in the Options page."));
 				browser.runtime.openOptionsPage();
 				return;
@@ -64,16 +64,16 @@ let rssTreeView = (function () {
 
 			browser.bookmarks.getSubTree(folderId).then((bookmarkItems) => {
 				if (bookmarkItems[0].children) {
-					for(let child of bookmarkItems[0].children) {
+					for (let child of bookmarkItems[0].children) {
 						createRSSTreeItem(elmTreeRoot, child);
 					}
 				}
 
 				// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
-				if(slUtil.hasHScroll(elmTreeRoot)) {
+				if (slUtil.hasHScroll(elmTreeRoot)) {
 					elmTreeRoot.style.height = (elmTreeRoot.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
-				} 
-				
+				}
+
 			}).catch((error) => {
 				elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
 				browser.runtime.openOptionsPage();
@@ -87,18 +87,18 @@ let rssTreeView = (function () {
 
 		let elmLI;
 
-		if (bookmark.url === undefined) {		// it's a folder
+		if (bookmark.url === undefined) { // it's a folder
 
 			elmLI = createTagLI(bookmark.id, bookmark.title, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 
 			let elmUL = createTagUL(false);
 			elmLI.appendChild(elmUL);
 
-			for(let child of bookmark.children) {
+			for (let child of bookmark.children) {
 				createRSSTreeItem(elmUL, child);
 			}
 
-		} else {			// it's a bookmark
+		} else { // it's a bookmark
 
 			elmLI = createTagLI(bookmark.id, bookmark.title === "" ? bookmark.url : bookmark.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmark.url);
 		}
@@ -124,7 +124,7 @@ let rssTreeView = (function () {
 
 		elm.id = id;
 		elm.className = className;
-		if(href !== null) {
+		if (href !== null) {
 			elm.setAttribute("href", href);
 		}
 		elm.appendChild(elmCaption);
@@ -152,11 +152,11 @@ let rssTreeView = (function () {
 		// when a subtree is open the height of the LI is as the Height of the entier subtree.
 		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
 		// the subtree. This make sure that only clicks on the top of the elements are processed.
-		if((event.clientY - elmItem.getBoundingClientRect().top) > lineHeight) {
+		if ((event.clientY - elmItem.getBoundingClientRect().top) > lineHeight) {
 			return;
 		}
 
-		if(isFolder) {
+		if (isFolder) {
 
 			let elmUL = elmItem.getElementsByTagName("ul")[0];
 
@@ -172,7 +172,7 @@ let rssTreeView = (function () {
 		} else {
 
 			rssListView.disposeList();
-			
+
 			let urlFeed = elmItem.getAttribute("href");
 
 			setFeedLoadingState(elmItem, true);
@@ -182,9 +182,11 @@ let rssTreeView = (function () {
 			}).catch((error) => {
 				rssListView.setListErrorMsg(error);
 				setFeedLoadingState(elmItem, false);
-			})/*.finally(() => {	// wait for Fx v58
-				setFeedLoadingState(elmItem, false);
-			})*/;
+			})
+			/*.finally(() => {	// wait for Fx v58
+							setFeedLoadingState(elmItem, false);
+						})*/
+			;
 
 		}
 		setFeedSelectionState(elmItem);
@@ -194,9 +196,9 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onClickReloadTree (event) {
+	function onClickReloadTree(event) {
 		rssListView.disposeList();
-		createRSSTree();		
+		createRSSTree();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -238,7 +240,7 @@ let rssTreeView = (function () {
 	//
 	let setFeedSelectionState = function (elm) {
 
-		if(elmCurrentlySelected !== null) {
+		if (elmCurrentlySelected !== null) {
 			slUtil.removeClassName(elmCurrentlySelected, "selected");
 		}
 
@@ -260,13 +262,54 @@ let rssTreeView = (function () {
 
 		let elems = elmTreeRoot.getElementsByTagName("li");
 
-		for(let el of elems) {
+		for (let el of elems) {
 			el.removeEventListener("click", onClickRssTreeItem);
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function addNewFeeds(newFeedsList) {
+
+		let last = elmTreeRoot.lastElementChild;
+		if (last === null || last.id === undefined || last.id === "") {
+			return;
+		}
+
+		browser.bookmarks.get(last.id).then((foundNodes) => {
+
+			let pacer = 0;
+			let index = foundNodes[0].index;
+		
+			for(let feed of newFeedsList) {
+				
+				// must be re-created in the loop so each async bookmarks.create() function will
+				// get its own instance.
+				let bookmark = {
+					index: ++index,
+					parentId: foundNodes[0].parentId,
+					title: feed.title,
+					url: feed.link,
+				};
+				
+				// The creating of new bookmarks must be paced or all will be inserted in the same index and will
+				// appear in reverse order.
+				setTimeout(() => {
+					browser.bookmarks.create(bookmark).then((createdNode) => {
+						console.log("[sage-like-createdNode]", createdNode);
+	
+						let elmLI = createTagLI(createdNode.id, createdNode.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, createdNode.url);
+						elmTreeRoot.appendChild(elmLI);
+					});							
+				}, 20*(pacer++));
+
+			}
+		});
+	}
+
 	return {
 		setFeedSelectionState: setFeedSelectionState,
+		addNewFeeds: addNewFeeds,
 	};
 
 })();
