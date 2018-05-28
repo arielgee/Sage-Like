@@ -235,8 +235,8 @@
 			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
 
 			if(menuAction !== ContextAction.listCopyUrl) {
-				lzUtil.concatClassName(targetItem, "visited");
-				lzUtil.addUrlToBrowserHistory(urlFeed, targetItem.textContent);
+				slUtil.concatClassName(targetItem, "visited");
+				slUtil.addUrlToBrowserHistory(urlFeed, targetItem.textContent);
 			}
 		}
 		elmContextMenu.style.display = "none";
@@ -268,7 +268,7 @@
 
 			case ContextAction.treeCopyUrl:
 			case ContextAction.listCopyUrl:
-				lzUtil.copyTextToClipboard(document, actionData.url);
+				slUtil.copyTextToClipboard(document, actionData.url);
 				break;
 				///////////////////////////////////////////
 		}

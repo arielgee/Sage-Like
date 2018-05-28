@@ -70,8 +70,8 @@ let rssTreeView = (function () {
 				}
 
 				// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
-				if(lzUtil.hasHScroll(elmTreeRoot)) {
-					elmTreeRoot.style.height = (elmTreeRoot.clientHeight - lzUtil.getScrollbarWidth(document)) + "px";
+				if(slUtil.hasHScroll(elmTreeRoot)) {
+					elmTreeRoot.style.height = (elmTreeRoot.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
 				} 
 				
 			}).catch((error) => {
@@ -137,7 +137,7 @@ let rssTreeView = (function () {
 	//
 	function createErrorTagLI(textContent) {
 		let elm = document.createElement("li");
-		lzUtil.concatClassName(elm, "errormsg");
+		slUtil.concatClassName(elm, "errormsg");
 		elm.textContent = textContent;
 		return elm;
 	}
@@ -147,7 +147,7 @@ let rssTreeView = (function () {
 	function onClickRssTreeItem(event) {
 
 		let elmItem = this;
-		let isFolder = lzUtil.includedInClassName(elmItem, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
+		let isFolder = slUtil.includedInClassName(elmItem, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 
 		// when a subtree is open the height of the LI is as the Height of the entier subtree.
 		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
@@ -224,12 +224,12 @@ let rssTreeView = (function () {
 		if (isLoading === true) {
 
 			if (elmCurrentlyLoading !== null) {
-				lzUtil.removeClassName(elmCurrentlyLoading, "loading");
+				slUtil.removeClassName(elmCurrentlyLoading, "loading");
 			}
-			lzUtil.concatClassName(elm, "loading");
+			slUtil.concatClassName(elm, "loading");
 			elmCurrentlyLoading = elm;
 		} else {
-			lzUtil.removeClassName(elm, "loading");
+			slUtil.removeClassName(elm, "loading");
 			elmCurrentlyLoading = null;
 		}
 	}
@@ -239,11 +239,11 @@ let rssTreeView = (function () {
 	let setFeedSelectionState = function (elm) {
 
 		if(elmCurrentlySelected !== null) {
-			lzUtil.removeClassName(elmCurrentlySelected, "selected");
+			slUtil.removeClassName(elmCurrentlySelected, "selected");
 		}
 
 		elmCurrentlySelected = elm;
-		lzUtil.concatClassName(elm, "selected");
+		slUtil.concatClassName(elm, "selected");
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////

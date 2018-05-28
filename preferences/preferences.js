@@ -63,9 +63,9 @@ let preferences = (function () {
         let selected = elmRootFeedsFolder.options[elmRootFeedsFolder.selectedIndex];
 
         if(selected === undefined || selected.value === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-            lzUtil.concatClassName(elmRootFeedsFolder, "flash");
+            slUtil.concatClassName(elmRootFeedsFolder, "flash");
         } else {
-            lzUtil.removeClassName(elmRootFeedsFolder, "flash");
+            slUtil.removeClassName(elmRootFeedsFolder, "flash");
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////

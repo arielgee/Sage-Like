@@ -61,7 +61,7 @@ html, body {
 }
 
 .toolbar .button:active {
-  margin: 1px 3px -1px 1px;
+  transform: rotate(45deg);
 }
 
 .spacer {
@@ -87,3 +87,9 @@ html, body {
   background: transparent url("../icons/preferences.png") no-repeat left center;
   float: right;
 }
+
+.disabled {
+  pointer-events: none;  
+  filter: blur(1.5px);
+  
+} 

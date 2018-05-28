@@ -86,7 +86,7 @@ let prefs = (function () {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///
-let lzUtil = (function () {
+let slUtil = (function () {
 
 	let local_savedScrollbarWidth = -1;
 
@@ -179,9 +179,9 @@ let lzUtil = (function () {
 		}
 
 		if (value === true) {
-			lzUtil.concatClassName(elm, "disabled");
+			slUtil.concatClassName(elm, "disabled");
 		} else {
-			lzUtil.removeClassName(elm, "disabled");
+			slUtil.removeClassName(elm, "disabled");
 		}
 	};
 

@@ -4,10 +4,12 @@ let discoverView = (function () {
 
     const MSGID_GET_DOC_TEXT_HTML = "msgGetDocumentTextHTML";
 
-
+    let elmMainPanel = null;
     let elmDiscoverPanel = null;
+    let elmLabelDomainName;
     let elmDiscoverFeedsList;
 
+    let elmButtonRediscover;
     let elmButtonAdd;
     let elmButtonCancel;
 
@@ -15,7 +17,7 @@ let discoverView = (function () {
     /**************************************************/
     browser.runtime.onMessage.addListener((message) => {
         if(message.id === MSGID_GET_DOC_TEXT_HTML) {
-            loadDiscoverFeedsList(message.txtHTML);
+            loadDiscoverFeedsList(message.txtHTML, message.domainName);            
         }
     });
 
@@ -23,42 +25,32 @@ let discoverView = (function () {
     //
     let open = function () {
 
+        elmMainPanel = document.getElementById("mainPanel");
         elmDiscoverPanel = document.getElementById("discoverPanel");
+        elmLabelDomainName = document.getElementById("lblDomainName");
         elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
+        elmButtonRediscover = document.getElementById("btnRediscover");
         elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
         elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 
-		elmDiscoverPanel.addEventListener("blur", onBlurDiscoverPanel);
         elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
+        elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
         elmButtonAdd.addEventListener("click", onClickButtonAdd);
         elmButtonCancel.addEventListener("click", onClickButtonCancel);
 
-
-        emptyDescoverFeedsList();
-
-        let code = "browser.runtime.sendMessage( { id: \"" + MSGID_GET_DOC_TEXT_HTML + "\"," +
-                                                  "txtHTML: document.documentElement.outerHTML } );";
-
-		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
-
-			browser.tabs.executeScript(tab.id, { code: code, runAt: "document_start" }).then((results) => {
-                elmDiscoverPanel.style.display = "block";
-                elmDiscoverPanel.focus();
-            }).catch((error) => {
-                console.log("[Sage-Like]", error);
-            });
-        });
+        runDiscoverFeeds();
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
     let close = function () {
 
+        slUtil.disableElementTree(elmMainPanel, false);
         elmDiscoverPanel.style.display = "none";
         emptyDescoverFeedsList();
 
-        elmDiscoverPanel.removeEventListener("blur", onBlurDiscoverPanel);
         elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
+        elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
         elmButtonAdd.removeEventListener("click", onClickButtonAdd);
         elmButtonCancel.removeEventListener("click", onClickButtonCancel);
     };
@@ -71,9 +63,33 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let loadDiscoverFeedsList = function (txtHTML) {
+    let runDiscoverFeeds = function () {
+
+        emptyDescoverFeedsList();
+
+        let code = "browser.runtime.sendMessage( { id: \"" + MSGID_GET_DOC_TEXT_HTML + "\"," +
+                                                  "txtHTML: document.documentElement.outerHTML," +
+                                                  "domainName: document.domain, } );";
+
+		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
+
+			browser.tabs.executeScript(tab.id, { code: code, runAt: "document_start" }).then((results) => {
+                slUtil.disableElementTree(elmMainPanel, true);
+                elmDiscoverPanel.style.display = "block";
+                elmDiscoverPanel.focus();
+            }).catch((error) => {
+                setNoFeedsMsg("Unable to access current tab.");
+                console.log("[Sage-Like]", error);
+            });
+        });
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    let loadDiscoverFeedsList = function (txtHTML, domainName) {
 
         setDiscoverLoadingState(true);
+        elmLabelDomainName.textContent = domainName;
         syndication.discoverWebSiteFeeds(txtHTML).then((discoveredFeedsList) => {
 
             emptyDescoverFeedsList();
@@ -90,7 +106,7 @@ let discoverView = (function () {
                 }
             }
             if(elmDiscoverFeedsList.children.length === 0) {
-                setNoValidFeedsFoundMsg();
+                setNoFeedsMsg("No valid feeds were discovered.");
             }
             setDiscoverLoadingState(false);
         });
@@ -123,10 +139,10 @@ let discoverView = (function () {
 
         elmListItem.className = "dfItem";
         elmListItem.setAttribute("href", url);
-        elmListItem.title += format      ? "Format:\u0009\u0009" + format + "\u000d" : "";
-        elmListItem.title += lastUpdated ? "Updated:\u0009\u0009" + (lastUpdated.toLocaleString() || lastUpdated) + "\u000d" : "";
-        elmListItem.title += items       ? "Items:\u0009\u0009" + items + "\u000d" : "";
-        elmListItem.title += "URL:  \u0009\u0009" + url;
+        elmListItem.title += format      ? "Format:\u0009" + format + "\u000d" : "";
+        elmListItem.title += lastUpdated ? "Update:\u0009" + (lastUpdated.toLocaleString() || lastUpdated) + "\u000d" : "";
+        elmListItem.title += items       ? "Items:\u0009" + items + "\u000d" : "";
+        elmListItem.title += "URL:   \u0009" + url;
 
         elmListItem.appendChild(elmCheckBox);
         elmListItem.appendChild(elmLabel);
@@ -136,23 +152,38 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let setNoValidFeedsFoundMsg = function () {
+    let setNoFeedsMsg = function (text) {
         let elm = document.createElement("li");
         elm.className = "dfItem novalidfeeds";
-        elm.textContent = "No valid feeds were discovered.";
+        elm.textContent = text;
         elmDiscoverFeedsList.appendChild(elm);
     };
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function setDiscoverLoadingState(isLoading) {
+	let setDiscoverLoadingState = function (isLoading) {
 
 		if (isLoading === true) {
-			lzUtil.concatClassName(elmDiscoverPanel, "loading");
+			slUtil.concatClassName(elmDiscoverPanel, "loading");
 		} else {
-			lzUtil.removeClassName(elmDiscoverPanel, "loading");
+			slUtil.removeClassName(elmDiscoverPanel, "loading");
 		}
-	}
+    };
+    
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    let collectSelectedFeeds = function () {
+        
+        let newFeedsList = [];
+
+        for (let item of elmDiscoverFeedsList.children) {
+            if(item.firstChild.checked) {
+                newFeedsList.push( { title: item.textContent, link: item.getAttribute("href") } );
+            }
+        }
+        return newFeedsList;
+    };
+    
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -162,33 +193,34 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function onBlurDiscoverPanel (event) {
-
-        console.log("[sage-like-blur]", event);
-        if((event.relatedTarget === null || !(elmDiscoverPanel.contains(event.relatedTarget))) /*&& event.explicitOriginalTarget !== elmDiscoverPanel*/) {
-            close();
-        } else {
-            setTimeout(() => { elmDiscoverPanel.focus(); }, 100);
-            setTimeout(() => { elmDiscoverPanel.focus(); }, 200);
-            setTimeout(() => { elmDiscoverPanel.focus(); }, 300);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
     function onKeyDownDiscoverPanel (event) {
 		switch (event.key.toLowerCase()) {
 			case "escape":
 				close()
-				break;
+                break;
+                //////////////////////////////
+            default:
+                break;
+                //////////////////////////////
 		}
-        close();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    function onClickButtonRediscover (event) {
+        runDiscoverFeeds();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function onClickButtonAdd (event) {
-        close();
+
+        let newFeedsList = collectSelectedFeeds();
+
+        if(newFeedsList.length > 0) {
+            //rssTreeView.addNewFeeds(newFeedsList);
+            close();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

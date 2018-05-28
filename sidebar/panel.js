@@ -64,7 +64,7 @@
 
 		splitterTop = splitterTop || elmSplitter.offsetTop;
 
-		let reduseH, sbWidth = lzUtil.getScrollbarWidth(document);
+		let reduseH, sbWidth = slUtil.getScrollbarWidth(document);
 		let splitterMargin = elmSplitter.offsetHeight + 1;
 
 		if (splitterTop > splitterMargin && (elmBody.offsetHeight - splitterTop) > splitterMargin) {
@@ -74,10 +74,10 @@
 			elmBottom.style.height = (elmBody.offsetHeight - (elmSplitter.offsetTop + elmSplitter.offsetHeight)) + "px";
 
 			// HScroll causes an un-nessesery VScroll, so if has HScroll reduse height to accommodate
-			reduseH = lzUtil.hasHScroll(elmTree) ? sbWidth : 0;
+			reduseH = slUtil.hasHScroll(elmTree) ? sbWidth : 0;
 			elmTree.style.height = (elmTop.offsetHeight - reduseH) + "px";
 
-			reduseH = lzUtil.hasHScroll(elmList) ? sbWidth : 0;
+			reduseH = slUtil.hasHScroll(elmList) ? sbWidth : 0;
 			elmList.style.height = (elmBottom.offsetHeight - reduseH) + "px";
 		}
 	}

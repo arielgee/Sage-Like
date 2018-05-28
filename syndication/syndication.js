@@ -52,7 +52,7 @@ let syndication = (function () {
 
 							discoveredFeedsList[feedXML.url] = {
 								status: "OK",
-								title: discoveredFeedsList[feedXML.url].title,
+								title: (feedData.title.length >0 ? feedData.title : discoveredFeedsList[feedXML.url].title),
 								url: discoveredFeedsList[feedXML.url].url,
 								lastUpdated: feedData.lastUpdated,
 								format: feedData.standard,
@@ -182,6 +182,7 @@ let syndication = (function () {
 			standard: SyndicationStandard.invalid,
 			xmlEncoding: "",
 			feeder: {},
+			title: "",
 			lastUpdated: "",
 			items: "",
 		};
@@ -206,16 +207,19 @@ let syndication = (function () {
 		if(doc.documentElement.localName === "rss") {							// First lets try 'RSS'
 			feedData.standard = SyndicationStandard.RSS;							// https://validator.w3.org/feed/docs/rss2.html
 			feedData.feeder = doc.querySelector("rss");
+			feedData.title = getFeedTitle(doc, "rss > channel");
 			feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel");
 			feedData.items = feedData.feeder.querySelectorAll("item").length;
 		} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
 			feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Example: http://feeds.nature.com/nature/rss/current
 			feedData.feeder = doc.querySelector("RDF");
+			feedData.title = getFeedTitle(doc, "RDF > channel");
 			feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel");
 			feedData.items = feedData.feeder.querySelectorAll("item").length;
 		} else if(doc.documentElement.localName === "feed") {					// FInally let's try 'Atom'
 			feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
 			feedData.feeder = doc.querySelector("feed");
+			feedData.title = getFeedTitle(doc, "feed");
 			feedData.lastUpdated = getFeedLastUpdate(doc, "feed");
 			feedData.items = feedData.feeder.querySelectorAll("entry").length;
 		}
@@ -243,9 +247,23 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
+	function getFeedTitle (doc, selectorPrefix) {
+
+		const selectorSuffixes = [ " > title" ];
+
+		let title;
+		
+		for (let selector of selectorSuffixes) {
+			title = doc.querySelector(selectorPrefix + selector);
+			return (title ? title.textContent : "");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
 	function getFeedLastUpdate (doc, selectorPrefix) {
 
-		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate"];
+		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
 
 		let lastUpdate;
 

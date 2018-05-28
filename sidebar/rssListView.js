@@ -36,8 +36,8 @@ let rssListView = (function () {
 		}
 
 		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
-		if(lzUtil.hasHScroll(elmList)) {
-			elmList.style.height = (elmList.clientHeight - lzUtil.getScrollbarWidth(document)) + "px";
+		if(slUtil.hasHScroll(elmList)) {
+			elmList.style.height = (elmList.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
 		} 
 	};
 
@@ -47,7 +47,7 @@ let rssListView = (function () {
 
 		let elm = document.createElement("li");
 
-		lzUtil.concatClassName(elm, sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM);
+		slUtil.concatClassName(elm, sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM);
 		setItemVisitedStatus(elm, link);
 
 		elm.textContent = title;
@@ -91,7 +91,7 @@ let rssListView = (function () {
 		if(handled) {
 
 			setFeedItemSelectionState(elm);
-			lzUtil.concatClassName(elm, "visited");
+			slUtil.concatClassName(elm, "visited");
 			addFeedItemUrlToHistory(feedItemUrl, elm.textContent);
 
 			event.stopPropagation();
@@ -119,7 +119,7 @@ let rssListView = (function () {
 	// https://wiki.mozilla.org/Browser_History:Redirects
 	let addFeedItemUrlToHistory = function (url, title) {
 		
-		lzUtil.addUrlToBrowserHistory(url, title);
+		slUtil.addUrlToBrowserHistory(url, title);
 	};
 	
 	////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +128,7 @@ let rssListView = (function () {
 
 		browser.history.getVisits({ url: link }).then((vItems) => {
 			if (vItems.length > 0) {
-				lzUtil.concatClassName(elm, "visited");
+				slUtil.concatClassName(elm, "visited");
 			}
 		});
 
@@ -143,7 +143,7 @@ let rssListView = (function () {
 		// url's in history are decoded and encodeURI in the rss's XML.
 		browser.history.search(query).then((hItems) => {
 			if (hItems.length > 0) {
-				lzUtil.concatClassName(elm, "visited");
+				slUtil.concatClassName(elm, "visited");
 			}
 		});
 		*/
@@ -155,18 +155,18 @@ let rssListView = (function () {
 	let setFeedItemSelectionState = function (elm) {
 		
 		if(elmCurrentlySelected !== null) {
-			lzUtil.removeClassName(elmCurrentlySelected, "selected");
+			slUtil.removeClassName(elmCurrentlySelected, "selected");
 		}
 
 		elmCurrentlySelected = elm;
-		lzUtil.concatClassName(elm, "selected");
+		slUtil.concatClassName(elm, "selected");
 	};
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	let setListErrorMsg = function (textContent) {
 		let elm = document.createElement("li");
-		lzUtil.concatClassName(elm, "errormsg");
+		slUtil.concatClassName(elm, "errormsg");
 		elm.textContent = textContent;
 
 		disposeList();
