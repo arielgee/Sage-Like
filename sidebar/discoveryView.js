@@ -135,7 +135,7 @@ let discoverView = (function () {
 
         elmLabel.className = "dfLabel";
         elmLabel.htmlFor = elmCheckBox.id;
-        elmLabel.textContent = text;
+        //elmLabel.textContent = text;
 
         elmListItem.className = "dfItem";
         elmListItem.setAttribute("href", url);
@@ -143,6 +143,16 @@ let discoverView = (function () {
         elmListItem.title += lastUpdated ? "Update:\u0009" + (lastUpdated.toLocaleString() || lastUpdated) + "\u000d" : "";
         elmListItem.title += items       ? "Items:\u0009" + items + "\u000d" : "";
         elmListItem.title += "URL:   \u0009" + url;
+
+
+        let div1 = document.createElement("div");
+        let div2 = document.createElement("div");
+
+        div1.textContent = text;
+        div2.textContent = format;
+
+        elmLabel.appendChild(div1);
+        elmLabel.appendChild(div2);
 
         elmListItem.appendChild(elmCheckBox);
         elmListItem.appendChild(elmLabel);

@@ -211,7 +211,7 @@ let syndication = (function () {
 			feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel");
 			feedData.items = feedData.feeder.querySelectorAll("item").length;
 		} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
-			feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Example: http://feeds.nature.com/nature/rss/current
+			feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Examples: http://feeds.nature.com/nature/rss/current, https://f1-gate.com/
 			feedData.feeder = doc.querySelector("RDF");
 			feedData.title = getFeedTitle(doc, "RDF > channel");
 			feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel");
