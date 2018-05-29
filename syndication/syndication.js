@@ -287,16 +287,19 @@ let syndication = (function () {
 
 		let ary = Array.prototype.slice.call(feeder, 0);
 
-		for (let selector of selectores) {
-			if(ary[0].querySelector(selector) !== null) {
+		if(ary[0] !== undefined) {
 
-				ary.sort((a, b) => {
-					let d1 = Date.parse(a.querySelector(selector).textContent);
-					let d2 = Date.parse(b.querySelector(selector).textContent);
-					return d2 - d1;
-				});
+			for (let selector of selectores) {
+				if(ary[0].querySelector(selector) !== null) {
 
-				break;
+					ary.sort((a, b) => {
+						let d1 = Date.parse(a.querySelector(selector).textContent);
+						let d2 = Date.parse(b.querySelector(selector).textContent);
+						return d2 - d1;
+					});
+
+					break;
+				}
 			}
 		}
 		return ary;

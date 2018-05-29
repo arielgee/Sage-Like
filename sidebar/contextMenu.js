@@ -7,10 +7,11 @@
 		treeOpenNewTab: 2,
 		treeOpenNewWin: 3,
 		treeCopyUrl: 4,
-		listOpen: 5,
-		listOpenNewTab: 6,
-		listOpenNewWin: 7,
-		listCopyUrl: 8,		
+		treeDeleteFeed: 5,
+		listOpen: 6,
+		listOpenNewTab: 7,
+		listOpenNewWin: 8,
+		listCopyUrl: 9,		
 	});
 
 	let elmSidebarBody;
@@ -20,6 +21,7 @@
 	let elmMnuTreeOpenFeedNewTab;
 	let elmMnuTreeOpenFeedNewWin;
 	let elmMnuTreeCopyFeedUrl;
+	let elmMnuTreeDeleteFeed;
 
 	let elmMnuListOpenFeedItem;
 	let elmMnuListOpenFeedItemNewTab;
@@ -40,6 +42,7 @@
 		elmMnuTreeOpenFeedNewTab = document.getElementById("mnuTreeOpenFeedNewTab")
 		elmMnuTreeOpenFeedNewWin = document.getElementById("mnuTreeOpenFeedNewWin")
 		elmMnuTreeCopyFeedUrl = document.getElementById("mnuTreeCopyFeedUrl");
+		elmMnuTreeDeleteFeed = document.getElementById("mnuTreeDeleteFeed");
 
 		elmMnuListOpenFeedItem = document.getElementById("mnuListOpenFeedItem");
 		elmMnuListOpenFeedItemNewTab = document.getElementById("mnuListOpenFeedItemNewTab");
@@ -55,6 +58,7 @@
 		elmMnuTreeOpenFeedNewTab.addEventListener("click", onClickMenuOpenFeedNewTab);
 		elmMnuTreeOpenFeedNewWin.addEventListener("click", onClickMenuOpenFeedNewWin);
 		elmMnuTreeCopyFeedUrl.addEventListener("click", onClickMenuCopyFeedUrl);
+		elmMnuTreeDeleteFeed.addEventListener("click", onClickMenuDeleteFeed);
 
 		elmMnuListOpenFeedItem.addEventListener("click", onClickMenuOpenFeedItem);
 		elmMnuListOpenFeedItemNewTab.addEventListener("click", onClickMenuOpenFeedItemNewTab);
@@ -75,7 +79,7 @@
 		elmMnuTreeOpenFeedNewTab.removeEventListener("click", onClickMenuOpenFeedNewTab);
 		elmMnuTreeOpenFeedNewWin.removeEventListener("click", onClickMenuOpenFeedNewWin);
 		elmMnuTreeCopyFeedUrl.removeEventListener("click", onClickMenuCopyFeedUrl);
-
+		elmMnuTreeDeleteFeed.removeEventListener("click", onClickMenuDeleteFeed);
 
 		elmMnuListOpenFeedItem.removeEventListener("click", onClickMenuOpenFeedItem);
 		elmMnuListOpenFeedItemNewTab.removeEventListener("click", onClickMenuOpenFeedItemNewTab);
@@ -185,12 +189,22 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
+	function onClickMenuDeleteFeed (event) {
+		handleTreeMenuActions(ContextAction.treeDeleteFeed);
+	}
+	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
 	function handleTreeMenuActions (menuAction) {
 
 		let targetItem = elmContextMenu.elmTargetItem;
 
 		if (targetItem !== undefined && targetItem !== null) {
-			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
+			handleMenuActions(menuAction, {
+				id:  targetItem.id,
+				url: targetItem.getAttribute("href"),
+			});
 		}
 		elmContextMenu.style.display = "none";
 	}
@@ -271,6 +285,11 @@
 				slUtil.copyTextToClipboard(document, actionData.url);
 				break;
 				///////////////////////////////////////////
+
+			case ContextAction.treeDeleteFeed:
+				deleteFeed(actionData);
+				break;
+				///////////////////////////////////////////	
 		}
 	}
 	
@@ -287,5 +306,13 @@
 			item.style.display = "none";
 		});
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function deleteFeed (actionData) {
+		browser.bookmarks.remove(actionData.id).then(() => {
+			elmContextMenu.elmTargetItem.parentElement.removeChild(elmContextMenu.elmTargetItem);
+		});		
+	}	
 	
 })();

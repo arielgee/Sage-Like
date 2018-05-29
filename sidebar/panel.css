@@ -39,20 +39,26 @@ html, body {
 }
 
 .toolbar {
+  --buttons-seacer: 8px;
   width: 100%;
   height: var(--toolbar-height);
   background-color: AppWorkspace;
   border-top: 2px gray groove;
   border-bottom: 2px gray groove;
-  padding: 5px;
+  padding: 5px var(--buttons-seacer);
+  display: flex;
+  justify-content: left;
 }
 
 .toolbar .button {
-  display: inline-block;
   width: 16px;
   height: 16px;
   background-color: ButtonFace;
-  margin-right: 4px;
+  margin: auto var(--buttons-seacer) auto 0;
+}
+
+.toolbar .button:last-child {
+  margin: auto 0;
 }
 
 .toolbar .button:hover {
@@ -64,10 +70,13 @@ html, body {
 }
 
 .spacer {
-  display: inline-block;
-  width: 8px;
+  width: var(--buttons-seacer);
   height: 16px;
   pointer-events: none;
+}
+
+.springSpacer {
+  margin: auto;
 }
 
 #reloadtree {
@@ -84,7 +93,6 @@ html, body {
 }
 #preferences {
   background: transparent url("../icons/preferences.png") no-repeat left center;
-  float: right;
 }
 
 .disabled {

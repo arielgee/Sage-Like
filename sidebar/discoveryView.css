@@ -42,11 +42,11 @@
 }
 
 #discoverPanel .captionDomainName {
+    line-height: 10px;
     font-family: Tahoma, Sans !important;
     font-weight: normal;
     font-size: 10px !important;
     margin: auto auto auto 0;
-    padding-top: 4px;
 }
 
 #discoverPanel #btnRediscover {

@@ -179,13 +179,12 @@ let rssTreeView = (function () {
 			syndication.fetchFeedItems(urlFeed, event.shiftKey).then((list) => {
 				rssListView.setFeedItems(list);
 				setFeedLoadingState(elmItem, false);
-			}).catch((error) => {
+			}).catch((error) => {				
 				rssListView.setListErrorMsg(error);
 				setFeedLoadingState(elmItem, false);
-			})
-			/*.finally(() => {	// wait for Fx v58
-							setFeedLoadingState(elmItem, false);
-						})*/
+			})/*.finally(() => {	// wait for Fx v58
+				setFeedLoadingState(elmItem, false);
+			})*/
 			;
 
 		}
@@ -277,34 +276,49 @@ let rssTreeView = (function () {
 		}
 
 		browser.bookmarks.get(last.id).then((foundNodes) => {
+			
+			let counter = 1;
+			let bookmarksList = [];
 
-			let pacer = 0;
-			let index = foundNodes[0].index;
-		
 			for(let feed of newFeedsList) {
-				
-				// must be re-created in the loop so each async bookmarks.create() function will
-				// get its own instance.
-				let bookmark = {
-					index: ++index,
+
+				bookmarksList.push( {
+					index: foundNodes[0].index + (counter++),
 					parentId: foundNodes[0].parentId,
 					title: feed.title,
-					url: feed.link,
-				};
-				
-				// The creating of new bookmarks must be paced or all will be inserted in the same index and will
-				// appear in reverse order.
-				setTimeout(() => {
-					browser.bookmarks.create(bookmark).then((createdNode) => {
-						console.log("[sage-like-createdNode]", createdNode);
-	
-						let elmLI = createTagLI(createdNode.id, createdNode.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, createdNode.url);
-						elmTreeRoot.appendChild(elmLI);
-					});							
-				}, 20*(pacer++));
-
+					url: feed.link,					
+				} );
 			}
+
+			createBookmarksDependently(bookmarksList, 0);
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function createBookmarksDependently (bookmarksList, index) {
+		
+		/*
+			Because bookmarks.create() is an asynchronous function the creation of multiple bookmarks
+			sequentially is performed to the same index (last index) and will appear in reverse order.
+
+			This recursive/asynchronous function makes sure the next create is performed after the preveuse
+			one has been completed. Better the pacing the creations using setTimeout(), yuck!
+		*/
+
+		// while index in pointing to an object in the array
+		if(bookmarksList.length > index) {
+
+			browser.bookmarks.create(bookmarksList[index]).then((createdNode) => {
+
+				console.log("[sage-like-createdNode]", createdNode);
+	
+				let elmLI = createTagLI(createdNode.id, createdNode.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, createdNode.url);
+				elmTreeRoot.appendChild(elmLI);
+	
+				createBookmarksDependently(bookmarksList, ++index);
+			});
+		}
 	}
 
 	return {
