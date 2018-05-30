@@ -6,12 +6,12 @@ let discoverView = (function () {
 
     let elmMainPanel = null;
     let elmDiscoverPanel = null;
-    let elmLabelDomainName;
     let elmDiscoverFeedsList;
 
     let elmButtonRediscover;
     let elmButtonAdd;
     let elmButtonCancel;
+    let elmLabelDomainName;
 
 
     /**************************************************/
@@ -27,11 +27,11 @@ let discoverView = (function () {
 
         elmMainPanel = document.getElementById("mainPanel");
         elmDiscoverPanel = document.getElementById("discoverPanel");
-        elmLabelDomainName = document.getElementById("lblDomainName");
         elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
         elmButtonRediscover = document.getElementById("btnRediscover");
         elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
         elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
+        elmLabelDomainName = document.getElementById("lblDomainName");
 
         elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
         elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
@@ -125,17 +125,24 @@ let discoverView = (function () {
     let createTagLI = function (index, text, url, lastUpdated, format, items) {
 
         let elmCheckBox = document.createElement("input");
+        let elmLabelCaption = document.createElement("div");
+        let elmLabelFormat = document.createElement("div");
         let elmLabel = document.createElement("label");
         let elmListItem = document.createElement("li");
 
-        // create unique id from timestamp
-        elmCheckBox.id = "chkBox" + index;
+        
+        elmCheckBox.id = "chkBox" + index.toString();
         elmCheckBox.className = "dfChkBox";
         elmCheckBox.type = "checkbox";
 
+        elmLabelCaption.textContent = text;
+        elmLabelCaption.className = "dfLabelCaption";
+
+        elmLabelFormat.textContent = format;
+        elmLabelFormat.className = "dfLabelFormat smallText";
+
         elmLabel.className = "dfLabel";
         elmLabel.htmlFor = elmCheckBox.id;
-        //elmLabel.textContent = text;
 
         elmListItem.className = "dfItem";
         elmListItem.setAttribute("href", url);
@@ -145,16 +152,9 @@ let discoverView = (function () {
         elmListItem.title += "URL:   \u0009" + url;
 
 
-        let div1 = document.createElement("div");
-        let div2 = document.createElement("div");
-
-        div1.textContent = text;
-        div2.textContent = format;
-
-        elmLabel.appendChild(div1);
-        elmLabel.appendChild(div2);
-
         elmListItem.appendChild(elmCheckBox);
+        elmLabel.appendChild(elmLabelCaption);
+        elmLabel.appendChild(elmLabelFormat);
         elmListItem.appendChild(elmLabel);
 
         return elmListItem;

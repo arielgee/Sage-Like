@@ -12,7 +12,7 @@
 .listview li {
   background: transparent url("../icons/rssItem.png") no-repeat left center;
   list-style-type: none;
-  padding-left: 22px;
+  padding-left: 20px;
   margin: 2px 0 2px 0;
   cursor: pointer;
 }

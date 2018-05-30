@@ -30,9 +30,11 @@ let rssListView = (function () {
 	//
 	let setFeedItems = function (list) {
 
+		let index = 1;
+
 		disposeList();
 		for(let item of list) {
-			appendTagIL(item.title, item.desc, item.link);
+			appendTagIL(index++, item.title, item.desc, item.link);
 		}
 
 		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
@@ -43,14 +45,14 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let appendTagIL = function (title, desc, link) {
+	let appendTagIL = function (index, title, desc, link) {
 
 		let elm = document.createElement("li");
 
 		slUtil.concatClassName(elm, sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM);
 		setItemVisitedStatus(elm, link);
 
-		elm.textContent = title;
+		elm.textContent = index.toString() + ". " + title;
 		//elm.setAttribute("title", desc);	// show my own box to show html tags
 		elm.setAttribute("href", link);
 
