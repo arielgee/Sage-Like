@@ -73,7 +73,12 @@ let discoverView = (function () {
 
 		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
 
-			browser.tabs.executeScript(tab.id, { code: code, runAt: "document_start" }).then((results) => {
+            if(tab[0].status === "loading") {
+                setNoFeedsMsg("Current tab is still loading.");                
+                return;
+            }
+
+			browser.tabs.executeScript(tab[0].id, { code: code, runAt: "document_start" }).then((results) => {
                 slUtil.disableElementTree(elmMainPanel, true);
                 elmDiscoverPanel.style.display = "block";
                 elmDiscoverPanel.focus();
@@ -145,6 +150,7 @@ let discoverView = (function () {
         elmLabel.htmlFor = elmCheckBox.id;
 
         elmListItem.className = "dfItem";
+        elmListItem.setAttribute("name", text);
         elmListItem.setAttribute("href", url);
         elmListItem.title += format      ? "Format:\u0009" + format + "\u000d" : "";
         elmListItem.title += lastUpdated ? "Update:\u0009" + (lastUpdated.toLocaleString() || lastUpdated) + "\u000d" : "";
@@ -174,9 +180,9 @@ let discoverView = (function () {
 	let setDiscoverLoadingState = function (isLoading) {
 
 		if (isLoading === true) {
-			slUtil.concatClassName(elmDiscoverPanel, "loading");
+            elmDiscoverPanel.classList.add("loading");
 		} else {
-			slUtil.removeClassName(elmDiscoverPanel, "loading");
+            elmDiscoverPanel.classList.remove("loading")
 		}
     };
     
@@ -188,7 +194,8 @@ let discoverView = (function () {
 
         for (let item of elmDiscoverFeedsList.children) {
             if(item.firstElementChild.checked) {
-                newFeedsList.push( { title: item.textContent, link: item.getAttribute("href") } );
+                console.log("[Sage-Like-item]", item);
+                newFeedsList.push( { title: item.getAttribute("name"), link: item.getAttribute("href") } );
             }
         }
         return newFeedsList;

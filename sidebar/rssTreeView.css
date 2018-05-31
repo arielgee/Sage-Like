@@ -56,3 +56,13 @@
   -moz-user-select: text;
   user-select: text;
 }
+
+
+.treeview li.dragged {
+  opacity: 0.4;
+}
+
+.treeview li.draggedOver {
+  border-top: 1px solid blue;
+}
+

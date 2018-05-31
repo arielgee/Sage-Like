@@ -117,45 +117,8 @@ let slUtil = (function () {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let concatClassName = function (elm, className) {
-
-		// check type of className. <SVG> elements are evil.
-		if (typeof elm.className === "string") {
-			if (!(RegExp("\\b" + className + "\\b").test(elm.className))) {
-				if (elm.className.length === 0) {
-					elm.className = className;
-				} else {
-					elm.className += " " + className;
-				}
-			}
-		} else {
-			elm.setAttribute("class", className);
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////
-	let replaceClassName = function (elm, className, newClassName) {
-		elm.className = elm.className.replace(RegExp("\\b" + className + "\\b"), newClassName);
-	};
-
-	//////////////////////////////////////////////////////////////////////
-	let removeClassName = function (elm, className) {
-		elm.className = elm.className.replace(RegExp("\\b\\s?" + className + "\\b", "g"), "");		// also remove leading space character
-	};
-
-	//////////////////////////////////////////////////////////////////////
 	let escapeRegExp = function (str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-	};
-
-	//////////////////////////////////////////////////////////////////////
-	let includedInClassName = function (elm, className) {
-
-		// check type of className. <SVG> elements are evil.
-		if (typeof elm.className === "string") {
-			return RegExp("\\b" + className + "\\b").test(elm.className);
-		}
-		return false;
 	};
 
 	//////////////////////////////////////////////////////////////////////
@@ -179,9 +142,9 @@ let slUtil = (function () {
 		}
 
 		if (value === true) {
-			slUtil.concatClassName(elm, "disabled");
+			elm.classList.add("disabled");
 		} else {
-			slUtil.removeClassName(elm, "disabled");
+			elm.classList.remove("disabled");
 		}
 	};
 
@@ -253,10 +216,6 @@ let slUtil = (function () {
 	// https://www.w3schools.com/jsref/prop_element_classlist.asp
 
 	return {
-		concatClassName: concatClassName,
-		replaceClassName: replaceClassName,
-		removeClassName: removeClassName,
-		includedInClassName: includedInClassName,
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,

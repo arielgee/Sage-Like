@@ -8,6 +8,7 @@
 		treeOpenNewWin: 3,
 		treeCopyUrl: 4,
 		treeDeleteFeed: 5,
+
 		listOpen: 6,
 		listOpenNewTab: 7,
 		listOpenNewWin: 8,
@@ -249,7 +250,7 @@
 			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
 
 			if(menuAction !== ContextAction.listCopyUrl) {
-				slUtil.concatClassName(targetItem, "visited");
+				targetItem.classList.add("visited");
 				slUtil.addUrlToBrowserHistory(urlFeed, targetItem.textContent);
 			}
 		}

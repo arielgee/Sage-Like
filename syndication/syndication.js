@@ -158,7 +158,7 @@ let syndication = (function () {
 					response.blob().then((blob) => {
 
 						getXMLTextFromBlob(blob).then((txtXML) => {
-							console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
+							//console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
 							resolve( { url: feedUrl, txtXML: txtXML } );
 						});
                     }).catch((error) => {

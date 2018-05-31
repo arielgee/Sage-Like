@@ -49,7 +49,7 @@ let rssListView = (function () {
 
 		let elm = document.createElement("li");
 
-		slUtil.concatClassName(elm, sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM);
+		elm.classList.add(sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)
 		setItemVisitedStatus(elm, link);
 
 		elm.textContent = index.toString() + ". " + title;
@@ -93,7 +93,7 @@ let rssListView = (function () {
 		if(handled) {
 
 			setFeedItemSelectionState(elm);
-			slUtil.concatClassName(elm, "visited");
+			elm.classList.add("visited");
 			addFeedItemUrlToHistory(feedItemUrl, elm.textContent);
 
 			event.stopPropagation();
@@ -130,7 +130,7 @@ let rssListView = (function () {
 
 		browser.history.getVisits({ url: link }).then((vItems) => {
 			if (vItems.length > 0) {
-				slUtil.concatClassName(elm, "visited");
+				elm.classList.add("visited");
 			}
 		});
 
@@ -145,7 +145,7 @@ let rssListView = (function () {
 		// url's in history are decoded and encodeURI in the rss's XML.
 		browser.history.search(query).then((hItems) => {
 			if (hItems.length > 0) {
-				slUtil.concatClassName(elm, "visited");
+				elm.classList.add("visited");
 			}
 		});
 		*/
@@ -157,18 +157,18 @@ let rssListView = (function () {
 	let setFeedItemSelectionState = function (elm) {
 		
 		if(elmCurrentlySelected !== null) {
-			slUtil.removeClassName(elmCurrentlySelected, "selected");
+			elmCurrentlySelected.classList.remove("selected");
 		}
 
 		elmCurrentlySelected = elm;
-		slUtil.concatClassName(elm, "selected");
+		elm.classList.add("selected");
 	};
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	let setListErrorMsg = function (textContent) {
 		let elm = document.createElement("li");
-		slUtil.concatClassName(elm, "errormsg");
+		elm.classList.add("errormsg");
 		elm.textContent = textContent;
 
 		disposeList();

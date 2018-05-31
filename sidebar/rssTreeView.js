@@ -10,6 +10,7 @@ let rssTreeView = (function () {
 
 	let elmCurrentlyLoading = null;
 	let elmCurrentlySelected = null;
+	let elmCurrentlyDragged = null;
 
 	let lineHeight = 15;
 
@@ -48,6 +49,10 @@ let rssTreeView = (function () {
 		window.removeEventListener("unload", onUnload);
 	}
 
+	//==================================================================================
+	//=== Tree Creation
+	//==================================================================================
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function createRSSTree() {
@@ -65,7 +70,7 @@ let rssTreeView = (function () {
 			browser.bookmarks.getSubTree(folderId).then((bookmarkItems) => {
 				if (bookmarkItems[0].children) {
 					for (let child of bookmarkItems[0].children) {
-						createRSSTreeItem(elmTreeRoot, child);
+						createTreeItem(elmTreeRoot, child);
 					}
 				}
 
@@ -83,7 +88,7 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function createRSSTreeItem(parentElement, bookmark) {
+	function createTreeItem(parentElement, bookmark) {
 
 		let elmLI;
 
@@ -95,12 +100,12 @@ let rssTreeView = (function () {
 			elmLI.appendChild(elmUL);
 
 			for (let child of bookmark.children) {
-				createRSSTreeItem(elmUL, child);
+				createTreeItem(elmUL, child);
 			}
 
 		} else { // it's a bookmark
 
-			elmLI = createTagLI(bookmark.id, bookmark.title === "" ? bookmark.url : bookmark.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmark.url);
+			elmLI = createTagLI(bookmark.id, bookmark.title === "" ? bookmark.url : bookmark.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmark.url, true);
 		}
 		parentElement.appendChild(elmLI);
 	}
@@ -114,7 +119,7 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function createTagLI(id, textContent, className, href = null) {
+	function createTagLI(id, textContent, className, href = null, draggable = false) {
 
 		let elmCaption = document.createElement("div");
 		let elm = document.createElement("li");
@@ -127,8 +132,11 @@ let rssTreeView = (function () {
 		if (href !== null) {
 			elm.setAttribute("href", href);
 		}
+		if(draggable === true) {
+			elm.setAttribute("draggable", "true");
+		}
 		elm.appendChild(elmCaption);
-		elm.addEventListener("click", onClickRssTreeItem);
+		addTreeItemEventListeners(elm);
 
 		return elm;
 	}
@@ -137,17 +145,45 @@ let rssTreeView = (function () {
 	//
 	function createErrorTagLI(textContent) {
 		let elm = document.createElement("li");
-		slUtil.concatClassName(elm, "errormsg");
+		elm.classList.add("errormsg");
 		elm.textContent = textContent;
 		return elm;
 	}
 
+	//==================================================================================
+	//=== Tree Item Event Listeners
+	//==================================================================================
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onClickRssTreeItem(event) {
+	function addTreeItemEventListeners (elm) {
+		elm.addEventListener("click", onClickTreeItem, false);
+		elm.addEventListener("dragstart", onDragStartTreeItem, false);
+		elm.addEventListener("dragenter", onDragEnterTreeItem, false)
+		elm.addEventListener("dragover", onDragOverTreeItem, false);
+		elm.addEventListener("dragleave", onDragLeaveTreeItem, false);
+		elm.addEventListener("dragend", onDragEndTreeItem, false);
+		elm.addEventListener("drop", onDropTreeItem, false);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function removeTreeItemEventListeners (elm) {
+		elm.removeEventListener("click", onClickTreeItem, false);
+		elm.removeEventListener("dragstart", onDragStartTreeItem, false);
+		elm.removeEventListener("dragenter", onDragEnterTreeItem, false)
+		elm.removeEventListener("dragover", onDragOverTreeItem, false);
+		elm.removeEventListener("dragleave", onDragLeaveTreeItem, false);
+		elm.removeEventListener("dragend", onDragEndTreeItem, false);
+		elm.removeEventListener("drop", onDropTreeItem, false);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onClickTreeItem(event) {
 
 		let elmItem = this;
-		let isFolder = slUtil.includedInClassName(elmItem, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
+		let isFolder = elmItem.classList.contains(sageLikeGlobalConsts.CLS_LI_SUB_TREE);
 
 		// when a subtree is open the height of the LI is as the Height of the entier subtree.
 		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
@@ -179,7 +215,7 @@ let rssTreeView = (function () {
 			syndication.fetchFeedItems(urlFeed, event.shiftKey).then((list) => {
 				rssListView.setFeedItems(list);
 				setFeedLoadingState(elmItem, false);
-			}).catch((error) => {				
+			}).catch((error) => {
 				rssListView.setListErrorMsg(error);
 				setFeedLoadingState(elmItem, false);
 			})/*.finally(() => {	// wait for Fx v58
@@ -192,6 +228,104 @@ let rssTreeView = (function () {
 
 		event.stopPropagation();
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onDragStartTreeItem (event) {
+
+		elmCurrentlyDragged = this;
+
+		event.dataTransfer.effectAllowed = "move";
+		event.dataTransfer.setData("text/html", elmCurrentlyDragged.outerHTML);
+
+		elmCurrentlyDragged.classList.add("dragged");
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onDragEnterTreeItem (event) {
+/*
+		let elmDropTarget = this;
+
+		if(elmDropTarget.classList.contains(sageLikeGlobalConsts.CLS_LI_SUB_TREE)) {
+			console.log("[Sage-Like]", "aaaaaaaaaaaaaaaaaa");
+			for(let ul of elmDropTarget.children) {
+				if(ul.getAttribute("rel") !== "open") {
+					elmDropTarget.parentElement.classList.add("open");
+					elmDropTarget.classList.remove("draggedOver");
+				}
+			}			
+		}*/
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onDragOverTreeItem (event) {
+
+		if(event.preventDefault) {
+			event.preventDefault();
+		}
+
+		let isFolder = this.classList.contains(sageLikeGlobalConsts.CLS_LI_SUB_TREE);
+		let isFolderOpen = isFolder ? (this.getElementsByTagName("ul")[0].getAttribute("rel") === "open") : false;
+
+		console.log("[Sage-Like]", isFolder, isFolderOpen);
+
+		
+		// do not mark a folder (subtree) as a drop target if its open
+		if( !isFolder || (isFolder && !isFolderOpen) ) {
+			this.classList.add("draggedOver");
+			event.dataTransfer.dropEffect = "move";
+		}
+		return false;
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onDragLeaveTreeItem (event) {
+		this.classList.remove("draggedOver");
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onDragEndTreeItem (event) {
+		elmCurrentlyDragged.classList.remove("dragged");
+		this.classList.remove("draggedOver");
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onDropTreeItem (event) {
+
+		// prevent propagation from the perent (subtree)
+		if (event.stopPropagation) {
+			event.stopPropagation();
+		}
+
+		let elmDropTarget = this;
+
+		// nothing to do if dropped in the same location OR in a folder (sub tree)
+		if(elmDropTarget === elmCurrentlyDragged) {
+			elmCurrentlyDragged.classList.remove("dragged");
+		} else {
+
+			console.log("[Sage-Like-elmCurrentlyDragged]", elmDropTarget, event, elmCurrentlyDragged);
+			elmCurrentlyDragged.parentElement.removeChild(elmCurrentlyDragged);
+
+			let dropHTML = event.dataTransfer.getData("text/html");
+			elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
+			addTreeItemEventListeners(elmDropTarget.previousSibling);
+		}
+		elmDropTarget.classList.remove("draggedOver");
+		return false;
+	};
+
+
+	//==================================================================================
+	//=== Toolbar Actions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -218,53 +352,9 @@ let rssTreeView = (function () {
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function setFeedLoadingState(elm, isLoading) {
-
-		if (isLoading === true) {
-
-			if (elmCurrentlyLoading !== null) {
-				slUtil.removeClassName(elmCurrentlyLoading, "loading");
-			}
-			slUtil.concatClassName(elm, "loading");
-			elmCurrentlyLoading = elm;
-		} else {
-			slUtil.removeClassName(elm, "loading");
-			elmCurrentlyLoading = null;
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	let setFeedSelectionState = function (elm) {
-
-		if (elmCurrentlySelected !== null) {
-			slUtil.removeClassName(elmCurrentlySelected, "selected");
-		}
-
-		elmCurrentlySelected = elm;
-		slUtil.concatClassName(elm, "selected");
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function emptyTree() {
-		while (elmTreeRoot.firstChild) {
-			elmTreeRoot.removeChild(elmTreeRoot.firstChild);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function removeTreeEventListeners() {
-
-		let elems = elmTreeRoot.getElementsByTagName("li");
-
-		for (let el of elems) {
-			el.removeEventListener("click", onClickRssTreeItem);
-		}
-	}
+	//==================================================================================
+	//=== Adding New Tree Items (discovery)
+	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -276,7 +366,7 @@ let rssTreeView = (function () {
 		}
 
 		browser.bookmarks.get(last.id).then((foundNodes) => {
-			
+
 			let counter = 1;
 			let bookmarksList = [];
 
@@ -286,7 +376,7 @@ let rssTreeView = (function () {
 					index: foundNodes[0].index + (counter++),
 					parentId: foundNodes[0].parentId,
 					title: feed.title,
-					url: feed.link,					
+					url: feed.link,
 				} );
 			}
 
@@ -297,7 +387,7 @@ let rssTreeView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function createBookmarksDependently (bookmarksList, index) {
-		
+
 		/*
 			Because bookmarks.create() is an asynchronous function the creation of multiple bookmarks
 			sequentially is performed to the same index (last index) and will appear in reverse order.
@@ -311,13 +401,63 @@ let rssTreeView = (function () {
 
 			browser.bookmarks.create(bookmarksList[index]).then((createdNode) => {
 
-				console.log("[sage-like-createdNode]", createdNode);
-	
 				let elmLI = createTagLI(createdNode.id, createdNode.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, createdNode.url);
 				elmTreeRoot.appendChild(elmLI);
-	
+
 				createBookmarksDependently(bookmarksList, ++index);
 			});
+		}
+	}
+
+	//==================================================================================
+	//=== Tree Items status
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setFeedLoadingState(elm, isLoading) {
+
+		if (isLoading === true) {
+
+			if (elmCurrentlyLoading !== null) {
+				elmCurrentlyLoading.classList.remove("loading");
+			}
+			elm.classList.add("loading");
+			elmCurrentlyLoading = elm;
+		} else {
+			elm.classList.remove("loading");
+			elmCurrentlyLoading = null;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setFeedSelectionState(elm) {
+
+		if (elmCurrentlySelected !== null) {
+			elmCurrentlySelected.classList.remove("selected");
+		}
+
+		elmCurrentlySelected = elm;
+		elm.classList.add("selected");
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function removeTreeEventListeners() {
+
+		let elems = elmTreeRoot.getElementsByTagName("li");
+
+		for (let elm of elems) {
+			removeTreeItemEventListeners(elm);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function emptyTree() {
+		while (elmTreeRoot.firstChild) {
+			elmTreeRoot.removeChild(elmTreeRoot.firstChild);
 		}
 	}
 
