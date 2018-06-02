@@ -18,7 +18,7 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onUnload (event) {
+	function onUnload(event) {
 
 		disposeList();
 

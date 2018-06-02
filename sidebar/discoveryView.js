@@ -210,7 +210,7 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function onKeyDownDiscoverPanel (event) {
+    function onKeyDownDiscoverPanel(event) {
 		switch (event.key.toLowerCase()) {
 			case "escape":
 				close()
@@ -224,13 +224,13 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function onClickButtonRediscover (event) {
+    function onClickButtonRediscover(event) {
         runDiscoverFeeds();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function onClickButtonAdd (event) {
+    function onClickButtonAdd(event) {
 
         let newFeedsList = collectSelectedFeeds();
 
@@ -242,7 +242,7 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function onClickButtonCancel (event) {
+    function onClickButtonCancel(event) {
         close();
     }
 

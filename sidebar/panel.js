@@ -104,14 +104,14 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onClickDiscoverFeed (event) {			
+	function onClickDiscoverFeed(event) {			
 		discoverView.open();
 		event.stopPropagation();
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onClickPreferences (event) {
+	function onClickPreferences(event) {
 		browser.runtime.openOptionsPage();
 	}
 	

@@ -13,7 +13,7 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function discoverWebSiteFeeds (txtHTML) {
+	function discoverWebSiteFeeds(txtHTML) {
 
 		return new Promise((resolve) => {
 
@@ -73,7 +73,7 @@ let syndication = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function fetchFeedItems (feedUrl, reload) {
+    function fetchFeedItems(feedUrl, reload) {
 
 		return new Promise((resolve, reject) => {
 
@@ -95,7 +95,7 @@ let syndication = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function createFeedItemsList (feedData) {
+    function createFeedItemsList(feedData) {
 
         let elm, FeedItem;
 		let FeedItemList = [];
@@ -143,7 +143,7 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function getFeedXMLText (feedUrl, reload) {
+	function getFeedXMLText(feedUrl, reload) {
 
         let init = {
             cache: reload ? "reload" : "default",
@@ -176,7 +176,7 @@ let syndication = (function () {
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function getFeedData (txtXML) {
+	function getFeedData(txtXML) {
 
 		let feedData = {
 			standard: SyndicationStandard.invalid,
@@ -228,7 +228,7 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function getXMLTextFromBlob (blob) {
+	function getXMLTextFromBlob(blob) {
 
 		return new Promise((resolve) => {
 
@@ -247,7 +247,7 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function getFeedTitle (doc, selectorPrefix) {
+	function getFeedTitle(doc, selectorPrefix) {
 
 		const selectorSuffixes = [ " > title" ];
 
@@ -261,7 +261,7 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function getFeedLastUpdate (doc, selectorPrefix) {
+	function getFeedLastUpdate(doc, selectorPrefix) {
 
 		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
 
@@ -281,7 +281,7 @@ let syndication = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function sortFeederByDate (feeder) {
+	function sortFeederByDate(feeder) {
 
 		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
 
@@ -396,7 +396,7 @@ let syndication = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function fetchFeedItems_OLD (feedUrl, reload) {
+    function fetchFeedItems_OLD(feedUrl, reload) {
 		throw "Function is not for use: Documentation only.";
 
 

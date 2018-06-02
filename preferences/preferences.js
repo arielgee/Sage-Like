@@ -49,7 +49,7 @@ let preferences = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onUnload (event) {
+	function onUnload(event) {
 
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -58,7 +58,7 @@ let preferences = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function flashRootFeedsFolderElement () {
+    function flashRootFeedsFolderElement() {
 
         let selected = elmRootFeedsFolder.options[elmRootFeedsFolder.selectedIndex];
 
@@ -70,7 +70,7 @@ let preferences = (function () {
     }
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function createSelectFeedFolderElements () {
+    function createSelectFeedFolderElements() {
 
         return new Promise((resolve) => {
 
@@ -94,7 +94,7 @@ let preferences = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function createSelectFeedFolderElement (bookmarkItem, indent) {
+    function createSelectFeedFolderElement(bookmarkItem, indent) {
 
         // it's a folder
         if(bookmarkItem.url === undefined) {
@@ -110,7 +110,7 @@ let preferences = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function createTagOption (value, text) {
+    function createTagOption(value, text) {
         let elm = document.createElement("option");
         elm.value = value;
         elm.innerHTML = text;

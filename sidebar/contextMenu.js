@@ -190,14 +190,14 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onClickMenuDeleteFeed (event) {
+	function onClickMenuDeleteFeed(event) {
 		handleTreeMenuActions(ContextAction.treeDeleteFeed);
 	}
 	
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function handleTreeMenuActions (menuAction) {
+	function handleTreeMenuActions(menuAction) {
 
 		let targetItem = elmContextMenu.elmTargetItem;
 
@@ -296,7 +296,7 @@
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function showMenuItemsByClassName (className) {
+	function showMenuItemsByClassName(className) {
 
 		elmContextMenu.querySelectorAll("." + className).forEach((item) => {
 			item.style.display = "block";
@@ -310,7 +310,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function deleteFeed (actionData) {
+	function deleteFeed(actionData) {
 		browser.bookmarks.remove(actionData.id).then(() => {
 			elmContextMenu.elmTargetItem.parentElement.removeChild(elmContextMenu.elmTargetItem);
 		});		

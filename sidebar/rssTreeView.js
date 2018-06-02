@@ -12,6 +12,27 @@ let rssTreeView = (function () {
 	let elmCurrentlySelected = null;
 	let elmCurrentlyDragged = null;
 
+	class CurrentlyDraggedOver {
+		constructor() {
+			this.init();
+		}
+		init() {
+			this._id = "";
+			this._startTime = 0;			
+		}
+		set(id) {
+			this._id = id;
+			this._startTime = Date.now();			
+		}		
+		get id() {
+			return this._id;
+		}
+		get lingered() {
+			return ((Date.now() - this._startTime) > 900);
+		}
+	};
+	let objCurrentlyDraggedOver = new CurrentlyDraggedOver();
+
 	let lineHeight = 15;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -39,7 +60,7 @@ let rssTreeView = (function () {
 	//
 	function onUnload(event) {
 
-		removeTreeEventListeners();
+		removeAllTreeItemsEventListeners();
 
 		elmReloadTree.removeEventListener("click", onClickReloadTree);
 		elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
@@ -57,7 +78,7 @@ let rssTreeView = (function () {
 	//
 	function createRSSTree() {
 
-		emptyTree();
+		disposeTree();
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
@@ -94,7 +115,7 @@ let rssTreeView = (function () {
 
 		if (bookmark.url === undefined) { // it's a folder
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, sageLikeGlobalConsts.CLS_LI_SUB_TREE);
+			elmLI = createTagLI(bookmark.id, bookmark.title, sageLikeGlobalConsts.CLS_LI_SUB_TREE, null, true);
 
 			let elmUL = createTagUL(false);
 			elmLI.appendChild(elmUL);
@@ -156,7 +177,7 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function addTreeItemEventListeners (elm) {
+	function addTreeItemEventListeners(elm) {
 		elm.addEventListener("click", onClickTreeItem, false);
 		elm.addEventListener("dragstart", onDragStartTreeItem, false);
 		elm.addEventListener("dragenter", onDragEnterTreeItem, false)
@@ -168,7 +189,7 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function removeTreeItemEventListeners (elm) {
+	function removeTreeItemEventListeners(elm) {
 		elm.removeEventListener("click", onClickTreeItem, false);
 		elm.removeEventListener("dragstart", onDragStartTreeItem, false);
 		elm.removeEventListener("dragenter", onDragEnterTreeItem, false)
@@ -176,6 +197,16 @@ let rssTreeView = (function () {
 		elm.removeEventListener("dragleave", onDragLeaveTreeItem, false);
 		elm.removeEventListener("dragend", onDragEndTreeItem, false);
 		elm.removeEventListener("drop", onDropTreeItem, false);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function addSubTreeItemsEventListeners(elm) {
+		
+		addTreeItemEventListeners(elm);
+		for(let child of elm.children) {			
+			addSubTreeItemsEventListeners(child);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -188,23 +219,12 @@ let rssTreeView = (function () {
 		// when a subtree is open the height of the LI is as the Height of the entier subtree.
 		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
 		// the subtree. This make sure that only clicks on the top of the elements are processed.
-		if ((event.clientY - elmItem.getBoundingClientRect().top) > lineHeight) {
+		if(!eventOccureInItemLineHeight(event, elmItem)) {
 			return;
 		}
 
 		if (isFolder) {
-
-			let elmUL = elmItem.getElementsByTagName("ul")[0];
-
-			if (elmUL.getAttribute("rel") === "open") {
-				elmUL.style.display = "none";
-				elmUL.setAttribute("rel", "closed");
-				elmItem.style.backgroundImage = "url(" + sageLikeGlobalConsts.IMG_CLOSED_FOLDER + ")";
-			} else {
-				elmUL.style.display = "block";
-				elmUL.setAttribute("rel", "open");
-				elmItem.style.backgroundImage = "url(" + sageLikeGlobalConsts.IMG_OPEN_FOLDER + ")";
-			}
+			toggleTreeFolderState(elmItem);
 		} else {
 
 			rssListView.disposeList();
@@ -220,9 +240,7 @@ let rssTreeView = (function () {
 				setFeedLoadingState(elmItem, false);
 			})/*.finally(() => {	// wait for Fx v58
 				setFeedLoadingState(elmItem, false);
-			})*/
-			;
-
+			})*/;
 		}
 		setFeedSelectionState(elmItem);
 
@@ -231,7 +249,9 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onDragStartTreeItem (event) {
+	function onDragStartTreeItem(event) {
+
+		event.stopPropagation();
 
 		elmCurrentlyDragged = this;
 
@@ -243,64 +263,75 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onDragEnterTreeItem (event) {
-/*
-		let elmDropTarget = this;
-
-		if(elmDropTarget.classList.contains(sageLikeGlobalConsts.CLS_LI_SUB_TREE)) {
-			console.log("[Sage-Like]", "aaaaaaaaaaaaaaaaaa");
-			for(let ul of elmDropTarget.children) {
-				if(ul.getAttribute("rel") !== "open") {
-					elmDropTarget.parentElement.classList.add("open");
-					elmDropTarget.classList.remove("draggedOver");
-				}
-			}			
-		}*/
+	function onDragEnterTreeItem(event) {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onDragOverTreeItem (event) {
+	function onDragOverTreeItem(event) {
 
-		if(event.preventDefault) {
-			event.preventDefault();
+		event.stopPropagation();
+		event.preventDefault();		
+
+		// prevent element from been droped into itself.
+		if(elmCurrentlyDragged.contains(this)) {
+			event.dataTransfer.dropEffect = "none";
+			return false;
+		}
+	
+		let isFolder = this.classList.contains(sageLikeGlobalConsts.CLS_LI_SUB_TREE);		
+
+		if(isFolder) {
+	
+			// when a subtree is open the height of the LI is as the Height of the entier subtree.
+			// The result is that hovering on the left of the items in the subtree (but not ON a subtree item) marks
+			// the subtree as a drop target. This makes sure that only hovers above the top of the elements are processed
+			if(!eventOccureInItemLineHeight(event, this)) {
+				event.dataTransfer.dropEffect = "none";
+				return false;
+			}
+
+			// it's a folder - lingering
+			if(this.id === objCurrentlyDraggedOver.id) {
+
+				let isFolderClosed = (this.getElementsByTagName("ul")[0].getAttribute("rel") !== "open");
+
+				if(isFolderClosed && objCurrentlyDraggedOver.lingered) {
+					// mouse has lingered enough, open the closed folder
+					setTreeFolderState(this, true);
+				}
+
+			} else {
+				// it's a folder - just in
+				objCurrentlyDraggedOver.set(this.id);
+			}
 		}
 
-		let isFolder = this.classList.contains(sageLikeGlobalConsts.CLS_LI_SUB_TREE);
-		let isFolderOpen = isFolder ? (this.getElementsByTagName("ul")[0].getAttribute("rel") === "open") : false;
-
-		console.log("[Sage-Like]", isFolder, isFolderOpen);
-
-		
-		// do not mark a folder (subtree) as a drop target if its open
-		if( !isFolder || (isFolder && !isFolderOpen) ) {
-			this.classList.add("draggedOver");
-			event.dataTransfer.dropEffect = "move";
-		}
+		this.classList.add("draggedOver");
+		event.dataTransfer.dropEffect = "move";
 		return false;
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onDragLeaveTreeItem (event) {
+	function onDragLeaveTreeItem(event) {		
 		this.classList.remove("draggedOver");
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onDragEndTreeItem (event) {
+	function onDragEndTreeItem(event) {
 		elmCurrentlyDragged.classList.remove("dragged");
 		this.classList.remove("draggedOver");
+		objCurrentlyDraggedOver.init();
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function onDropTreeItem (event) {
+	function onDropTreeItem(event) {
 
 		// prevent propagation from the perent (subtree)
-		if (event.stopPropagation) {
-			event.stopPropagation();
-		}
+		event.stopPropagation();
 
 		let elmDropTarget = this;
 
@@ -309,17 +340,39 @@ let rssTreeView = (function () {
 			elmCurrentlyDragged.classList.remove("dragged");
 		} else {
 
-			console.log("[Sage-Like-elmCurrentlyDragged]", elmDropTarget, event, elmCurrentlyDragged);
-			elmCurrentlyDragged.parentElement.removeChild(elmCurrentlyDragged);
+			console.log("[sage-like-moved]", elmCurrentlyDragged.id);
+			console.log("[sage-like-repleaced]", elmDropTarget.id);
 
-			let dropHTML = event.dataTransfer.getData("text/html");
-			elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
-			addTreeItemEventListeners(elmDropTarget.previousSibling);
+			browser.bookmarks.get([elmCurrentlyDragged.id, elmDropTarget.id]).then((bookmarkItems) => {
+
+				let newIndex;
+
+				if(bookmarkItems[0].parentId == bookmarkItems[1].parentId) {
+
+					if(bookmarkItems[0].id === elmCurrentlyDragged.id)
+				}
+
+				
+				let destination = {
+					parentId: bookmarkItems[0].parentId,
+					index: bookmarkItems[0].index,
+				};
+				console.log("[sage-like-repleaced]", destination);
+
+				browser.bookmarks.move(elmCurrentlyDragged.id, destination).then((bookmarkItem) => {
+
+					elmCurrentlyDragged.parentElement.removeChild(elmCurrentlyDragged);
+
+					let dropHTML = event.dataTransfer.getData("text/html");
+					elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
+					addSubTreeItemsEventListeners(elmDropTarget.previousSibling);
+				});				
+			});
+
 		}
 		elmDropTarget.classList.remove("draggedOver");
 		return false;
 	};
-
 
 	//==================================================================================
 	//=== Toolbar Actions
@@ -386,7 +439,7 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function createBookmarksDependently (bookmarksList, index) {
+	function createBookmarksDependently(bookmarksList, index) {
 
 		/*
 			Because bookmarks.create() is an asynchronous function the creation of multiple bookmarks
@@ -412,6 +465,40 @@ let rssTreeView = (function () {
 	//==================================================================================
 	//=== Tree Items status
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function toggleTreeFolderState(elmTreeItem) {
+
+		let elmUL = elmTreeItem.getElementsByTagName("ul")[0];
+
+		if (elmUL.getAttribute("rel") === "open") {
+			setSubTreeVisibility(elmTreeItem, elmUL, false);
+		} else {
+			setSubTreeVisibility(elmTreeItem, elmUL, true);
+		}	
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setTreeFolderState(elmTreeItem, open) {
+
+		let elmUL = elmTreeItem.getElementsByTagName("ul")[0];
+
+		if (open && (elmUL.getAttribute("rel") !== "open")) {
+			setSubTreeVisibility(elmTreeItem, elmUL, true);
+		} else if (!open && (elmUL.getAttribute("rel") === "open")) {
+			setSubTreeVisibility(elmTreeItem, elmUL, false);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setSubTreeVisibility(elmLI, elmUL, open) {
+		elmUL.style.display = (open ? "block" : "none");
+		elmUL.setAttribute("rel", (open ? "open" : "closed"));
+		elmLI.style.backgroundImage = "url(" + (open ? sageLikeGlobalConsts.IMG_OPEN_FOLDER : sageLikeGlobalConsts.IMG_CLOSED_FOLDER) + ")";	
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -444,7 +531,7 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function removeTreeEventListeners() {
+	function removeAllTreeItemsEventListeners() {
 
 		let elems = elmTreeRoot.getElementsByTagName("li");
 
@@ -453,12 +540,26 @@ let rssTreeView = (function () {
 		}
 	}
 
+	//==================================================================================
+	//=== Utils
+	//==================================================================================
+	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function emptyTree() {
+	function disposeTree() {
+
+		removeAllTreeItemsEventListeners();
 		while (elmTreeRoot.firstChild) {
 			elmTreeRoot.removeChild(elmTreeRoot.firstChild);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function eventOccureInItemLineHeight(evt, elm) {
+
+		// This function checks if the event has occured in the top part of the element
+		return ((evt.clientY - elm.getBoundingClientRect().top) <= lineHeight)
 	}
 
 	return {
