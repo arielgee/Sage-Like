@@ -10,9 +10,9 @@
 }
 
 .listview li {
-  background: transparent url("../icons/rssItem.png") no-repeat left center;
   list-style-type: none;
-  padding-left: 20px;
+  /*background: transparent url("../icons/rssItem.png") no-repeat left center;  
+  padding-left: 20px;*/
   margin: 2px 0 2px 0;
   cursor: pointer;
 }
@@ -27,6 +27,7 @@
 
 .listview li.errormsg {
   background: transparent url("../icons/error.png") no-repeat left center;
+  padding-left: 20px;
   color: crimson;
   font-weight: normal;
   cursor: default;

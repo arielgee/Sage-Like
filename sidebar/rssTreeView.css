@@ -5,7 +5,8 @@
   padding: 4px 0 4px 4px;
   font-weight: bold;
   white-space: nowrap;
-  background-color: transparent;  
+  background-color: transparent;
+  line-height: 21px;
 }
 
 .treeview ul {
@@ -17,7 +18,7 @@
 .treeview li {
   background: transparent url("../icons/rss.png") no-repeat left center;
   list-style-type: none;
-  padding: 2px 0 2px 20px;
+  padding-left: 20px;
   cursor: pointer;
 }
 

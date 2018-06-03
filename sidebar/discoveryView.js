@@ -152,6 +152,7 @@ let discoverView = (function () {
         elmListItem.className = "dfItem";
         elmListItem.setAttribute("name", text);
         elmListItem.setAttribute("href", url);
+        elmListItem.title += "Title:\u0009" + text + "\u000d";
         elmListItem.title += format      ? "Format:\u0009" + format + "\u000d" : "";
         elmListItem.title += lastUpdated ? "Update:\u0009" + (lastUpdated.toLocaleString() || lastUpdated) + "\u000d" : "";
         elmListItem.title += items       ? "Items:\u0009" + items + "\u000d" : "";

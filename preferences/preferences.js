@@ -44,6 +44,8 @@ let preferences = (function () {
             let defPrefs = prefs.restoreDefaults();
 
             elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
+
+            flashRootFeedsFolderElement();
         });
 	}
 

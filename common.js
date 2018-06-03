@@ -4,11 +4,6 @@
 ///
 let sageLikeGlobalConsts = (function() {
 
-	// ID's of 'RSS Feeds (Sage)
-	//const BOOKMARK_FOLDER_ROOT_ID = "3kd0htXHfE_n";      // Home 'clean' profile
-	//const BOOKMARK_FOLDER_ROOT_ID = "Q9MHwpjFwL2u";      // Work 'clean' profile
-	//const BOOKMARK_FOLDER_ROOT_ID = "7ddrxyguHW8l";      // Work 'Fx64-Primary' profile
-
 	const CLS_DIV_TOOLBAR = "toolbar";
 	const CLS_DIV_SPLITTER = "splitter";
 
@@ -18,8 +13,8 @@ let sageLikeGlobalConsts = (function() {
 
 	const CLS_DIV_RSS_TREE_FEED_CAPTION = "caption";
 
-	const IMG_CLOSED_FOLDER = "/icons/closed.png";
-	const IMG_OPEN_FOLDER = "/icons/open.png";
+	const IMG_CLOSED_SUB_TREE = "/icons/closed.png";
+	const IMG_OPEN_SUB_TREE = "/icons/open.png";
 
 	const ROOT_FEEDS_FOLDER_ID_NOT_SET = "_rootFeedsFolderIdNotSet_";
 
@@ -30,8 +25,8 @@ let sageLikeGlobalConsts = (function() {
 		CLS_LI_RSS_TREE_FEED: CLS_LI_RSS_TREE_FEED,
 		CLS_LI_RSS_LIST_FEED_ITEM: CLS_LI_RSS_LIST_FEED_ITEM,
 		CLS_DIV_RSS_TREE_FEED_CAPTION: CLS_DIV_RSS_TREE_FEED_CAPTION,
-		IMG_CLOSED_FOLDER: IMG_CLOSED_FOLDER,
-		IMG_OPEN_FOLDER: IMG_OPEN_FOLDER,
+		IMG_CLOSED_SUB_TREE: IMG_CLOSED_SUB_TREE,
+		IMG_OPEN_SUB_TREE: IMG_OPEN_SUB_TREE,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: ROOT_FEEDS_FOLDER_ID_NOT_SET,
 	};
@@ -42,10 +37,30 @@ let sageLikeGlobalConsts = (function() {
 ///
 let prefs = (function () {
 
+	const PREF_DEF_OPEN_TREE_SUB_TREES = {};
 	const PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE = sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 
-
+	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
+
+	//////////////////////////////////////////////////////////////////////
+	let getOpenSubTrees = function () {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_OPEN_SUB_TREES).then((result) => {
+                resolve(result[PREF_OPEN_SUB_TREES] === undefined ? PREF_DEF_OPEN_TREE_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
+			});
+		});
+	};
+
+	//////////////////////////////////////////////////////////////////////
+	let setOpenSubTrees = function (objValue) {
+
+		let obj = {};
+		obj[PREF_OPEN_SUB_TREES] = objValue;
+		browser.storage.local.set(obj);
+	};
 
 	//////////////////////////////////////////////////////////////////////
 	let getRootFeedsFolderId = function () {
@@ -68,14 +83,18 @@ let prefs = (function () {
 
 	//////////////////////////////////////////////////////////////////////
 	let restoreDefaults = function () {
-		this.setRootFeedsFolderId(PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE);
+		this.setOpenSubTrees(PREF_DEF_OPEN_TREE_SUB_TREES);
+		this.setRootFeedsFolderId(PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE);		
 
 		return {
+			openSubTrees: PREF_DEF_OPEN_TREE_SUB_TREES,
 			rootFeedsFolderId: PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		};
 	};
 
 	return {
+		getOpenSubTrees: getOpenSubTrees,
+		setOpenSubTrees: setOpenSubTrees,
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
 
