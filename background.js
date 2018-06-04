@@ -1,6 +1,6 @@
 "use strict";
 
-(function () {
+(function() {
 
 	//////////////////////////////////////////////////////////////////////
 	// Sage-Like Toolbar button
@@ -10,8 +10,8 @@
 
 	//////////////////////////////////////////////////////////////////////
 	// firefox commands (keyboard)
-	browser.commands.onCommand.addListener(function (command) {
-	
+	browser.commands.onCommand.addListener(function(command) {
+
 		switch (command) {
 
 			case "kb-open-sidebar":

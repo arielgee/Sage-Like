@@ -1,6 +1,6 @@
 "use strict";
 
-let rssListView = (function () {
+let rssListView = (function() {
 
 	let elmList;
 
@@ -28,7 +28,7 @@ let rssListView = (function () {
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setFeedItems = function (list) {
+	let setFeedItems = function(list) {
 
 		let index = 1;
 
@@ -45,7 +45,7 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let appendTagIL = function (index, title, desc, link) {
+	let appendTagIL = function(index, title, desc, link) {
 
 		let elm = document.createElement("li");
 
@@ -65,7 +65,7 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let onClickFeedItem = function (event) {
+	let onClickFeedItem = function(event) {
 
 		let elm = this;
 		let handled = true;		// optimistic
@@ -103,7 +103,7 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let onClickFeedItem_preventDefault = function (event) {
+	let onClickFeedItem_preventDefault = function(event) {
 
 		// This is to prevent the default behaviour of Fx when
 		// clicking with the middle button (scroll).
@@ -119,14 +119,14 @@ let rssListView = (function () {
 	// to the target page it cannot be found in browser.history.
 	// So this function will record the un-redirected link in history
 	// https://wiki.mozilla.org/Browser_History:Redirects
-	let addFeedItemUrlToHistory = function (url, title) {
+	let addFeedItemUrlToHistory = function(url, title) {
 		
 		slUtil.addUrlToBrowserHistory(url, title);
 	};
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setItemVisitedStatus = function (elm, link) {
+	let setItemVisitedStatus = function(elm, link) {
 
 		browser.history.getVisits({ url: link }).then((vItems) => {
 			if (vItems.length > 0) {
@@ -154,7 +154,7 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setFeedItemSelectionState = function (elm) {
+	let setFeedItemSelectionState = function(elm) {
 		
 		if(elmCurrentlySelected !== null) {
 			elmCurrentlySelected.classList.remove("selected");
@@ -166,7 +166,7 @@ let rssListView = (function () {
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setListErrorMsg = function (textContent) {
+	let setListErrorMsg = function(textContent) {
 		let elm = document.createElement("li");
 		elm.classList.add("errormsg");
 		elm.textContent = textContent;
@@ -177,7 +177,7 @@ let rssListView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let disposeList = function () {
+	let disposeList = function() {
 
 		let el;
 

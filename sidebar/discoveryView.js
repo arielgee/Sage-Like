@@ -1,6 +1,6 @@
 "use strict";
 
-let discoverView = (function () {
+let discoverView = (function() {
 
     const MSGID_GET_DOC_TEXT_HTML = "msgGetDocumentTextHTML";
 
@@ -23,7 +23,7 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let open = function () {
+    let open = function() {
 
         elmMainPanel = document.getElementById("mainPanel");
         elmDiscoverPanel = document.getElementById("discoverPanel");
@@ -43,7 +43,7 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let close = function () {
+    let close = function() {
 
         slUtil.disableElementTree(elmMainPanel, false);
         elmDiscoverPanel.style.display = "none";
@@ -57,13 +57,13 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let isOpen = function () {
+    let isOpen = function() {
         return (elmDiscoverPanel !== null && elmDiscoverPanel.style.display === "block");
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let runDiscoverFeeds = function () {
+    let runDiscoverFeeds = function() {
 
         emptyDescoverFeedsList();
 
@@ -91,7 +91,7 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let loadDiscoverFeedsList = function (txtHTML, domainName) {
+    let loadDiscoverFeedsList = function(txtHTML, domainName) {
 
         setDiscoverLoadingState(true);
         elmLabelDomainName.textContent = domainName;
@@ -119,7 +119,7 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let emptyDescoverFeedsList = function () {
+    let emptyDescoverFeedsList = function() {
         while(elmDiscoverFeedsList.firstChild) {
             elmDiscoverFeedsList.removeChild(elmDiscoverFeedsList.firstChild);
         }
@@ -127,7 +127,7 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let createTagLI = function (index, text, url, lastUpdated, format, items) {
+    let createTagLI = function(index, text, url, lastUpdated, format, items) {
 
         let elmCheckBox = document.createElement("input");
         let elmLabelCaption = document.createElement("div");
@@ -169,7 +169,7 @@ let discoverView = (function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let setNoFeedsMsg = function (text) {
+    let setNoFeedsMsg = function(text) {
         let elm = document.createElement("li");
         elm.className = "dfItem novalidfeeds";
         elm.textContent = text;
@@ -178,7 +178,7 @@ let discoverView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setDiscoverLoadingState = function (isLoading) {
+	let setDiscoverLoadingState = function(isLoading) {
 
 		if (isLoading === true) {
             elmDiscoverPanel.classList.add("loading");
@@ -189,7 +189,7 @@ let discoverView = (function () {
     
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let collectSelectedFeeds = function () {
+    let collectSelectedFeeds = function() {
         
         let newFeedsList = [];
 

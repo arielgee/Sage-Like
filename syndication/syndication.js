@@ -1,6 +1,6 @@
 "use strict";
 
-let syndication = (function () {
+let syndication = (function() {
 
 	let SyndicationStandard = Object.freeze({
 		invalid: "n/a",
@@ -70,7 +70,25 @@ let syndication = (function () {
 			}
 		});
 	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function fetchFeedData(feedUrl) {
 
+		return new Promise((resolve, reject) => {
+
+			getFeedXMLText(feedUrl).then((feedXML) => {
+
+				let feedData = getFeedData(feedXML.txtXML);
+				resolve(feedData);
+				
+			}).catch((error) => {
+				reject(error);
+			});
+		});
+		
+	}
+	
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function fetchFeedItems(feedUrl, reload) {
@@ -348,7 +366,7 @@ let syndication = (function () {
 				// Method 3 - BAD: In this way the resulting text returns hebrew chars as question marks
 				res3.blob().then((blob) => {
 					let reader = new FileReader();
-					reader.onload = function () {
+					reader.onload = function() {
 						console.log("PROB1-file", reader.result);
 					}
 					reader.readAsText(blob);
@@ -378,7 +396,7 @@ let syndication = (function () {
 		xhr.responseType = 'document';		// If specified, responseType must be empty string or "document"
 		xhr.overrideMimeType('text/xml');	// overrideMimeType() can be used to force the response to be parsed as XML
 
-		xhr.onload = function () {
+		xhr.onload = function() {
 			if (xhr.readyState === xhr.DONE) {
 				if (xhr.status === 200) {
 					console.log("[=x=]", (typeof xhr.responseText), xhr.responseText);
@@ -439,7 +457,8 @@ let syndication = (function () {
 
     //////////////////////////////////////////
     return {
-        discoverWebSiteFeeds: discoverWebSiteFeeds,
+		discoverWebSiteFeeds: discoverWebSiteFeeds,
+		fetchFeedData: fetchFeedData,
         fetchFeedItems: fetchFeedItems,
 	};
 

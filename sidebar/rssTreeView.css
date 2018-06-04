@@ -19,7 +19,12 @@
   background: transparent url("../icons/rss.png") no-repeat left center;
   list-style-type: none;
   padding-left: 20px;
+  font-weight: bold;
   cursor: pointer;
+}
+
+.treeview li.visited {
+  font-weight: normal;
 }
 
 .treeview .caption {
@@ -31,6 +36,7 @@
 /* Style for LI that contains sub trees (other ULs) */
 .treeview li.subtree {
   background: transparent url("../icons/closed.png") no-repeat left 1px;
+  font-weight: normal;
   cursor: default;
 }
 

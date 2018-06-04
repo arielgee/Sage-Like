@@ -35,27 +35,29 @@ let sageLikeGlobalConsts = (function() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///
-let prefs = (function () {
+let prefs = (function() {
 
-	const PREF_DEF_OPEN_TREE_SUB_TREES = {};
-	const PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE = sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET;
+	const DEF_PREF_OPEN_SUB_TREES = {};
+	const DEF_PREF_LAST_UPDATED_FEEDS = {};
+	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
+	const PREF_LAST_UPDATED_FEEDS = "pref_lastUpdatedFeeds";
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 
 	//////////////////////////////////////////////////////////////////////
-	let getOpenSubTrees = function () {
+	let getOpenSubTrees = function() {
 
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_OPEN_SUB_TREES).then((result) => {
-                resolve(result[PREF_OPEN_SUB_TREES] === undefined ? PREF_DEF_OPEN_TREE_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
+                resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
 			});
 		});
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let setOpenSubTrees = function (objValue) {
+	let setOpenSubTrees = function(objValue) {
 
 		let obj = {};
 		obj[PREF_OPEN_SUB_TREES] = objValue;
@@ -63,18 +65,37 @@ let prefs = (function () {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let getRootFeedsFolderId = function () {
+	let getLastUpdatedFeeds = function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_ROOT_FEEDS_FOLDER_ID).then((result) => {
-                resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
+			browser.storage.local.get(PREF_LAST_UPDATED_FEEDS).then((result) => {
+                resolve(result[PREF_LAST_UPDATED_FEEDS] === undefined ? DEF_PREF_LAST_UPDATED_FEEDS : result[PREF_LAST_UPDATED_FEEDS]);
 			});
 		});
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let setRootFeedsFolderId = function (value) {
+	let setLastUpdatedFeeds = function(objValue) {
+
+		let obj = {};
+		obj[PREF_LAST_UPDATED_FEEDS] = objValue;
+		browser.storage.local.set(obj);
+	};
+
+	//////////////////////////////////////////////////////////////////////
+	let getRootFeedsFolderId = function() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_ROOT_FEEDS_FOLDER_ID).then((result) => {
+                resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
+			});
+		});
+	};
+
+	//////////////////////////////////////////////////////////////////////
+	let setRootFeedsFolderId = function(value) {
 
 		let obj = {};
 		obj[PREF_ROOT_FEEDS_FOLDER_ID] = value;
@@ -82,19 +103,23 @@ let prefs = (function () {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let restoreDefaults = function () {
-		this.setOpenSubTrees(PREF_DEF_OPEN_TREE_SUB_TREES);
-		this.setRootFeedsFolderId(PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE);		
+	let restoreDefaults = function() {
+		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES);
+		this.setLastUpdatedFeeds(DEF_PREF_LAST_UPDATED_FEEDS);
+		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);		
 
 		return {
-			openSubTrees: PREF_DEF_OPEN_TREE_SUB_TREES,
-			rootFeedsFolderId: PREF_DEF_ROOT_FEEDS_FOLDER_ID_VALUE,
+			openSubTrees: DEF_PREF_OPEN_SUB_TREES,
+			lastUpdatedFeeds: DEF_PREF_LAST_UPDATED_FEEDS,
+			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		};
 	};
 
 	return {
 		getOpenSubTrees: getOpenSubTrees,
 		setOpenSubTrees: setOpenSubTrees,
+		getLastUpdatedFeeds: getLastUpdatedFeeds,
+		setLastUpdatedFeeds: setLastUpdatedFeeds,
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
 
@@ -105,13 +130,13 @@ let prefs = (function () {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///
-let slUtil = (function () {
+let slUtil = (function() {
 
 	let local_savedScrollbarWidth = -1;
 
 
 	//////////////////////////////////////////////////////////////////////
-	String.prototype.format = function (args) {
+	String.prototype.format = function(args) {
 		let str = this;
 		return str.replace(String.prototype.format.regex, (item) => {
 			let intVal = parseInt(item.substring(1, item.length - 1));
@@ -131,22 +156,22 @@ let slUtil = (function () {
 	String.prototype.format.regex = new RegExp("{-?[0-9]+}", "g");
 
 	//////////////////////////////////////////////////////////////////////
-	String.prototype.trunc = function (n) {
+	String.prototype.trunc = function(n) {
 		return (this.length > n) ? this.substr(0, n - 1) + "&hellip;" : this;
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let escapeRegExp = function (str) {
+	let escapeRegExp = function(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let random1to100 = function () {
+	let random1to100 = function() {
 		return Math.floor(Math.random() * (100 - 1) + 1).toString();
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let disableElementTree = function (elm, value) {
+	let disableElementTree = function(elm, value) {
 
 		if (elm.nodeType !== Node.ELEMENT_NODE) {
 			return;
@@ -169,7 +194,7 @@ let slUtil = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let copyTextToClipboard = function (doc, text) {
+	let copyTextToClipboard = function(doc, text) {
 		let input = doc.createElement("textarea");
 		let style = input.style;
 		style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
@@ -182,7 +207,7 @@ let slUtil = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let addUrlToBrowserHistory = function (url, title) {
+	let addUrlToBrowserHistory = function(url, title) {
 
 		let details = {
 			url: url,
@@ -194,7 +219,7 @@ let slUtil = (function () {
 
 	//////////////////////////////////////////////////////////////////////
 	//
-	let getScrollbarWidth = function (doc) {
+	let getScrollbarWidth = function(doc) {
 
 		if(local_savedScrollbarWidth === -1) {
 
@@ -227,7 +252,7 @@ let slUtil = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let hasHScroll = function (elm) {
+	let hasHScroll = function(elm) {
 		return (elm.clientWidth < elm.scrollWidth);
 	};
 

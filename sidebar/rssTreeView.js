@@ -1,18 +1,70 @@
 "use strict";
 
-let rssTreeView = (function () {
+let rssTreeView = (function() {
 
-	let elmReloadTree;
-	let elmExpandAll;
-	let elmCollapseAll;
+	//==================================================================================
+	//=== Class Declerations
+	//==================================================================================
 
-	let elmTreeRoot;
+	class StoredKeyedItems {
+		constructor() {
+			if (new.target === "StoredKeyedItems") {
+				throw new Error("Don't do that");
+			}
+			this.dispose();
+		}
+		getStorage() {
+			throw new Error("Don't do that");
+		}
+		setStorage() {
+			throw new Error("Don't do that");
+		}
+		add(key, value = undefined) {
+			this._items[key] = (value === undefined ? "x" : value);
+			this.setStorage();
+		}
+		remove(key) {
+			delete this._items[key];
+			this.setStorage();
+		}
+		exist(key) {
+			return this._items.hasOwnProperty(key);
+		}
+		value(key) {
+			return this._items.hasOwnProperty(key) ? this._items[key] : null;
+		}
+		dispose() {
+			this._items = {};
+		}
+	};
 
-	let elmCurrentlyLoading = null;
-	let elmCurrentlySelected = null;
-	let elmCurrentlyDragged = null;
+	class OpenSubTrees extends StoredKeyedItems {
+		getStorage() {
+			return new Promise((resolve) => {
+				prefs.getOpenSubTrees().then((items) => {
+					this._items = items;
+					resolve();
+				});
+			});
+		}
+		setStorage() {
+			prefs.setOpenSubTrees(this._items);
+		}
+	};
 
-	let lineHeight = 21;
+	class LastUpdatedFeeds extends StoredKeyedItems {
+		getStorage() {
+			return new Promise((resolve) => {
+				prefs.getLastUpdatedFeeds().then((items) => {
+					this._items = items;
+					resolve();
+				});
+			});
+		}
+		setStorage() {
+			prefs.setLastUpdatedFeeds(this._items);
+		}
+	};
 
 	class CurrentlyDraggedOver {
 		constructor() {
@@ -33,39 +85,26 @@ let rssTreeView = (function () {
 			return ((Date.now() - this._startTime) > 900);
 		}
 	};
-	let objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
-	class OpenSubTrees {
-		constructor() {
-			this._items = {};
-		}
-		getStorage() {
-			return new Promise((resolve) => {
-				prefs.getOpenSubTrees().then((items) => {
-					this._items = items;
-					resolve();
-				});
-			});
-		}
-		setStorage() {
-			prefs.setOpenSubTrees(this._items);
-		}
-		add(id) {
-			this._items[id] = "x";
-			this.setStorage();
-		}
-		remove(id) {
-			delete this._items[id];
-			this.setStorage();
-		}
-		exist(id) {
-			return this._items.hasOwnProperty(id);
-		}
-		dispose() {
-			this._items = {};
-		}
-	};
+	//==================================================================================
+	//=== Variables Declerations
+	//==================================================================================
+
+	let elmReloadTree;
+	let elmExpandAll;
+	let elmCollapseAll;
+
+	let elmTreeRoot;
+
+	let elmCurrentlyLoading = null;
+	let elmCurrentlySelected = null;
+	let elmCurrentlyDragged = null;
+
+	let lineHeight = 21;
+
 	let objOpenSubTrees = new OpenSubTrees();
+	let objLastUpdatedFeeds = new LastUpdatedFeeds();
+	let objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -86,10 +125,7 @@ let rssTreeView = (function () {
 
 		lineHeight = parseInt(getComputedStyle(elmTreeRoot).getPropertyValue("line-height"));
 
-		// get subtree's open/closed statuses from local storage
-		objOpenSubTrees.getStorage().then(() => {
-			createRSSTree();
-		});
+		createRSSTree();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +148,10 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function createRSSTree() {
+	async function createRSSTree() {
+
+		// get subtree's open/closed statuses from local storage
+		await objOpenSubTrees.getStorage();
 
 		disposeTree();
 
@@ -135,12 +174,13 @@ let rssTreeView = (function () {
 				if (slUtil.hasHScroll(elmTreeRoot)) {
 					elmTreeRoot.style.height = (elmTreeRoot.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
 				}
+				processRSSTreeFeedsData();
 
 			}).catch((error) => {
 				elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
 				browser.runtime.openOptionsPage();
 			});
-		});
+		});		
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -209,6 +249,54 @@ let rssTreeView = (function () {
 		return elm;
 	}
 
+	//==================================================================================
+	//=== Tree Processing
+	//==================================================================================
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	async function processRSSTreeFeedsData() {
+	
+		// getElementsByTagName is faster
+		await objLastUpdatedFeeds.getStorage();
+
+
+		console.log("[Sage-Like-objLastUpdatedFeeds]", objLastUpdatedFeeds);
+
+		elmTreeRoot.querySelectorAll("." + sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED).forEach((elmLI) => {
+
+			setFeedLoadingState(elmLI, true);
+
+			syndication.fetchFeedData(elmLI.getAttribute("href")).then((feedData) => {
+
+				let dateVal = new Date(feedData.LastUpdated);	// could be text
+				let feedUrl = elmLI.getAttribute("href");
+
+				if(objLastUpdatedFeeds.exist(feedUrl)) {
+					console.log("[Sage-Like-objLastUpdatedFeeds]", feedData.title, "exist");
+
+					if(objLastUpdatedFeeds.value < dateVal) {
+						elmLI.classList.remove("visited");
+					} else {
+						elmLI.classList.add("visited");
+					}
+				} else {
+
+					console.log("[Sage-Like-objLastUpdatedFeeds]", feedData.title, "NOT-exit");
+					
+					// make sure a Date() is added
+					objLastUpdatedFeeds.add(feedUrl, (isNaN(dateVal) ? Date.now() : dateVal));
+					elmLI.classList.remove("visited");
+				}
+
+				setFeedLoadingState(elmLI, false);
+			}).catch((error) => {
+				setFeedLoadingState(elmLI, false);
+			});			
+		});
+
+	}
+	
 	//==================================================================================
 	//=== Tree Item Event Listeners
 	//==================================================================================
@@ -420,11 +508,7 @@ let rssTreeView = (function () {
 	function onClickReloadTree(event) {
 
 		rssListView.disposeList();
-
-		// get subtree's open/closed statuses from local storage
-		objOpenSubTrees.getStorage().then(() => {
-			createRSSTree();
-		});
+		createRSSTree();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -546,9 +630,9 @@ let rssTreeView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function setFeedLoadingState(elm, isLoading) {
+	function setFeedLoadingState(elm, loading) {
 
-		if (isLoading === true) {
+		if (loading === true) {
 
 			if (elmCurrentlyLoading !== null) {
 				elmCurrentlyLoading.classList.remove("loading");
@@ -573,6 +657,17 @@ let rssTreeView = (function () {
 		elm.classList.add("selected");
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setFeedVisitedState(elm, visited) {
+		
+		if(visited === true) {
+			elm.classList.add("visited");
+		} else {
+			elm.classList.remove("visited");
+		}
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function removeAllTreeItemsEventListeners() {

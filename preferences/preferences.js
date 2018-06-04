@@ -1,6 +1,6 @@
 "use strict";
 
-let preferences = (function () {
+let preferences = (function() {
 
     const menuGuid = "menu________";
 

@@ -1,6 +1,6 @@
 "use strict";
 
-(function () {
+(function() {
 
 	let ContextAction = Object.freeze({
 		treeOpen: 1,
