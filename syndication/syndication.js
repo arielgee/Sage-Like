@@ -106,7 +106,7 @@ let syndication = (function() {
 				let feedData = getFeedData(feedXML.txtXML);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
-					reject("RSS feed not identified or document not valid at '" + feedUrl + "'. " + feedData.errorMsg);
+					reject("RSS feed not identified or document not valid at '" + feedUrl + "', [" + feedData.errorMsg + "]");
 				} else {
 					let list = createFeedItemsList(feedData);
 
@@ -191,15 +191,15 @@ let syndication = (function() {
 							resolve( { url: feedUrl, txtXML: txtXML } );
 						});
                     }).catch((error) => {
-						reject("Fail to get response stream (blob) from '" + feedUrl + "', " + error.message);
+						reject("Fail to get response stream (blob) from '" + feedUrl + "', [" + error.message + "]");
 					});
 
 				} else {
-                    reject("Fail to retrieve feed XML from '" + response.url + "', " + response.status + " " + response.statusText + ".");
+                    reject("Fail to retrieve feed XML from '" + response.url + "', [" + response.status + " " + response.statusText + "]");
 				}
 
 			}).catch((error) => {
-				reject("Request failed to fetch feed from '" + feedUrl + "', " + error.message);
+				reject("Request failed to fetch feed from '" + feedUrl + "', [" + error.message + "]");
 			});
         });
 	}

@@ -4,7 +4,7 @@ html, body {
   --toolbar-height: 31px;
   --top-height: 60%;
   --splitter-height: 7px;
-  --line-height: 17px;
+  --line-height: 21px;
   height: 100%;
   line-height: var(--line-height);
 }

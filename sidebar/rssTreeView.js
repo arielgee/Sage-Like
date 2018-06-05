@@ -278,7 +278,6 @@ let rssTreeView = (function() {
 
 		syndication.fetchFeedData(urlFeed).then((feedData) => {			
 
-			//let urlFeed = elmLI.getAttribute("href");
 			let lastUpdated = (new Date(feedData.lastUpdated));	// could be text
 
 			// make sure date is valid and save as simple numeric
@@ -589,6 +588,11 @@ let rssTreeView = (function() {
 
 				let elmLI = createTagLI(created.id, created.title === "" ? created.url : created.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, created.url);
 				elmTreeRoot.appendChild(elmLI);
+				elmLI.scrollIntoView();
+				elmLI.classList.add("flash");
+				setTimeout(() => {
+					elmLI.classList.remove("flash");	
+				}, 3000);
 
 				createBookmarksDependently(bookmarksList, ++index);
 			});

@@ -6,7 +6,8 @@
   font-weight: bold;
   white-space: nowrap;
   background-color: transparent;
-  line-height: 21px;
+  unicode-bidi: embed;
+  line-height: var(--line-height);
 }
 
 .treeview ul {
@@ -31,6 +32,16 @@
   min-height: var(--line-height);
   padding-left: 2px;
   pointer-events: none; /* otherwise the menucontext is not fired */
+
+
+  background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;  
+  transition: background-position 1.5s ease-in 0s;  
+}
+
+.treeview li.flash .caption {
+  background-position: left bottom;
 }
 
 /* Style for LI that contains sub trees (other ULs) */

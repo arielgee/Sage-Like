@@ -195,7 +195,6 @@ let discoverView = (function() {
 
         for (let item of elmDiscoverFeedsList.children) {
             if(item.firstElementChild.checked) {
-                console.log("[Sage-Like-item]", item);
                 newFeedsList.push( { title: item.getAttribute("name"), link: item.getAttribute("href") } );
             }
         }
