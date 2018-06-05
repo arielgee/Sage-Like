@@ -11,7 +11,7 @@ let rssTreeView = (function() {
 			if (new.target === "StoredKeyedItems") {
 				throw new Error("Don't do that");
 			}
-			this.dispose();
+			this.clear();
 		}
 		getStorage() {
 			throw new Error("Don't do that");
@@ -19,8 +19,8 @@ let rssTreeView = (function() {
 		setStorage() {
 			throw new Error("Don't do that");
 		}
-		add(key, value = undefined) {
-			this._items[key] = (value === undefined ? "x" : value);
+		set(key, value = undefined) {
+			this._items[key] = ( (value === undefined) || (value === null) ) ? "x" : value;
 			this.setStorage();
 		}
 		remove(key) {
@@ -33,7 +33,7 @@ let rssTreeView = (function() {
 		value(key) {
 			return this._items.hasOwnProperty(key) ? this._items[key] : null;
 		}
-		dispose() {
+		clear() {
 			this._items = {};
 		}
 	};
@@ -52,17 +52,17 @@ let rssTreeView = (function() {
 		}
 	};
 
-	class LastUpdatedFeeds extends StoredKeyedItems {
+	class LastVisitedFeeds extends StoredKeyedItems {
 		getStorage() {
 			return new Promise((resolve) => {
-				prefs.getLastUpdatedFeeds().then((items) => {
+				prefs.getLastVisitedFeeds().then((items) => {
 					this._items = items;
 					resolve();
 				});
 			});
 		}
 		setStorage() {
-			prefs.setLastUpdatedFeeds(this._items);
+			prefs.setLastVisitedFeeds(this._items);
 		}
 	};
 
@@ -103,7 +103,7 @@ let rssTreeView = (function() {
 	let lineHeight = 21;
 
 	let objOpenSubTrees = new OpenSubTrees();
-	let objLastUpdatedFeeds = new LastUpdatedFeeds();
+	let objLastVisitedFeeds = new LastVisitedFeeds();
 	let objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
 
@@ -257,44 +257,51 @@ let rssTreeView = (function() {
 	//
 	async function processRSSTreeFeedsData() {
 	
-		// getElementsByTagName is faster
-		await objLastUpdatedFeeds.getStorage();
+		//objLastVisitedFeeds.setStorage();
+		await objLastVisitedFeeds.getStorage();
 
+		// getElementsByTagName is faster then querySelectorAll
+		let elmLIs = elmTreeRoot.getElementsByTagName("li")
+		
+		for(let elmLI of elmLIs) {
+			if(elmLI.classList.contains(sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
+				processFeedData(elmLI, elmLI.getAttribute("href"));
+			}			
+		};
+	}
 
-		console.log("[Sage-Like-objLastUpdatedFeeds]", objLastUpdatedFeeds);
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function processFeedData(elmLI, urlFeed) {
 
-		elmTreeRoot.querySelectorAll("." + sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED).forEach((elmLI) => {
+		setFeedLoadingState(elmLI, true);
 
-			setFeedLoadingState(elmLI, true);
+		syndication.fetchFeedData(urlFeed).then((feedData) => {			
 
-			syndication.fetchFeedData(elmLI.getAttribute("href")).then((feedData) => {
+			//let urlFeed = elmLI.getAttribute("href");
+			let lastUpdated = (new Date(feedData.lastUpdated));	// could be text
 
-				let dateVal = new Date(feedData.LastUpdated);	// could be text
-				let feedUrl = elmLI.getAttribute("href");
+			// make sure date is valid and save as simple numeric
+			lastUpdated = isNaN(lastUpdated) ? Date.now() : lastUpdated.getTime();
 
-				if(objLastUpdatedFeeds.exist(feedUrl)) {
-					console.log("[Sage-Like-objLastUpdatedFeeds]", feedData.title, "exist");
+			elmLI.title = "Updated: " + (new Date(lastUpdated)).toLocaleString();
 
-					if(objLastUpdatedFeeds.value < dateVal) {
-						elmLI.classList.remove("visited");
-					} else {
-						elmLI.classList.add("visited");
-					}
-				} else {
+			if(objLastVisitedFeeds.exist(urlFeed) && (objLastVisitedFeeds.value(urlFeed) > lastUpdated)) {
 
-					console.log("[Sage-Like-objLastUpdatedFeeds]", feedData.title, "NOT-exit");
-					
-					// make sure a Date() is added
-					objLastUpdatedFeeds.add(feedUrl, (isNaN(dateVal) ? Date.now() : dateVal));
-					elmLI.classList.remove("visited");
-				}
+				setFeedVisitedState(elmLI, true);
 
-				setFeedLoadingState(elmLI, false);
-			}).catch((error) => {
-				setFeedLoadingState(elmLI, false);
-			});			
+			} else {
+
+				setFeedVisitedState(elmLI, false);
+				objLastVisitedFeeds.set(urlFeed, 0);
+			}				
+
+		}).catch((error) => {
+			elmLI.classList.add("error");
+			console.log("[Sage-Like-processFeedData]", elmLI.textContent, error);			
+		}).finally(() => {	// wait for Fx v58
+			setFeedLoadingState(elmLI, false);
 		});
-
 	}
 	
 	//==================================================================================
@@ -357,16 +364,19 @@ let rssTreeView = (function() {
 
 			let urlFeed = elmItem.getAttribute("href");
 
-			setFeedLoadingState(elmItem, true);
+			setOneConcurrentFeedLoadingState(elmItem, true);
+
 			syndication.fetchFeedItems(urlFeed, event.shiftKey).then((list) => {
+
 				rssListView.setFeedItems(list);
-				setFeedLoadingState(elmItem, false);
+				setFeedVisitedState(elmItem, true);
+				objLastVisitedFeeds.set(urlFeed, slUtil.getCurrentLocaleDate().getTime());
+				
 			}).catch((error) => {
 				rssListView.setListErrorMsg(error);
-				setFeedLoadingState(elmItem, false);
-			})/*.finally(() => {	// wait for Fx v58
-				setFeedLoadingState(elmItem, false);
-			})*/;
+			}).finally(() => {	// wait for Fx v58
+				setOneConcurrentFeedLoadingState(elmItem, false);
+			});
 		}
 		setFeedSelectionState(elmItem);
 
@@ -520,7 +530,7 @@ let rssTreeView = (function() {
 		for (let elmUL of elemULs) {
 			if(this.id === "expandall") {
 				setSubTreeVisibility(elmUL.parentElement, elmUL, true);
-				objOpenSubTrees.add(elmUL.parentElement.id);
+				objOpenSubTrees.set(elmUL.parentElement.id);
 			} else {
 				setSubTreeVisibility(elmUL.parentElement, elmUL, false);
 				objOpenSubTrees.remove(elmUL.parentElement.id);
@@ -600,7 +610,7 @@ let rssTreeView = (function() {
 			objOpenSubTrees.remove(elmTreeItem.id);
 		} else {
 			setSubTreeVisibility(elmTreeItem, elmUL, true);
-			objOpenSubTrees.add(elmTreeItem.id);
+			objOpenSubTrees.set(elmTreeItem.id);
 		}
 	}
 
@@ -612,7 +622,7 @@ let rssTreeView = (function() {
 
 		if (open && (elmUL.getAttribute("rel") !== "open")) {
 			setSubTreeVisibility(elmTreeItem, elmUL, true);
-			objOpenSubTrees.add(elmTreeItem.id);
+			objOpenSubTrees.set(elmTreeItem.id);
 		} else if (!open && (elmUL.getAttribute("rel") === "open")) {
 			setSubTreeVisibility(elmTreeItem, elmUL, false);
 			objOpenSubTrees.remove(elmTreeItem.id);
@@ -631,6 +641,17 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function setFeedLoadingState(elm, loading) {
+
+		if (loading === true) {
+			elm.classList.add("loading");
+		} else {
+			elm.classList.remove("loading");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setOneConcurrentFeedLoadingState(elm, loading) {
 
 		if (loading === true) {
 

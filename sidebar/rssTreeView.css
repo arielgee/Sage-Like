@@ -51,7 +51,13 @@
 
 /* Style for ULs that are children of LIs (subtree). Hide them by default. */
 .treeview li.subtree ul {
-  display: none;
+  cursor: default;
+}
+
+.treeview li.error {
+  background: transparent url("../icons/error_bw.png") no-repeat left center;
+  font-style: italic;
+  font-weight: normal;
 }
 
 .treeview li.errormsg {

@@ -50,19 +50,20 @@ let syndication = (function() {
 						if(feedXML.txtXML !== undefined) {
 							feedData = getFeedData(feedXML.txtXML);
 
-							discoveredFeedsList[feedXML.url] = {
-								status: "OK",
-								title: (feedData.title.length >0 ? feedData.title : discoveredFeedsList[feedXML.url].title),
-								url: discoveredFeedsList[feedXML.url].url,
-								lastUpdated: feedData.lastUpdated,
-								format: feedData.standard,
-								items: feedData.items,
-							};
+							if(feedData.standard === SyndicationStandard.invalid) {
+								discoveredFeedsList['error'] = { status: "error", message: feedData.errorMsg };
+							} else {
+								discoveredFeedsList[feedXML.url] = {
+									status: "OK",
+									title: (feedData.title.length >0 ? feedData.title : discoveredFeedsList[feedXML.url].title),
+									url: discoveredFeedsList[feedXML.url].url,
+									lastUpdated: feedData.lastUpdated,
+									format: feedData.standard,
+									items: feedData.items,
+								};
+							}
 						} else {
-							discoveredFeedsList['error'] = {
-								status: "error",
-								message: feedXML,
-							};
+							discoveredFeedsList['error'] = { status: "error", message: feedXML };
 						}
 					});
 					resolve(discoveredFeedsList);
@@ -80,7 +81,12 @@ let syndication = (function() {
 			getFeedXMLText(feedUrl).then((feedXML) => {
 
 				let feedData = getFeedData(feedXML.txtXML);
-				resolve(feedData);
+
+				if(feedData.standard === SyndicationStandard.invalid) {
+					reject(feedData.errorMsg);
+				} else {
+					resolve(feedData);
+				}
 				
 			}).catch((error) => {
 				reject(error);
@@ -98,12 +104,17 @@ let syndication = (function() {
 			getFeedXMLText(feedUrl, reload).then((feedXML) => {
 
 				let feedData = getFeedData(feedXML.txtXML);
-				let list = createFeedItemsList(feedData);
 
-				if(list.length > 0) {
-					resolve(list);
+				if(feedData.standard === SyndicationStandard.invalid) {
+					reject("RSS feed not identified or document not valid at '" + feedUrl + "'. " + feedData.errorMsg);
 				} else {
-					reject("RSS feed not identified or document not valid at '" + feedUrl + "'.");
+					let list = createFeedItemsList(feedData);
+
+					if(list.length > 0) {
+						resolve(list);
+					} else {
+						reject("No RSS feed items identified in document at '" + feedUrl + "'.");
+					}
 				}
 			}).catch((error) => {
 				reject(error);
@@ -176,7 +187,7 @@ let syndication = (function() {
 					response.blob().then((blob) => {
 
 						getXMLTextFromBlob(blob).then((txtXML) => {
-							//console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
+							//console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 1024));
 							resolve( { url: feedUrl, txtXML: txtXML } );
 						});
                     }).catch((error) => {
@@ -202,8 +213,9 @@ let syndication = (function() {
 			xmlEncoding: "",
 			feeder: {},
 			title: "",
-			lastUpdated: "",
-			items: "",
+			lastUpdated: 0,
+			items: 0,
+			errorMsg: "",
 		};
 
 		// try to avoid a stupid XML/RSS Parsing Error: junk after document element
@@ -219,7 +231,8 @@ let syndication = (function() {
 
         // return if XML not well-formed
         if(doc.documentElement.nodeName === "parsererror") {
-			console.log("[Sage-Like]", doc.documentElement.textContent);
+			feedData.errorMsg = doc.documentElement.textContent.split("\n", 1)[0];	// only the first line
+			console.log("[Sage-Like]", feedData.errorMsg);
             return feedData;
 		}
 

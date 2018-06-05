@@ -38,11 +38,11 @@ let sageLikeGlobalConsts = (function() {
 let prefs = (function() {
 
 	const DEF_PREF_OPEN_SUB_TREES = {};
-	const DEF_PREF_LAST_UPDATED_FEEDS = {};
+	const DEF_PREF_LAST_VISITED_FEEDS = {};
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
-	const PREF_LAST_UPDATED_FEEDS = "pref_lastUpdatedFeeds";
+	const PREF_LAST_VISITED_FEEDS = "pref_lastVisitedFeeds";
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 
 	//////////////////////////////////////////////////////////////////////
@@ -65,21 +65,21 @@ let prefs = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let getLastUpdatedFeeds = function() {
+	let getLastVisitedFeeds = function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_LAST_UPDATED_FEEDS).then((result) => {
-                resolve(result[PREF_LAST_UPDATED_FEEDS] === undefined ? DEF_PREF_LAST_UPDATED_FEEDS : result[PREF_LAST_UPDATED_FEEDS]);
+			browser.storage.local.get(PREF_LAST_VISITED_FEEDS).then((result) => {
+                resolve(result[PREF_LAST_VISITED_FEEDS] === undefined ? DEF_PREF_LAST_VISITED_FEEDS : result[PREF_LAST_VISITED_FEEDS]);
 			});
 		});
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let setLastUpdatedFeeds = function(objValue) {
+	let setLastVisitedFeeds = function(objValue) {
 
 		let obj = {};
-		obj[PREF_LAST_UPDATED_FEEDS] = objValue;
+		obj[PREF_LAST_VISITED_FEEDS] = objValue;
 		browser.storage.local.set(obj);
 	};
 
@@ -105,12 +105,12 @@ let prefs = (function() {
 	//////////////////////////////////////////////////////////////////////
 	let restoreDefaults = function() {
 		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES);
-		this.setLastUpdatedFeeds(DEF_PREF_LAST_UPDATED_FEEDS);
-		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);		
+		this.setLastVisitedFeeds(DEF_PREF_LAST_VISITED_FEEDS);
+		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
 
 		return {
 			openSubTrees: DEF_PREF_OPEN_SUB_TREES,
-			lastUpdatedFeeds: DEF_PREF_LAST_UPDATED_FEEDS,
+			lastUpdatedFeeds: DEF_PREF_LAST_VISITED_FEEDS,
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		};
 	};
@@ -118,8 +118,8 @@ let prefs = (function() {
 	return {
 		getOpenSubTrees: getOpenSubTrees,
 		setOpenSubTrees: setOpenSubTrees,
-		getLastUpdatedFeeds: getLastUpdatedFeeds,
-		setLastUpdatedFeeds: setLastUpdatedFeeds,
+		getLastVisitedFeeds: getLastVisitedFeeds,
+		setLastVisitedFeeds: setLastVisitedFeeds,
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
 
@@ -256,8 +256,17 @@ let slUtil = (function() {
 		return (elm.clientWidth < elm.scrollWidth);
 	};
 
-	// why not use classList ?!?!?!?!?!?!?!?!?!?!?!
-	// https://www.w3schools.com/jsref/prop_element_classlist.asp
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	let getCurrentLocaleDate = function() {
+
+		let now = new Date();
+		let newDate = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000);
+
+		newDate.setHours(now.getHours() - (now.getTimezoneOffset() / 60));
+
+		return newDate;
+	};
 
 	return {
 		escapeRegExp: escapeRegExp,
@@ -267,6 +276,7 @@ let slUtil = (function() {
 		addUrlToBrowserHistory: addUrlToBrowserHistory,
 		getScrollbarWidth: getScrollbarWidth,
 		hasHScroll: hasHScroll,
+		getCurrentLocaleDate: getCurrentLocaleDate,
 	};
 })();
 
