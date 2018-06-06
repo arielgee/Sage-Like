@@ -357,6 +357,9 @@ let rssTreeView = (function() {
 			toggleSubTreeState(elmItem);
 		} else {
 
+			// remove here if is error
+			elmItem.classList.remove("error");
+
 			rssListView.disposeList();
 
 			let urlFeed = elmItem.getAttribute("href");
@@ -370,6 +373,7 @@ let rssTreeView = (function() {
 				objLastVisitedFeeds.set(urlFeed, slUtil.getCurrentLocaleDate().getTime());
 
 			}).catch((error) => {
+				elmItem.classList.add("error");
 				rssListView.setListErrorMsg(error);
 			}).finally(() => {	// wait for Fx v58
 				setOneConcurrentFeedLoadingState(elmItem, false);
@@ -709,9 +713,9 @@ let rssTreeView = (function() {
 	function setFeedVisitedState(elm, visited) {
 
 		if(visited === true) {
-			elm.classList.add("visited");
+			elm.classList.remove("bold");
 		} else {
-			elm.classList.remove("visited");
+			elm.classList.add("bold");
 		}
 	}
 

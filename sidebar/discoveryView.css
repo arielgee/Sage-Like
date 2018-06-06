@@ -80,6 +80,7 @@
     border-bottom: 1px solid gray;
     display: flex;
     justify-content: left;
+    line-height: 29px;
 }
 
 #discoverFeedsList .dfItem.novalidfeeds {
@@ -99,7 +100,6 @@
     padding-left: 6px;
     width: 100%;
     margin: auto 0 auto 0;
-    line-height: 29px;
 }
 
 #discoverFeedsList .dfLabel .dfLabelCaption {

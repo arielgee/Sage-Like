@@ -268,6 +268,12 @@ let slUtil = (function() {
 		return newDate;
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	let isContentOverflowing = function(elm) {
+		return (elm.offsetWidth < elm.scrollWidth);
+	};
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -277,6 +283,7 @@ let slUtil = (function() {
 		getScrollbarWidth: getScrollbarWidth,
 		hasHScroll: hasHScroll,
 		getCurrentLocaleDate: getCurrentLocaleDate,
+		isContentOverflowing: isContentOverflowing,
 	};
 })();
 

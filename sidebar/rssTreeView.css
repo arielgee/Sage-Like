@@ -3,7 +3,7 @@
 .treeview {
   margin: 0;
   padding: 4px 0 4px 4px;
-  font-weight: bold;
+  font-weight: normal;
   white-space: nowrap;
   background-color: transparent;
   unicode-bidi: embed;
@@ -17,31 +17,29 @@
 
 /* Style for LI elements in general (excludes an LI that contains sub trees) */
 .treeview li {
-  display: table;
   background: transparent url("../icons/rss.png") no-repeat left center;
   list-style-type: none;
   padding-left: 20px;
-  font-weight: bold;
   cursor: pointer;
 }
 
-.treeview li.visited {
-  font-weight: normal;
+.treeview li.bold {
+  font-weight: bold;
 }
 
 .treeview .caption {
   box-sizing: content-box;
-  padding-right: 8px;
   border: 1px dotted transparent;
   min-height: var(--line-height);
-  padding-left: 2px;
+  padding: 0 4px 0 2px;
   pointer-events: none; /* otherwise the menucontext is not fired */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Style for LI that contains sub trees (other ULs) */
 .treeview li.subtree {
   background: transparent url("../icons/closed.png") no-repeat left 1px;
-  font-weight: normal;
   cursor: default;
 }
 
@@ -63,13 +61,11 @@
 .treeview li.error {
   background: transparent url("../icons/error_bw.png") no-repeat left center;
   font-style: italic;
-  font-weight: normal;
 }
 
 .treeview li.errormsg {
   background: transparent url("../icons/error.png") no-repeat left center;
   color: crimson;
-  font-weight: normal;
   cursor: default;
   -moz-user-select: text;
   user-select: text;
