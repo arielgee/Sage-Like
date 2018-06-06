@@ -4,12 +4,12 @@ html, body {
   --toolbar-height: 31px;
   --top-height: 60%;
   --splitter-height: 7px;
-  --line-height: 21px;
+  --line-height: 19px;
   height: 100%;
   line-height: var(--line-height);
 }
 
-.top {  
+.top {
   position: fixed;
   top: var(--toolbar-height);
   width: 100%;
@@ -27,7 +27,7 @@ html, body {
   background-color: Window; /*rgb(211 211 211);*/
 }
 
-.splitter {  
+.splitter {
   position: fixed;
   top: var(--top-height);
   width: 100%;
@@ -96,6 +96,6 @@ html, body {
 }
 
 .disabled {
-  pointer-events: none;  
-  filter: blur(1.5px);  
-} 
+  pointer-events: none;
+  filter: blur(1.5px);
+}

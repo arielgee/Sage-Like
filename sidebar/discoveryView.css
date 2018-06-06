@@ -56,11 +56,11 @@
 #discoverPanel #btnRediscover:hover {
     filter: drop-shadow(0 0 4px rgb(0, 129, 255));
 }
-  
+
 #discoverPanel #btnRediscover:active {
     transform: rotate(45deg);
-}  
-  
+}
+
 #discoverFeedsList {
     list-style-type: none;
     padding: 0;
@@ -76,7 +76,7 @@
 }
 
 #discoverFeedsList .dfItem {
-    padding: 4px 7px;
+    padding: 0 7px;
     border-bottom: 1px solid gray;
     display: flex;
     justify-content: left;
@@ -85,6 +85,7 @@
 #discoverFeedsList .dfItem.novalidfeeds {
     color: gray;
     font-style: italic;
+    border-bottom: 0;
 }
 
 #discoverFeedsList .dfChkBox {
@@ -98,6 +99,7 @@
     padding-left: 6px;
     width: 100%;
     margin: auto 0 auto 0;
+    line-height: 29px;
 }
 
 #discoverFeedsList .dfLabel .dfLabelCaption {
@@ -108,7 +110,7 @@
 
 #discoverFeedsList .dfLabel .dfLabelFormat {
     max-width: 30px;
-    margin: auto 0 2px 0;
+    margin: auto 0 auto 0;
     color: gray;
     vertical-align: text-bottom;
 }

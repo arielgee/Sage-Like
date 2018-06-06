@@ -17,6 +17,7 @@
 
 /* Style for LI elements in general (excludes an LI that contains sub trees) */
 .treeview li {
+  display: table;
   background: transparent url("../icons/rss.png") no-repeat left center;
   list-style-type: none;
   padding-left: 20px;
@@ -29,19 +30,12 @@
 }
 
 .treeview .caption {
+  box-sizing: content-box;
+  padding-right: 8px;
+  border: 1px dotted transparent;
   min-height: var(--line-height);
   padding-left: 2px;
   pointer-events: none; /* otherwise the menucontext is not fired */
-
-
-  background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;  
-  transition: background-position 1.5s ease-in 0s;  
-}
-
-.treeview li.flash .caption {
-  background-position: left bottom;
 }
 
 /* Style for LI that contains sub trees (other ULs) */
@@ -58,6 +52,7 @@
 
 .treeview li.selected > .caption {
   background-color: lightblue;
+  border: 1px dotted gray;
 }
 
 /* Style for ULs that are children of LIs (subtree). Hide them by default. */

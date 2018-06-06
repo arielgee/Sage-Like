@@ -180,7 +180,7 @@ let rssTreeView = (function() {
 				elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
 				browser.runtime.openOptionsPage();
 			});
-		});		
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -196,9 +196,7 @@ let rssTreeView = (function() {
 			let elmUL = createTagUL();
 			elmLI.appendChild(elmUL);
 
-			if(objOpenSubTrees.exist(bookmark.id)) {
-				setSubTreeVisibility(elmLI, elmUL, true);
-			}
+			setSubTreeState(elmLI, objOpenSubTrees.exist(bookmark.id));
 
 			for (let child of bookmark.children) {
 				createTreeItem(elmUL, child);
@@ -252,21 +250,21 @@ let rssTreeView = (function() {
 	//==================================================================================
 	//=== Tree Processing
 	//==================================================================================
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	async function processRSSTreeFeedsData() {
-	
+
 		//objLastVisitedFeeds.setStorage();
 		await objLastVisitedFeeds.getStorage();
 
 		// getElementsByTagName is faster then querySelectorAll
 		let elmLIs = elmTreeRoot.getElementsByTagName("li")
-		
+
 		for(let elmLI of elmLIs) {
 			if(elmLI.classList.contains(sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
 				processFeedData(elmLI, elmLI.getAttribute("href"));
-			}			
+			}
 		};
 	}
 
@@ -276,7 +274,7 @@ let rssTreeView = (function() {
 
 		setFeedLoadingState(elmLI, true);
 
-		syndication.fetchFeedData(urlFeed).then((feedData) => {			
+		syndication.fetchFeedData(urlFeed).then((feedData) => {
 
 			let lastUpdated = (new Date(feedData.lastUpdated));	// could be text
 
@@ -293,16 +291,16 @@ let rssTreeView = (function() {
 
 				setFeedVisitedState(elmLI, false);
 				objLastVisitedFeeds.set(urlFeed, 0);
-			}				
+			}
 
 		}).catch((error) => {
 			elmLI.classList.add("error");
-			console.log("[Sage-Like-processFeedData]", elmLI.textContent, error);			
+			elmLI.title = "Error: " + error;
 		}).finally(() => {	// wait for Fx v58
 			setFeedLoadingState(elmLI, false);
 		});
 	}
-	
+
 	//==================================================================================
 	//=== Tree Item Event Listeners
 	//==================================================================================
@@ -370,7 +368,7 @@ let rssTreeView = (function() {
 				rssListView.setFeedItems(list);
 				setFeedVisitedState(elmItem, true);
 				objLastVisitedFeeds.set(urlFeed, slUtil.getCurrentLocaleDate().getTime());
-				
+
 			}).catch((error) => {
 				rssListView.setListErrorMsg(error);
 			}).finally(() => {	// wait for Fx v58
@@ -528,10 +526,10 @@ let rssTreeView = (function() {
 
 		for (let elmUL of elemULs) {
 			if(this.id === "expandall") {
-				setSubTreeVisibility(elmUL.parentElement, elmUL, true);
+				setSubTreeState(elmUL.parentElement, true);
 				objOpenSubTrees.set(elmUL.parentElement.id);
 			} else {
-				setSubTreeVisibility(elmUL.parentElement, elmUL, false);
+				setSubTreeState(elmUL.parentElement, false);
 				objOpenSubTrees.remove(elmUL.parentElement.id);
 			}
 		}
@@ -565,13 +563,13 @@ let rssTreeView = (function() {
 				} );
 			}
 
-			createBookmarksDependently(bookmarksList, 0);
+			createBookmarksSequentially(bookmarksList, 0);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function createBookmarksDependently(bookmarksList, index) {
+	function createBookmarksSequentially(bookmarksList, index) {
 
 		/*
 			Because bookmarks.create() is an asynchronous function the creation of multiple bookmarks
@@ -587,15 +585,40 @@ let rssTreeView = (function() {
 			browser.bookmarks.create(bookmarksList[index]).then((created) => {
 
 				let elmLI = createTagLI(created.id, created.title === "" ? created.url : created.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, created.url);
+				elmLI.classList.add("blinkNew");
 				elmTreeRoot.appendChild(elmLI);
-				elmLI.scrollIntoView();
-				elmLI.classList.add("flash");
-				setTimeout(() => {
-					elmLI.classList.remove("flash");	
-				}, 3000);
 
-				createBookmarksDependently(bookmarksList, ++index);
+				createBookmarksSequentially(bookmarksList, ++index);
+
+				// this will happend after the last element was appended
+				if(bookmarksList.length === index) {
+					elmLI.scrollIntoView();
+					blinkNewlyAddedFeeds();
+				}
 			});
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function blinkNewlyAddedFeeds() {
+
+		elmTreeRoot.querySelectorAll(".blinkNew").forEach((elm) => {
+			blinkElement(elm, elm.style.visibility, 200, 1500);
+			elm.classList.remove("blinkNew");
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function blinkElement(elm, orgVisibility, interval, duration) {
+
+		elm.style.visibility = (elm.style.visibility === "hidden" ? orgVisibility : "hidden");
+
+		if(duration > 0) {
+			setTimeout(blinkElement, interval, elm, orgVisibility, interval, duration-interval);
+		} else {
+			elm.style.visibility = orgVisibility;
 		}
 	}
 
@@ -624,19 +647,18 @@ let rssTreeView = (function() {
 
 		let elmUL = elmTreeItem.getElementsByTagName("ul")[0];
 
-		if (open && (elmUL.getAttribute("rel") !== "open")) {
+		if (open) {
 			setSubTreeVisibility(elmTreeItem, elmUL, true);
 			objOpenSubTrees.set(elmTreeItem.id);
-		} else if (!open && (elmUL.getAttribute("rel") === "open")) {
+		} else {
 			setSubTreeVisibility(elmTreeItem, elmUL, false);
 			objOpenSubTrees.remove(elmTreeItem.id);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
+	// Don't Call This Directlly
 	function setSubTreeVisibility(elmLI, elmUL, open) {
-
 		elmUL.style.display = (open ? "block" : "none");
 		elmUL.setAttribute("rel", (open ? "open" : "closed"));
 		elmLI.style.backgroundImage = "url(" + (open ? sageLikeGlobalConsts.IMG_OPEN_SUB_TREE : sageLikeGlobalConsts.IMG_CLOSED_SUB_TREE) + ")";
@@ -685,14 +707,14 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function setFeedVisitedState(elm, visited) {
-		
+
 		if(visited === true) {
 			elm.classList.add("visited");
 		} else {
 			elm.classList.remove("visited");
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function removeAllTreeItemsEventListeners() {

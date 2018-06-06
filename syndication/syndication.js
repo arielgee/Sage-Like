@@ -232,7 +232,6 @@ let syndication = (function() {
         // return if XML not well-formed
         if(doc.documentElement.nodeName === "parsererror") {
 			feedData.errorMsg = doc.documentElement.textContent.split("\n", 1)[0];	// only the first line
-			console.log("[Sage-Like]", feedData.errorMsg);
             return feedData;
 		}
 
