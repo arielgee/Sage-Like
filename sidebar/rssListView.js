@@ -2,6 +2,10 @@
 
 let rssListView = (function() {
 
+	//==================================================================================
+	//=== Variables Declerations
+	//==================================================================================
+
 	let elmList;
 
 	let elmCurrentlySelected = null;
@@ -26,9 +30,13 @@ let rssListView = (function() {
 		window.removeEventListener("unload", onUnload);
 	}
 
+	//==================================================================================
+	//=== List Creation
+	//==================================================================================
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setFeedItems = function(list) {
+	function setFeedItems(list) {
 
 		let index = 1;
 
@@ -45,7 +53,7 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let appendTagIL = function(index, title, desc, link) {
+	function appendTagIL(index, title, desc, link) {
 
 		let elm = document.createElement("li");
 
@@ -53,19 +61,37 @@ let rssListView = (function() {
 		setItemVisitedStatus(elm, link);
 
 		elm.textContent = index.toString() + ". " + title;
-		//elm.setAttribute("title", desc);	// show my own box to show html tags
+		elm.title = title;
 		elm.setAttribute("href", link);
 
-		elm.addEventListener("click", onClickFeedItem);
-		elm.addEventListener("auxclick", onClickFeedItem);
-		elm.addEventListener("mousedown", onClickFeedItem_preventDefault);
+		addListItemEventListeners(elm);
 
 		elmList.appendChild(elm);
 	};
 
+	//==================================================================================
+	//=== List Item Event Listeners
+	//==================================================================================
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let onClickFeedItem = function(event) {
+	function addListItemEventListeners(elm) {
+		elm.addEventListener("click", onClickFeedItem);
+		elm.addEventListener("auxclick", onClickFeedItem);
+		elm.addEventListener("mousedown", onClickFeedItem_preventDefault);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function removeListItemEventListeners(elm) {
+		elm.removeEventListener("click", onClickFeedItem);
+		elm.removeEventListener("auxclick", onClickFeedItem);
+		elm.removeEventListener("mousedown", onClickFeedItem_preventDefault);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function onClickFeedItem(event) {
 
 		let elm = this;
 		let handled = true;		// optimistic
@@ -103,7 +129,7 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let onClickFeedItem_preventDefault = function(event) {
+	function onClickFeedItem_preventDefault(event) {
 
 		// This is to prevent the default behaviour of Fx when
 		// clicking with the middle button (scroll).
@@ -113,20 +139,13 @@ let rssListView = (function() {
 		event.stopPropagation();
 	};
 
-	////////////////////////////////////////////////////////////////////////////////////
-	// Redirect are not saved in history. So when a feed link is
-	// redirected from http to https or from feedproxy.google.com
-	// to the target page it cannot be found in browser.history.
-	// So this function will record the un-redirected link in history
-	// https://wiki.mozilla.org/Browser_History:Redirects
-	let addFeedItemUrlToHistory = function(url, title) {
-
-		slUtil.addUrlToBrowserHistory(url, title);
-	};
+	//==================================================================================
+	//=== List Items status
+	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setItemVisitedStatus = function(elm, link) {
+	function setItemVisitedStatus(elm, link) {
 
 		browser.history.getVisits({ url: link }).then((vItems) => {
 			if (vItems.length === 0) {
@@ -156,7 +175,7 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setFeedItemSelectionState = function(elm) {
+	function setFeedItemSelectionState(elm) {
 
 		if(elmCurrentlySelected !== null) {
 			elmCurrentlySelected.classList.remove("selected");
@@ -168,7 +187,7 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let setListErrorMsg = function(textContent) {
+	function setListErrorMsg(textContent) {
 		let elm = document.createElement("li");
 		elm.classList.add("errormsg");
 		elm.textContent = textContent;
@@ -177,18 +196,31 @@ let rssListView = (function() {
 		elmList.appendChild(elm);
 	};
 
+	//==================================================================================
+	//=== Utils
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// Redirect are not saved in history. So when a feed link is
+	// redirected from http to https or from feedproxy.google.com
+	// to the target page it cannot be found in browser.history.
+	// So this function will record the un-redirected link in history
+	// https://wiki.mozilla.org/Browser_History:Redirects
+	function addFeedItemUrlToHistory(url, title) {
+
+		slUtil.addUrlToBrowserHistory(url, title);
+	};
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	let disposeList = function() {
+	function disposeList() {
 
 		let el;
 
 		elmCurrentlySelected = null;
 
 		while (el = elmList.firstChild) {
-			el.removeEventListener("click", onClickFeedItem);
-			el.removeEventListener("auxclick", onClickFeedItem);
-			el.removeEventListener("mousedown", onClickFeedItem_preventDefault);
+			removeListItemEventListeners(el);
 			elmList.removeChild(el);
 		}
 	};

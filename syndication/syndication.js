@@ -71,7 +71,7 @@ let syndication = (function() {
 			}
 		});
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function fetchFeedData(feedUrl) {
@@ -83,18 +83,18 @@ let syndication = (function() {
 				let feedData = getFeedData(feedXML.txtXML);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
-					reject(feedData.errorMsg);
+					reject("Fail to get feed data from '" + feedUrl + "'; " + feedData.errorMsg);
 				} else {
 					resolve(feedData);
 				}
-				
+
 			}).catch((error) => {
 				reject(error);
 			});
 		});
-		
+
 	}
-	
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     function fetchFeedItems(feedUrl, reload) {
@@ -106,12 +106,12 @@ let syndication = (function() {
 				let feedData = getFeedData(feedXML.txtXML);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
-					reject("RSS feed not identified or document not valid at '" + feedUrl + "', [" + feedData.errorMsg + "]");
+					reject("Fail to get feed data from '" + feedUrl + "'; " + feedData.errorMsg);
 				} else {
 					let list = createFeedItemsList(feedData);
 
 					if(list.length > 0) {
-						resolve(list);
+						resolve({ list: list, feedData: feedData});
 					} else {
 						reject("No RSS feed items identified in document at '" + feedUrl + "'.");
 					}
@@ -191,19 +191,19 @@ let syndication = (function() {
 							resolve( { url: feedUrl, txtXML: txtXML } );
 						});
                     }).catch((error) => {
-						reject("Fail to get response stream (blob) from '" + feedUrl + "', [" + error.message + "]");
+						reject("Fail to get response stream (blob) from '" + feedUrl + "'; " + error.message);
 					});
 
 				} else {
-                    reject("Fail to retrieve feed XML from '" + response.url + "', [" + response.status + " " + response.statusText + "]");
+                    reject("Fail to retrieve feed XML from '" + response.url + "',; " + response.status + " " + response.statusText);
 				}
 
 			}).catch((error) => {
-				reject("Request failed to fetch feed from '" + feedUrl + "', [" + error.message + "]");
+				reject("Request failed to fetch feed from '" + feedUrl + "'; " + error.message);
 			});
         });
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function getFeedData(txtXML) {
@@ -235,24 +235,30 @@ let syndication = (function() {
             return feedData;
 		}
 
-		if(doc.documentElement.localName === "rss") {							// First lets try 'RSS'
-			feedData.standard = SyndicationStandard.RSS;							// https://validator.w3.org/feed/docs/rss2.html
-			feedData.feeder = doc.querySelector("rss");
-			feedData.title = getFeedTitle(doc, "rss > channel");
-			feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel");
-			feedData.items = feedData.feeder.querySelectorAll("item").length;
-		} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
-			feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Examples: http://feeds.nature.com/nature/rss/current, https://f1-gate.com/
-			feedData.feeder = doc.querySelector("RDF");
-			feedData.title = getFeedTitle(doc, "RDF > channel");
-			feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel");
-			feedData.items = feedData.feeder.querySelectorAll("item").length;
-		} else if(doc.documentElement.localName === "feed") {					// FInally let's try 'Atom'
-			feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
-			feedData.feeder = doc.querySelector("feed");
-			feedData.title = getFeedTitle(doc, "feed");
-			feedData.lastUpdated = getFeedLastUpdate(doc, "feed");
-			feedData.items = feedData.feeder.querySelectorAll("entry").length;
+		try {
+			if(doc.documentElement.localName === "rss") {							// First lets try 'RSS'
+				feedData.standard = SyndicationStandard.RSS;							// https://validator.w3.org/feed/docs/rss2.html
+				feedData.feeder = doc.querySelector("rss");
+				feedData.title = getFeedTitle(doc, "rss > channel");
+				feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel");
+				feedData.items = feedData.feeder.querySelectorAll("item").length;
+			} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
+				feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Examples: http://feeds.nature.com/nature/rss/current, https://f1-gate.com/
+				feedData.feeder = doc.querySelector("RDF");
+				feedData.title = getFeedTitle(doc, "RDF > channel");
+				feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel");
+				feedData.items = feedData.feeder.querySelectorAll("item").length;
+			} else if(doc.documentElement.localName === "feed") {					// FInally let's try 'Atom'
+				feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
+				feedData.feeder = doc.querySelector("feed");
+				feedData.title = getFeedTitle(doc, "feed");
+				feedData.lastUpdated = getFeedLastUpdate(doc, "feed");
+				feedData.items = feedData.feeder.querySelectorAll("entry").length;
+			} else {
+				feedData.errorMsg = "RSS feed not identified in document";
+			}
+		} catch (error) {
+			feedData.errorMsg = error.message;
 		}
 		return feedData;
 	}
@@ -283,7 +289,7 @@ let syndication = (function() {
 		const selectorSuffixes = [ " > title" ];
 
 		let title;
-		
+
 		for (let selector of selectorSuffixes) {
 			title = doc.querySelector(selectorPrefix + selector);
 			return (title ? title.textContent : "");
@@ -336,7 +342,9 @@ let syndication = (function() {
 		return ary;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
+//#region Functions not for use: Documentation only.
+
+/*	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function fetch_testings(feedUrl, reload) {
 		throw "Function is not for use: Documentation only.";
@@ -347,7 +355,7 @@ let syndication = (function() {
 			the encoding is different (Windows-1255 in the test case) i get junk (question marks).
 
 			The third approach (method 3) is also not resolving the issue.
-		*/
+		* /
 
 		let init = {
 			cache: reload ? "reload" : "default",
@@ -400,7 +408,7 @@ let syndication = (function() {
 			The only problem is that I can't handle the 'XML Parsing Error: junk after document element': http://feeds.feedburner.com/digitalwhisper
 			Since it is so simple to fix it and then process the XML I prefered the fetch/response.blob()/XMLHttpRequest/responseText approach
 			that I used in the fetchFeedItems() function.
-		*/
+		* /
 
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', feedUrl, true);
@@ -429,7 +437,6 @@ let syndication = (function() {
     //
     function fetchFeedItems_OLD(feedUrl, reload) {
 		throw "Function is not for use: Documentation only.";
-
 
         let init = {
             cache: reload ? "reload" : "default",
@@ -465,7 +472,9 @@ let syndication = (function() {
 				reject("Request failed to fetch feed from '" + feedUrl + "', " + error.message);
 			});
         });
-    }
+	}
+*/
+//#endregion Functions not for use: Documentation only.
 
     //////////////////////////////////////////
     return {

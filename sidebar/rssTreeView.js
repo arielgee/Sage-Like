@@ -204,7 +204,7 @@ let rssTreeView = (function() {
 
 		} else { // it's a bookmark
 
-			elmLI = createTagLI(bookmark.id, bookmark.title === "" ? bookmark.url : bookmark.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmark.url);
+			elmLI = createTagLI(bookmark.id, bookmark.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmark.url);
 		}
 		parentElement.appendChild(elmLI);
 	}
@@ -220,6 +220,11 @@ let rssTreeView = (function() {
 	//
 	function createTagLI(id, textContent, className, href = null) {
 
+		// ++ normalize the textContent
+		if(textContent.length === 0) {
+			textContent = (href === null) ? "<no name>" : href;
+		}
+
 		let elmCaption = document.createElement("div");
 		let elm = document.createElement("li");
 
@@ -233,6 +238,8 @@ let rssTreeView = (function() {
 			elm.setAttribute("href", href);
 		}
 		elm.appendChild(elmCaption);
+
+		setFeedTooltipState(elm);
 		addTreeItemEventListeners(elm);
 
 		return elm;
@@ -276,14 +283,14 @@ let rssTreeView = (function() {
 
 		syndication.fetchFeedData(urlFeed).then((feedData) => {
 
-			let lastUpdated = (new Date(feedData.lastUpdated));	// could be text
+			let feedUpdate = new Date(feedData.lastUpdated);	// could be text
 
 			// make sure date is valid and save as simple numeric
-			lastUpdated = isNaN(lastUpdated) ? Date.now() : lastUpdated.getTime();
+			feedUpdate = isNaN(feedUpdate) ? Date.now() : feedUpdate.getTime();
 
-			elmLI.title = "Updated: " + (new Date(lastUpdated)).toLocaleString();
+			setFeedTooltipState(elmLI, "Updated: " + (new Date(feedUpdate)).toLocaleString());
 
-			if(objLastVisitedFeeds.exist(urlFeed) && (objLastVisitedFeeds.value(urlFeed) > lastUpdated)) {
+			if(objLastVisitedFeeds.exist(urlFeed) && (objLastVisitedFeeds.value(urlFeed) > feedUpdate)) {
 
 				setFeedVisitedState(elmLI, true);
 
@@ -294,8 +301,7 @@ let rssTreeView = (function() {
 			}
 
 		}).catch((error) => {
-			elmLI.classList.add("error");
-			elmLI.title = "Error: " + error;
+			setFeedErrorState(elmLI, true, error);
 		}).finally(() => {	// wait for Fx v58
 			setFeedLoadingState(elmLI, false);
 		});
@@ -358,7 +364,7 @@ let rssTreeView = (function() {
 		} else {
 
 			// remove here if is error
-			elmItem.classList.remove("error");
+			setFeedErrorState(elmItem, false);
 
 			rssListView.disposeList();
 
@@ -366,14 +372,17 @@ let rssTreeView = (function() {
 
 			setOneConcurrentFeedLoadingState(elmItem, true);
 
-			syndication.fetchFeedItems(urlFeed, event.shiftKey).then((list) => {
+			syndication.fetchFeedItems(urlFeed, event.shiftKey).then((result) => {
 
-				rssListView.setFeedItems(list);
+				let feedUpdate = new Date(result.feedData.lastUpdated);	// could be text
+				setFeedTooltipState(elmItem, "Updated: " + (isNaN(feedUpdate) ? (new Date).toLocaleString() : feedUpdate.toLocaleString()));
+
+				rssListView.setFeedItems(result.list);
 				setFeedVisitedState(elmItem, true);
 				objLastVisitedFeeds.set(urlFeed, slUtil.getCurrentLocaleDate().getTime());
 
 			}).catch((error) => {
-				elmItem.classList.add("error");
+				setFeedErrorState(elmItem, true, error);
 				rssListView.setListErrorMsg(error);
 			}).finally(() => {	// wait for Fx v58
 				setOneConcurrentFeedLoadingState(elmItem, false);
@@ -588,7 +597,7 @@ let rssTreeView = (function() {
 
 			browser.bookmarks.create(bookmarksList[index]).then((created) => {
 
-				let elmLI = createTagLI(created.id, created.title === "" ? created.url : created.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, created.url);
+				let elmLI = createTagLI(created.id, created.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, created.url);
 				elmLI.classList.add("blinkNew");
 				elmTreeRoot.appendChild(elmLI);
 
@@ -716,6 +725,30 @@ let rssTreeView = (function() {
 			elm.classList.remove("bold");
 		} else {
 			elm.classList.add("bold");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setFeedErrorState(elm, error, errorMsg) {
+
+		if(error === true) {
+			elm.classList.add("error");
+			setFeedTooltipState(elm, "Error: " + errorMsg);
+		} else {
+			elm.classList.remove("error");
+			setFeedTooltipState(elm);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	function setFeedTooltipState(elmLI, secondLine = undefined) {
+
+		elmLI.title = elmLI.firstChild.textContent;
+
+		if(secondLine !== undefined) {
+			elmLI.title += "\u000d" + secondLine;
 		}
 	}
 

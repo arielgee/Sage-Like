@@ -161,6 +161,11 @@ let slUtil = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
+	String.prototype.midTrunc = function(n) {
+		return (this.length > n) ? this.substr(0, n/2) + "\u2026"  + this.substr(-((n-1)/2)) : this;
+	};
+
+	//////////////////////////////////////////////////////////////////////
 	let escapeRegExp = function(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 	};
@@ -271,7 +276,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	let isContentOverflowing = function(elm) {
-		return (elm.offsetWidth < elm.scrollWidth);
+		return ((elm.offsetWidth - 1) < elm.scrollWidth);
 	};
 
 	return {
