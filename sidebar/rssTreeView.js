@@ -222,7 +222,7 @@ let rssTreeView = (function() {
 
 		// ++ normalize the textContent
 		if(textContent.length === 0) {
-			textContent = (href === null) ? "<no name>" : href;
+			textContent = (href === null) ? "<no title>" : href;
 		}
 
 		let elmCaption = document.createElement("div");
@@ -277,11 +277,11 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function processFeedData(elmLI, urlFeed) {
+	function processFeedData(elmLI, url) {
 
 		setFeedLoadingState(elmLI, true);
 
-		syndication.fetchFeedData(urlFeed).then((feedData) => {
+		syndication.fetchFeedData(url).then((feedData) => {
 
 			let feedUpdate = new Date(feedData.lastUpdated);	// could be text
 
@@ -290,14 +290,14 @@ let rssTreeView = (function() {
 
 			setFeedTooltipState(elmLI, "Updated: " + (new Date(feedUpdate)).toLocaleString());
 
-			if(objLastVisitedFeeds.exist(urlFeed) && (objLastVisitedFeeds.value(urlFeed) > feedUpdate)) {
+			if(objLastVisitedFeeds.exist(url) && (objLastVisitedFeeds.value(url) > feedUpdate)) {
 
 				setFeedVisitedState(elmLI, true);
 
 			} else {
 
 				setFeedVisitedState(elmLI, false);
-				objLastVisitedFeeds.set(urlFeed, 0);
+				objLastVisitedFeeds.set(url, 0);
 			}
 
 		}).catch((error) => {
@@ -368,18 +368,18 @@ let rssTreeView = (function() {
 
 			rssListView.disposeList();
 
-			let urlFeed = elmItem.getAttribute("href");
+			let url = elmItem.getAttribute("href");
 
 			setOneConcurrentFeedLoadingState(elmItem, true);
 
-			syndication.fetchFeedItems(urlFeed, event.shiftKey).then((result) => {
+			syndication.fetchFeedItems(url, event.shiftKey).then((result) => {
 
 				let feedUpdate = new Date(result.feedData.lastUpdated);	// could be text
 				setFeedTooltipState(elmItem, "Updated: " + (isNaN(feedUpdate) ? (new Date).toLocaleString() : feedUpdate.toLocaleString()));
 
 				rssListView.setFeedItems(result.list);
 				setFeedVisitedState(elmItem, true);
-				objLastVisitedFeeds.set(urlFeed, slUtil.getCurrentLocaleDate().getTime());
+				objLastVisitedFeeds.set(url, slUtil.getCurrentLocaleDate().getTime());
 
 			}).catch((error) => {
 				setFeedErrorState(elmItem, true, error);
@@ -572,7 +572,7 @@ let rssTreeView = (function() {
 					index: foundNodes[0].index + (counter++),
 					parentId: foundNodes[0].parentId,
 					title: feed.title,
-					url: feed.link,
+					url: feed.url,
 				} );
 			}
 

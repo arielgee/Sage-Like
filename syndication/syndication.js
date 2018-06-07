@@ -35,9 +35,9 @@ let syndication = (function() {
 				let objFeed;
 
 				// for each feed found create a list item and create a promise that will return the feed's XML text
-				feeds.forEach((feedUrl) => {
-					discoveredFeedsList[feedUrl.href] = { status: "init", title: feedUrl.title, url: feedUrl.href };
-					allPromises.push(getFeedXMLText(feedUrl.href));
+				feeds.forEach((url) => {
+					discoveredFeedsList[url.href] = { status: "init", title: url.title, url: url.href };
+					allPromises.push(getFeedXMLText(url.href));
 				});
 
 				// for all promises created above get feed data and update the list item
@@ -74,16 +74,16 @@ let syndication = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function fetchFeedData(feedUrl) {
+	function fetchFeedData(url) {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedXMLText(feedUrl).then((feedXML) => {
+			getFeedXMLText(url).then((feedXML) => {
 
 				let feedData = getFeedData(feedXML.txtXML);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
-					reject("Fail to get feed data from '" + feedUrl + "'; " + feedData.errorMsg);
+					reject("Failed to get feed data. " + feedData.errorMsg);
 				} else {
 					resolve(feedData);
 				}
@@ -97,23 +97,23 @@ let syndication = (function() {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    function fetchFeedItems(feedUrl, reload) {
+    function fetchFeedItems(url, reload) {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedXMLText(feedUrl, reload).then((feedXML) => {
+			getFeedXMLText(url, reload).then((feedXML) => {
 
 				let feedData = getFeedData(feedXML.txtXML);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
-					reject("Fail to get feed data from '" + feedUrl + "'; " + feedData.errorMsg);
+					reject("Failed to get feed data. " + feedData.errorMsg);
 				} else {
 					let list = createFeedItemsList(feedData);
 
 					if(list.length > 0) {
 						resolve({ list: list, feedData: feedData});
 					} else {
-						reject("No RSS feed items identified in document at '" + feedUrl + "'.");
+						reject("No RSS feed items identified in document.");
 					}
 				}
 			}).catch((error) => {
@@ -143,7 +143,7 @@ let syndication = (function() {
 				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
 				FeedItem["title"] = item.querySelector("title").textContent;
 				FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent : "";
-				FeedItem["link"] = item.querySelector("link").textContent;
+				FeedItem["url"] = item.querySelector("link").textContent;
                 FeedItemList.push(FeedItem);
 			});
 
@@ -162,7 +162,7 @@ let syndication = (function() {
 				if ((elm = item.querySelector("link:not([rel])")) ||
 					(elm = item.querySelector("link[rel=alternate]")) ||
 					(elm = item.querySelector("link"))) {
-					FeedItem["link"] = elm.getAttribute("href");
+					FeedItem["url"] = elm.getAttribute("href");
 				}
 				FeedItemList.push(FeedItem);
 			});
@@ -172,7 +172,7 @@ let syndication = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function getFeedXMLText(feedUrl, reload) {
+	function getFeedXMLText(url, reload) {
 
         let init = {
             cache: reload ? "reload" : "default",
@@ -180,26 +180,26 @@ let syndication = (function() {
 
         return new Promise((resolve, reject) => {
 
-			fetch(feedUrl, init).then((response) => {
+			fetch(url, init).then((response) => {
 
 				if (response.ok) {
 
 					response.blob().then((blob) => {
 
 						getXMLTextFromBlob(blob).then((txtXML) => {
-							//console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 1024));
-							resolve( { url: feedUrl, txtXML: txtXML } );
+							//console.log("[Sage-Like]", url + "\n", txtXML.substr(0, 1024));
+							resolve( { url: url, txtXML: txtXML } );
 						});
                     }).catch((error) => {
-						reject("Fail to get response stream (blob) from '" + feedUrl + "'; " + error.message);
+						reject("Failed to get response stream (blob). " + error.message);
 					});
 
 				} else {
-                    reject("Fail to retrieve feed XML from '" + response.url + "',; " + response.status + " " + response.statusText);
+                    reject("Failed to retrieve feed XML from URL. " + response.status + " " + response.statusText);
 				}
 
 			}).catch((error) => {
-				reject("Request failed to fetch feed from '" + feedUrl + "'; " + error.message);
+				reject("Failed to fetch feed from URL. " + error.message);
 			});
         });
 	}

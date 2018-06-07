@@ -4,6 +4,10 @@ let discoverView = (function() {
 
     const MSGID_GET_DOC_TEXT_HTML = "msgGetDocumentTextHTML";
 
+    const CODE_INJECTION = "browser.runtime.sendMessage( { id: \"" + MSGID_GET_DOC_TEXT_HTML + "\"," +
+                                                          "txtHTML: document.documentElement.outerHTML," +
+                                                          "domainName: document.domain, } );";
+
     let elmMainPanel = null;
     let elmDiscoverPanel = null;
     let elmDiscoverFeedsList;
@@ -38,6 +42,9 @@ let discoverView = (function() {
         elmButtonAdd.addEventListener("click", onClickButtonAdd);
         elmButtonCancel.addEventListener("click", onClickButtonCancel);
 
+        slUtil.disableElementTree(elmMainPanel, true);
+        elmDiscoverPanel.style.display = "block";
+
         runDiscoverFeeds();
     };
 
@@ -47,7 +54,7 @@ let discoverView = (function() {
 
         slUtil.disableElementTree(elmMainPanel, false);
         elmDiscoverPanel.style.display = "none";
-        emptyDescoverFeedsList();
+        emptyDiscoverFeedsList();
 
         elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
         elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
@@ -65,24 +72,18 @@ let discoverView = (function() {
     //
     let runDiscoverFeeds = function() {
 
-        emptyDescoverFeedsList();
-
-        let code = "browser.runtime.sendMessage( { id: \"" + MSGID_GET_DOC_TEXT_HTML + "\"," +
-                                                  "txtHTML: document.documentElement.outerHTML," +
-                                                  "domainName: document.domain, } );";
+        emptyDiscoverFeedsList();
 
 		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
+
+            elmDiscoverPanel.focus();
 
             if(tab[0].status === "loading") {
                 setNoFeedsMsg("Current tab is still loading.");                
                 return;
             }
 
-			browser.tabs.executeScript(tab[0].id, { code: code, runAt: "document_start" }).then((results) => {
-                slUtil.disableElementTree(elmMainPanel, true);
-                elmDiscoverPanel.style.display = "block";
-                elmDiscoverPanel.focus();
-            }).catch((error) => {
+			browser.tabs.executeScript(tab[0].id, { code: CODE_INJECTION, runAt: "document_start" }).catch((error) => {
                 setNoFeedsMsg("Unable to access current tab.");
                 console.log("[Sage-Like]", error);
             });
@@ -97,7 +98,7 @@ let discoverView = (function() {
         elmLabelDomainName.textContent = domainName;
         syndication.discoverWebSiteFeeds(txtHTML).then((discoveredFeedsList) => {
 
-            emptyDescoverFeedsList();
+            emptyDiscoverFeedsList();
 
             let feed, index = 1
             for(let key in discoveredFeedsList) {
@@ -119,7 +120,7 @@ let discoverView = (function() {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    let emptyDescoverFeedsList = function() {
+    let emptyDiscoverFeedsList = function() {
         while(elmDiscoverFeedsList.firstChild) {
             elmDiscoverFeedsList.removeChild(elmDiscoverFeedsList.firstChild);
         }
@@ -134,7 +135,6 @@ let discoverView = (function() {
         let elmLabelFormat = document.createElement("div");
         let elmLabel = document.createElement("label");
         let elmListItem = document.createElement("li");
-
         
         elmCheckBox.id = "chkBox" + index.toString();
         elmCheckBox.className = "dfChkBox";
@@ -157,7 +157,6 @@ let discoverView = (function() {
         elmListItem.title += lastUpdated ? "Update:\u0009" + (lastUpdated.toLocaleString() || lastUpdated) + "\u000d" : "";
         elmListItem.title += items       ? "Items:\u0009" + items + "\u000d" : "";
         elmListItem.title += "URL:   \u0009" + url;
-
 
         elmListItem.appendChild(elmCheckBox);
         elmLabel.appendChild(elmLabelCaption);
@@ -194,8 +193,8 @@ let discoverView = (function() {
         let newFeedsList = [];
 
         for (let item of elmDiscoverFeedsList.children) {
-            if(item.firstElementChild.checked) {
-                newFeedsList.push( { title: item.getAttribute("name"), link: item.getAttribute("href") } );
+            if(item.firstElementChild && item.firstElementChild.checked) {
+                newFeedsList.push( { title: item.getAttribute("name"), url: item.getAttribute("href") } );
             }
         }
         return newFeedsList;

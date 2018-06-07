@@ -246,12 +246,12 @@
 
 		if (targetItem !== undefined && targetItem !== null) {
 
-			let urlFeed = targetItem.getAttribute("href");
+			let url = targetItem.getAttribute("href");
 			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
 
 			if(menuAction !== ContextAction.listCopyUrl) {
 				targetItem.classList.add("visited");
-				slUtil.addUrlToBrowserHistory(urlFeed, targetItem.textContent);
+				slUtil.addUrlToBrowserHistory(url, targetItem.textContent);
 			}
 		}
 		elmContextMenu.style.display = "none";

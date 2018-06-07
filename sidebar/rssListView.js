@@ -42,7 +42,7 @@ let rssListView = (function() {
 
 		disposeList();
 		for(let item of list) {
-			appendTagIL(index++, item.title, item.desc, item.link);
+			appendTagIL(index++, item.title, item.desc, item.url);
 		}
 
 		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
@@ -53,16 +53,16 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function appendTagIL(index, title, desc, link) {
+	function appendTagIL(index, title, desc, url) {
 
 		let elm = document.createElement("li");
 
 		elm.classList.add(sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)
-		setItemVisitedStatus(elm, link);
+		setItemVisitedStatus(elm, url);
 
 		elm.textContent = index.toString() + ". " + title;
 		elm.title = title;
-		elm.setAttribute("href", link);
+		elm.setAttribute("href", url);
 
 		addListItemEventListeners(elm);
 
@@ -145,9 +145,9 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
-	function setItemVisitedStatus(elm, link) {
+	function setItemVisitedStatus(elm, url) {
 
-		browser.history.getVisits({ url: link }).then((vItems) => {
+		browser.history.getVisits({ url: url }).then((vItems) => {
 			if (vItems.length === 0) {
 				elm.classList.add("bold");
 			} else {
@@ -158,7 +158,7 @@ let rssListView = (function() {
 		//#region browser.history.search()
 		/*
 		let query = {
-			text: decodeURI(link),
+			text: decodeURI(url),
 			startTime: ((new Date()) - (1000 * 60 * 60 * 24 * 365 * 5)),		// about five year back
 			maxResults: 1,
 		};
@@ -201,10 +201,10 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	// Redirect are not saved in history. So when a feed link is
+	// Redirect are not saved in history. So when a feed url is
 	// redirected from http to https or from feedproxy.google.com
 	// to the target page it cannot be found in browser.history.
-	// So this function will record the un-redirected link in history
+	// So this function will record the un-redirected url in history
 	// https://wiki.mozilla.org/Browser_History:Redirects
 	function addFeedItemUrlToHistory(url, title) {
 
