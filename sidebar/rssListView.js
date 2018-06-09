@@ -14,14 +14,12 @@ let rssListView = (function() {
 	window.addEventListener("unload", onUnload);
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onDOMContentLoaded() {
 
 		elmList = document.getElementById("rssListView");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onUnload(event) {
 
 		disposeList();
@@ -35,7 +33,6 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function setFeedItems(list) {
 
 		let index = 1;
@@ -49,10 +46,9 @@ let rssListView = (function() {
 		if(slUtil.hasHScroll(elmList)) {
 			elmList.style.height = (elmList.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
 		}
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function appendTagIL(index, title, desc, url) {
 
 		let elm = document.createElement("li");
@@ -67,14 +63,13 @@ let rssListView = (function() {
 		addListItemEventListeners(elm);
 
 		elmList.appendChild(elm);
-	};
+	}
 
 	//==================================================================================
 	//=== List Item Event Listeners
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function addListItemEventListeners(elm) {
 		elm.addEventListener("click", onClickFeedItem);
 		elm.addEventListener("auxclick", onClickFeedItem);
@@ -82,7 +77,6 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function removeListItemEventListeners(elm) {
 		elm.removeEventListener("click", onClickFeedItem);
 		elm.removeEventListener("auxclick", onClickFeedItem);
@@ -90,7 +84,6 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onClickFeedItem(event) {
 
 		let elm = this;
@@ -125,10 +118,9 @@ let rssListView = (function() {
 			event.stopPropagation();
 			event.preventDefault();
 		}
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onClickFeedItem_preventDefault(event) {
 
 		// This is to prevent the default behaviour of Fx when
@@ -137,14 +129,13 @@ let rssListView = (function() {
 
 		event.preventDefault();		// The 'click' event is fired anyway.
 		event.stopPropagation();
-	};
+	}
 
 	//==================================================================================
 	//=== List Items status
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function setItemVisitedStatus(elm, url) {
 
 		browser.history.getVisits({ url: url }).then((vItems) => {
@@ -155,7 +146,7 @@ let rssListView = (function() {
 			}
 		});
 
-		//#region browser.history.search()
+//#region browser.history.search()
 		/*
 		let query = {
 			text: decodeURI(url),
@@ -170,11 +161,10 @@ let rssListView = (function() {
 			}
 		});
 		*/
-		//#endregion
-	};
+//#endregion
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function setFeedItemSelectionState(elm) {
 
 		if(elmCurrentlySelected !== null) {
@@ -183,10 +173,9 @@ let rssListView = (function() {
 
 		elmCurrentlySelected = elm;
 		elm.classList.add("selected");
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function setListErrorMsg(textContent) {
 		let elm = document.createElement("li");
 		elm.classList.add("errormsg");
@@ -194,7 +183,7 @@ let rssListView = (function() {
 
 		disposeList();
 		elmList.appendChild(elm);
-	};
+	}
 
 	//==================================================================================
 	//=== Utils
@@ -209,10 +198,9 @@ let rssListView = (function() {
 	function addFeedItemUrlToHistory(url, title) {
 
 		slUtil.addUrlToBrowserHistory(url, title);
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function disposeList() {
 
 		let el;
@@ -223,7 +211,7 @@ let rssListView = (function() {
 			removeListItemEventListeners(el);
 			elmList.removeChild(el);
 		}
-	};
+	}
 
 	return {
 		setFeedItems: setFeedItems,

@@ -19,7 +19,6 @@
 	window.addEventListener("unload", onUnload);
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onDOMContentLoaded() {
 
 		elmBody = document.body;
@@ -45,7 +44,6 @@
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onUnload(event) {
 
 		elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
@@ -59,7 +57,6 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function setPanelLayout(splitterTop) {
 
 		splitterTop = splitterTop || elmSplitter.offsetTop;
@@ -83,34 +80,29 @@
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onMouseDown_startSplitterDrag(event) {
 		window.addEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
 		window.addEventListener('mousemove', onMouseMove_dragSplitter, true);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onMouseUp_stopSplitterDrag(event) {
 		window.removeEventListener('mousemove', onMouseMove_dragSplitter, true);
 		window.removeEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onMouseMove_dragSplitter(event) {
 		setPanelLayout(elmSplitter.offsetTop + event.movementY);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onClickDiscoverFeed(event) {			
 		discoverView.open();
 		event.stopPropagation();
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function onClickPreferences(event) {
 		browser.runtime.openOptionsPage();
 	}

@@ -26,7 +26,6 @@ let discoverView = (function() {
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let open = function() {
 
         elmMainPanel = document.getElementById("mainPanel");
@@ -49,7 +48,6 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let close = function() {
 
         slUtil.disableElementTree(elmMainPanel, false);
@@ -63,13 +61,11 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let isOpen = function() {
         return (elmDiscoverPanel !== null && elmDiscoverPanel.style.display === "block");
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let runDiscoverFeeds = function() {
 
         emptyDiscoverFeedsList();
@@ -91,7 +87,6 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let loadDiscoverFeedsList = function(txtHTML, domainName) {
 
         setDiscoverLoadingState(true);
@@ -119,7 +114,6 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let emptyDiscoverFeedsList = function() {
         while(elmDiscoverFeedsList.firstChild) {
             elmDiscoverFeedsList.removeChild(elmDiscoverFeedsList.firstChild);
@@ -127,7 +121,6 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let createTagLI = function(index, text, url, lastUpdated, format, items) {
 
         let elmCheckBox = document.createElement("input");
@@ -167,7 +160,6 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let setNoFeedsMsg = function(text) {
         let elm = document.createElement("li");
         elm.className = "dfItem novalidfeeds";
@@ -176,7 +168,6 @@ let discoverView = (function() {
     };
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	let setDiscoverLoadingState = function(isLoading) {
 
 		if (isLoading === true) {
@@ -187,7 +178,6 @@ let discoverView = (function() {
     };
     
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     let collectSelectedFeeds = function() {
         
         let newFeedsList = [];
@@ -201,14 +191,11 @@ let discoverView = (function() {
     };
     
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
-    //      Events
-    //
-    ////////////////////////////////////////////////////////////////////////////////////
+    //==================================================================================
+    //=== Events
+    //==================================================================================
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     function onKeyDownDiscoverPanel(event) {
 		switch (event.key.toLowerCase()) {
 			case "escape":
@@ -222,13 +209,11 @@ let discoverView = (function() {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     function onClickButtonRediscover(event) {
         runDiscoverFeeds();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     function onClickButtonAdd(event) {
 
         let newFeedsList = collectSelectedFeeds();
@@ -240,7 +225,6 @@ let discoverView = (function() {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //
     function onClickButtonCancel(event) {
         close();
     }
