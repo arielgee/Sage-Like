@@ -8,11 +8,12 @@
 		treeOpenNewWin: 3,
 		treeCopyUrl: 4,
 		treeDeleteFeed: 5,
+		treeFeedProperties: 6,
 
-		listOpen: 6,
-		listOpenNewTab: 7,
-		listOpenNewWin: 8,
-		listCopyUrl: 9,		
+		listOpen: 7,
+		listOpenNewTab: 8,
+		listOpenNewWin: 9,
+		listCopyUrl: 10,		
 	});
 
 	let elmSidebarBody;
@@ -23,6 +24,7 @@
 	let elmMnuTreeOpenFeedNewWin;
 	let elmMnuTreeCopyFeedUrl;
 	let elmMnuTreeDeleteFeed;
+	let elmMnuTreeFeedProperties;
 
 	let elmMnuListOpenFeedItem;
 	let elmMnuListOpenFeedItemNewTab;
@@ -43,6 +45,7 @@
 		elmMnuTreeOpenFeedNewWin = document.getElementById("mnuTreeOpenFeedNewWin")
 		elmMnuTreeCopyFeedUrl = document.getElementById("mnuTreeCopyFeedUrl");
 		elmMnuTreeDeleteFeed = document.getElementById("mnuTreeDeleteFeed");
+		elmMnuTreeFeedProperties = document.getElementById("mnuTreeFeedProperties");
 
 		elmMnuListOpenFeedItem = document.getElementById("mnuListOpenFeedItem");
 		elmMnuListOpenFeedItemNewTab = document.getElementById("mnuListOpenFeedItemNewTab");
@@ -59,6 +62,7 @@
 		elmMnuTreeOpenFeedNewWin.addEventListener("click", onClickMenuOpenFeedNewWin);
 		elmMnuTreeCopyFeedUrl.addEventListener("click", onClickMenuCopyFeedUrl);
 		elmMnuTreeDeleteFeed.addEventListener("click", onClickMenuDeleteFeed);
+		elmMnuTreeFeedProperties.addEventListener("click", onClickMenuFeedProperties);
 
 		elmMnuListOpenFeedItem.addEventListener("click", onClickMenuOpenFeedItem);
 		elmMnuListOpenFeedItemNewTab.addEventListener("click", onClickMenuOpenFeedItemNewTab);
@@ -79,6 +83,7 @@
 		elmMnuTreeOpenFeedNewWin.removeEventListener("click", onClickMenuOpenFeedNewWin);
 		elmMnuTreeCopyFeedUrl.removeEventListener("click", onClickMenuCopyFeedUrl);
 		elmMnuTreeDeleteFeed.removeEventListener("click", onClickMenuDeleteFeed);
+		elmMnuTreeFeedProperties.removeEventListener("click", onClickMenuFeedProperties);
 
 		elmMnuListOpenFeedItem.removeEventListener("click", onClickMenuOpenFeedItem);
 		elmMnuListOpenFeedItemNewTab.removeEventListener("click", onClickMenuOpenFeedItemNewTab);
@@ -185,6 +190,12 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onClickMenuFeedProperties(event) {
+		handleTreeMenuActions(ContextAction.treeFeedProperties);
+	}
+	
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
 		let targetItem = elmContextMenu.elmTargetItem;
@@ -270,9 +281,14 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeDeleteFeed:
-				deleteFeed(actionData);
+				rssTreeView.deleteFeed(elmContextMenu.elmTargetItem);
 				break;
 				///////////////////////////////////////////	
+
+			case ContextAction.treeFeedProperties:
+				feedPropertiesView.open();
+				break;
+				///////////////////////////////////////////
 		}
 	}
 	
@@ -288,13 +304,5 @@
 			item.style.display = "none";
 		});
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function deleteFeed(actionData) {
-		browser.bookmarks.remove(actionData.id).then(() => {
-			elmContextMenu.elmTargetItem.parentElement.removeChild(elmContextMenu.elmTargetItem);
-			rssTreeView.objLastVisitedFeeds.remove(elmContextMenu.elmTargetItem.id);
-		});		
-	}	
 	
 })();

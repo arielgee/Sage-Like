@@ -275,7 +275,7 @@ let rssTreeView = (function() {
 
 		syndication.fetchFeedData(url).then((feedData) => {
 
-			handleFeedLastUpdate(elmLI, url, feedData.lastUpdated);
+			handleFeedLastUpdate(elmLI, url, new Date(feedData.lastUpdated)); // lastUpdated could be text
 			handleFeedTitleChange(elmLI, feedData.title);
 
 		}).catch((error) => {
@@ -288,10 +288,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleFeedLastUpdate(elmLI, url, lastUpdated) {
 
-		let feedUpdate = new Date(lastUpdated);	// could be text
-
 		// make sure date is valid and save as simple numeric
-		feedUpdate = isNaN(feedUpdate) ? Date.now() : feedUpdate.getTime();
+		let feedUpdate = (!isNaN(lastUpdated) && (lastUpdated instanceof Date)) ? lastUpdated.getTime() : Date.now();
 		setFeedTooltipState(elmLI, "Updated: " + (new Date(feedUpdate)).toLocaleString());
 
 		if(objLastVisitedFeeds.exist(url) && (objLastVisitedFeeds.value(url) > feedUpdate)) {
@@ -593,9 +591,8 @@ let rssTreeView = (function() {
 
 				let elmLI = createTagLI(created.id, created.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, created.url);
 				elmLI.classList.add("blinkNew");
-				//setFeedVisitedState(elmLI, false);
-				elmTreeRoot.appendChild(elmLI);
-				//processFeedData(elmLI, created.url);
+				setFeedVisitedState(elmLI, false);
+				elmTreeRoot.appendChild(elmLI);			
 
 				createBookmarksSequentially(bookmarksList, ++index);
 
@@ -629,6 +626,18 @@ let rssTreeView = (function() {
 		}
 	}
 
+	//==================================================================================
+	//=== Context Menu Actions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function deleteFeed(elmLI) {
+		browser.bookmarks.remove(elmLI.id).then(() => {
+			elmLI.parentElement.removeChild(elmLI);
+			objLastVisitedFeeds.remove(elmLI.id);
+		});		
+	}
+	
 	//==================================================================================
 	//=== Tree Items status
 	//==================================================================================
@@ -769,10 +778,9 @@ let rssTreeView = (function() {
 	}
 
 	return {
-		objLastVisitedFeeds: objLastVisitedFeeds,
-
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
+		deleteFeed: deleteFeed,
 	};
 
 })();

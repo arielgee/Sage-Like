@@ -127,7 +127,7 @@ let discoverView = (function() {
         let elmLabelCaption = document.createElement("div");
         let elmLabelFormat = document.createElement("div");
         let elmLabel = document.createElement("label");
-        let elmListItem = document.createElement("li");
+        let elmListItem = document.createElement("li");        
         
         elmCheckBox.id = "chkBox" + index.toString();
         elmCheckBox.className = "dfChkBox";
@@ -141,7 +141,7 @@ let discoverView = (function() {
 
         elmLabel.className = "dfLabel";
         elmLabel.htmlFor = elmCheckBox.id;
-
+        
         elmListItem.className = "dfItem";
         elmListItem.setAttribute("name", text);
         elmListItem.setAttribute("href", url);

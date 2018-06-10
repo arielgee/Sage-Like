@@ -11,11 +11,13 @@
     <script type="text/javascript" src="rssTreeView.js"></script>
     <script type="text/javascript" src="rssListView.js"></script>
     <script type="text/javascript" src="discoveryView.js"></script>
+    <script type="text/javascript" src="feedPropertiesView.js"></script>
     <link rel="stylesheet" type="text/css" href="panel.css" />
     <link rel="stylesheet" type="text/css" href="contextMenu.css" />
     <link rel="stylesheet" type="text/css" href="rssTreeView.css" />
     <link rel="stylesheet" type="text/css" href="rssListView.css" />
     <link rel="stylesheet" type="text/css" href="discoveryView.css" />
+    <link rel="stylesheet" type="text/css" href="feedPropertiesView.css" />
 </head>
 
 <body>
@@ -64,6 +66,27 @@
         <div id="lblDomainName" class="statusbar smallText"></div>
     </div>
 
+    <div id="feedPropertiesPanel" tabindex="2">
+
+        <div class="fpPropertiesContainer">
+            <div class="fpPropContainer">
+                <label>Title:</label>
+                <input type="text" name="fpTitle">
+            </div>
+
+            <div class="fpPropContainer">
+                <label>Location:</label>
+                <input type="text" name="fpLocation">
+            </div>
+        </div>    
+
+        <div class="fpButtonContainer">
+            <button type="button" class="fpButton" id="btnFeedPropertiesSave">Save</button>
+            <button type="button" class="fpButton" id="btnFeedPropertiesCancel">Cancel</button>
+        </div>
+
+    </div>
+
 
     <div id="mnuContextMenu" class="contextmenu" tabindex="0">
         <div id="mnuTreeOpenFeed" class="contextmenuitem treecontext">Open</div>
@@ -72,6 +95,8 @@
         <hr class="treecontext">
         <div id="mnuTreeCopyFeedUrl" class="contextmenuitem treecontext">Copy</div>
         <div id="mnuTreeDeleteFeed" class="contextmenuitem treecontext">Delete</div>
+        <hr class="treecontext">
+        <div id="mnuTreeFeedProperties" class="contextmenuitem treecontext">Properties...</div>
 
         <div id="mnuListOpenFeedItem" class="contextmenuitem listcontext">Open</div>
         <div id="mnuListOpenFeedItemNewTab" class="contextmenuitem listcontext">Open in New Tab</div>
