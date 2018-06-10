@@ -286,7 +286,7 @@
 				///////////////////////////////////////////	
 
 			case ContextAction.treeFeedProperties:
-				feedPropertiesView.open();
+				feedPropertiesView.open(elmContextMenu.elmTargetItem);
 				break;
 				///////////////////////////////////////////
 		}

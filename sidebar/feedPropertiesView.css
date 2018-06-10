@@ -2,14 +2,55 @@
 
 #feedPropertiesPanel {
     display: none;
-    position: absolute;    
+    position: absolute;
+    left: 3px;
     background-color: ghostwhite;
     box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-    min-width: 94%;
+    min-width: 300px;
     max-width: 94%;
+    width: 94%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 8px;
     z-index: 1;
     white-space: nowrap;
+}
+
+.fpPropContainer {
+    display: flex;
+    margin: 10px;
+}
+
+.fpPropContainer label {
+    margin: auto auto auto 0;
+}
+
+.fpPropContainer input {
+    margin: auto 0 auto auto;
+    width: 80%;
+    font-size: inherit;
+}
+
+.fpButtonContainer {
+    display: flex;
+    justify-content: right;
+    margin-right: 10px;
+}
+
+.fpButtonContainer .fpButton {
+    background-color: rgb(251, 251, 251);
+    border: 1px solid rgb(193, 193, 193);
+    border-radius: 2px;
+    height: 30px;
+    width: 100px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.fpButtonContainer .fpButton:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+.fpButtonContainer .fpButton:active:hover {
+    background-color: rgb(218, 218, 218);
 }

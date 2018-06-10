@@ -7,8 +7,9 @@
     left: 3px;
     background-color: ghostwhite;
     box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-    min-width: 94%;
+    min-width: 300px;
     max-width: 94%;
+    width: 94%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 8px;
