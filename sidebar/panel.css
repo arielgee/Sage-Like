@@ -99,3 +99,11 @@ html, body {
   pointer-events: none;
   filter: blur(1.5px);
 }
+
+.smallText {
+  --text-height: 10px;
+  line-height: var(--text-height);
+  font-family: Tahoma, Sans !important;
+  font-weight: normal;
+  font-size: var(--text-height) !important;
+}

@@ -41,8 +41,8 @@ let discoverView = (function() {
         elmButtonAdd.addEventListener("click", onClickButtonAdd);
         elmButtonCancel.addEventListener("click", onClickButtonCancel);
 
-        slUtil.disableElementTree(elmMainPanel, true);
         elmDiscoverPanel.style.display = "block";
+        slUtil.disableElementTree(elmMainPanel, true);
 
         runDiscoverFeeds();
     };
@@ -72,7 +72,7 @@ let discoverView = (function() {
 
 		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
 
-            elmDiscoverPanel.focus();
+            //elmDiscoverPanel.focus();
 
             if(tab[0].status === "loading") {
                 setNoFeedsMsg("Current tab is still loading.");                
@@ -188,8 +188,7 @@ let discoverView = (function() {
             }
         }
         return newFeedsList;
-    };
-    
+    };    
 
     //==================================================================================
     //=== Events

@@ -307,7 +307,7 @@ let rssTreeView = (function() {
 		if(title.length > 0) {
 
 			browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
-				elmLI.firstChild.textContent = updatedNode.title;
+				elmLI.firstElementChild.textContent = updatedNode.title;
 			});
 		}
 	}
@@ -627,6 +627,26 @@ let rssTreeView = (function() {
 	}
 
 	//==================================================================================
+	//=== Item Properties
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateFeedProperties(elmLI, newTitle, newLocation) {
+		
+		let changes = {
+			title: newTitle,
+			url: newLocation,
+		};
+
+		browser.bookmarks.update(elmLI.id, changes).then((bookmarkItem) => {
+			elmLI.firstElementChild.textContent = newTitle;
+			elmLI.setAttribute("href", newLocation);
+		}).catch((error) => {
+			console.log("[Sage-Like]", error);
+		});
+	}
+	
+	//==================================================================================
 	//=== Context Menu Actions
 	//==================================================================================
 
@@ -740,7 +760,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedTooltipState(elmLI, secondLine = undefined) {
 
-		elmLI.title = elmLI.firstChild.textContent;
+		elmLI.title = elmLI.firstElementChild.textContent;
 
 		if(secondLine !== undefined) {
 			elmLI.title += "\u000d" + secondLine;
@@ -781,6 +801,7 @@ let rssTreeView = (function() {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
 		deleteFeed: deleteFeed,
+		updateFeedProperties: updateFeedProperties,
 	};
 
 })();

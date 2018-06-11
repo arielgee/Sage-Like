@@ -83,7 +83,7 @@ let preferences = (function() {
             browser.bookmarks.getSubTree(menuGuid).then((bookmarkItems) => {
 
                 let elmOption = createTagOption(sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
-                elmRootFeedsFolder.insertBefore(elmOption, elmRootFeedsFolder.firstChild);
+                elmRootFeedsFolder.appendChild(elmOption);
 
                 for(let child of bookmarkItems[0].children) {
                     createSelectFeedFolderElement(child, 0);

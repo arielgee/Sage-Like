@@ -193,7 +193,6 @@
 	function onClickMenuFeedProperties(event) {
 		handleTreeMenuActions(ContextAction.treeFeedProperties);
 	}
-	
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {

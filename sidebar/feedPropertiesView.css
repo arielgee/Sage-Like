@@ -1,6 +1,7 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 #feedPropertiesPanel {
+    --panel-spacing: 10px;
     display: none;
     position: absolute;
     left: 3px;
@@ -9,7 +10,7 @@
     min-width: 300px;
     max-width: 94%;
     width: 94%;
-    padding: 10px;
+    padding: var(--panel-spacing);
     border: 1px solid black;
     border-radius: 8px;
     z-index: 1;
@@ -18,10 +19,11 @@
 
 .fpPropContainer {
     display: flex;
-    margin: 10px;
+    margin: var(--panel-spacing);
 }
 
 .fpPropContainer label {
+    width: 65px;
     margin: auto auto auto 0;
 }
 
@@ -34,7 +36,7 @@
 .fpButtonContainer {
     display: flex;
     justify-content: right;
-    margin-right: 10px;
+    margin-right: var(--panel-spacing);
 }
 
 .fpButtonContainer .fpButton {
@@ -53,4 +55,9 @@
 
 .fpButtonContainer .fpButton:active:hover {
     background-color: rgb(218, 218, 218);
+}
+
+#feedPropertiesPanel .statusbar {
+    margin-top: 8px;
+    color: red;
 }

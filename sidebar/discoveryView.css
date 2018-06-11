@@ -142,11 +142,3 @@
 #discoverPanel .statusbar {
     margin-top: 8px;
 }
-
-#discoverPanel .smallText {
-    --text-height: 10px;
-    line-height: var(--text-height);
-    font-family: Tahoma, Sans !important;
-    font-weight: normal;
-    font-size: var(--text-height) !important;
-}
