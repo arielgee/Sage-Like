@@ -79,7 +79,7 @@ html, body {
   margin: auto;
 }
 
-#reloadtree {
+#checkTreeFeeds {
   background: transparent url("../icons/reload.png") no-repeat left center;
 }
 #discoverfeed {

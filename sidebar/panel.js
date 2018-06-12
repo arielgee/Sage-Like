@@ -33,6 +33,7 @@
 		elmTree = document.getElementById("rssTreeView");
 		elmList = document.getElementById("rssListView");
 
+		elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.addEventListener("resize", () => { setPanelLayout(); }, false);
 
@@ -46,6 +47,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
+		elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.removeEventListener("resize", () => { setPanelLayout(); }, false);
 
@@ -76,6 +78,18 @@
 
 			reduseH = slUtil.hasHScroll(elmList) ? sbWidth : 0;
 			elmList.style.height = (elmBottom.offsetHeight - reduseH) + "px";
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	function onDoubleClickSetSplitterPosition(event) {
+
+		if(event.shiftKey) {
+			setPanelLayout(elmBody.offsetHeight * 0.333);
+		} else if(event.ctrlKey) {
+			setPanelLayout(elmBody.offsetHeight * 0.666);
+		} else {
+			setPanelLayout(elmBody.offsetHeight * 0.5);
 		}
 	}
 	

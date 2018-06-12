@@ -90,14 +90,14 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	let elmReloadTree;
+	let elmCheckTreeFeeds;
 	let elmExpandAll;
 	let elmCollapseAll;
 
 	let elmTreeRoot;
 
-	let elmCurrentlyLoading = null;
-	let elmCurrentlySelected = null;
+	let elmCurrentlyLoading;
+	let elmCurrentlySelected;
 	let elmCurrentlyDragged = null;
 
 	let lineHeight = 21;
@@ -115,10 +115,10 @@ let rssTreeView = (function() {
 
 		elmExpandAll = document.getElementById("expandall");
 		elmCollapseAll = document.getElementById("collapseall");
-		elmReloadTree = document.getElementById("reloadtree");
+		elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
 		elmTreeRoot = document.getElementById("rssTreeView");
 
-		elmReloadTree.addEventListener("click", onClickReloadTree);
+		elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
 		elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 
@@ -132,7 +132,7 @@ let rssTreeView = (function() {
 
 		removeAllTreeItemsEventListeners();
 
-		elmReloadTree.removeEventListener("click", onClickReloadTree);
+		elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
 		elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 
@@ -151,7 +151,9 @@ let rssTreeView = (function() {
 		await objOpenSubTrees.getStorage();
 
 		disposeTree();
-
+		elmCurrentlyLoading = null;
+		elmCurrentlySelected = null;
+	
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
 			if (folderId === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
@@ -255,7 +257,6 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function processRSSTreeFeedsData() {
 
-		//objLastVisitedFeeds.setStorage();
 		await objLastVisitedFeeds.getStorage();
 
 		// getElementsByTagName is faster then querySelectorAll
@@ -520,10 +521,14 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickReloadTree(event) {
+	function onClickCheckTreeFeeds(event) {
 
-		rssListView.disposeList();
-		createRSSTree();
+		if(event.shiftKey && event.ctrlKey && event.altKey) {
+			rssListView.disposeList();
+			createRSSTree();
+		} else {
+			processRSSTreeFeedsData();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
