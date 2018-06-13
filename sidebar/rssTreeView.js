@@ -276,8 +276,8 @@ let rssTreeView = (function() {
 
 		syndication.fetchFeedData(url).then((feedData) => {
 
-			handleFeedLastUpdate(elmLI, url, new Date(feedData.lastUpdated)); // lastUpdated could be text
-			handleFeedTitleChange(elmLI, feedData.title);
+			handleFeedUpdateDate(elmLI, url, new Date(feedData.lastUpdated)); // lastUpdated could be text
+			setFeedTitle(elmLI, feedData.title);
 
 		}).catch((error) => {
 			setFeedErrorState(elmLI, true, error);
@@ -287,30 +287,16 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function handleFeedLastUpdate(elmLI, url, lastUpdated) {
+	function handleFeedUpdateDate(elmLI, url, lastUpdated) {
 
 		// make sure date is valid and save as simple numeric
-		let feedUpdate = (!isNaN(lastUpdated) && (lastUpdated instanceof Date)) ? lastUpdated.getTime() : Date.now();
-		setFeedTooltipState(elmLI, "Updated: " + (new Date(feedUpdate)).toLocaleString());
+		let updateTime = (!isNaN(lastUpdated) && (lastUpdated instanceof Date)) ? lastUpdated.getTime() : Date.now();
+		setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
 
-		if(objLastVisitedFeeds.exist(url) && (objLastVisitedFeeds.value(url) > feedUpdate)) {
-			setFeedVisitedState(elmLI, true);
-		} else {
-			setFeedVisitedState(elmLI, false);
+		if(!objLastVisitedFeeds.exist(url)) {
 			objLastVisitedFeeds.set(url, 0);
-		}	
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function handleFeedTitleChange(elmLI, title) {
-		
-		// don't change title to empty string
-		if(title.length > 0) {
-
-			browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
-				elmLI.firstElementChild.textContent = updatedNode.title;
-			});
 		}
+		setFeedVisitedState(elmLI, objLastVisitedFeeds.value(url) > updateTime);
 	}
 
 	//==================================================================================
@@ -382,7 +368,7 @@ let rssTreeView = (function() {
 				setFeedVisitedState(elmLI, true);
 				objLastVisitedFeeds.set(url, slUtil.getCurrentLocaleDate().getTime());
 
-				handleFeedTitleChange(elmLI, result.feedData.title);
+				setFeedTitle(elmLI, result.feedData.title);
 
 				rssListView.setFeedItems(result.list);
 
@@ -666,6 +652,17 @@ let rssTreeView = (function() {
 	//==================================================================================
 	//=== Tree Items status
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setFeedTitle(elmLI, title) {
+		
+		// don't change title to empty string
+		if(title.length > 0) {
+			browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
+				elmLI.firstElementChild.textContent = updatedNode.title;
+			});
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function toggleSubTreeState(elmTreeItem) {
