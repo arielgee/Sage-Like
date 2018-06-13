@@ -110,7 +110,7 @@ let prefs = (function() {
 
 		return {
 			openSubTrees: DEF_PREF_OPEN_SUB_TREES,
-			lastUpdatedFeeds: DEF_PREF_LAST_VISITED_FEEDS,
+			lastVisitedFeeds: DEF_PREF_LAST_VISITED_FEEDS,
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		};
 	};
