@@ -15,6 +15,7 @@
     border-radius: 8px;
     z-index: 1;
     white-space: nowrap;
+    font-weight: normal;
 }
 
 .fpPropContainer {
@@ -27,10 +28,14 @@
     margin: auto auto auto 0;
 }
 
-.fpPropContainer input {
+.fpPropContainer input[type="text"] {
     margin: auto 0 auto auto;
     width: 80%;
     font-size: inherit;
+}
+
+.fpPropContainer #chkFpUpdateTitle {
+    margin: auto var(--panel-spacing) auto 0;
 }
 
 .fpButtonContainer {

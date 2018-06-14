@@ -142,3 +142,7 @@
 #discoverPanel .statusbar {
     margin-top: 8px;
 }
+
+#discoverPanel .statusbar.error {
+    color: red;
+}

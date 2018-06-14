@@ -15,13 +15,13 @@ let discoverView = (function() {
     let elmButtonRediscover;
     let elmButtonAdd;
     let elmButtonCancel;
-    let elmLabelDomainName;
+    let elmLabelInfobar;
 
 
     /**************************************************/
     browser.runtime.onMessage.addListener((message) => {
         if(message.id === MSGID_GET_DOC_TEXT_HTML) {
-            loadDiscoverFeedsList(message.txtHTML, message.domainName);            
+            loadDiscoverFeedsList(message.txtHTML, message.domainName);
         }
     });
 
@@ -34,7 +34,7 @@ let discoverView = (function() {
         elmButtonRediscover = document.getElementById("btnRediscover");
         elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
         elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
-        elmLabelDomainName = document.getElementById("lblDomainName");
+        elmLabelInfobar = document.getElementById("lblInfobar");
 
         elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
         elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
@@ -75,7 +75,7 @@ let discoverView = (function() {
             //elmDiscoverPanel.focus();
 
             if(tab[0].status === "loading") {
-                setNoFeedsMsg("Current tab is still loading.");                
+                setNoFeedsMsg("Current tab is still loading.");
                 return;
             }
 
@@ -90,7 +90,7 @@ let discoverView = (function() {
     let loadDiscoverFeedsList = function(txtHTML, domainName) {
 
         setDiscoverLoadingState(true);
-        elmLabelDomainName.textContent = domainName;
+        setStatusbarMessage(domainName, false);
         syndication.discoverWebSiteFeeds(txtHTML).then((discoveredFeedsList) => {
 
             emptyDiscoverFeedsList();
@@ -127,8 +127,8 @@ let discoverView = (function() {
         let elmLabelCaption = document.createElement("div");
         let elmLabelFormat = document.createElement("div");
         let elmLabel = document.createElement("label");
-        let elmListItem = document.createElement("li");        
-        
+        let elmListItem = document.createElement("li");
+
         elmCheckBox.id = "chkBox" + index.toString();
         elmCheckBox.className = "dfChkBox";
         elmCheckBox.type = "checkbox";
@@ -141,7 +141,7 @@ let discoverView = (function() {
 
         elmLabel.className = "dfLabel";
         elmLabel.htmlFor = elmCheckBox.id;
-        
+
         elmListItem.className = "dfItem";
         elmListItem.setAttribute("name", text);
         elmListItem.setAttribute("href", url);
@@ -176,19 +176,43 @@ let discoverView = (function() {
             elmDiscoverPanel.classList.remove("loading")
 		}
     };
-    
+
     ////////////////////////////////////////////////////////////////////////////////////
     let collectSelectedFeeds = function() {
-        
+
         let newFeedsList = [];
 
         for (let item of elmDiscoverFeedsList.children) {
             if(item.firstElementChild && item.firstElementChild.checked) {
-                newFeedsList.push( { title: item.getAttribute("name"), url: item.getAttribute("href") } );
+
+                let url = item.getAttribute("href");
+
+                if(rssTreeView.isFeedInTree(url)) {
+                    setStatusbarMessage("Already in tree: '" + item.getAttribute("name") + "'", true);
+
+                    return [];
+                }
+                newFeedsList.push( { title: item.getAttribute("name"), url: url } );
             }
         }
+
+        if(newFeedsList.length === 0) {
+            setStatusbarMessage("Nothing to add", true);
+            return [];
+        }
+
         return newFeedsList;
-    };    
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    function setStatusbarMessage(text, isError) {
+        if(isError) {
+            elmLabelInfobar.classList.add("error");
+        } else {
+            elmLabelInfobar.classList.remove("error");
+        }
+        elmLabelInfobar.textContent = text;
+    }
 
     //==================================================================================
     //=== Events

@@ -22,7 +22,11 @@
   .contextmenu .contextmenuitem:hover {
     background-color: lightblue;
   }
+
+  .contextmenu .contextmenuitem u {
+    display: inline !important;
+  }
   
-  .contextmenu hr.treecontext {
+  .contextmenu hr {
     border: 0.5px solid #e0e0e0;
   }

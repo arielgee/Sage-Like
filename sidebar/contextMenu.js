@@ -13,7 +13,7 @@
 		listOpen: 7,
 		listOpenNewTab: 8,
 		listOpenNewWin: 9,
-		listCopyUrl: 10,		
+		listCopyUrl: 10,
 	});
 
 	let elmSidebarBody;
@@ -30,6 +30,8 @@
 	let elmMnuListOpenFeedItemNewTab;
 	let elmMnuListOpenFeedItemNewWin;
 	let elmMnuListCopyFeedItemUrl;
+
+	let m_bCurrentContext = "";
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -103,12 +105,14 @@
 
 		if (trgClsList.contains(sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
 
-			showMenuItemsByClassName("treecontext");
+			m_bCurrentContext = "treecontext";
+			showMenuItemsByClassName(m_bCurrentContext);
 			rssTreeView.setFeedSelectionState(event.target);
 
 		} else if (trgClsList.contains(sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)) {
 
-			showMenuItemsByClassName("listcontext");
+			m_bCurrentContext = "listcontext";
+			showMenuItemsByClassName(m_bCurrentContext);
 			rssListView.setFeedItemSelectionState(event.target);
 
 		} else {
@@ -148,16 +152,27 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownContextMenu(event) {
 
-		switch (event.key.toLowerCase()) {
-			case "escape":
-				elmContextMenu.style.display = "none";
-				break;
-			case "enter":
-				elmContextMenu.style.display = "none";
-				break;
-			default:
-				break;
+		if(m_bCurrentContext === "treecontext") {
+			switch (event.key.toLowerCase()) {
+				case "o":		handleTreeMenuActions(ContextAction.treeOpen);				break;
+				case "t":		handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
+				case "q":		handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
+				case "c":		handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
+				case "d":		handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
+				case "p":		handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
+				case "escape":	elmContextMenu.style.display = "none";						break;
+			}
+		} else if(m_bCurrentContext === "listcontext") {
+			switch (event.key.toLowerCase()) {
+				case "o":		handleListMenuActions(ContextAction.listOpen);				break;
+				case "t":		handleListMenuActions(ContextAction.listOpenNewTab);		break;
+				case "q":		handleListMenuActions(ContextAction.listOpenNewWin);		break;
+				case "c":		handleListMenuActions(ContextAction.listCopyUrl);			break;
+				case "escape":	elmContextMenu.style.display = "none";						break;
+			}
 		}
+
+		event.preventDefault();
 	}
 
 	//==================================================================================
@@ -250,6 +265,10 @@
 		elmContextMenu.style.display = "none";
 	}
 
+	//==================================================================================
+	//=== helpers
+	//==================================================================================
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleMenuActions(menuAction, actionData) {
 
@@ -282,26 +301,26 @@
 			case ContextAction.treeDeleteFeed:
 				rssTreeView.deleteFeed(elmContextMenu.elmTargetItem);
 				break;
-				///////////////////////////////////////////	
+				///////////////////////////////////////////
 
 			case ContextAction.treeFeedProperties:
-				feedPropertiesView.open(elmContextMenu.elmTargetItem);
+				rssTreeView.openPropertiesView(elmContextMenu.elmTargetItem);
 				break;
 				///////////////////////////////////////////
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function showMenuItemsByClassName(className) {
 
 		elmContextMenu.querySelectorAll("." + className).forEach((item) => {
 			item.style.display = "block";
-		});	
+		});
 
 		// hide the rest
 		elmContextMenu.querySelectorAll(":not(." + className + ")").forEach((item) => {
 			item.style.display = "none";
 		});
 	}
-	
+
 })();

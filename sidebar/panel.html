@@ -22,6 +22,8 @@
 
 <body>
 
+
+    <!-- ////////////////////////// Main Panel ////////////////////////// -->
     <div id="mainPanel">
 
         <div id="toolbar" class="toolbar">
@@ -47,6 +49,7 @@
     </div>
 
 
+    <!-- ////////////////////////// Discover Panel ////////////////////////// -->
     <div id="discoverPanel" tabindex="1">
 
         <div id="captionContainer">
@@ -63,22 +66,29 @@
             <button type="button" class="dfButton" id="btnDiscoverFeedsCancel">Cancel</button>
         </div>
 
-        <div id="lblDomainName" class="statusbar smallText"></div>
+        <div id="lblInfobar" class="statusbar smallText"></div>
     </div>
 
+
+    <!-- ////////////////////////// Feed Properties Panel ////////////////////////// -->
     <div id="feedPropertiesPanel" tabindex="2">
 
         <div class="fpPropertiesContainer">
             <div class="fpPropContainer">
                 <label>Title:</label>
-                <input type="text" id ="txtFpTitle" name="fpTitle">
+                <input type="text" id ="txtFpTitle">
             </div>
 
             <div class="fpPropContainer">
                 <label>Location:</label>
-                <input type="text" id="txtFpLocation" name="fpLocation">
+                <input type="text" id="txtFpLocation">
             </div>
-        </div>    
+
+            <div class="fpPropContainer">
+                <input type="checkbox" id="chkFpUpdateTitle">
+                <label for="chkFpUpdateTitle">Update title from feed</label>
+            </div>
+        </div>
 
         <div class="fpButtonContainer">
             <button type="button" class="fpButton" id="btnFeedPropertiesSave">Save</button>
@@ -89,21 +99,22 @@
     </div>
 
 
+    <!-- ////////////////////////// Context Menu ////////////////////////// -->
     <div id="mnuContextMenu" class="contextmenu" tabindex="0">
-        <div id="mnuTreeOpenFeed" class="contextmenuitem treecontext">Open</div>
-        <div id="mnuTreeOpenFeedNewTab" class="contextmenuitem treecontext">Open in New Tab</div>
-        <div id="mnuTreeOpenFeedNewWin" class="contextmenuitem treecontext">Open in New Window</div>
+        <div id="mnuTreeOpenFeed" class="contextmenuitem treecontext"><u>O</u>pen</div>
+        <div id="mnuTreeOpenFeedNewTab" class="contextmenuitem treecontext">Open in New <u>T</u>ab</div>
+        <div id="mnuTreeOpenFeedNewWin" class="contextmenuitem treecontext">Open in New <u>W</u>indow</div>
         <hr class="treecontext">
-        <div id="mnuTreeCopyFeedUrl" class="contextmenuitem treecontext">Copy</div>
-        <div id="mnuTreeDeleteFeed" class="contextmenuitem treecontext">Delete</div>
+        <div id="mnuTreeCopyFeedUrl" class="contextmenuitem treecontext"><u>C</u>opy</div>
+        <div id="mnuTreeDeleteFeed" class="contextmenuitem treecontext"><u>D</u>elete</div>
         <hr class="treecontext">
-        <div id="mnuTreeFeedProperties" class="contextmenuitem treecontext">Properties...</div>
+        <div id="mnuTreeFeedProperties" class="contextmenuitem treecontext"><u>P</u>roperties...</div>
 
-        <div id="mnuListOpenFeedItem" class="contextmenuitem listcontext">Open</div>
-        <div id="mnuListOpenFeedItemNewTab" class="contextmenuitem listcontext">Open in New Tab</div>
-        <div id="mnuListOpenFeedItemNewWin" class="contextmenuitem listcontext">Open in New Window</div>
+        <div id="mnuListOpenFeedItem" class="contextmenuitem listcontext"><u>O</u>pen</div>
+        <div id="mnuListOpenFeedItemNewTab" class="contextmenuitem listcontext">Open in New <u>T</u>ab</div>
+        <div id="mnuListOpenFeedItemNewWin" class="contextmenuitem listcontext">Open in New <u>W</u>indow</div>
         <hr class="listcontext">
-        <div id="mnuListCopyFeedItemUrl" class="contextmenuitem listcontext">Copy</div>
+        <div id="mnuListCopyFeedItemUrl" class="contextmenuitem listcontext"><u>C</u>opy</div>
     </div>
 
 </body>
