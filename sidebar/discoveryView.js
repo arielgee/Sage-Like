@@ -8,14 +8,18 @@ let discoverView = (function() {
                                                           "txtHTML: document.documentElement.outerHTML," +
                                                           "domainName: document.domain, } );";
 
-    let elmMainPanel = null;
-    let elmDiscoverPanel = null;
-    let elmDiscoverFeedsList;
+	//==================================================================================
+	//=== Variables Declerations
+    //==================================================================================
 
-    let elmButtonRediscover;
-    let elmButtonAdd;
-    let elmButtonCancel;
-    let elmLabelInfobar;
+    let m_elmMainPanel = null;
+    let m_elmDiscoverPanel = null;
+    let m_elmDiscoverFeedsList;
+
+    let m_elmButtonRediscover;
+    let m_elmButtonAdd;
+    let m_elmButtonCancel;
+    let m_elmLabelInfobar;
 
 
     /**************************************************/
@@ -26,47 +30,47 @@ let discoverView = (function() {
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let open = function() {
+    function open() {
 
-        elmMainPanel = document.getElementById("mainPanel");
-        elmDiscoverPanel = document.getElementById("discoverPanel");
-        elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
-        elmButtonRediscover = document.getElementById("btnRediscover");
-        elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
-        elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
-        elmLabelInfobar = document.getElementById("lblInfobar");
+        m_elmMainPanel = document.getElementById("mainPanel");
+        m_elmDiscoverPanel = document.getElementById("discoverPanel");
+        m_elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
+        m_elmButtonRediscover = document.getElementById("btnRediscover");
+        m_elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
+        m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
+        m_elmLabelInfobar = document.getElementById("lblInfobar");
 
-        elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
-        elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
-        elmButtonAdd.addEventListener("click", onClickButtonAdd);
-        elmButtonCancel.addEventListener("click", onClickButtonCancel);
+        m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
+        m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
+        m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
+        m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
 
-        elmDiscoverPanel.style.display = "block";
-        slUtil.disableElementTree(elmMainPanel, true);
+        m_elmDiscoverPanel.style.display = "block";
+        slUtil.disableElementTree(m_elmMainPanel, true);
 
         runDiscoverFeeds();
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let close = function() {
+    function close() {
 
-        slUtil.disableElementTree(elmMainPanel, false);
-        elmDiscoverPanel.style.display = "none";
+        slUtil.disableElementTree(m_elmMainPanel, false);
+        m_elmDiscoverPanel.style.display = "none";
         emptyDiscoverFeedsList();
 
-        elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
-        elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
-        elmButtonAdd.removeEventListener("click", onClickButtonAdd);
-        elmButtonCancel.removeEventListener("click", onClickButtonCancel);
+        m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
+        m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
+        m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
+        m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let isOpen = function() {
-        return (elmDiscoverPanel !== null && elmDiscoverPanel.style.display === "block");
+    function isOpen() {
+        return (m_elmDiscoverPanel !== null && m_elmDiscoverPanel.style.display === "block");
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let runDiscoverFeeds = function() {
+    function runDiscoverFeeds() {
 
         emptyDiscoverFeedsList();
 
@@ -87,7 +91,7 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let loadDiscoverFeedsList = function(txtHTML, domainName) {
+    function loadDiscoverFeedsList(txtHTML, domainName) {
 
         setDiscoverLoadingState(true);
         setStatusbarMessage(domainName, false);
@@ -101,12 +105,12 @@ let discoverView = (function() {
                 feed = discoveredFeedsList[key];
 
                 if(feed.status === "OK") {
-                    elmDiscoverFeedsList.appendChild(createTagLI(index++, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
+                    m_elmDiscoverFeedsList.appendChild(createTagLI(index++, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
                 } else if(feed.status === "error") {
                     console.log("[sage-like]", feed.message);
                 }
             }
-            if(elmDiscoverFeedsList.children.length === 0) {
+            if(m_elmDiscoverFeedsList.children.length === 0) {
                 setNoFeedsMsg("No valid feeds were discovered.");
             }
             setDiscoverLoadingState(false);
@@ -114,14 +118,14 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let emptyDiscoverFeedsList = function() {
-        while(elmDiscoverFeedsList.firstChild) {
-            elmDiscoverFeedsList.removeChild(elmDiscoverFeedsList.firstChild);
+    function emptyDiscoverFeedsList() {
+        while(m_elmDiscoverFeedsList.firstChild) {
+            m_elmDiscoverFeedsList.removeChild(m_elmDiscoverFeedsList.firstChild);
         }
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let createTagLI = function(index, text, url, lastUpdated, format, items) {
+    function createTagLI(index, text, url, lastUpdated, format, items) {
 
         let elmCheckBox = document.createElement("input");
         let elmLabelCaption = document.createElement("div");
@@ -160,36 +164,35 @@ let discoverView = (function() {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let setNoFeedsMsg = function(text) {
+    function setNoFeedsMsg(text) {
         let elm = document.createElement("li");
         elm.className = "dfItem novalidfeeds";
         elm.textContent = text;
-        elmDiscoverFeedsList.appendChild(elm);
+        m_elmDiscoverFeedsList.appendChild(elm);
     };
 
 	////////////////////////////////////////////////////////////////////////////////////
-	let setDiscoverLoadingState = function(isLoading) {
+	function setDiscoverLoadingState(isLoading) {
 
 		if (isLoading === true) {
-            elmDiscoverPanel.classList.add("loading");
+            m_elmDiscoverPanel.classList.add("loading");
 		} else {
-            elmDiscoverPanel.classList.remove("loading")
+            m_elmDiscoverPanel.classList.remove("loading")
 		}
     };
 
     ////////////////////////////////////////////////////////////////////////////////////
-    let collectSelectedFeeds = function() {
+    function collectSelectedFeeds() {
 
         let newFeedsList = [];
 
-        for (let item of elmDiscoverFeedsList.children) {
+        for (let item of m_elmDiscoverFeedsList.children) {
             if(item.firstElementChild && item.firstElementChild.checked) {
 
                 let url = item.getAttribute("href");
 
                 if(rssTreeView.isFeedInTree(url)) {
                     setStatusbarMessage("Already in tree: '" + item.getAttribute("name") + "'", true);
-
                     return [];
                 }
                 newFeedsList.push( { title: item.getAttribute("name"), url: url } );
@@ -207,11 +210,11 @@ let discoverView = (function() {
     ////////////////////////////////////////////////////////////////////////////////////
     function setStatusbarMessage(text, isError) {
         if(isError) {
-            elmLabelInfobar.classList.add("error");
+            m_elmLabelInfobar.classList.add("error");
         } else {
-            elmLabelInfobar.classList.remove("error");
+            m_elmLabelInfobar.classList.remove("error");
         }
-        elmLabelInfobar.textContent = text;
+        m_elmLabelInfobar.textContent = text;
     }
 
     //==================================================================================

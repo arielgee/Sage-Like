@@ -63,10 +63,10 @@
   "background": {
     "scripts": ["common.js", "background.js"]
   },
-  
+
   "options_ui": {
     "browser_style": true,
     "page": "preferences/preferences.html"
   }
-  
+
 }

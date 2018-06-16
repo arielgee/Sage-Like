@@ -2,18 +2,21 @@
 
 (function() {
 
-	let elmBody;
-	let elmTop;
-	let elmSplitter;
-	let elmBottom;
+	//==================================================================================
+	//=== Variables Declerations
+    //==================================================================================
 
-	let elmToolbar;
-	let elmDiscoverFeed;
-	let elmPreferences;
-	
-	let elmTree;
-	let elmList;
+	let m_elmBody;
+	let m_elmTop;
+	let m_elmSplitter;
+	let m_elmBottom;
 
+	let m_elmToolbar;
+	let m_elmDiscoverFeed;
+	let m_elmPreferences;
+
+	let m_elmTree;
+	let m_elmList;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -21,38 +24,38 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
-		elmBody = document.body;
-		elmTop = document.getElementById("top");
-		elmSplitter = document.getElementById("splitter");
-		elmBottom = document.getElementById("bottom");
+		m_elmBody = document.body;
+		m_elmTop = document.getElementById("top");
+		m_elmSplitter = document.getElementById("splitter");
+		m_elmBottom = document.getElementById("bottom");
 
-		elmToolbar = document.getElementById("toolbar");
-		elmDiscoverFeed = document.getElementById("discoverfeed");
-		elmPreferences = document.getElementById("preferences");
+		m_elmToolbar = document.getElementById("toolbar");
+		m_elmDiscoverFeed = document.getElementById("discoverfeed");
+		m_elmPreferences = document.getElementById("preferences");
 
-		elmTree = document.getElementById("rssTreeView");
-		elmList = document.getElementById("rssListView");
+		m_elmTree = document.getElementById("rssTreeView");
+		m_elmList = document.getElementById("rssListView");
 
-		elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
-		elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
+		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
+		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.addEventListener("resize", () => { setPanelLayout(); }, false);
 
-		elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
-		elmPreferences.addEventListener("click", onClickPreferences);
+		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
+		m_elmPreferences.addEventListener("click", onClickPreferences);
 
 		// from all the onDOMContentLoaded() fired try to make sure its done last
 		setTimeout(() => { setPanelLayout(); }, 150);
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
-		elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
-		elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
+		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
+		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.removeEventListener("resize", () => { setPanelLayout(); }, false);
 
-		elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
-		elmPreferences.removeEventListener("click", onClickPreferences);
+		m_elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
+		m_elmPreferences.removeEventListener("click", onClickPreferences);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -61,38 +64,38 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function setPanelLayout(splitterTop) {
 
-		splitterTop = splitterTop || elmSplitter.offsetTop;
+		splitterTop = splitterTop || m_elmSplitter.offsetTop;
 
 		let reduseH, sbWidth = slUtil.getScrollbarWidth(document);
-		let splitterMargin = elmSplitter.offsetHeight + 1;
+		let splitterMargin = m_elmSplitter.offsetHeight + 1;
 
-		if (splitterTop > splitterMargin && (elmBody.offsetHeight - splitterTop) > splitterMargin) {
-			elmSplitter.style.top = splitterTop + "px";
-			elmTop.style.height = (elmSplitter.offsetTop - elmToolbar.offsetHeight) + "px";
-			elmBottom.style.top = (elmSplitter.offsetTop + elmSplitter.offsetHeight) + "px";
-			elmBottom.style.height = (elmBody.offsetHeight - (elmSplitter.offsetTop + elmSplitter.offsetHeight)) + "px";
+		if (splitterTop > splitterMargin && (m_elmBody.offsetHeight - splitterTop) > splitterMargin) {
+			m_elmSplitter.style.top = splitterTop + "px";
+			m_elmTop.style.height = (m_elmSplitter.offsetTop - m_elmToolbar.offsetHeight) + "px";
+			m_elmBottom.style.top = (m_elmSplitter.offsetTop + m_elmSplitter.offsetHeight) + "px";
+			m_elmBottom.style.height = (m_elmBody.offsetHeight - (m_elmSplitter.offsetTop + m_elmSplitter.offsetHeight)) + "px";
 
 			// HScroll causes an un-nessesery VScroll, so if has HScroll reduse height to accommodate
-			reduseH = slUtil.hasHScroll(elmTree) ? sbWidth : 0;
-			elmTree.style.height = (elmTop.offsetHeight - reduseH) + "px";
+			reduseH = slUtil.hasHScroll(m_elmTree) ? sbWidth : 0;
+			m_elmTree.style.height = (m_elmTop.offsetHeight - reduseH) + "px";
 
-			reduseH = slUtil.hasHScroll(elmList) ? sbWidth : 0;
-			elmList.style.height = (elmBottom.offsetHeight - reduseH) + "px";
+			reduseH = slUtil.hasHScroll(m_elmList) ? sbWidth : 0;
+			m_elmList.style.height = (m_elmBottom.offsetHeight - reduseH) + "px";
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDoubleClickSetSplitterPosition(event) {
 
 		if(event.shiftKey) {
-			setPanelLayout(elmBody.offsetHeight * 0.333);
+			setPanelLayout(m_elmBody.offsetHeight * 0.333);
 		} else if(event.ctrlKey) {
-			setPanelLayout(elmBody.offsetHeight * 0.666);
+			setPanelLayout(m_elmBody.offsetHeight * 0.666);
 		} else {
-			setPanelLayout(elmBody.offsetHeight * 0.5);
+			setPanelLayout(m_elmBody.offsetHeight * 0.5);
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseDown_startSplitterDrag(event) {
 		window.addEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
@@ -107,18 +110,18 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseMove_dragSplitter(event) {
-		setPanelLayout(elmSplitter.offsetTop + event.movementY);
+		setPanelLayout(m_elmSplitter.offsetTop + event.movementY);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickDiscoverFeed(event) {			
+	function onClickDiscoverFeed(event) {
 		discoverView.open();
 		event.stopPropagation();
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickPreferences(event) {
 		browser.runtime.openOptionsPage();
 	}
-	
+
 })();

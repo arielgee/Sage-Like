@@ -110,9 +110,9 @@ let feedPropertiesView = (function() {
         }
 
         rssTreeView.updateFeedProperties(m_elmFeedItemLI, valTitle, valLocation, updateTitle);
-        close();        
+        close();
     }
-    
+
 
     //==================================================================================
     //=== Events

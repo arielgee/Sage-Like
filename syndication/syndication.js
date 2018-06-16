@@ -9,7 +9,7 @@ let syndication = (function() {
 		Atom: "Atom",
 	});
 
-    let domParser = new DOMParser();
+    let m_domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -17,7 +17,7 @@ let syndication = (function() {
 
 		return new Promise((resolve) => {
 
-			let doc = domParser.parseFromString(txtHTML, "text/html");
+			let doc = m_domParser.parseFromString(txtHTML, "text/html");
 
 			let selector =	"link[type=\"application/rss+xml\"]," +
 							"link[type=\"application/rdf+xml\"]," +
@@ -227,7 +227,7 @@ let syndication = (function() {
 			feedData.xmlEncoding =  test[1];
 		}
 
-		let doc = domParser.parseFromString(txtXML, "text/xml");
+		let doc = m_domParser.parseFromString(txtXML, "text/xml");
 
         // return if XML not well-formed
         if(doc.documentElement.nodeName === "parsererror") {

@@ -13,23 +13,33 @@
 		listOpen: 7,
 		listOpenNewTab: 8,
 		listOpenNewWin: 9,
-		listCopyUrl: 10,
+		listToggleReadUnread: 10,
+		listMarkAllRead: 11,
+		listMarkAllUnread: 12,
+		listCopyUrl: 13,
 	});
 
-	let elmSidebarBody;
-	let elmContextMenu;
+	//==================================================================================
+	//=== Variables Declerations
+	//==================================================================================
 
-	let elmMnuTreeOpenFeed;
-	let elmMnuTreeOpenFeedNewTab;
-	let elmMnuTreeOpenFeedNewWin;
-	let elmMnuTreeCopyFeedUrl;
-	let elmMnuTreeDeleteFeed;
-	let elmMnuTreeFeedProperties;
+	let m_elmSidebarBody;
+	let m_elmContextMenu;
 
-	let elmMnuListOpenFeedItem;
-	let elmMnuListOpenFeedItemNewTab;
-	let elmMnuListOpenFeedItemNewWin;
-	let elmMnuListCopyFeedItemUrl;
+	let m_elmMnuTreeOpenFeed;
+	let m_elmMnuTreeOpenFeedNewTab;
+	let m_elmMnuTreeOpenFeedNewWin;
+	let m_elmMnuTreeCopyFeedUrl;
+	let m_elmMnuTreeDeleteFeed;
+	let m_elmMnuTreeFeedProperties;
+
+	let m_elmMnuListOpenFeedItem;
+	let m_elmMnuListOpenFeedItemNewTab;
+	let m_elmMnuListOpenFeedItemNewWin;
+	let m_elmMnuListToggleFeedItemReadUnread;
+	let m_elmMnuListMarkAllFeedItemsRead;
+	let m_elmMnuListMarkAllFeedItemsUnread;
+	let m_elmMnuListCopyFeedItemUrl;
 
 	let m_bCurrentContext = "";
 
@@ -39,59 +49,67 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
-		elmSidebarBody = document.body;
-		elmContextMenu = document.getElementById("mnuContextMenu");
+		m_elmSidebarBody = document.body;
+		m_elmContextMenu = document.getElementById("mnuContextMenu");
 
-		elmMnuTreeOpenFeed = document.getElementById("mnuTreeOpenFeed")
-		elmMnuTreeOpenFeedNewTab = document.getElementById("mnuTreeOpenFeedNewTab")
-		elmMnuTreeOpenFeedNewWin = document.getElementById("mnuTreeOpenFeedNewWin")
-		elmMnuTreeCopyFeedUrl = document.getElementById("mnuTreeCopyFeedUrl");
-		elmMnuTreeDeleteFeed = document.getElementById("mnuTreeDeleteFeed");
-		elmMnuTreeFeedProperties = document.getElementById("mnuTreeFeedProperties");
+		m_elmMnuTreeOpenFeed = document.getElementById("mnuTreeOpenFeed")
+		m_elmMnuTreeOpenFeedNewTab = document.getElementById("mnuTreeOpenFeedNewTab")
+		m_elmMnuTreeOpenFeedNewWin = document.getElementById("mnuTreeOpenFeedNewWin")
+		m_elmMnuTreeCopyFeedUrl = document.getElementById("mnuTreeCopyFeedUrl");
+		m_elmMnuTreeDeleteFeed = document.getElementById("mnuTreeDeleteFeed");
+		m_elmMnuTreeFeedProperties = document.getElementById("mnuTreeFeedProperties");
 
-		elmMnuListOpenFeedItem = document.getElementById("mnuListOpenFeedItem");
-		elmMnuListOpenFeedItemNewTab = document.getElementById("mnuListOpenFeedItemNewTab");
-		elmMnuListOpenFeedItemNewWin = document.getElementById("mnuListOpenFeedItemNewWin");
-		elmMnuListCopyFeedItemUrl = document.getElementById("mnuListCopyFeedItemUrl");
+		m_elmMnuListOpenFeedItem = document.getElementById("mnuListOpenFeedItem");
+		m_elmMnuListOpenFeedItemNewTab = document.getElementById("mnuListOpenFeedItemNewTab");
+		m_elmMnuListOpenFeedItemNewWin = document.getElementById("mnuListOpenFeedItemNewWin");
+		m_elmMnuListToggleFeedItemReadUnread = document.getElementById("mnuListToggleFeedItemReadUnread");
+		m_elmMnuListMarkAllFeedItemsRead = document.getElementById("mnuListMarkAllFeedItemsRead");
+		m_elmMnuListMarkAllFeedItemsUnread = document.getElementById("mnuListMarkAllFeedItemsUnread");
+		m_elmMnuListCopyFeedItemUrl = document.getElementById("mnuListCopyFeedItemUrl");
 
 
-		elmSidebarBody.addEventListener("contextmenu", onContextMenu);
-		elmContextMenu.addEventListener("blur", onBlurContextMenu);
-		elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
+		m_elmSidebarBody.addEventListener("contextmenu", onContextMenu);
+		m_elmContextMenu.addEventListener("blur", onBlurContextMenu);
+		m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
 
-		elmMnuTreeOpenFeed.addEventListener("click", onClickMenuOpenFeed);
-		elmMnuTreeOpenFeedNewTab.addEventListener("click", onClickMenuOpenFeedNewTab);
-		elmMnuTreeOpenFeedNewWin.addEventListener("click", onClickMenuOpenFeedNewWin);
-		elmMnuTreeCopyFeedUrl.addEventListener("click", onClickMenuCopyFeedUrl);
-		elmMnuTreeDeleteFeed.addEventListener("click", onClickMenuDeleteFeed);
-		elmMnuTreeFeedProperties.addEventListener("click", onClickMenuFeedProperties);
+		m_elmMnuTreeOpenFeed.addEventListener("click", onClickMenuOpenFeed);
+		m_elmMnuTreeOpenFeedNewTab.addEventListener("click", onClickMenuOpenFeedNewTab);
+		m_elmMnuTreeOpenFeedNewWin.addEventListener("click", onClickMenuOpenFeedNewWin);
+		m_elmMnuTreeCopyFeedUrl.addEventListener("click", onClickMenuCopyFeedUrl);
+		m_elmMnuTreeDeleteFeed.addEventListener("click", onClickMenuDeleteFeed);
+		m_elmMnuTreeFeedProperties.addEventListener("click", onClickMenuFeedProperties);
 
-		elmMnuListOpenFeedItem.addEventListener("click", onClickMenuOpenFeedItem);
-		elmMnuListOpenFeedItemNewTab.addEventListener("click", onClickMenuOpenFeedItemNewTab);
-		elmMnuListOpenFeedItemNewWin.addEventListener("click", onClickMenuOpenFeedItemNewWin);
-		elmMnuListCopyFeedItemUrl.addEventListener("click", onClickMenuCopyFeedItemUrl);
+		m_elmMnuListOpenFeedItem.addEventListener("click", onClickMenuOpenFeedItem);
+		m_elmMnuListOpenFeedItemNewTab.addEventListener("click", onClickMenuOpenFeedItemNewTab);
+		m_elmMnuListOpenFeedItemNewWin.addEventListener("click", onClickMenuOpenFeedItemNewWin);
+		m_elmMnuListToggleFeedItemReadUnread.addEventListener("click", onClickMenuToggleFeedItemReadUnread);
+		m_elmMnuListMarkAllFeedItemsRead.addEventListener("click", onClickMenuMarkAllFeedItemsRead);
+		m_elmMnuListMarkAllFeedItemsUnread.addEventListener("click", onClickMenuMarkAllFeedItemsUnread);
+		m_elmMnuListCopyFeedItemUrl.addEventListener("click", onClickMenuCopyFeedItemUrl);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
-		elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
+		m_elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
 
-		elmContextMenu.removeEventListener("blur", onBlurContextMenu);
-		elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
+		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu);
+		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
 
-		elmMnuTreeOpenFeed.removeEventListener("click", onClickMenuOpenFeed);
-		elmMnuTreeOpenFeedNewTab.removeEventListener("click", onClickMenuOpenFeedNewTab);
-		elmMnuTreeOpenFeedNewWin.removeEventListener("click", onClickMenuOpenFeedNewWin);
-		elmMnuTreeCopyFeedUrl.removeEventListener("click", onClickMenuCopyFeedUrl);
-		elmMnuTreeDeleteFeed.removeEventListener("click", onClickMenuDeleteFeed);
-		elmMnuTreeFeedProperties.removeEventListener("click", onClickMenuFeedProperties);
+		m_elmMnuTreeOpenFeed.removeEventListener("click", onClickMenuOpenFeed);
+		m_elmMnuTreeOpenFeedNewTab.removeEventListener("click", onClickMenuOpenFeedNewTab);
+		m_elmMnuTreeOpenFeedNewWin.removeEventListener("click", onClickMenuOpenFeedNewWin);
+		m_elmMnuTreeCopyFeedUrl.removeEventListener("click", onClickMenuCopyFeedUrl);
+		m_elmMnuTreeDeleteFeed.removeEventListener("click", onClickMenuDeleteFeed);
+		m_elmMnuTreeFeedProperties.removeEventListener("click", onClickMenuFeedProperties);
 
-		elmMnuListOpenFeedItem.removeEventListener("click", onClickMenuOpenFeedItem);
-		elmMnuListOpenFeedItemNewTab.removeEventListener("click", onClickMenuOpenFeedItemNewTab);
-		elmMnuListOpenFeedItemNewWin.removeEventListener("click", onClickMenuOpenFeedItemNewWin);
-		elmMnuListCopyFeedItemUrl.removeEventListener("click", onClickMenuCopyFeedItemUrl);
-
+		m_elmMnuListOpenFeedItem.removeEventListener("click", onClickMenuOpenFeedItem);
+		m_elmMnuListOpenFeedItemNewTab.removeEventListener("click", onClickMenuOpenFeedItemNewTab);
+		m_elmMnuListOpenFeedItemNewWin.removeEventListener("click", onClickMenuOpenFeedItemNewWin);
+		m_elmMnuListToggleFeedItemReadUnread.removeEventListener("click", onClickMenuToggleFeedItemReadUnread);
+		m_elmMnuListMarkAllFeedItemsRead.removeEventListener("click", onClickMenuMarkAllFeedItemsRead);
+		m_elmMnuListMarkAllFeedItemsUnread.removeEventListener("click", onClickMenuMarkAllFeedItemsUnread);
+		m_elmMnuListCopyFeedItemUrl.removeEventListener("click", onClickMenuCopyFeedItemUrl);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -120,59 +138,65 @@
 		}
 
 		if (showMenu) {
-			elmContextMenu.elmTargetItem = event.target;
+			m_elmContextMenu.elmTargetItem = event.target;
 
 			let x = event.clientX;
 			let y = event.clientY;
 
 			// do it first so element will have dimentions (offsetWidth > 0)
-			elmContextMenu.style.display = "block";
+			m_elmContextMenu.style.display = "block";
 
-			if ((x + elmContextMenu.offsetWidth) > elmSidebarBody.offsetWidth) {
-				x = elmSidebarBody.offsetWidth - elmContextMenu.offsetWidth;
+			if ((x + m_elmContextMenu.offsetWidth) > m_elmSidebarBody.offsetWidth) {
+				x = m_elmSidebarBody.offsetWidth - m_elmContextMenu.offsetWidth;
 			}
 
-			if ((y + elmContextMenu.offsetHeight) > elmSidebarBody.offsetHeight) {
-				y = elmSidebarBody.offsetHeight - elmContextMenu.offsetHeight;
+			if ((y + m_elmContextMenu.offsetHeight) > m_elmSidebarBody.offsetHeight) {
+				y = m_elmSidebarBody.offsetHeight - m_elmContextMenu.offsetHeight;
 			}
 
-			elmContextMenu.style.left = x + "px";
-			elmContextMenu.style.top = y + "px";
+			m_elmContextMenu.style.left = x + "px";
+			m_elmContextMenu.style.top = y + "px";
 
-			elmContextMenu.focus();
+			m_elmContextMenu.focus();
 		}
 		event.preventDefault();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurContextMenu(event) {
-		elmContextMenu.style.display = "none";
+		m_elmContextMenu.style.display = "none";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownContextMenu(event) {
 
+		event.preventDefault();
+
+		if(event.key.toLowerCase() === "escape") {
+			m_elmContextMenu.style.display = "none";
+			return;
+		}
+
 		if(m_bCurrentContext === "treecontext") {
 			switch (event.key.toLowerCase()) {
-				case "o":		handleTreeMenuActions(ContextAction.treeOpen);				break;
-				case "t":		handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
-				case "q":		handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
-				case "c":		handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
-				case "d":		handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
-				case "p":		handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
-				case "escape":	elmContextMenu.style.display = "none";						break;
+				case "o":	handleTreeMenuActions(ContextAction.treeOpen);				break;
+				case "t":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
+				case "w":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
+				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
+				case "d":	handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
+				case "p":	handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
 			}
 		} else if(m_bCurrentContext === "listcontext") {
 			switch (event.key.toLowerCase()) {
-				case "o":		handleListMenuActions(ContextAction.listOpen);				break;
-				case "t":		handleListMenuActions(ContextAction.listOpenNewTab);		break;
-				case "q":		handleListMenuActions(ContextAction.listOpenNewWin);		break;
-				case "c":		handleListMenuActions(ContextAction.listCopyUrl);			break;
-				case "escape":	elmContextMenu.style.display = "none";						break;
+				case "o":	handleListMenuActions(ContextAction.listOpen);				break;
+				case "t":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
+				case "w":	handleListMenuActions(ContextAction.listOpenNewWin);		break;
+				case "g":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
+				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
+				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
+				case "c":	handleListMenuActions(ContextAction.listCopyUrl);			break;
 			}
 		}
-
-		event.preventDefault();
 	}
 
 	//==================================================================================
@@ -212,7 +236,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
-		let targetItem = elmContextMenu.elmTargetItem;
+		let targetItem = m_elmContextMenu.elmTargetItem;
 
 		if (targetItem !== undefined && targetItem !== null) {
 			handleMenuActions(menuAction, {
@@ -220,7 +244,7 @@
 				url: targetItem.getAttribute("href"),
 			});
 		}
-		elmContextMenu.style.display = "none";
+		m_elmContextMenu.style.display = "none";
 	}
 
 	//==================================================================================
@@ -243,6 +267,21 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onClickMenuToggleFeedItemReadUnread(event) {
+		handleListMenuActions(ContextAction.listToggleReadUnread);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickMenuMarkAllFeedItemsRead(event) {
+		handleListMenuActions(ContextAction.listMarkAllRead);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickMenuMarkAllFeedItemsUnread(event) {
+		handleListMenuActions(ContextAction.listMarkAllUnread);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onClickMenuCopyFeedItemUrl(event) {
 		handleListMenuActions(ContextAction.listCopyUrl);
 	}
@@ -250,19 +289,22 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleListMenuActions(menuAction) {
 
-		let targetItem = elmContextMenu.elmTargetItem;
+		let targetItem = m_elmContextMenu.elmTargetItem;
 
 		if (targetItem !== undefined && targetItem !== null) {
 
 			let url = targetItem.getAttribute("href");
 			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
 
-			if(menuAction !== ContextAction.listCopyUrl) {
-				targetItem.classList.add("visited");
-				slUtil.addUrlToBrowserHistory(url, targetItem.textContent);
+			let openActions = [ContextAction.listOpen, ContextAction.listOpenNewTab, ContextAction.listOpenNewWin];
+
+			if(openActions.indexOf(menuAction) !== -1) {
+				slUtil.addUrlToBrowserHistory(url, targetItem.textContent).then(() => {
+					rssListView.setItemRealVisitedState(targetItem, url);
+				});
 			}
 		}
-		elmContextMenu.style.display = "none";
+		m_elmContextMenu.style.display = "none";
 	}
 
 	//==================================================================================
@@ -299,12 +341,27 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeDeleteFeed:
-				rssTreeView.deleteFeed(elmContextMenu.elmTargetItem);
+				rssTreeView.deleteFeed(m_elmContextMenu.elmTargetItem);
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.treeFeedProperties:
-				rssTreeView.openPropertiesView(elmContextMenu.elmTargetItem);
+				rssTreeView.openPropertiesView(m_elmContextMenu.elmTargetItem);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.listToggleReadUnread:
+				rssListView.toggleItemVisitedState(m_elmContextMenu.elmTargetItem);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.listMarkAllRead:
+				rssListView.markAllItemsAsVisitedState(true);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.listMarkAllUnread:
+				rssListView.markAllItemsAsVisitedState(false);
 				break;
 				///////////////////////////////////////////
 		}
@@ -313,12 +370,12 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function showMenuItemsByClassName(className) {
 
-		elmContextMenu.querySelectorAll("." + className).forEach((item) => {
+		m_elmContextMenu.querySelectorAll("." + className).forEach((item) => {
 			item.style.display = "block";
 		});
 
 		// hide the rest
-		elmContextMenu.querySelectorAll(":not(." + className + ")").forEach((item) => {
+		m_elmContextMenu.querySelectorAll(":not(." + className + ")").forEach((item) => {
 			item.style.display = "none";
 		});
 	}

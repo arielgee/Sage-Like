@@ -6,9 +6,9 @@ let rssListView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	let elmList;
+	let m_elmList;
 
-	let elmCurrentlySelected = null;
+	let m_elmCurrentlySelected = null;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -16,7 +16,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
-		elmList = document.getElementById("rssListView");
+		m_elmList = document.getElementById("rssListView");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -43,8 +43,8 @@ let rssListView = (function() {
 		}
 
 		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
-		if(slUtil.hasHScroll(elmList)) {
-			elmList.style.height = (elmList.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
+		if(slUtil.hasHScroll(m_elmList)) {
+			m_elmList.style.height = (m_elmList.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
 		}
 	}
 
@@ -54,7 +54,7 @@ let rssListView = (function() {
 		let elm = document.createElement("li");
 
 		elm.classList.add(sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)
-		setItemVisitedStatus(elm, url);
+		setItemRealVisitedState(elm, url);
 
 		elm.textContent = index.toString() + ". " + title;
 		elm.title = title;
@@ -62,7 +62,7 @@ let rssListView = (function() {
 
 		addListItemEventListeners(elm);
 
-		elmList.appendChild(elm);
+		m_elmList.appendChild(elm);
 	}
 
 	//==================================================================================
@@ -112,8 +112,15 @@ let rssListView = (function() {
 		if(handled) {
 
 			setFeedItemSelectionState(elm);
-			addFeedItemUrlToHistory(feedItemUrl, elm.textContent);
-			elm.classList.remove("bold");  // instead of setItemVisitedStatus() becouse it's async
+
+			// Redirect are not saved in history. So when a feed url is
+			// redirected from http to https or from feedproxy.google.com
+			// to the target page it cannot be found in browser.history.
+			// So this function will record the redirecting url in history
+			// https://wiki.mozilla.org/Browser_History:Redirects
+			slUtil.addUrlToBrowserHistory(url, title).then(() => {
+				setItemRealVisitedState(elm, feedItemUrl);
+			});
 
 			event.stopPropagation();
 			event.preventDefault();
@@ -136,7 +143,7 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setItemVisitedStatus(elm, url) {
+	function setItemRealVisitedState(elm, url) {
 
 		browser.history.getVisits({ url: url }).then((vItems) => {
 			if (vItems.length === 0) {
@@ -145,33 +152,49 @@ let rssListView = (function() {
 				elm.classList.remove("bold");
 			}
 		});
+	}
 
-//#region browser.history.search()
-		/*
-		let query = {
-			text: decodeURI(url),
-			startTime: ((new Date()) - (1000 * 60 * 60 * 24 * 365 * 5)),		// about five year back
-			maxResults: 1,
+	////////////////////////////////////////////////////////////////////////////////////
+	function toggleItemVisitedState(elm) {
+		if(elm.classList.toggle("bold")) {
+			// turned to not visited
+			slUtil.deleteUrlFromBrowserHistory(elm.getAttribute("href"));
+		} else {
+			// turned to visited
+			slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function markAllItemsAsVisitedState(visited) {
+
+		let funcAddToHistory = function (e) {
+			slUtil.addUrlToBrowserHistory(e.getAttribute("href"), e.textContent);
 		};
 
-		// url's in history are decoded and encodeURI in the rss's XML.
-		browser.history.search(query).then((hItems) => {
-			if (hItems.length > 0) {
-				elm.classList.add("visited");
-			}
-		});
-		*/
-//#endregion
+		let funcDelFromHistory = function (e) {
+			slUtil.deleteUrlFromBrowserHistory(e.getAttribute("href"));
+		};
+
+		let funcHistory = visited ? funcAddToHistory : funcDelFromHistory;
+		let funcClassList = visited ? function(e) { e.classList.remove("bold"); } : function(e) { e.classList.add("bold"); };
+
+		let elms = m_elmList.getElementsByTagName("li");
+
+		for(let elm of elms) {
+			funcHistory(elm);
+			funcClassList(elm);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedItemSelectionState(elm) {
 
-		if(elmCurrentlySelected !== null) {
-			elmCurrentlySelected.classList.remove("selected");
+		if(m_elmCurrentlySelected !== null) {
+			m_elmCurrentlySelected.classList.remove("selected");
 		}
 
-		elmCurrentlySelected = elm;
+		m_elmCurrentlySelected = elm;
 		elm.classList.add("selected");
 	}
 
@@ -182,7 +205,7 @@ let rssListView = (function() {
 		elm.textContent = textContent;
 
 		disposeList();
-		elmList.appendChild(elm);
+		m_elmList.appendChild(elm);
 	}
 
 	//==================================================================================
@@ -190,26 +213,15 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	// Redirect are not saved in history. So when a feed url is
-	// redirected from http to https or from feedproxy.google.com
-	// to the target page it cannot be found in browser.history.
-	// So this function will record the un-redirected url in history
-	// https://wiki.mozilla.org/Browser_History:Redirects
-	function addFeedItemUrlToHistory(url, title) {
-
-		slUtil.addUrlToBrowserHistory(url, title);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function disposeList() {
 
 		let el;
 
-		elmCurrentlySelected = null;
+		m_elmCurrentlySelected = null;
 
-		while (el = elmList.firstChild) {
+		while (el = m_elmList.firstChild) {
 			removeListItemEventListeners(el);
-			elmList.removeChild(el);
+			m_elmList.removeChild(el);
 		}
 	}
 
@@ -218,6 +230,9 @@ let rssListView = (function() {
 		disposeList: disposeList,
 		setListErrorMsg: setListErrorMsg,
 		setFeedItemSelectionState: setFeedItemSelectionState,
+		setItemRealVisitedState: setItemRealVisitedState,
+		toggleItemVisitedState: toggleItemVisitedState,
+		markAllItemsAsVisitedState: markAllItemsAsVisitedState,
 	};
 
 })();

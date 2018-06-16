@@ -1,7 +1,6 @@
 "use strict"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-///
 let sageLikeGlobalConsts = (function() {
 
 	const CLS_DIV_TOOLBAR = "toolbar";
@@ -34,7 +33,6 @@ let sageLikeGlobalConsts = (function() {
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-///
 let prefs = (function() {
 
 	const DEF_PREF_OPEN_SUB_TREES = {};
@@ -46,7 +44,7 @@ let prefs = (function() {
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 
 	//////////////////////////////////////////////////////////////////////
-	let getOpenSubTrees = function() {
+	function getOpenSubTrees() {
 
 		return new Promise((resolve) => {
 
@@ -57,7 +55,7 @@ let prefs = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let setOpenSubTrees = function(objValue) {
+	function setOpenSubTrees(objValue) {
 
 		let obj = {};
 		obj[PREF_OPEN_SUB_TREES] = objValue;
@@ -65,7 +63,7 @@ let prefs = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let getLastVisitedFeeds = function() {
+	function getLastVisitedFeeds() {
 
 		return new Promise((resolve) => {
 
@@ -76,7 +74,7 @@ let prefs = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let setLastVisitedFeeds = function(objValue) {
+	function setLastVisitedFeeds(objValue) {
 
 		let obj = {};
 		obj[PREF_LAST_VISITED_FEEDS] = objValue;
@@ -84,7 +82,7 @@ let prefs = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let getRootFeedsFolderId = function() {
+	function getRootFeedsFolderId() {
 
 		return new Promise((resolve) => {
 
@@ -95,7 +93,7 @@ let prefs = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let setRootFeedsFolderId = function(value) {
+	function setRootFeedsFolderId(value) {
 
 		let obj = {};
 		obj[PREF_ROOT_FEEDS_FOLDER_ID] = value;
@@ -103,7 +101,7 @@ let prefs = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let restoreDefaults = function() {
+	function restoreDefaults() {
 		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES);
 		this.setLastVisitedFeeds(DEF_PREF_LAST_VISITED_FEEDS);
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
@@ -129,11 +127,9 @@ let prefs = (function() {
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-///
 let slUtil = (function() {
 
-	let local_savedScrollbarWidth = -1;
-
+	let m_savedScrollbarWidth = -1;
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function(args) {
@@ -166,17 +162,17 @@ let slUtil = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let escapeRegExp = function(str) {
+	function escapeRegExp(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let random1to100 = function() {
+	function random1to100() {
 		return Math.floor(Math.random() * (100 - 1) + 1).toString();
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	let disableElementTree = function(elm, value) {
+	function disableElementTree(elm, value) {
 
 		if (elm.nodeType !== Node.ELEMENT_NODE) {
 			return;
@@ -198,8 +194,7 @@ let slUtil = (function() {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	let copyTextToClipboard = function(doc, text) {
+	function copyTextToClipboard(doc, text) {
 		let input = doc.createElement("textarea");
 		let style = input.style;
 		style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
@@ -211,22 +206,26 @@ let slUtil = (function() {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	let addUrlToBrowserHistory = function(url, title) {
+	function addUrlToBrowserHistory(url, title) {
 
 		let details = {
 			url: url,
-			title: "[sage-like] " + title,
+			title: "[sage-like] " + title.replace(/^[0-9]+\. /, ""),
 		};
 
-		browser.history.addUrl(details);
+		return browser.history.addUrl(details);
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function deleteUrlFromBrowserHistory(url) {
+
+		return browser.history.deleteUrl( { url: url });
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	//
-	let getScrollbarWidth = function(doc) {
+	function getScrollbarWidth(doc) {
 
-		if(local_savedScrollbarWidth === -1) {
+		if(m_savedScrollbarWidth === -1) {
 
 			let inner = doc.createElement("p");
 			inner.style.width = "100%";
@@ -250,20 +249,18 @@ let slUtil = (function() {
 
 			doc.body.removeChild(outer);
 
-			local_savedScrollbarWidth = (w1 - w2);
+			m_savedScrollbarWidth = (w1 - w2);
 		}
-		return local_savedScrollbarWidth;
+		return m_savedScrollbarWidth;
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	let hasHScroll = function(elm) {
+	function hasHScroll(elm) {
 		return (elm.clientWidth < elm.scrollWidth);
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	let getCurrentLocaleDate = function() {
+	function getCurrentLocaleDate() {
 
 		let now = new Date();
 		let newDate = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000);
@@ -274,8 +271,7 @@ let slUtil = (function() {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	let isContentOverflowing = function(elm) {
+	function isContentOverflowing(elm) {
 		return ((elm.offsetWidth - 1) < elm.scrollWidth);
 	};
 
@@ -285,10 +281,12 @@ let slUtil = (function() {
 		disableElementTree: disableElementTree,
 		copyTextToClipboard: copyTextToClipboard,
 		addUrlToBrowserHistory: addUrlToBrowserHistory,
+		deleteUrlFromBrowserHistory: deleteUrlFromBrowserHistory,
 		getScrollbarWidth: getScrollbarWidth,
 		hasHScroll: hasHScroll,
 		getCurrentLocaleDate: getCurrentLocaleDate,
 		isContentOverflowing: isContentOverflowing,
 	};
+
 })();
 

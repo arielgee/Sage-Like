@@ -11,14 +11,14 @@
     padding: 5px;
     font-weight: normal;
   }
-  
+
   .contextmenu .contextmenuitem {
     display: none;
     color: black;
     padding: 5px 16px;
     text-decoration: none;
   }
-  
+
   .contextmenu .contextmenuitem:hover {
     background-color: lightblue;
   }
@@ -26,7 +26,7 @@
   .contextmenu .contextmenuitem u {
     display: inline !important;
   }
-  
+
   .contextmenu hr {
     border: 0.5px solid #e0e0e0;
   }
