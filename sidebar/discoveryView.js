@@ -54,6 +54,10 @@ let discoverView = (function() {
     ////////////////////////////////////////////////////////////////////////////////////
     function close() {
 
+        if(isOpen() === false) {
+            return;
+        }
+
         slUtil.disableElementTree(m_elmMainPanel, false);
         m_elmDiscoverPanel.style.display = "none";
         emptyDiscoverFeedsList();

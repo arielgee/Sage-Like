@@ -6,17 +6,19 @@
 		treeOpen: 1,
 		treeOpenNewTab: 2,
 		treeOpenNewWin: 3,
-		treeCopyUrl: 4,
-		treeDeleteFeed: 5,
-		treeFeedProperties: 6,
+		treeOpenNewPrivateWin: 4,
+		treeCopyUrl: 5,
+		treeDeleteFeed: 6,
+		treeFeedProperties: 7,
 
-		listOpen: 7,
-		listOpenNewTab: 8,
-		listOpenNewWin: 9,
-		listToggleReadUnread: 10,
-		listMarkAllRead: 11,
-		listMarkAllUnread: 12,
-		listCopyUrl: 13,
+		listOpen: 8,
+		listOpenNewTab: 9,
+		listOpenNewWin: 10,
+		listOpenNewPrivateWin: 11,
+		listToggleReadUnread: 12,
+		listMarkAllRead: 13,
+		listMarkAllUnread: 14,
+		listCopyUrl: 153,
 	});
 
 	//==================================================================================
@@ -29,6 +31,7 @@
 	let m_elmMnuTreeOpenFeed;
 	let m_elmMnuTreeOpenFeedNewTab;
 	let m_elmMnuTreeOpenFeedNewWin;
+	let m_elmMnuTreeOpenFeedNewPrivateWin;
 	let m_elmMnuTreeCopyFeedUrl;
 	let m_elmMnuTreeDeleteFeed;
 	let m_elmMnuTreeFeedProperties;
@@ -36,6 +39,7 @@
 	let m_elmMnuListOpenFeedItem;
 	let m_elmMnuListOpenFeedItemNewTab;
 	let m_elmMnuListOpenFeedItemNewWin;
+	let m_elmMnuListOpenFeedItemNewPrivateWin;
 	let m_elmMnuListToggleFeedItemReadUnread;
 	let m_elmMnuListMarkAllFeedItemsRead;
 	let m_elmMnuListMarkAllFeedItemsUnread;
@@ -55,6 +59,7 @@
 		m_elmMnuTreeOpenFeed = document.getElementById("mnuTreeOpenFeed")
 		m_elmMnuTreeOpenFeedNewTab = document.getElementById("mnuTreeOpenFeedNewTab")
 		m_elmMnuTreeOpenFeedNewWin = document.getElementById("mnuTreeOpenFeedNewWin")
+		m_elmMnuTreeOpenFeedNewPrivateWin = document.getElementById("mnuTreeOpenFeedNewPrivateWin")
 		m_elmMnuTreeCopyFeedUrl = document.getElementById("mnuTreeCopyFeedUrl");
 		m_elmMnuTreeDeleteFeed = document.getElementById("mnuTreeDeleteFeed");
 		m_elmMnuTreeFeedProperties = document.getElementById("mnuTreeFeedProperties");
@@ -62,6 +67,8 @@
 		m_elmMnuListOpenFeedItem = document.getElementById("mnuListOpenFeedItem");
 		m_elmMnuListOpenFeedItemNewTab = document.getElementById("mnuListOpenFeedItemNewTab");
 		m_elmMnuListOpenFeedItemNewWin = document.getElementById("mnuListOpenFeedItemNewWin");
+		m_elmMnuListOpenFeedItemNewPrivateWin = document.getElementById("mnuListOpenFeedItemNewPrivateWin");
+
 		m_elmMnuListToggleFeedItemReadUnread = document.getElementById("mnuListToggleFeedItemReadUnread");
 		m_elmMnuListMarkAllFeedItemsRead = document.getElementById("mnuListMarkAllFeedItemsRead");
 		m_elmMnuListMarkAllFeedItemsUnread = document.getElementById("mnuListMarkAllFeedItemsUnread");
@@ -75,6 +82,7 @@
 		m_elmMnuTreeOpenFeed.addEventListener("click", onClickMenuOpenFeed);
 		m_elmMnuTreeOpenFeedNewTab.addEventListener("click", onClickMenuOpenFeedNewTab);
 		m_elmMnuTreeOpenFeedNewWin.addEventListener("click", onClickMenuOpenFeedNewWin);
+		m_elmMnuTreeOpenFeedNewPrivateWin.addEventListener("click", onClickMenuOpenFeedNewPrivateWin);
 		m_elmMnuTreeCopyFeedUrl.addEventListener("click", onClickMenuCopyFeedUrl);
 		m_elmMnuTreeDeleteFeed.addEventListener("click", onClickMenuDeleteFeed);
 		m_elmMnuTreeFeedProperties.addEventListener("click", onClickMenuFeedProperties);
@@ -82,6 +90,7 @@
 		m_elmMnuListOpenFeedItem.addEventListener("click", onClickMenuOpenFeedItem);
 		m_elmMnuListOpenFeedItemNewTab.addEventListener("click", onClickMenuOpenFeedItemNewTab);
 		m_elmMnuListOpenFeedItemNewWin.addEventListener("click", onClickMenuOpenFeedItemNewWin);
+		m_elmMnuListOpenFeedItemNewPrivateWin.addEventListener("click", onClickMenuOpenFeedItemNewPrivateWin);
 		m_elmMnuListToggleFeedItemReadUnread.addEventListener("click", onClickMenuToggleFeedItemReadUnread);
 		m_elmMnuListMarkAllFeedItemsRead.addEventListener("click", onClickMenuMarkAllFeedItemsRead);
 		m_elmMnuListMarkAllFeedItemsUnread.addEventListener("click", onClickMenuMarkAllFeedItemsUnread);
@@ -99,6 +108,7 @@
 		m_elmMnuTreeOpenFeed.removeEventListener("click", onClickMenuOpenFeed);
 		m_elmMnuTreeOpenFeedNewTab.removeEventListener("click", onClickMenuOpenFeedNewTab);
 		m_elmMnuTreeOpenFeedNewWin.removeEventListener("click", onClickMenuOpenFeedNewWin);
+		m_elmMnuTreeOpenFeedNewPrivateWin.removeEventListener("click", onClickMenuOpenFeedNewPrivateWin);
 		m_elmMnuTreeCopyFeedUrl.removeEventListener("click", onClickMenuCopyFeedUrl);
 		m_elmMnuTreeDeleteFeed.removeEventListener("click", onClickMenuDeleteFeed);
 		m_elmMnuTreeFeedProperties.removeEventListener("click", onClickMenuFeedProperties);
@@ -106,6 +116,7 @@
 		m_elmMnuListOpenFeedItem.removeEventListener("click", onClickMenuOpenFeedItem);
 		m_elmMnuListOpenFeedItemNewTab.removeEventListener("click", onClickMenuOpenFeedItemNewTab);
 		m_elmMnuListOpenFeedItemNewWin.removeEventListener("click", onClickMenuOpenFeedItemNewWin);
+		m_elmMnuListOpenFeedItemNewPrivateWin.removeEventListener("click", onClickMenuOpenFeedItemNewPrivateWin);
 		m_elmMnuListToggleFeedItemReadUnread.removeEventListener("click", onClickMenuToggleFeedItemReadUnread);
 		m_elmMnuListMarkAllFeedItemsRead.removeEventListener("click", onClickMenuMarkAllFeedItemsRead);
 		m_elmMnuListMarkAllFeedItemsUnread.removeEventListener("click", onClickMenuMarkAllFeedItemsUnread);
@@ -121,13 +132,13 @@
 		let showMenu = true;
 		let trgClsList = event.target.classList;
 
-		if (trgClsList.contains(sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
+		if (trgClsList.contains(slGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
 
 			m_bCurrentContext = "treecontext";
 			showMenuItemsByClassName(m_bCurrentContext);
 			rssTreeView.setFeedSelectionState(event.target);
 
-		} else if (trgClsList.contains(sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)) {
+		} else if (trgClsList.contains(slGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)) {
 
 			m_bCurrentContext = "listcontext";
 			showMenuItemsByClassName(m_bCurrentContext);
@@ -182,6 +193,7 @@
 				case "o":	handleTreeMenuActions(ContextAction.treeOpen);				break;
 				case "t":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
 				case "w":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
+				case "v":	handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
 				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
 				case "d":	handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
 				case "p":	handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
@@ -191,6 +203,7 @@
 				case "o":	handleListMenuActions(ContextAction.listOpen);				break;
 				case "t":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
 				case "w":	handleListMenuActions(ContextAction.listOpenNewWin);		break;
+				case "v":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
 				case "g":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
 				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
@@ -216,6 +229,11 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickMenuOpenFeedNewWin(event) {
 		handleTreeMenuActions(ContextAction.treeOpenNewWin);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickMenuOpenFeedNewPrivateWin(event) {
+		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -267,6 +285,11 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onClickMenuOpenFeedItemNewPrivateWin(event) {
+		handleListMenuActions(ContextAction.listOpenNewPrivateWin);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onClickMenuToggleFeedItemReadUnread(event) {
 		handleListMenuActions(ContextAction.listToggleReadUnread);
 	}
@@ -296,7 +319,12 @@
 			let url = targetItem.getAttribute("href");
 			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
 
-			let openActions = [ContextAction.listOpen, ContextAction.listOpenNewTab, ContextAction.listOpenNewWin];
+			let openActions = [
+				ContextAction.listOpen,
+				ContextAction.listOpenNewTab,
+				ContextAction.listOpenNewWin,
+				ContextAction.listOpenNewPrivateWin
+			];
 
 			if(openActions.indexOf(menuAction) !== -1) {
 				slUtil.addUrlToBrowserHistory(url, targetItem.textContent).then(() => {
@@ -331,6 +359,12 @@
 			case ContextAction.treeOpenNewWin:
 			case ContextAction.listOpenNewWin:
 				browser.windows.create({ url: actionData.url, type: "normal" });
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeOpenNewPrivateWin:
+			case ContextAction.listOpenNewPrivateWin:
+				browser.windows.create({ url: actionData.url, type: "normal", incognito: true });
 				break;
 				///////////////////////////////////////////
 

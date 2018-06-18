@@ -41,28 +41,28 @@ let rssTreeView = (function() {
 	class OpenSubTrees extends StoredKeyedItems {
 		getStorage() {
 			return new Promise((resolve) => {
-				prefs.getOpenSubTrees().then((items) => {
+				internalPrefs.getOpenSubTrees().then((items) => {
 					this._items = items;
 					resolve();
 				});
 			});
 		}
 		setStorage() {
-			prefs.setOpenSubTrees(this._items);
+			internalPrefs.setOpenSubTrees(this._items);
 		}
 	};
 
 	class TreeFeedsData extends StoredKeyedItems {
 		getStorage() {
 			return new Promise((resolve) => {
-				prefs.getLastVisitedFeeds().then((items) => {
+				internalPrefs.getLastVisitedFeeds().then((items) => {
 					this._items = items;
 					resolve();
 				});
 			});
 		}
 		setStorage() {
-			prefs.setLastVisitedFeeds(this._items);
+			internalPrefs.setLastVisitedFeeds(this._items);
 		}
 		set(key, properties) {
 			let defProp = { lastVisited:0, updateTitle:true };
@@ -111,7 +111,7 @@ let rssTreeView = (function() {
 	let m_elmCurrentlyDragged = null;
 
 	let m_lineHeight = 21;
-	let m_lastFeedClickTime = 0;
+	let m_lastClickedFeedTime = 0;
 
 	let m_objOpenSubTrees = new OpenSubTrees();
 	let m_objTreeFeedsData = new TreeFeedsData();
@@ -120,6 +120,19 @@ let rssTreeView = (function() {
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
+
+    /**************************************************/
+    browser.runtime.onMessage.addListener((message) => {
+		if (message.id === slGlobalConsts.MSG_ID_PREFERENCE_UPDATED &&
+			(message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_ALL || message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_ROOT_FOLDER)) {
+
+			discoverView.close();
+			feedPropertiesView.close();
+			rssListView.disposeList();
+
+			createRSSTree();
+		}
+    });
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
@@ -168,7 +181,7 @@ let rssTreeView = (function() {
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
-			if (folderId === sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+			if (folderId === slGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmTreeRoot.appendChild(createErrorTagLI("The feeds folder is not set in the Options page."));
 				browser.runtime.openOptionsPage();
 				return;
@@ -202,7 +215,7 @@ let rssTreeView = (function() {
 
 		if (bookmark.url === undefined) { // it's a folder
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, sageLikeGlobalConsts.CLS_LI_SUB_TREE, null);
+			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobalConsts.CLS_LI_SUB_TREE, null);
 
 			let elmUL = createTagUL();
 			elmLI.appendChild(elmUL);
@@ -215,7 +228,7 @@ let rssTreeView = (function() {
 
 		} else { // it's a bookmark
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmark.url);
+			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobalConsts.CLS_LI_RSS_TREE_FEED, bookmark.url);
 		}
 		parentElement.appendChild(elmLI);
 	}
@@ -238,7 +251,7 @@ let rssTreeView = (function() {
 		let elmCaption = document.createElement("div");
 		let elm = document.createElement("li");
 
-		elmCaption.className = sageLikeGlobalConsts.CLS_DIV_RSS_TREE_FEED_CAPTION;
+		elmCaption.className = slGlobalConsts.CLS_DIV_RSS_TREE_FEED_CAPTION;
 		elmCaption.textContent = textContent;
 
 		elm.id = id;
@@ -276,7 +289,7 @@ let rssTreeView = (function() {
 		let elmLIs = m_elmTreeRoot.getElementsByTagName("li")
 
 		for(let elmLI of elmLIs) {
-			if(elmLI.classList.contains(sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
+			if(elmLI.classList.contains(slGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
 				processFeedData(elmLI, elmLI.getAttribute("href"));
 			}
 		};
@@ -351,7 +364,7 @@ let rssTreeView = (function() {
 	function onClickTreeItem(event) {
 
 		let elmLI = this;
-		let isSubTree = elmLI.classList.contains(sageLikeGlobalConsts.CLS_LI_SUB_TREE);
+		let isSubTree = elmLI.classList.contains(slGlobalConsts.CLS_LI_SUB_TREE);
 
 		// when a subtree is open the height of the LI is as the Height of the entier subtree.
 		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
@@ -371,12 +384,12 @@ let rssTreeView = (function() {
 
 			let url = elmLI.getAttribute("href");
 
-			// Since all is asynchronous, if a slow responding feed is clicked before a faster one it
+			// Since all is asynchronous, if a slow responding feed is clicked right before a faster one it
 			// will be processed last and wil alter the rssListView result.
 			// Therefore to make sure that the last user-click is not overridden by the slower previous one
 			// save the time of the last feed click twice; globally and locally. Then perform selected functions only if
-			// the time of the local feed click time is equal to the global.
-			let lastClickedFeedTime = m_lastFeedClickTime = Date.now();
+			// the time of this feed click time is equal to the global.
+			let thisFeedClickTime = m_lastClickedFeedTime = Date.now();
 
 			setOneConcurrentFeedLoadingState(elmLI, true);
 
@@ -390,7 +403,7 @@ let rssTreeView = (function() {
 				updateFeedTitle(elmLI, result.feedData.title);
 
 				// change the rssListView content only if this is the last user click.
-				if(lastClickedFeedTime === m_lastFeedClickTime) {
+				if(thisFeedClickTime === m_lastClickedFeedTime) {
 					rssListView.setFeedItems(result.list);
 				}
 
@@ -399,13 +412,13 @@ let rssTreeView = (function() {
 				setFeedErrorState(elmLI, true, error);
 
 				// change the rssListView content only if this is the last user click.
-				if(lastClickedFeedTime === m_lastFeedClickTime) {
+				if(thisFeedClickTime === m_lastClickedFeedTime) {
 					rssListView.setListErrorMsg(error);
 				}
 			}).finally(() => {	// wait for Fx v58
 
 				// change loading state only if this is the last user click.
-				if(lastClickedFeedTime === m_lastFeedClickTime) {
+				if(thisFeedClickTime === m_lastClickedFeedTime) {
 					setOneConcurrentFeedLoadingState(elmLI, false);
 				}
 			});
@@ -444,7 +457,7 @@ let rssTreeView = (function() {
 			return false;
 		}
 
-		let isSubTree = this.classList.contains(sageLikeGlobalConsts.CLS_LI_SUB_TREE);
+		let isSubTree = this.classList.contains(slGlobalConsts.CLS_LI_SUB_TREE);
 
 		if(isSubTree) {
 
@@ -611,7 +624,7 @@ let rssTreeView = (function() {
 
 			browser.bookmarks.create(bookmarksList[index]).then((created) => {
 
-				let elmLI = createTagLI(created.id, created.title, sageLikeGlobalConsts.CLS_LI_RSS_TREE_FEED, created.url);
+				let elmLI = createTagLI(created.id, created.title, slGlobalConsts.CLS_LI_RSS_TREE_FEED, created.url);
 				elmLI.classList.add("blinkNew");
 				m_elmTreeRoot.appendChild(elmLI);
 
@@ -748,7 +761,7 @@ let rssTreeView = (function() {
 		// Don't Call This Directlly
 		elmUL.style.display = (open ? "block" : "none");
 		elmUL.setAttribute("rel", (open ? "open" : "closed"));
-		elmLI.style.backgroundImage = "url(" + (open ? sageLikeGlobalConsts.IMG_OPEN_SUB_TREE : sageLikeGlobalConsts.IMG_CLOSED_SUB_TREE) + ")";
+		elmLI.style.backgroundImage = "url(" + (open ? slGlobalConsts.IMG_OPEN_SUB_TREE : slGlobalConsts.IMG_CLOSED_SUB_TREE) + ")";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

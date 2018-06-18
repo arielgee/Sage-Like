@@ -1,12 +1,22 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
-html, body {
+:root {
   --toolbar-height: 31px;
   --top-height: 60%;
   --splitter-height: 7px;
   --line-height: 19px;
+
+  --bk-color-window: #FFFFFF;
+  --bk-color-dialog: #EEEEEE;
+  --bk-color-active: #ADD8E6;
+  --color-text: #000000;
+}
+
+html, body {
   height: 100%;
   line-height: var(--line-height);
+  background-color: var(--bk-color-window);
+  color: var(--color-text);
 }
 
 .top {
@@ -15,7 +25,6 @@ html, body {
   width: 100%;
   height: var(--top-height);
   overflow-y: auto;
-  background-color: Window;
 }
 
 .bottom {
@@ -24,7 +33,6 @@ html, body {
   width: 100%;
   height: auto;
   overflow-y: auto;
-  background-color: Window; /*rgb(211 211 211);*/
 }
 
 .splitter {
@@ -39,13 +47,13 @@ html, body {
 }
 
 .toolbar {
-  --buttons-seacer: 8px;
+  --buttons-spacer: 8px;
   width: 100%;
   height: var(--toolbar-height);
-  background-color: AppWorkspace;
+  background-color: #9f9f9f;    /*#7f7f7f;*/
   border-top: 2px gray groove;
   border-bottom: 2px gray groove;
-  padding: 5px var(--buttons-seacer);
+  padding: 5px var(--buttons-spacer);
   display: flex;
   justify-content: left;
 }
@@ -53,8 +61,7 @@ html, body {
 .toolbar .button {
   width: 16px;
   height: 16px;
-  background-color: ButtonFace;
-  margin: auto var(--buttons-seacer) auto 0;
+  margin: auto var(--buttons-spacer) auto 0;
 }
 
 .toolbar .button:last-child {
@@ -70,7 +77,7 @@ html, body {
 }
 
 .spacer {
-  width: var(--buttons-seacer);
+  width: var(--buttons-spacer);
   height: 16px;
   pointer-events: none;
 }

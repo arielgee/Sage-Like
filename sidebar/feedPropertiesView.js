@@ -43,6 +43,10 @@ let feedPropertiesView = (function() {
     ////////////////////////////////////////////////////////////////////////////////////
     function close() {
 
+        if(isOpen() === false) {
+            return;
+        }
+
         slUtil.disableElementTree(m_elmMainPanel, false);
         m_elmFeedPropertiesPanel.style.display = "none";
 

@@ -8,6 +8,11 @@ body {
   line-height: 21px;
 }
 
+.preference {
+  display: flex;
+  align-items: center;
+}
+
 input[type="radio"],
 input[type="checkbox"] {
   -webkit-appearance: none;
@@ -43,11 +48,23 @@ input[type="checkbox"]:checked {
 }
 
 input[type="color"] {
-  width: 40px;
-  height: 20px;
-  border: 2px solid #999;
+  width: 25px;
+  height: 19px;
+  border: none;
+  margin: 0 3px;
   padding: 1px;
-  background-color: white;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.6);
+}
+
+input[type="color"]::-moz-focus-inner {
+  padding: 0;
 }
 
 .caption {
@@ -65,7 +82,7 @@ input[type="color"] {
 }
 
 .preferenceControl {
-  float: right;
+  margin: auto 0 auto auto;
 }
 
 select,
@@ -78,7 +95,7 @@ select,
 }
 
 select {
-    border: 1px solid #7a7a7a;
+  border: 1px solid #7a7a7a;
 }
 
 .annotation {

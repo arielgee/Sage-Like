@@ -1,21 +1,24 @@
 "use strict"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let sageLikeGlobalConsts = (function() {
+let slGlobalConsts = (function() {
 
 	const CLS_DIV_TOOLBAR = "toolbar";
 	const CLS_DIV_SPLITTER = "splitter";
-
 	const CLS_LI_SUB_TREE = "subtree";
 	const CLS_LI_RSS_TREE_FEED = "rsstreefeed";
 	const CLS_LI_RSS_LIST_FEED_ITEM = "rsslistfeeditem";
-
 	const CLS_DIV_RSS_TREE_FEED_CAPTION = "caption";
 
 	const IMG_CLOSED_SUB_TREE = "/icons/closed.png";
 	const IMG_OPEN_SUB_TREE = "/icons/open.png";
 
 	const ROOT_FEEDS_FOLDER_ID_NOT_SET = "_rootFeedsFolderIdNotSet_";
+
+	const MSG_ID_PREFERENCE_UPDATED = "msgId_preferenceUpdated";
+	const MSG_DETAILS_PREFERENCE_ALL = "msgDetails_all";
+	const MSG_DETAILS_PREFERENCE_ROOT_FOLDER = "msgDetails_rootFolder";
+	const MSG_DETAILS_PREFERENCE_COLORS = "msgDetails_colors";
 
 	return {
 		CLS_DIV_TOOLBAR: CLS_DIV_TOOLBAR,
@@ -24,24 +27,30 @@ let sageLikeGlobalConsts = (function() {
 		CLS_LI_RSS_TREE_FEED: CLS_LI_RSS_TREE_FEED,
 		CLS_LI_RSS_LIST_FEED_ITEM: CLS_LI_RSS_LIST_FEED_ITEM,
 		CLS_DIV_RSS_TREE_FEED_CAPTION: CLS_DIV_RSS_TREE_FEED_CAPTION,
+
 		IMG_CLOSED_SUB_TREE: IMG_CLOSED_SUB_TREE,
 		IMG_OPEN_SUB_TREE: IMG_OPEN_SUB_TREE,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: ROOT_FEEDS_FOLDER_ID_NOT_SET,
+
+		MSG_ID_PREFERENCE_UPDATED: MSG_ID_PREFERENCE_UPDATED,
+		MSG_DETAILS_PREFERENCE_ALL: MSG_DETAILS_PREFERENCE_ALL,
+		MSG_DETAILS_PREFERENCE_ROOT_FOLDER: MSG_DETAILS_PREFERENCE_ROOT_FOLDER,
+		MSG_DETAILS_PREFERENCE_COLORS: MSG_DETAILS_PREFERENCE_COLORS,
 	};
 
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let prefs = (function() {
+let internalPrefs = (function() {
+
+	// internal preferences
 
 	const DEF_PREF_OPEN_SUB_TREES = {};
 	const DEF_PREF_LAST_VISITED_FEEDS = {};
-	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = sageLikeGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
 	const PREF_LAST_VISITED_FEEDS = "pref_lastVisitedFeeds";
-	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenSubTrees() {
@@ -52,7 +61,7 @@ let prefs = (function() {
                 resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
 			});
 		});
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setOpenSubTrees(objValue) {
@@ -60,7 +69,7 @@ let prefs = (function() {
 		let obj = {};
 		obj[PREF_OPEN_SUB_TREES] = objValue;
 		browser.storage.local.set(obj);
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getLastVisitedFeeds() {
@@ -71,7 +80,7 @@ let prefs = (function() {
                 resolve(result[PREF_LAST_VISITED_FEEDS] === undefined ? DEF_PREF_LAST_VISITED_FEEDS : result[PREF_LAST_VISITED_FEEDS]);
 			});
 		});
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setLastVisitedFeeds(objValue) {
@@ -79,7 +88,46 @@ let prefs = (function() {
 		let obj = {};
 		obj[PREF_LAST_VISITED_FEEDS] = objValue;
 		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function restoreDefaults() {
+		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES);
+		this.setLastVisitedFeeds(DEF_PREF_LAST_VISITED_FEEDS);
+
+		return {
+			openSubTrees: DEF_PREF_OPEN_SUB_TREES,
+			lastVisitedFeeds: DEF_PREF_LAST_VISITED_FEEDS,
+		};
+	}
+
+	return {
+		getOpenSubTrees: getOpenSubTrees,
+		setOpenSubTrees: setOpenSubTrees,
+		getLastVisitedFeeds: getLastVisitedFeeds,
+		setLastVisitedFeeds: setLastVisitedFeeds,
+
+		restoreDefaults: restoreDefaults,
 	};
+
+})();
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+let prefs = (function() {
+
+	// user preferences
+
+	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET;
+	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
+	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
+	const DEF_PREF_COLOR_SELECT_VALUE = "#ADD8E6";
+	const DEF_PREF_COLOR_TEXT_VALUE = "#000000";
+
+	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
+	const PREF_COLOR_BACKGROUND_VALUE = "pref_colorBk";
+	const PREF_COLOR_DIALOG_BACKGROUND_VALUE = "pref_colorDlgBk";
+	const PREF_COLOR_SELECT_VALUE = "pref_colorSelect";
+	const PREF_COLOR_TEXT_VALUE = "pref_colorText";
 
 	//////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId() {
@@ -90,7 +138,7 @@ let prefs = (function() {
                 resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
 			});
 		});
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setRootFeedsFolderId(value) {
@@ -98,31 +146,115 @@ let prefs = (function() {
 		let obj = {};
 		obj[PREF_ROOT_FEEDS_FOLDER_ID] = value;
 		browser.storage.local.set(obj);
-	};
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getColorBackground() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_COLOR_BACKGROUND_VALUE).then((result) => {
+                resolve(result[PREF_COLOR_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND_VALUE]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setColorBackground(value) {
+
+		let obj = {};
+		obj[PREF_COLOR_BACKGROUND_VALUE] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getColorDialogBackground() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_COLOR_DIALOG_BACKGROUND_VALUE).then((result) => {
+                resolve(result[PREF_COLOR_DIALOG_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND_VALUE]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setColorDialogBackground(value) {
+
+		let obj = {};
+		obj[PREF_COLOR_DIALOG_BACKGROUND_VALUE] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getColorSelect() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_COLOR_SELECT_VALUE).then((result) => {
+                resolve(result[PREF_COLOR_SELECT_VALUE] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT_VALUE]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setColorSelect(value) {
+
+		let obj = {};
+		obj[PREF_COLOR_SELECT_VALUE] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getColorText() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_COLOR_TEXT_VALUE).then((result) => {
+                resolve(result[PREF_COLOR_TEXT_VALUE] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT_VALUE]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setColorText(value) {
+
+		let obj = {};
+		obj[PREF_COLOR_TEXT_VALUE] = value;
+		browser.storage.local.set(obj);
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
-		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES);
-		this.setLastVisitedFeeds(DEF_PREF_LAST_VISITED_FEEDS);
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
+		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
+		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
+		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
+		this.setColorText(DEF_PREF_COLOR_TEXT_VALUE);
 
 		return {
-			openSubTrees: DEF_PREF_OPEN_SUB_TREES,
-			lastVisitedFeeds: DEF_PREF_LAST_VISITED_FEEDS,
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
+			colorBackground: DEF_PREF_COLOR_BACKGROUND_VALUE,
+			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
+			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
+			colorText: DEF_PREF_COLOR_TEXT_VALUE,
 		};
-	};
+	}
 
 	return {
-		getOpenSubTrees: getOpenSubTrees,
-		setOpenSubTrees: setOpenSubTrees,
-		getLastVisitedFeeds: getLastVisitedFeeds,
-		setLastVisitedFeeds: setLastVisitedFeeds,
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
+		getColorBackground: getColorBackground,
+		setColorBackground: setColorBackground,
+		getColorDialogBackground: getColorDialogBackground,
+		setColorDialogBackground: setColorDialogBackground,
+		getColorSelect: getColorSelect,
+		setColorSelect: setColorSelect,
+		getColorText: getColorText,
+		setColorText: setColorText,
 
 		restoreDefaults: restoreDefaults,
-	};
+	}
 
 })();
 

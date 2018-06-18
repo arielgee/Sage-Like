@@ -21,6 +21,14 @@
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
+    /**************************************************/
+    browser.runtime.onMessage.addListener((message) => {
+		if (message.id === slGlobalConsts.MSG_ID_PREFERENCE_UPDATED &&
+			(message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_ALL || message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_COLORS)) {
+            setPanelColorsFromPreferences();
+        }
+    });
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
@@ -43,6 +51,8 @@
 		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.addEventListener("click", onClickPreferences);
 
+		setPanelColorsFromPreferences();
+
 		// from all the onDOMContentLoaded() fired try to make sure its done last
 		setTimeout(() => { setPanelLayout(); }, 150);
 	}
@@ -59,6 +69,17 @@
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setPanelColorsFromPreferences() {
+
+		let style = document.documentElement.style;
+
+		prefs.getColorBackground().then(color => { style.setProperty("--bk-color-window", color); });
+		prefs.getColorDialogBackground().then(color => { style.setProperty("--bk-color-dialog", color); });
+		prefs.getColorSelect().then(color => { style.setProperty("--bk-color-active", color); });
+		prefs.getColorText().then(color => { style.setProperty("--color-text", color); });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -123,5 +144,9 @@
 	function onClickPreferences(event) {
 		browser.runtime.openOptionsPage();
 	}
+
+	return {
+		setPanelColorsFromPreferences: setPanelColorsFromPreferences,
+	};
 
 })();

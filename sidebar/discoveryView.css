@@ -1,148 +1,148 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 #discoverPanel {
-    display: none;
-    position: absolute;
-    top: calc(var(--toolbar-height) + 3px);
-    left: 3px;
-    background-color: ghostwhite;
-    box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-    min-width: 300px;
-    max-width: 94%;
-    width: 94%;
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 8px;
-    z-index: 1;
-    white-space: nowrap;
+  display: none;
+  position: absolute;
+  top: calc(var(--toolbar-height) + 3px);
+  left: 3px;
+  background-color: var(--bk-color-dialog);
+  box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+  min-width: 300px;
+  max-width: 94%;
+  width: 94%;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 8px;
+  z-index: 1;
+  white-space: nowrap;
 }
 
 #discoverPanel.loading {
-    cursor: wait;
+  cursor: wait;
 }
 
 #discoverPanel > #captionContainer {
-    display: flex;
-    justify-content: left;
-    --item-spacer: 5px;
+  display: flex;
+  justify-content: left;
+  --item-spacer: 5px;
 }
 
 #discoverPanel .captionImage {
-    background: transparent url("../icons/rss.png") no-repeat left center;
-    width: 16px;
-    height: 16px;
-    margin: auto var(--item-spacer) auto 0;
+  background: transparent url("../icons/rss.png") no-repeat left center;
+  width: 16px;
+  height: 16px;
+  margin: auto var(--item-spacer) auto 0;
 }
 
 #discoverPanel.loading .captionImage {
-    background: transparent url("../icons/loading.gif") no-repeat left center;
+  background: transparent url("../icons/loading.gif") no-repeat left center;
 }
 
 #discoverPanel .caption {
-    margin: 4px 0 4px 0;
-    margin: auto var(--item-spacer) auto 0;
+  margin: 4px 0 4px 0;
+  margin: auto var(--item-spacer) auto 0;
 }
 
 #discoverPanel .captionSpacer {
-    margin: auto auto auto 0;
+  margin: auto auto auto 0;
 }
 
 #discoverPanel #btnRediscover {
-    background: transparent url("../icons/reload.png") no-repeat left center;
-    width: 16px;
-    height: 16px;
-    margin: auto 0 auto var(--item-spacer);
+  background: transparent url("../icons/reload.png") no-repeat left center;
+  width: 16px;
+  height: 16px;
+  margin: auto 0 auto var(--item-spacer);
 }
 
 #discoverPanel #btnRediscover:hover {
-    filter: drop-shadow(0 0 4px rgb(0, 129, 255));
+  filter: drop-shadow(0 0 4px rgb(0, 129, 255));
 }
 
 #discoverPanel #btnRediscover:active {
-    transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 #discoverFeedsList {
-    list-style-type: none;
-    padding: 0;
-    min-height: 150px;
-    max-height: 150px;
-    overflow: auto;
-    font-weight: normal;
-    background-color: Window;
-    border-top: 1px solid #808080;
-    border-left: 1px solid #808080;
-    border-right: 1px solid darkgrey;
-    border-bottom: 1px solid darkgrey;
+  list-style-type: none;
+  padding: 0;
+  min-height: 150px;
+  max-height: 150px;
+  overflow: auto;
+  font-weight: normal;
+  background-color: var(--bk-color-window);
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+  border-right: 1px solid darkgrey;
+  border-bottom: 1px solid darkgrey;
 }
 
 #discoverFeedsList .dfItem {
-    padding: 0 7px;
-    border-bottom: 1px solid gray;
-    display: flex;
-    justify-content: left;
-    line-height: 29px;
+  padding: 0 7px;
+  border-bottom: 1px solid gray;
+  display: flex;
+  justify-content: left;
+  line-height: 29px;
 }
 
 #discoverFeedsList .dfItem.novalidfeeds {
-    color: gray;
-    font-style: italic;
-    border-bottom: 0;
+  color: gray;
+  font-style: italic;
+  border-bottom: 0;
 }
 
 #discoverFeedsList .dfChkBox {
-    margin: 0;
+  margin: 0;
 }
 
 #discoverFeedsList .dfLabel {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: left;
-    padding-left: 6px;
-    width: 100%;
-    margin: auto 0 auto 0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: left;
+  padding-left: 6px;
+  width: 100%;
+  margin: auto 0 auto 0;
 }
 
 #discoverFeedsList .dfLabel .dfLabelCaption {
-    max-width: 290px;
-    margin: 0 auto 0 0;
-    overflow-x: hidden;
+  max-width: 290px;
+  margin: 0 auto 0 0;
+  overflow-x: hidden;
 }
 
 #discoverFeedsList .dfLabel .dfLabelFormat {
-    max-width: 30px;
-    margin: auto 0 auto 0;
-    color: gray;
-    vertical-align: text-bottom;
+  max-width: 30px;
+  margin: auto 0 auto 0;
+  color: gray;
+  vertical-align: text-bottom;
 }
 
 .dfButtonContainer {
-    display: flex;
-    justify-content: right;
+  display: flex;
+  justify-content: right;
 }
 
 .dfButtonContainer .dfButton {
-    background-color: rgb(251, 251, 251);
-    border: 1px solid rgb(193, 193, 193);
-    border-radius: 2px;
-    height: 30px;
-    width: 100px;
-    text-align: center;
-    margin-left: 10px;
+  background-color: rgb(251, 251, 251);
+  border: 1px solid rgb(193, 193, 193);
+  border-radius: 2px;
+  height: 30px;
+  width: 100px;
+  text-align: center;
+  margin-left: 10px;
 }
 
 .dfButtonContainer .dfButton:hover {
-    background-color: rgb(235, 235, 235);
+  background-color: rgb(235, 235, 235);
 }
 
 .dfButtonContainer .dfButton:active:hover {
-    background-color: rgb(218, 218, 218);
+  background-color: rgb(218, 218, 218);
 }
 
 #discoverPanel .statusbar {
-    margin-top: 8px;
+  margin-top: 8px;
 }
 
 #discoverPanel .statusbar.error {
-    color: red;
+  color: red;
 }

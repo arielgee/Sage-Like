@@ -53,7 +53,7 @@ let rssListView = (function() {
 
 		let elm = document.createElement("li");
 
-		elm.classList.add(sageLikeGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)
+		elm.classList.add(slGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)
 		setItemRealVisitedState(elm, url);
 
 		elm.textContent = index.toString() + ". " + title;
@@ -118,7 +118,7 @@ let rssListView = (function() {
 			// to the target page it cannot be found in browser.history.
 			// So this function will record the redirecting url in history
 			// https://wiki.mozilla.org/Browser_History:Redirects
-			slUtil.addUrlToBrowserHistory(url, title).then(() => {
+			slUtil.addUrlToBrowserHistory(feedItemUrl, title).then(() => {
 				setItemRealVisitedState(elm, feedItemUrl);
 			});
 
