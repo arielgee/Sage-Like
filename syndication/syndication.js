@@ -126,7 +126,7 @@ let syndication = (function() {
 	//
 	function createFeedItemsList(feedData) {
 
-    	let elm, FeedItem;
+		let elm, FeedItem;
 		let FeedItemList = [];
 
 		// for 'RSS' or 'RDF Site Summary (RSS) 1.0'
@@ -144,7 +144,7 @@ let syndication = (function() {
 				FeedItem["title"] = item.querySelector("title").textContent;
 				FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent : "";
 				FeedItem["url"] = item.querySelector("link").textContent;
-            	FeedItemList.push(FeedItem);
+				FeedItemList.push(FeedItem);
 			});
 
 		} else if(feedData.standard === SyndicationStandard.Atom) {
@@ -166,19 +166,19 @@ let syndication = (function() {
 				}
 				FeedItemList.push(FeedItem);
 			});
-    	}
-    	return FeedItemList;
+		}
+		return FeedItemList;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//
 	function getFeedXMLText(url, reload) {
 
-    	let init = {
-        	cache: reload ? "reload" : "default",
+		let init = {
+			cache: reload ? "reload" : "default",
 		};
 
-    	return new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 
 			fetch(url, init).then((response) => {
 
@@ -190,18 +190,18 @@ let syndication = (function() {
 							//console.log("[Sage-Like]", url + "\n", txtXML.substr(0, 1024));
 							resolve( { url: url, txtXML: txtXML } );
 						});
-                	}).catch((error) => {
+					}).catch((error) => {
 						reject("Failed to get response stream (blob). " + error.message);
 					});
 
 				} else {
-                	reject("Failed to retrieve feed XML from URL. " + response.status + " " + response.statusText);
+					reject("Failed to retrieve feed XML from URL. " + response.status + " " + response.statusText);
 				}
 
 			}).catch((error) => {
 				reject("Failed to fetch feed from URL. " + error.message);
 			});
-    	});
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -224,15 +224,15 @@ let syndication = (function() {
 		// try to get XML encoding from the XML prolog
 		let test = txtXML.match(/<\?xml[^>]*encoding="([^"]*)"[^>]*>/);
 		if(test && test[1]) {
-			feedData.xmlEncoding =  test[1];
+			feedData.xmlEncoding = test[1];
 		}
 
 		let doc = m_domParser.parseFromString(txtXML, "text/xml");
 
-    	// return if XML not well-formed
-    	if(doc.documentElement.nodeName === "parsererror") {
+		// return if XML not well-formed
+		if(doc.documentElement.nodeName === "parsererror") {
 			feedData.errorMsg = doc.documentElement.textContent.split("\n", 1)[0];	// only the first line
-        	return feedData;
+			return feedData;
 		}
 
 		try {
@@ -438,11 +438,11 @@ let syndication = (function() {
 	function fetchFeedItems_OLD(feedUrl, reload) {
 		throw "Function is not for use: Documentation only.";
 
-    	let init = {
-        	cache: reload ? "reload" : "default",
+		let init = {
+			cache: reload ? "reload" : "default",
 		};
 
-    	return new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 
 			fetch(feedUrl, init).then((response) => {
 
@@ -463,15 +463,15 @@ let syndication = (function() {
 								reject("RSS feed not identified or document not valid at '" + feedUrl + "'.");
 							}
 						});
-                	});
+					});
 				} else {
-                	reject("Fail to retrieve feed items from '" + response.url + "', " + response.status + " " + response.statusText + ".");
+					reject("Fail to retrieve feed items from '" + response.url + "', " + response.status + " " + response.statusText + ".");
 				}
 
 			}).catch((error) => {
 				reject("Request failed to fetch feed from '" + feedUrl + "', " + error.message);
 			});
-    	});
+		});
 	}
 */
 //#endregion Functions not for use: Documentation only.
@@ -480,7 +480,7 @@ let syndication = (function() {
 	return {
 		discoverWebSiteFeeds: discoverWebSiteFeeds,
 		fetchFeedData: fetchFeedData,
-    	fetchFeedItems: fetchFeedItems,
+		fetchFeedItems: fetchFeedItems,
 	};
 
 })();

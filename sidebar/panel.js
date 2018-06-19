@@ -25,8 +25,8 @@
 	browser.runtime.onMessage.addListener((message) => {
 		if (message.id === slGlobalConsts.MSG_ID_PREFERENCE_UPDATED &&
 			(message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_ALL || message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_COLORS)) {
-        	setPanelColorsFromPreferences();
-    	}
+			setPanelColorsFromPreferences();
+		}
 	});
 
 	////////////////////////////////////////////////////////////////////////////////////

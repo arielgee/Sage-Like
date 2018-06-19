@@ -179,7 +179,7 @@
 
 		if (targetItem !== undefined && targetItem !== null) {
 			handleMenuActions(menuAction, {
-				id:  targetItem.id,
+				id: targetItem.id,
 				url: targetItem.getAttribute("href"),
 			});
 		}

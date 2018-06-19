@@ -196,7 +196,7 @@ let discoveryView = (function() {
 				let url = item.getAttribute("href");
 
 				if(rssTreeView.isFeedInTree(url)) {
-					setStatusbarMessage("Already in tree: '" + item.getAttribute("name") + "'", true);
+					setStatusbarMessage("Already in tree: '" + item.getAttribute("name") + "'.", true);
 					return [];
 				}
 				newFeedsList.push( { title: item.getAttribute("name"), url: url } );
@@ -204,7 +204,7 @@ let discoveryView = (function() {
 		}
 
 		if(newFeedsList.length === 0) {
-			setStatusbarMessage("Nothing to add", true);
+			setStatusbarMessage("Nothing to add.", true);
 			return [];
 		}
 

@@ -58,7 +58,7 @@ let internalPrefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_OPEN_SUB_TREES).then((result) => {
-            	resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
+				resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
 			});
 		});
 	}
@@ -77,7 +77,7 @@ let internalPrefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_LAST_VISITED_FEEDS).then((result) => {
-            	resolve(result[PREF_LAST_VISITED_FEEDS] === undefined ? DEF_PREF_LAST_VISITED_FEEDS : result[PREF_LAST_VISITED_FEEDS]);
+				resolve(result[PREF_LAST_VISITED_FEEDS] === undefined ? DEF_PREF_LAST_VISITED_FEEDS : result[PREF_LAST_VISITED_FEEDS]);
 			});
 		});
 	}
@@ -135,7 +135,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_ROOT_FEEDS_FOLDER_ID).then((result) => {
-            	resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
+				resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
 			});
 		});
 	}
@@ -154,7 +154,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_COLOR_BACKGROUND_VALUE).then((result) => {
-            	resolve(result[PREF_COLOR_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND_VALUE]);
+				resolve(result[PREF_COLOR_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND_VALUE]);
 			});
 		});
 	}
@@ -173,7 +173,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_COLOR_DIALOG_BACKGROUND_VALUE).then((result) => {
-            	resolve(result[PREF_COLOR_DIALOG_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND_VALUE]);
+				resolve(result[PREF_COLOR_DIALOG_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND_VALUE]);
 			});
 		});
 	}
@@ -192,7 +192,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_COLOR_SELECT_VALUE).then((result) => {
-            	resolve(result[PREF_COLOR_SELECT_VALUE] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT_VALUE]);
+				resolve(result[PREF_COLOR_SELECT_VALUE] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT_VALUE]);
 			});
 		});
 	}
@@ -211,7 +211,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_COLOR_TEXT_VALUE).then((result) => {
-            	resolve(result[PREF_COLOR_TEXT_VALUE] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT_VALUE]);
+				resolve(result[PREF_COLOR_TEXT_VALUE] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT_VALUE]);
 			});
 		});
 	}
@@ -290,7 +290,7 @@ let slUtil = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.midTrunc = function(n) {
-		return (this.length > n) ? this.substr(0, n/2) + "\u2026"  + this.substr(-((n-1)/2)) : this;
+		return (this.length > n) ? this.substr(0, n/2) + "\u2026" + this.substr(-((n-1)/2)) : this;
 	};
 
 	//////////////////////////////////////////////////////////////////////
@@ -423,11 +423,11 @@ let slUtil = (function() {
 
 				for (let i=0; i<view.byteLength; i+=4) {
 
-				  value = view.getUint32(i);		// getUint32 reduces number of iterations needed; process 4 bytes each time
-				  stringValue = value.toString(16);	// toString(16) returns the hex representation of the number without padding
+					value = view.getUint32(i);		// getUint32 reduces number of iterations needed; process 4 bytes each time
+					stringValue = value.toString(16);	// toString(16) returns the hex representation of the number without padding
 
-				  paddedValue = (padding + stringValue).slice(-padding.length);
-				  hexCodes.push(paddedValue);
+					paddedValue = (padding + stringValue).slice(-padding.length);
+					hexCodes.push(paddedValue);
 				}
 
 				// Join all the hex strings into one
