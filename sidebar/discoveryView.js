@@ -1,6 +1,6 @@
 "use strict";
 
-let discoverView = (function() {
+let discoveryView = (function() {
 
     const MSGID_GET_DOC_TEXT_HTML = "msgGetDocumentTextHTML";
 
