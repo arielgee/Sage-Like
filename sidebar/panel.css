@@ -1,116 +1,116 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-  --toolbar-height: 31px;
-  --top-height: 60%;
-  --splitter-height: 7px;
-  --line-height: 19px;
+	--toolbar-height: 31px;
+	--top-height: 60%;
+	--splitter-height: 7px;
+	--line-height: 19px;
 
-  --bk-color-window: #FFFFFF;
-  --bk-color-dialog: #EEEEEE;
-  --bk-color-active: #ADD8E6;
-  --color-text: #000000;
+	--bk-color-window: #FFFFFF;
+	--bk-color-dialog: #EEEEEE;
+	--bk-color-active: #ADD8E6;
+	--color-text: #000000;
 }
 
 html, body {
-  height: 100%;
-  line-height: var(--line-height);
-  background-color: var(--bk-color-window);
-  color: var(--color-text);
+	height: 100%;
+	line-height: var(--line-height);
+	background-color: var(--bk-color-window);
+	color: var(--color-text);
 }
 
 .top {
-  position: fixed;
-  top: var(--toolbar-height);
-  width: 100%;
-  height: var(--top-height);
-  overflow-y: auto;
+	position: fixed;
+	top: var(--toolbar-height);
+	width: 100%;
+	height: var(--top-height);
+	overflow-y: auto;
 }
 
 .bottom {
-  position: fixed;
-  top: calc(var(--top-height) + var(--splitter-height));
-  width: 100%;
-  height: auto;
-  overflow-y: auto;
+	position: fixed;
+	top: calc(var(--top-height) + var(--splitter-height));
+	width: 100%;
+	height: auto;
+	overflow-y: auto;
 }
 
 .splitter {
-  position: fixed;
-  top: var(--top-height);
-  width: 100%;
-  height: var(--splitter-height);
-  background-color: #c0c0c0;
-  cursor: n-resize;
-  border-top: 2px gray groove;
-  border-bottom: 2px gray groove;
+	position: fixed;
+	top: var(--top-height);
+	width: 100%;
+	height: var(--splitter-height);
+	background-color: #c0c0c0;
+	cursor: n-resize;
+	border-top: 2px gray groove;
+	border-bottom: 2px gray groove;
 }
 
 .toolbar {
-  --buttons-spacer: 8px;
-  width: 100%;
-  height: var(--toolbar-height);
-  background-color: #9f9f9f;    /*#7f7f7f;*/
-  border-top: 2px gray groove;
-  border-bottom: 2px gray groove;
-  padding: 5px var(--buttons-spacer);
-  display: flex;
-  justify-content: left;
+	--buttons-spacer: 8px;
+	width: 100%;
+	height: var(--toolbar-height);
+	background-color: #9f9f9f;    /*#7f7f7f;*/
+	border-top: 2px gray groove;
+	border-bottom: 2px gray groove;
+	padding: 5px var(--buttons-spacer);
+	display: flex;
+	justify-content: left;
 }
 
 .toolbar .button {
-  width: 16px;
-  height: 16px;
-  margin: auto var(--buttons-spacer) auto 0;
+	width: 16px;
+	height: 16px;
+	margin: auto var(--buttons-spacer) auto 0;
 }
 
 .toolbar .button:last-child {
-  margin: auto 0;
+	margin: auto 0;
 }
 
 .toolbar .button:hover {
-  filter: drop-shadow(0 0 4px #FFFFFF);
+	filter: drop-shadow(0 0 4px #FFFFFF);
 }
 
 .toolbar .button:active {
-  transform: scaleX(-1);
+	transform: scaleX(-1);
 }
 
 .spacer {
-  width: var(--buttons-spacer);
-  height: 16px;
-  pointer-events: none;
+	width: var(--buttons-spacer);
+	height: 16px;
+	pointer-events: none;
 }
 
 .springSpacer {
-  margin: auto;
+	margin: auto;
 }
 
 #checkTreeFeeds {
-  background: transparent url("../icons/reload.png") no-repeat left center;
+	background: transparent url("../icons/reload.png") no-repeat left center;
 }
 #discoverfeed {
-  background: transparent url("../icons/discover.png") no-repeat left center;
+	background: transparent url("../icons/discover.png") no-repeat left center;
 }
 #expandall {
-  background: transparent url("../icons/expandall.png") no-repeat left center;
+	background: transparent url("../icons/expandall.png") no-repeat left center;
 }
 #collapseall {
-  background: transparent url("../icons/collapseall.png") no-repeat left center;
+	background: transparent url("../icons/collapseall.png") no-repeat left center;
 }
 #preferences {
-  background: transparent url("../icons/preferences.png") no-repeat left center;
+	background: transparent url("../icons/preferences.png") no-repeat left center;
 }
 
 .disabled {
-  pointer-events: none;
-  filter: blur(1.5px);
+	pointer-events: none;
+	filter: blur(1.5px);
 }
 
 .smallText {
-  --text-height: 10px;
-  line-height: var(--text-height);
-  font-family: Tahoma, Sans !important;
-  font-weight: normal;
-  font-size: var(--text-height) !important;
+	--text-height: 10px;
+	line-height: var(--text-height);
+	font-family: Tahoma, Sans !important;
+	font-weight: normal;
+	font-size: var(--text-height) !important;
 }

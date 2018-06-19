@@ -58,7 +58,7 @@ let internalPrefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_OPEN_SUB_TREES).then((result) => {
-                resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
+            	resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
 			});
 		});
 	}
@@ -77,7 +77,7 @@ let internalPrefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_LAST_VISITED_FEEDS).then((result) => {
-                resolve(result[PREF_LAST_VISITED_FEEDS] === undefined ? DEF_PREF_LAST_VISITED_FEEDS : result[PREF_LAST_VISITED_FEEDS]);
+            	resolve(result[PREF_LAST_VISITED_FEEDS] === undefined ? DEF_PREF_LAST_VISITED_FEEDS : result[PREF_LAST_VISITED_FEEDS]);
 			});
 		});
 	}
@@ -135,7 +135,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_ROOT_FEEDS_FOLDER_ID).then((result) => {
-                resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
+            	resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
 			});
 		});
 	}
@@ -154,7 +154,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_COLOR_BACKGROUND_VALUE).then((result) => {
-                resolve(result[PREF_COLOR_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND_VALUE]);
+            	resolve(result[PREF_COLOR_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND_VALUE]);
 			});
 		});
 	}
@@ -173,7 +173,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_COLOR_DIALOG_BACKGROUND_VALUE).then((result) => {
-                resolve(result[PREF_COLOR_DIALOG_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND_VALUE]);
+            	resolve(result[PREF_COLOR_DIALOG_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND_VALUE]);
 			});
 		});
 	}
@@ -192,7 +192,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_COLOR_SELECT_VALUE).then((result) => {
-                resolve(result[PREF_COLOR_SELECT_VALUE] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT_VALUE]);
+            	resolve(result[PREF_COLOR_SELECT_VALUE] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT_VALUE]);
 			});
 		});
 	}
@@ -211,7 +211,7 @@ let prefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_COLOR_TEXT_VALUE).then((result) => {
-                resolve(result[PREF_COLOR_TEXT_VALUE] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT_VALUE]);
+            	resolve(result[PREF_COLOR_TEXT_VALUE] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT_VALUE]);
 			});
 		});
 	}
@@ -296,12 +296,12 @@ let slUtil = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function escapeRegExp(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function random1to100() {
 		return Math.floor(Math.random() * (100 - 1) + 1).toString();
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function disableElementTree(elm, value) {
@@ -323,7 +323,7 @@ let slUtil = (function() {
 		} else {
 			elm.classList.remove("disabled");
 		}
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function copyTextToClipboard(doc, text) {
@@ -335,7 +335,7 @@ let slUtil = (function() {
 		input.select();
 		document.execCommand("copy");
 		document.body.removeChild(input);
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function addUrlToBrowserHistory(url, title) {
@@ -346,13 +346,13 @@ let slUtil = (function() {
 		};
 
 		return browser.history.addUrl(details);
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function deleteUrlFromBrowserHistory(url) {
 
 		return browser.history.deleteUrl( { url: url });
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getScrollbarWidth(doc) {
@@ -384,12 +384,12 @@ let slUtil = (function() {
 			m_savedScrollbarWidth = (w1 - w2);
 		}
 		return m_savedScrollbarWidth;
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function hasHScroll(elm) {
 		return (elm.clientWidth < elm.scrollWidth);
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getCurrentLocaleDate() {
@@ -400,12 +400,41 @@ let slUtil = (function() {
 		newDate.setHours(now.getHours() - (now.getTimezoneOffset() / 60));
 
 		return newDate;
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isContentOverflowing(elm) {
 		return ((elm.offsetWidth - 1) < elm.scrollWidth);
-	};
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function hashCode(str) {
+
+		return new Promise((resolve) => {
+
+			let buffer = new TextEncoder("utf-8").encode(str);
+
+			crypto.subtle.digest("SHA-256", buffer).then((buffer) => {
+
+				let padding = "00000000";
+				let value, stringValue, paddedValue;
+				let hexCodes = [];
+				let view = new DataView(buffer);
+
+				for (let i=0; i<view.byteLength; i+=4) {
+
+				  value = view.getUint32(i);		// getUint32 reduces number of iterations needed; process 4 bytes each time
+				  stringValue = value.toString(16);	// toString(16) returns the hex representation of the number without padding
+
+				  paddedValue = (padding + stringValue).slice(-padding.length);
+				  hexCodes.push(paddedValue);
+				}
+
+				// Join all the hex strings into one
+				resolve(hexCodes.join(""));
+			});
+		});
+	}
 
 	return {
 		escapeRegExp: escapeRegExp,
@@ -418,6 +447,7 @@ let slUtil = (function() {
 		hasHScroll: hasHScroll,
 		getCurrentLocaleDate: getCurrentLocaleDate,
 		isContentOverflowing: isContentOverflowing,
+		hashCode: hashCode,
 	};
 
 })();

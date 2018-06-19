@@ -4,7 +4,7 @@
 
 	//==================================================================================
 	//=== Variables Declerations
-    //==================================================================================
+	//==================================================================================
 
 	let m_elmBody;
 	let m_elmTop;
@@ -21,13 +21,13 @@
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
-    /**************************************************/
-    browser.runtime.onMessage.addListener((message) => {
+	/**************************************************/
+	browser.runtime.onMessage.addListener((message) => {
 		if (message.id === slGlobalConsts.MSG_ID_PREFERENCE_UPDATED &&
 			(message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_ALL || message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_COLORS)) {
-            setPanelColorsFromPreferences();
-        }
-    });
+        	setPanelColorsFromPreferences();
+    	}
+	});
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
@@ -136,7 +136,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickDiscoverFeed(event) {
-		discoverView.open();
+		discoveryView.open();
 		event.stopPropagation();
 	}
 
@@ -144,9 +144,4 @@
 	function onClickPreferences(event) {
 		browser.runtime.openOptionsPage();
 	}
-
-	return {
-		setPanelColorsFromPreferences: setPanelColorsFromPreferences,
-	};
-
 })();

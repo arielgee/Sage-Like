@@ -1,68 +1,68 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 #feedPropertiesPanel {
-  --panel-spacing: 10px;
-  display: none;
-  position: absolute;
-  left: 3px;
-  background-color: var(--bk-color-dialog);
-  box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-  min-width: 300px;
-  max-width: 94%;
-  width: 94%;
-  padding: var(--panel-spacing);
-  border: 1px solid black;
-  border-radius: 8px;
-  z-index: 1;
-  white-space: nowrap;
-  font-weight: normal;
+	--panel-spacing: 10px;
+	display: none;
+	position: absolute;
+	left: 3px;
+	background-color: var(--bk-color-dialog);
+	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+	min-width: 300px;
+	max-width: 94%;
+	width: 94%;
+	padding: var(--panel-spacing);
+	border: 1px solid black;
+	border-radius: 8px;
+	z-index: 1;
+	white-space: nowrap;
+	font-weight: normal;
 }
 
 .fpPropContainer {
-  display: flex;
-  margin: var(--panel-spacing);
+	display: flex;
+	margin: var(--panel-spacing);
 }
 
 .fpPropContainer label {
-  width: 65px;
-  margin: auto auto auto 0;
+	width: 65px;
+	margin: auto auto auto 0;
 }
 
 .fpPropContainer input[type="text"] {
-  margin: auto 0 auto auto;
-  width: 80%;
-  font-size: inherit;
+	margin: auto 0 auto auto;
+	width: 80%;
+	font-size: inherit;
 }
 
 .fpPropContainer #chkFpUpdateTitle {
-  margin: auto var(--panel-spacing) auto 0;
+	margin: auto var(--panel-spacing) auto 0;
 }
 
 .fpButtonContainer {
-  display: flex;
-  justify-content: right;
-  margin-right: var(--panel-spacing);
+	display: flex;
+	justify-content: right;
+	margin-right: var(--panel-spacing);
 }
 
 .fpButtonContainer .fpButton {
-  background-color: rgb(251, 251, 251);
-  border: 1px solid rgb(193, 193, 193);
-  border-radius: 2px;
-  height: 30px;
-  width: 100px;
-  text-align: center;
-  margin-left: 10px;
+	background-color: rgb(251, 251, 251);
+	border: 1px solid rgb(193, 193, 193);
+	border-radius: 2px;
+	height: 30px;
+	width: 100px;
+	text-align: center;
+	margin-left: 10px;
 }
 
 .fpButtonContainer .fpButton:hover {
-  background-color: rgb(235, 235, 235);
+	background-color: rgb(235, 235, 235);
 }
 
 .fpButtonContainer .fpButton:active:hover {
-  background-color: rgb(218, 218, 218);
+	background-color: rgb(218, 218, 218);
 }
 
 #feedPropertiesPanel .statusbar {
-  margin-top: 8px;
-  color: red;
+	margin-top: 8px;
+	color: red;
 }

@@ -1,41 +1,41 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 .listview {
-  margin: 0;
-  padding: 4px 0 4px 4px;
-  font-weight: normal;
-  white-space: nowrap;
-  background-color: var(--bk-color-window);
-  unicode-bidi: embed;
-  line-height: var(--line-height);
+	margin: 0;
+	padding: 4px 0 4px 4px;
+	font-weight: normal;
+	white-space: nowrap;
+	background-color: var(--bk-color-window);
+	unicode-bidi: embed;
+	line-height: var(--line-height);
 }
 
 .listview li {
-  box-sizing: content-box;
-  list-style-type: none;
-  margin: 0;
-  cursor: pointer;
-  padding-right: 4px;
-  border: 1px dotted transparent;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	box-sizing: content-box;
+	list-style-type: none;
+	margin: 0;
+	cursor: pointer;
+	padding-right: 4px;
+	border: 1px dotted transparent;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .listview li.bold {
-  font-weight: bold ;
+	font-weight: bold ;
 }
 
 .listview li.selected {
-  background-color: var(--bk-color-active);
-  border: 1px dotted gray;
+	background-color: var(--bk-color-active);
+	border: 1px dotted gray;
 }
 
 .listview li.errormsg {
-  background: transparent url("../icons/error.png") no-repeat left center;
-  padding-left: 20px;
-  color: crimson;
-  cursor: default;
-  -moz-user-select: text;
-  user-select: text;
-  white-space: normal;
+	background: transparent url("../icons/error.png") no-repeat left center;
+	padding-left: 20px;
+	color: crimson;
+	cursor: default;
+	-moz-user-select: text;
+	user-select: text;
+	white-space: normal;
 }

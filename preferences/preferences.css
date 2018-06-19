@@ -1,139 +1,139 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 body {
-  font-family: Tahoma, Verdana, Segoe, sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-  max-width: 650px;
-  line-height: 21px;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-size: 16px;
+	font-weight: normal;
+	max-width: 650px;
+	line-height: 21px;
 }
 
 .preference {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 input[type="radio"],
 input[type="checkbox"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding: 0;
-  margin: 0;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #999;
-  transition: 0.2s all linear;
-  outline: none;
-  position: relative;
-  top: 2px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	padding: 0;
+	margin: 0;
+	width: 18px;
+	height: 18px;
+	border: 2px solid #999;
+	transition: 0.2s all linear;
+	outline: none;
+	position: relative;
+	top: 2px;
 }
 
 input[type="radio"] {
-  border-radius: 50%;
+	border-radius: 50%;
 }
 
 input[type="radio"]:checked,
 input[type="checkbox"]:checked {
-  border: 9px solid black;
+	border: 9px solid black;
 }
 
 .controlLabel {
-  padding-left: 3px;
+	padding-left: 3px;
 }
 
 .controlLabel:not(:last-child) {
-  padding-right: 3px;
-  margin-right: 6px;
+	padding-right: 3px;
+	margin-right: 6px;
 }
 
 input[type="color"] {
-  width: 25px;
-  height: 19px;
-  border: none;
-  margin: 0 3px;
-  padding: 1px;
-  background-color: transparent;
-  cursor: pointer;
+	width: 25px;
+	height: 19px;
+	border: none;
+	margin: 0 3px;
+	padding: 1px;
+	background-color: transparent;
+	cursor: pointer;
 }
 
 input[type="color"]::-moz-color-swatch {
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.6);
+	border: none;
+	border-radius: 50%;
+	box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.6);
 }
 
 input[type="color"]::-moz-focus-inner {
-  padding: 0;
+	padding: 0;
 }
 
 .caption {
-  font-size: 22.5px;
+	font-size: 22.5px;
 }
 
 .prefSeperator {
-  height: 13px;
-  border-bottom: 1px solid lightgray;
-  margin-bottom: 13px;
+	height: 13px;
+	border-bottom: 1px solid lightgray;
+	margin-bottom: 13px;
 }
 
 .caption+.prefSeperator {
-  height: 36px;
+	height: 36px;
 }
 
 .preferenceControl {
-  margin: auto 0 auto auto;
+	margin: auto 0 auto auto;
 }
 
 select,
 .annotation,
 .controlButton {
-  background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
-  transition: background-position 0.2s ease-in 0s;
+	background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
+	background-size: 200% 100%;
+	background-position: right bottom;
+	transition: background-position 0.2s ease-in 0s;
 }
 
 select {
-  border: 1px solid #7a7a7a;
+	border: 1px solid #7a7a7a;
 }
 
 .annotation {
-  font-family: "Segoe UI";
-  font-size: 9pt;
-  color: gray;
+	font-family: "Segoe UI";
+	font-size: 9pt;
+	color: gray;
 }
 
 .annotation.flash {
-  background-position: left bottom;
-  color: black;
+	background-position: left bottom;
+	color: black;
 }
 
 .controlButton {
-  background-color: rgb(251, 251, 251);
-  border: 1px solid rgb(193, 193, 193);
-  border-radius: 2px;
-  height: 30px;
-  width: 130px;
-  text-align: center;
+	background-color: rgb(251, 251, 251);
+	border: 1px solid rgb(193, 193, 193);
+	border-radius: 2px;
+	height: 30px;
+	width: 130px;
+	text-align: center;
 }
 
 .controlButton:hover {
-  background-color: rgb(235, 235, 235);
+	background-color: rgb(235, 235, 235);
 }
 
 .controlButton:active:hover {
-  background-color: rgb(218, 218, 218);
+	background-color: rgb(218, 218, 218);
 }
 
 select.flash,
 .controlButton.flash {
-  background-position: left bottom;
+	background-position: left bottom;
 }
 
 label.disabled,
 input[type="radio"].disabled,
 input[type="checkbox"].disabled {
-  color: darkgray;
-  border-color: darkgray;
+	color: darkgray;
+	border-color: darkgray;
 }

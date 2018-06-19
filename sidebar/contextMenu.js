@@ -28,23 +28,6 @@
 	let m_elmSidebarBody;
 	let m_elmContextMenu;
 
-	let m_elmMnuTreeOpenFeed;
-	let m_elmMnuTreeOpenFeedNewTab;
-	let m_elmMnuTreeOpenFeedNewWin;
-	let m_elmMnuTreeOpenFeedNewPrivateWin;
-	let m_elmMnuTreeCopyFeedUrl;
-	let m_elmMnuTreeDeleteFeed;
-	let m_elmMnuTreeFeedProperties;
-
-	let m_elmMnuListOpenFeedItem;
-	let m_elmMnuListOpenFeedItemNewTab;
-	let m_elmMnuListOpenFeedItemNewWin;
-	let m_elmMnuListOpenFeedItemNewPrivateWin;
-	let m_elmMnuListToggleFeedItemReadUnread;
-	let m_elmMnuListMarkAllFeedItemsRead;
-	let m_elmMnuListMarkAllFeedItemsUnread;
-	let m_elmMnuListCopyFeedItemUrl;
-
 	let m_bCurrentContext = "";
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -56,71 +39,19 @@
 		m_elmSidebarBody = document.body;
 		m_elmContextMenu = document.getElementById("mnuContextMenu");
 
-		m_elmMnuTreeOpenFeed = document.getElementById("mnuTreeOpenFeed")
-		m_elmMnuTreeOpenFeedNewTab = document.getElementById("mnuTreeOpenFeedNewTab")
-		m_elmMnuTreeOpenFeedNewWin = document.getElementById("mnuTreeOpenFeedNewWin")
-		m_elmMnuTreeOpenFeedNewPrivateWin = document.getElementById("mnuTreeOpenFeedNewPrivateWin")
-		m_elmMnuTreeCopyFeedUrl = document.getElementById("mnuTreeCopyFeedUrl");
-		m_elmMnuTreeDeleteFeed = document.getElementById("mnuTreeDeleteFeed");
-		m_elmMnuTreeFeedProperties = document.getElementById("mnuTreeFeedProperties");
-
-		m_elmMnuListOpenFeedItem = document.getElementById("mnuListOpenFeedItem");
-		m_elmMnuListOpenFeedItemNewTab = document.getElementById("mnuListOpenFeedItemNewTab");
-		m_elmMnuListOpenFeedItemNewWin = document.getElementById("mnuListOpenFeedItemNewWin");
-		m_elmMnuListOpenFeedItemNewPrivateWin = document.getElementById("mnuListOpenFeedItemNewPrivateWin");
-
-		m_elmMnuListToggleFeedItemReadUnread = document.getElementById("mnuListToggleFeedItemReadUnread");
-		m_elmMnuListMarkAllFeedItemsRead = document.getElementById("mnuListMarkAllFeedItemsRead");
-		m_elmMnuListMarkAllFeedItemsUnread = document.getElementById("mnuListMarkAllFeedItemsUnread");
-		m_elmMnuListCopyFeedItemUrl = document.getElementById("mnuListCopyFeedItemUrl");
-
-
 		m_elmSidebarBody.addEventListener("contextmenu", onContextMenu);
 		m_elmContextMenu.addEventListener("blur", onBlurContextMenu);
 		m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
-
-		m_elmMnuTreeOpenFeed.addEventListener("click", onClickMenuOpenFeed);
-		m_elmMnuTreeOpenFeedNewTab.addEventListener("click", onClickMenuOpenFeedNewTab);
-		m_elmMnuTreeOpenFeedNewWin.addEventListener("click", onClickMenuOpenFeedNewWin);
-		m_elmMnuTreeOpenFeedNewPrivateWin.addEventListener("click", onClickMenuOpenFeedNewPrivateWin);
-		m_elmMnuTreeCopyFeedUrl.addEventListener("click", onClickMenuCopyFeedUrl);
-		m_elmMnuTreeDeleteFeed.addEventListener("click", onClickMenuDeleteFeed);
-		m_elmMnuTreeFeedProperties.addEventListener("click", onClickMenuFeedProperties);
-
-		m_elmMnuListOpenFeedItem.addEventListener("click", onClickMenuOpenFeedItem);
-		m_elmMnuListOpenFeedItemNewTab.addEventListener("click", onClickMenuOpenFeedItemNewTab);
-		m_elmMnuListOpenFeedItemNewWin.addEventListener("click", onClickMenuOpenFeedItemNewWin);
-		m_elmMnuListOpenFeedItemNewPrivateWin.addEventListener("click", onClickMenuOpenFeedItemNewPrivateWin);
-		m_elmMnuListToggleFeedItemReadUnread.addEventListener("click", onClickMenuToggleFeedItemReadUnread);
-		m_elmMnuListMarkAllFeedItemsRead.addEventListener("click", onClickMenuMarkAllFeedItemsRead);
-		m_elmMnuListMarkAllFeedItemsUnread.addEventListener("click", onClickMenuMarkAllFeedItemsUnread);
-		m_elmMnuListCopyFeedItemUrl.addEventListener("click", onClickMenuCopyFeedItemUrl);
+		mnuContextMenu.addEventListener("click", onClickContextMenuItem);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
 		m_elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
-
 		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu);
 		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
-
-		m_elmMnuTreeOpenFeed.removeEventListener("click", onClickMenuOpenFeed);
-		m_elmMnuTreeOpenFeedNewTab.removeEventListener("click", onClickMenuOpenFeedNewTab);
-		m_elmMnuTreeOpenFeedNewWin.removeEventListener("click", onClickMenuOpenFeedNewWin);
-		m_elmMnuTreeOpenFeedNewPrivateWin.removeEventListener("click", onClickMenuOpenFeedNewPrivateWin);
-		m_elmMnuTreeCopyFeedUrl.removeEventListener("click", onClickMenuCopyFeedUrl);
-		m_elmMnuTreeDeleteFeed.removeEventListener("click", onClickMenuDeleteFeed);
-		m_elmMnuTreeFeedProperties.removeEventListener("click", onClickMenuFeedProperties);
-
-		m_elmMnuListOpenFeedItem.removeEventListener("click", onClickMenuOpenFeedItem);
-		m_elmMnuListOpenFeedItemNewTab.removeEventListener("click", onClickMenuOpenFeedItemNewTab);
-		m_elmMnuListOpenFeedItemNewWin.removeEventListener("click", onClickMenuOpenFeedItemNewWin);
-		m_elmMnuListOpenFeedItemNewPrivateWin.removeEventListener("click", onClickMenuOpenFeedItemNewPrivateWin);
-		m_elmMnuListToggleFeedItemReadUnread.removeEventListener("click", onClickMenuToggleFeedItemReadUnread);
-		m_elmMnuListMarkAllFeedItemsRead.removeEventListener("click", onClickMenuMarkAllFeedItemsRead);
-		m_elmMnuListMarkAllFeedItemsUnread.removeEventListener("click", onClickMenuMarkAllFeedItemsUnread);
-		m_elmMnuListCopyFeedItemUrl.removeEventListener("click", onClickMenuCopyFeedItemUrl);
+		mnuContextMenu.removeEventListener("click", onClickContextMenuItem);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -135,13 +66,11 @@
 		if (trgClsList.contains(slGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
 
 			m_bCurrentContext = "treecontext";
-			showMenuItemsByClassName(m_bCurrentContext);
 			rssTreeView.setFeedSelectionState(event.target);
 
 		} else if (trgClsList.contains(slGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)) {
 
 			m_bCurrentContext = "listcontext";
-			showMenuItemsByClassName(m_bCurrentContext);
 			rssListView.setFeedItemSelectionState(event.target);
 
 		} else {
@@ -149,6 +78,9 @@
 		}
 
 		if (showMenu) {
+
+			showMenuItemsByClassName(m_bCurrentContext);
+
 			m_elmContextMenu.elmTargetItem = event.target;
 
 			let x = event.clientX;
@@ -212,44 +144,33 @@
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickContextMenuItem(event) {
+
+		event.preventDefault();
+
+		switch (event.target.id) {
+			case "mnuTreeOpenFeed":						handleTreeMenuActions(ContextAction.treeOpen);				break;
+			case "mnuTreeOpenFeedNewTab":				handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
+			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
+			case "mnuTreeOpenFeedNewPrivateWin":		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
+			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
+			case "mnuTreeDeleteFeed":					handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
+			case "mnuTreeFeedProperties":				handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
+			case "mnuListOpenFeedItem":					handleListMenuActions(ContextAction.listOpen);				break;
+			case "mnuListOpenFeedItemNewTab":			handleListMenuActions(ContextAction.listOpenNewTab);		break;
+			case "mnuListOpenFeedItemNewWin":			handleListMenuActions(ContextAction.listOpenNewWin);		break;
+			case "mnuListOpenFeedItemNewPrivateWin":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
+			case "mnuListToggleFeedItemReadUnread":		handleListMenuActions(ContextAction.listToggleReadUnread);	break;
+			case "mnuListMarkAllFeedItemsRead":			handleListMenuActions(ContextAction.listMarkAllRead);		break;
+			case "mnuListMarkAllFeedItemsUnread":		handleListMenuActions(ContextAction.listMarkAllUnread);		break;
+			case "mnuListCopyFeedItemUrl":				handleListMenuActions(ContextAction.listCopyUrl);			break;
+		}
+	}
+
 	//==================================================================================
-	//=== tree menu items
+	//=== menu items handlers
 	//==================================================================================
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuOpenFeed(event) {
-		handleTreeMenuActions(ContextAction.treeOpen);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuOpenFeedNewTab(event) {
-		handleTreeMenuActions(ContextAction.treeOpenNewTab);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuOpenFeedNewWin(event) {
-		handleTreeMenuActions(ContextAction.treeOpenNewWin);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuOpenFeedNewPrivateWin(event) {
-		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuCopyFeedUrl(event) {
-		handleTreeMenuActions(ContextAction.treeCopyUrl);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuDeleteFeed(event) {
-		handleTreeMenuActions(ContextAction.treeDeleteFeed);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuFeedProperties(event) {
-		handleTreeMenuActions(ContextAction.treeFeedProperties);
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
@@ -263,50 +184,6 @@
 			});
 		}
 		m_elmContextMenu.style.display = "none";
-	}
-
-	//==================================================================================
-	//=== list menu items
-	//==================================================================================
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuOpenFeedItem(event) {
-		handleListMenuActions(ContextAction.listOpen);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuOpenFeedItemNewTab(event) {
-		handleListMenuActions(ContextAction.listOpenNewTab);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuOpenFeedItemNewWin(event) {
-		handleListMenuActions(ContextAction.listOpenNewWin);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuOpenFeedItemNewPrivateWin(event) {
-		handleListMenuActions(ContextAction.listOpenNewPrivateWin);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuToggleFeedItemReadUnread(event) {
-		handleListMenuActions(ContextAction.listToggleReadUnread);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuMarkAllFeedItemsRead(event) {
-		handleListMenuActions(ContextAction.listMarkAllRead);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuMarkAllFeedItemsUnread(event) {
-		handleListMenuActions(ContextAction.listMarkAllUnread);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMenuCopyFeedItemUrl(event) {
-		handleListMenuActions(ContextAction.listCopyUrl);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -334,10 +211,6 @@
 		}
 		m_elmContextMenu.style.display = "none";
 	}
-
-	//==================================================================================
-	//=== helpers
-	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleMenuActions(menuAction, actionData) {
@@ -400,6 +273,10 @@
 				///////////////////////////////////////////
 		}
 	}
+
+	//==================================================================================
+	//=== helpers
+	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function showMenuItemsByClassName(className) {

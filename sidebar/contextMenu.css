@@ -1,32 +1,32 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 .contextmenu {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  overflow: auto;
-  box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
-  z-index: 1;
-  padding: 5px;
-  font-weight: normal;
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 160px;
+	overflow: auto;
+	box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
+	z-index: 1;
+	padding: 5px;
+	font-weight: normal;
 }
 
 .contextmenu .contextmenuitem {
-  display: none;
-  color: black;
-  padding: 5px 16px;
-  text-decoration: none;
+	display: none;
+	color: black;
+	padding: 5px 16px;
+	text-decoration: none;
 }
 
 .contextmenu .contextmenuitem:hover {
-  background-color: var(--bk-color-active);
+	background-color: var(--bk-color-active);
 }
 
 .contextmenu .contextmenuitem u {
-  display: inline !important;
+	display: inline !important;
 }
 
 .contextmenu hr {
-  border: 0.5px solid #e0e0e0;
+	border: 0.5px solid #e0e0e0;
 }

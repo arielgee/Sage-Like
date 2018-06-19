@@ -1,80 +1,80 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 .treeview {
-  margin: 0;
-  padding: 4px 0 4px 4px;
-  font-weight: normal;
-  white-space: nowrap;
-  background-color: var(--bk-color-window);
-  unicode-bidi: embed;
-  line-height: var(--line-height);
+	margin: 0;
+	padding: 4px 0 4px 4px;
+	font-weight: normal;
+	white-space: nowrap;
+	background-color: var(--bk-color-window);
+	unicode-bidi: embed;
+	line-height: var(--line-height);
 }
 
 .treeview ul {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 /* Style for LI elements in general (excludes an LI that contains sub trees) */
 .treeview li {
-  background: transparent url("../icons/rss.png") no-repeat left center;
-  list-style-type: none;
-  padding-left: 20px;
-  cursor: pointer;
+	background: transparent url("../icons/rss.png") no-repeat left center;
+	list-style-type: none;
+	padding-left: 20px;
+	cursor: pointer;
 }
 
 .treeview li.bold {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .treeview .caption {
-  box-sizing: content-box;
-  border: 1px dotted transparent;
-  min-height: var(--line-height);
-  padding: 0 4px 0 2px;
-  pointer-events: none; /* otherwise the menucontext is not fired */
-  overflow: hidden;
-  text-overflow: ellipsis;
+	box-sizing: content-box;
+	border: 1px dotted transparent;
+	min-height: var(--line-height);
+	padding: 0 4px 0 2px;
+	pointer-events: none; /* otherwise the menucontext is not fired */
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* Style for LI that contains sub trees (other ULs) */
 .treeview li.subtree {
-  background: transparent url("../icons/closed.png") no-repeat left 1px;
-  cursor: default;
+	background: transparent url("../icons/closed.png") no-repeat left 1px;
+	cursor: default;
 }
 
 .treeview li.loading {
-  background: transparent url("../icons/loading.gif") no-repeat left center;
-  cursor: wait;
+	background: transparent url("../icons/loading.gif") no-repeat left center;
+	cursor: wait;
 }
 
 .treeview li.selected > .caption {
-  background-color: var(--bk-color-active);
-  border: 1px dotted gray;
+	background-color: var(--bk-color-active);
+	border: 1px dotted gray;
 }
 
 /* Style for ULs that are children of LIs (subtree). Hide them by default. */
 .treeview li.subtree ul {
-  cursor: default;
+	cursor: default;
 }
 
 .treeview li.error {
-  background: transparent url("../icons/error_bw.png") no-repeat left center;
-  font-style: italic;
+	background: transparent url("../icons/error_bw.png") no-repeat left center;
+	font-style: italic;
 }
 
 .treeview li.errormsg {
-  background: transparent url("../icons/error.png") no-repeat left center;
-  color: crimson;
-  cursor: default;
-  -moz-user-select: text;
-  user-select: text;
+	background: transparent url("../icons/error.png") no-repeat left center;
+	color: crimson;
+	cursor: default;
+	-moz-user-select: text;
+	user-select: text;
 }
 
 .treeview li.dragged {
-  opacity: 0.5;
+	opacity: 0.5;
 }
 
 .treeview li.draggedOver {
-  border-top: 1px solid blue;
+	border-top: 1px solid blue;
 }
