@@ -118,7 +118,7 @@ let rssListView = (function() {
 			// to the target page it cannot be found in browser.history.
 			// So this function will record the redirecting url in history
 			// https://wiki.mozilla.org/Browser_History:Redirects
-			slUtil.addUrlToBrowserHistory(feedItemUrl, title).then(() => {
+			slUtil.addUrlToBrowserHistory(feedItemUrl, elm.textContent).then(() => {
 				setItemRealVisitedState(elm, feedItemUrl);
 			});
 
