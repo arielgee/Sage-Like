@@ -73,6 +73,16 @@ let rssTreeView = (function() {
 				updateTitle: newProp.updateTitle,
 			});
 		}
+		setAge(key) {
+			if(super.exist(key)) {
+				this._items[key].age = Date.now();
+			}
+		}
+		purge() {
+			for(let key in this._items) {
+				console.log("[Sage-Like-age]", this._items[key]);
+			}
+		}
 	};
 
 	class CurrentlyDraggedOver {
@@ -294,6 +304,10 @@ let rssTreeView = (function() {
 			}
 		};
 
+		setTimeout(() => {
+			m_objTreeFeedsData.purge();
+		}, 7000);
+
 		// TBD: clean up old entries(async)
 	}
 
@@ -305,7 +319,16 @@ let rssTreeView = (function() {
 
 		syndication.fetchFeedData(url).then((feedData) => {
 
-			handleFeedUpdateDate(elmLI, url, new Date(feedData.lastUpdated)); // lastUpdated could be text
+			let lastUpdated = new Date(feedData.lastUpdated);	// lastUpdated could be text
+
+			// make sure date is valid and save as simple numeric
+			let updateTime = (!isNaN(lastUpdated) && (lastUpdated instanceof Date)) ? lastUpdated.getTime() : Date.now();
+			setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
+
+			if(!m_objTreeFeedsData.exist(url)) {
+				m_objTreeFeedsData.set(url);
+			}
+			setFeedVisitedState(elmLI, m_objTreeFeedsData.value(url).lastVisited > updateTime);
 			updateFeedTitle(elmLI, feedData.title);
 
 		}).catch((error) => {
@@ -313,25 +336,12 @@ let rssTreeView = (function() {
 			if(!m_objTreeFeedsData.exist(url)) {
 				m_objTreeFeedsData.set(url);
 			}
-
 			setFeedErrorState(elmLI, true, error);
 
 		}).finally(() => {	// wait for Fx v58
 			setFeedLoadingState(elmLI, false);
+			m_objTreeFeedsData.setAge(url);
 		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function handleFeedUpdateDate(elmLI, url, lastUpdated) {
-
-		// make sure date is valid and save as simple numeric
-		let updateTime = (!isNaN(lastUpdated) && (lastUpdated instanceof Date)) ? lastUpdated.getTime() : Date.now();
-		setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
-
-		if(!m_objTreeFeedsData.exist(url)) {
-			m_objTreeFeedsData.set(url);
-		}
-		setFeedVisitedState(elmLI, m_objTreeFeedsData.value(url).lastVisited > updateTime);
 	}
 
 	//==================================================================================
