@@ -323,6 +323,11 @@ let rssTreeView = (function() {
 		setFeedErrorState(elmLI, false);
 		setFeedLoadingState(elmLI, true);
 
+		if(!m_objTreeFeedsData.exist(url)) {
+			m_objTreeFeedsData.set(url);
+		}
+		m_objTreeFeedsData.setHandled(url);
+
 		syndication.fetchFeedData(url).then((feedData) => {
 
 			// lastUpdated could be text
