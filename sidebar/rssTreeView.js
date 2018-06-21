@@ -53,10 +53,15 @@ let rssTreeView = (function() {
 	};
 
 	class TreeFeedsData extends StoredKeyedItems {
+		constructor() {
+			super();
+			this.gotFromStorage = 0;
+		}
 		getStorage() {
 			return new Promise((resolve) => {
 				internalPrefs.getLastVisitedFeeds().then((items) => {
 					this._items = items;
+					this.gotFromStorage = Date.now();
 					resolve();
 				});
 			});
@@ -65,23 +70,29 @@ let rssTreeView = (function() {
 			internalPrefs.setLastVisitedFeeds(this._items);
 		}
 		set(key, properties) {
-			let defProp = { lastVisited:0, updateTitle:true };
-			let valProp = this.value(key);
-			let newProp = Object.assign(defProp, valProp, properties);
+			let defProp = { handled:Date.now(), lastVisited:0, updateTitle:true };
+			let valProp = Object.assign(defProp, this.value(key));
+			let newProp = Object.assign(valProp, properties);
 			super.set(key, {
+				handled: valProp.handled,		// the handled propertey is protected and cannot be modified by set()
 				lastVisited: newProp.lastVisited,
 				updateTitle: newProp.updateTitle,
 			});
 		}
-		setAge(key) {
+		setHandled(key) {
 			if(super.exist(key)) {
-				this._items[key].age = Date.now();
+				this._items[key].handled = Date.now();
 			}
 		}
 		purge() {
-			for(let key in this._items) {
-				console.log("[Sage-Like-age]", this._items[key]);
-			}
+			return new Promise((resolve) => {
+				for(let key in this._items) {
+					if(this._items[key].handled < this.gotFromStorage) {
+						super.remove(key);
+					}
+				}
+				resolve();
+			});
 		}
 	};
 
@@ -303,12 +314,7 @@ let rssTreeView = (function() {
 				processFeedData(elmLI, elmLI.getAttribute("href"));
 			}
 		};
-
-		setTimeout(() => {
-			m_objTreeFeedsData.purge();
-		}, 7000);
-
-		// TBD: clean up old entries(async)
+		m_objTreeFeedsData.purge();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -319,28 +325,19 @@ let rssTreeView = (function() {
 
 		syndication.fetchFeedData(url).then((feedData) => {
 
-			let lastUpdated = new Date(feedData.lastUpdated);	// lastUpdated could be text
+			// lastUpdated could be text
+			let lastUpdated = new Date(feedData.lastUpdated);
 
 			// make sure date is valid and save as simple numeric
 			let updateTime = (!isNaN(lastUpdated) && (lastUpdated instanceof Date)) ? lastUpdated.getTime() : Date.now();
-			setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
 
-			if(!m_objTreeFeedsData.exist(url)) {
-				m_objTreeFeedsData.set(url);
-			}
+			setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
 			setFeedVisitedState(elmLI, m_objTreeFeedsData.value(url).lastVisited > updateTime);
 			updateFeedTitle(elmLI, feedData.title);
-
 		}).catch((error) => {
-
-			if(!m_objTreeFeedsData.exist(url)) {
-				m_objTreeFeedsData.set(url);
-			}
 			setFeedErrorState(elmLI, true, error);
-
 		}).finally(() => {	// wait for Fx v58
 			setFeedLoadingState(elmLI, false);
-			m_objTreeFeedsData.setAge(url);
 		});
 	}
 
@@ -879,6 +876,15 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function switchViewDirection() {
+		if(m_elmTreeRoot.style.direction === "rtl") {
+			m_elmTreeRoot.style.direction = "ltr";
+		} else {
+			m_elmTreeRoot.style.direction = "rtl";
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function isFeedInTree(url) {
 		return m_objTreeFeedsData.exist(url);
 	}
@@ -906,6 +912,7 @@ let rssTreeView = (function() {
 		openPropertiesView: openPropertiesView,
 		updateFeedProperties: updateFeedProperties,
 		isFeedInTree: isFeedInTree,
+		switchViewDirection: switchViewDirection,
 	};
 
 })();

@@ -3,22 +3,24 @@
 (function() {
 
 	let ContextAction = Object.freeze({
-		treeOpen: 1,
-		treeOpenNewTab: 2,
-		treeOpenNewWin: 3,
-		treeOpenNewPrivateWin: 4,
-		treeCopyUrl: 5,
-		treeDeleteFeed: 6,
-		treeFeedProperties: 7,
+		treeOpen:				1,
+		treeOpenNewTab:			2,
+		treeOpenNewWin:			3,
+		treeOpenNewPrivateWin:	4,
+		treeCopyUrl:			5,
+		treeDeleteFeed:			6,
+		treeFeedProperties:		7,
+		treeSwitchDirection:	8,
 
-		listOpen: 8,
-		listOpenNewTab: 9,
-		listOpenNewWin: 10,
-		listOpenNewPrivateWin: 11,
-		listToggleReadUnread: 12,
-		listMarkAllRead: 13,
-		listMarkAllUnread: 14,
-		listCopyUrl: 153,
+		listOpen:				9,
+		listOpenNewTab:			10,
+		listOpenNewWin:			11,
+		listOpenNewPrivateWin:	12,
+		listCopyUrl:			13,
+		listToggleReadUnread:	14,
+		listMarkAllRead:		15,
+		listMarkAllUnread:		16,
+		listSwitchDirection:	17,
 	});
 
 	//==================================================================================
@@ -129,6 +131,7 @@
 				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
 				case "d":	handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
 				case "p":	handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
+				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_bCurrentContext === "listcontext") {
 			switch (event.key.toLowerCase()) {
@@ -136,10 +139,11 @@
 				case "t":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
 				case "w":	handleListMenuActions(ContextAction.listOpenNewWin);		break;
 				case "v":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
+				case "c":	handleListMenuActions(ContextAction.listCopyUrl);			break;
 				case "g":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
 				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
-				case "c":	handleListMenuActions(ContextAction.listCopyUrl);			break;
+				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
 			}
 		}
 	}
@@ -157,14 +161,17 @@
 			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
 			case "mnuTreeDeleteFeed":					handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
 			case "mnuTreeFeedProperties":				handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
+			case "mnuTreeSwitchDirection":				handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+
 			case "mnuListOpenFeedItem":					handleListMenuActions(ContextAction.listOpen);				break;
 			case "mnuListOpenFeedItemNewTab":			handleListMenuActions(ContextAction.listOpenNewTab);		break;
 			case "mnuListOpenFeedItemNewWin":			handleListMenuActions(ContextAction.listOpenNewWin);		break;
 			case "mnuListOpenFeedItemNewPrivateWin":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
+			case "mnuListCopyFeedItemUrl":				handleListMenuActions(ContextAction.listCopyUrl);			break;
 			case "mnuListToggleFeedItemReadUnread":		handleListMenuActions(ContextAction.listToggleReadUnread);	break;
 			case "mnuListMarkAllFeedItemsRead":			handleListMenuActions(ContextAction.listMarkAllRead);		break;
 			case "mnuListMarkAllFeedItemsUnread":		handleListMenuActions(ContextAction.listMarkAllUnread);		break;
-			case "mnuListCopyFeedItemUrl":				handleListMenuActions(ContextAction.listCopyUrl);			break;
+			case "mnuListSwitchDirection":				handleListMenuActions(ContextAction.listSwitchDirection);	break;
 		}
 	}
 
@@ -257,6 +264,11 @@
 				break;
 				///////////////////////////////////////////
 
+			case ContextAction.treeSwitchDirection:
+				rssTreeView.switchViewDirection();
+				break;
+				///////////////////////////////////////////
+
 			case ContextAction.listToggleReadUnread:
 				rssListView.toggleItemVisitedState(m_elmContextMenu.elmTargetItem);
 				break;
@@ -271,6 +283,13 @@
 				rssListView.markAllItemsAsVisitedState(false);
 				break;
 				///////////////////////////////////////////
+
+			case ContextAction.listSwitchDirection:
+				rssListView.switchViewDirection();
+				break;
+				///////////////////////////////////////////
+
+
 		}
 	}
 

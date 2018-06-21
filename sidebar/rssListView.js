@@ -213,6 +213,15 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function switchViewDirection() {
+		if(m_elmList.style.direction === "rtl") {
+			m_elmList.style.direction = "ltr";
+		} else {
+			m_elmList.style.direction = "rtl";
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function disposeList() {
 
 		let el;
@@ -233,6 +242,7 @@ let rssListView = (function() {
 		setItemRealVisitedState: setItemRealVisitedState,
 		toggleItemVisitedState: toggleItemVisitedState,
 		markAllItemsAsVisitedState: markAllItemsAsVisitedState,
+		switchViewDirection: switchViewDirection,
 	};
 
 })();

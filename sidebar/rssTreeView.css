@@ -2,7 +2,7 @@
 
 .treeview {
 	margin: 0;
-	padding: 4px 0 4px 4px;
+	padding: 4px;
 	font-weight: normal;
 	white-space: nowrap;
 	background-color: var(--bk-color-window);
@@ -77,4 +77,9 @@
 
 .treeview li.draggedOver {
 	border-top: 1px solid blue;
+}
+
+.treeview[style*="direction: rtl;"] li {
+	background-position-x: right;
+	padding-right: 20px;
 }

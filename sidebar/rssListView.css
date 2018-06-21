@@ -2,7 +2,7 @@
 
 .listview {
 	margin: 0;
-	padding: 4px 0 4px 4px;
+	padding: 4px;
 	font-weight: normal;
 	white-space: nowrap;
 	background-color: var(--bk-color-window);
@@ -15,7 +15,6 @@
 	list-style-type: none;
 	margin: 0;
 	cursor: pointer;
-	padding-right: 4px;
 	border: 1px dotted transparent;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -38,4 +37,9 @@
 	-moz-user-select: text;
 	user-select: text;
 	white-space: normal;
+}
+
+.listview[style*="direction: rtl;"] li.errormsg {
+	background-position-x: right;
+	padding-right: 20px;
 }
