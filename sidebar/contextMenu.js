@@ -44,7 +44,7 @@
 		m_elmSidebarBody.addEventListener("contextmenu", onContextMenu);
 		m_elmContextMenu.addEventListener("blur", onBlurContextMenu);
 		m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
-		mnuContextMenu.addEventListener("click", onClickContextMenuItem);
+		m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@
 		m_elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
 		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu);
 		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
-		mnuContextMenu.removeEventListener("click", onClickContextMenuItem);
+		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
