@@ -384,13 +384,18 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickTreeItem(event) {
 
+		event.stopPropagation();
+
 		let elmLI = this;
 		let isSubTree = elmLI.classList.contains(slGlobalConsts.CLS_LI_SUB_TREE);
 
-		// when a subtree is open the height of the LI is as the Height of the entier subtree.
+		// when a subtree is open the height of the LI is as the Height of the entire subtree.
 		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
 		// the subtree. This make sure that only clicks on the top of the elements are processed.
 		if(!eventOccureInItemLineHeight(event, elmLI)) {
+			if(isSubTree) {
+				setFeedSelectionState(elmLI);
+			}
 			return;
 		}
 
@@ -445,8 +450,6 @@ let rssTreeView = (function() {
 			});
 		}
 		setFeedSelectionState(elmLI);
-
-		event.stopPropagation();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
