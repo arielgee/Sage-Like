@@ -181,9 +181,12 @@ let rssListView = (function() {
 
 		let elms = m_elmList.getElementsByTagName("li");
 
-		for(let elm of elms) {
-			funcHistory(elm);
-			funcClassList(elm);
+		if(elms[0] !== undefined && !(elms[0].classList.contains("errormsg"))) {
+
+			for(let elm of elms) {
+				funcHistory(elm);
+				funcClassList(elm);
+			}
 		}
 	}
 
@@ -194,8 +197,11 @@ let rssListView = (function() {
 			m_elmCurrentlySelected.classList.remove("selected");
 		}
 
-		m_elmCurrentlySelected = elm;
-		elm.classList.add("selected");
+		// select only selectable list items
+		if (elm && elm.tagName === "LI") {
+			m_elmCurrentlySelected = elm;
+			elm.classList.add("selected");
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

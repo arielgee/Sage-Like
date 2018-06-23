@@ -29,6 +29,7 @@
 
 	let m_elmSidebarBody;
 	let m_elmContextMenu;
+	let m_elmEventTarget;
 
 	let m_bCurrentContext = "";
 
@@ -62,18 +63,29 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onContextMenu(event) {
 
+		m_elmEventTarget = event.target;
+
 		let showMenu = true;
-		let trgClsList = event.target.classList;
+		let trgClsList = m_elmEventTarget.classList;
 
 		if (trgClsList.contains(slGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
 
-			m_bCurrentContext = "treecontext";
-			rssTreeView.setFeedSelectionState(event.target);
+			m_bCurrentContext = "treeitemcontext";
+			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
 		} else if (trgClsList.contains(slGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)) {
 
+			m_bCurrentContext = "listitemcontext";
+			rssListView.setFeedItemSelectionState(m_elmEventTarget);
+
+		} else if (m_elmEventTarget.closest("#rssTreeView") !== null) {
+
+			m_bCurrentContext = "treecontext";
+			rssTreeView.setFeedSelectionState(m_elmEventTarget);	// select folder
+
+		} else if (m_elmEventTarget.closest("#rssListView") !== null) {
+
 			m_bCurrentContext = "listcontext";
-			rssListView.setFeedItemSelectionState(event.target);
 
 		} else {
 			showMenu = false;
@@ -82,8 +94,6 @@
 		if (showMenu) {
 
 			showMenuItemsByClassName(m_bCurrentContext);
-
-			m_elmContextMenu.elmTargetItem = event.target;
 
 			let x = event.clientX;
 			let y = event.clientY;
@@ -122,7 +132,7 @@
 			return;
 		}
 
-		if(m_bCurrentContext === "treecontext") {
+		if(m_bCurrentContext === "treeitemcontext") {
 			switch (event.key.toLowerCase()) {
 				case "o":	handleTreeMenuActions(ContextAction.treeOpen);				break;
 				case "t":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
@@ -133,7 +143,7 @@
 				case "p":	handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
 				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
-		} else if(m_bCurrentContext === "listcontext") {
+		} else if(m_bCurrentContext === "listitemcontext") {
 			switch (event.key.toLowerCase()) {
 				case "o":	handleListMenuActions(ContextAction.listOpen);				break;
 				case "t":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
@@ -141,6 +151,16 @@
 				case "v":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
 				case "c":	handleListMenuActions(ContextAction.listCopyUrl);			break;
 				case "g":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
+				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
+				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
+				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
+			}
+		} else if(m_bCurrentContext === "treecontext") {
+			switch (event.key.toLowerCase()) {
+				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+			}
+		} else if(m_bCurrentContext === "listcontext") {
+			switch (event.key.toLowerCase()) {
 				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
 				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
@@ -182,26 +202,22 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
-		let targetItem = m_elmContextMenu.elmTargetItem;
-
-		if (targetItem !== undefined && targetItem !== null) {
-			handleMenuActions(menuAction, {
-				id: targetItem.id,
-				url: targetItem.getAttribute("href"),
-			});
-		}
 		m_elmContextMenu.style.display = "none";
+
+		if (m_elmEventTarget !== undefined && m_elmEventTarget !== null) {
+			handleMenuActions(menuAction, { url: m_elmEventTarget.getAttribute("href") });
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleListMenuActions(menuAction) {
 
-		let targetItem = m_elmContextMenu.elmTargetItem;
+		m_elmContextMenu.style.display = "none";
 
-		if (targetItem !== undefined && targetItem !== null) {
+		if (m_elmEventTarget !== undefined && m_elmEventTarget !== null) {
 
-			let url = targetItem.getAttribute("href");
-			handleMenuActions(menuAction, { url: targetItem.getAttribute("href") });
+			let url = m_elmEventTarget.getAttribute("href");
+			handleMenuActions(menuAction, { url: url });
 
 			let openActions = [
 				ContextAction.listOpen,
@@ -211,12 +227,11 @@
 			];
 
 			if(openActions.indexOf(menuAction) !== -1) {
-				slUtil.addUrlToBrowserHistory(url, targetItem.textContent).then(() => {
-					rssListView.setItemRealVisitedState(targetItem, url);
+				slUtil.addUrlToBrowserHistory(url, m_elmEventTarget.textContent).then(() => {
+					rssListView.setItemRealVisitedState(m_elmEventTarget, url);
 				});
 			}
 		}
-		m_elmContextMenu.style.display = "none";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -255,12 +270,12 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeDeleteFeed:
-				rssTreeView.deleteFeed(m_elmContextMenu.elmTargetItem);
+				rssTreeView.deleteFeed(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.treeFeedProperties:
-				rssTreeView.openPropertiesView(m_elmContextMenu.elmTargetItem);
+				rssTreeView.openPropertiesView(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
@@ -270,7 +285,7 @@
 				///////////////////////////////////////////
 
 			case ContextAction.listToggleReadUnread:
-				rssListView.toggleItemVisitedState(m_elmContextMenu.elmTargetItem);
+				rssListView.toggleItemVisitedState(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
@@ -288,8 +303,6 @@
 				rssListView.switchViewDirection();
 				break;
 				///////////////////////////////////////////
-
-
 		}
 	}
 

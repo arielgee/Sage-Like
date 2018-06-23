@@ -825,9 +825,12 @@ let rssTreeView = (function() {
 			m_elmCurrentlySelected.classList.remove("selected");
 		}
 
-		m_elmCurrentlySelected = elm;
-		elm.classList.add("selected");
-	};
+		// select only selectable tree items
+		if (elm && elm.tagName === "LI") {
+			m_elmCurrentlySelected = elm;
+			elm.classList.add("selected");
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedVisitedState(elm, visited) {
