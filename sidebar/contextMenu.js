@@ -18,9 +18,10 @@
 		listOpenNewPrivateWin:	12,
 		listCopyUrl:			13,
 		listToggleReadUnread:	14,
-		listMarkAllRead:		15,
-		listMarkAllUnread:		16,
-		listSwitchDirection:	17,
+		listOpenAllInTabs:		15,
+		listMarkAllRead:		16,
+		listMarkAllUnread:		17,
+		listSwitchDirection:	18,
 	});
 
 	//==================================================================================
@@ -161,6 +162,7 @@
 				case "v":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
 				case "c":	handleListMenuActions(ContextAction.listCopyUrl);			break;
 				case "g":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
+				case "a":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
 				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
 				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
@@ -171,6 +173,7 @@
 			}
 		} else if(m_bCurrentContext === "listcontext") {
 			switch (event.key.toLowerCase()) {
+				case "a":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
 				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
 				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
@@ -199,6 +202,7 @@
 			case "mnuListOpenFeedItemNewPrivateWin":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
 			case "mnuListCopyFeedItemUrl":				handleListMenuActions(ContextAction.listCopyUrl);			break;
 			case "mnuListToggleFeedItemReadUnread":		handleListMenuActions(ContextAction.listToggleReadUnread);	break;
+			case "mnuListOpenAllFeedItemsTabs":			handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
 			case "mnuListMarkAllFeedItemsRead":			handleListMenuActions(ContextAction.listMarkAllRead);		break;
 			case "mnuListMarkAllFeedItemsUnread":		handleListMenuActions(ContextAction.listMarkAllUnread);		break;
 			case "mnuListSwitchDirection":				handleListMenuActions(ContextAction.listSwitchDirection);	break;
@@ -296,6 +300,11 @@
 
 			case ContextAction.listToggleReadUnread:
 				rssListView.toggleItemVisitedState(m_elmEventTarget);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.listOpenAllInTabs:
+				rssListView.openAllItemsInTabs();
 				break;
 				///////////////////////////////////////////
 

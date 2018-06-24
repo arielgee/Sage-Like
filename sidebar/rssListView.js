@@ -240,6 +240,28 @@ let rssListView = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function openAllItemsInTabs() {
+
+		let elms = m_elmList.getElementsByTagName("li");
+
+		if(elms[0] !== undefined && !(elms[0].classList.contains("errormsg"))) {
+
+			for(let elm of elms) {
+
+				let parkedTabUrl = browser.extension.getURL("/parkedTab/parked.html?prkTitle=" +
+					elm.textContent.replace(/^[0-9]+\. /, "") +
+					"&prkUrl=" + elm.getAttribute("href"));
+
+				browser.tabs.create({ active: false, url: parkedTabUrl }).then((tab) => {
+					slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent).then(() => {
+						setItemRealVisitedState(elm, elm.getAttribute("href"));
+					});
+				});
+			}
+		}
+	}
+
 	return {
 		setFeedItems: setFeedItems,
 		disposeList: disposeList,
@@ -249,6 +271,7 @@ let rssListView = (function() {
 		toggleItemVisitedState: toggleItemVisitedState,
 		markAllItemsAsVisitedState: markAllItemsAsVisitedState,
 		switchViewDirection: switchViewDirection,
+		openAllItemsInTabs: openAllItemsInTabs,
 	};
 
 })();
