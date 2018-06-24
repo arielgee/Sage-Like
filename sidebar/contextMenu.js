@@ -78,12 +78,12 @@
 			m_bCurrentContext = "listitemcontext";
 			rssListView.setFeedItemSelectionState(m_elmEventTarget);
 
-		} else if (m_elmEventTarget.closest("#rssTreeView") !== null) {
+		} else if (m_elmEventTarget.closest("#" + slGlobalConsts.ID_UL_RSS_TREE_VIEW) !== null) {
 
 			m_bCurrentContext = "treecontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);	// select folder
 
-		} else if (m_elmEventTarget.closest("#rssListView") !== null) {
+		} else if (m_elmEventTarget.closest("#" + slGlobalConsts.ID_UL_RSS_LIST_VIEW) !== null) {
 
 			m_bCurrentContext = "listcontext";
 

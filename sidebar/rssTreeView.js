@@ -161,7 +161,7 @@ let rssTreeView = (function() {
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
-		m_elmTreeRoot = document.getElementById("rssTreeView");
+		m_elmTreeRoot = document.getElementById(slGlobalConsts.ID_UL_RSS_TREE_VIEW);
 
 		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);

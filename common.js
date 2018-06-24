@@ -3,8 +3,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 let slGlobalConsts = (function() {
 
-	const CLS_DIV_TOOLBAR = "toolbar";
-	const CLS_DIV_SPLITTER = "splitter";
+	const ID_UL_RSS_TREE_VIEW = "rssTreeView";
+	const ID_UL_RSS_LIST_VIEW = "rssListView";
+
 	const CLS_LI_SUB_TREE = "subtree";
 	const CLS_LI_RSS_TREE_FEED = "rsstreefeed";
 	const CLS_LI_RSS_LIST_FEED_ITEM = "rsslistfeeditem";
@@ -21,8 +22,9 @@ let slGlobalConsts = (function() {
 	const MSG_DETAILS_PREFERENCE_COLORS = "msgDetails_colors";
 
 	return {
-		CLS_DIV_TOOLBAR: CLS_DIV_TOOLBAR,
-		CLS_DIV_SPLITTER: CLS_DIV_SPLITTER,
+		ID_UL_RSS_TREE_VIEW: ID_UL_RSS_TREE_VIEW,
+		ID_UL_RSS_LIST_VIEW: ID_UL_RSS_LIST_VIEW,
+
 		CLS_LI_SUB_TREE: CLS_LI_SUB_TREE,
 		CLS_LI_RSS_TREE_FEED: CLS_LI_RSS_TREE_FEED,
 		CLS_LI_RSS_LIST_FEED_ITEM: CLS_LI_RSS_LIST_FEED_ITEM,

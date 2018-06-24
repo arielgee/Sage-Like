@@ -41,8 +41,8 @@
 		m_elmDiscoverFeed = document.getElementById("discoverfeed");
 		m_elmPreferences = document.getElementById("preferences");
 
-		m_elmTree = document.getElementById("rssTreeView");
-		m_elmList = document.getElementById("rssListView");
+		m_elmTree = document.getElementById(slGlobalConsts.ID_UL_RSS_TREE_VIEW);
+		m_elmList = document.getElementById(slGlobalConsts.ID_UL_RSS_LIST_VIEW);
 
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
