@@ -44,20 +44,27 @@
 
 		m_elmSidebarBody.addEventListener("contextmenu", onContextMenu);
 		m_elmContextMenu.addEventListener("blur", onBlurContextMenu);
-		m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
-		m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
+		closeContextMenu();
+
 		m_elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
 		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu);
-		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
-		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function closeContextMenu() {
+
+		m_elmContextMenu.style.display = "none";
+
+		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
+		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -93,6 +100,9 @@
 
 		if (showMenu) {
 
+			m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
+			m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
+
 			showMenuItemsByClassName(m_bCurrentContext);
 
 			let x = event.clientX;
@@ -119,7 +129,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurContextMenu(event) {
-		m_elmContextMenu.style.display = "none";
+		closeContextMenu();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +138,7 @@
 		event.preventDefault();
 
 		if(event.key.toLowerCase() === "escape") {
-			m_elmContextMenu.style.display = "none";
+			closeContextMenu();
 			return;
 		}
 
@@ -202,7 +212,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
-		m_elmContextMenu.style.display = "none";
+		closeContextMenu();
 
 		if (m_elmEventTarget !== undefined && m_elmEventTarget !== null) {
 			handleMenuActions(menuAction, { url: m_elmEventTarget.getAttribute("href") });
@@ -212,7 +222,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleListMenuActions(menuAction) {
 
-		m_elmContextMenu.style.display = "none";
+		closeContextMenu();
 
 		if (m_elmEventTarget !== undefined && m_elmEventTarget !== null) {
 
