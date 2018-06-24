@@ -64,11 +64,12 @@
 }
 
 .treeview li.errormsg {
-	background: transparent url("../icons/error.png") no-repeat left center;
+	background: transparent url("../icons/error.png") no-repeat left top;
 	color: crimson;
 	cursor: default;
 	-moz-user-select: text;
 	user-select: text;
+	white-space: normal;
 }
 
 .treeview li.dragged {
