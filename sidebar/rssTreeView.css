@@ -39,7 +39,7 @@
 
 /* Style for LI that contains sub trees (other ULs) */
 .treeview li.subtree {
-	background: transparent url("../icons/closed.png") no-repeat left 1px;
+	background: transparent no-repeat left 1px;
 	cursor: default;
 }
 
