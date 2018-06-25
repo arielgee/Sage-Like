@@ -23,8 +23,8 @@
 
 	/**************************************************/
 	browser.runtime.onMessage.addListener((message) => {
-		if (message.id === slGlobalConsts.MSG_ID_PREFERENCE_UPDATED &&
-			(message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_ALL || message.details === slGlobalConsts.MSG_DETAILS_PREFERENCE_COLORS)) {
+		if (message.id === slGlobals.MSG_ID_PREFERENCE_UPDATED &&
+			(message.details === slGlobals.MSG_DETAILS_PREFERENCE_ALL || message.details === slGlobals.MSG_DETAILS_PREFERENCE_COLORS)) {
 			setPanelColorsFromPreferences();
 		}
 	});
@@ -41,8 +41,8 @@
 		m_elmDiscoverFeed = document.getElementById("discoverfeed");
 		m_elmPreferences = document.getElementById("preferences");
 
-		m_elmTree = document.getElementById(slGlobalConsts.ID_UL_RSS_TREE_VIEW);
-		m_elmList = document.getElementById(slGlobalConsts.ID_UL_RSS_LIST_VIEW);
+		m_elmTree = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
+		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
 
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);

@@ -95,31 +95,31 @@ let preferences = (function() {
 	function onChangeRootFeedsFolder(event) {
 		prefs.setRootFeedsFolderId(m_elmRootFeedsFolder.value);
 		flashRootFeedsFolderElement();
-		broadcastPreferencesUpdated(slGlobalConsts.MSG_DETAILS_PREFERENCE_ROOT_FOLDER);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_ROOT_FOLDER);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		prefs.setColorBackground(m_elmColorBackground.value);
-		broadcastPreferencesUpdated(slGlobalConsts.MSG_DETAILS_PREFERENCE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_COLORS);
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorDialogBackground(event) {
 		prefs.setColorDialogBackground(m_elmColorDialogBackground.value);
-		broadcastPreferencesUpdated(slGlobalConsts.MSG_DETAILS_PREFERENCE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorSelect(event) {
 		prefs.setColorSelect(m_elmColorSelect.value);
-		broadcastPreferencesUpdated(slGlobalConsts.MSG_DETAILS_PREFERENCE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorText(event) {
 		prefs.setColorText(m_elmColorText.value);
-		broadcastPreferencesUpdated(slGlobalConsts.MSG_DETAILS_PREFERENCE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ let preferences = (function() {
 		m_elmColorSelect.value = defPrefs.colorSelect
 		m_elmColorText.value = defPrefs.colorText
 		flashRootFeedsFolderElement();
-		broadcastPreferencesUpdated(slGlobalConsts.MSG_DETAILS_PREFERENCE_ALL);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_ALL);
 	}
 
 	//==================================================================================
@@ -145,7 +145,7 @@ let preferences = (function() {
 
 		let selected = m_elmRootFeedsFolder.options[m_elmRootFeedsFolder.selectedIndex];
 
-		if(selected === undefined || selected.value === slGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+		if(selected === undefined || selected.value === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 			m_elmRootFeedsFolder.classList.add("flash");
 		} else {
 			m_elmRootFeedsFolder.classList.remove("flash");
@@ -162,7 +162,7 @@ let preferences = (function() {
 
 			browser.bookmarks.getSubTree(MENU_GUID).then((bookmarkItems) => {
 
-				let elmOption = createTagOption(slGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
+				let elmOption = createTagOption(slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
 				m_elmRootFeedsFolder.appendChild(elmOption);
 
 				for(let child of bookmarkItems[0].children) {
@@ -200,7 +200,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function broadcastPreferencesUpdated(details) {
 		browser.runtime.sendMessage({
-			id: slGlobalConsts.MSG_ID_PREFERENCE_UPDATED,
+			id: slGlobals.MSG_ID_PREFERENCE_UPDATED,
 			details: details,
 	 	});
 	}

@@ -76,22 +76,22 @@
 		let showMenu = true;
 		let trgClsList = m_elmEventTarget.classList;
 
-		if (trgClsList.contains(slGlobalConsts.CLS_LI_RSS_TREE_FEED)) {
+		if (trgClsList.contains(slGlobals.CLS_LI_RSS_TREE_FEED)) {
 
 			m_bCurrentContext = "treeitemcontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
-		} else if (trgClsList.contains(slGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)) {
+		} else if (trgClsList.contains(slGlobals.CLS_LI_RSS_LIST_FEED_ITEM)) {
 
 			m_bCurrentContext = "listitemcontext";
 			rssListView.setFeedItemSelectionState(m_elmEventTarget);
 
-		} else if (m_elmEventTarget.closest("#" + slGlobalConsts.ID_UL_RSS_TREE_VIEW) !== null) {
+		} else if (m_elmEventTarget.closest("#" + slGlobals.ID_UL_RSS_TREE_VIEW) !== null) {
 
 			m_bCurrentContext = "treecontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);	// select folder
 
-		} else if (m_elmEventTarget.closest("#" + slGlobalConsts.ID_UL_RSS_LIST_VIEW) !== null) {
+		} else if (m_elmEventTarget.closest("#" + slGlobals.ID_UL_RSS_LIST_VIEW) !== null) {
 
 			m_bCurrentContext = "listcontext";
 

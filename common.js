@@ -1,7 +1,7 @@
 "use strict"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let slGlobalConsts = (function() {
+let slGlobals = (function() {
 
 	const ID_UL_RSS_TREE_VIEW = "rssTreeView";
 	const ID_UL_RSS_LIST_VIEW = "rssListView";
@@ -119,7 +119,7 @@ let prefs = (function() {
 
 	// user preferences
 
-	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobalConsts.ROOT_FEEDS_FOLDER_ID_NOT_SET;
+	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
 	const DEF_PREF_COLOR_SELECT_VALUE = "#ADD8E6";

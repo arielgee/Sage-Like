@@ -16,7 +16,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
-		m_elmList = document.getElementById(slGlobalConsts.ID_UL_RSS_LIST_VIEW);
+		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ let rssListView = (function() {
 
 		let elm = document.createElement("li");
 
-		elm.classList.add(slGlobalConsts.CLS_LI_RSS_LIST_FEED_ITEM)
+		elm.classList.add(slGlobals.CLS_LI_RSS_LIST_FEED_ITEM)
 		setItemRealVisitedState(elm, url);
 
 		elm.textContent = index.toString() + ". " + title;
