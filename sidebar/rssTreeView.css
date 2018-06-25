@@ -59,7 +59,7 @@
 }
 
 .treeview li.error {
-	background: transparent url("../icons/error_bw.png") no-repeat left center;
+	background: transparent url("../icons/error.png") no-repeat left center;
 	font-style: italic;
 }
 
