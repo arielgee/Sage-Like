@@ -64,7 +64,7 @@
 }
 
 .treeview li.errormsg {
-	background: transparent url("../icons/error.png") no-repeat left top;
+	background: transparent url("../icons/errormsg.png") no-repeat left top;
 	color: crimson;
 	cursor: default;
 	-moz-user-select: text;
