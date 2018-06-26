@@ -88,7 +88,7 @@
 		splitterTop = splitterTop || m_elmSplitter.offsetTop;
 
 		let reduseH, sbWidth = slUtil.getScrollbarWidth(document);
-		let splitterMargin = m_elmSplitter.offsetHeight + 1;
+		let splitterMargin = m_elmToolbar.offsetHeight;
 
 		if (splitterTop > splitterMargin && (m_elmBody.offsetHeight - splitterTop) > splitterMargin) {
 			m_elmSplitter.style.top = splitterTop + "px";
