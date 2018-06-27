@@ -31,7 +31,7 @@
 }
 
 .listview li.errormsg {
-	background: transparent url("../icons/errormsg.png") no-repeat left top;
+	background: transparent url("/icons/errormsg.png") no-repeat left top;
 	padding-left: 20px;
 	color: crimson;
 	cursor: default;

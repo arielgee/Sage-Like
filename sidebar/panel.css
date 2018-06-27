@@ -8,7 +8,6 @@
 
 	--bk-color-window: #FFFFFF;
 	--bk-color-dialog: #EEEEEE;
-	/*--bk-color-active: #ADD8E6;*/
 	--bk-color-active: #F3C8BA;
 	--color-text: #000000;
 }
@@ -88,19 +87,19 @@ html, body {
 }
 
 #checkTreeFeeds {
-	background: transparent url("../icons/reload.png") no-repeat left center;
+	background: transparent url("/icons/reload.png") no-repeat left center;
 }
 #discoverfeed {
-	background: transparent url("../icons/discover.png") no-repeat left center;
+	background: transparent url("/icons/discover.png") no-repeat left center;
 }
 #expandall {
-	background: transparent url("../icons/expandall.png") no-repeat left center;
+	background: transparent url("/icons/expandall.png") no-repeat left center;
 }
 #collapseall {
-	background: transparent url("../icons/collapseall.png") no-repeat left center;
+	background: transparent url("/icons/collapseall.png") no-repeat left center;
 }
 #preferences {
-	background: transparent url("../icons/preferences.png") no-repeat left center;
+	background: transparent url("/icons/preferences.png") no-repeat left center;
 }
 
 .disabled {

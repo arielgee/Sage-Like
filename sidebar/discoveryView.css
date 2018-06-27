@@ -28,14 +28,14 @@
 }
 
 #discoverPanel .captionImage {
-	background: transparent url("../icons/rss.png") no-repeat left center;
+	background: transparent url("/icons/rss.png") no-repeat left center;
 	width: 16px;
 	height: 16px;
 	margin: auto var(--item-spacer) auto 0;
 }
 
 #discoverPanel.loading .captionImage {
-	background: transparent url("../icons/loading.gif") no-repeat left center;
+	background: transparent url("/icons/loading.gif") no-repeat left center;
 }
 
 #discoverPanel .caption {
@@ -48,7 +48,7 @@
 }
 
 #discoverPanel #btnRediscover {
-	background: transparent url("../icons/reload.png") no-repeat left center;
+	background: transparent url("/icons/reload.png") no-repeat left center;
 	width: 16px;
 	height: 16px;
 	margin: auto 0 auto var(--item-spacer);
