@@ -8,9 +8,33 @@ body {
 	line-height: 21px;
 }
 
+.caption {
+	font-size: 22.5px;
+}
+
+.prefSeperator {
+	height: 13px;
+	border-bottom: 1px solid lightgray;
+	margin-bottom: 13px;
+}
+
+.caption + .prefSeperator {
+	height: 36px;
+}
+
 .preference {
 	display: flex;
 	align-items: center;
+}
+
+.preferenceControl {
+	margin: auto 0 auto auto;
+	display: flex;
+	align-items: center;
+}
+
+select {
+	border: 1px solid #7a7a7a;
 }
 
 input[type="radio"],
@@ -25,8 +49,6 @@ input[type="checkbox"] {
 	border: 2px solid #999;
 	transition: 0.2s all linear;
 	outline: none;
-	position: relative;
-	top: 2px;
 }
 
 input[type="radio"] {
@@ -36,15 +58,6 @@ input[type="radio"] {
 input[type="radio"]:checked,
 input[type="checkbox"]:checked {
 	border: 9px solid black;
-}
-
-.controlLabel {
-	padding-left: 3px;
-}
-
-.controlLabel:not(:last-child) {
-	padding-right: 3px;
-	margin-right: 6px;
 }
 
 input[type="color"] {
@@ -67,47 +80,34 @@ input[type="color"]::-moz-focus-inner {
 	padding: 0;
 }
 
-.caption {
-	font-size: 22.5px;
+.controlLabel {
+	padding-left: 3px;
 }
 
-.prefSeperator {
-	height: 13px;
-	border-bottom: 1px solid lightgray;
-	margin-bottom: 13px;
+.controlLabel:not(:last-child) {
+	padding-right: 3px;
+	margin-right: 10px;
 }
 
-.caption+.prefSeperator {
-	height: 36px;
+.controlImage {
+	display: inline-block;
+	width: 24px;
+	height: 20px;
+	margin: auto 0 auto 0;
+	background: transparent no-repeat 4px top/20px 20px;
 }
 
-.preferenceControl {
-	margin: auto 0 auto auto;
+.controlImage:not(:last-child) {
+	margin-right: 18px;
 }
 
-select,
-.annotation,
-.controlButton {
-	background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
-	background-size: 200% 100%;
-	background-position: right bottom;
-	transition: background-position 0.2s ease-in 0s;
-}
-
-select {
-	border: 1px solid #7a7a7a;
-}
-
-.annotation {
-	font-family: "Segoe UI";
-	font-size: 9pt;
-	color: gray;
-}
-
-.annotation.flash {
-	background-position: left bottom;
-	color: black;
-}
+#imageSet0 + .controlImage { background-image: url("/icons/open-0.png"); }
+#imageSet1 + .controlImage { background-image: url("/icons/open-1.png"); }
+#imageSet2 + .controlImage { background-image: url("/icons/open-2.png"); }
+#imageSet3 + .controlImage { background-image: url("/icons/open-3.png"); }
+#imageSet4 + .controlImage { background-image: url("/icons/open-4.png"); }
+#imageSet5 + .controlImage { background-image: url("/icons/open-5.png"); }
+#imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
 
 .controlButton {
 	background-color: rgb(251, 251, 251);
@@ -126,11 +126,35 @@ select {
 	background-color: rgb(218, 218, 218);
 }
 
+.annotation {
+	font-family: "Segoe UI";
+	font-size: 9pt;
+	color: gray;
+}
+
+
+/* Elements that will 'flash' */
+select,
+.annotation,
+.controlButton {
+	background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
+	background-size: 200% 100%;
+	background-position: right bottom;
+	transition: background-position 0.2s ease-in 0s;
+}
+
+.annotation.flash {
+	background-position: left bottom;
+	color: black;
+}
+
 select.flash,
 .controlButton.flash {
 	background-position: left bottom;
 }
 
+
+/* Disabled elements */
 label.disabled,
 input[type="radio"].disabled,
 input[type="checkbox"].disabled {

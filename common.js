@@ -6,39 +6,68 @@ let slGlobals = (function() {
 	const ID_UL_RSS_TREE_VIEW = "rssTreeView";
 	const ID_UL_RSS_LIST_VIEW = "rssListView";
 
-	const CLS_LI_SUB_TREE = "subtree";
-	const CLS_LI_RSS_TREE_FEED = "rsstreefeed";
-	const CLS_LI_RSS_LIST_FEED_ITEM = "rsslistfeeditem";
-	const CLS_DIV_RSS_TREE_FEED_CAPTION = "caption";
+	// RSS Tree View classes
+	const CLS_RTV_LI_SUB_TREE = "rtvSubTree";
+	const CLS_RTV_LI_TREE_ITEM = "rtvTreeItem";
+	const CLS_RTV_DIV_TREE_ITEM_CAPTION = "rtvCaption";
 
-	const IMG_CLOSED_SUB_TREE = "/icons/closed.png";
-	const IMG_OPEN_SUB_TREE = "/icons/open.png";
+	// RSS List View classes
+	const CLS_RLV_LI_LIST_ITEM = "rlvListItem";
 
 	const ROOT_FEEDS_FOLDER_ID_NOT_SET = "_rootFeedsFolderIdNotSet_";
 
-	const MSG_ID_PREFERENCE_UPDATED = "msgId_preferenceUpdated";
-	const MSG_DETAILS_PREFERENCE_ALL = "msgDetails_all";
-	const MSG_DETAILS_PREFERENCE_ROOT_FOLDER = "msgDetails_rootFolder";
-	const MSG_DETAILS_PREFERENCE_COLORS = "msgDetails_colors";
+	const MSG_ID_PREFERENCES_CHANGED = "msgId_preferencesChanged";
+	const MSG_DETAILS_PREF_CHANGE_ALL = "msgDetails_prefChange_all";
+	const MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER = "msgDetails_prefChange_rootFolder";
+	const MSG_DETAILS_PREF_CHANGE_COLORS = "msgDetails_prefChange_colors";
+	const MSG_DETAILS_PREF_CHANGE_IMAGES = "msgDetails_prefChange_images";
+
+	const FMT_IMAGE_SET = {
+		IMG_OPEN_SUB_TREE:		"url(\"/icons/open-{0}.png\")",
+		IMG_CLOSED_SUB_TREE:	"url(\"/icons/closed-{0}.png\")",
+		IMG_TREE_ITEM:			"url(\"/icons/rss-{0}.png\")",
+		IMG_TREE_ITEM_LOADING:	"url(\"/icons/loading-{0}.gif\")",
+		IMG_TREE_ITEM_ERROR:	"url(\"/icons/error-{0}.png\")",
+	};
+
+	const IMAGE_SET_VALUES = [0, 1, 2, 3, 4, 5, 6];
+
+	const IMAGE_SET = function(setNumber) {
+
+		setNumber = Number(setNumber);
+
+		if(IMAGE_SET_VALUES.indexOf(setNumber) === -1) {
+			throw new Error("Invalid image set number: " + setNumber);
+		}
+
+		return {
+			IMG_OPEN_SUB_TREE:		FMT_IMAGE_SET.IMG_OPEN_SUB_TREE.format([setNumber]),
+			IMG_CLOSED_SUB_TREE:	FMT_IMAGE_SET.IMG_CLOSED_SUB_TREE.format([setNumber]),
+			IMG_TREE_ITEM:			FMT_IMAGE_SET.IMG_TREE_ITEM.format([setNumber]),
+			IMG_TREE_ITEM_LOADING:	FMT_IMAGE_SET.IMG_TREE_ITEM_LOADING.format([setNumber]),
+			IMG_TREE_ITEM_ERROR:	FMT_IMAGE_SET.IMG_TREE_ITEM_ERROR.format([setNumber]),
+		};
+	};
 
 	return {
 		ID_UL_RSS_TREE_VIEW: ID_UL_RSS_TREE_VIEW,
 		ID_UL_RSS_LIST_VIEW: ID_UL_RSS_LIST_VIEW,
 
-		CLS_LI_SUB_TREE: CLS_LI_SUB_TREE,
-		CLS_LI_RSS_TREE_FEED: CLS_LI_RSS_TREE_FEED,
-		CLS_LI_RSS_LIST_FEED_ITEM: CLS_LI_RSS_LIST_FEED_ITEM,
-		CLS_DIV_RSS_TREE_FEED_CAPTION: CLS_DIV_RSS_TREE_FEED_CAPTION,
+		CLS_RTV_LI_SUB_TREE: CLS_RTV_LI_SUB_TREE,
+		CLS_RTV_LI_TREE_ITEM: CLS_RTV_LI_TREE_ITEM,
+		CLS_RTV_DIV_TREE_ITEM_CAPTION: CLS_RTV_DIV_TREE_ITEM_CAPTION,
 
-		IMG_CLOSED_SUB_TREE: IMG_CLOSED_SUB_TREE,
-		IMG_OPEN_SUB_TREE: IMG_OPEN_SUB_TREE,
+		CLS_RLV_LI_LIST_ITEM: CLS_RLV_LI_LIST_ITEM,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: ROOT_FEEDS_FOLDER_ID_NOT_SET,
 
-		MSG_ID_PREFERENCE_UPDATED: MSG_ID_PREFERENCE_UPDATED,
-		MSG_DETAILS_PREFERENCE_ALL: MSG_DETAILS_PREFERENCE_ALL,
-		MSG_DETAILS_PREFERENCE_ROOT_FOLDER: MSG_DETAILS_PREFERENCE_ROOT_FOLDER,
-		MSG_DETAILS_PREFERENCE_COLORS: MSG_DETAILS_PREFERENCE_COLORS,
+		MSG_ID_PREFERENCES_CHANGED: MSG_ID_PREFERENCES_CHANGED,
+		MSG_DETAILS_PREF_CHANGE_ALL: MSG_DETAILS_PREF_CHANGE_ALL,
+		MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER: MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER,
+		MSG_DETAILS_PREF_CHANGE_COLORS: MSG_DETAILS_PREF_CHANGE_COLORS,
+
+		IMAGE_SET_VALUES: IMAGE_SET_VALUES,
+		IMAGE_SET: IMAGE_SET,
 	};
 
 })();
@@ -122,15 +151,16 @@ let prefs = (function() {
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
-	//const DEF_PREF_COLOR_SELECT_VALUE = "#ADD8E6";
 	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
 	const DEF_PREF_COLOR_TEXT_VALUE = "#000000";
+	const DEF_PREF_IMAGE_SET_VALUE = 0;
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_COLOR_BACKGROUND_VALUE = "pref_colorBk";
 	const PREF_COLOR_DIALOG_BACKGROUND_VALUE = "pref_colorDlgBk";
 	const PREF_COLOR_SELECT_VALUE = "pref_colorSelect";
 	const PREF_COLOR_TEXT_VALUE = "pref_colorText";
+	const PREF_IMAGE_SET_VALUE = "pref_imageSet";
 
 	//////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId() {
@@ -228,12 +258,32 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getImageSet() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_IMAGE_SET_VALUE).then((result) => {
+				resolve(result[PREF_IMAGE_SET_VALUE] === undefined ? DEF_PREF_IMAGE_SET_VALUE : result[PREF_IMAGE_SET_VALUE]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setImageSet(value) {
+
+		let obj = {};
+		obj[PREF_IMAGE_SET_VALUE] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
 		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
 		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
 		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
 		this.setColorText(DEF_PREF_COLOR_TEXT_VALUE);
+		this.setImageSet(DEF_PREF_IMAGE_SET_VALUE);
 
 		return {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
@@ -241,6 +291,7 @@ let prefs = (function() {
 			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
 			colorText: DEF_PREF_COLOR_TEXT_VALUE,
+			imageSet: DEF_PREF_IMAGE_SET_VALUE,
 		};
 	}
 
@@ -255,6 +306,8 @@ let prefs = (function() {
 		setColorSelect: setColorSelect,
 		getColorText: getColorText,
 		setColorText: setColorText,
+		getImageSet: getImageSet,
+		setImageSet: setImageSet,
 
 		restoreDefaults: restoreDefaults,
 	}

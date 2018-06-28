@@ -144,8 +144,8 @@ let rssTreeView = (function() {
 
 	/**************************************************/
 	browser.runtime.onMessage.addListener((message) => {
-		if (message.id === slGlobals.MSG_ID_PREFERENCE_UPDATED &&
-			(message.details === slGlobals.MSG_DETAILS_PREFERENCE_ALL || message.details === slGlobals.MSG_DETAILS_PREFERENCE_ROOT_FOLDER)) {
+		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED &&
+			(message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL || message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER)) {
 
 			discoveryView.close();
 			feedPropertiesView.close();
@@ -236,7 +236,7 @@ let rssTreeView = (function() {
 
 		if (bookmark.url === undefined) { // it's a folder
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_LI_SUB_TREE, null);
+			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
 
 			let elmUL = createTagUL();
 			elmLI.appendChild(elmUL);
@@ -249,7 +249,7 @@ let rssTreeView = (function() {
 
 		} else { // it's a bookmark
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_LI_RSS_TREE_FEED, bookmark.url);
+			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_TREE_ITEM, bookmark.url);
 		}
 		parentElement.appendChild(elmLI);
 	}
@@ -272,7 +272,7 @@ let rssTreeView = (function() {
 		let elmCaption = document.createElement("div");
 		let elm = document.createElement("li");
 
-		elmCaption.className = slGlobals.CLS_DIV_RSS_TREE_FEED_CAPTION;
+		elmCaption.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION;
 		elmCaption.textContent = textContent;
 
 		elm.id = id;
@@ -310,7 +310,7 @@ let rssTreeView = (function() {
 		let elmLIs = m_elmTreeRoot.getElementsByTagName("li")
 
 		for(let elmLI of elmLIs) {
-			if(elmLI.classList.contains(slGlobals.CLS_LI_RSS_TREE_FEED)) {
+			if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
 				processFeedData(elmLI, elmLI.getAttribute("href"));
 			}
 		};
@@ -387,7 +387,7 @@ let rssTreeView = (function() {
 		event.stopPropagation();
 
 		let elmLI = this;
-		let isSubTree = elmLI.classList.contains(slGlobals.CLS_LI_SUB_TREE);
+		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
 		// when a subtree is open the height of the LI is as the Height of the entire subtree.
 		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
@@ -481,7 +481,7 @@ let rssTreeView = (function() {
 			return false;
 		}
 
-		let isSubTree = this.classList.contains(slGlobals.CLS_LI_SUB_TREE);
+		let isSubTree = this.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
 		if(isSubTree) {
 
@@ -496,7 +496,7 @@ let rssTreeView = (function() {
 			// it's a SubTree - lingering
 			if(this.id === m_objCurrentlyDraggedOver.id) {
 
-				let isSubTreeClosed = (this.getElementsByTagName("ul")[0].getAttribute("rel") !== "open");
+				let isSubTreeClosed = this.classList.contains("closed");
 
 				if(isSubTreeClosed && m_objCurrentlyDraggedOver.lingered) {
 					// mouse has lingered enough, open the closed SubTree
@@ -588,15 +588,18 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickExpandCollapseAll(event) {
 
-		let elmULs = m_elmTreeRoot.getElementsByTagName("ul");
+		let elmLI, elmULs = m_elmTreeRoot.getElementsByTagName("ul");
 
 		for (let elmUL of elmULs) {
+
+			elmLI = elmUL.parentElement;
+
 			if(this.id === "expandall") {
-				setSubTreeState(elmUL.parentElement, true);
-				m_objOpenSubTrees.set(elmUL.parentElement.id);
+				setSubTreeState(elmLI, true);
+				m_objOpenSubTrees.set(elmLI.id);
 			} else {
-				setSubTreeState(elmUL.parentElement, false);
-				m_objOpenSubTrees.remove(elmUL.parentElement.id);
+				setSubTreeState(elmLI, false);
+				m_objOpenSubTrees.remove(elmLI.id);
 			}
 		}
 	}
@@ -648,7 +651,7 @@ let rssTreeView = (function() {
 
 			browser.bookmarks.create(bookmarksList[index]).then((created) => {
 
-				let elmLI = createTagLI(created.id, created.title, slGlobals.CLS_LI_RSS_TREE_FEED, created.url);
+				let elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
 				elmLI.classList.add("blinkNew");
 				m_elmTreeRoot.appendChild(elmLI);
 
@@ -762,13 +765,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function toggleSubTreeState(elmTreeItem) {
 
-		let elmUL = elmTreeItem.getElementsByTagName("ul")[0];
-
-		if (elmUL.getAttribute("rel") === "open") {
-			setSubTreeVisibility(elmTreeItem, elmUL, false);
+		if (elmTreeItem.classList.contains("open")) {
+			setSubTreeVisibility(elmTreeItem, false);
 			m_objOpenSubTrees.remove(elmTreeItem.id);
 		} else {
-			setSubTreeVisibility(elmTreeItem, elmUL, true);
+			setSubTreeVisibility(elmTreeItem, true);
 			m_objOpenSubTrees.set(elmTreeItem.id);
 		}
 	}
@@ -776,23 +777,20 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setSubTreeState(elmTreeItem, open) {
 
-		let elmUL = elmTreeItem.getElementsByTagName("ul")[0];
-
 		if (open) {
-			setSubTreeVisibility(elmTreeItem, elmUL, true);
+			setSubTreeVisibility(elmTreeItem, true);
 			m_objOpenSubTrees.set(elmTreeItem.id);
 		} else {
-			setSubTreeVisibility(elmTreeItem, elmUL, false);
+			setSubTreeVisibility(elmTreeItem, false);
 			m_objOpenSubTrees.remove(elmTreeItem.id);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setSubTreeVisibility(elmLI, elmUL, open) {
+	function setSubTreeVisibility(elmLI, open) {
 		// Don't Call This Directlly
-		elmUL.style.display = (open ? "block" : "none");
-		elmUL.setAttribute("rel", (open ? "open" : "closed"));
-		elmLI.style.backgroundImage = "url(" + (open ? slGlobals.IMG_OPEN_SUB_TREE : slGlobals.IMG_CLOSED_SUB_TREE) + ")";
+		elmLI.classList.remove("open", "closed");
+		elmLI.classList.add(open ? "open" : "closed");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

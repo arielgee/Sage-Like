@@ -23,9 +23,17 @@
 
 	/**************************************************/
 	browser.runtime.onMessage.addListener((message) => {
-		if (message.id === slGlobals.MSG_ID_PREFERENCE_UPDATED &&
-			(message.details === slGlobals.MSG_DETAILS_PREFERENCE_ALL || message.details === slGlobals.MSG_DETAILS_PREFERENCE_COLORS)) {
-			setPanelColorsFromPreferences();
+
+		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
+
+			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS) {
+				setPanelColorsFromPreferences();
+			}
+			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_IMAGES) {
+				setPanelImageSetFromPreferences();
+			}
 		}
 	});
 
@@ -52,6 +60,7 @@
 		m_elmPreferences.addEventListener("click", onClickPreferences);
 
 		setPanelColorsFromPreferences();
+		setPanelImageSetFromPreferences();
 
 		// from all the onDOMContentLoaded() fired try to make sure its done last
 		setTimeout(() => { setPanelLayout(); }, 150);
@@ -80,6 +89,22 @@
 		prefs.getColorDialogBackground().then(color => { style.setProperty("--bk-color-dialog", color); });
 		prefs.getColorSelect().then(color => { style.setProperty("--bk-color-active", color); });
 		prefs.getColorText().then(color => { style.setProperty("--color-text", color); });
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setPanelImageSetFromPreferences() {
+
+		prefs.getImageSet().then(setNumber => {
+
+			let style = document.documentElement.style;
+			let imageSet = slGlobals.IMAGE_SET(setNumber);
+
+			style.setProperty("--url-img-open-sub-tree", imageSet.IMG_OPEN_SUB_TREE);
+			style.setProperty("--url-img-closed-sub-tree", imageSet.IMG_CLOSED_SUB_TREE);
+			style.setProperty("--url-img-tree-item", imageSet.IMG_TREE_ITEM);
+			style.setProperty("--url-img-tree-item-loading", imageSet.IMG_TREE_ITEM_LOADING);
+			style.setProperty("--url-img-tree-item-error", imageSet.IMG_TREE_ITEM_ERROR);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

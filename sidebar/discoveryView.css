@@ -28,14 +28,14 @@
 }
 
 #discoverPanel .captionImage {
-	background: transparent url("/icons/rss.png") no-repeat left center;
+	background: transparent var(--url-img-tree-item) no-repeat left center;
 	width: 16px;
 	height: 16px;
 	margin: auto var(--item-spacer) auto 0;
 }
 
 #discoverPanel.loading .captionImage {
-	background: transparent url("/icons/loading.gif") no-repeat left center;
+	background-image: var(--url-img-tree-item-loading);
 }
 
 #discoverPanel .caption {

@@ -76,12 +76,12 @@
 		let showMenu = true;
 		let trgClsList = m_elmEventTarget.classList;
 
-		if (trgClsList.contains(slGlobals.CLS_LI_RSS_TREE_FEED)) {
+		if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
 
 			m_bCurrentContext = "treeitemcontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
-		} else if (trgClsList.contains(slGlobals.CLS_LI_RSS_LIST_FEED_ITEM)) {
+		} else if (trgClsList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 
 			m_bCurrentContext = "listitemcontext";
 			rssListView.setFeedItemSelectionState(m_elmEventTarget);

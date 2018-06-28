@@ -53,7 +53,7 @@ let rssListView = (function() {
 
 		let elm = document.createElement("li");
 
-		elm.classList.add(slGlobals.CLS_LI_RSS_LIST_FEED_ITEM)
+		elm.classList.add(slGlobals.CLS_RLV_LI_LIST_ITEM)
 		setItemRealVisitedState(elm, url);
 
 		elm.textContent = index.toString() + ". " + title;

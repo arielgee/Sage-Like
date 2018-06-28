@@ -1,5 +1,13 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
+:root {
+	--url-img-open-sub-tree: url("/icons/open-0.png");
+	--url-img-closed-sub-tree: url("/icons/closed-0.png");
+	--url-img-tree-item: url("/icons/rss-0.png");
+	--url-img-tree-item-loading: url("/icons/loading-0.gif");
+	--url-img-tree-item-error: url("/icons/error-0.png");
+}
+
 .treeview {
 	margin: 0;
 	padding: 4px;
@@ -16,19 +24,55 @@
 	cursor: default;
 }
 
-/* Style for LI elements in general (excludes an LI that contains sub trees) */
+/* All <li> elements */
 .treeview li {
-	background: transparent url("../icons/rss.png") no-repeat left center;
 	list-style-type: none;
 	padding-left: 20px;
+	cursor: default;
+}
+
+/* <li> elements that contains sub trees (other ULs) */
+.treeview li.rtvSubTree {
+	background: transparent no-repeat left 1px;
+}
+
+.treeview li.rtvSubTree.open {
+	background-image: var(--url-img-open-sub-tree);
+}
+
+.treeview li.rtvSubTree.closed {
+	background-image: var(--url-img-closed-sub-tree);
+}
+
+.treeview li.rtvSubTree.open > ul {
+	display: block;
+}
+
+.treeview li.rtvSubTree.closed > ul {
+	display: none;
+}
+
+/* <li> elements that are tree leafs */
+.treeview li.rtvTreeItem {
+	background: transparent var(--url-img-tree-item) no-repeat left center;
 	cursor: pointer;
 }
 
-.treeview li.bold {
+.treeview li.rtvTreeItem.bold {
 	font-weight: bold;
 }
 
-.treeview .caption {
+.treeview li.rtvTreeItem.loading {
+	background-image: var(--url-img-tree-item-loading);
+	cursor: wait;
+}
+
+.treeview li.rtvTreeItem.error {
+	background-image: var(--url-img-tree-item-error);
+	font-style: italic;
+}
+
+.treeview .rtvCaption {
 	box-sizing: content-box;
 	border: 1px dotted transparent;
 	min-height: var(--line-height);
@@ -38,25 +82,17 @@
 	text-overflow: ellipsis;
 }
 
-/* Style for LI that contains sub trees (other ULs) */
-.treeview li.subtree {
-	background: transparent no-repeat left 1px;
-	cursor: default;
-}
-
-.treeview li.loading {
-	background: transparent url("../icons/loading.gif") no-repeat left center;
-	cursor: wait;
-}
-
-.treeview li.selected > .caption {
+.treeview li.selected > .rtvCaption {
 	background-color: var(--bk-color-active);
 	border: 1px dotted gray;
 }
 
-.treeview li.error {
-	background: transparent url("../icons/error.png") no-repeat left center;
-	font-style: italic;
+.treeview li.dragged {
+	opacity: 0.5;
+}
+
+.treeview li.draggedOver {
+	border-top: 1px solid blue;
 }
 
 .treeview li.errormsg {
@@ -66,14 +102,6 @@
 	-moz-user-select: text;
 	user-select: text;
 	white-space: normal;
-}
-
-.treeview li.dragged {
-	opacity: 0.5;
-}
-
-.treeview li.draggedOver {
-	border-top: 1px solid blue;
 }
 
 .treeview[style*="direction: rtl;"] li {

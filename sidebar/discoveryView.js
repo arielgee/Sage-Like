@@ -48,6 +48,7 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.style.display = "block";
 		slUtil.disableElementTree(m_elmMainPanel, true);
 
+		m_elmDiscoverPanel.focus();
 		runDiscoverFeeds();
 	};
 
@@ -61,6 +62,7 @@ let discoveryView = (function() {
 		slUtil.disableElementTree(m_elmMainPanel, false);
 		m_elmDiscoverPanel.style.display = "none";
 		emptyDiscoverFeedsList();
+		setStatusbarMessage("", false);
 
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
@@ -77,10 +79,9 @@ let discoveryView = (function() {
 	function runDiscoverFeeds() {
 
 		emptyDiscoverFeedsList();
+		setStatusbarMessage("", false);
 
 		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
-
-			//elmDiscoverPanel.focus();
 
 			if(tab[0].status === "loading") {
 				setNoFeedsMsg("Current tab is still loading.");
@@ -213,12 +214,8 @@ let discoveryView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setStatusbarMessage(text, isError) {
-		if(isError) {
-			m_elmLabelInfobar.classList.add("error");
-		} else {
-			m_elmLabelInfobar.classList.remove("error");
-		}
 		m_elmLabelInfobar.textContent = text;
+		m_elmLabelInfobar.classList.toggle("error", isError);
 	}
 
 	//==================================================================================

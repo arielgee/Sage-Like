@@ -9,6 +9,13 @@ let preferences = (function() {
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
 	let m_elmColorText;
+	let m_elmRadioImageSet0;
+	let m_elmRadioImageSet1;
+	let m_elmRadioImageSet2;
+	let m_elmRadioImageSet3;
+	let m_elmRadioImageSet4;
+	let m_elmRadioImageSet5;
+	let m_elmRadioImageSet6;
 
 	let m_elmBtnRestoreDefaults;
 
@@ -23,6 +30,13 @@ let preferences = (function() {
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
 		m_elmColorText = document.getElementById("colorText");
+		m_elmRadioImageSet0 = document.getElementById("imageSet0");
+		m_elmRadioImageSet1 = document.getElementById("imageSet1");
+		m_elmRadioImageSet2 = document.getElementById("imageSet2");
+		m_elmRadioImageSet3 = document.getElementById("imageSet3");
+		m_elmRadioImageSet4 = document.getElementById("imageSet4");
+		m_elmRadioImageSet5 = document.getElementById("imageSet5");
+		m_elmRadioImageSet6 = document.getElementById("imageSet6");
 
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
 
@@ -40,6 +54,13 @@ let preferences = (function() {
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
 		m_elmColorText.removeEventListener("change", onChangeColorText);
+		m_elmRadioImageSet0.removeEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet1.removeEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet2.removeEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet3.removeEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet4.removeEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet5.removeEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
 
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
 	}
@@ -71,6 +92,16 @@ let preferences = (function() {
 		prefs.getColorText().then((color) => {
 			m_elmColorText.value = color;
 		});
+
+		prefs.getImageSet().then((set) => {
+			let radios = document.getElementsByName("imageSet");
+			for(let radio of radios) {
+				if(Number(radio.value) === set) {
+					radio.checked = true;
+					break;
+				}
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -82,6 +113,13 @@ let preferences = (function() {
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
 		m_elmColorText.addEventListener("change", onChangeColorText);
+		m_elmRadioImageSet0.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet1.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet2.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet3.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet4.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
 
 		// restore defaults when requestes
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
@@ -95,32 +133,39 @@ let preferences = (function() {
 	function onChangeRootFeedsFolder(event) {
 		prefs.setRootFeedsFolderId(m_elmRootFeedsFolder.value);
 		flashRootFeedsFolderElement();
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_ROOT_FOLDER);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		prefs.setColorBackground(m_elmColorBackground.value);
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorDialogBackground(event) {
 		prefs.setColorDialogBackground(m_elmColorDialogBackground.value);
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorSelect(event) {
 		prefs.setColorSelect(m_elmColorSelect.value);
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorText(event) {
 		prefs.setColorText(m_elmColorText.value);
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickRadioImageSet(event) {
+		prefs.setImageSet(Number(event.target.value));
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_IMAGES);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnRestoreDefaults(event) {
@@ -132,8 +177,16 @@ let preferences = (function() {
 		m_elmColorDialogBackground.value = defPrefs.colorDialogBackground
 		m_elmColorSelect.value = defPrefs.colorSelect
 		m_elmColorText.value = defPrefs.colorText
+
+		let radios = document.getElementsByName("imageSet");
+		for(let radio of radios) {
+			if(Number(radio.value) === defPrefs.imageSet) {
+				radio.checked = true;
+				break;
+			}
+		}
 		flashRootFeedsFolderElement();
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREFERENCE_ALL);
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_ALL);
 	}
 
 	//==================================================================================
@@ -200,7 +253,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function broadcastPreferencesUpdated(details) {
 		browser.runtime.sendMessage({
-			id: slGlobals.MSG_ID_PREFERENCE_UPDATED,
+			id: slGlobals.MSG_ID_PREFERENCES_CHANGED,
 			details: details,
 	 	});
 	}
