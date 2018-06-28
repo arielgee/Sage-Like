@@ -492,6 +492,17 @@ let slUtil = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function sleep(timeout) {
+
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				console.log("[Sage-Like-sleep]", timeout);
+				resolve();
+			}, timeout);
+		});
+	}
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -504,6 +515,7 @@ let slUtil = (function() {
 		getCurrentLocaleDate: getCurrentLocaleDate,
 		isContentOverflowing: isContentOverflowing,
 		hashCode: hashCode,
+		sleep: sleep,
 	};
 
 })();

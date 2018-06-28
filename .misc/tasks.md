@@ -19,6 +19,8 @@
 * keyboard arrows move selected marker between items (tree, list)
 * when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)
 * replace in all code open and closed classes as slGlobals
+* execute refresh function (with setTimeout) from the background.js on the bookmatds to put a browserAction.setBadgeText()
+
 
 
 
