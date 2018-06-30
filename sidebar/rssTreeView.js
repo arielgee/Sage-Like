@@ -11,7 +11,7 @@ let rssTreeView = (function() {
 			return new Promise((resolve) => {
 				internalPrefs.getOpenSubTrees().then((items) => {
 					this._items = items;
-					resolve();
+					resolve(this.length);
 				});
 			});
 		}
@@ -254,11 +254,7 @@ let rssTreeView = (function() {
 
 		syndication.fetchFeedData(url).then((feedData) => {
 
-			// lastUpdated could be text
-			let lastUpdated = new Date(feedData.lastUpdated);
-
-			// make sure date is valid and save as simple numeric
-			let updateTime = (!isNaN(lastUpdated) && (lastUpdated instanceof Date)) ? lastUpdated.getTime() : Date.now();
+			let updateTime = slUtil.asSafeNumericDate(feedData.lastUpdated);
 
 			setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
 			setFeedVisitedState(elmLI, m_objTreeFeedsData.value(url).lastVisited > updateTime);
@@ -335,7 +331,7 @@ let rssTreeView = (function() {
 			let url = elmLI.getAttribute("href");
 
 			// Since all is asynchronous, if a slow responding feed is clicked right before a faster one it
-			// will be processed last and wil alter the rssListView result.
+			// will be processed last and will alter the rssListView result.
 			// Therefore to make sure that the last user-click is not overridden by the slower previous one
 			// save the time of the last feed click twice; globally and locally. Then perform selected functions only if
 			// the time of this feed click time is equal to the global.
@@ -345,12 +341,11 @@ let rssTreeView = (function() {
 
 			syndication.fetchFeedItems(url, event.shiftKey).then((result) => {
 
-				let fdDate = new Date(result.feedData.lastUpdated);	// could be text
+				let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
 
 				setFeedVisitedState(elmLI, true);
 				updateFeedTitle(elmLI, result.feedData.title);
-				setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + (isNaN(fdDate) ? (new Date).toLocaleString() : fdDate.toLocaleString()));
-				m_objTreeFeedsData.set(url, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+				setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toLocaleString());
 
 				// change the rssListView content only if this is the last user click.
 				if(thisFeedClickTime === m_lastClickedFeedTime) {
@@ -371,6 +366,9 @@ let rssTreeView = (function() {
 				if(thisFeedClickTime === m_lastClickedFeedTime) {
 					setOneConcurrentFeedLoadingState(elmLI, false);
 				}
+
+				// even if there was an error the feed was visited
+				m_objTreeFeedsData.set(url, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
 			});
 		}
 		setFeedSelectionState(elmLI);

@@ -604,6 +604,16 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function asSafeNumericDate(dateValue) {
+
+		// dateValue could be text
+		let safeDate = new Date(dateValue);
+
+		// make sure date is valid and save as simple numeric
+		return (!isNaN(safeDate) && (safeDate instanceof Date)) ? safeDate.getTime() : Date.now();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function sleep(timeout) {
 
 		return new Promise((resolve) => {
@@ -626,6 +636,7 @@ let slUtil = (function() {
 		getCurrentLocaleDate: getCurrentLocaleDate,
 		isContentOverflowing: isContentOverflowing,
 		hashCode: hashCode,
+		asSafeNumericDate: asSafeNumericDate,
 		sleep: sleep,
 	};
 
