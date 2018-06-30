@@ -12,8 +12,7 @@ let syndication = (function() {
 	let m_domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function discoverWebSiteFeeds(txtHTML) {
+	function discoverWebSiteFeeds(txtHTML, reload, timeout) {
 
 		return new Promise((resolve) => {
 
@@ -32,12 +31,11 @@ let syndication = (function() {
 				let allPromises = [];
 				let feedData;
 				let discoveredFeedsList = {};
-				let objFeed;
 
 				// for each feed found create a list item and create a promise that will return the feed's XML text
 				feeds.forEach((url) => {
 					discoveredFeedsList[url.href] = { status: "init", title: url.title, url: url.href };
-					allPromises.push(getFeedXMLText(url.href));
+					allPromises.push(getFeedXMLText(url.href, reload, timeout));
 				});
 
 				// for all promises created above get feed data and update the list item
@@ -73,12 +71,11 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function fetchFeedData(url) {
+	function fetchFeedData(url, reload, timeout) {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedXMLText(url).then((feedXML) => {
+			getFeedXMLText(url, reload, timeout).then((feedXML) => {
 
 				let feedData = getFeedData(feedXML.txtXML);
 
@@ -96,12 +93,11 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function fetchFeedItems(url, reload) {
+	function fetchFeedItems(url, reload, timeout) {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedXMLText(url, reload).then((feedXML) => {
+			getFeedXMLText(url, reload, timeout).then((feedXML) => {
 
 				let feedData = getFeedData(feedXML.txtXML);
 
@@ -123,7 +119,6 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function createFeedItemsList(feedData) {
 
 		let elm, FeedItem;
@@ -171,8 +166,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function getFeedXMLText(url, reload) {
+	function getFeedXMLText(url, reload = false, timeout = 60000) {
 
 		let init = {
 			cache: reload ? "reload" : "default",
@@ -180,7 +174,7 @@ let syndication = (function() {
 
 		return new Promise((resolve, reject) => {
 
-			fetch(url, init).then((response) => {
+			fetchWithTimeout(url, init, timeout).then((response) => {
 
 				if (response.ok) {
 
@@ -205,7 +199,6 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function getFeedData(txtXML) {
 
 		let feedData = {
@@ -264,7 +257,6 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function getXMLTextFromBlob(blob) {
 
 		return new Promise((resolve) => {
@@ -283,7 +275,15 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
+	function fetchWithTimeout(url, init, timeout) {
+
+		return Promise.race([
+			fetch(url, init),
+			new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout) ),
+		]);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedTitle(doc, selectorPrefix) {
 
 		const selectorSuffixes = [ " > title" ];
@@ -297,7 +297,6 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function getFeedLastUpdate(doc, selectorPrefix) {
 
 		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
@@ -317,7 +316,6 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//
 	function sortFeederByDate(feeder) {
 
 		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
