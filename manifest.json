@@ -28,7 +28,7 @@
 	],
 	"browser_action": {
 		"browser_style": true,
-		"default_title": "Open Sage-Like sidebar", //(Ctrl+Shift+F2)",
+		"default_title": "Open Sage-Like sidebar",
 		"default_icon": {
 			"16": "icons/sageLike-16.png",
 			"32": "icons/sageLike-32.png",
@@ -38,7 +38,7 @@
 	"sidebar_action": {
 		"browser_style": true,
 		"default_title": "Sage-Like",
-		"default_panel": "sidebar/panel.html",
+		"default_panel": "/sidebar/panel.html",
 		"default_icon": {
 			"16": "icons/sageLike-16.png",
 			"32": "icons/sageLike-32.png",
@@ -56,11 +56,12 @@
 	"background": {
 		"scripts": [
 			"common.js",
+			"/syndication/syndication.js",
 			"background.js"
 		]
 	},
 	"options_ui": {
 		"browser_style": true,
-		"page": "preferences/preferences.html"
+		"page": "/preferences/preferences.html"
 	}
 }
