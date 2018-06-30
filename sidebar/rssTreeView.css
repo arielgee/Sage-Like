@@ -70,6 +70,7 @@
 .treeview li.rtvTreeItem.error {
 	background-image: var(--url-img-tree-item-error);
 	font-style: italic;
+	font-weight: normal;
 }
 
 .treeview .rtvCaption {
