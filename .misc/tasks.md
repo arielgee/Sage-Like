@@ -20,6 +20,11 @@
 * when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)
 * replace in all code open and closed classes as slGlobals
 * execute refresh function (with setTimeout) from the background.js on the bookmatds to put a browserAction.setBadgeText()
+* check if m_objTreeFeedsData.purge(); works. count element after
+* In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
+* delete MSG_ID_SIDEBAR_STATUS_CHANGE & sons from the slGlobals if redundent.
+* set timeout for syndication in prefrences
+
 
 
 
