@@ -6,38 +6,6 @@ let rssTreeView = (function() {
 	//=== Class Declerations
 	//==================================================================================
 
-	class StoredKeyedItems {
-		constructor() {
-			if (new.target === "StoredKeyedItems") {
-				throw new Error("Don't do that");
-			}
-			this.clear();
-		}
-		getStorage() {
-			throw new Error("Don't do that");
-		}
-		setStorage() {
-			throw new Error("Don't do that");
-		}
-		set(key, value = undefined) {
-			this._items[key] = ( (value === undefined) || (value === null) ) ? "x" : value;
-			this.setStorage();
-		}
-		remove(key) {
-			delete this._items[key];
-			this.setStorage();
-		}
-		exist(key) {
-			return this._items.hasOwnProperty(key);
-		}
-		value(key) {
-			return this._items.hasOwnProperty(key) ? this._items[key] : undefined;
-		}
-		clear() {
-			this._items = {}; //Object.create(null);
-		}
-	};
-
 	class OpenSubTrees extends StoredKeyedItems {
 		getStorage() {
 			return new Promise((resolve) => {
@@ -49,50 +17,6 @@ let rssTreeView = (function() {
 		}
 		setStorage() {
 			internalPrefs.setOpenSubTrees(this._items);
-		}
-	};
-
-	class TreeFeedsData extends StoredKeyedItems {
-		constructor() {
-			super();
-			this.gotFromStorage = 0;
-		}
-		getStorage() {
-			return new Promise((resolve) => {
-				internalPrefs.getLastVisitedFeeds().then((items) => {
-					this._items = items;
-					this.gotFromStorage = Date.now();
-					resolve();
-				});
-			});
-		}
-		setStorage() {
-			internalPrefs.setLastVisitedFeeds(this._items);
-		}
-		set(key, properties) {
-			let defProp = { handled:Date.now(), lastVisited:0, updateTitle:true };
-			let valProp = Object.assign(defProp, this.value(key));
-			let newProp = Object.assign(valProp, properties);
-			super.set(key, {
-				handled: valProp.handled,		// the handled propertey is protected and cannot be modified by set()
-				lastVisited: newProp.lastVisited,
-				updateTitle: newProp.updateTitle,
-			});
-		}
-		setHandled(key) {
-			if(super.exist(key)) {
-				this._items[key].handled = Date.now();
-			}
-		}
-		purge() {
-			return new Promise((resolve) => {
-				for(let key in this._items) {
-					if(this._items[key].handled < this.gotFromStorage) {
-						super.remove(key);
-					}
-				}
-				resolve();
-			});
 		}
 	};
 
