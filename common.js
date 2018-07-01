@@ -130,12 +130,14 @@ let slGlobals = (function() {
 	const MSG_ID_PREFERENCES_CHANGED = "msgId_preferencesChanged";
 	const MSG_DETAILS_PREF_CHANGE_ALL = "msgDetails_prefChange_all";
 	const MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER = "msgDetails_prefChange_rootFolder";
+	const MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL = "msgDetails_prefChange_checkFeedsInterval";
 	const MSG_DETAILS_PREF_CHANGE_COLORS = "msgDetails_prefChange_colors";
 	const MSG_DETAILS_PREF_CHANGE_IMAGES = "msgDetails_prefChange_images";
 
 	const MSG_ID_SIDEBAR_STATUS_CHANGE = "msgId_sidebarStatusChange";
 	const MSG_DETAILS_SIDEBAR_STATUS_OPEN = "msgDetails_sidebarStatus_open";
 	const MSG_DETAILS_SIDEBAR_STATUS_CLOSED = "msgDetails_sidebarStatus_closed";
+
 
 	const FMT_IMAGE_SET = {
 		IMG_OPEN_SUB_TREE:		"url(\"/icons/open-{0}.png\")",
@@ -179,6 +181,7 @@ let slGlobals = (function() {
 		MSG_ID_PREFERENCES_CHANGED: MSG_ID_PREFERENCES_CHANGED,
 		MSG_DETAILS_PREF_CHANGE_ALL: MSG_DETAILS_PREF_CHANGE_ALL,
 		MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER: MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER,
+		MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL: MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL,
 		MSG_DETAILS_PREF_CHANGE_COLORS: MSG_DETAILS_PREF_CHANGE_COLORS,
 		MSG_DETAILS_PREF_CHANGE_IMAGES: MSG_DETAILS_PREF_CHANGE_IMAGES,
 
@@ -269,6 +272,7 @@ let prefs = (function() {
 	// user preferences
 
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
+	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = 3600000;
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
 	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
@@ -276,6 +280,7 @@ let prefs = (function() {
 	const DEF_PREF_IMAGE_SET_VALUE = 0;
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
+	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
 	const PREF_COLOR_BACKGROUND_VALUE = "pref_colorBk";
 	const PREF_COLOR_DIALOG_BACKGROUND_VALUE = "pref_colorDlgBk";
 	const PREF_COLOR_SELECT_VALUE = "pref_colorSelect";
@@ -298,6 +303,25 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_ROOT_FEEDS_FOLDER_ID] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getCheckFeedsInterval() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_CHECK_FEEDS_INTERVAL).then((result) => {
+				resolve(result[PREF_CHECK_FEEDS_INTERVAL] === undefined ? DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE : result[PREF_CHECK_FEEDS_INTERVAL]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setCheckFeedsInterval(value) {
+
+		let obj = {};
+		obj[PREF_CHECK_FEEDS_INTERVAL] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -399,6 +423,7 @@ let prefs = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
+		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
 		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
 		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
 		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
@@ -407,6 +432,7 @@ let prefs = (function() {
 
 		return {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
+			checkFeedsInterval: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
 			colorBackground: DEF_PREF_COLOR_BACKGROUND_VALUE,
 			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
@@ -416,8 +442,18 @@ let prefs = (function() {
 	}
 
 	return {
+		DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
+		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
+		DEF_PREF_COLOR_BACKGROUND_VALUE: DEF_PREF_COLOR_BACKGROUND_VALUE,
+		DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
+		DEF_PREF_COLOR_SELECT_VALUE: DEF_PREF_COLOR_SELECT_VALUE,
+		DEF_PREF_COLOR_TEXT_VALUE: DEF_PREF_COLOR_TEXT_VALUE,
+		DEF_PREF_IMAGE_SET_VALUE: DEF_PREF_IMAGE_SET_VALUE,
+
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
+		getCheckFeedsInterval: getCheckFeedsInterval,
+		setCheckFeedsInterval: setCheckFeedsInterval,
 		getColorBackground: getColorBackground,
 		setColorBackground: setColorBackground,
 		getColorDialogBackground: getColorDialogBackground,

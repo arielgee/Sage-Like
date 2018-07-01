@@ -22,7 +22,22 @@
 	<div class="prefSeperator"></div>
 
 	<div class="preference">
-		<label class="preferenceLabel">Color</label>
+		<label for="checkFeedsInterval" class="preferenceLabel">Periodic Feed Check Interval </label>
+		<div class="preferenceControl">
+			<select name="checkFeedsInterval" id="checkFeedsInterval">
+				<option value="0">No thanks</option>
+				<option value="600000">Every 10 minutes</option>
+				<option value="1800000">Every 30 minutes</option>
+				<option value="3600000">Every 1 hour</option>
+				<option value="10800000">Every 3 hours</option>
+				<option value="21600000">Every 6 hours</option>
+			</select>
+		</div>
+	</div>
+	<div class="prefSeperator"></div>
+
+	<div class="preference">
+		<label class="preferenceLabel">Sidebar Colors</label>
 		<div class="preferenceControl">
 			<input type="color" id="colorBk"/><label for="colorBk" class="controlLabel">Window</label>
 			<input type="color" id="colorDlgBk"/><label for="colorDlgBk" class="controlLabel">Dialog</label>
@@ -33,7 +48,7 @@
 	<div class="prefSeperator"></div>
 
 	<div class="preference">
-		<label class="preferenceLabel">Image Color</label>
+		<label class="preferenceLabel">Image Colors</label>
 		<div class="preferenceControl">
 			<input type="radio" name="imageSet" value="0" id="imageSet0"/><label for="imageSet0" class="controlImage"></label>
 			<input type="radio" name="imageSet" value="1" id="imageSet1"/><label for="imageSet1" class="controlImage"></label>

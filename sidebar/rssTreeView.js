@@ -57,6 +57,7 @@ let rssTreeView = (function() {
 
 	let m_lineHeight = 21;
 	let m_lastClickedFeedTime = 0;
+	let m_timeoutIdMonitorRSSTreeFeeds = null;
 
 	let m_objOpenSubTrees = new OpenSubTrees();
 	let m_objTreeFeedsData = new TreeFeedsData();
@@ -68,15 +69,26 @@ let rssTreeView = (function() {
 
 	/**************************************************/
 	browser.runtime.onMessage.addListener((message) => {
-		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED &&
-			(message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL || message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER)) {
 
-			discoveryView.close();
-			feedPropertiesView.close();
-			rssListView.disposeList();
+		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
 
-			createRSSTree();
+			if(message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER) {
+
+				discoveryView.close();
+				feedPropertiesView.close();
+				rssListView.disposeList();
+
+				createRSSTree();
+			}
+
+			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL) {
+				monitorRSSTreeFeeds();
+			}
+
 		}
+
 	});
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -94,12 +106,17 @@ let rssTreeView = (function() {
 		m_lineHeight = parseInt(getComputedStyle(m_elmTreeRoot).getPropertyValue("line-height"));
 
 		createRSSTree();
+
+		browser.browserAction.setBadgeText({text: ""});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
 		removeAllTreeItemsEventListeners();
+
+		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
+		m_timeoutIdMonitorRSSTreeFeeds = null;
 
 		m_elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
@@ -144,7 +161,7 @@ let rssTreeView = (function() {
 					m_elmTreeRoot.style.height = (m_elmTreeRoot.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
 				}
 				m_rssTreeCreatedOK = true;
-				processRSSTreeFeedsData();
+				monitorRSSTreeFeeds();
 
 			}).catch((error) => {
 				m_elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
@@ -226,7 +243,28 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function processRSSTreeFeedsData() {
+	async function monitorRSSTreeFeeds() {
+
+		// first clear the current timeout if called from preference change to
+		// set a new interval value or to have no background monitoring at all
+		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
+		m_timeoutIdMonitorRSSTreeFeeds = null;
+
+		checkForNewRSSTreeFeedsData();
+
+		prefs.getCheckFeedsInterval().then((interval) => {
+
+			// if interval is zero then do not perform background monitoring
+			if(interval > 0) {
+
+				// Repeat a new timeout session.
+				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, interval);
+			}
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function checkForNewRSSTreeFeedsData() {
 
 		await m_objTreeFeedsData.getStorage();
 
@@ -235,14 +273,14 @@ let rssTreeView = (function() {
 
 		for(let elmLI of elmLIs) {
 			if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
-				processFeedData(elmLI, elmLI.getAttribute("href"));
+				checkForNewFeedData(elmLI, elmLI.getAttribute("href"));
 			}
 		};
 		m_objTreeFeedsData.purge();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function processFeedData(elmLI, url) {
+	function checkForNewFeedData(elmLI, url) {
 
 		setFeedErrorState(elmLI, false);
 		setFeedLoadingState(elmLI, true);
@@ -503,7 +541,7 @@ let rssTreeView = (function() {
 			rssListView.disposeList();
 			createRSSTree();
 		} else {
-			processRSSTreeFeedsData();
+			monitorRSSTreeFeeds();
 		}
 	}
 

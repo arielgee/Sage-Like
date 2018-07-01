@@ -5,6 +5,7 @@ let preferences = (function() {
 	const MENU_GUID = "menu________";
 
 	let m_elmRootFeedsFolder;
+	let m_elmCheckFeedsInterval;
 	let m_elmColorBackground;
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
@@ -26,6 +27,7 @@ let preferences = (function() {
 	function onDOMContentLoaded() {
 
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
+		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
 		m_elmColorBackground = document.getElementById("colorBk");
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
@@ -50,6 +52,7 @@ let preferences = (function() {
 		window.removeEventListener("unload", onUnload);
 
 		m_elmRootFeedsFolder.removeEventListener("change", onChangeRootFeedsFolder);
+		m_elmCheckFeedsInterval.removeEventListener("change", onChangeCheckFeedsInterval);
 		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
@@ -75,6 +78,10 @@ let preferences = (function() {
 					flashRootFeedsFolderElement();
 				}, 500);
 			});
+		});
+
+		prefs.getCheckFeedsInterval().then((interval) => {
+			m_elmCheckFeedsInterval.value = interval;
 		});
 
 		prefs.getColorBackground().then((color) => {
@@ -109,6 +116,7 @@ let preferences = (function() {
 
 		// save preferences when changed
 		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
+		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
 		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
@@ -134,6 +142,12 @@ let preferences = (function() {
 		prefs.setRootFeedsFolderId(m_elmRootFeedsFolder.value);
 		flashRootFeedsFolderElement();
 		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeCheckFeedsInterval(event) {
+		prefs.setCheckFeedsInterval(Number(m_elmCheckFeedsInterval.value));
+		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -173,6 +187,7 @@ let preferences = (function() {
 		let defPrefs = prefs.restoreDefaults();
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
+		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
 		m_elmColorBackground.value = defPrefs.colorBackground
 		m_elmColorDialogBackground.value = defPrefs.colorDialogBackground
 		m_elmColorSelect.value = defPrefs.colorSelect

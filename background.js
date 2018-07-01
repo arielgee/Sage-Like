@@ -2,9 +2,20 @@
 
 (function() {
 
+	let m_timeoutIdMonitorBookmarkFeeds = null;
+
 	//////////////////////////////////////////////////////////////////////
 	// Messages handler
-	//browser.runtime.onMessage.addListener((message) => {});
+	browser.runtime.onMessage.addListener((message) => {
+
+		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
+
+			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL) {
+				monitorBookmarkFeeds();
+			}
+		}
+	});
 
 	//////////////////////////////////////////////////////////////////////
 	// firefox commands (keyboard)
@@ -24,18 +35,22 @@
 	browser.browserAction.onClicked.addListener(toggleSidebar);
 	browser.browserAction.setBadgeBackgroundColor({color: [0, 128, 0, 128]});
 
-	//browser.sidebarAction.isOpen({}).then((isOpen) => {		// supported in 59.0
-	//	if(!isOpen) {
-			checkForNewBookmarkFeeds();
-	//	}
-	//});
+	// start the first bookmark feeds check after 2 seconds to allow the browser's
+	// initilization to terminate and possibly the sidebar to be displayed.
+	m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, 2000);
 
 	//////////////////////////////////////////////////////////////////////
 	function toggleSidebar() {
 
 		browser.sidebarAction.open();		// supported in 57.0
 
-		/*	Bug 1398833: https://bugzilla.mozilla.org/show_bug.cgi?id=1398833
+		//#region Bug 1398833
+		/*
+			+ Bug 1398833: https://bugzilla.mozilla.org/show_bug.cgi?id=1398833
+			+ sidebarAction.open/close may only be called from a user input handler
+
+			- When (and if) it's fixed I should change the browser_action.default_title
+			- string value in the manifest.json file to 'Sage-Like sidebar (Ctrl+Shift+F2)'.
 
 		browser.sidebarAction.isOpen({}).then((isOpen) => {		// supported in 59.0
 			if(isOpen) {
@@ -45,12 +60,39 @@
 			}
 		});
 		*/
+		//#endregion
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function monitorBookmarkFeeds() {
+
+		// first clear the current timeout if called from preference change to
+		// set a new interval value or to have no background monitoring at all
+		clearTimeout(m_timeoutIdMonitorBookmarkFeeds);
+		m_timeoutIdMonitorBookmarkFeeds = null;
+
+		let interval, isOpen;
+
+		interval = await prefs.getCheckFeedsInterval().catch(() => interval = prefs.DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
+
+		// if interval is zero then do not perform background monitoring
+		if(interval > 0) {
+
+			isOpen = await browser.sidebarAction.isOpen({}).catch(() => isOpen = true);		// supported in 59.0
+
+			// background monitoring from the background page is done solely for
+			// the purpose of updating the action button when the sidebar is closed
+			if (!isOpen) {
+				await checkForNewBookmarkFeeds();
+			}
+
+			// Repeat a new timeout session.
+			m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, interval);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function checkForNewBookmarkFeeds() {
-
-		browser.browserAction.setBadgeText({text: ""});
 
 		let bmFeeds = [];
 		let objTreeFeedsData = new TreeFeedsData();
@@ -65,14 +107,15 @@
 
 			browser.bookmarks.getSubTree(folderId).then(async (bookmarkItems) => {
 
-				// collect all feed urls into an array
+				//////////// collect all feed urls into an array
 				if (bookmarkItems[0].children) {
 					for (let child of bookmarkItems[0].children) {
 						collectBookmarkFeeds(bmFeeds, child);
 					}
 				}
 
-				// scan all feed urls for the first updated one
+				//////////// scan all feed urls for the first updated one
+				let showNewBadge = false;
 				for (let url of bmFeeds) {
 
 					if(!objTreeFeedsData.exist(url)) {
@@ -81,17 +124,21 @@
 					objTreeFeedsData.setHandled(url);
 
 					try {
-						let feedData = await syndication.fetchFeedData(url, false, 3000);
+						let feedData = await syndication.fetchFeedData(url, false, 3000);		// minimal timeout
 
 						if(objTreeFeedsData.value(url).lastVisited <= slUtil.asSafeNumericDate(feedData.lastUpdated)) {
-							browser.browserAction.setBadgeText({text: "N"});
+							showNewBadge = !(await browser.sidebarAction.isOpen({}));
 							break;
 						}
 					} catch (error) {
 						console.log("[sage-like]", error);
 					}
 				}
+
+				browser.browserAction.setBadgeText({ text: (showNewBadge ? "N" : "") });
+
 				console.log("[sage-like]", "checkForNewBookmarkFeeds - Done");
+
 			}).catch((error) => {
 				console.log("[sage-like]", error);
 			});
