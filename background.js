@@ -94,7 +94,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function checkForNewBookmarkFeeds() {
 
-		let bmFeeds = [];
+		let urlFeeds = [];
 		let objTreeFeedsData = new TreeFeedsData();
 
 		await objTreeFeedsData.getStorage();
@@ -110,13 +110,13 @@
 				//////////// collect all feed urls into an array
 				if (bookmarkItems[0].children) {
 					for (let child of bookmarkItems[0].children) {
-						collectBookmarkFeeds(bmFeeds, child);
+						collectBookmarkFeeds(urlFeeds, child);
 					}
 				}
 
 				//////////// scan all feed urls for the first updated one
 				let showNewBadge = false;
-				for (let url of bmFeeds) {
+				for (let url of urlFeeds) {
 
 					if(!objTreeFeedsData.exist(url)) {
 						objTreeFeedsData.set(url);
@@ -137,7 +137,7 @@
 
 				browser.browserAction.setBadgeText({ text: (showNewBadge ? "N" : "") });
 
-				console.log("[sage-like]", "checkForNewBookmarkFeeds - Done");
+				console.log("[sage-like]", "Periodic check for new feeds performed in background.");
 
 			}).catch((error) => {
 				console.log("[sage-like]", error);
@@ -149,15 +149,15 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function collectBookmarkFeeds(bmFeeds, bookmark) {
+	function collectBookmarkFeeds(urlFeeds, bookmark) {
 
 		// Is it a folder or a bookmark
 		if(bookmark.url === undefined) {
 			for (let child of bookmark.children) {
-				collectBookmarkFeeds(bmFeeds, child);
+				collectBookmarkFeeds(urlFeeds, child);
 			}
 		} else {
-			bmFeeds.push(bookmark.url);
+			urlFeeds.push(bookmark.url);
 		}
 	}
 

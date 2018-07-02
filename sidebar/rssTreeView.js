@@ -72,13 +72,11 @@ let rssTreeView = (function() {
 
 		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
 
-			if(message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
+			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
 				message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER) {
-
 				discoveryView.close();
 				feedPropertiesView.close();
 				rssListView.disposeList();
-
 				createRSSTree();
 			}
 
@@ -86,9 +84,7 @@ let rssTreeView = (function() {
 				message.details === slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL) {
 				monitorRSSTreeFeeds();
 			}
-
 		}
-
 	});
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -277,6 +273,7 @@ let rssTreeView = (function() {
 			}
 		};
 		m_objTreeFeedsData.purge();
+		console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
