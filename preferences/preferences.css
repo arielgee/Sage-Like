@@ -89,6 +89,10 @@ input[type="color"]::-moz-focus-inner {
 	margin-right: 10px;
 }
 
+#checkFeedsInterval option[value="-1"] {
+	background-color: #e0e0e0;
+}
+
 .controlImage {
 	display: inline-block;
 	width: 24px;
@@ -160,4 +164,24 @@ input[type="radio"].disabled,
 input[type="checkbox"].disabled {
 	color: darkgray;
 	border-color: darkgray;
+}
+
+
+/*** Time of day box ***/
+.timeOfDayBox {
+	display: none;
+	position: absolute;
+	border: 1px solid black;
+	border-radius: 8px;
+	padding: 12px;
+	background-color: #f5f5f5;
+	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+	z-index: 1;
+	white-space: nowrap;
+}
+
+.timeOfDayBox #inputTime {
+	pointer-events: initial;
+	border: 1px solid black;
+	padding: 2px;
 }

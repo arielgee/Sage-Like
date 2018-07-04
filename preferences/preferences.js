@@ -4,8 +4,13 @@ let preferences = (function() {
 
 	const MENU_GUID = "menu________";
 
+	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";
+	const TXT_OPTION_EVERY_DAY_AT = "Every day at ";
+
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsInterval;
+	let m_elmTimeOfDayBox;
+	let m_elmInputTime;
 	let m_elmColorBackground;
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
@@ -20,6 +25,8 @@ let preferences = (function() {
 
 	let m_elmBtnRestoreDefaults;
 
+	let m_funcResolveGetTimeOfDay;
+
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
@@ -28,6 +35,8 @@ let preferences = (function() {
 
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
 		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
+		m_elmTimeOfDayBox = document.getElementById("timeOfDayBox");
+		m_elmInputTime = document.getElementById("inputTime");
 		m_elmColorBackground = document.getElementById("colorBk");
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
@@ -42,8 +51,8 @@ let preferences = (function() {
 
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
 
-		getSavedPreferences();
 		addEventListeners();
+		getSavedPreferences();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +62,8 @@ let preferences = (function() {
 
 		m_elmRootFeedsFolder.removeEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsInterval.removeEventListener("change", onChangeCheckFeedsInterval);
+		m_elmTimeOfDayBox.removeEventListener("keydown", onKeyDownTimeOfDayBox);
+		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
@@ -69,6 +80,30 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function addEventListeners() {
+
+		// save preferences when changed
+		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
+		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
+		m_elmTimeOfDayBox.addEventListener("keydown", onKeyDownTimeOfDayBox);
+		m_elmInputTime.addEventListener("blur", onBlurInputTime);
+		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
+		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
+		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
+		m_elmColorText.addEventListener("change", onChangeColorText);
+		m_elmRadioImageSet0.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet1.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet2.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet3.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet4.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
+
+		// restore defaults when requestes
+		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function getSavedPreferences() {
 
 		prefs.getRootFeedsFolderId().then((value) => {
@@ -80,8 +115,13 @@ let preferences = (function() {
 			});
 		});
 
-		prefs.getCheckFeedsInterval().then((interval) => {
-			m_elmCheckFeedsInterval.value = interval;
+		prefs.getCheckFeedsInterval().then((value) => {
+			if(value.includes(":")) {
+				let elmOption = createTagOption(value, TXT_OPTION_EVERY_DAY_AT + slUtil.formatTimeWithAbbreviations(value));
+				elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
+				m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
+			}
+			m_elmCheckFeedsInterval.value = value;
 		});
 
 		prefs.getColorBackground().then((color) => {
@@ -111,28 +151,6 @@ let preferences = (function() {
 		});
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function addEventListeners() {
-
-		// save preferences when changed
-		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
-		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
-		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
-		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
-		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
-		m_elmColorText.addEventListener("change", onChangeColorText);
-		m_elmRadioImageSet0.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet1.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet2.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet3.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet4.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
-
-		// restore defaults when requestes
-		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
-	}
-
 	//==================================================================================
 	//=== Event Listeners
 	//==================================================================================
@@ -146,15 +164,55 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeCheckFeedsInterval(event) {
-		prefs.setCheckFeedsInterval(Number(m_elmCheckFeedsInterval.value));
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL);
+
+		if(m_elmCheckFeedsInterval.value === "-1") {
+
+			let initValue = "";
+			let elmOption = document.getElementById(ID_OPTION_CHECK_FEEDS_TIME_OF_DAY);
+
+			if(elmOption !== null) {
+				initValue = elmOption.value;
+			}
+
+			getTimeOfDay(initValue).then((timeValue) => {
+
+				m_funcResolveGetTimeOfDay = undefined;
+
+				if(timeValue === "") {
+
+					// time of day box was dismissed
+					prefs.getCheckFeedsInterval().then((value) => {
+						m_elmCheckFeedsInterval.value = value;
+					});
+
+				} else {
+
+					if(elmOption === null) {
+						elmOption = createTagOption(timeValue, TXT_OPTION_EVERY_DAY_AT + slUtil.formatTimeWithAbbreviations(timeValue));
+						elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
+						m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
+					} else {
+						elmOption.value = timeValue;
+						elmOption.textContent = TXT_OPTION_EVERY_DAY_AT + slUtil.formatTimeWithAbbreviations(timeValue);
+					}
+					m_elmCheckFeedsInterval.value = timeValue;
+
+					prefs.setCheckFeedsInterval(timeValue);
+					broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL);
+				}
+			});
+
+		} else {
+			prefs.setCheckFeedsInterval(m_elmCheckFeedsInterval.value);
+			broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		prefs.setColorBackground(m_elmColorBackground.value);
 		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorDialogBackground(event) {
@@ -180,7 +238,6 @@ let preferences = (function() {
 		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_IMAGES);
 	}
 
-
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnRestoreDefaults(event) {
 		internalPrefs.restoreDefaults();
@@ -205,7 +262,7 @@ let preferences = (function() {
 	}
 
 	//==================================================================================
-	//=== <select> functions
+	//=== Feeds folder <select> functions
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -219,6 +276,7 @@ let preferences = (function() {
 			m_elmRootFeedsFolder.classList.remove("flash");
 		}
 	}
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function createSelectFeedFolderElements() {
 
@@ -264,6 +322,67 @@ let preferences = (function() {
 		elm.innerHTML = text;
 		return elm;
 	}
+
+	//==================================================================================
+	//=== Time of day box functions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getTimeOfDay(initValue) {
+
+		return new Promise((resolve) => {
+
+			m_funcResolveGetTimeOfDay = resolve;
+
+			m_elmInputTime.value = initValue;
+			m_elmTimeOfDayBox.style.display = "block";
+
+			let x = m_elmCheckFeedsInterval.offsetLeft - Math.abs(m_elmTimeOfDayBox.offsetWidth - m_elmCheckFeedsInterval.offsetWidth);
+			let y = m_elmCheckFeedsInterval.offsetTop;
+
+			m_elmTimeOfDayBox.style.left = (x - 18) + "px";
+			m_elmTimeOfDayBox.style.top = (y - 10) + "px";
+
+			m_elmInputTime.focus();
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownTimeOfDayBox(event) {
+
+		if(m_funcResolveGetTimeOfDay === undefined) {
+			return;
+		}
+
+		switch(event.key.toLowerCase()) {
+			case "enter":
+				m_funcResolveGetTimeOfDay(m_elmInputTime.value);
+				break;
+
+			case "escape":
+				m_funcResolveGetTimeOfDay("");
+				break;
+
+			default:
+				return;
+		}
+		m_elmTimeOfDayBox.style.display = "none";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBlurInputTime(event) {
+
+		if(m_funcResolveGetTimeOfDay === undefined) {
+			return;
+		}
+
+		m_funcResolveGetTimeOfDay("");
+		m_elmTimeOfDayBox.style.display = "none";
+	}
+
+	//==================================================================================
+	//=== Misc. functions
+	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function broadcastPreferencesUpdated(details) {

@@ -248,13 +248,17 @@ let rssTreeView = (function() {
 
 		checkForNewRSSTreeFeedsData();
 
-		prefs.getCheckFeedsInterval().then((interval) => {
+		prefs.getCheckFeedsInterval().then((nextInterval) => {
 
 			// if interval is zero then do not perform background monitoring
-			if(interval > 0) {
+			if(nextInterval !== "0") {
 
 				// Repeat a new timeout session.
-				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, interval);
+				if(nextInterval.includes(":")) {
+					nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
+				}
+				console.log("[Sage-Like]", "Sidebar periodic check Next interval:", nextInterval);
+				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, nextInterval);
 			}
 		});
 	}

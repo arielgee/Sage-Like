@@ -71,12 +71,12 @@
 		clearTimeout(m_timeoutIdMonitorBookmarkFeeds);
 		m_timeoutIdMonitorBookmarkFeeds = null;
 
-		let interval, isOpen;
+		let nextInterval, isOpen;
 
-		interval = await prefs.getCheckFeedsInterval().catch(() => interval = prefs.DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
+		nextInterval = await prefs.getCheckFeedsInterval().catch(() => nextInterval = prefs.DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
 
 		// if interval is zero then do not perform background monitoring
-		if(interval > 0) {
+		if(nextInterval !== "0") {
 
 			isOpen = await browser.sidebarAction.isOpen({}).catch(() => isOpen = true);		// supported in 59.0
 
@@ -87,7 +87,11 @@
 			}
 
 			// Repeat a new timeout session.
-			m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, interval);
+			if(nextInterval.includes(":")) {
+				nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
+			}
+			console.log("[Sage-Like]", "Background periodic check Next interval:", nextInterval);
+			m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, Number(nextInterval));
 		}
 	}
 

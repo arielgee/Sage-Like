@@ -264,7 +264,7 @@ let prefs = (function() {
 	// user preferences
 
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
-	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = 3600000;
+	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
 	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
@@ -661,6 +661,35 @@ let slUtil = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function formatTimeWithAbbreviations(value) {
+
+		let parts = value.split(":");
+
+		let abbr = Number(parts[0]) < 12 ? "AM" : "PM";
+		parts[0] = Number(parts[0]) % 12 || 12;
+
+		// do not use join to avoid seconds
+		return parts[0] + ":" + parts[1] + " " + abbr;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function calcMillisecondTillNextTime(timeValue) {
+
+		let parts = timeValue.split(":");
+		let now = new Date();
+		let theDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parts[0], parts[1], 0, 0);
+
+		let diff = theDate.getTime() - now.getTime();
+
+		if(diff < 0) {
+			// date in the past
+			theDate.setDate(theDate.getDate() + 1);
+			diff = theDate.getTime() - now.getTime();
+		}
+		return diff;
+	}
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -675,6 +704,8 @@ let slUtil = (function() {
 		hashCode: hashCode,
 		asSafeNumericDate: asSafeNumericDate,
 		sleep: sleep,
+		formatTimeWithAbbreviations: formatTimeWithAbbreviations,
+		calcMillisecondTillNextTime: calcMillisecondTillNextTime,
 	};
 
 })();
