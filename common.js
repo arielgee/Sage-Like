@@ -690,6 +690,40 @@ let slUtil = (function() {
 		return diff;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function isElementInViewport(elm, viewElement) {
+		let rect = elm.getBoundingClientRect();
+		let viewRect = viewElement.getBoundingClientRect();
+
+		//console.dir(rect);
+		//console.dir(viewRect);
+
+		let inViewport = (rect.top >= viewRect.top &&
+			rect.left >= viewRect.left &&
+			rect.bottom <= (viewRect.height + viewRect.top) &&
+			rect.right <= (viewRect.width + viewRect.left))
+
+		let fromTop = rect.top < viewRect.top;
+		let fromBottom = rect.bottom > (viewRect.height + viewRect.top);
+
+		return {
+			inViewport: inViewport,
+			fromTop: fromTop,
+			fromBottom: fromBottom,
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function scrollIntoViewIfNeeded(elm, docElement) {
+		let result = isElementInViewport(elm, docElement);
+
+		//console.log("[sage-like]", result);
+
+		if(!result.inViewport) {
+			elm.scrollIntoView(result.fromTop);
+		}
+	}
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -706,6 +740,8 @@ let slUtil = (function() {
 		sleep: sleep,
 		formatTimeWithAbbreviations: formatTimeWithAbbreviations,
 		calcMillisecondTillNextTime: calcMillisecondTillNextTime,
+		isElementInViewport: isElementInViewport,
+		scrollIntoViewIfNeeded: scrollIntoViewIfNeeded,
 	};
 
 })();

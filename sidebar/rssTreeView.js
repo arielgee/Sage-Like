@@ -524,7 +524,7 @@ let rssTreeView = (function() {
 
 						let dropHTML = event.dataTransfer.getData("text/html");
 						elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
-						addSubTreeItemsEventListeners(elmDropTarget.previousSibling);
+						addSubTreeItemsEventListeners(elmDropTarget.previousElementSibling);
 					});
 				});
 			});
@@ -539,9 +539,9 @@ let rssTreeView = (function() {
 		event.stopPropagation();
 		event.preventDefault();
 
-		let items;
-		let elmLI = event.target;
-		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+		let elms;
+		let elmTargetLI = event.target;
+		let isSubTree = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 		let isSubTreeOpen;
 
 		if(isSubTree) {
@@ -549,41 +549,104 @@ let rssTreeView = (function() {
 		}
 
 		switch(event.key.toLowerCase()) {
-			case "arrowdown":
+
+			case "home":
+				setFeedSelectionState(m_elmTreeRoot.firstElementChild);
 				break;
-				/////////////////////////////
+				/////////////////////////////////////////////////////////////////////////
+
+			case "end":
+				// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("LI:last-child");
+
+				for(let i=elms.length-1; i>=0; i--) {
+					if(elms[i].offsetParent !== null) {		// visible or not
+						setFeedSelectionState(elms[i]);
+						return;
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "pageup":
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "pagedown":
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+
+			case "arrowdown":
+
+				// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("LI");
+
+				for(let i=0; i<elms.length; i++) {
+
+					// find target element in list
+					if(elms[i].id === elmTargetLI.id && (i+1) < elms.length) {
+
+						// find in list the immediate NEXT visible element
+						for(let j=i+1; j<elms.length; j++) {
+							if(elms[j].offsetParent !== null) {		// visible or not
+								setFeedSelectionState(elms[j]);
+								return;
+							}
+						}
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowup":
+
+				// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("LI");
+
+				// find target element in list
+				for(let i=0; i<elms.length; i++) {
+
+					// find in list the immediate PREVIOUS visible element
+					if(elms[i].id === elmTargetLI.id && (i-1) >= 0) {
+						for(let j=i-1; j>=0; j--) {
+							if(elms[j].offsetParent !== null) {		// visible or not
+								setFeedSelectionState(elms[j]);
+								return;
+							}
+						}
+					}
+				}
 				break;
-				/////////////////////////////
+				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowright":
 				if(isSubTree) {
 					if(isSubTreeOpen) {
-						items = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM + ":first-child");
-						setFeedSelectionState(items[0]);
+						elms = elmTargetLI.querySelectorAll("#" + elmTargetLI.id + " > UL > LI:first-child"); // first direct child
+						setFeedSelectionState(elms[0]);
 					} else {
-						setSubTreeState(elmLI, true);
+						setSubTreeState(elmTargetLI, true);
 					}
 				}
 				break;
-				/////////////////////////////
+				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowleft":
 				if(isSubTree && isSubTreeOpen) {
-					setSubTreeState(elmLI, false);
+					setSubTreeState(elmTargetLI, false);
 					return;
 				}
-				if(elmLI.parentElement.parentElement.tagName === "LI") {
-					setFeedSelectionState(elmLI.parentElement.parentElement);
+				if(elmTargetLI.parentElement.parentElement.tagName === "LI") {
+					setFeedSelectionState(elmTargetLI.parentElement.parentElement);
 				}
 				break;
-				/////////////////////////////
+				/////////////////////////////////////////////////////////////////////////
 
 			case "enter":
 				// can not call onClickTreeItem from here. It uses this & event
 				break;
-				/////////////////////////////
+				/////////////////////////////////////////////////////////////////////////
 
 			}
 	}
@@ -840,15 +903,20 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedSelectionState(elm) {
 
-		if (m_elmCurrentlySelected !== null) {
-			m_elmCurrentlySelected.classList.remove("selected");
-		}
+		if(elm !== undefined && elm !== null) {
 
-		// select only selectable tree items
-		if (elm && elm.tagName === "LI") {
-			m_elmCurrentlySelected = elm;
-			elm.classList.add("selected");
-			elm.focus();
+			if (m_elmCurrentlySelected !== null) {
+				m_elmCurrentlySelected.classList.remove("selected");
+			}
+
+			// select only selectable tree items
+			if (elm && elm.tagName === "LI") {
+				m_elmCurrentlySelected = elm;
+				elm.classList.add("selected");
+				// the tree item's caption element is enough
+				slUtil.scrollIntoViewIfNeeded(elm.firstElementChild, m_elmTreeRoot.parentElement);
+				elm.focus();
+			}
 		}
 	}
 

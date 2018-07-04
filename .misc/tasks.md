@@ -25,6 +25,7 @@
 
 #### Next
 * keyboard arrows move selected marker between items (tree, list); enter simulate default mouse click
+* after toolbar click move focus to selected item, if any
 * show currently selected feed name hint in listView (like the warning in the Lizard's view source window?)
 * prefrences: configure tree feeds checking pace/rate  - some sleep in the processRSSTreeFeedsData() loop?
 * user configuration of the timeout for syndication in prefrences
