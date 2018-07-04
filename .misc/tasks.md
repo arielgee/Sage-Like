@@ -18,7 +18,11 @@
 * ~~delete MSG_ID_SIDEBAR_STATUS_CHANGE & sons from the slGlobals if redundent.~~
 * ~~check if m_objTreeFeedsData.purge(); works. count element after or write comment when deleteing~~
 * ~~replace in all code open and closed classes as slGlobals~~ => leave it. Only in rssTreeView.js
+* ~~why selecting 'no thanks' performs 'Periodic check for new feeds performed in sidebar.' ?~~ => leave it
+* ~~remove EventListener in prefrences.js::getTimeOfDay()!!~~
+
 ---
+
 #### Next
 * keyboard arrows move selected marker between items (tree, list); enter simulate default mouse click
 * show currently selected feed name hint in listView (like the warning in the Lizard's view source window?)
@@ -26,3 +30,5 @@
 * user configuration of the timeout for syndication in prefrences
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)
+* try to remove timeout for Periodic check when not needed. (bk timeout when sidebar is open and vice versa)
+

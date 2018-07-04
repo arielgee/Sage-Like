@@ -215,6 +215,7 @@ let rssTreeView = (function() {
 		elm.id = id;
 		elm.className = className;
 		elm.setAttribute("draggable", "true");
+		elm.setAttribute("tabindex", "0");
 		if (href !== null) {
 			elm.setAttribute("href", href);
 		}
@@ -318,6 +319,7 @@ let rssTreeView = (function() {
 		elm.addEventListener("dragleave", onDragLeaveTreeItem, false);
 		elm.addEventListener("dragend", onDragEndTreeItem, false);
 		elm.addEventListener("drop", onDropTreeItem, false);
+		elm.addEventListener("keydown", onKeyDownTreeItem);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -529,6 +531,61 @@ let rssTreeView = (function() {
 		}
 		elmDropTarget.classList.remove("draggedOver");
 		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownTreeItem(event) {
+
+		event.stopPropagation();
+		event.preventDefault();
+
+		let items;
+		let elmLI = event.target;
+		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+		let isSubTreeOpen;
+
+		if(isSubTree) {
+			isSubTreeOpen = this.classList.contains("open");
+		}
+
+		switch(event.key.toLowerCase()) {
+			case "arrowdown":
+				break;
+				/////////////////////////////
+
+			case "arrowup":
+				break;
+				/////////////////////////////
+
+			case "arrowright":
+				if(isSubTree) {
+					if(isSubTreeOpen) {
+						items = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM + ":first-child");
+						setFeedSelectionState(items[0]);
+					} else {
+						setSubTreeState(elmLI, true);
+					}
+				}
+				break;
+				/////////////////////////////
+
+			case "arrowleft":
+				if(isSubTree && isSubTreeOpen) {
+					setSubTreeState(elmLI, false);
+					return;
+				}
+				if(elmLI.parentElement.parentElement.tagName === "LI") {
+					setFeedSelectionState(elmLI.parentElement.parentElement);
+				}
+				break;
+				/////////////////////////////
+
+			case "enter":
+				// can not call onClickTreeItem from here. It uses this & event
+				break;
+				/////////////////////////////
+
+			}
 	}
 
 	//==================================================================================
@@ -791,6 +848,7 @@ let rssTreeView = (function() {
 		if (elm && elm.tagName === "LI") {
 			m_elmCurrentlySelected = elm;
 			elm.classList.add("selected");
+			elm.focus();
 		}
 	}
 
