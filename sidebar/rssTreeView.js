@@ -552,13 +552,17 @@ let rssTreeView = (function() {
 		return false;
 	}
 
+	//==================================================================================
+	//=== Tree Event Listeners
+	//==================================================================================
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTreeRoot(event) {
 
 		event.stopPropagation();
 		event.preventDefault();
 
-		let count, countOfElmsInView, elm, elms;
+		let count, elmCount, elm, elms;
 		let elmTargetLI = event.target;
 		let isSubTree = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 		let isSubTreeOpen;
@@ -676,7 +680,7 @@ let rssTreeView = (function() {
 				// get all selectable elements
 				elms = m_elmTreeRoot.querySelectorAll("LI");
 				count = 1;
-				countOfElmsInView = numberOfItemsInViewport(elmTargetLI);
+				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
 
 				// find target element in list
 				for(let i=0; i<elms.length; i++) {
@@ -687,7 +691,7 @@ let rssTreeView = (function() {
 						for(let j=i-1; j>=0; j--) {
 							if(elms[j].offsetParent !== null) {		// only if visible
 								elm = elms[j];
-								if(++count === countOfElmsInView) {
+								if(++count === elmCount) {
 									break;
 								}
 							}
@@ -704,7 +708,7 @@ let rssTreeView = (function() {
 				// get all selectable elements
 				elms = m_elmTreeRoot.querySelectorAll("LI");
 				count = 1;
-				countOfElmsInView = numberOfItemsInViewport(elmTargetLI);
+				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
 
 				// find target element in list
 				for(let i=0; i<elms.length; i++) {
@@ -715,7 +719,7 @@ let rssTreeView = (function() {
 						for(let j=i+1; j<elms.length; j++) {
 							if(elms[j].offsetParent !== null) {		// only if visible
 								elm = elms[j];
-								if(++count === countOfElmsInView) {
+								if(++count === elmCount) {
 									break;
 								}
 							}
@@ -1071,17 +1075,6 @@ let rssTreeView = (function() {
 			m_elmTreeRoot.removeChild(m_elmTreeRoot.firstChild);
 		}
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function numberOfItemsInViewport(elmLI) {
-
-		// use caption height
-		let rectElm = elmLI.firstElementChild.getBoundingClientRect();
-		let rectView = m_elmTreeRoot.getBoundingClientRect();
-
-		return parseInt(rectView.height / rectElm.height);
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function eventOccureInItemLineHeight(evt, elm) {

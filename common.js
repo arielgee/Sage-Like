@@ -724,6 +724,16 @@ let slUtil = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function numberOfVItemsInViewport(elm, elmViewport) {
+
+		let rectElm = elm.getBoundingClientRect();
+		let rectView = elmViewport.getBoundingClientRect();
+
+		return parseInt(rectView.height / rectElm.height);
+	}
+
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -742,6 +752,7 @@ let slUtil = (function() {
 		calcMillisecondTillNextTime: calcMillisecondTillNextTime,
 		isElementInViewport: isElementInViewport,
 		scrollIntoViewIfNeeded: scrollIntoViewIfNeeded,
+		numberOfVItemsInViewport: numberOfVItemsInViewport,
 	};
 
 })();
