@@ -457,7 +457,7 @@ let rssTreeView = (function() {
 		event.preventDefault();
 
 		// prevent element from been droped into itself.
-		if(m_elmCurrentlyDragged.contains(this)) {
+		if(m_elmCurrentlyDragged === null || m_elmCurrentlyDragged.contains(this)) {
 			event.dataTransfer.dropEffect = "none";
 			return false;
 		}
