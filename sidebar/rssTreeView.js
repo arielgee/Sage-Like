@@ -98,7 +98,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
-		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeItem);
+		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
 
 		m_lineHeight = parseInt(getComputedStyle(m_elmTreeRoot).getPropertyValue("line-height"));
 
@@ -118,7 +118,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
-		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeItem);
+		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -553,7 +553,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onKeyDownTreeItem(event) {
+	function onKeyDownTreeRoot(event) {
 
 		event.stopPropagation();
 		event.preventDefault();
