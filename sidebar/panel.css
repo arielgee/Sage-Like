@@ -12,6 +12,10 @@
 	--color-text: #000000;
 }
 
+*:focus {
+	outline: none;
+}
+
 html, body {
 	height: 100%;
 	line-height: var(--line-height);
