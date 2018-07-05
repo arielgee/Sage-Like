@@ -133,6 +133,21 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onClickFeedItem_preventDefault(event) {
+
+		// This is to prevent the default behaviour of Fx when
+		// clicking with the middle button (scroll).
+		// Next event, for middle button, will be 'auxclick'
+
+		event.preventDefault();		// The 'click' event is fired anyway.
+		event.stopPropagation();
+	}
+
+	//==================================================================================
+	//=== List Event Listeners
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownFeedList(event) {
 
 		event.stopPropagation();
@@ -203,17 +218,6 @@ let rssListView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickFeedItem_preventDefault(event) {
-
-		// This is to prevent the default behaviour of Fx when
-		// clicking with the middle button (scroll).
-		// Next event, for middle button, will be 'auxclick'
-
-		event.preventDefault();		// The 'click' event is fired anyway.
-		event.stopPropagation();
 	}
 
 	//==================================================================================
