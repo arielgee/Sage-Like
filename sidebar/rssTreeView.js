@@ -313,6 +313,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function addTreeItemEventListeners(elm) {
 		elm.addEventListener("click", onClickTreeItem, false);
+		elm.addEventListener("dblclick", onDoubleClickTreeItem, false);
 		elm.addEventListener("dragstart", onDragStartTreeItem, false);
 		elm.addEventListener("dragenter", onDragEnterTreeItem, false)
 		elm.addEventListener("dragover", onDragOverTreeItem, false);
@@ -345,9 +346,14 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickTreeItem(event) {
 
+		// check the current click count to avoid the double-click's second click.
+		if(event.detail > 1) {
+			return;
+		}
+
 		event.stopPropagation();
 
-		let elmLI = this;
+		let elmLI = event.target;
 		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
 		// when a subtree is open the height of the LI is as the Height of the entire subtree.
@@ -360,9 +366,7 @@ let rssTreeView = (function() {
 			return;
 		}
 
-		if (isSubTree) {
-			toggleSubTreeState(elmLI);
-		} else {
+		if (!isSubTree) {
 
 			// remove here if is error
 			setFeedErrorState(elmLI, false);
@@ -413,6 +417,19 @@ let rssTreeView = (function() {
 			});
 		}
 		setFeedSelectionState(elmLI);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onDoubleClickTreeItem(event) {
+
+		event.stopPropagation();
+
+		let elmLI = event.target;
+		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+
+		if(isSubTree) {
+			toggleSubTreeState(elmLI);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -644,7 +661,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "enter":
-				// can not call onClickTreeItem from here. It uses this & event
+				// can not call onClickTreeItem from here. It uses the 'this' & 'event' variables
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
