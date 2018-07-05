@@ -135,7 +135,10 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownFeedList(event) {
 
-		let elm, elms, elmsCount, targetIndex, newIndex;
+		event.stopPropagation();
+		event.preventDefault();
+
+		let elm, elmsCount, index;
 		let elmTargetLI = event.target;
 
 		switch(event.key.toLowerCase()) {
@@ -181,20 +184,25 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "pageup":
-
 				elmsCount = slUtil.numberOfVItemsInViewport(elmTargetLI, m_elmList);
-				targetIndex = Array.prototype.indexOf.call(m_elmList.children, elmTargetLI) - 2;
-
-				setFeedItemSelectionState(m_elmList.children[(targetIndex - elmsCount)  < 0 ? 0 : (targetIndex - elmsCount)]);
-				//console.log("[Sage-Like]", elmsCount, m_elmList.children[elmTargetLI]);
+				index = Array.prototype.indexOf.call(m_elmList.children, elmTargetLI);
+				index = index-(elmsCount-1);
+				setFeedItemSelectionState(m_elmList.children[index < 0 ? 0 : index]);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "pagedown":
+				elmsCount = slUtil.numberOfVItemsInViewport(elmTargetLI, m_elmList);
+				index = Array.prototype.indexOf.call(m_elmList.children, elmTargetLI);
+				index = index+(elmsCount-1);
+
+				if(index >= m_elmList.children.length) {
+					index = m_elmList.children.length-1;
+				}
+				setFeedItemSelectionState(m_elmList.children[index]);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 		}
-
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
