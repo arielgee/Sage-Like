@@ -98,6 +98,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
+		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeItem);
 
 		m_lineHeight = parseInt(getComputedStyle(m_elmTreeRoot).getPropertyValue("line-height"));
 
@@ -117,6 +118,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
+		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeItem);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -320,7 +322,6 @@ let rssTreeView = (function() {
 		elm.addEventListener("dragleave", onDragLeaveTreeItem, false);
 		elm.addEventListener("dragend", onDragEndTreeItem, false);
 		elm.addEventListener("drop", onDropTreeItem, false);
-		elm.addEventListener("keydown", onKeyDownTreeItem);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -563,7 +564,7 @@ let rssTreeView = (function() {
 		let isSubTreeOpen;
 
 		if(isSubTree) {
-			isSubTreeOpen = this.classList.contains("open");
+			isSubTreeOpen = elmTargetLI.classList.contains("open");
 		}
 
 		switch(event.key.toLowerCase()) {
@@ -725,7 +726,7 @@ let rssTreeView = (function() {
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
-			}
+		}
 	}
 
 	//==================================================================================
