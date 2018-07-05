@@ -158,6 +158,11 @@ let rssListView = (function() {
 
 		switch(event.key.toLowerCase()) {
 
+			case "tab":
+				rssTreeView.setFocus();
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
 			case "enter":
 				// emulate event object
 				onClickFeedItem({
@@ -347,6 +352,15 @@ let rssListView = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function setFocus() {
+		if(m_elmCurrentlySelected !== null) {
+			setFeedItemSelectionState(m_elmCurrentlySelected);
+		} else if(m_elmList.firstElementChild) {
+			setFeedItemSelectionState(m_elmList.firstElementChild);
+		}
+	}
+
 	return {
 		setFeedItems: setFeedItems,
 		disposeList: disposeList,
@@ -357,6 +371,7 @@ let rssListView = (function() {
 		markAllItemsAsVisitedState: markAllItemsAsVisitedState,
 		switchViewDirection: switchViewDirection,
 		openAllItemsInTabs: openAllItemsInTabs,
+		setFocus: setFocus,
 	};
 
 })();

@@ -573,6 +573,11 @@ let rssTreeView = (function() {
 
 		switch(event.key.toLowerCase()) {
 
+			case "tab":
+				rssListView.setFocus();
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
 			case "enter":
 				if(isSubTree) {
 					toggleSubTreeState(elmTargetLI);
@@ -1083,6 +1088,15 @@ let rssTreeView = (function() {
 		return ((evt.clientY - elm.getBoundingClientRect().top) <= m_lineHeight)
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function setFocus() {
+		if(m_elmCurrentlySelected !== null) {
+			setFeedSelectionState(m_elmCurrentlySelected);
+		} else if(m_elmTreeRoot.firstElementChild) {
+			setFeedSelectionState(m_elmTreeRoot.firstElementChild);
+		}
+	}
+
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
@@ -1091,6 +1105,7 @@ let rssTreeView = (function() {
 		updateFeedProperties: updateFeedProperties,
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,
+		setFocus: setFocus,
 	};
 
 })();
