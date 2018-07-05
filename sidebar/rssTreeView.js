@@ -557,7 +557,7 @@ let rssTreeView = (function() {
 		event.stopPropagation();
 		event.preventDefault();
 
-		let elms;
+		let count, countOfElmsInView, elm, elms;
 		let elmTargetLI = event.target;
 		let isSubTree = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 		let isSubTreeOpen;
@@ -567,6 +567,23 @@ let rssTreeView = (function() {
 		}
 
 		switch(event.key.toLowerCase()) {
+
+			case "enter":
+				if(isSubTree) {
+					toggleSubTreeState(elmTargetLI);
+				} else {
+					// emulate event object
+					onClickTreeItem( {
+						detail: 1,
+						stopPropagation: () => {},
+						target: elmTargetLI,
+						shiftKey: event.shiftKey,
+						clientX: 1,
+						clientY: 1,
+					} );
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
 
 			case "home":
 				setFeedSelectionState(m_elmTreeRoot.firstElementChild);
@@ -586,14 +603,27 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "pageup":
+			case "arrowup":
+
+				// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("LI");
+
+				// find target element in list
+				for(let i=0; i<elms.length; i++) {
+
+					// find in list the immediate PREVIOUS visible element
+					if(elms[i].id === elmTargetLI.id && (i-1) >= 0) {
+
+						for(let j=i-1; j>=0; j--) {
+							if(elms[j].offsetParent !== null) {		// visible or not
+								setFeedSelectionState(elms[j]);
+								return;
+							}
+						}
+					}
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
-
-			case "pagedown":
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
 
 			case "arrowdown":
 
@@ -617,23 +647,13 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "arrowup":
-
-				// get all selectable elements
-				elms = m_elmTreeRoot.querySelectorAll("LI");
-
-				// find target element in list
-				for(let i=0; i<elms.length; i++) {
-
-					// find in list the immediate PREVIOUS visible element
-					if(elms[i].id === elmTargetLI.id && (i-1) >= 0) {
-						for(let j=i-1; j>=0; j--) {
-							if(elms[j].offsetParent !== null) {		// visible or not
-								setFeedSelectionState(elms[j]);
-								return;
-							}
-						}
-					}
+			case "arrowleft":
+				if(isSubTree && isSubTreeOpen) {
+					setSubTreeState(elmTargetLI, false);
+					return;
+				}
+				if(elmTargetLI.parentElement.parentElement.tagName === "LI") {
+					setFeedSelectionState(elmTargetLI.parentElement.parentElement);
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -650,22 +670,61 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "arrowleft":
-				if(isSubTree && isSubTreeOpen) {
-					setSubTreeState(elmTargetLI, false);
-					return;
-				}
-				if(elmTargetLI.parentElement.parentElement.tagName === "LI") {
-					setFeedSelectionState(elmTargetLI.parentElement.parentElement);
+			case "pageup":
+
+				// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("LI");
+				count = 1;
+				countOfElmsInView = numberOfItemsInViewport(elmTargetLI);
+
+				// find target element in list
+				for(let i=0; i<elms.length; i++) {
+
+					// find in list the current selected item
+					if(elms[i].id === elmTargetLI.id && (i-1) >= 0) {
+
+						for(let j=i-1; j>=0; j--) {
+							if(elms[j].offsetParent !== null) {		// only if visible
+								elm = elms[j];
+								if(++count === countOfElmsInView) {
+									break;
+								}
+							}
+						}
+						setFeedSelectionState(elm);
+						break;
+					}
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "enter":
-				// can not call onClickTreeItem from here. It uses the 'this' & 'event' variables
+			case "pagedown":
+
+				// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("LI");
+				count = 1;
+				countOfElmsInView = numberOfItemsInViewport(elmTargetLI);
+
+				// find target element in list
+				for(let i=0; i<elms.length; i++) {
+
+					// find in list the current selected item
+					if(elms[i].id === elmTargetLI.id && (i+1) < elms.length) {
+
+						for(let j=i+1; j<elms.length; j++) {
+							if(elms[j].offsetParent !== null) {		// only if visible
+								elm = elms[j];
+								if(++count === countOfElmsInView) {
+									break;
+								}
+							}
+						}
+						setFeedSelectionState(elm);
+						break;
+					}
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
-
 			}
 	}
 
@@ -1011,6 +1070,17 @@ let rssTreeView = (function() {
 			m_elmTreeRoot.removeChild(m_elmTreeRoot.firstChild);
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function numberOfItemsInViewport(elmLI) {
+
+		// use caption height
+		let rectElm = elmLI.firstElementChild.getBoundingClientRect();
+		let rectView = m_elmTreeRoot.getBoundingClientRect();
+
+		return parseInt(rectView.height / rectElm.height);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function eventOccureInItemLineHeight(evt, elm) {
