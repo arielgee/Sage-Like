@@ -542,6 +542,7 @@ let rssTreeView = (function() {
 						let dropHTML = event.dataTransfer.getData("text/html");
 						elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
 						addSubTreeItemsEventListeners(elmDropTarget.previousElementSibling);
+						setFeedSelectionState(elmDropTarget.previousElementSibling);
 					});
 				});
 			});
