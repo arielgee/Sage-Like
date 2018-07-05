@@ -17,12 +17,16 @@ let rssListView = (function() {
 	function onDOMContentLoaded() {
 
 		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
+
+		m_elmList.addEventListener("keydown", onKeyDownFeedList);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
 		disposeList();
+
+		m_elmList.removeEventListener("keydown", onKeyDownFeedList);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -59,6 +63,7 @@ let rssListView = (function() {
 		elm.textContent = index.toString() + ". " + title;
 		elm.title = title;
 		elm.setAttribute("href", url);
+		elm.setAttribute("tabindex", "0");
 
 		addListItemEventListeners(elm);
 
@@ -86,7 +91,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickFeedItem(event) {
 
-		let elm = this;
+		let elm = event.target;
 		let handled = true;		// optimistic
 		let feedItemUrl = elm.getAttribute("href");
 
@@ -125,6 +130,71 @@ let rssListView = (function() {
 			event.stopPropagation();
 			event.preventDefault();
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownFeedList(event) {
+
+		let elm, elms, elmsCount, targetIndex, newIndex;
+		let elmTargetLI = event.target;
+
+		switch(event.key.toLowerCase()) {
+
+			case "enter":
+				// emulate event object
+				onClickFeedItem({
+					target: event.target,
+					type: "click",
+					button: 0,
+					ctrlKey: event.ctrlKey,
+					shiftKey: event.shiftKey,
+					stopPropagation: () => {},
+					preventDefault: () => {},
+				});
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "home":
+				setFeedItemSelectionState(m_elmList.firstElementChild)
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "end":
+				setFeedItemSelectionState(m_elmList.lastElementChild)
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "arrowup":
+				elm = elmTargetLI.previousElementSibling
+				if(elm !== null) {
+					setFeedItemSelectionState(elm);
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "arrowdown":
+				elm = elmTargetLI.nextElementSibling
+				if(elm !== null) {
+					setFeedItemSelectionState(elm);
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "pageup":
+
+				elmsCount = slUtil.numberOfVItemsInViewport(elmTargetLI, m_elmList);
+				targetIndex = Array.prototype.indexOf.call(m_elmList.children, elmTargetLI) - 2;
+
+				setFeedItemSelectionState(m_elmList.children[(targetIndex - elmsCount)  < 0 ? 0 : (targetIndex - elmsCount)]);
+				//console.log("[Sage-Like]", elmsCount, m_elmList.children[elmTargetLI]);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "pagedown":
+				break;
+				/////////////////////////////////////////////////////////////////////////
+		}
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -201,6 +271,9 @@ let rssListView = (function() {
 		if (elm && elm.tagName === "LI") {
 			m_elmCurrentlySelected = elm;
 			elm.classList.add("selected");
+			// the tree item's caption element is enough
+			slUtil.scrollIntoViewIfNeeded(elm, m_elmList.parentElement);
+			elm.focus();
 		}
 	}
 
