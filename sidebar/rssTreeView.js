@@ -271,13 +271,10 @@ let rssTreeView = (function() {
 
 		await m_objTreeFeedsData.getStorage();
 
-		// getElementsByTagName is faster then querySelectorAll
-		let elmLIs = m_elmTreeRoot.getElementsByTagName("li")
+		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM);
 
 		for(let elmLI of elmLIs) {
-			if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
-				checkForNewFeedData(elmLI, elmLI.getAttribute("href"));
-			}
+			checkForNewFeedData(elmLI, elmLI.getAttribute("href"));
 		};
 		m_objTreeFeedsData.purge();
 		console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
