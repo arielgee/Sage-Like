@@ -596,6 +596,11 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function hasVScroll(elm) {
+		return (elm.clientHeight < elm.scrollHeight);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function getCurrentLocaleDate() {
 
 		let now = new Date();
@@ -743,6 +748,7 @@ let slUtil = (function() {
 		deleteUrlFromBrowserHistory: deleteUrlFromBrowserHistory,
 		getScrollbarWidth: getScrollbarWidth,
 		hasHScroll: hasHScroll,
+		hasVScroll: hasVScroll,
 		getCurrentLocaleDate: getCurrentLocaleDate,
 		isContentOverflowing: isContentOverflowing,
 		hashCode: hashCode,

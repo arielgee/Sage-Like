@@ -44,3 +44,37 @@
 	background-position-x: right;
 	padding-right: 20px;
 }
+
+#listViewStatusbar {
+	position: fixed;
+	bottom: 0;
+	width: 20px;
+	height: 20px;
+	box-sizing: border-box;
+	border-radius: 0 0.3em 0.3em 0;
+	background-color: transparent;
+	opacity: 0.45;
+	color: black;
+	font-family: Tahoma, Sans;
+	font-size: 11px;
+	-moz-user-select: none;
+	user-select: none;
+	overflow: hidden;
+	line-height: 20px;
+	white-space: nowrap;
+	transition: width 0.5s ease-in 0s, opacity 0.2s ease-in 0s, background-color 0.5s ease-in 0s;
+}
+
+#listViewStatusbar:hover {
+	width: 100%;
+	opacity: 1;
+	background-color: var(--bk-color-dialog);
+}
+
+.imgListViewStatusbar {
+	margin: 0 2px -3px 2px;
+}
+
+#listViewRssTitle {
+	padding: 0 5px;
+}

@@ -395,7 +395,7 @@ let rssTreeView = (function() {
 
 				// change the rssListView content only if this is the last user click.
 				if(thisFeedClickTime === m_lastClickedFeedTime) {
-					rssListView.setFeedItems(result.list);
+					rssListView.setFeedItems(result.list, elmLI.textContent);
 				}
 
 			}).catch((error) => {

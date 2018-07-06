@@ -7,6 +7,8 @@ let rssListView = (function() {
 	//==================================================================================
 
 	let m_elmList;
+	let m_elmListViewStatusbar;
+	let m_elmListViewRssTitle;
 
 	let m_elmCurrentlySelected = null;
 
@@ -17,6 +19,8 @@ let rssListView = (function() {
 	function onDOMContentLoaded() {
 
 		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
+		m_elmListViewStatusbar = document.getElementById("listViewStatusbar");
+		m_elmListViewRssTitle = document.getElementById("listViewRssTitle");
 
 		m_elmList.addEventListener("keydown", onKeyDownFeedList);
 	}
@@ -37,7 +41,7 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedItems(list) {
+	function setFeedItems(list, title) {
 
 		let index = 1;
 
@@ -45,6 +49,7 @@ let rssListView = (function() {
 		for(let item of list) {
 			appendTagIL(index++, item.title, item.desc, item.url);
 		}
+		m_elmListViewRssTitle.textContent = title;
 
 		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
 		if(slUtil.hasHScroll(m_elmList)) {
@@ -311,9 +316,9 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
 		if(m_elmList.style.direction === "rtl") {
-			m_elmList.style.direction = "ltr";
+			m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "ltr";
 		} else {
-			m_elmList.style.direction = "rtl";
+			m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "rtl";
 		}
 	}
 
@@ -358,6 +363,15 @@ let rssListView = (function() {
 			setFeedItemSelectionState(m_elmCurrentlySelected);
 		} else if(m_elmList.firstElementChild) {
 			setFeedItemSelectionState(m_elmList.firstElementChild);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function adjustStatusbarIconToScrollbar() {
+		if(slUtil.hasVScroll(m_elmList)) {
+			m_elmListViewStatusbar.style.left = (m_elmList.clientWidth - slUtil.getScrollbarWidth())  + "px";
+		} else {
+			m_elmListViewStatusbar.style.left = null;
 		}
 	}
 
