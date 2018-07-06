@@ -22,18 +22,25 @@
 * ~~remove EventListener in prefrences.js::getTimeOfDay()!!~~
 * ~~when dragging and dropping a selected tree item I must renew its selected status~~
 * ~~toggle tree folder state with double click and not single click~~
+* ~~keyboard arrows move selected marker between items (tree, list); enter simulate default mouse click~~
+* ~~tab moves between views?~~
+* ~~show currently selected feed name hint in listView (like the warning in the Lizard's view source window?)~~
 
 ---
 
 #### Next
-* keyboard arrows move selected marker between items (tree, list); enter simulate default mouse click
-* select some item right after creation
-* after toolbar click move focus to selected item, if any
-* show currently selected feed name hint in listView (like the warning in the Lizard's view source window?)
 * prefrences: configure tree feeds checking pace/rate  - some sleep in the processRSSTreeFeedsData() loop?
+  * Very Strenuous  - (100% / 0s)
+  * Strenuous       - ( 50% / 1s)
+  * Relaxed         - ( 30% / 2s)
+  * Very Relaxed    - ( 20% / 3s)
 * user configuration of the timeout for syndication in prefrences
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)
 * try to remove timeout for Periodic check when not needed. (bk timeout when sidebar is open and vice versa)
-* a lot of sub folders in the tree view will go to the right to match?????
 * check if using m_elmList.parentElement or m_elmTreeRoot.parentElement in call to scrollIntoViewIfNeeded() is correct. why not just m_elmList/m_elmTreeRoot
+* the bookmark ids from the bookmark lib may starts with a digit.hrml id can not start with a disit => OK by HTML5
+
+* select some item right after creation => NO(?)
+* after toolbar click move focus to selected item, if any => same as above; NO(?)
+* a lot of sub folders in the tree view will fuck up the UI
