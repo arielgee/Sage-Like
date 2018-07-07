@@ -273,8 +273,15 @@ let rssTreeView = (function() {
 
 		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM);
 
+		let counter = 0;
+		let timeout = 2000;
+		let packSize = parseInt(elmLIs.length * 0.33);
+
 		for(let elmLI of elmLIs) {
 			checkForNewFeedData(elmLI, elmLI.getAttribute("href"));
+			if((++counter % packSize) === 0) {
+				await slUtil.sleep(timeout);
+			}
 		};
 		m_objTreeFeedsData.purge();
 		console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");

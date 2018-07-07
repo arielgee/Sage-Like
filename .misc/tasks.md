@@ -34,6 +34,11 @@
   * Strenuous       - ( 50% / 1s)
   * Relaxed         - ( 30% / 2s)
   * Very Relaxed    - ( 20% / 3s)
+	-- OR --
+  * Strenuous		- (100% / 0s)
+  * Relaxed			- ( 30% / 2s)
+  * Very Relaxed	- ( 20% / 3s)
+
 * user configuration of the timeout for syndication in prefrences
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)

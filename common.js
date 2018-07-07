@@ -657,12 +657,8 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function sleep(timeout) {
-
 		return new Promise((resolve) => {
-			setTimeout(() => {
-				console.log("[Sage-Like-sleep]", timeout);
-				resolve();
-			}, timeout);
+			setTimeout(() => resolve(), timeout);
 		});
 	}
 
