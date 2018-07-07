@@ -128,6 +128,9 @@
 			reduseH = slUtil.hasHScroll(m_elmList) ? sbWidth : 0;
 			m_elmList.style.height = (m_elmBottom.offsetHeight - reduseH) + "px";
 		}
+
+		// set listview's CSS variable accordingly depending if has VScroll
+		document.documentElement.style.setProperty("--rlv-scrollbar-width", (slUtil.hasVScroll(m_elmList) ? sbWidth : 0) + "px");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

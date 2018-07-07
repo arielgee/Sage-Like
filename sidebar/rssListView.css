@@ -1,5 +1,9 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
+:root {
+	--rlv-scrollbar-width: 0px;
+}
+
 .listview {
 	margin: 0;
 	padding: 2px;
@@ -46,12 +50,13 @@
 }
 
 #listViewStatusbar {
+	display: none;
 	position: fixed;
+	right: var(--rlv-scrollbar-width);
 	bottom: 0;
 	width: 20px;
 	height: 20px;
 	box-sizing: border-box;
-	border-radius: 0 0.3em 0.3em 0;
 	background-color: transparent;
 	opacity: 0.45;
 	color: black;
@@ -65,8 +70,12 @@
 	transition: width 0.5s ease-in 0s, opacity 0.2s ease-in 0s, background-color 0.5s ease-in 0s;
 }
 
+#listViewStatusbar.visible {
+	display: block;
+}
+
 #listViewStatusbar:hover {
-	width: 100%;
+	width: calc(100% - var(--rlv-scrollbar-width));
 	opacity: 1;
 	background-color: var(--bk-color-dialog);
 }

@@ -55,6 +55,7 @@ let rssListView = (function() {
 		if(slUtil.hasHScroll(m_elmList)) {
 			m_elmList.style.height = (m_elmList.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
 		}
+		setStatusbarIcon(true);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -333,6 +334,7 @@ let rssListView = (function() {
 			removeListItemEventListeners(el);
 			m_elmList.removeChild(el);
 		}
+		setStatusbarIcon(false);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -367,12 +369,12 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function adjustStatusbarIconToScrollbar() {
-		if(slUtil.hasVScroll(m_elmList)) {
-			m_elmListViewStatusbar.style.left = (m_elmList.clientWidth - slUtil.getScrollbarWidth())  + "px";
-		} else {
-			m_elmListViewStatusbar.style.left = null;
-		}
+	function setStatusbarIcon(isVisible) {
+
+		let sbWidth = (slUtil.hasVScroll(m_elmList) ? slUtil.getScrollbarWidth(document) : 0) + "px";
+
+		document.documentElement.style.setProperty("--rlv-scrollbar-width", sbWidth);
+		m_elmListViewStatusbar.classList.toggle("visible", isVisible);
 	}
 
 	return {
