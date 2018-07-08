@@ -93,6 +93,26 @@ input[type="color"]::-moz-focus-inner {
 	background-color: #e0e0e0;
 }
 
+.helpInfo {
+	display: inline-block;
+	border-radius: 50%;
+	height: 18px;
+	width: 18px;
+	background-color: #dddddd;
+	color: #ffffff;
+	font-family: "Open Sans",X-LocaleSpecific,sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	text-align: center;
+	line-height: 1.3em;
+	vertical-align: top;
+	cursor: help;
+}
+
+.helpInfo:hover {
+	background-color: #2a4364;
+}
+
 .controlImage {
 	display: inline-block;
 	width: 24px;

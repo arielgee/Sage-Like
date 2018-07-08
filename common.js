@@ -267,6 +267,7 @@ let prefs = (function() {
 
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
+	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
 	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
@@ -275,6 +276,7 @@ let prefs = (function() {
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
+	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_COLOR_BACKGROUND_VALUE = "pref_colorBk";
 	const PREF_COLOR_DIALOG_BACKGROUND_VALUE = "pref_colorDlgBk";
 	const PREF_COLOR_SELECT_VALUE = "pref_colorSelect";
@@ -316,6 +318,25 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_CHECK_FEEDS_INTERVAL] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getCheckFeedsMethod() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_CHECK_FEEDS_METHOD).then((result) => {
+				resolve(result[PREF_CHECK_FEEDS_METHOD] === undefined ? DEF_PREF_CHECK_FEEDS_METHOD_VALUE : result[PREF_CHECK_FEEDS_METHOD]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setCheckFeedsMethod(value) {
+
+		let obj = {};
+		obj[PREF_CHECK_FEEDS_METHOD] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -418,6 +439,7 @@ let prefs = (function() {
 	function restoreDefaults() {
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
 		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
+		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
 		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
 		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
@@ -427,6 +449,7 @@ let prefs = (function() {
 		return {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 			checkFeedsInterval: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
+			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			colorBackground: DEF_PREF_COLOR_BACKGROUND_VALUE,
 			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
@@ -438,6 +461,7 @@ let prefs = (function() {
 	return {
 		DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
+		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_COLOR_BACKGROUND_VALUE: DEF_PREF_COLOR_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_SELECT_VALUE: DEF_PREF_COLOR_SELECT_VALUE,
@@ -448,6 +472,8 @@ let prefs = (function() {
 		setRootFeedsFolderId: setRootFeedsFolderId,
 		getCheckFeedsInterval: getCheckFeedsInterval,
 		setCheckFeedsInterval: setCheckFeedsInterval,
+		getCheckFeedsMethod: getCheckFeedsMethod,
+		setCheckFeedsMethod: setCheckFeedsMethod,
 		getColorBackground: getColorBackground,
 		setColorBackground: setColorBackground,
 		getColorDialogBackground: getColorDialogBackground,

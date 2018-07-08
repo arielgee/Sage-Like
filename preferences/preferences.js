@@ -7,10 +7,17 @@ let preferences = (function() {
 	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";
 	const TXT_OPTION_EVERY_DAY_AT = "Every day at ";
 
+	const TXT_HELP_INFO_CHECK_FEED_METHOD = "How the RSS feeds are fetched.\u000d" +
+											"  \u25cf Strenuous – All feeds are fetched at once in one batch. \u000d" +
+											"  \u25cf Moderate – Feeds are fetched in 3 batches with a 2 seconds pause between each one. \u000d" +
+											"  \u25cf Relaxed – Feeds are fetched in 5 batches with a 3 seconds pause between each one. \u000d";
+
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsInterval;
 	let m_elmTimeOfDayBox;
 	let m_elmInputTime;
+	let m_elmCheckFeedsMethod;
+	let m_elmCheckFeedsMethodInfo;
 	let m_elmColorBackground;
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
@@ -37,6 +44,8 @@ let preferences = (function() {
 		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
 		m_elmTimeOfDayBox = document.getElementById("timeOfDayBox");
 		m_elmInputTime = document.getElementById("inputTime");
+		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
+		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
 		m_elmColorBackground = document.getElementById("colorBk");
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
@@ -51,6 +60,8 @@ let preferences = (function() {
 
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
 
+		m_elmCheckFeedsMethodInfo.title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
+
 		addEventListeners();
 		getSavedPreferences();
 	}
@@ -64,6 +75,7 @@ let preferences = (function() {
 		m_elmCheckFeedsInterval.removeEventListener("change", onChangeCheckFeedsInterval);
 		m_elmTimeOfDayBox.removeEventListener("keydown", onKeyDownTimeOfDayBox);
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
+		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
 		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
@@ -87,6 +99,7 @@ let preferences = (function() {
 		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
 		m_elmTimeOfDayBox.addEventListener("keydown", onKeyDownTimeOfDayBox);
 		m_elmInputTime.addEventListener("blur", onBlurInputTime);
+		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
@@ -122,6 +135,10 @@ let preferences = (function() {
 				m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
 			}
 			m_elmCheckFeedsInterval.value = value;
+		});
+
+		prefs.getCheckFeedsMethod().then((value) => {
+			m_elmCheckFeedsMethod.value = value;
 		});
 
 		prefs.getColorBackground().then((color) => {
@@ -209,6 +226,11 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeCheckFeedsMethod(event) {
+		prefs.setCheckFeedsMethod(m_elmCheckFeedsMethod.value);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		prefs.setColorBackground(m_elmColorBackground.value);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
@@ -245,6 +267,7 @@ let preferences = (function() {
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
+		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmColorBackground.value = defPrefs.colorBackground
 		m_elmColorDialogBackground.value = defPrefs.colorDialogBackground
 		m_elmColorSelect.value = defPrefs.colorSelect
