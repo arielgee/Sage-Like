@@ -72,16 +72,16 @@ let rssTreeView = (function() {
 
 		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
 
-			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER) {
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER) {
 				discoveryView.close();
 				feedPropertiesView.close();
 				rssListView.disposeList();
 				createRSSTree();
 			}
 
-			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL) {
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
 				monitorRSSTreeFeeds();
 			}
 		}

@@ -26,12 +26,12 @@
 
 		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
 
-			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS) {
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_COLORS) {
 				setPanelColorsFromPreferences();
 			}
-			if (message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSG_DETAILS_PREF_CHANGE_IMAGES) {
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_IMAGES) {
 				setPanelImageSetFromPreferences();
 			}
 		}

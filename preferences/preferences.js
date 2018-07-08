@@ -159,7 +159,7 @@ let preferences = (function() {
 	function onChangeRootFeedsFolder(event) {
 		prefs.setRootFeedsFolderId(m_elmRootFeedsFolder.value);
 		flashRootFeedsFolderElement();
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_ROOT_FOLDER);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -198,44 +198,44 @@ let preferences = (function() {
 					m_elmCheckFeedsInterval.value = timeValue;
 
 					prefs.setCheckFeedsInterval(timeValue);
-					broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL);
+					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
 				}
 			});
 
 		} else {
 			prefs.setCheckFeedsInterval(m_elmCheckFeedsInterval.value);
-			broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHECK_FEEDS_INTERVAL);
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		prefs.setColorBackground(m_elmColorBackground.value);
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorDialogBackground(event) {
 		prefs.setColorDialogBackground(m_elmColorDialogBackground.value);
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorSelect(event) {
 		prefs.setColorSelect(m_elmColorSelect.value);
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorText(event) {
 		prefs.setColorText(m_elmColorText.value);
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_COLORS);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickRadioImageSet(event) {
 		prefs.setImageSet(Number(event.target.value));
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_IMAGES);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_IMAGES);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ let preferences = (function() {
 			}
 		}
 		flashRootFeedsFolderElement();
-		broadcastPreferencesUpdated(slGlobals.MSG_DETAILS_PREF_CHANGE_ALL);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ALL);
 	}
 
 	//==================================================================================
