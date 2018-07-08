@@ -29,15 +29,20 @@
   * ~~Strenuous - (100% / 0s)~~
   * ~~Moderate	- ( 30% / 2s)~~
   * ~~Relaxed   - ( 20% / 3s)~~
+* ~~check if using m_elmList.parentElement or m_elmTreeRoot.parentElement in call to scrollIntoViewIfNeeded() is correct. why not just m_elmList/m_elmTreeRoot~~ => using the parentElement is correct
+* ~~try to remove timeout for Periodic check when not needed. (bk timeout when sidebar is open and vice versa)~~ => The bk.js can't get the msg that the sidebar was closed so I can't stop the timeout. either way when the sidebat is open the bk.js's timeout is running on empty
 
 ---
 
 #### Next
 * user configuration of the timeout for syndication in prefrences
+  * to support this the folowing locations will need to prefs.get() the timeout value
+    * discoveryView.js:103
+    * rssTreeView.js:304
+    * rssTreeView.js:3395
+
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)
-* try to remove timeout for Periodic check when not needed. (bk timeout when sidebar is open and vice versa)
-* check if using m_elmList.parentElement or m_elmTreeRoot.parentElement in call to scrollIntoViewIfNeeded() is correct. why not just m_elmList/m_elmTreeRoot
 * the bookmark ids from the bookmark lib may starts with a digit.hrml id can not start with a disit => OK by HTML5
 
 * select some item right after creation => NO(?)

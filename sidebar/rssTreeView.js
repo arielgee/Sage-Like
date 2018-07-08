@@ -260,7 +260,6 @@ let rssTreeView = (function() {
 				if(nextInterval.includes(":")) {
 					nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
 				}
-				console.log("[Sage-Like]", "Sidebar periodic check Next interval:", nextInterval);
 				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, nextInterval);
 			}
 		});

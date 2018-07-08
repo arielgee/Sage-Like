@@ -90,7 +90,6 @@
 			if(nextInterval.includes(":")) {
 				nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
 			}
-			console.log("[Sage-Like]", "Background periodic check Next interval:", nextInterval);
 			m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, Number(nextInterval));
 		}
 	}
@@ -138,9 +137,7 @@
 						console.log("[sage-like]", error);
 					}
 				}
-
 				browser.browserAction.setBadgeText({ text: (showNewBadge ? "N" : "") });
-
 				console.log("[sage-like]", "Periodic check for new feeds performed in background.");
 
 			}).catch((error) => {
