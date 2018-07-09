@@ -124,7 +124,7 @@
 					if(!objTreeFeedsData.exist(url)) {
 						objTreeFeedsData.set(url);
 					}
-					objTreeFeedsData.setHandled(url);
+					objTreeFeedsData.setLastChecked(url);
 
 					try {
 						let feedData = await syndication.fetchFeedData(url, false, 3000);		// minimal timeout

@@ -299,7 +299,7 @@ let rssTreeView = (function() {
 		if(!m_objTreeFeedsData.exist(url)) {
 			m_objTreeFeedsData.set(url);
 		}
-		m_objTreeFeedsData.setHandled(url);
+		m_objTreeFeedsData.setLastChecked(url);
 
 		syndication.fetchFeedData(url).then((feedData) => {
 

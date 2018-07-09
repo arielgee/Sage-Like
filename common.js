@@ -81,20 +81,20 @@ class TreeFeedsData extends StoredKeyedItems {
 
 	//////////////////////////////////////////
 	set(key, properties) {
-		let defProp = { handled:Date.now(), lastVisited:0, updateTitle:true };
+		let defProp = { lastChecked: Date.now(), lastVisited: 0, updateTitle: true };
 		let valProp = Object.assign(defProp, this.value(key));
 		let newProp = Object.assign(valProp, properties);
 		super.set(key, {
-			handled: valProp.handled,		// the handled propertey is protected and cannot be modified by set()
+			lastChecked: valProp.lastChecked,		// the lastChecked propertey is protected and cannot be modified by set()
 			lastVisited: newProp.lastVisited,
 			updateTitle: newProp.updateTitle,
 		});
 	}
 
 	//////////////////////////////////////////
-	setHandled(key) {
+	setLastChecked(key) {
 		if(super.exist(key)) {
-			this._items[key].handled = Date.now();
+			this._items[key].lastChecked = Date.now();
 		}
 	}
 
@@ -102,7 +102,7 @@ class TreeFeedsData extends StoredKeyedItems {
 	purge() {
 		return new Promise((resolve) => {
 			for(let key in this._items) {
-				if(this._items[key].handled < this.gotFromStorage) {
+				if(this._items[key].lastChecked < this.gotFromStorage) {
 					super.remove(key);
 				}
 			}
