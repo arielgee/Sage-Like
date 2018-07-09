@@ -280,7 +280,7 @@ let rssTreeView = (function() {
 			let timeoutPause = Number(method[1]);
 
 			for(let elmLI of elmLIs) {
-				checkForNewFeedData(elmLI, elmLI.getAttribute("href"));
+				checkForNewFeedData(elmLI, elmLI.id, elmLI.getAttribute("href"));
 				if((++counter % batchSize) === 0) {
 					await slUtil.sleep(timeoutPause);
 				}
@@ -291,22 +291,22 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function checkForNewFeedData(elmLI, url) {
+	function checkForNewFeedData(elmLI, id, url) {
 
 		setFeedErrorState(elmLI, false);
 		setFeedLoadingState(elmLI, true);
 
-		if(!m_objTreeFeedsData.exist(url)) {
-			m_objTreeFeedsData.set(url);
+		if(!m_objTreeFeedsData.exist(id)) {
+			m_objTreeFeedsData.set(id);
 		}
-		m_objTreeFeedsData.setLastChecked(url);
+		m_objTreeFeedsData.setLastChecked(id);
 
 		syndication.fetchFeedData(url).then((feedData) => {
 
 			let updateTime = slUtil.asSafeNumericDate(feedData.lastUpdated);
 
 			setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
-			setFeedVisitedState(elmLI, m_objTreeFeedsData.value(url).lastVisited > updateTime);
+			setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
 			updateFeedTitle(elmLI, feedData.title);
 		}).catch((error) => {
 			setFeedErrorState(elmLI, true, error);
@@ -421,7 +421,7 @@ let rssTreeView = (function() {
 				}
 
 				// even if there was an error the feed was visited
-				m_objTreeFeedsData.set(url, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+				m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
 			});
 		}
 		setFeedSelectionState(elmLI);
@@ -830,8 +830,8 @@ let rssTreeView = (function() {
 				elmLI.classList.add("blinkNew");
 				m_elmTreeRoot.appendChild(elmLI);
 
-				if(!m_objTreeFeedsData.exist(created.url)) {
-					m_objTreeFeedsData.set(created.url);
+				if(!m_objTreeFeedsData.exist(created.id)) {
+					m_objTreeFeedsData.set(created.id);
 				}
 				setFeedVisitedState(elmLI, false);
 
@@ -875,19 +875,19 @@ let rssTreeView = (function() {
 	function deleteFeed(elmLI) {
 		browser.bookmarks.remove(elmLI.id).then(() => {
 			elmLI.parentElement.removeChild(elmLI);
-			m_objTreeFeedsData.remove(elmLI.getAttribute("href"));
+			m_objTreeFeedsData.remove(elmLI.id);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openPropertiesView(elmLI) {
 
-		let url = elmLI.getAttribute("href");
+		let id = elmLI.id;
 
-		if(!m_objTreeFeedsData.exist(url)) {
-			m_objTreeFeedsData.set(url);
+		if(!m_objTreeFeedsData.exist(id)) {
+			m_objTreeFeedsData.set(id);
 		}
-		feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(url).updateTitle);
+		feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(id).updateTitle);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -905,12 +905,11 @@ let rssTreeView = (function() {
 			let urlChanged = (elmLI.getAttribute("href") !== updated.url);
 
 			if(urlChanged) {
-				m_objTreeFeedsData.remove(elmLI.getAttribute("href"));
 				elmLI.setAttribute("href", updated.url);
 				setFeedVisitedState(elmLI, false);
 			}
 			setFeedTooltipState(elmLI);
-			m_objTreeFeedsData.set(updated.url, { updateTitle: newUpdateTitle });
+			m_objTreeFeedsData.set(updated.id, { updateTitle: newUpdateTitle });
 
 		}).catch((error) => {
 			console.log("[Sage-Like]", error);
@@ -925,7 +924,7 @@ let rssTreeView = (function() {
 	function updateFeedTitle(elmLI, title) {
 
 		// don't change title if user unchecked that option for this feed
-		if(m_objTreeFeedsData.value(elmLI.getAttribute("href")).updateTitle === false) {
+		if(m_objTreeFeedsData.value(elmLI.id).updateTitle === false) {
 			return;
 		}
 
@@ -1076,7 +1075,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isFeedInTree(url) {
-		return m_objTreeFeedsData.exist(url);
+		return (m_elmTreeRoot.querySelector("." + slGlobals.CLS_RTV_LI_TREE_ITEM + "[href='" + url + "']") !== null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

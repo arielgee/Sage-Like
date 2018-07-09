@@ -97,7 +97,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function checkForNewBookmarkFeeds() {
 
-		let urlFeeds = [];
+		let bmFeeds = [];
 		let objTreeFeedsData = new TreeFeedsData();
 
 		await objTreeFeedsData.getStorage();
@@ -113,23 +113,23 @@
 				//////////// collect all feed urls into an array
 				if (bookmarkItems[0].children) {
 					for (let child of bookmarkItems[0].children) {
-						collectBookmarkFeeds(urlFeeds, child);
+						collectBookmarkFeeds(bmFeeds, child);
 					}
 				}
 
 				//////////// scan all feed urls for the first updated one
 				let showNewBadge = false;
-				for (let url of urlFeeds) {
+				for (let feed of bmFeeds) {
 
-					if(!objTreeFeedsData.exist(url)) {
-						objTreeFeedsData.set(url);
+					if(!objTreeFeedsData.exist(feed.id)) {
+						objTreeFeedsData.set(feed.id);
 					}
-					objTreeFeedsData.setLastChecked(url);
+					objTreeFeedsData.setLastChecked(feed.id);
 
 					try {
-						let feedData = await syndication.fetchFeedData(url, false, 3000);		// minimal timeout
+						let feedData = await syndication.fetchFeedData(feed.url, false, 3000);		// minimal timeout
 
-						if(objTreeFeedsData.value(url).lastVisited <= slUtil.asSafeNumericDate(feedData.lastUpdated)) {
+						if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(feedData.lastUpdated)) {
 							showNewBadge = !(await browser.sidebarAction.isOpen({}));
 							break;
 						}
@@ -150,15 +150,15 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function collectBookmarkFeeds(urlFeeds, bookmark) {
+	function collectBookmarkFeeds(bmFeeds, bookmark) {
 
 		// Is it a folder or a bookmark
 		if(bookmark.url === undefined) {
 			for (let child of bookmark.children) {
-				collectBookmarkFeeds(urlFeeds, child);
+				collectBookmarkFeeds(bmFeeds, child);
 			}
 		} else {
-			urlFeeds.push(bookmark.url);
+			bmFeeds.push({ id: bookmark.id, url: bookmark.url });
 		}
 	}
 
