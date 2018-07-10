@@ -35,6 +35,8 @@
 ---
 
 #### Next
+* replace the key for the TreeFeedsData object from url to id of LI (also id of bookmark)
+* purge remove all becouse of async functions, executed too sone
 * user configuration of the timeout for syndication in prefrences
   * to support this the folowing locations will need to prefs.get() the timeout value
     * discoveryView.js:103
@@ -48,3 +50,10 @@
 * select some item right after creation => NO(?)
 * after toolbar click move focus to selected item, if any => same as above; NO(?)
 * a lot of sub folders in the tree view will fuck up the UI
+* check why list status bar is bold
+* check why in openPropertiesView() there is m_objTreeFeedsData.exist() and m_objTreeFeedsData.set()
+* check why feeds from telecomnews (מבזקים על סדר היום) marked as not visited (bold) when thay were
+* if date is missing the Z then convert to XML date format and appen 'Z' at the end ??????
+* delete feed with the keyboard delete key?????
+* toolbar buttons on mousedown instead of click
+* list not empty in discovery view or many 'still loading' rows /???

@@ -60,7 +60,6 @@ class TreeFeedsData extends StoredKeyedItems {
 	//////////////////////////////////////////
 	constructor() {
 		super();
-		this.gotFromStorage = 0;
 	}
 
 	//////////////////////////////////////////
@@ -68,7 +67,6 @@ class TreeFeedsData extends StoredKeyedItems {
 		return new Promise((resolve) => {
 			internalPrefs.getTreeFeedsData().then((items) => {
 				this._items = items;
-				this.gotFromStorage = Date.now();
 				resolve(this.length);
 			});
 		});
@@ -101,12 +99,24 @@ class TreeFeedsData extends StoredKeyedItems {
 	//////////////////////////////////////////
 	purge() {
 		return new Promise((resolve) => {
-			for(let key in this._items) {
-				if(this._items[key].lastChecked < this.gotFromStorage) {
-					super.remove(key);
-				}
-			}
-			resolve();
+
+			slUtil.bookmarksFeedsAsCollection(false).then((bmFeeds) => {
+
+				this.getStorage().then((length) => {
+
+					console.log("[Sage-Like]", "purging");
+					for(let key in this._items) {
+
+						// test case: Moved/Reused bookmark id value; bookmark moved or deleted and a new one created with same id value.
+						// in this case remove from object if its not in the feeds collection
+						if(bmFeeds[key] === undefined) {
+							console.log("[Sage-Like]", "purged", key, this._items[key]);
+							super.remove(key);
+						}
+					}
+					resolve();
+				});
+			});
 		});
 	}
 };

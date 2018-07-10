@@ -111,6 +111,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
+		//m_objTreeFeedsData.purge();
+
 		removeAllTreeItemsEventListeners();
 
 		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
@@ -243,7 +245,7 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function monitorRSSTreeFeeds() {
+	function monitorRSSTreeFeeds() {
 
 		// first clear the current timeout if called from preference change to
 		// set a new interval value or to have no background monitoring at all
@@ -286,9 +288,8 @@ let rssTreeView = (function() {
 					await slUtil.sleep(timeoutPause);
 				}
 			};
+			console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
 		});
-		m_objTreeFeedsData.purge();
-		console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -818,8 +819,8 @@ let rssTreeView = (function() {
 			Because bookmarks.create() is an asynchronous function the creation of multiple bookmarks
 			sequentially is performed to the same index (last index) and will appear in reverse order.
 
-			This recursive/asynchronous function makes sure the next create is performed after the preveuse
-			one has been completed. Better then pacing the creations using setTimeout(), yuck!
+			This recursive/asynchronous function makes sure the next create is performed after the previous
+			one has been completed. Better than pacing the creations using setTimeout(), yuck!
 		*/
 
 		// while index in pointing to an object in the array
