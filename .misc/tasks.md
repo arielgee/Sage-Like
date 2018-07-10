@@ -57,3 +57,4 @@
 * delete feed with the keyboard delete key?????
 * toolbar buttons on mousedown instead of click
 * list not empty in discovery view or many 'still loading' rows /???
+* lastChecked is redundent in TreeFeedsData

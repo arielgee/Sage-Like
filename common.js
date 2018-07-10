@@ -102,7 +102,7 @@ class TreeFeedsData extends StoredKeyedItems {
 
 			slUtil.bookmarksFeedsAsCollection(false).then((bmFeeds) => {
 
-				this.getStorage().then((length) => {
+				//this.getStorage().then((length) => {
 
 					console.log("[Sage-Like]", "purging");
 					for(let key in this._items) {
@@ -115,7 +115,7 @@ class TreeFeedsData extends StoredKeyedItems {
 						}
 					}
 					resolve();
-				});
+				//});
 			});
 		});
 	}

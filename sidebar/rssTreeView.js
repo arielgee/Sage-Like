@@ -111,8 +111,6 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
-		//m_objTreeFeedsData.purge();
-
 		removeAllTreeItemsEventListeners();
 
 		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
@@ -272,6 +270,7 @@ let rssTreeView = (function() {
 	async function checkForNewRSSTreeFeedsData() {
 
 		await m_objTreeFeedsData.getStorage();
+		await m_objTreeFeedsData.purge();
 
 		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM);
 
