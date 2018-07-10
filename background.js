@@ -98,69 +98,38 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function checkForNewBookmarkFeeds() {
 
-		let bmFeeds = [];
-		let objTreeFeedsData = new TreeFeedsData();
+		// collect all feed urls into an array
+		await slUtil.bookmarksFeedsAsCollection(true).then(async (bmFeeds) => {
 
-		await objTreeFeedsData.getStorage();
+			let objTreeFeedsData = new TreeFeedsData();
 
-		prefs.getRootFeedsFolderId().then((folderId) => {
+			await objTreeFeedsData.getStorage();
 
-			if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-				return;
+			// scan all feed urls for the first updated one
+			let showNewBadge = false;
+			for (let feed of bmFeeds) {
+
+				if(!objTreeFeedsData.exist(feed.id)) {
+					objTreeFeedsData.set(feed.id);
+				}
+				objTreeFeedsData.setLastChecked(feed.id);
+
+				try {
+					let feedData = await syndication.fetchFeedData(feed.url, false, 3000);		// minimal timeout
+
+					if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(feedData.lastUpdated)) {
+						showNewBadge = !(await browser.sidebarAction.isOpen({}));
+						break;
+					}
+				} catch (error) {
+					console.log("[sage-like]", error);
+				}
 			}
-
-			browser.bookmarks.getSubTree(folderId).then(async (bookmarkItems) => {
-
-				//////////// collect all feed urls into an array
-				if (bookmarkItems[0].children) {
-					for (let child of bookmarkItems[0].children) {
-						collectBookmarkFeeds(bmFeeds, child);
-					}
-				}
-
-				//////////// scan all feed urls for the first updated one
-				let showNewBadge = false;
-				for (let feed of bmFeeds) {
-
-					if(!objTreeFeedsData.exist(feed.id)) {
-						objTreeFeedsData.set(feed.id);
-					}
-					objTreeFeedsData.setLastChecked(feed.id);
-
-					try {
-						let feedData = await syndication.fetchFeedData(feed.url, false, 3000);		// minimal timeout
-
-						if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(feedData.lastUpdated)) {
-							showNewBadge = !(await browser.sidebarAction.isOpen({}));
-							break;
-						}
-					} catch (error) {
-						console.log("[sage-like]", error);
-					}
-				}
-				browser.browserAction.setBadgeText({ text: (showNewBadge ? "N" : "") });
-				console.log("[sage-like]", "Periodic check for new feeds performed in background.");
-
-			}).catch((error) => {
-				console.log("[sage-like]", error);
-			});
+			browser.browserAction.setBadgeText({ text: (showNewBadge ? "N" : "") });
+			console.log("[sage-like]", "Periodic check for new feeds performed in background.");
 
 		}).catch((error) => {
 			console.log("[sage-like]", error);
 		});
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function collectBookmarkFeeds(bmFeeds, bookmark) {
-
-		// Is it a folder or a bookmark
-		if(bookmark.url === undefined) {
-			for (let child of bookmark.children) {
-				collectBookmarkFeeds(bmFeeds, child);
-			}
-		} else {
-			bmFeeds.push({ id: bookmark.id, url: bookmark.url });
-		}
-	}
-
 })();

@@ -762,6 +762,45 @@ let slUtil = (function() {
 		return parseInt(rectView.height / rectElm.height);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function bookmarksFeedsAsCollection(asArray) {
+
+		return new Promise((resolve, reject) => {
+
+			let bmFeeds = asArray ? [] : {};
+			let collectFeeds = function (bmFeeds, bookmark) {
+				// Is it a folder or a bookmark
+				if (bookmark.url === undefined) {
+					for (let child of bookmark.children) {
+						collectFeeds(bmFeeds, child);
+					}
+				} else {
+					if(asArray) {
+						bmFeeds.push({ id: bookmark.id, url: bookmark.url });
+					} else {
+						bmFeeds[bookmark.id] = { id: bookmark.id, url: bookmark.url };
+					}
+				}
+			};
+
+			prefs.getRootFeedsFolderId().then((folderId) => {
+
+				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+					reject("Root feeds folder id not set");
+				}
+
+				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
+					if (bookmarks[0].children) {
+						for (let child of bookmarks[0].children) {
+							collectFeeds(bmFeeds, child);
+						}
+					}
+					resolve(bmFeeds);
+				}).catch((error) => reject(error));
+			}).catch((error) => reject(error));
+		});
+	}
+
 
 	return {
 		escapeRegExp: escapeRegExp,
@@ -783,6 +822,7 @@ let slUtil = (function() {
 		isElementInViewport: isElementInViewport,
 		scrollIntoViewIfNeeded: scrollIntoViewIfNeeded,
 		numberOfVItemsInViewport: numberOfVItemsInViewport,
+		bookmarksFeedsAsCollection: bookmarksFeedsAsCollection,
 	};
 
 })();
