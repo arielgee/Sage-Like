@@ -66,7 +66,7 @@ class TreeFeedsData extends StoredKeyedItems {
 	//////////////////////////////////////////
 	getStorage() {
 		return new Promise((resolve) => {
-			internalPrefs.getLastVisitedFeeds().then((items) => {
+			internalPrefs.getTreeFeedsData().then((items) => {
 				this._items = items;
 				this.gotFromStorage = Date.now();
 				resolve(this.length);
@@ -76,7 +76,7 @@ class TreeFeedsData extends StoredKeyedItems {
 
 	//////////////////////////////////////////
 	setStorage() {
-		internalPrefs.setLastVisitedFeeds(this._items);
+		internalPrefs.setTreeFeedsData(this._items);
 	}
 
 	//////////////////////////////////////////
@@ -195,10 +195,10 @@ let internalPrefs = (function() {
 	// internal preferences
 
 	const DEF_PREF_OPEN_SUB_TREES = {};
-	const DEF_PREF_LAST_VISITED_FEEDS = {};
+	const DEF_PREF_TREE_FEEDS_DATA = {};
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
-	const PREF_LAST_VISITED_FEEDS = "pref_lastVisitedFeeds";
+	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenSubTrees() {
@@ -220,40 +220,40 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getLastVisitedFeeds() {
+	function getTreeFeedsData() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_LAST_VISITED_FEEDS).then((result) => {
-				resolve(result[PREF_LAST_VISITED_FEEDS] === undefined ? DEF_PREF_LAST_VISITED_FEEDS : result[PREF_LAST_VISITED_FEEDS]);
+			browser.storage.local.get(PREF_TREE_FEEDS_DATA).then((result) => {
+				resolve(result[PREF_TREE_FEEDS_DATA] === undefined ? DEF_PREF_TREE_FEEDS_DATA : result[PREF_TREE_FEEDS_DATA]);
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setLastVisitedFeeds(objValue) {
+	function setTreeFeedsData(objValue) {
 
 		let obj = {};
-		obj[PREF_LAST_VISITED_FEEDS] = objValue;
+		obj[PREF_TREE_FEEDS_DATA] = objValue;
 		browser.storage.local.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES);
-		this.setLastVisitedFeeds(DEF_PREF_LAST_VISITED_FEEDS);
+		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA);
 
 		return {
 			openSubTrees: DEF_PREF_OPEN_SUB_TREES,
-			lastVisitedFeeds: DEF_PREF_LAST_VISITED_FEEDS,
+			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA,
 		};
 	}
 
 	return {
 		getOpenSubTrees: getOpenSubTrees,
 		setOpenSubTrees: setOpenSubTrees,
-		getLastVisitedFeeds: getLastVisitedFeeds,
-		setLastVisitedFeeds: setLastVisitedFeeds,
+		getTreeFeedsData: getTreeFeedsData,
+		setTreeFeedsData: setTreeFeedsData,
 
 		restoreDefaults: restoreDefaults,
 	};
