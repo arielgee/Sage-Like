@@ -174,6 +174,7 @@ let discoveryView = (function() {
 		let elm = document.createElement("li");
 		elm.className = "dfItem novalidfeeds";
 		elm.textContent = text;
+		emptyDiscoverFeedsList();
 		m_elmDiscoverFeedsList.appendChild(elm);
 	};
 
