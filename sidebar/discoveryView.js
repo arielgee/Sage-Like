@@ -27,7 +27,6 @@ let discoveryView = (function() {
 		if(message.id === MSGID_GET_DOC_TEXT_HTML) {
 			loadDiscoverFeedsList(message.txtHTML, message.domainName);
 		}
-		return true;
 	});
 
 	////////////////////////////////////////////////////////////////////////////////////
