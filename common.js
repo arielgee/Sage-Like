@@ -98,25 +98,28 @@ class TreeFeedsData extends StoredKeyedItems {
 
 	//////////////////////////////////////////
 	purge() {
+		// test case: Moved/Reused bookmark id value; bookmark moved or deleted and a new one created with same id value.
+
 		return new Promise((resolve) => {
 
-			slUtil.bookmarksFeedsAsCollection(false).then((bmFeeds) => {
+			let collecting = slUtil.bookmarksFeedsAsCollection(false);
+			let getting = this.getStorage();
 
-				//this.getStorage().then((length) => {
+			collecting.then((bmFeeds) => {
+				getting.then((length) => {
 
 					console.log("[Sage-Like]", "purging");
 					for(let key in this._items) {
 
-						// test case: Moved/Reused bookmark id value; bookmark moved or deleted and a new one created with same id value.
-						// in this case remove from object if its not in the feeds collection
-						if(bmFeeds[key] === undefined) {
+						// remove from object if its not in the feeds collection and is older then 24 hours
+						if( (bmFeeds[key] === undefined) && (this._items[key].lastChecked < (Date.now() - 86400000)  ) ) {
 							console.log("[Sage-Like]", "purged", key, this._items[key]);
 							super.remove(key);
 						}
 					}
 					resolve();
-				//});
-			});
+				}).catch(() => {});
+			}).catch(() => {});
 		});
 	}
 };

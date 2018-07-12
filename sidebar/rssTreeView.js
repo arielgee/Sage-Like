@@ -91,6 +91,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
+		m_objTreeFeedsData.purge();
+
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
@@ -270,7 +272,6 @@ let rssTreeView = (function() {
 	async function checkForNewRSSTreeFeedsData() {
 
 		await m_objTreeFeedsData.getStorage();
-		await m_objTreeFeedsData.purge();
 
 		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM);
 
