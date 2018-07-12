@@ -531,8 +531,11 @@ let rssTreeView = (function() {
 			m_elmCurrentlyDragged.classList.remove("dragged");
 		} else {
 
-			browser.bookmarks.get(m_elmCurrentlyDragged.id).then((dragged) => {
-				browser.bookmarks.get(elmDropTarget.id).then((drop) => {
+			let gettingDragged = browser.bookmarks.get(m_elmCurrentlyDragged.id);
+			let gettingDrop = browser.bookmarks.get(elmDropTarget.id);
+
+			gettingDragged.then((dragged) => {
+				gettingDrop.then((drop) => {
 
 					let newIndex = drop[0].index;
 

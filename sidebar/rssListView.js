@@ -344,14 +344,19 @@ let rssListView = (function() {
 
 		if(elms[0] !== undefined && !(elms[0].classList.contains("errormsg"))) {
 
+			let creatingTab, addingUrl;
+
 			for(let elm of elms) {
 
 				let parkedTabUrl = browser.extension.getURL("/parkedTab/parked.html?prkTitle=" +
 					elm.textContent.replace(/^[0-9]+\. /, "") +
 					"&prkUrl=" + elm.getAttribute("href"));
 
-				browser.tabs.create({ active: false, url: parkedTabUrl }).then((tab) => {
-					slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent).then(() => {
+				creatingTab = browser.tabs.create({ active: false, url: parkedTabUrl });
+				addingUrl = slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
+
+				creatingTab.then((tab) => {
+					addingUrl.then(() => {
 						setItemRealVisitedState(elm, elm.getAttribute("href"));
 					});
 				});

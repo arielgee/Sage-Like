@@ -119,8 +119,11 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getSavedPreferences() {
 
-		prefs.getRootFeedsFolderId().then((value) => {
-			createSelectFeedFolderElements().then(() => {
+		let gettingFolderId = prefs.getRootFeedsFolderId();
+		let creatingSelect = createSelectFeedFolderElements();
+
+		gettingFolderId.then((value) => {
+			creatingSelect.then(() => {
 				m_elmRootFeedsFolder.value = value;
 				setTimeout(() => {
 					flashRootFeedsFolderElement();
