@@ -309,12 +309,12 @@ let preferences = (function() {
 				m_elmRootFeedsFolder.removeChild(m_elmRootFeedsFolder.firstChild);
 			}
 
-			browser.bookmarks.getSubTree(MENU_GUID).then((bookmarkItems) => {
+			browser.bookmarks.getSubTree(MENU_GUID).then((bookmarks) => {
 
 				let elmOption = createTagOption(slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
 				m_elmRootFeedsFolder.appendChild(elmOption);
 
-				for(let child of bookmarkItems[0].children) {
+				for(let child of bookmarks[0].children) {
 					createSelectFeedFolderElement(child, 0);
 				}
 				resolve();
@@ -326,8 +326,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function createSelectFeedFolderElement(bookmarkItem, indent) {
 
-		// it's a folder
-		if(bookmarkItem.url === undefined) {
+		if(bookmarkItem.type === "folder") {
 			let elmOption = createTagOption(bookmarkItem.id, "&emsp;".repeat(indent) + bookmarkItem.title);
 			m_elmRootFeedsFolder.appendChild(elmOption);
 			indent++;

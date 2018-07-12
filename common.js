@@ -782,12 +782,11 @@ let slUtil = (function() {
 
 			let bmFeeds = asArray ? [] : {};
 			let collectFeeds = function (bmFeeds, bookmark) {
-				// Is it a folder or a bookmark
-				if (bookmark.url === undefined) {
+				if (bookmark.type === "folder") {
 					for (let child of bookmark.children) {
 						collectFeeds(bmFeeds, child);
 					}
-				} else {
+				} else if (bookmark.type === "bookmark") {
 					if(asArray) {
 						bmFeeds.push({ id: bookmark.id, url: bookmark.url });
 					} else {
@@ -803,11 +802,7 @@ let slUtil = (function() {
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
-					if (bookmarks[0].children) {
-						for (let child of bookmarks[0].children) {
-							collectFeeds(bmFeeds, child);
-						}
-					}
+					collectFeeds(bmFeeds, bookmarks[0]);
 					resolve(bmFeeds);
 				}).catch((error) => reject(error));
 			}).catch((error) => reject(error));

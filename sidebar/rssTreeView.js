@@ -150,9 +150,9 @@ let rssTreeView = (function() {
 				return;
 			}
 
-			browser.bookmarks.getSubTree(folderId).then((bookmarkItems) => {
-				if (bookmarkItems[0].children) {
-					for (let child of bookmarkItems[0].children) {
+			browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
+				if (bookmarks[0].children) {		// do this to skip displaying the parent folder
+					for (let child of bookmarks[0].children) {
 						createTreeItem(m_elmTreeRoot, child);
 					}
 				}
@@ -176,7 +176,7 @@ let rssTreeView = (function() {
 
 		let elmLI;
 
-		if (bookmark.url === undefined) { // it's a folder
+		if (bookmark.type === "folder") {
 
 			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
 
@@ -189,9 +189,11 @@ let rssTreeView = (function() {
 				createTreeItem(elmUL, child);
 			}
 
-		} else { // it's a bookmark
+		} else if (bookmark.type === "bookmark") {
 
 			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_TREE_ITEM, bookmark.url);
+		} else {
+			return;	// separator
 		}
 		parentElement.appendChild(elmLI);
 	}
