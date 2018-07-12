@@ -58,6 +58,7 @@ let rssTreeView = (function() {
 	let m_lineHeight = 21;
 	let m_lastClickedFeedTime = 0;
 	let m_timeoutIdMonitorRSSTreeFeeds = null;
+	let m_flagSuspendBookmarksEventHandler = false;
 
 	let m_objOpenSubTrees = new OpenSubTrees();
 	let m_objTreeFeedsData = new TreeFeedsData();
@@ -102,6 +103,10 @@ let rssTreeView = (function() {
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
+		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
+		browser.bookmarks.onRemoved.addListener(onBookmarksEventHandler);
+		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
+		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
 
 		m_lineHeight = parseInt(getComputedStyle(m_elmTreeRoot).getPropertyValue("line-height"));
 
@@ -122,6 +127,10 @@ let rssTreeView = (function() {
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
+		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onChanged.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onMoved.removeListener(onBookmarksEventHandler);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -141,6 +150,7 @@ let rssTreeView = (function() {
 		m_rssTreeCreatedOK = false;
 		m_elmCurrentlyLoading = null;
 		m_elmCurrentlySelected = null;
+		setTbButtonCheckFeedsAlert(false);
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
@@ -550,6 +560,7 @@ let rssTreeView = (function() {
 						index: newIndex,
 					};
 
+					suspendBookmarksEventHandler(true);
 					browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
 
 						m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
@@ -558,12 +569,42 @@ let rssTreeView = (function() {
 						elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
 						addSubTreeItemsEventListeners(elmDropTarget.previousElementSibling);
 						setFeedSelectionState(elmDropTarget.previousElementSibling);
-					});
+					}).finally(() => suspendBookmarksEventHandler(false));
 				});
 			});
 		}
 		elmDropTarget.classList.remove("draggedOver");
 		return false;
+	}
+
+	//==================================================================================
+	//=== Bookmarks Event Listeners
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBookmarksEventHandler(id, objInfo) {
+
+		if(m_flagSuspendBookmarksEventHandler) {
+			return;
+		}
+
+		let ids = [id];
+
+		// bookmark removed
+		if(objInfo.parentId) {
+			ids.push(objInfo.parentId);
+		}
+
+		// bookmark moved
+		if(objInfo.oldParentId) {
+			ids.push(objInfo.oldParentId);
+		}
+
+		slUtil.isDescendantOfRoot(ids).then((isDescendant) => {
+			if(isDescendant) {
+				setTbButtonCheckFeedsAlert(true);
+			}
+		});
 	}
 
 	//==================================================================================
@@ -759,7 +800,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickCheckTreeFeeds(event) {
 
-		if( !m_rssTreeCreatedOK || (event.shiftKey && event.ctrlKey && event.altKey) ) {
+		if( !m_rssTreeCreatedOK || event.shiftKey ) {
 			rssListView.disposeList();
 			createRSSTree();
 		} else {
@@ -831,6 +872,7 @@ let rssTreeView = (function() {
 		// while index in pointing to an object in the array
 		if(bookmarksList.length > index) {
 
+			suspendBookmarksEventHandler(true);
 			browser.bookmarks.create(bookmarksList[index]).then((created) => {
 
 				let elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
@@ -849,7 +891,7 @@ let rssTreeView = (function() {
 					elmLI.scrollIntoView();
 					blinkNewlyAddedFeeds();
 				}
-			});
+			}).finally(() => suspendBookmarksEventHandler(false));
 		}
 	}
 
@@ -880,10 +922,11 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function deleteFeed(elmLI) {
+		suspendBookmarksEventHandler(true);
 		browser.bookmarks.remove(elmLI.id).then(() => {
 			elmLI.parentElement.removeChild(elmLI);
 			m_objTreeFeedsData.remove(elmLI.id);
-		});
+		}).finally(() => suspendBookmarksEventHandler(false));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -905,6 +948,7 @@ let rssTreeView = (function() {
 			url: newUrl,
 		};
 
+		suspendBookmarksEventHandler(true);
 		browser.bookmarks.update(elmLI.id, changes).then((updated) => {
 
 			elmLI.firstElementChild.textContent = updated.title;
@@ -920,7 +964,7 @@ let rssTreeView = (function() {
 
 		}).catch((error) => {
 			console.log("[Sage-Like]", error);
-		});
+		}).finally(() => suspendBookmarksEventHandler(false));
 	}
 
 	//==================================================================================
@@ -937,9 +981,10 @@ let rssTreeView = (function() {
 
 		// don't change title to empty string
 		if(title.length > 0) {
+			suspendBookmarksEventHandler(true);
 			browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
 				elmLI.firstElementChild.textContent = updatedNode.title;
-			});
+			}).finally(() => suspendBookmarksEventHandler(false));
 		}
 	}
 
@@ -1070,6 +1115,27 @@ let rssTreeView = (function() {
 	//==================================================================================
 	//=== Utils
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setTbButtonCheckFeedsAlert(on) {
+
+		if(m_elmCheckTreeFeeds.slSavedTitle === undefined) {
+			m_elmCheckTreeFeeds.slSavedTitle = m_elmCheckTreeFeeds.title;
+		}
+
+		if(on) {
+			m_elmCheckTreeFeeds.classList.add("alert");
+			m_elmCheckTreeFeeds.title = "The feed folder or it's content has been modified by another party.\u000dShift+click to reload.";
+		} else {
+			m_elmCheckTreeFeeds.classList.remove("alert");
+			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function suspendBookmarksEventHandler(suspendOrResume) {
+		m_flagSuspendBookmarksEventHandler = suspendOrResume;
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {

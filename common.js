@@ -809,6 +809,38 @@ let slUtil = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function isDescendantOfRoot(bookmarkIds) {
+
+		return new Promise((resolve, reject) => {
+
+			let isDescendant = false;
+			let isChildDescendant = function (bookmark) {
+				if(bookmarkIds.indexOf(bookmark.id) > -1)  {
+					isDescendant = true;
+					return;
+				} else {
+					if (bookmark.type === "folder") {
+						for (let child of bookmark.children) {
+							isChildDescendant(child);
+						}
+					}
+				}
+			};
+
+			prefs.getRootFeedsFolderId().then((folderId) => {
+
+				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+					reject("Root feeds folder id not set");
+				}
+
+				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
+					isChildDescendant(bookmarks[0]);
+					resolve(isDescendant);
+				}).catch((error) => reject(error));
+			}).catch((error) => reject(error));
+		});
+	}
 
 	return {
 		escapeRegExp: escapeRegExp,
@@ -831,6 +863,7 @@ let slUtil = (function() {
 		scrollIntoViewIfNeeded: scrollIntoViewIfNeeded,
 		numberOfVItemsInViewport: numberOfVItemsInViewport,
 		bookmarksFeedsAsCollection: bookmarksFeedsAsCollection,
+		isDescendantOfRoot: isDescendantOfRoot,
 	};
 
 })();

@@ -72,6 +72,10 @@ html, body {
 	margin: auto 0;
 }
 
+.toolbar .button.alert {
+	filter: drop-shadow(0 0 4px #FF0000);
+}
+
 .toolbar .button:hover {
 	filter: drop-shadow(0 0 4px #FFFFFF);
 }
