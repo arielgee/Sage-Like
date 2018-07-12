@@ -57,8 +57,8 @@
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.addEventListener("resize", () => { setPanelLayout(); }, false);
 
-		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
-		m_elmPreferences.addEventListener("click", onClickPreferences);
+		m_elmDiscoverFeed.addEventListener("mousedown", onMouseDownDiscoverFeed);
+		m_elmPreferences.addEventListener("mousedown", onMouseDownPreferences);
 
 		setPanelColorsFromPreferences();
 		setPanelImageSetFromPreferences();
@@ -74,8 +74,8 @@
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.removeEventListener("resize", () => { setPanelLayout(); }, false);
 
-		m_elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
-		m_elmPreferences.removeEventListener("click", onClickPreferences);
+		m_elmDiscoverFeed.removeEventListener("mousedown", onMouseDownDiscoverFeed);
+		m_elmPreferences.removeEventListener("mousedown", onMouseDownPreferences);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -164,13 +164,13 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickDiscoverFeed(event) {
+	function onMouseDownDiscoverFeed(event) {
 		discoveryView.open();
 		event.stopPropagation();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickPreferences(event) {
+	function onMouseDownPreferences(event) {
 		browser.runtime.openOptionsPage();
 	}
 })();
