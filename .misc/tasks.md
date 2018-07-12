@@ -30,13 +30,24 @@
   * ~~Moderate	- ( 30% / 2s)~~
   * ~~Relaxed   - ( 20% / 3s)~~
 * ~~check if using m_elmList.parentElement or m_elmTreeRoot.parentElement in call to scrollIntoViewIfNeeded() is correct. why not just m_elmList/m_elmTreeRoot~~ => using the parentElement is correct
-* ~~try to remove timeout for Periodic check when not needed. (bk timeout when sidebar is open and vice versa)~~ => The bk.js can't get the msg that the sidebar was closed so I can't stop the timeout. either way when the sidebat is open the bk.js's timeout is running on empty
+* ~~try to remove timeout for Periodic check when not needed. (bk timeout when sidebar is open and vice versa)~~ => The bk.js can't get the msg that the sidebar was closed so I can't stop the timeout. either way when the sidebar is open the bk.js's timeout is running on empty
+* ~~addlistener on bookmarks???~~
+* ~~FUUUUUUUUCK !!! modifing the tree (new dicovery, drag & drop) turns the TB button read FUUUUUUUUCK~~
+* ~~use promise variables like in purge to run then parallely~~
+* ~~rewrite isDescendantOfRoot, work from the modified id up to the parent~~ => NO. was rewriten to handle array of ids.
+* ~~need to handle seperartor bookmarks. tree is getting fucked~~
+* ~~replace the key for the TreeFeedsData object from url to id of LI (also id of bookmark)~~
+* ~~purge remove all becouse of async functions, executed too sone~~ => rewriten and moved to the start on the view load
+* ~~lastChecked is redundent in TreeFeedsData~~ => used in purge
+* ~~list not empty in discovery view or many 'still loading' rows /???~~ fixed? look out for it
+* ~~check why list status bar is bold~~
+* ~~toolbar buttons on mousedown instead of click~~
+* ~~handle mouse click on tree/list body and not item~~
 
 ---
 
 #### Next
-* replace the key for the TreeFeedsData object from url to id of LI (also id of bookmark)
-* purge remove all becouse of async functions, executed too sone
+
 * user configuration of the timeout for syndication in prefrences
   * to support this the folowing locations will need to prefs.get() the timeout value
     * discoveryView.js:103
@@ -50,11 +61,14 @@
 * select some item right after creation => NO(?)
 * after toolbar click move focus to selected item, if any => same as above; NO(?)
 * a lot of sub folders in the tree view will fuck up the UI
-* check why list status bar is bold
+
 * check why in openPropertiesView() there is m_objTreeFeedsData.exist() and m_objTreeFeedsData.set()
-* check why feeds from telecomnews (מבזקים על סדר היום) marked as not visited (bold) when thay were
-* if date is missing the Z then convert to XML date format and appen 'Z' at the end ??????
+
+* check why feeds from telecomnews (מבזקים על סדר היום) marked as not visited (bold) when thay were. SEE NEXT
+  * if date is missing the Z then convert to XML date format and appen 'Z' at the end ??????
+
 * delete feed with the keyboard delete key?????
-* toolbar buttons on mousedown instead of click
-* list not empty in discovery view or many 'still loading' rows /???
-* lastChecked is redundent in TreeFeedsData
+
+
+
+

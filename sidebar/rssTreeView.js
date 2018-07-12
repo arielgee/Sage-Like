@@ -101,6 +101,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.addEventListener("mousedown", onMouseDownCheckTreeFeeds);
 		m_elmExpandAll.addEventListener("mousedown", onMouseDownExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("mousedown", onMouseDownExpandCollapseAll);
+		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
 		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onRemoved.addListener(onBookmarksEventHandler);
@@ -125,6 +126,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.removeEventListener("mousedown", onMouseDownCheckTreeFeeds);
 		m_elmExpandAll.removeEventListener("mousedown", onMouseDownExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("mousedown", onMouseDownExpandCollapseAll);
+		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
 		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
 		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
@@ -611,6 +613,15 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseDownTreeRoot(event) {
+		if(event.target === m_elmTreeRoot) {
+			event.stopPropagation();
+			event.preventDefault();
+			setFocus();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTreeRoot(event) {
 
 		event.stopPropagation();
@@ -925,6 +936,7 @@ let rssTreeView = (function() {
 		browser.bookmarks.remove(elmLI.id).then(() => {
 			elmLI.parentElement.removeChild(elmLI);
 			m_objTreeFeedsData.remove(elmLI.id);
+			m_elmCurrentlySelected = null;
 		}).finally(() => suspendBookmarksEventHandler(false));
 	}
 

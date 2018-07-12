@@ -66,6 +66,14 @@
 
 		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
 		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
+
+		setTimeout(() => {
+			if(["treeitemcontext", "treecontext"].indexOf(m_bCurrentContext) > -1) {
+				rssTreeView.setFocus();
+			} else if(["listitemcontext", "listcontext"].indexOf(m_bCurrentContext) > -1) {
+				rssListView.setFocus();
+			}
+		}, 280);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

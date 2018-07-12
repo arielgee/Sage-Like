@@ -22,6 +22,7 @@ let rssListView = (function() {
 		m_elmListViewStatusbar = document.getElementById("listViewStatusbar");
 		m_elmListViewRssTitle = document.getElementById("listViewRssTitle");
 
+		m_elmList.addEventListener("mousedown", onMouseDownFeedList);
 		m_elmList.addEventListener("keydown", onKeyDownFeedList);
 	}
 
@@ -30,6 +31,7 @@ let rssListView = (function() {
 
 		disposeList();
 
+		m_elmList.removeEventListener("mousedown", onMouseDownFeedList);
 		m_elmList.removeEventListener("keydown", onKeyDownFeedList);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -152,6 +154,13 @@ let rssListView = (function() {
 	//==================================================================================
 	//=== List Event Listeners
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseDownFeedList(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		setFocus();
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownFeedList(event) {
