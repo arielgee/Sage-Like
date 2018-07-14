@@ -98,9 +98,9 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
 		m_elmTreeRoot = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
 
-		m_elmCheckTreeFeeds.addEventListener("mousedown", onMouseDownCheckTreeFeeds);
-		m_elmExpandAll.addEventListener("mousedown", onMouseDownExpandCollapseAll);
-		m_elmCollapseAll.addEventListener("mousedown", onMouseDownExpandCollapseAll);
+		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
+		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
+		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
 		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
@@ -123,9 +123,9 @@ let rssTreeView = (function() {
 		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
 		m_timeoutIdMonitorRSSTreeFeeds = null;
 
-		m_elmCheckTreeFeeds.removeEventListener("mousedown", onMouseDownCheckTreeFeeds);
-		m_elmExpandAll.removeEventListener("mousedown", onMouseDownExpandCollapseAll);
-		m_elmCollapseAll.removeEventListener("mousedown", onMouseDownExpandCollapseAll);
+		m_elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
+		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
+		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
 		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
@@ -799,7 +799,7 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onMouseDownCheckTreeFeeds(event) {
+	function onClickCheckTreeFeeds(event) {
 
 		if( !m_rssTreeCreatedOK || event.shiftKey ) {
 			rssListView.disposeList();
@@ -811,7 +811,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onMouseDownExpandCollapseAll(event) {
+	function onClickExpandCollapseAll(event) {
 
 		let elmLI, elmULs = m_elmTreeRoot.getElementsByTagName("ul");
 

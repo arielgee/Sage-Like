@@ -41,7 +41,7 @@ let discoveryView = (function() {
 		m_elmLabelInfobar = document.getElementById("lblInfobar");
 
 		m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
-		m_elmButtonRediscover.addEventListener("mousedown", onMouseDownButtonRediscover);
+		m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
 		m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
 
@@ -67,7 +67,7 @@ let discoveryView = (function() {
 		setStatusbarMessage("", false);
 
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
-		m_elmButtonRediscover.removeEventListener("mousedown", onMouseDownButtonRediscover);
+		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
 		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
 
@@ -241,7 +241,7 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onMouseDownButtonRediscover(event) {
+	function onClickButtonRediscover(event) {
 		runDiscoverFeeds();
 	}
 
