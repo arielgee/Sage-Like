@@ -50,8 +50,6 @@ let discoveryView = (function() {
 
 		m_elmDiscoverPanel.focus()
 		runDiscoverFeeds();
-
-		//setTimeout(() => m_elmDiscoverPanel.focus(), 280);
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////

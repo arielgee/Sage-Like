@@ -58,6 +58,8 @@ let feedPropertiesView = (function() {
 		m_elmFeedPropertiesPanel.removeEventListener("keydown", onKeyDownFeedPropertiesPanel);
 		m_elmButtonSave.removeEventListener("click", onClickButtonSave);
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
+
+		rssTreeView.setFocus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

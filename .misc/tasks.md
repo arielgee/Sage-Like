@@ -69,6 +69,8 @@
 
 * delete feed with the keyboard delete key?????
 
+* make all tabindex in panel.html "0"
+
 
 
 

@@ -33,6 +33,7 @@
 	let m_elmEventTarget;
 
 	let m_bCurrentContext = "";
+	let m_bActivePanelOpened = false;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -67,18 +68,19 @@
 		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
 		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 
-		setTimeout(() => {
+		if(m_bActivePanelOpened === false) {
 			if(["treeitemcontext", "treecontext"].indexOf(m_bCurrentContext) > -1) {
 				rssTreeView.setFocus();
 			} else if(["listitemcontext", "listcontext"].indexOf(m_bCurrentContext) > -1) {
 				rssListView.setFocus();
 			}
-		}, 280);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onContextMenu(event) {
 
+		m_bActivePanelOpened = false;
 		m_elmEventTarget = event.target;
 
 		let showMenu = true;
@@ -224,6 +226,10 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
+		if([ContextAction.treeFeedProperties].indexOf(menuAction) > -1 ) {
+			m_bActivePanelOpened = true;
+		}
+
 		closeContextMenu();
 
 		if (m_elmEventTarget !== undefined && m_elmEventTarget !== null) {
@@ -288,6 +294,7 @@
 			case ContextAction.treeCopyUrl:
 			case ContextAction.listCopyUrl:
 				slUtil.copyTextToClipboard(document, actionData.url);
+				m_elmEventTarget.focus();
 				break;
 				///////////////////////////////////////////
 

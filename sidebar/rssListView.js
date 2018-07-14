@@ -377,8 +377,8 @@ let rssListView = (function() {
 	function setFocus() {
 		if(m_elmCurrentlySelected !== null) {
 			setFeedItemSelectionState(m_elmCurrentlySelected);
-		} else if(m_elmList.firstElementChild) {
-			setFeedItemSelectionState(m_elmList.firstElementChild);
+		} else {
+			m_elmList.parentElement.focus();
 		}
 	}
 

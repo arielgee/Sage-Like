@@ -1174,9 +1174,12 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFocus() {
 		if(m_elmCurrentlySelected !== null) {
+			console.log("[sage-like]", 1, m_elmCurrentlySelected);
 			setFeedSelectionState(m_elmCurrentlySelected);
-		} else if(m_elmTreeRoot.firstElementChild) {
-			setFeedSelectionState(m_elmTreeRoot.firstElementChild);
+		} else {
+			console.log("[sage-like]", 2, m_elmTreeRoot.parentElement, document.activeElement);
+			m_elmTreeRoot.parentElement.focus();
+			console.log("[sage-like]", 3, m_elmTreeRoot.parentElement, document.activeElement);
 		}
 	}
 
