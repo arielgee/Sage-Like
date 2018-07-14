@@ -48,8 +48,10 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.style.display = "block";
 		slUtil.disableElementTree(m_elmMainPanel, true);
 
-		m_elmDiscoverPanel.focus();
+		m_elmDiscoverPanel.focus()
 		runDiscoverFeeds();
+
+		//setTimeout(() => m_elmDiscoverPanel.focus(), 280);
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +70,8 @@ let discoveryView = (function() {
 		m_elmButtonRediscover.removeEventListener("mousedown", onMouseDownButtonRediscover);
 		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
+
+		rssTreeView.setFocus();
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////

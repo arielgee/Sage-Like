@@ -666,8 +666,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "end":
-				// get all selectable elements
-				elms = m_elmTreeRoot.querySelectorAll("LI:last-child");
+				elms = m_elmTreeRoot.querySelectorAll("LI:last-child");		// get all selectable elements
 
 				for(let i=elms.length-1; i>=0; i--) {
 					if(elms[i].offsetParent !== null) {		// visible or not
@@ -679,9 +678,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowup":
-
-				// get all selectable elements
-				elms = m_elmTreeRoot.querySelectorAll("LI");
+				elms = m_elmTreeRoot.querySelectorAll("LI");	// get all selectable elements
 
 				// find target element in list
 				for(let i=0; i<elms.length; i++) {
@@ -701,9 +698,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowdown":
-
-				// get all selectable elements
-				elms = m_elmTreeRoot.querySelectorAll("LI");
+				elms = m_elmTreeRoot.querySelectorAll("LI");	// get all selectable elements
 
 				for(let i=0; i<elms.length; i++) {
 
@@ -746,9 +741,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "pageup":
-
-				// get all selectable elements
-				elms = m_elmTreeRoot.querySelectorAll("LI");
+				elms = m_elmTreeRoot.querySelectorAll("LI");	// get all selectable elements
 				count = 1;
 				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
 
@@ -774,9 +767,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "pagedown":
-
-				// get all selectable elements
-				elms = m_elmTreeRoot.querySelectorAll("LI");
+				elms = m_elmTreeRoot.querySelectorAll("LI");	// get all selectable elements
 				count = 1;
 				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
 
@@ -816,6 +807,7 @@ let rssTreeView = (function() {
 		} else {
 			monitorRSSTreeFeeds();
 		}
+		setFocus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -835,6 +827,7 @@ let rssTreeView = (function() {
 				m_objOpenSubTrees.remove(elmLI.id);
 			}
 		}
+		setFocus();
 	}
 
 	//==================================================================================
