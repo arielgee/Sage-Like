@@ -18,6 +18,7 @@ let preferences = (function() {
 	let m_elmInputTime;
 	let m_elmCheckFeedsMethod;
 	let m_elmCheckFeedsMethodInfo;
+	let m_elmFetchTimeout;
 	let m_elmColorBackground;
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
@@ -46,6 +47,7 @@ let preferences = (function() {
 		m_elmInputTime = document.getElementById("inputTime");
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
+		m_elmFetchTimeout = document.getElementById("fetchTimeout");
 		m_elmColorBackground = document.getElementById("colorBk");
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
@@ -76,6 +78,7 @@ let preferences = (function() {
 		m_elmTimeOfDayBox.removeEventListener("keydown", onKeyDownTimeOfDayBox);
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
+		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
 		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
@@ -100,6 +103,7 @@ let preferences = (function() {
 		m_elmTimeOfDayBox.addEventListener("keydown", onKeyDownTimeOfDayBox);
 		m_elmInputTime.addEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
+		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
 		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
@@ -142,6 +146,10 @@ let preferences = (function() {
 
 		prefs.getCheckFeedsMethod().then((value) => {
 			m_elmCheckFeedsMethod.value = value;
+		});
+
+		prefs.getFetchTimeout().then((timeoutSec) => {
+			m_elmFetchTimeout.value = timeoutSec;
 		});
 
 		prefs.getColorBackground().then((color) => {
@@ -234,6 +242,17 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeFetchTimeout(event) {
+		if(m_elmFetchTimeout.value.match(m_elmFetchTimeout.pattern) === null) {
+			prefs.getFetchTimeout().then((timeoutSec) => {
+				m_elmFetchTimeout.value = timeoutSec;
+			});
+		} else {
+			prefs.setFetchTimeout(m_elmFetchTimeout.value);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		prefs.setColorBackground(m_elmColorBackground.value);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
@@ -271,6 +290,7 @@ let preferences = (function() {
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
+		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
 		m_elmColorBackground.value = defPrefs.colorBackground
 		m_elmColorDialogBackground.value = defPrefs.colorDialogBackground
 		m_elmColorSelect.value = defPrefs.colorSelect

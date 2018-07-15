@@ -102,25 +102,27 @@ let discoveryView = (function() {
 
 		setDiscoverLoadingState(true);
 		setStatusbarMessage(domainName, false);
-		syndication.discoverWebSiteFeeds(txtHTML).then((discoveredFeedsList) => {
+		prefs.getFetchTimeout().then((timeout) => {
+			syndication.discoverWebSiteFeeds(txtHTML, timeout*1000).then((discoveredFeedsList) => {
 
-			emptyDiscoverFeedsList();
+				emptyDiscoverFeedsList();
 
-			let feed, index = 1
-			for(let key in discoveredFeedsList) {
+				let feed, index = 1
+				for(let key in discoveredFeedsList) {
 
-				feed = discoveredFeedsList[key];
+					feed = discoveredFeedsList[key];
 
-				if(feed.status === "OK") {
-					m_elmDiscoverFeedsList.appendChild(createTagLI(index++, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
-				} else if(feed.status === "error") {
-					console.log("[sage-like]", feed.message);
+					if(feed.status === "OK") {
+						m_elmDiscoverFeedsList.appendChild(createTagLI(index++, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
+					} else if(feed.status === "error") {
+						console.log("[sage-like]", feed.message);
+					}
 				}
-			}
-			if(m_elmDiscoverFeedsList.children.length === 0) {
-				setNoFeedsMsg("No valid feeds were discovered.");
-			}
-			setDiscoverLoadingState(false);
+				if(m_elmDiscoverFeedsList.children.length === 0) {
+					setNoFeedsMsg("No valid feeds were discovered.");
+				}
+				setDiscoverLoadingState(false);
+			});
 		});
 	};
 

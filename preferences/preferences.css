@@ -113,6 +113,13 @@ input[type="color"]::-moz-focus-inner {
 	background-color: #2a4364;
 }
 
+.numericRange {
+	border: 1px solid #7a7a7a;
+	padding: 2px;
+	height: 21px;
+	width: 50px;
+}
+
 .controlImage {
 	display: inline-block;
 	width: 24px;

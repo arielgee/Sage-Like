@@ -281,6 +281,7 @@ let prefs = (function() {
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
+	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
 	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
@@ -290,6 +291,7 @@ let prefs = (function() {
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
+	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
 	const PREF_COLOR_BACKGROUND_VALUE = "pref_colorBk";
 	const PREF_COLOR_DIALOG_BACKGROUND_VALUE = "pref_colorDlgBk";
 	const PREF_COLOR_SELECT_VALUE = "pref_colorSelect";
@@ -352,6 +354,26 @@ let prefs = (function() {
 		obj[PREF_CHECK_FEEDS_METHOD] = value;
 		browser.storage.local.set(obj);
 	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getFetchTimeout() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_FETCH_TIMEOUT).then((result) => {
+				resolve(result[PREF_FETCH_TIMEOUT] === undefined ? DEF_PREF_FETCH_TIMEOUT_VALUE : result[PREF_FETCH_TIMEOUT]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setFetchTimeout(value) {
+
+		let obj = {};
+		obj[PREF_FETCH_TIMEOUT] = value;
+		browser.storage.local.set(obj);
+	}
+
 
 	//////////////////////////////////////////////////////////////////////
 	function getColorBackground() {
@@ -453,6 +475,7 @@ let prefs = (function() {
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
 		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
+		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
 		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
 		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
 		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
@@ -463,6 +486,7 @@ let prefs = (function() {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 			checkFeedsInterval: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
+			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
 			colorBackground: DEF_PREF_COLOR_BACKGROUND_VALUE,
 			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
@@ -475,6 +499,7 @@ let prefs = (function() {
 		DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
+		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
 		DEF_PREF_COLOR_BACKGROUND_VALUE: DEF_PREF_COLOR_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_SELECT_VALUE: DEF_PREF_COLOR_SELECT_VALUE,
@@ -487,6 +512,8 @@ let prefs = (function() {
 		setCheckFeedsInterval: setCheckFeedsInterval,
 		getCheckFeedsMethod: getCheckFeedsMethod,
 		setCheckFeedsMethod: setCheckFeedsMethod,
+		getFetchTimeout: getFetchTimeout,
+		setFetchTimeout: setFetchTimeout,
 		getColorBackground: getColorBackground,
 		setColorBackground: setColorBackground,
 		getColorDialogBackground: getColorDialogBackground,

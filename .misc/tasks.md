@@ -41,25 +41,22 @@
 * ~~lastChecked is redundent in TreeFeedsData~~ => used in purge
 * ~~list not empty in discovery view or many 'still loading' rows /???~~ fixed? look out for it
 * ~~check why list status bar is bold~~
-* ~~toolbar buttons on mousedown instead of click~~
+* ~~toolbar buttons on mousedown instead of click~~ => reverted
 * ~~handle mouse click on tree/list body and not item~~
+* ~~make all tabindex in panel.html "0"~~
+* ~~after toolbar click move focus to selected item, if any~~
+* ~~user configuration of the timeout for syndication in prefrences~~
 
 ---
 
 #### Next
-
-* user configuration of the timeout for syndication in prefrences
-  * to support this the folowing locations will need to prefs.get() the timeout value
-    * discoveryView.js:103
-    * rssTreeView.js:304
-    * rssTreeView.js:3395
 
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)
 * the bookmark ids from the bookmark lib may starts with a digit.hrml id can not start with a disit => OK by HTML5
 
 * select some item right after creation => NO(?)
-* after toolbar click move focus to selected item, if any => same as above; NO(?)
+
 * a lot of sub folders in the tree view will fuck up the UI
 
 * check why in openPropertiesView() there is m_objTreeFeedsData.exist() and m_objTreeFeedsData.set()
@@ -69,7 +66,7 @@
 
 * delete feed with the keyboard delete key?????
 
-* make all tabindex in panel.html "0"
+
 
 
 

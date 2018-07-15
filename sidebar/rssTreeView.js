@@ -316,17 +316,19 @@ let rssTreeView = (function() {
 		}
 		m_objTreeFeedsData.setLastChecked(id);
 
-		syndication.fetchFeedData(url).then((feedData) => {
+		prefs.getFetchTimeout().then((timeout) => {
+			syndication.fetchFeedData(url, timeout*1000).then((feedData) => {
 
-			let updateTime = slUtil.asSafeNumericDate(feedData.lastUpdated);
+				let updateTime = slUtil.asSafeNumericDate(feedData.lastUpdated);
 
-			setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
-			setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
-			updateFeedTitle(elmLI, feedData.title);
-		}).catch((error) => {
-			setFeedErrorState(elmLI, true, error);
-		}).finally(() => {	// wait for Fx v58
-			setFeedLoadingState(elmLI, false);
+				setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
+				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
+				updateFeedTitle(elmLI, feedData.title);
+			}).catch((error) => {
+				setFeedErrorState(elmLI, true, error);
+			}).finally(() => {	// wait for Fx v58
+				setFeedLoadingState(elmLI, false);
+			});
 		});
 	}
 
@@ -414,36 +416,38 @@ let rssTreeView = (function() {
 
 			setOneConcurrentFeedLoadingState(elmLI, true);
 
-			syndication.fetchFeedItems(url, event.shiftKey).then((result) => {
+			prefs.getFetchTimeout().then((timeout) => {
+				syndication.fetchFeedItems(url, timeout*1000, event.shiftKey).then((result) => {
 
-				let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
+					let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
 
-				setFeedVisitedState(elmLI, true);
-				updateFeedTitle(elmLI, result.feedData.title);
-				setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toLocaleString());
+					setFeedVisitedState(elmLI, true);
+					updateFeedTitle(elmLI, result.feedData.title);
+					setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toLocaleString());
 
-				// change the rssListView content only if this is the last user click.
-				if(thisFeedClickTime === m_lastClickedFeedTime) {
-					rssListView.setFeedItems(result.list, elmLI.textContent);
-				}
+					// change the rssListView content only if this is the last user click.
+					if(thisFeedClickTime === m_lastClickedFeedTime) {
+						rssListView.setFeedItems(result.list, elmLI.textContent);
+					}
 
-			}).catch((error) => {
+				}).catch((error) => {
 
-				setFeedErrorState(elmLI, true, error);
+					setFeedErrorState(elmLI, true, error);
 
-				// change the rssListView content only if this is the last user click.
-				if(thisFeedClickTime === m_lastClickedFeedTime) {
-					rssListView.setListErrorMsg(error);
-				}
-			}).finally(() => {	// wait for Fx v58
+					// change the rssListView content only if this is the last user click.
+					if(thisFeedClickTime === m_lastClickedFeedTime) {
+						rssListView.setListErrorMsg(error);
+					}
+				}).finally(() => {	// wait for Fx v58
 
-				// change loading state only if this is the last user click.
-				if(thisFeedClickTime === m_lastClickedFeedTime) {
-					setOneConcurrentFeedLoadingState(elmLI, false);
-				}
+					// change loading state only if this is the last user click.
+					if(thisFeedClickTime === m_lastClickedFeedTime) {
+						setOneConcurrentFeedLoadingState(elmLI, false);
+					}
 
-				// even if there was an error the feed was visited
-				m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+					// even if there was an error the feed was visited
+					m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+				});
 			});
 		}
 		elmLI.focus();

@@ -50,6 +50,16 @@
 	<div class="prefSeperator"></div>
 
 	<div class="preference">
+		<label for="fetchTimeout" class="preferenceLabel">Single Feed Fetching Timeout&nbsp;<span class="helpInfo" title="Range: 10 to 300 seconds">?</span></label>
+		<div class="preferenceControl">
+			<input type="text" id="fetchTimeout" class="numericRange"
+				minlength="2" maxlength="3"
+				pattern="^([1-9][0-9]|[12][0-9][0-9]|300)$"/><label for="fetchTimeout">&nbsp;seconds</label>
+		</div>
+	</div>
+	<div class="prefSeperator"></div>
+
+	<div class="preference">
 		<label class="preferenceLabel">Sidebar Colors</label>
 		<div class="preferenceControl">
 			<input type="color" id="colorBk"/><label for="colorBk" class="controlLabel">Window</label>

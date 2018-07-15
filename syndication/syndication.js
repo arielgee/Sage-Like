@@ -12,7 +12,7 @@ let syndication = (function() {
 	let m_domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function discoverWebSiteFeeds(txtHTML, reload, timeout) {
+	function discoverWebSiteFeeds(txtHTML, timeout, reload) {
 
 		return new Promise((resolve) => {
 
@@ -71,7 +71,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedData(url, reload, timeout) {
+	function fetchFeedData(url, timeout, reload) {
 
 		return new Promise((resolve, reject) => {
 
@@ -93,7 +93,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedItems(url, reload, timeout) {
+	function fetchFeedItems(url, timeout, reload) {
 
 		return new Promise((resolve, reject) => {
 
