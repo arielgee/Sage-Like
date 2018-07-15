@@ -84,6 +84,7 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function addListItemEventListeners(elm) {
+		elm.addEventListener("focus", onFocusFeedItem);
 		elm.addEventListener("click", onClickFeedItem);
 		elm.addEventListener("auxclick", onClickFeedItem);
 		elm.addEventListener("mousedown", onClickFeedItem_preventDefault);
@@ -91,9 +92,15 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function removeListItemEventListeners(elm) {
+		elm.removeEventListener("focus", onFocusFeedItem);
 		elm.removeEventListener("click", onClickFeedItem);
 		elm.removeEventListener("auxclick", onClickFeedItem);
 		elm.removeEventListener("mousedown", onClickFeedItem_preventDefault);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onFocusFeedItem(event) {
+		setFeedItemSelectionState(event.target);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +131,7 @@ let rssListView = (function() {
 
 		if(handled) {
 
-			setFeedItemSelectionState(elm);
+			elm.focus();
 
 			// Redirect are not saved in history. So when a feed url is
 			// redirected from http to https or from feedproxy.google.com
@@ -157,9 +164,11 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseDownFeedList(event) {
-		event.stopPropagation();
-		event.preventDefault();
-		setFocus();
+		if(event.target === m_elmList) {
+			event.stopPropagation();
+			event.preventDefault();
+			setFocus();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -193,19 +202,19 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "home":
-				setFeedItemSelectionState(m_elmList.firstElementChild)
+				m_elmList.firstElementChild.focus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "end":
-				setFeedItemSelectionState(m_elmList.lastElementChild)
+				m_elmList.lastElementChild.focus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowup":
 				elm = elmTargetLI.previousElementSibling
 				if(elm !== null) {
-					setFeedItemSelectionState(elm);
+					elm.focus();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -213,7 +222,7 @@ let rssListView = (function() {
 			case "arrowdown":
 				elm = elmTargetLI.nextElementSibling
 				if(elm !== null) {
-					setFeedItemSelectionState(elm);
+					elm.focus();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -222,7 +231,7 @@ let rssListView = (function() {
 				elmsCount = slUtil.numberOfVItemsInViewport(elmTargetLI, m_elmList);
 				index = Array.prototype.indexOf.call(m_elmList.children, elmTargetLI);
 				index = index-(elmsCount-1);
-				setFeedItemSelectionState(m_elmList.children[index < 0 ? 0 : index]);
+				m_elmList.children[index < 0 ? 0 : index].focus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -234,7 +243,7 @@ let rssListView = (function() {
 				if(index >= m_elmList.children.length) {
 					index = m_elmList.children.length-1;
 				}
-				setFeedItemSelectionState(m_elmList.children[index]);
+				m_elmList.children[index].focus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 		}
@@ -305,7 +314,6 @@ let rssListView = (function() {
 			elm.classList.add("selected");
 			// the tree item's caption element is enough
 			slUtil.scrollIntoViewIfNeeded(elm, m_elmList.parentElement);
-			elm.focus();
 		}
 	}
 
@@ -376,7 +384,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFocus() {
 		if(m_elmCurrentlySelected !== null) {
-			setFeedItemSelectionState(m_elmCurrentlySelected);
+			m_elmCurrentlySelected.focus();
 		} else {
 			m_elmList.parentElement.focus();
 		}

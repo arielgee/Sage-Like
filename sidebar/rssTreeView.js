@@ -336,6 +336,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function addTreeItemEventListeners(elm) {
+		elm.addEventListener("focus", onFocusTreeItem, false);
 		elm.addEventListener("click", onClickTreeItem, false);
 		elm.addEventListener("dblclick", onDoubleClickTreeItem, false);
 		elm.addEventListener("dragstart", onDragStartTreeItem, false);
@@ -348,6 +349,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function removeTreeItemEventListeners(elm) {
+		elm.removeEventListener("focus", onFocusTreeItem, false);
 		elm.removeEventListener("click", onClickTreeItem, false);
 		elm.removeEventListener("dragstart", onDragStartTreeItem, false);
 		elm.removeEventListener("dragenter", onDragEnterTreeItem, false)
@@ -364,6 +366,11 @@ let rssTreeView = (function() {
 		for(let child of elm.children) {
 			addSubTreeItemsEventListeners(child);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onFocusTreeItem(event) {
+		setFeedSelectionState(event.target);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -384,7 +391,7 @@ let rssTreeView = (function() {
 		// the subtree. This make sure that only clicks on the top of the elements are processed.
 		if(!eventOccureInItemLineHeight(event, elmLI)) {
 			if(isSubTree) {
-				setFeedSelectionState(elmLI);
+				elmLI.focus();
 			}
 			return;
 		}
@@ -439,7 +446,7 @@ let rssTreeView = (function() {
 				m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
 			});
 		}
-		setFeedSelectionState(elmLI);
+		elmLI.focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -569,7 +576,7 @@ let rssTreeView = (function() {
 						let dropHTML = event.dataTransfer.getData("text/html");
 						elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
 						addSubTreeItemsEventListeners(elmDropTarget.previousElementSibling);
-						setFeedSelectionState(elmDropTarget.previousElementSibling);
+						elmDropTarget.previousElementSibling.focus();
 					}).finally(() => suspendBookmarksEventHandler(false));
 				});
 			});
@@ -661,7 +668,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "home":
-				setFeedSelectionState(m_elmTreeRoot.firstElementChild);
+				m_elmTreeRoot.firstElementChild.focus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -670,7 +677,7 @@ let rssTreeView = (function() {
 
 				for(let i=elms.length-1; i>=0; i--) {
 					if(elms[i].offsetParent !== null) {		// visible or not
-						setFeedSelectionState(elms[i]);
+						elms[i].focus();
 						return;
 					}
 				}
@@ -688,7 +695,7 @@ let rssTreeView = (function() {
 
 						for(let j=i-1; j>=0; j--) {
 							if(elms[j].offsetParent !== null) {		// visible or not
-								setFeedSelectionState(elms[j]);
+								elms[j].focus();
 								return;
 							}
 						}
@@ -708,7 +715,7 @@ let rssTreeView = (function() {
 						// find in list the immediate NEXT visible element
 						for(let j=i+1; j<elms.length; j++) {
 							if(elms[j].offsetParent !== null) {		// visible or not
-								setFeedSelectionState(elms[j]);
+								elms[j].focus();
 								return;
 							}
 						}
@@ -723,7 +730,7 @@ let rssTreeView = (function() {
 					return;
 				}
 				if(elmTargetLI.parentElement.parentElement.tagName === "LI") {
-					setFeedSelectionState(elmTargetLI.parentElement.parentElement);
+					elmTargetLI.parentElement.parentElement.focus();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -732,7 +739,7 @@ let rssTreeView = (function() {
 				if(isSubTree) {
 					if(isSubTreeOpen) {
 						elms = elmTargetLI.querySelectorAll("#" + elmTargetLI.id + " > UL > LI:first-child"); // first direct child
-						setFeedSelectionState(elms[0]);
+						elms[0].focus();
 					} else {
 						setSubTreeState(elmTargetLI, true);
 					}
@@ -759,7 +766,7 @@ let rssTreeView = (function() {
 								}
 							}
 						}
-						setFeedSelectionState(elm);
+						elm.focus();
 						break;
 					}
 				}
@@ -785,7 +792,7 @@ let rssTreeView = (function() {
 								}
 							}
 						}
-						setFeedSelectionState(elm);
+						elm.focus();
 						break;
 					}
 				}
@@ -1065,7 +1072,6 @@ let rssTreeView = (function() {
 				elm.classList.add("selected");
 				// the tree item's caption element is enough
 				slUtil.scrollIntoViewIfNeeded(elm.firstElementChild, m_elmTreeRoot.parentElement);
-				elm.focus();
 			}
 		}
 	}
@@ -1175,12 +1181,9 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFocus() {
 		if(m_elmCurrentlySelected !== null) {
-			console.log("[sage-like]", 1, m_elmCurrentlySelected);
-			setFeedSelectionState(m_elmCurrentlySelected);
+			m_elmCurrentlySelected.focus();
 		} else {
-			console.log("[sage-like]", 2, m_elmTreeRoot.parentElement, document.activeElement);
 			m_elmTreeRoot.parentElement.focus();
-			console.log("[sage-like]", 3, m_elmTreeRoot.parentElement, document.activeElement);
 		}
 	}
 
