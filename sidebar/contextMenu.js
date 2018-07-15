@@ -294,7 +294,6 @@
 			case ContextAction.treeCopyUrl:
 			case ContextAction.listCopyUrl:
 				slUtil.copyTextToClipboard(document, actionData.url);
-				m_elmEventTarget.focus();
 				break;
 				///////////////////////////////////////////
 

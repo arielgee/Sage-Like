@@ -572,6 +572,7 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function copyTextToClipboard(doc, text) {
+		let restoreFocus = doc.activeElement;
 		let input = doc.createElement("textarea");
 		let style = input.style;
 		style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
@@ -580,6 +581,7 @@ let slUtil = (function() {
 		input.select();
 		document.execCommand("copy");
 		document.body.removeChild(input);
+		restoreFocus.focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
