@@ -857,6 +857,7 @@ let rssTreeView = (function() {
 				} );
 			}
 
+			suspendBookmarksEventHandler(true);
 			createBookmarksSequentially(bookmarksList, 0);
 		});
 	}
@@ -875,7 +876,6 @@ let rssTreeView = (function() {
 		// while index in pointing to an object in the array
 		if(bookmarksList.length > index) {
 
-			suspendBookmarksEventHandler(true);
 			browser.bookmarks.create(bookmarksList[index]).then((created) => {
 
 				let elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
@@ -893,8 +893,9 @@ let rssTreeView = (function() {
 				if(bookmarksList.length === index) {
 					elmLI.scrollIntoView();
 					blinkNewlyAddedFeeds();
+					suspendBookmarksEventHandler(false);
 				}
-			}).finally(() => suspendBookmarksEventHandler(false));
+			});
 		}
 	}
 
