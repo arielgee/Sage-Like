@@ -318,13 +318,15 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setListErrorMsg(textContent) {
+	function setListErrorMsg(textContent, title) {
 		let elm = document.createElement("li");
 		elm.classList.add("errormsg");
 		elm.textContent = textContent;
 
 		disposeList();
 		m_elmList.appendChild(elm);
+		m_elmListViewRssTitle.textContent = title;
+		setStatusbarIcon(true);
 	}
 
 	//==================================================================================
