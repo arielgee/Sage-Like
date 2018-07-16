@@ -579,8 +579,15 @@ let rssTreeView = (function() {
 
 						let dropHTML = event.dataTransfer.getData("text/html");
 						elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
-						addSubTreeItemsEventListeners(elmDropTarget.previousElementSibling);
-						elmDropTarget.previousElementSibling.focus();
+
+						let elmDropped = elmDropTarget.previousElementSibling;
+
+						if(m_elmCurrentlyLoading === m_elmCurrentlyDragged) {
+							setOneConcurrentFeedLoadingState(elmDropped, false);		// loading state must be removed here
+						}
+						elmDropped.classList.remove("loading");							// if loading from periodic check
+						addSubTreeItemsEventListeners(elmDropped);
+						elmDropped.focus();
 					}).finally(() => suspendBookmarksEventHandler(false));
 				});
 			});
