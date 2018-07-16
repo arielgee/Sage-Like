@@ -113,11 +113,15 @@ input[type="color"]::-moz-focus-inner {
 	background-color: #2a4364;
 }
 
-.numericRange {
+.numericInput {
 	border: 1px solid #7a7a7a;
 	padding: 2px;
 	height: 21px;
 	width: 50px;
+}
+
+.numericInput:invalid  {
+	box-shadow: 0 0 1.5px 1px rgb(255, 0, 0);
 }
 
 .controlImage {
