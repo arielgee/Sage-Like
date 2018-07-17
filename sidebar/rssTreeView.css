@@ -27,13 +27,13 @@
 /* All <li> elements */
 .treeview li {
 	list-style-type: none;
-	padding-left: 20px;
+	padding-left: var(--rss-tree-indent);
 	cursor: default;
 }
 
 /* <li> elements that contains sub trees (other ULs) */
 .treeview li.rtvSubTree {
-	background: transparent no-repeat left 1px;
+	background: transparent no-repeat left calc((var(--line-height) + 2px - 16px) / 2); /* (captionHeight + captionBorders - imageHeight) / 2 */
 }
 
 .treeview li.rtvSubTree.open {

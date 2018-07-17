@@ -27,6 +27,10 @@
 		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
 
 			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_UI_DENSITY) {
+				setPanelDensityFromPreferences();
+			}
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 				message.details === slGlobals.MSGD_PREF_CHANGE_COLORS) {
 				setPanelColorsFromPreferences();
 			}
@@ -59,6 +63,7 @@
 		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.addEventListener("click", onClickPreferences);
 
+		setPanelDensityFromPreferences();
 		setPanelColorsFromPreferences();
 		setPanelImageSetFromPreferences();
 
@@ -78,6 +83,19 @@
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setPanelDensityFromPreferences() {
+
+		prefs.getUIDensity().then(value => {
+
+			let parts = value.split(";");
+			let style = document.documentElement.style;
+
+			style.setProperty("--line-height", parts[0] + "px");
+			style.setProperty("--rss-tree-indent", parts[1] + "px");
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

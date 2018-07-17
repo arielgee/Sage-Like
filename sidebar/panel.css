@@ -4,7 +4,8 @@
 	--toolbar-height: 31px;
 	--top-height: 60%;
 	--splitter-height: 7px;
-	--line-height: 19px;
+	--line-height: 19px;		/* UI density: Comfortable */
+	--rss-tree-indent: 18px;	/* UI density: Comfortable */
 
 	--bk-color-window: #FFFFFF;
 	--bk-color-dialog: #EEEEEE;

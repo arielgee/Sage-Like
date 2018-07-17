@@ -145,6 +145,7 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_ROOT_FOLDER = "msgDetails_prefChange_rootFolder";
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL = "msgDetails_prefChange_checkFeedsInterval";
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD = "msgDetails_prefChange_checkFeedsMethod";
+	const MSGD_PREF_CHANGE_UI_DENSITY = "msgDetails_prefChange_UIDensity";
 	const MSGD_PREF_CHANGE_COLORS = "msgDetails_prefChange_colors";
 	const MSGD_PREF_CHANGE_IMAGES = "msgDetails_prefChange_images";
 
@@ -193,6 +194,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_ROOT_FOLDER: MSGD_PREF_CHANGE_ROOT_FOLDER,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL: MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD: MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD,
+		MSGD_PREF_CHANGE_UI_DENSITY: MSGD_PREF_CHANGE_UI_DENSITY,
 		MSGD_PREF_CHANGE_COLORS: MSGD_PREF_CHANGE_COLORS,
 		MSGD_PREF_CHANGE_IMAGES: MSGD_PREF_CHANGE_IMAGES,
 
@@ -282,6 +284,7 @@ let prefs = (function() {
 	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
+	const DEF_PREF_UI_DENSITY_VALUE = "19;18";
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
 	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
@@ -292,6 +295,7 @@ let prefs = (function() {
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
+	const PREF_UI_DENSITY = "pref_UIDensity";
 	const PREF_COLOR_BACKGROUND_VALUE = "pref_colorBk";
 	const PREF_COLOR_DIALOG_BACKGROUND_VALUE = "pref_colorDlgBk";
 	const PREF_COLOR_SELECT_VALUE = "pref_colorSelect";
@@ -374,6 +378,24 @@ let prefs = (function() {
 		browser.storage.local.set(obj);
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	function getUIDensity() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_UI_DENSITY).then((result) => {
+				resolve(result[PREF_UI_DENSITY] === undefined ? DEF_PREF_UI_DENSITY_VALUE : result[PREF_UI_DENSITY]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setUIDensity(value) {
+
+		let obj = {};
+		obj[PREF_UI_DENSITY] = value;
+		browser.storage.local.set(obj);
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getColorBackground() {
@@ -476,6 +498,7 @@ let prefs = (function() {
 		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
+		this.setUIDensity(DEF_PREF_UI_DENSITY_VALUE);
 		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
 		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
 		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
@@ -487,6 +510,7 @@ let prefs = (function() {
 			checkFeedsInterval: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
+			UIDensity: DEF_PREF_UI_DENSITY_VALUE,
 			colorBackground: DEF_PREF_COLOR_BACKGROUND_VALUE,
 			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
@@ -500,6 +524,7 @@ let prefs = (function() {
 		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
+		DEF_PREF_UI_DENSITY_VALUE: DEF_PREF_UI_DENSITY_VALUE,
 		DEF_PREF_COLOR_BACKGROUND_VALUE: DEF_PREF_COLOR_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_SELECT_VALUE: DEF_PREF_COLOR_SELECT_VALUE,
@@ -514,6 +539,8 @@ let prefs = (function() {
 		setCheckFeedsMethod: setCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,
 		setFetchTimeout: setFetchTimeout,
+		getUIDensity: getUIDensity,
+		setUIDensity: setUIDensity,
 		getColorBackground: getColorBackground,
 		setColorBackground: setColorBackground,
 		getColorDialogBackground: getColorDialogBackground,

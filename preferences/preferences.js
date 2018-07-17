@@ -19,6 +19,7 @@ let preferences = (function() {
 	let m_elmCheckFeedsMethod;
 	let m_elmCheckFeedsMethodInfo;
 	let m_elmFetchTimeout;
+	let m_elmUIDensity;
 	let m_elmColorBackground;
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
@@ -48,6 +49,7 @@ let preferences = (function() {
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
+		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmColorBackground = document.getElementById("colorBk");
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
@@ -79,6 +81,7 @@ let preferences = (function() {
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
+		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
 		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
@@ -104,6 +107,7 @@ let preferences = (function() {
 		m_elmInputTime.addEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
+		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
@@ -150,6 +154,10 @@ let preferences = (function() {
 
 		prefs.getFetchTimeout().then((timeoutSec) => {
 			m_elmFetchTimeout.value = timeoutSec;
+		});
+
+		prefs.getUIDensity().then((value) => {
+			m_elmUIDensity.value = value;
 		});
 
 		prefs.getColorBackground().then((color) => {
@@ -253,6 +261,12 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeUIDensity(event) {
+		prefs.setUIDensity(m_elmUIDensity.value);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_UI_DENSITY);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		prefs.setColorBackground(m_elmColorBackground.value);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
@@ -291,6 +305,7 @@ let preferences = (function() {
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
+		m_elmUIDensity.value = defPrefs.UIDensity;
 		m_elmColorBackground.value = defPrefs.colorBackground
 		m_elmColorDialogBackground.value = defPrefs.colorDialogBackground
 		m_elmColorSelect.value = defPrefs.colorSelect

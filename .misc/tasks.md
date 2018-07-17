@@ -46,6 +46,11 @@
 * ~~make all tabindex in panel.html "0"~~
 * ~~after toolbar click move focus to selected item, if any~~
 * ~~user configuration of the timeout for syndication in prefrences~~
+* ~~list info not showing after error feed~~
+* ~~try to remove all the log's "XML Parsing Error" messages~~ => I checked and there is nothing I can do about it
+* ~~draging & dropping a loading feed get "stuck" on loading (the icon)~~
+* ~~user config: UI density~~
+* ~~change 20px to 18px in rssTreeView.css:30 for narrow tree ?~~ => implemented UI density
 
 ---
 
@@ -65,9 +70,7 @@
   * if date is missing the Z then convert to XML date format and appen 'Z' at the end ??????
 
 * delete feed with the keyboard delete key?????
+* after delete press tab (or 2 tabs) and press arrow down. why from here? => natural tab order, next in tab index
 
 
-
-
-
-
+* draging & dropping a folder with loading feed in it get "stuck" on loading (the icon)
