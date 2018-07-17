@@ -54,6 +54,7 @@
 * ~~change 20px to 18px in rssTreeView.css:30 for narrow tree ?~~ => implemented UI density
 * ~~replace all LI to li in querySelectorAll()~~
 * ~~use forEach() whereever there is querySelectorAll()~~
+* ~~delete feed with the keyboard delete key?????~~ => NO! will need a confirm dialog and it's not worth it
 
 ---
 
@@ -72,5 +73,4 @@
 * check why feeds from telecomnews (מבזקים על סדר היום) marked as not visited (bold) when thay were. SEE NEXT
   * if date is missing the Z then convert to XML date format and appen 'Z' at the end ??????
 
-* delete feed with the keyboard delete key?????
 * after delete press tab (or 2 tabs) and press arrow down. why from here? => natural tab order, next in tab index

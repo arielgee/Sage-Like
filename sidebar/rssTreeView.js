@@ -301,7 +301,7 @@ let rssTreeView = (function() {
 					await slUtil.sleep(timeoutPause);
 				}
 			});
-			console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
+			//console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
 		});
 	}
 

@@ -126,7 +126,7 @@ let syndication = (function() {
 		// for 'RSS' or 'RDF Site Summary (RSS) 1.0'
 		if([SyndicationStandard.RSS, SyndicationStandard.RDF].indexOf(feedData.standard) !== -1) {
 
-			console.log("[Sage-Like]", "Feed: " + feedData.feeder.localName.toUpperCase(), "v" + (feedData.feeder.getAttribute("version") || "?"));
+			//console.log("[Sage-Like]", "Feed: " + feedData.feeder.localName.toUpperCase(), "v" + (feedData.feeder.getAttribute("version") || "?"));
 
 			feedData.feeder = sortFeederByDate(feedData.feeder.querySelectorAll("item"));
 
@@ -143,7 +143,7 @@ let syndication = (function() {
 
 		} else if(feedData.standard === SyndicationStandard.Atom) {
 
-			console.log("[Sage-Like]", "Feed: Atom", "v" + (feedData.feeder.getAttribute("version") || "?"));
+			//console.log("[Sage-Like]", "Feed: Atom", "v" + (feedData.feeder.getAttribute("version") || "?"));
 
 			feedData.feeder = sortFeederByDate(feedData.feeder.querySelectorAll("entry"));
 
@@ -338,140 +338,6 @@ let syndication = (function() {
 		}
 		return ary;
 	}
-
-//#region Functions not for use: Documentation only.
-
-/*	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function fetch_testings(feedUrl, reload) {
-		throw "Function is not for use: Documentation only.";
-		/*
-			This test function is for fatching an XML file with none utf-8 encoding(Windows-1255): https://www.ynet.co.il/Integration/StoryRss1854.xml
-
-			I descovered that the fetch/response.text() approach (method 2) only works when the encoding is utf-8 (XML prolog). When
-			the encoding is different (Windows-1255 in the test case) i get junk (question marks).
-
-			The third approach (method 3) is also not resolving the issue.
-		* /
-
-		let init = {
-			cache: reload ? "reload" : "default",
-		};
-
-		fetch(feedUrl, init).then((response) => {
-
-			if (response.ok) {
-				let res1 = response.clone();
-				let res2 = response.clone();
-				let res3 = response.clone();
-
-				// Method 1 - GOOD: In this way the resulting text returns hebrew chars like a charm
-				res1.blob().then((blob) => {	// GOOD
-					let u = URL.createObjectURL(blob);
-					let x = new XMLHttpRequest();
-					x.open("GET", u, false);
-					x.send();
-					URL.revokeObjectURL(u);
-					console.log("PROB1-blob", x.responseText);
-				});
-
-				// Method 2 - BAD: In this way the resulting text returns hebrew chars as question marks
-				res2.text().then((txt) => {
-					console.log("PROB1-txt", txt);
-				});
-
-				// Method 3 - BAD: In this way the resulting text returns hebrew chars as question marks
-				res3.blob().then((blob) => {
-					let reader = new FileReader();
-					reader.onload = function() {
-						console.log("PROB1-file", reader.result);
-					}
-					reader.readAsText(blob);
-				});
-			}
-
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function fetchFeedItems_usingXMLHttpRequest(feedUrl, reload) {
-		throw "Function is not for use: Documentation only.";
-		/*
-			The XMLHttpRequest is a good alternitive to the fetch() function. Setting the
-			xhr.responseType to 'document' resulted in an XMLDocument with valid hebrew chars (encoding=Windows-1255).
-			The only problem is that I can't handle the 'XML Parsing Error: junk after document element': http://feeds.feedburner.com/digitalwhisper
-			Since it is so simple to fix it and then process the XML I prefered the fetch/response.blob()/XMLHttpRequest/responseText approach
-			that I used in the fetchFeedItems() function.
-		* /
-
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', feedUrl, true);
-
-		xhr.responseType = 'document';		// If specified, responseType must be empty string or "document"
-		xhr.overrideMimeType('text/xml');	// overrideMimeType() can be used to force the response to be parsed as XML
-
-		xhr.onload = function() {
-			if (xhr.readyState === xhr.DONE) {
-				if (xhr.status === 200) {
-					console.log("[=x=]", (typeof xhr.responseText), xhr.responseText);
-
-					let xmlDoc = xhr.responseXML;
-					let fdr = xmlDoc.querySelectorAll("item");
-
-					fdr.forEach((item) => {
-						console.log("[=x=]", item.querySelector("title").textContent);
-					});
-				}
-			}
-		};
-		xhr.send();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	function fetchFeedItems_OLD(feedUrl, reload) {
-		throw "Function is not for use: Documentation only.";
-
-		let init = {
-			cache: reload ? "reload" : "default",
-		};
-
-		return new Promise((resolve, reject) => {
-
-			fetch(feedUrl, init).then((response) => {
-
-				if (response.ok) {
-
-					response.blob().then((blob) => {
-
-						getXMLTextFromBlob(blob).then((txtXML) => {
-
-							console.log("[Sage-Like]", feedUrl + "\n", txtXML.substr(0, 256));
-
-							let feedData = getFeedData(txtXML);
-							let list = createFeedItemsList(feedData);
-
-							if(list.length > 0) {
-								resolve(list);
-							} else {
-								reject("RSS feed not identified or document not valid at '" + feedUrl + "'.");
-							}
-						});
-					});
-				} else {
-					reject("Fail to retrieve feed items from '" + response.url + "', " + response.status + " " + response.statusText + ".");
-				}
-
-			}).catch((error) => {
-				reject("Request failed to fetch feed from '" + feedUrl + "', " + error.message);
-			});
-		});
-	}
-*/
-//#endregion Functions not for use: Documentation only.
 
 	//////////////////////////////////////////
 	return {

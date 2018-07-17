@@ -125,7 +125,7 @@
 				}
 			}
 			browser.browserAction.setBadgeText({ text: (showNewBadge ? "N" : "") });
-			console.log("[sage-like]", "Periodic check for new feeds performed in background.");
+			//console.log("[sage-like]", "Periodic check for new feeds performed in background.");
 
 		}).catch((error) => {
 			console.log("[sage-like]", error);

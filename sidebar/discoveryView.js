@@ -92,7 +92,7 @@ let discoveryView = (function() {
 
 			browser.tabs.executeScript(tab[0].id, { code: CODE_INJECTION, runAt: "document_start" }).catch((error) => {
 				setNoFeedsMsg("Unable to access current tab.");
-				console.log("[Sage-Like]", error);
+				//console.log("[Sage-Like]", error);
 			});
 		});
 	};

@@ -108,12 +108,12 @@ class TreeFeedsData extends StoredKeyedItems {
 			collecting.then((bmFeeds) => {
 				getting.then((length) => {
 
-					console.log("[Sage-Like]", "purging");
+					//console.log("[Sage-Like]", "purging");
 					for(let key in this._items) {
 
 						// remove from object if its not in the feeds collection and is older then 24 hours
 						if( (bmFeeds[key] === undefined) && (this._items[key].lastChecked < (Date.now() - 86400000)  ) ) {
-							console.log("[Sage-Like]", "purged", key, this._items[key]);
+							//console.log("[Sage-Like]", "purged", key, this._items[key]);
 							super.remove(key);
 						}
 					}
