@@ -579,13 +579,8 @@ let rssTreeView = (function() {
 
 						let dropHTML = event.dataTransfer.getData("text/html");
 						elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
-
 						let elmDropped = elmDropTarget.previousElementSibling;
-
-						if(m_elmCurrentlyLoading === m_elmCurrentlyDragged) {
-							setOneConcurrentFeedLoadingState(elmDropped, false);		// loading state must be removed here
-						}
-						elmDropped.classList.remove("loading");							// if loading from periodic check
+						removeFeedLoadingStatus(elmDropped);
 						addSubTreeItemsEventListeners(elmDropped);
 						elmDropped.focus();
 					}).finally(() => suspendBookmarksEventHandler(false));
@@ -1157,6 +1152,25 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function suspendBookmarksEventHandler(suspendOrResume) {
 		m_flagSuspendBookmarksEventHandler = suspendOrResume;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function removeFeedLoadingStatus(elmLI) {
+
+		let list;
+		if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE)) {
+			list = elmLI.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM)
+		} else if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+			list = [elmLI];
+		}
+
+		list.forEach((elm) => {
+			if(m_elmCurrentlyLoading && m_elmCurrentlyLoading.id === elm.id) {
+				setOneConcurrentFeedLoadingState(elm, false);
+			} else {
+				elm.classList.remove("loading");				// if loading from periodic check
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
