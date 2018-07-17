@@ -295,12 +295,12 @@ let rssTreeView = (function() {
 			let batchSize = Math.ceil(elmLIs.length / Number(method[0]));
 			let timeoutPause = Number(method[1]);
 
-			for(let elmLI of elmLIs) {
+			elmLIs.forEach(async (elmLI) => {
 				checkForNewFeedData(elmLI, elmLI.id, elmLI.getAttribute("href"));
 				if((++counter % batchSize) === 0) {
 					await slUtil.sleep(timeoutPause);
 				}
-			};
+			});
 			console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
 		});
 	}
@@ -679,7 +679,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "end":
-				elms = m_elmTreeRoot.querySelectorAll("LI:last-child");		// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("li:last-child");		// get all selectable elements
 
 				for(let i=elms.length-1; i>=0; i--) {
 					if(elms[i].offsetParent !== null) {		// visible or not
@@ -691,7 +691,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowup":
-				elms = m_elmTreeRoot.querySelectorAll("LI");	// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 
 				// find target element in list
 				for(let i=0; i<elms.length; i++) {
@@ -711,7 +711,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowdown":
-				elms = m_elmTreeRoot.querySelectorAll("LI");	// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 
 				for(let i=0; i<elms.length; i++) {
 
@@ -744,7 +744,7 @@ let rssTreeView = (function() {
 			case "arrowright":
 				if(isSubTree) {
 					if(isSubTreeOpen) {
-						elms = elmTargetLI.querySelectorAll("#" + elmTargetLI.id + " > UL > LI:first-child"); // first direct child
+						elms = elmTargetLI.querySelectorAll("#" + elmTargetLI.id + " > ul > li:first-child"); // first direct child
 						elms[0].focus();
 					} else {
 						setSubTreeState(elmTargetLI, true);
@@ -754,7 +754,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "pageup":
-				elms = m_elmTreeRoot.querySelectorAll("LI");	// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 				count = 1;
 				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
 
@@ -780,7 +780,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "pagedown":
-				elms = m_elmTreeRoot.querySelectorAll("LI");	// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 				count = 1;
 				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
 

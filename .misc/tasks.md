@@ -49,8 +49,11 @@
 * ~~list info not showing after error feed~~
 * ~~try to remove all the log's "XML Parsing Error" messages~~ => I checked and there is nothing I can do about it
 * ~~draging & dropping a loading feed get "stuck" on loading (the icon)~~
+* ~~draging & dropping a folder with loading feed in it get "stuck" on loading (the icon)~~
 * ~~user config: UI density~~
 * ~~change 20px to 18px in rssTreeView.css:30 for narrow tree ?~~ => implemented UI density
+* ~~replace all LI to li in querySelectorAll()~~
+* ~~use forEach() whereever there is querySelectorAll()~~
 
 ---
 
@@ -71,6 +74,3 @@
 
 * delete feed with the keyboard delete key?????
 * after delete press tab (or 2 tabs) and press arrow down. why from here? => natural tab order, next in tab index
-
-
-* draging & dropping a folder with loading feed in it get "stuck" on loading (the icon)
