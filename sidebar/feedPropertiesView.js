@@ -14,6 +14,7 @@ let feedPropertiesView = (function() {
 
 	let m_elmFeedItemLI = null;
 	let m_bUpdateTitle = true;
+	let m_bForNewFeed = false;
 
 	let m_originalProperties = {
 		title: "",
@@ -22,7 +23,7 @@ let feedPropertiesView = (function() {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function open(elmLI, updateTitle) {
+	function open(elmLI, updateTitle, forNewFeed = false) {
 
 		m_elmSidebarBody = document.body;
 		m_elmMainPanel = document.getElementById("mainPanel");
@@ -41,6 +42,7 @@ let feedPropertiesView = (function() {
 		// the element been updated
 		m_elmFeedItemLI = elmLI;
 		m_bUpdateTitle = updateTitle;
+		m_bForNewFeed = forNewFeed;
 
 		showPanel();
 	}
@@ -91,7 +93,7 @@ let feedPropertiesView = (function() {
 		m_elmFeedPropertiesPanel.style.top = y + "px";
 
 		m_elmTextTitle.value = m_originalProperties.title = m_elmFeedItemLI.firstElementChild.textContent;
-		m_elmTextLocation.value = m_originalProperties.location = m_elmFeedItemLI.getAttribute("href");
+		m_elmTextLocation.value = m_originalProperties.location = m_bForNewFeed ? "" : m_elmFeedItemLI.getAttribute("href");
 		m_elmChkUpdateTitle.checked = m_originalProperties.updateTitle = m_bUpdateTitle;
 		m_elmLabelErrorMsgs.textContent = "";
 
@@ -145,6 +147,9 @@ let feedPropertiesView = (function() {
 				break;
 				//////////////////////////////
 			case "escape":
+				if(m_bForNewFeed) {
+					rssTreeView.deleteFeed(m_elmFeedItemLI);
+				}
 				close()
 				break;
 				//////////////////////////////
@@ -161,6 +166,9 @@ let feedPropertiesView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonCancel(event) {
+		if(m_bForNewFeed) {
+			rssTreeView.deleteFeed(m_elmFeedItemLI);
+		}
 		close();
 	}
 

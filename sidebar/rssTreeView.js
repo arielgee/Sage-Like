@@ -938,6 +938,33 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFeed(elmLI) {
+
+		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
+
+			let newBookmark = {
+				index: bookmarks[0].index,
+				parentId: bookmarks[0].parentId,
+				title: "New Feed",
+				type: "bookmark",
+				url: "http://x/",
+			};
+
+			suspendBookmarksEventHandler(true);
+			browser.bookmarks.create(newBookmark).then((created) => {
+
+				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
+				elmLI.parentElement.insertBefore(newElm, elmLI);
+				newElm.focus();
+
+				feedPropertiesView.open(newElm, true, true);
+
+			}).finally(() => suspendBookmarksEventHandler(false));
+
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function deleteFeed(elmLI) {
 		suspendBookmarksEventHandler(true);
 		browser.bookmarks.remove(elmLI.id).then(() => {
@@ -1215,6 +1242,7 @@ let rssTreeView = (function() {
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
+		createNewFeed: createNewFeed,
 		deleteFeed: deleteFeed,
 		openPropertiesView: openPropertiesView,
 		updateFeedProperties: updateFeedProperties,

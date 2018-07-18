@@ -55,22 +55,20 @@
 * ~~replace all LI to li in querySelectorAll()~~
 * ~~use forEach() whereever there is querySelectorAll()~~
 * ~~delete feed with the keyboard delete key?????~~ => NO! will need a confirm dialog and it's not worth it
+* ~~the bookmark ids from the bookmark lib may starts with a digit. HTML id can not start with a digit~ => Yes thay can as of HTML5
+* ~~check why in openPropertiesView() there is m_objTreeFeedsData.exist() & m_objTreeFeedsData.set()~~ there's a chance feed will be missing
+* ~~check why feeds from telecomnews (מבזקים על סדר היום) marked as not visited (bold) when thay were~~ => non standerd  date time format
+* ~~when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)~~ => BS
+* ~~add a new feed to the tree using the propertiesView?~~
+  * ~~create a new blank bookmark and then edit it with the propertiesView~~
 
 ---
 
 #### Next
 
-* In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
-* when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)
-* the bookmark ids from the bookmark lib may starts with a digit.hrml id can not start with a disit => OK by HTML5
-
 * select some item right after creation => NO(?)
-
+* In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * a lot of sub folders in the tree view will fuck up the UI
 
-* check why in openPropertiesView() there is m_objTreeFeedsData.exist() and m_objTreeFeedsData.set()
-
-* check why feeds from telecomnews (מבזקים על סדר היום) marked as not visited (bold) when thay were. SEE NEXT
-  * if date is missing the Z then convert to XML date format and appen 'Z' at the end ??????
-
 * after delete press tab (or 2 tabs) and press arrow down. why from here? => natural tab order, next in tab index
+
