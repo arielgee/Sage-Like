@@ -748,8 +748,21 @@ let slUtil = (function() {
 		// dateValue could be text
 		let safeDate = new Date(dateValue);
 
+		// another try
+		if(isNaN(safeDate)) {
+
+			let now = new Date();
+			let modDateValue = dateValue.replace(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/, "$3-$2-$1T$4");	// assume dd/mm/yyyy hh:MM:ss
+
+			// if modification was successfull => yyyy-mm-ddThh:MM:ss
+			if(modDateValue.search(/^\d{4}-\d{1,2}-\d{1,2}T\d{1,2}:\d{1,2}:\d{1,2}$/) > -1) {
+				safeDate = new Date((new Date(modDateValue)).getTime() + now.getTimezoneOffset() * 60 * 1000);
+				safeDate.setHours(safeDate.getHours() - (now.getTimezoneOffset() / 60));
+			}
+		}
+
 		// make sure date is valid and save as simple numeric
-		return (!isNaN(safeDate) && (safeDate instanceof Date)) ? safeDate.getTime() : Date.now();
+		return (!isNaN(safeDate) && (safeDate instanceof Date)) ? safeDate.getTime() : getCurrentLocaleDate();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
