@@ -1153,7 +1153,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedTooltipFullState(elmLI, firstLine, secondLine) {
-		elmLI.title = firstLine + "\u000d" + secondLine;
+		elmLI.title = (firstLine ? firstLine : elmLI.firstElementChild.textContent) + "\u000d" + secondLine;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
