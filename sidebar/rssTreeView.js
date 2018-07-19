@@ -966,11 +966,21 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function deleteFeed(elmLI) {
+
 		suspendBookmarksEventHandler(true);
 		browser.bookmarks.remove(elmLI.id).then(() => {
+
+			if(elmLI.nextElementSibling !== null) {
+				elmLI.nextElementSibling.focus();
+			} else if(elmLI.previousElementSibling !== null) {
+				elmLI.previousElementSibling.focus();
+			} else {
+				m_elmCurrentlySelected = null;
+			}
+
 			elmLI.parentElement.removeChild(elmLI);
 			m_objTreeFeedsData.remove(elmLI.id);
-			m_elmCurrentlySelected = null;
+
 		}).finally(() => suspendBookmarksEventHandler(false));
 	}
 
