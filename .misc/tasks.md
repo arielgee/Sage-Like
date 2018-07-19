@@ -61,14 +61,16 @@
 * ~~when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)~~ => BS
 * ~~add a new feed to the tree using the propertiesView?~~
   * ~~create a new blank bookmark and then edit it with the propertiesView~~
+* ~~after delete press tab (or 2 tabs) and press arrow down. why from here?~~ => after delete move focus to next/prev LI
+* ~~select some item right after creation~~ => NO
+
 
 ---
 
 #### Next
 
-* select some item right after creation => NO(?)
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * a lot of sub folders in the tree view will fuck up the UI
 
-* after delete press tab (or 2 tabs) and press arrow down. why from here? => natural tab order, next in tab index
+
 

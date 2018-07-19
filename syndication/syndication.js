@@ -232,19 +232,19 @@ let syndication = (function() {
 				feedData.standard = SyndicationStandard.RSS;							// https://validator.w3.org/feed/docs/rss2.html
 				feedData.feeder = doc.querySelector("rss");
 				feedData.title = getFeedTitle(doc, "rss > channel");
-				feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel");
+				feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");
 				feedData.items = feedData.feeder.querySelectorAll("item").length;
 			} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
 				feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Examples: http://feeds.nature.com/nature/rss/current, https://f1-gate.com/
 				feedData.feeder = doc.querySelector("RDF");
 				feedData.title = getFeedTitle(doc, "RDF > channel");
-				feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel");
+				feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel", "item");
 				feedData.items = feedData.feeder.querySelectorAll("item").length;
 			} else if(doc.documentElement.localName === "feed") {					// FInally let's try 'Atom'
 				feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
 				feedData.feeder = doc.querySelector("feed");
 				feedData.title = getFeedTitle(doc, "feed");
-				feedData.lastUpdated = getFeedLastUpdate(doc, "feed");
+				feedData.lastUpdated = getFeedLastUpdate(doc, "feed", "entry");
 				feedData.items = feedData.feeder.querySelectorAll("entry").length;
 			} else {
 				feedData.errorMsg = "RSS feed not identified in document";
@@ -296,9 +296,16 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedLastUpdate(doc, selectorPrefix) {
+	function getFeedLastUpdate(doc, selectorPrefix, fallbackSelector) {
 
-		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
+		// if date was not found in the standed XML tags (baseSelectorSuffixes) get the date from the first
+		// feed item (fallbackSelector) in the XML.
+		// Example:
+		//		If fallbackSelector = "item"
+		// 		then selectorSuffixes[1] = " > modified"
+		//		and selectorSuffixes[6] = " > item > modified"
+		const baseSelectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
+		const selectorSuffixes = baseSelectorSuffixes.concat(baseSelectorSuffixes.map(s => " > " + fallbackSelector + s))
 
 		let lastUpdate;
 
@@ -312,6 +319,7 @@ let syndication = (function() {
 				return (isNaN(dateVal) ? txtVal : dateVal);
 			}
 		}
+		return slUtil.getCurrentLocaleDate();	// final fallback
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
