@@ -18,9 +18,8 @@
 	box-sizing: content-box;
 	list-style-type: none;
 	margin: 0;
-	padding-left: 2px;
+	padding: 1px 1px 1px 2px;
 	cursor: pointer;
-	border: 1px dotted transparent;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -31,7 +30,7 @@
 
 .listview li.selected {
 	background-color: var(--bk-color-active);
-	border: 1px dotted gray;
+	outline: 1px dotted gray;
 }
 
 .listview li.errormsg {

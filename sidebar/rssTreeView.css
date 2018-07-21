@@ -75,9 +75,8 @@
 
 .treeview .rtvCaption {
 	box-sizing: content-box;
-	border: 1px dotted transparent;
 	min-height: var(--line-height);
-	padding: 0 4px 0 2px;
+	padding: 1px 5px 1px 3px;
 	pointer-events: none; /* otherwise the menucontext is not fired */
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -85,7 +84,7 @@
 
 .treeview li.selected > .rtvCaption {
 	background-color: var(--bk-color-active);
-	border: 1px dotted gray;
+	outline: 1px dotted gray;
 }
 
 .treeview li.dragged {
