@@ -32,6 +32,7 @@ let preferences = (function() {
 	let m_elmRadioImageSet5;
 	let m_elmRadioImageSet6;
 
+	let m_elmBtnReloadExtension;
 	let m_elmBtnRestoreDefaults;
 
 	let m_funcResolveGetTimeOfDay;
@@ -62,6 +63,7 @@ let preferences = (function() {
 		m_elmRadioImageSet5 = document.getElementById("imageSet5");
 		m_elmRadioImageSet6 = document.getElementById("imageSet6");
 
+		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
 
 		m_elmCheckFeedsMethodInfo.title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
@@ -94,6 +96,7 @@ let preferences = (function() {
 		m_elmRadioImageSet5.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
 
+		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
 	}
 
@@ -120,7 +123,7 @@ let preferences = (function() {
 		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
 
-		// restore defaults when requestes
+		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
 	}
 
@@ -294,6 +297,11 @@ let preferences = (function() {
 	function onClickRadioImageSet(event) {
 		prefs.setImageSet(Number(event.target.value));
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_IMAGES);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnReloadExtension(event) {
+		slUtil.reloadSageLikeWebExtensionAndTab();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

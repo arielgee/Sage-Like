@@ -145,12 +145,14 @@ input[type="color"]::-moz-focus-inner {
 #imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
 
 .controlButton {
+	padding: 1px 3px;
 	background-color: rgb(251, 251, 251);
 	border: 1px solid rgb(193, 193, 193);
 	border-radius: 2px;
 	height: 30px;
 	width: 130px;
 	text-align: center;
+	margin-left: 10px;
 }
 
 .controlButton:hover {

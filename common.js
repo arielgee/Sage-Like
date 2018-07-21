@@ -911,6 +911,14 @@ let slUtil = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function reloadSageLikeWebExtensionAndTab() {
+		setTimeout(() => {
+			browser.tabs.reload({ bypassCache: true });
+			browser.runtime.reload();
+		}, 10);
+	}
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -933,6 +941,7 @@ let slUtil = (function() {
 		numberOfVItemsInViewport: numberOfVItemsInViewport,
 		bookmarksFeedsAsCollection: bookmarksFeedsAsCollection,
 		isDescendantOfRoot: isDescendantOfRoot,
+		reloadSageLikeWebExtensionAndTab: reloadSageLikeWebExtensionAndTab,
 	};
 
 })();
