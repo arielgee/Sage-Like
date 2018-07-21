@@ -121,24 +121,6 @@
 	justify-content: right;
 }
 
-.dfButtonContainer .dfButton {
-	background-color: rgb(251, 251, 251);
-	border: 1px solid rgb(193, 193, 193);
-	border-radius: 2px;
-	height: 30px;
-	width: 100px;
-	text-align: center;
-	margin-left: 10px;
-}
-
-.dfButtonContainer .dfButton:hover {
-	background-color: rgb(235, 235, 235);
-}
-
-.dfButtonContainer .dfButton:active:hover {
-	background-color: rgb(218, 218, 218);
-}
-
 #discoverPanel .statusbar {
 	margin-top: 8px;
 }
