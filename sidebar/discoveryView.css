@@ -91,7 +91,11 @@
 }
 
 #discoverFeedsList .dfChkBox {
-	margin: 0;
+	margin: auto;
+}
+
+#discoverFeedsList .dfChkBox:focus {
+	outline: 1px dotted gray;
 }
 
 #discoverFeedsList .dfLabel {

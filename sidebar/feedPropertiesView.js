@@ -98,7 +98,7 @@ let feedPropertiesView = (function() {
 		m_elmLabelErrorMsgs.textContent = "";
 
 		m_elmTextTitle.focus();
-		m_elmTextTitle.setSelectionRange(0, 0);
+		m_elmTextTitle.setSelectionRange(0, -1);	// select all
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

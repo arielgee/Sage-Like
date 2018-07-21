@@ -63,7 +63,11 @@
   * ~~create a new blank bookmark and then edit it with the propertiesView~~
 * ~~after delete press tab (or 2 tabs) and press arrow down. why from here?~~ => after delete move focus to next/prev LI
 * ~~select some item right after creation~~ => NO
-
+* use outline instead of border in tree and list
+* move css button (props + discovery) to panel.css
+* select text in prpperties
+* set focus outline in dialogs
+* add reload extention button in preferences
 
 ---
 
@@ -72,5 +76,7 @@
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * a lot of sub folders in the tree view will fuck up the UI
 
+
+* why list scrollbar is gone when height is resized with splitter to minimum
 
 

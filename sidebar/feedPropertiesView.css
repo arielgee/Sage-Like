@@ -38,6 +38,10 @@
 	margin: auto var(--panel-spacing) auto 0;
 }
 
+.fpPropContainer #chkFpUpdateTitle:focus {
+	outline: 1px dotted gray;
+}
+
 .fpButtonContainer {
 	display: flex;
 	justify-content: right;
