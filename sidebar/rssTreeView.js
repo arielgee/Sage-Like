@@ -848,31 +848,36 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function addNewFeeds(newFeedsList) {
+	async function addNewFeeds(newFeedsList) {
 
+		let index, parentId;
 		let last = m_elmTreeRoot.lastElementChild;
+
+		// tree can be empty
 		if (last === null || last.id === undefined || last.id === "") {
-			return;
+			index = -1;
+			parentId = await prefs.getRootFeedsFolderId();
+		} else {
+			let bookmarks = await browser.bookmarks.get(last.id);
+			index = bookmarks[0].index;
+			parentId = bookmarks[0].parentId;
 		}
 
-		browser.bookmarks.get(last.id).then((foundNodes) => {
+		let counter = 1;
+		let bookmarksList = [];
 
-			let counter = 1;
-			let bookmarksList = [];
+		for(let feed of newFeedsList) {
 
-			for(let feed of newFeedsList) {
+			bookmarksList.push( {
+				index: index + (counter++),
+				parentId: parentId,
+				title: feed.title,
+				url: feed.url,
+			} );
+		}
 
-				bookmarksList.push( {
-					index: foundNodes[0].index + (counter++),
-					parentId: foundNodes[0].parentId,
-					title: feed.title,
-					url: feed.url,
-				} );
-			}
-
-			suspendBookmarksEventHandler(true);
-			createBookmarksSequentially(bookmarksList, 0);
-		});
+		suspendBookmarksEventHandler(true);
+		createBookmarksSequentially(bookmarksList, 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
