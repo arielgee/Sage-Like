@@ -59,7 +59,7 @@
 }
 
 #discoverPanel #btnRediscover:active {
-	transform: rotate(45deg);
+	transform: scaleX(-1);
 }
 
 #discoverFeedsList {
