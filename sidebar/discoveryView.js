@@ -248,12 +248,20 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonAdd(event) {
 
+		prefs.getRootFeedsFolderId().then((folderId) => {
+
+			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				setStatusbarMessage("Feeds folder not set in Options page.", true);
+			} else {
+
 		let newFeedsList = collectSelectedFeeds();
 
 		if(newFeedsList.length > 0) {
 			rssTreeView.addNewFeeds(newFeedsList);
 			close();
 		}
+	}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
