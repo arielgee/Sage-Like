@@ -1118,8 +1118,7 @@ let rssTreeView = (function() {
 			if (elm && elm.tagName === "LI") {
 				m_elmCurrentlySelected = elm;
 				elm.classList.add("selected");
-				// the tree item's caption element is enough
-				slUtil.scrollIntoViewIfNeeded(elm.firstElementChild, m_elmTreeRoot.parentElement);
+				slUtil.scrollIntoViewIfNeeded(elm, m_elmTreeRoot.parentElement);
 			}
 		}
 	}
