@@ -12,7 +12,7 @@ let syndication = (function() {
 	let m_domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function discoverWebSiteFeeds(txtHTML, timeout, reload) {
+	function discoverWebSiteFeeds(txtHTML, timeout, origin, reload) {
 
 		return new Promise((resolve) => {
 
@@ -33,9 +33,10 @@ let syndication = (function() {
 				let discoveredFeedsList = {};
 
 				// for each feed found create a list item and create a promise that will return the feed's XML text
-				feeds.forEach((url) => {
-					discoveredFeedsList[url.href] = { status: "init", title: url.title, url: url.href };
-					allPromises.push(getFeedXMLText(url.href, reload, timeout));
+				feeds.forEach((feed) => {
+					let url = slUtil.replaceMozExtensionOriginURL(feed.href, origin);
+					discoveredFeedsList[url] = { status: "init", title: feed.title, url: url };
+					allPromises.push(getFeedXMLText(url, reload, timeout));
 				});
 
 				// for all promises created above get feed data and update the list item

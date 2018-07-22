@@ -561,6 +561,7 @@ let prefs = (function() {
 let slUtil = (function() {
 
 	let m_savedScrollbarWidth = -1;
+	let m_mozExtensionOrigin = "";
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function(args) {
@@ -919,6 +920,19 @@ let slUtil = (function() {
 		}, 10);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function replaceMozExtensionOriginURL(url, base) {
+
+		if(m_mozExtensionOrigin === "") {
+			m_mozExtensionOrigin = browser.extension.getURL("");
+		}
+
+		if(url.startsWith(m_mozExtensionOrigin)) {
+			return new URL(url.replace(m_mozExtensionOrigin, ""), base);
+		}
+		return new URL(url);
+	}
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -942,6 +956,7 @@ let slUtil = (function() {
 		bookmarksFeedsAsCollection: bookmarksFeedsAsCollection,
 		isDescendantOfRoot: isDescendantOfRoot,
 		reloadSageLikeWebExtensionAndTab: reloadSageLikeWebExtensionAndTab,
+		replaceMozExtensionOriginURL: replaceMozExtensionOriginURL,
 	};
 
 })();

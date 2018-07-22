@@ -6,7 +6,8 @@ let discoveryView = (function() {
 
 	const CODE_INJECTION = "browser.runtime.sendMessage( { id: \"" + MSGID_GET_DOC_TEXT_HTML + "\"," +
 														  "txtHTML: document.documentElement.outerHTML," +
-														  "domainName: document.domain, } );";
+														  "domainName: document.domain," +
+														  "origin: window.location.origin, } );";
 
 	//==================================================================================
 	//=== Variables Declerations
@@ -25,7 +26,7 @@ let discoveryView = (function() {
 	/**************************************************/
 	browser.runtime.onMessage.addListener((message) => {
 		if(message.id === MSGID_GET_DOC_TEXT_HTML) {
-			loadDiscoverFeedsList(message.txtHTML, message.domainName);
+			loadDiscoverFeedsList(message.txtHTML, message.domainName, message.origin);
 		}
 	});
 
@@ -98,12 +99,12 @@ let discoveryView = (function() {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function loadDiscoverFeedsList(txtHTML, domainName) {
+	function loadDiscoverFeedsList(txtHTML, domainName, origin) {
 
 		setDiscoverLoadingState(true);
 		setStatusbarMessage(domainName, false);
 		prefs.getFetchTimeout().then((timeout) => {
-			syndication.discoverWebSiteFeeds(txtHTML, timeout*1000).then((discoveredFeedsList) => {
+			syndication.discoverWebSiteFeeds(txtHTML, timeout*1000, origin).then((discoveredFeedsList) => {
 
 				emptyDiscoverFeedsList();
 
