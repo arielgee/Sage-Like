@@ -312,7 +312,6 @@ let rssListView = (function() {
 		if (elm && elm.tagName === "LI") {
 			m_elmCurrentlySelected = elm;
 			elm.classList.add("selected");
-			// the tree item's caption element is enough
 			slUtil.scrollIntoViewIfNeeded(elm, m_elmList.parentElement);
 		}
 	}
