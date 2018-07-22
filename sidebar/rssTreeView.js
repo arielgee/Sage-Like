@@ -1157,7 +1157,14 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedTooltipFullState(elmLI, firstLine, secondLine) {
-		elmLI.title = (firstLine ? firstLine : elmLI.firstElementChild.textContent) + "\u000d" + secondLine;
+
+		// don't use channel title if user unchecked that option for this feed
+		if(m_objTreeFeedsData.value(elmLI.id).updateTitle && firstLine) {
+			elmLI.title = firstLine;
+		} else {
+			elmLI.title = elmLI.firstElementChild.textContent;
+		}
+		elmLI.title += "\u000d" + secondLine;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
