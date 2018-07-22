@@ -87,6 +87,10 @@
 	outline: 1px dotted gray;
 }
 
+.treeview li.rtvTreeItem:hover > .rtvCaption {
+	text-decoration: underline;
+}
+
 .treeview li.dragged {
 	opacity: 0.5;
 }
