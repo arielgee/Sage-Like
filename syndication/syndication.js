@@ -35,7 +35,7 @@ let syndication = (function() {
 				// for each feed found create a list item and create a promise that will return the feed's XML text
 				feeds.forEach((feed) => {
 					let url = slUtil.replaceMozExtensionOriginURL(feed.href, origin);
-					discoveredFeedsList[url] = { status: "init", title: feed.title, url: url };
+					discoveredFeedsList[url.toString()] = { status: "init", title: feed.title, url: url };
 					allPromises.push(getFeedXMLText(url, reload, timeout));
 				});
 
@@ -50,11 +50,11 @@ let syndication = (function() {
 							feedData = getFeedData(feedXML.txtXML);
 
 							if(feedData.standard === SyndicationStandard.invalid) {
-								discoveredFeedsList['error'] = { status: "error", message: feedData.errorMsg };
+								discoveredFeedsList[feedXML.url.toString()] = { status: "error", message: feedData.errorMsg };
 							} else {
-								discoveredFeedsList[feedXML.url] = {
+								discoveredFeedsList[feedXML.url.toString()] = {
 									status: "OK",
-									title: (feedData.title.length >0 ? feedData.title : discoveredFeedsList[feedXML.url].title),
+									title: (feedData.title.length >0 ? feedData.title : discoveredFeedsList[feedXML.url.toString()].title),
 									url: discoveredFeedsList[feedXML.url].url,
 									lastUpdated: feedData.lastUpdated,
 									format: feedData.standard,
@@ -62,7 +62,7 @@ let syndication = (function() {
 								};
 							}
 						} else {
-							discoveredFeedsList['error'] = { status: "error", message: feedXML };
+							discoveredFeedsList[feedXML.url.toString()] = { status: "error", message: feedXML.message };
 						}
 					});
 					resolve(discoveredFeedsList);
@@ -87,7 +87,7 @@ let syndication = (function() {
 				}
 
 			}).catch((error) => {
-				reject(error);
+				reject(error.message);
 			});
 		});
 	}
@@ -113,7 +113,7 @@ let syndication = (function() {
 					}
 				}
 			}).catch((error) => {
-				reject(error);
+				reject(error.message);
 			});
 		});
 	}
@@ -185,15 +185,15 @@ let syndication = (function() {
 							resolve( { url: url, txtXML: txtXML } );
 						});
 					}).catch((error) => {
-						reject("Failed to get response stream (blob). " + error.message);
+						reject( { url: url, message: "Failed to get response stream (blob). " + error.message } );
 					});
 
 				} else {
-					reject("Failed to retrieve feed XML from URL. " + response.status + " " + response.statusText);
+					reject( { url: url, message: "Failed to retrieve feed XML from URL. " + response.status + " " + response.statusText } );
 				}
 
 			}).catch((error) => {
-				reject("Failed to fetch feed from URL. " + error.message);
+				reject( { url: url, message: "Failed to fetch feed from URL. " + error.message } );
 			});
 		});
 	}

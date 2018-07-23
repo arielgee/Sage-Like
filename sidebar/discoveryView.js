@@ -116,7 +116,7 @@ let discoveryView = (function() {
 					if(feed.status === "OK") {
 						m_elmDiscoverFeedsList.appendChild(createTagLI(index++, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
 					} else if(feed.status === "error") {
-						console.log("[sage-like]", feed.message);
+						console.log("[sage-like]", key, feed.message);
 					}
 				}
 				if(m_elmDiscoverFeedsList.children.length === 0) {
