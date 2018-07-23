@@ -68,6 +68,20 @@
 * select text in prpperties
 * set focus outline in dialogs
 * add reload extention button in preferences
+* fix rediscover button transformation
+* underline tree item when hover
+* empty title in tooltip when no title
+* why list scrollbar is gone when height is resized with splitter to minimum => by system. height too small to paint the scroll
+* click discovery when root folder is not set
+* native menu when right click on error LI => fixed error when calling to scrollIntoViewIfNeeded with firstElementChild
+* ~~discover link with relative url: <link ... type="application/rss+xml" href="/rss/index.xml" />~~
+* ~~Improve syndication.discoverWebSiteFeeds()~~
+  * ~~Simplify discoveredFeedsList() to use simple url string as key instead of URL object.~~
+  * ~~handle discoveredFeedsList object in discoveredFeedsList() correctly.~~
+  * ~~syndication.getFeedXMLText() now return object instead of string when rejecting that results in better loging of errors when calling discoverWebSiteFeeds()~~
+* ~~Replace single string quotation marks with double quotation marks~~
+
+
 
 ---
 
@@ -75,8 +89,3 @@
 
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * a lot of sub folders in the tree view will fuck up the UI
-
-
-* why list scrollbar is gone when height is resized with splitter to minimum
-
-

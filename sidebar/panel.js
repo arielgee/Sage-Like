@@ -166,12 +166,12 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseDown_startSplitterDrag(event) {
 		window.addEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
-		window.addEventListener('mousemove', onMouseMove_dragSplitter, true);
+		window.addEventListener("mousemove", onMouseMove_dragSplitter, true);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseUp_stopSplitterDrag(event) {
-		window.removeEventListener('mousemove', onMouseMove_dragSplitter, true);
+		window.removeEventListener("mousemove", onMouseMove_dragSplitter, true);
 		window.removeEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
 	}
 

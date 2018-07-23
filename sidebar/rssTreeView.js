@@ -1232,7 +1232,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isFeedInTree(url) {
-		return (m_elmTreeRoot.querySelector("." + slGlobals.CLS_RTV_LI_TREE_ITEM + "[href='" + url + "']") !== null);
+		return (m_elmTreeRoot.querySelector("." + slGlobals.CLS_RTV_LI_TREE_ITEM + "[href=\"" + url + "\"]") !== null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

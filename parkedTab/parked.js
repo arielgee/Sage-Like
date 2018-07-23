@@ -3,7 +3,7 @@
 (function() {
 
 	let getQueryStringValue = (field) => {
-		let reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+		let reg = new RegExp("[?&]" + field + "=([^&#]*)", "i");
 		let value = reg.exec(window.location.href);
 		return value ? value[1] : null;
 	};
