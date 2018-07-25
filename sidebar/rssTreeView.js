@@ -876,45 +876,39 @@ let rssTreeView = (function() {
 			} );
 		}
 
-		suspendBookmarksEventHandler(true);
-		createBookmarksSequentially(bookmarksList, 0);
+		createBookmarksSequentially(bookmarksList);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createBookmarksSequentially(bookmarksList, index) {
+	async function createBookmarksSequentially(bookmarksList) {
 
 		/*
 			Because bookmarks.create() is an asynchronous function the creation of multiple bookmarks
 			sequentially is performed to the same index (last index) and will appear in reverse order.
 
-			This recursive/asynchronous function makes sure the next create is performed after the previous
-			one has been completed. Better than pacing the creations using setTimeout(), yuck!
+			This function makes sure the all the create action are done in the order thay were delivered.
 		*/
 
-		// while index in pointing to an object in the array
-		if(bookmarksList.length > index) {
+		suspendBookmarksEventHandler(true);
 
-			browser.bookmarks.create(bookmarksList[index]).then((created) => {
+		let created, elmLI;
+		bookmarksList.forEach((bookmark) => {
 
-				let elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
-				elmLI.classList.add("blinkNew");
-				m_elmTreeRoot.appendChild(elmLI);
+			created = await browser.bookmarks.create(bookmark);
 
-				if(!m_objTreeFeedsData.exist(created.id)) {
-					m_objTreeFeedsData.set(created.id);
-				}
-				setFeedVisitedState(elmLI, false);
+			elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
+			elmLI.classList.add("blinkNew");
+			m_elmTreeRoot.appendChild(elmLI);
 
-				createBookmarksSequentially(bookmarksList, ++index);
+			if(!m_objTreeFeedsData.exist(created.id)) {
+				m_objTreeFeedsData.set(created.id);
+			}
+			setFeedVisitedState(elmLI, false);
+		});
 
-				// this will happend after the last element was appended
-				if(bookmarksList.length === index) {
-					elmLI.scrollIntoView();
-					blinkNewlyAddedFeeds();
-					suspendBookmarksEventHandler(false);
-				}
-			});
-		}
+		elmLI.scrollIntoView();		// when loop terminates the elmLI is the last LI appended
+		blinkNewlyAddedFeeds();
+		suspendBookmarksEventHandler(false);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

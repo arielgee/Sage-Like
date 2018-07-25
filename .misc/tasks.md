@@ -61,27 +61,30 @@
 * ~~when RTL the dot at the end of the EN sentence is to the left and not to the right (on switch direction)~~ => BS
 * ~~add a new feed to the tree using the propertiesView?~~
   * ~~create a new blank bookmark and then edit it with the propertiesView~~
-* ~~after delete press tab (or 2 tabs) and press arrow down. why from here?~~ => after delete move focus to next/prev LI
-* ~~select some item right after creation~~ => NO
-* use outline instead of border in tree and list
-* move css button (props + discovery) to panel.css
-* select text in prpperties
-* set focus outline in dialogs
-* add reload extention button in preferences
-* fix rediscover button transformation
-* underline tree item when hover
-* empty title in tooltip when no title
-* why list scrollbar is gone when height is resized with splitter to minimum => by system. height too small to paint the scroll
-* click discovery when root folder is not set
-* native menu when right click on error LI => fixed error when calling to scrollIntoViewIfNeeded with firstElementChild
+* ~~after delete press tab (or 2 tabs) and press arrow down. why from here?~~ => after delete move focus to next/prev LI~~
+* ~~select some item right after creation~~ => NO~~
+* ~~use outline instead of border in tree and list~~
+* ~~move css button (props + discovery) to panel.css~~
+* ~~select text in prpperties~~
+* ~~set focus outline in dialogs~~
+* ~~add reload extention button in preferences~~
+* ~~fix rediscover button transformation~~
+* ~~underline tree item when hover~~
+* ~~empty title in tooltip when no title~~
+* ~~why list scrollbar is gone when height is resized with splitter to minimum => by system. height too small to paint the scroll~~
+* ~~click discovery when root folder is not set~~
+* ~~native menu when right click on error LI => fixed error when calling to scrollIntoViewIfNeeded with firstElementChild~~
 * ~~discover link with relative url: <link ... type="application/rss+xml" href="/rss/index.xml" />~~
 * ~~Improve syndication.discoverWebSiteFeeds()~~
   * ~~Simplify discoveredFeedsList() to use simple url string as key instead of URL object.~~
   * ~~handle discoveredFeedsList object in discoveredFeedsList() correctly.~~
   * ~~syndication.getFeedXMLText() now return object instead of string when rejecting that results in better loging of errors when calling discoverWebSiteFeeds()~~
 * ~~Replace single string quotation marks with double quotation marks~~
-
-
+* ~~following feeds are not loaded due to tab char at file start (before xml prolog)~~
+  * ~~"http://www.zavit.org.il/feed/"~~
+  * ~~"http://www.zavit.org.il/comments/feed/"~~
+* ~~if deleting tree item while it is trying to add new feeds (discovery) the "reload feeds" button may turn red~~
+  * ~~convert createBookmarksSequentially to simple function with async/await function~~
 
 ---
 
@@ -89,3 +92,7 @@
 
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * a lot of sub folders in the tree view will fuck up the UI
+
+* why loading the discovery is not loading when ready
+  * in the syndication.discoverWebSiteFeeds() function I can do the following foreach promise before calling Promise.all()
+    * allPromises[allPromises.length-1].then(() => console.log("[Sage-Like]", url));
