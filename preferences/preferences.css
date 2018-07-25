@@ -57,7 +57,8 @@ input[type="radio"] {
 
 input[type="radio"]:checked,
 input[type="checkbox"]:checked {
-	border: 9px solid black;
+	border: 5px solid #999;
+	background-color: black;
 }
 
 input[type="color"] {
