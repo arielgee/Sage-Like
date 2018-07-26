@@ -99,7 +99,42 @@ let discoveryView = (function() {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function loadDiscoverFeedsList(txtHTML, domainName, origin) {
+	async function loadDiscoverFeedsList(txtHTML, domainName, origin) {
+
+		let feedCount = -1, counter = 0;
+		let timeout = await prefs.getFetchTimeout();
+
+		let funcHandleDiscoveredFeed = function(feed) {
+
+			if(feed.status === "OK") {
+				m_elmDiscoverFeedsList.appendChild(createTagLI(feed.index+1, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
+			} else if(feed.status === "error") {
+				console.log("[sage-like]", feed.url.toString(), feed.message);
+			}
+
+			// if last found feed was added
+			if(feedCount === ++counter) {
+				setRediscoverButtonState(true);
+				setDiscoverLoadingState(false);
+			}
+		};
+
+		setRediscoverButtonState(false);
+		setDiscoverLoadingState(true);
+		setStatusbarMessage(domainName, false);
+		emptyDiscoverFeedsList();
+		syndication.discoverWebSiteFeeds(txtHTML, timeout*1000, origin, funcHandleDiscoveredFeed).then((result) => {
+
+			if((feedCount = result.length) === 0) {
+				setNoFeedsMsg("No valid feeds were discovered.");
+				setRediscoverButtonState(true);
+				setDiscoverLoadingState(false);
+			}
+		});
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function loadDiscoverFeedsList_X(txtHTML, domainName, origin) {
 
 		setDiscoverLoadingState(true);
 		setStatusbarMessage(domainName, false);
@@ -191,6 +226,12 @@ let discoveryView = (function() {
 			m_elmDiscoverPanel.classList.remove("loading")
 		}
 	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setRediscoverButtonState(isEnabled) {
+		m_elmButtonRediscover.classList.toggle("disabled", !isEnabled)
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function collectSelectedFeeds() {

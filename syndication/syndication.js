@@ -12,7 +12,61 @@ let syndication = (function() {
 	let m_domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function discoverWebSiteFeeds(txtHTML, timeout, origin, reload) {
+	function discoverWebSiteFeeds(txtHTML, timeout, origin, callback, reload) {
+
+		return new Promise((resolve) => {
+
+			let doc = m_domParser.parseFromString(txtHTML, "text/html");
+
+			let selector =	"link[type=\"application/rss+xml\"]," +
+							"link[type=\"application/rdf+xml\"]," +
+							"link[type=\"application/atom+xml\"]";
+
+			let feeds = doc.querySelectorAll(selector);
+
+			if(feeds.length === 0) {
+				resolve({ length: 0 });
+			} else {
+
+				resolve({ length: feeds.length });
+
+				feeds.forEach((feed, index, ary) => {
+					let url = slUtil.replaceMozExtensionOriginURL(feed.href, origin);
+					let discoveredFeed = { status: "init", title: feed.title, url: url };
+					getFeedXMLText(url, reload, timeout).then((feedXML) => {
+
+						let feedData;
+
+						// if undefined then this promise was rejected; got the error (e) instead of the feedXML
+						if(feedXML.txtXML !== undefined) {
+							feedData = getFeedData(feedXML.txtXML);
+
+							if(feedData.standard === SyndicationStandard.invalid) {
+								discoveredFeed = { status: "error", url: discoveredFeed.url, message: feedData.errorMsg };
+							} else {
+								discoveredFeed = {
+									status: "OK",
+									index: index,
+									title: (feedData.title.length >0 ? feedData.title : discoveredFeed.title),
+									/*altTitle: */
+									url: discoveredFeed.url,
+									lastUpdated: feedData.lastUpdated,
+									format: feedData.standard,
+									items: feedData.items,
+								};
+							}
+						} else {
+							discoveredFeed = { status: "error", url: discoveredFeed.url, message: feedXML.message };
+						}
+						callback(discoveredFeed);
+					});
+				});
+			}
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function discoverWebSiteFeeds_X(txtHTML, timeout, origin, reload) {
 
 		return new Promise((resolve) => {
 

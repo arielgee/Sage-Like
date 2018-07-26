@@ -62,6 +62,11 @@
 	transform: scaleX(-1);
 }
 
+#discoverPanel #btnRediscover.disabled {
+	filter: grayscale(100%) opacity(40%);
+	pointer-events: none;
+}
+
 #discoverFeedsList {
 	list-style-type: none;
 	padding: 0;

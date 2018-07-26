@@ -96,3 +96,11 @@
 * why loading the discovery is not loading when ready
   * in the syndication.discoverWebSiteFeeds() function I can do the following foreach promise before calling Promise.all()
     * allPromises[allPromises.length-1].then(() => console.log("[Sage-Like]", url));
+
+* alt Title in discoverWebSiteFeeds for sites that the inner title is not equal to the declated in the web page
+
+* in discoverWebSiteFeeds overwrite discoveredFeed with Object.assign()
+
+* add div for feed count in discoveryView. next to the caption ?
+
+* disabled elements using 'pointer-events: none' still react to keybourd events  fuck!
