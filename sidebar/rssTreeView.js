@@ -892,7 +892,7 @@ let rssTreeView = (function() {
 		suspendBookmarksEventHandler(true);
 
 		let created, elmLI;
-		bookmarksList.forEach((bookmark) => {
+		for(let bookmark of bookmarksList) {
 
 			created = await browser.bookmarks.create(bookmark);
 
@@ -904,7 +904,7 @@ let rssTreeView = (function() {
 				m_objTreeFeedsData.set(created.id);
 			}
 			setFeedVisitedState(elmLI, false);
-		});
+		}
 
 		elmLI.scrollIntoView();		// when loop terminates the elmLI is the last LI appended
 		blinkNewlyAddedFeeds();
