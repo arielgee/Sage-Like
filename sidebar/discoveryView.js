@@ -22,6 +22,8 @@ let discoveryView = (function() {
 	let m_elmButtonCancel;
 	let m_elmLabelInfobar;
 
+	let m_nRequestId = 0;
+
 
 	/**************************************************/
 	browser.runtime.onMessage.addListener((message) => {
@@ -51,7 +53,7 @@ let discoveryView = (function() {
 
 		m_elmDiscoverPanel.focus()
 		runDiscoverFeeds();
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function close() {
@@ -71,16 +73,18 @@ let discoveryView = (function() {
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
 
 		rssTreeView.setFocus();
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isOpen() {
 		return (m_elmDiscoverPanel !== null && m_elmDiscoverPanel.style.display === "block");
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function runDiscoverFeeds() {
 
+		m_nRequestId = 0;
+		setDiscoverLoadingState(false);
 		emptyDiscoverFeedsList();
 		setStatusbarMessage("", false);
 
@@ -96,42 +100,46 @@ let discoveryView = (function() {
 				//console.log("[Sage-Like]", error);
 			});
 		});
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function loadDiscoverFeedsList(txtHTML, domainName, origin) {
+
+		m_nRequestId = Date.now();
 
 		let feedCount = -1, counter = 0;
 		let timeout = await prefs.getFetchTimeout();
 
 		let funcHandleDiscoveredFeed = function(feed) {
 
-			if(feed.status === "OK") {
-				m_elmDiscoverFeedsList.appendChild(createTagLI(feed.index+1, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
-			} else if(feed.status === "error") {
-				console.log("[sage-like]", feed.url.toString(), feed.message);
-			}
+			// do not prosess stale requests
+			if(feed.requestId === m_nRequestId) {
 
-			// if last found feed was added
-			if(feedCount === ++counter) {
-				setRediscoverButtonState(true);
-				setDiscoverLoadingState(false);
+				if(feed.status === "OK") {
+					m_elmDiscoverFeedsList.appendChild(createTagLI(feed));
+					setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
+				} else if(feed.status === "error") {
+					console.log("[sage-like]", feed.url.toString(), feed.message);
+				}
+
+				// if last found feed was added
+				if(feedCount === ++counter) {
+					setDiscoverLoadingState(false);
+				}
 			}
 		};
 
-		setRediscoverButtonState(false);
 		setDiscoverLoadingState(true);
-		setStatusbarMessage(domainName, false);
 		emptyDiscoverFeedsList();
-		syndication.discoverWebSiteFeeds(txtHTML, timeout*1000, origin, funcHandleDiscoveredFeed).then((result) => {
+		setStatusbarMessage(domainName, false);
+		syndication.discoverWebSiteFeeds(txtHTML, timeout*1000, origin, m_nRequestId, funcHandleDiscoveredFeed).then((result) => {
 
 			if((feedCount = result.length) === 0) {
 				setNoFeedsMsg("No valid feeds were discovered.");
-				setRediscoverButtonState(true);
 				setDiscoverLoadingState(false);
 			}
 		});
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function loadDiscoverFeedsList_X(txtHTML, domainName, origin) {
@@ -160,17 +168,17 @@ let discoveryView = (function() {
 				setDiscoverLoadingState(false);
 			});
 		});
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function emptyDiscoverFeedsList() {
 		while(m_elmDiscoverFeedsList.firstChild) {
 			m_elmDiscoverFeedsList.removeChild(m_elmDiscoverFeedsList.firstChild);
 		}
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createTagLI(index, text, url, lastUpdated, format, items) {
+	function createTagLI(feed) {
 
 		let elmCheckBox = document.createElement("input");
 		let elmLabelCaption = document.createElement("div");
@@ -178,27 +186,29 @@ let discoveryView = (function() {
 		let elmLabel = document.createElement("label");
 		let elmListItem = document.createElement("li");
 
-		elmCheckBox.id = "chkBox" + index.toString();
+		elmCheckBox.id = "chkBox" + feed.index.toString();
 		elmCheckBox.className = "dfChkBox";
 		elmCheckBox.type = "checkbox";
 
-		elmLabelCaption.textContent = text;
+		elmLabelCaption.textContent = (feed.titleFeed.length > 0 ? feed.titleFeed : feed.titleLink);
 		elmLabelCaption.className = "dfLabelCaption";
 
-		elmLabelFormat.textContent = format;
+		elmLabelFormat.textContent = feed.format;
 		elmLabelFormat.className = "dfLabelFormat smallText";
 
 		elmLabel.className = "dfLabel";
 		elmLabel.htmlFor = elmCheckBox.id;
 
 		elmListItem.className = "dfItem";
-		elmListItem.setAttribute("name", text);
-		elmListItem.setAttribute("href", url);
-		elmListItem.title += "Title:\u0009" + text + "\u000d";
-		elmListItem.title += format      ? "Format:\u0009" + format + "\u000d" : "";
-		elmListItem.title += lastUpdated ? "Update:\u0009" + (lastUpdated.toLocaleString() || lastUpdated) + "\u000d" : "";
-		elmListItem.title += items       ? "Items:\u0009" + items + "\u000d" : "";
-		elmListItem.title += "URL:   \u0009" + url;
+		elmListItem.setAttribute("name", elmLabelCaption.textContent);
+		elmListItem.setAttribute("href", feed.url);
+		//elmListItem.title += "Feed Title:\u0009" + feed.titleFeed + "\u000d";
+		//elmListItem.title += "Link Title:\u0009" + feed.titleLink + "\u000d";
+		elmListItem.title += "Title:\u0009\u0009" + feed.titleFeed + "\u000d";
+		elmListItem.title += feed.format      ? "Format:\u0009\u0009" + feed.format + "\u000d" : "";
+		elmListItem.title += feed.lastUpdated ? "Update:\u0009\u0009" + (feed.lastUpdated.toLocaleString() || feed.lastUpdated) + "\u000d" : "";
+		elmListItem.title += feed.items       ? "Items:\u0009\u0009" + feed.items + "\u000d" : "";
+		elmListItem.title += "URL:\u0009\u0009" + feed.url;
 
 		elmListItem.appendChild(elmCheckBox);
 		elmLabel.appendChild(elmLabelCaption);
@@ -206,7 +216,7 @@ let discoveryView = (function() {
 		elmListItem.appendChild(elmLabel);
 
 		return elmListItem;
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setNoFeedsMsg(text) {
@@ -215,23 +225,13 @@ let discoveryView = (function() {
 		elm.textContent = text;
 		emptyDiscoverFeedsList();
 		m_elmDiscoverFeedsList.appendChild(elm);
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setDiscoverLoadingState(isLoading) {
-
-		if (isLoading === true) {
-			m_elmDiscoverPanel.classList.add("loading");
-		} else {
-			m_elmDiscoverPanel.classList.remove("loading")
-		}
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function setRediscoverButtonState(isEnabled) {
-		m_elmButtonRediscover.classList.toggle("disabled", !isEnabled)
+		m_elmDiscoverPanel.classList.toggle("loading", isLoading);
+		m_elmButtonRediscover.classList.toggle("disabled", isLoading)
 	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function collectSelectedFeeds() {
@@ -257,7 +257,7 @@ let discoveryView = (function() {
 		}
 
 		return newFeedsList;
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setStatusbarMessage(text, isError) {
@@ -296,13 +296,13 @@ let discoveryView = (function() {
 				setStatusbarMessage("Feeds folder not set in Options page.", true);
 			} else {
 
-		let newFeedsList = collectSelectedFeeds();
+				let newFeedsList = collectSelectedFeeds();
 
-		if(newFeedsList.length > 0) {
-			rssTreeView.addNewFeeds(newFeedsList);
-			close();
-		}
-	}
+				if(newFeedsList.length > 0) {
+					rssTreeView.addNewFeeds(newFeedsList);
+					close();
+				}
+			}
 		});
 	}
 

@@ -85,6 +85,11 @@
   * ~~"http://www.zavit.org.il/comments/feed/"~~
 * ~~if deleting tree item while it is trying to add new feeds (discovery) the "reload feeds" button may turn red~~
   * ~~convert createBookmarksSequentially to simple function with async/await function~~
+* ~~add div for feed count in discoveryView. next to the caption ?~~ => added to status bar
+* ~~feeds are loaded into the discoveeFeeds view asynchronously as the feed data is obtained~~
+* ~~The callback function of discoverWebSiteFeeds return both titles, feed title and link title~~
+* ~~in discoverWebSiteFeeds overwrite discoveredFeed with Object.assign()~~
+
 
 ---
 
@@ -93,14 +98,6 @@
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 * a lot of sub folders in the tree view will fuck up the UI
 
-* why loading the discovery is not loading when ready
-  * in the syndication.discoverWebSiteFeeds() function I can do the following foreach promise before calling Promise.all()
-    * allPromises[allPromises.length-1].then(() => console.log("[Sage-Like]", url));
-
-* alt Title in discoverWebSiteFeeds for sites that the inner title is not equal to the declated in the web page
-
-* in discoverWebSiteFeeds overwrite discoveredFeed with Object.assign()
-
-* add div for feed count in discoveryView. next to the caption ?
 
 * disabled elements using 'pointer-events: none' still react to keybourd events  fuck!
+  * when focus goes from dialog (any dialog) to panel (top or bottom) the panel reacts to keynord arrows/enter: not realy disabled

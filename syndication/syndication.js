@@ -12,7 +12,7 @@ let syndication = (function() {
 	let m_domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function discoverWebSiteFeeds(txtHTML, timeout, origin, callback, reload) {
+	function discoverWebSiteFeeds(txtHTML, timeout, origin, requestId, callback, reload) {
 
 		return new Promise((resolve) => {
 
@@ -22,46 +22,45 @@ let syndication = (function() {
 							"link[type=\"application/rdf+xml\"]," +
 							"link[type=\"application/atom+xml\"]";
 
-			let feeds = doc.querySelectorAll(selector);
+			let linkFeeds = doc.querySelectorAll(selector);
 
-			if(feeds.length === 0) {
-				resolve({ length: 0 });
-			} else {
+			resolve({ length: linkFeeds.length });
 
-				resolve({ length: feeds.length });
+			linkFeeds.forEach((linkFeed, index) => {
 
-				feeds.forEach((feed, index, ary) => {
-					let url = slUtil.replaceMozExtensionOriginURL(feed.href, origin);
-					let discoveredFeed = { status: "init", title: feed.title, url: url };
-					getFeedXMLText(url, reload, timeout).then((feedXML) => {
+				let url = slUtil.replaceMozExtensionOriginURL(linkFeed.href, origin);
+				let discoveredFeed = {
+					status: "init",
+					titleLink: linkFeed.title,
+					url: url,
+					requestId: requestId,
+				};
 
-						let feedData;
+				getFeedXMLText(url, reload, timeout).then((feedXML) => {
 
-						// if undefined then this promise was rejected; got the error (e) instead of the feedXML
-						if(feedXML.txtXML !== undefined) {
-							feedData = getFeedData(feedXML.txtXML);
+					// if undefined then this promise was rejected; got the error (e) instead of the feedXML
+					if(feedXML.txtXML !== undefined) {
 
-							if(feedData.standard === SyndicationStandard.invalid) {
-								discoveredFeed = { status: "error", url: discoveredFeed.url, message: feedData.errorMsg };
-							} else {
-								discoveredFeed = {
-									status: "OK",
-									index: index,
-									title: (feedData.title.length >0 ? feedData.title : discoveredFeed.title),
-									/*altTitle: */
-									url: discoveredFeed.url,
-									lastUpdated: feedData.lastUpdated,
-									format: feedData.standard,
-									items: feedData.items,
-								};
-							}
+						let feedData = getFeedData(feedXML.txtXML);
+
+						if(feedData.standard === SyndicationStandard.invalid) {
+							discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
 						} else {
-							discoveredFeed = { status: "error", url: discoveredFeed.url, message: feedXML.message };
+							discoveredFeed = Object.assign(discoveredFeed, {
+								status: "OK",
+								index: index,
+								titleFeed: feedData.title,
+								lastUpdated: feedData.lastUpdated,
+								format: feedData.standard,
+								items: feedData.items,
+							});
 						}
-						callback(discoveredFeed);
-					});
+					} else {
+						discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedXML.message});
+					}
+					callback(discoveredFeed);
 				});
-			}
+			});
 		});
 	}
 
