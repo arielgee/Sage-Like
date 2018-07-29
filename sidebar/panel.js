@@ -58,7 +58,7 @@
 
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		window.addEventListener("resize", () => { setPanelLayout(); }, false);
+		window.addEventListener("resize", () => setPanelLayout(), false);
 
 		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.addEventListener("click", onClickPreferences);
@@ -76,7 +76,7 @@
 
 		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		window.removeEventListener("resize", () => { setPanelLayout(); }, false);
+		window.removeEventListener("resize", () => setPanelLayout(), false);
 
 		m_elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.removeEventListener("click", onClickPreferences);
