@@ -64,6 +64,7 @@ let discoveryView = (function() {
 
 		slUtil.disableElementTree(m_elmMainPanel, false);
 		m_elmDiscoverPanel.style.display = "none";
+		m_nRequestId = 0;
 		emptyDiscoverFeedsList();
 		setStatusbarMessage("", false);
 
