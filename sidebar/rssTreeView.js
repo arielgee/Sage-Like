@@ -640,6 +640,10 @@ let rssTreeView = (function() {
 		event.stopPropagation();
 		event.preventDefault();
 
+		if(event.target.getAttribute("disabled") !== null) {
+			return;
+		}
+
 		let count, elmCount, elm, elms;
 		let elmTargetLI = event.target;
 		let isSubTree = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);

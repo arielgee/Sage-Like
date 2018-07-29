@@ -177,6 +177,10 @@ let rssListView = (function() {
 		event.stopPropagation();
 		event.preventDefault();
 
+		if(event.target.getAttribute("disabled") !== null) {
+			return;
+		}
+
 		let elm, elmsCount, index;
 		let elmTargetLI = event.target;
 
