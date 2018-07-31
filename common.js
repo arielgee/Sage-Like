@@ -90,6 +90,13 @@ class TreeFeedsData extends StoredKeyedItems {
 	}
 
 	//////////////////////////////////////////
+	setIfNotExist(key) {
+		if(!super.exist(key)) {
+			this.set(key);
+		}
+	}
+
+	//////////////////////////////////////////
 	setLastChecked(key) {
 		if(super.exist(key)) {
 			this._items[key].lastChecked = Date.now();

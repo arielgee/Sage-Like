@@ -311,9 +311,7 @@ let rssTreeView = (function() {
 		setFeedErrorState(elmLI, false);
 		setFeedLoadingState(elmLI, true);
 
-		if(!m_objTreeFeedsData.exist(id)) {
-			m_objTreeFeedsData.set(id);
-		}
+		m_objTreeFeedsData.setIfNotExist(id);
 		m_objTreeFeedsData.setLastChecked(id);
 
 		prefs.getFetchTimeout().then((timeout) => {
@@ -904,9 +902,7 @@ let rssTreeView = (function() {
 			elmLI.classList.add("blinkNew");
 			m_elmTreeRoot.appendChild(elmLI);
 
-			if(!m_objTreeFeedsData.exist(created.id)) {
-				m_objTreeFeedsData.set(created.id);
-			}
+			m_objTreeFeedsData.setIfNotExist(created.id);
 			setFeedVisitedState(elmLI, false);
 		}
 
@@ -992,9 +988,7 @@ let rssTreeView = (function() {
 
 		let id = elmLI.id;
 
-		if(!m_objTreeFeedsData.exist(id)) {
-			m_objTreeFeedsData.set(id);
-		}
+		m_objTreeFeedsData.setIfNotExist(id);
 		feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(id).updateTitle);
 	}
 

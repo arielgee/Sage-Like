@@ -108,9 +108,7 @@
 			let showNewBadge = false;
 			for (let feed of bmFeeds) {
 
-				if(!objTreeFeedsData.exist(feed.id)) {
-					objTreeFeedsData.set(feed.id);
-				}
+				objTreeFeedsData.setIfNotExist(feed.id);
 				objTreeFeedsData.setLastChecked(feed.id);
 
 				try {
