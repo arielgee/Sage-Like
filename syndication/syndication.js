@@ -65,66 +65,6 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function discoverWebSiteFeeds_X(txtHTML, timeout, origin, reload) {
-
-		return new Promise((resolve) => {
-
-			let doc = m_domParser.parseFromString(txtHTML, "text/html");
-
-			let selector =	"link[type=\"application/rss+xml\"]," +
-							"link[type=\"application/rdf+xml\"]," +
-							"link[type=\"application/atom+xml\"]";
-
-			let feeds = doc.querySelectorAll(selector);
-
-			if(feeds.length === 0) {
-				resolve({});		// if nothing found return empty list object
-			} else {
-
-				let allPromises = [];
-				let feedData;
-				let discoveredFeedsList = {};
-
-				// for each feed found create a list item and create a promise that will return the feed's XML text
-				feeds.forEach((feed) => {
-					let url = slUtil.replaceMozExtensionOriginURL(feed.href, origin);
-					discoveredFeedsList[url.toString()] = { status: "init", title: feed.title, url: url };
-					allPromises.push(getFeedXMLText(url, reload, timeout));
-				});
-
-				// for all promises created above get feed data and update the list item
-				// Promise.all is fail-fast; first rejected promise will reject all immediately so convert catch error to simple regular (success) value.
-				Promise.all(allPromises.map(p => p.catch((e) => { return e; }))).then((feedXMLs) => {
-
-					feedXMLs.forEach((feedXML) => {
-
-						// if undefined then this promise was rejected; got the error (e) instead of the feedXML
-						if(feedXML.txtXML !== undefined) {
-							feedData = getFeedData(feedXML.txtXML);
-
-							if(feedData.standard === SyndicationStandard.invalid) {
-								discoveredFeedsList[feedXML.url.toString()] = { status: "error", message: feedData.errorMsg };
-							} else {
-								discoveredFeedsList[feedXML.url.toString()] = {
-									status: "OK",
-									title: (feedData.title.length >0 ? feedData.title : discoveredFeedsList[feedXML.url.toString()].title),
-									url: discoveredFeedsList[feedXML.url].url,
-									lastUpdated: feedData.lastUpdated,
-									format: feedData.standard,
-									items: feedData.items,
-								};
-							}
-						} else {
-							discoveredFeedsList[feedXML.url.toString()] = { status: "error", message: feedXML.message };
-						}
-					});
-					resolve(discoveredFeedsList);
-				});
-			}
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function fetchFeedData(url, timeout, reload) {
 
 		return new Promise((resolve, reject) => {

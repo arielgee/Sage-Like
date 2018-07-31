@@ -143,35 +143,6 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function loadDiscoverFeedsList_X(txtHTML, domainName, origin) {
-
-		setDiscoverLoadingState(true);
-		setStatusbarMessage(domainName, false);
-		prefs.getFetchTimeout().then((timeout) => {
-			syndication.discoverWebSiteFeeds(txtHTML, timeout*1000, origin).then((discoveredFeedsList) => {
-
-				emptyDiscoverFeedsList();
-
-				let feed, index = 1
-				for(let key in discoveredFeedsList) {
-
-					feed = discoveredFeedsList[key];
-
-					if(feed.status === "OK") {
-						m_elmDiscoverFeedsList.appendChild(createTagLI(index++, feed.title, feed.url, feed.lastUpdated, feed.format, feed.items));
-					} else if(feed.status === "error") {
-						console.log("[sage-like]", key, feed.message);
-					}
-				}
-				if(m_elmDiscoverFeedsList.children.length === 0) {
-					setNoFeedsMsg("No valid feeds were discovered.");
-				}
-				setDiscoverLoadingState(false);
-			});
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function emptyDiscoverFeedsList() {
 		while(m_elmDiscoverFeedsList.firstChild) {
 			m_elmDiscoverFeedsList.removeChild(m_elmDiscoverFeedsList.firstChild);
