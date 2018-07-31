@@ -295,12 +295,12 @@ let rssTreeView = (function() {
 			let batchSize = Math.ceil(elmLIs.length / Number(method[0]));
 			let timeoutPause = Number(method[1]);
 
-			elmLIs.forEach(async (elmLI) => {
+			for(let elmLI of elmLIs) {
 				checkForNewFeedData(elmLI, elmLI.id, elmLI.getAttribute("href"));
 				if((++counter % batchSize) === 0) {
 					await slUtil.sleep(timeoutPause);
 				}
-			});
+			}
 			//console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
 		});
 	}
