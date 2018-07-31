@@ -169,9 +169,15 @@ let discoveryView = (function() {
 		elmLabelFormat.className = "dfLabelFormat smallText";
 
 		elmLabel.className = "dfLabel";
-		elmLabel.htmlFor = elmCheckBox.id;
+		//elmLabel.htmlFor = elmCheckBox.id;
 
 		elmListItem.className = "dfItem";
+		elmListItem.onclick = (e) => {
+			if(e.target !== elmCheckBox) {
+				elmCheckBox.click();
+				elmCheckBox.focus();
+			}
+		};
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
 		//elmListItem.title += "Feed Title:\u0009" + feed.titleFeed + "\u000d";
