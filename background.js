@@ -112,7 +112,7 @@
 				objTreeFeedsData.setLastChecked(feed.id);
 
 				try {
-					let feedData = await syndication.fetchFeedData(feed.url, false, 3000);		// minimal timeout
+					let feedData = await syndication.fetchFeedData(feed.url, 10000, false);		// minimal timeout
 
 					if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(feedData.lastUpdated)) {
 						showNewBadge = !(await browser.sidebarAction.isOpen({}));
