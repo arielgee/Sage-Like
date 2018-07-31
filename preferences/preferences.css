@@ -42,11 +42,12 @@ input[type="checkbox"] {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
+	background-color: rgb(241, 241, 241);
 	padding: 0;
 	margin: 0;
 	width: 18px;
 	height: 18px;
-	border: 2px solid #999;
+	border: 1px solid #999;
 	transition: 0.2s all linear;
 	outline: none;
 }
@@ -108,6 +109,7 @@ input[type="color"]::-moz-focus-inner {
 	line-height: 1.3em;
 	vertical-align: top;
 	cursor: help;
+	margin-top: 2px;
 }
 
 .helpInfo:hover {
