@@ -89,7 +89,9 @@
 * ~~feeds are loaded into the discoveeFeeds view asynchronously as the feed data is obtained~~
 * ~~The callback function of discoverWebSiteFeeds return both titles, feed title and link title~~
 * ~~in discoverWebSiteFeeds overwrite discoveredFeed with Object.assign()~~
-
+* ~~Prevent disabled elements from accepting focus or keyboard events~~
+* ~~new method setIfNotExist() to replace if(! .exist(id)) then .set(id)~~
+* in property can leave title empty to be updated by feed
 
 ---
 
@@ -99,5 +101,4 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 
-* disabled elements using 'pointer-events: none' still react to keybourd events  fuck!
-  * when focus goes from dialog (any dialog) to panel (top or bottom) the panel reacts to keynord arrows/enter: not realy disabled
+
