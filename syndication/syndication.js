@@ -298,23 +298,40 @@ let syndication = (function() {
 		// Example:
 		//		If fallbackSelector = "item"
 		// 		then selectorSuffixes[1] = " > modified"
-		//		and selectorSuffixes[6] = " > item > modified"
-		const baseSelectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
-		const selectorSuffixes = baseSelectorSuffixes.concat(baseSelectorSuffixes.map(s => " > " + fallbackSelector + s))
+		//		and fallbackSelectorSuffixes[1] = " > item > modified"
+		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
+		const fallbackSelectorSuffixes = selectorSuffixes.map(s => " > " + fallbackSelector + s);
 
-		let lastUpdate;
+		let elmLastUpdate, txtLastUpdateVal = "", dateVal = NaN;
 
 		for (let selector of selectorSuffixes) {
 
-			lastUpdate = doc.querySelector(selectorPrefix + selector);
+			elmLastUpdate = doc.querySelector(selectorPrefix + selector);
 
-			if(lastUpdate) {
-				let txtVal = lastUpdate.textContent.replace(/\ Z$/, "");
-				let dateVal = (new Date(txtVal));
-				return (isNaN(dateVal) ? txtVal : dateVal);
+			if(elmLastUpdate) {
+				txtLastUpdateVal = elmLastUpdate.textContent.replace(/\ Z$/, "");
+				dateVal = (new Date(txtLastUpdateVal));
+				break;
 			}
 		}
-		return slUtil.getCurrentLocaleDate();	// final fallback
+
+		if(isNaN(dateVal)) {
+			for (let selector of fallbackSelectorSuffixes) {
+
+				elmLastUpdate = doc.querySelector(selectorPrefix + selector);
+
+				if(elmLastUpdate) {
+					dateVal = (new Date(elmLastUpdate.textContent.replace(/\ Z$/, "")));
+					break;
+				}
+			}
+		}
+
+		if(isNaN(dateVal)) {
+			return txtLastUpdateVal.length > 0 ? txtLastUpdateVal : slUtil.getCurrentLocaleDate();	// final fallback
+		} else {
+			return dateVal;
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
