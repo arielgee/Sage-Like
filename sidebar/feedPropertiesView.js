@@ -117,10 +117,10 @@ let feedPropertiesView = (function() {
 		}
 
 		// Title validation
-		if(valTitle.length === 0) {
-			m_elmLabelErrorMsgs.textContent = "Title text is empty."
-			return;
-		}
+		// if(valTitle.length === 0) {
+		// 	m_elmLabelErrorMsgs.textContent = "Title text is empty."
+		// 	return;
+		// }
 
 		// URL validation
 		try {
@@ -133,7 +133,6 @@ let feedPropertiesView = (function() {
 		rssTreeView.updateFeedProperties(m_elmFeedItemLI, valTitle, valLocation, updateTitle);
 		close();
 	}
-
 
 	//==================================================================================
 	//=== Events
