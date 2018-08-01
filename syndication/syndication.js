@@ -31,7 +31,7 @@ let syndication = (function() {
 				let url = slUtil.replaceMozExtensionOriginURL(linkFeed.href, origin);
 				let discoveredFeed = {
 					status: "init",
-					titleLink: linkFeed.title,
+					linkTitle: linkFeed.title,
 					url: url,
 					requestId: requestId,
 				};
@@ -49,7 +49,7 @@ let syndication = (function() {
 							discoveredFeed = Object.assign(discoveredFeed, {
 								status: "OK",
 								index: index,
-								titleFeed: feedData.title,
+								feedTitle: feedData.title,
 								lastUpdated: feedData.lastUpdated,
 								format: feedData.standard,
 								items: feedData.items,

@@ -162,7 +162,7 @@ let discoveryView = (function() {
 		elmCheckBox.className = "dfChkBox";
 		elmCheckBox.type = "checkbox";
 
-		elmLabelCaption.textContent = (feed.titleFeed.length > 0 ? feed.titleFeed : feed.titleLink);
+		elmLabelCaption.textContent = (feed.feedTitle.length > 0 ? feed.feedTitle : feed.linkTitle);
 		elmLabelCaption.className = "dfLabelCaption";
 
 		elmLabelFormat.textContent = feed.format;
@@ -180,12 +180,12 @@ let discoveryView = (function() {
 		};
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
-		//elmListItem.title += "Feed Title:\u0009" + feed.titleFeed + "\u000d";
-		//elmListItem.title += "Link Title:\u0009" + feed.titleLink + "\u000d";
-		elmListItem.title += "Title:\u0009\u0009" + feed.titleFeed + "\u000d";
-		elmListItem.title += feed.format      ? "Format:\u0009\u0009" + feed.format + "\u000d" : "";
-		elmListItem.title += feed.lastUpdated ? "Update:\u0009\u0009" + (feed.lastUpdated.toLocaleString() || feed.lastUpdated) + "\u000d" : "";
-		elmListItem.title += feed.items       ? "Items:\u0009\u0009" + feed.items + "\u000d" : "";
+		//elmListItem.title += "Feed Title:\u0009" + feed.feedTitle + "\u000d";
+		//elmListItem.title += "Link Title:\u0009" + feed.linkTitle + "\u000d";
+		elmListItem.title += "Title:\u0009" + feed.feedTitle + "\u000d";
+		elmListItem.title += feed.format      ? "Format:\u0009" + feed.format + "\u000d" : "";
+		elmListItem.title += feed.lastUpdated ? "Update:\u0009" + (feed.lastUpdated.toLocaleString() || feed.lastUpdated) + "\u000d" : "";
+		elmListItem.title += feed.items       ? "Items:\u0009" + feed.items + "\u000d" : "";
 		elmListItem.title += "URL:\u0009\u0009" + feed.url;
 
 		elmListItem.appendChild(elmCheckBox);
