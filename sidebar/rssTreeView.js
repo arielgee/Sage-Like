@@ -1027,16 +1027,14 @@ let rssTreeView = (function() {
 	function updateFeedTitle(elmLI, title) {
 
 		// don't change title if user unchecked that option for this feed
-		if(m_objTreeFeedsData.value(elmLI.id).updateTitle === false) {
-			return;
-		}
-
 		// don't change title to empty string
-		if(title.length > 0) {
+		if(m_objTreeFeedsData.value(elmLI.id).updateTitle === true && title.length > 0) {
+
 			suspendBookmarksEventHandler(true);
 			browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
 				elmLI.firstElementChild.textContent = updatedNode.title;
 			}).finally(() => suspendBookmarksEventHandler(false));
+
 		}
 	}
 
