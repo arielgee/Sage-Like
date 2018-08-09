@@ -14,6 +14,8 @@ let feedPropertiesView = (function() {
 
 	let m_elmFeedItemLI = null;
 	let m_bUpdateTitle = true;
+	let m_bSaveOnlyIfModified = true;
+	let m_bShowLocation = false;
 	let m_bForNewFeed = false;
 
 	let m_originalProperties = {
@@ -23,7 +25,7 @@ let feedPropertiesView = (function() {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function open(elmLI, updateTitle, forNewFeed = false) {
+	function open(elmLI, updateTitle, saveOnlyIfModified = true, showLocation = false, forNewFeed = false) {
 
 		m_elmSidebarBody = document.body;
 		m_elmMainPanel = document.getElementById("mainPanel");
@@ -42,6 +44,8 @@ let feedPropertiesView = (function() {
 		// the element been updated
 		m_elmFeedItemLI = elmLI;
 		m_bUpdateTitle = updateTitle;
+		m_bSaveOnlyIfModified = saveOnlyIfModified;
+		m_bShowLocation = showLocation
 		m_bForNewFeed = forNewFeed;
 
 		showPanel();
@@ -93,7 +97,7 @@ let feedPropertiesView = (function() {
 		m_elmFeedPropertiesPanel.style.top = y + "px";
 
 		m_elmTextTitle.value = m_originalProperties.title = m_elmFeedItemLI.firstElementChild.textContent;
-		m_elmTextLocation.value = m_originalProperties.location = m_bForNewFeed ? "" : m_elmFeedItemLI.getAttribute("href");
+		m_elmTextLocation.value = m_originalProperties.location = m_bShowLocation ? m_elmFeedItemLI.getAttribute("href") : "";
 		m_elmChkUpdateTitle.checked = m_originalProperties.updateTitle = m_bUpdateTitle;
 		m_elmLabelErrorMsgs.textContent = "";
 
@@ -109,7 +113,8 @@ let feedPropertiesView = (function() {
 		let updateTitle = m_elmChkUpdateTitle.checked;
 
 		// Any value was modified
-		if (m_originalProperties.title === valTitle &&
+		if (m_bSaveOnlyIfModified &&
+			m_originalProperties.title === valTitle &&
 			m_originalProperties.location === valLocation &&
 			m_originalProperties.updateTitle === updateTitle) {
 			m_elmLabelErrorMsgs.textContent = "Nothing to modify."

@@ -488,7 +488,7 @@ let rssTreeView = (function() {
 		event.preventDefault();
 
 		// prevent element from been droped into itself.
-		if(m_elmCurrentlyDragged === null || m_elmCurrentlyDragged.contains(this)) {
+		if((m_elmCurrentlyDragged === null || m_elmCurrentlyDragged.contains(this)) && !event.dataTransfer.types.includes("text/uri-list")) {
 			event.dataTransfer.dropEffect = "none";
 			return false;
 		}
@@ -551,39 +551,47 @@ let rssTreeView = (function() {
 			m_elmCurrentlyDragged.classList.remove("dragged");
 		} else {
 
-			let gettingDragged = browser.bookmarks.get(m_elmCurrentlyDragged.id);
-			let gettingDrop = browser.bookmarks.get(elmDropTarget.id);
+			if(event.dataTransfer.types.includes("text/x-moz-url")){
+				let mozUrl = event.dataTransfer.getData("text/x-moz-url").split("\n");
+				createNewFeed(elmDropTarget, { url: mozUrl[0], title: mozUrl[1] });
+			} else if(event.dataTransfer.types.includes("text/uri-list")){
+				createNewFeed(elmDropTarget, { url: event.dataTransfer.getData("URL") });
+			} else {
 
-			gettingDragged.then((dragged) => {
-				gettingDrop.then((drop) => {
+				let gettingDragged = browser.bookmarks.get(m_elmCurrentlyDragged.id);
+				let gettingDrop = browser.bookmarks.get(elmDropTarget.id);
 
-					let newIndex = drop[0].index;
+				gettingDragged.then((dragged) => {
+					gettingDrop.then((drop) => {
 
-					// when moving a bookmark item down in it's SubTree the target index should me decresed by one
-					// becouse the indexing will shift down due to the removal of the dragged item.
-					if( (dragged[0].parentId === drop[0].parentId) && (dragged[0].index < drop[0].index) ) {
-						newIndex--;
-					}
+						let newIndex = drop[0].index;
 
-					let destination = {
-						parentId: drop[0].parentId,
-						index: newIndex,
-					};
+						// when moving a bookmark item down in it's SubTree the target index should me decresed by one
+						// becouse the indexing will shift down due to the removal of the dragged item.
+						if( (dragged[0].parentId === drop[0].parentId) && (dragged[0].index < drop[0].index) ) {
+							newIndex--;
+						}
 
-					suspendBookmarksEventHandler(true);
-					browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
+						let destination = {
+							parentId: drop[0].parentId,
+							index: newIndex,
+						};
 
-						m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
+						suspendBookmarksEventHandler(true);
+						browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
 
-						let dropHTML = event.dataTransfer.getData("text/html");
-						elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
-						let elmDropped = elmDropTarget.previousElementSibling;
-						removeFeedLoadingStatus(elmDropped);
-						addSubTreeItemsEventListeners(elmDropped);
-						elmDropped.focus();
-					}).finally(() => suspendBookmarksEventHandler(false));
+							m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
+
+							let dropHTML = event.dataTransfer.getData("text/html");
+							elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
+							let elmDropped = elmDropTarget.previousElementSibling;
+							removeFeedLoadingStatus(elmDropped);
+							addSubTreeItemsEventListeners(elmDropped);
+							elmDropped.focus();
+						}).finally(() => suspendBookmarksEventHandler(false));
+					});
 				});
-			});
+			}
 		}
 		elmDropTarget.classList.remove("draggedOver");
 		return false;
@@ -937,16 +945,28 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeed(elmLI) {
+	function createNewFeed(elmLI, newFeedData = null) {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
+
+			let saveOnlyIfModified = true;
+			let showLocation = false;
+			let title = "New Feed";
+			let url = "http://x/";
+
+			if(newFeedData) {
+				saveOnlyIfModified = false;
+				showLocation = true;
+				title = newFeedData.title ? newFeedData.title : title;
+				url = newFeedData.url;
+			}
 
 			let newBookmark = {
 				index: bookmarks[0].index,
 				parentId: bookmarks[0].parentId,
-				title: "New Feed",
+				title: title,
 				type: "bookmark",
-				url: "http://x/",
+				url: url,
 			};
 
 			suspendBookmarksEventHandler(true);
@@ -956,10 +976,9 @@ let rssTreeView = (function() {
 				elmLI.parentElement.insertBefore(newElm, elmLI);
 				newElm.focus();
 
-				feedPropertiesView.open(newElm, true, true);
+				feedPropertiesView.open(newElm, true, saveOnlyIfModified, showLocation, true);
 
 			}).finally(() => suspendBookmarksEventHandler(false));
-
 		});
 	}
 
@@ -989,7 +1008,7 @@ let rssTreeView = (function() {
 		let id = elmLI.id;
 
 		m_objTreeFeedsData.setIfNotExist(id);
-		feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(id).updateTitle);
+		feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(id).updateTitle, true, true);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

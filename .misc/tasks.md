@@ -91,7 +91,9 @@
 * ~~in discoverWebSiteFeeds overwrite discoveredFeed with Object.assign()~~
 * ~~Prevent disabled elements from accepting focus or keyboard events~~
 * ~~new method setIfNotExist() to replace if(! .exist(id)) then .set(id)~~
-* in property can leave title empty to be updated by feed
+* ~~make sure drag & drop marker is always visible no matter the background color; use inverted color.~~
+* ~~in propertiesView the title input can be left empty to be updated by feed~~
+* ~~enable drag & drop of a link from the location bar as new feed~~
 
 ---
 
@@ -101,4 +103,8 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 
+* this "feed" hange the browser
+  https://www.reddit.com/r/oddlysatisfying/comments/93vqdo/the_way_he_cuts_avocados/
+
+* mention in the description (readme) that only my Sage preference were implemented
 
