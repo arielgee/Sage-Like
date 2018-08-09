@@ -948,6 +948,17 @@ let slUtil = (function() {
 		return new URL(url);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function invertColor(color) {
+
+		let c = color.replace(/^#/, "");
+
+		// convert to integer and invert bytes
+		c = 0xFFFFFF ^ parseInt(c, 16);
+
+		return "#" + (("000000" + c.toString(16)).slice(-6));
+	}
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -972,6 +983,7 @@ let slUtil = (function() {
 		isDescendantOfRoot: isDescendantOfRoot,
 		reloadSageLikeWebExtensionAndTab: reloadSageLikeWebExtensionAndTab,
 		replaceMozExtensionOriginURL: replaceMozExtensionOriginURL,
+		invertColor: invertColor,
 	};
 
 })();

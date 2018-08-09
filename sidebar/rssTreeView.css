@@ -96,7 +96,7 @@
 }
 
 .treeview li.draggedOver {
-	border-top: 1px solid blue;
+	border-top: 1px solid var(--bk-color-window-inverted);
 }
 
 .treeview li.errormsg {

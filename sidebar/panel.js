@@ -103,7 +103,10 @@
 
 		let style = document.documentElement.style;
 
-		prefs.getColorBackground().then(color => { style.setProperty("--bk-color-window", color); });
+		prefs.getColorBackground().then(color => {
+			style.setProperty("--bk-color-window", color);
+			style.setProperty("--bk-color-window-inverted", slUtil.invertColor(color));
+		});
 		prefs.getColorDialogBackground().then(color => { style.setProperty("--bk-color-dialog", color); });
 		prefs.getColorSelect().then(color => { style.setProperty("--bk-color-active", color); });
 		prefs.getColorText().then(color => { style.setProperty("--color-text", color); });
