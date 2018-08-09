@@ -105,6 +105,9 @@
 
 * this "feed" hange the browser
   https://www.reddit.com/r/oddlysatisfying/comments/93vqdo/the_way_he_cuts_avocados/
+  The Problem is replacing text using RegExp in a very large file
+  => syndication.js:209 txtXML.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1");		// junk after document element
+
 
 * mention in the description (readme) that only my Sage preference were implemented
 
