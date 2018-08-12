@@ -94,7 +94,7 @@
 * make sure drag & drop marker is always visible no matter the background color; use inverted color.
 * in propertiesView the title input can be left empty to be updated by feed
 * enable drag & drop of a link from the location bar as new feed
-* Following "feed" hanges the browser: https://www.reddit.com/r/oddlysatisfying/comments/93vqdo/the_way_he_cuts_avocados/
+* Following "feed" hangs the browser: https://www.reddit.com/r/oddlysatisfying/comments/93vqdo/the_way_he_cuts_avocados/
   * The Problem is the '.+' in the RegExp at: syndication.js:209 txtXML.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1");
   * FIXED: now using '[a-zA-Z0-9-_.]+' instead of '.+'
 
