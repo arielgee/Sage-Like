@@ -209,7 +209,7 @@ let syndication = (function() {
 		txtXML = txtXML.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1");		// junk after document element
 
 		// try to get XML encoding from the XML prolog
-		let test = txtXML.match(/<\?xml[^>]*encoding="([^"]*)"[^>]*>/);
+		let test = txtXML.match(/^<\?xml[^>]*encoding="([^"]*)"[^>]*>/);
 		if(test && test[1]) {
 			feedData.xmlEncoding = test[1];
 		}
