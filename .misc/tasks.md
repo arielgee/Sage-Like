@@ -97,6 +97,7 @@
 * Following "feed" hangs the browser: https://www.reddit.com/r/oddlysatisfying/comments/93vqdo/the_way_he_cuts_avocados/
   * The Problem is the '.+' in the RegExp at: syndication.js:209 txtXML.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1");
   * FIXED: now using '[a-zA-Z0-9-_.]+' instead of '.+'
+* in list view replace '&quot;' with '"' and also: '&amp;', '&gt;', '&lt;', '&copy;', '&trade;', '&reg;'
 
 ---
 
@@ -107,3 +108,4 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* when selecting a folder the tree scolls the folder out of view => when the selected UL is highier then the viewport

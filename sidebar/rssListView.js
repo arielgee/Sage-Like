@@ -49,7 +49,7 @@ let rssListView = (function() {
 
 		disposeList();
 		for(let item of list) {
-			appendTagIL(index++, item.title, item.desc, item.url);
+			appendTagIL(index++, item.title.replaceEntityDefinitions(), item.desc, item.url);
 		}
 		m_elmListViewRssTitle.textContent = title;
 

@@ -600,6 +600,27 @@ let slUtil = (function() {
 		return (this.length > n) ? this.substr(0, n/2) + "\u2026" + this.substr(-((n-1)/2)) : this;
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////
+	String.prototype.replaceEntityDefinitions = function() {
+
+		let str = this;
+
+		return str.replace(String.prototype.replaceEntityDefinitions.regex, (matched) => {
+			return String.prototype.replaceEntityDefinitions.entities[matched];
+		} );
+
+	};
+	String.prototype.replaceEntityDefinitions.entities = {
+		"&quot;": "\"",
+		"&amp;": "&",
+		"&gt;": ">",
+		"&lt;": "<",
+		"&copy;": "©",
+		"&trade;": "™",
+		"&reg;": "®",
+	};
+	String.prototype.replaceEntityDefinitions.regex = new RegExp(Object.keys(String.prototype.replaceEntityDefinitions.entities).join("|"), "gi");
+
 	//////////////////////////////////////////////////////////////////////
 	function escapeRegExp(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
