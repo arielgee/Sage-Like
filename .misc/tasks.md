@@ -98,6 +98,7 @@
   * The Problem is the '.+' in the RegExp at: syndication.js:209 txtXML.replace(RegExp("(</(rss|feed|((.+:)?RDF))>).*"), "$1");
   * FIXED: now using '[a-zA-Z0-9-_.]+' instead of '.+'
 * in list view replace '&quot;' with '"' and also: '&amp;', '&gt;', '&lt;', '&copy;', '&trade;', '&reg;'
+* when selecting a folder the tree scrolls the folder out of view => when the selected IL is higher then the viewport
 
 ---
 
@@ -108,4 +109,3 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* when selecting a folder the tree scolls the folder out of view => when the selected UL is highier then the viewport

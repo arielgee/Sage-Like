@@ -865,10 +865,14 @@ let slUtil = (function() {
 	function scrollIntoViewIfNeeded(elm, docElement) {
 		let result = isElementInViewport(elm, docElement);
 
-		//console.log("[sage-like]", result);
+		//console.log("[sage-like]", elm.title, result);
 
 		if(!result.inViewport) {
-			elm.scrollIntoView(result.fromTop);
+			elm.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest", //(result.fromTop ? "start" : "end"),
+				inline: "nearest",
+			});
 		}
 	}
 

@@ -1127,7 +1127,7 @@ let rssTreeView = (function() {
 			if (elm && elm.tagName === "LI") {
 				m_elmCurrentlySelected = elm;
 				elm.classList.add("selected");
-				slUtil.scrollIntoViewIfNeeded(elm, m_elmTreeRoot.parentElement);
+				slUtil.scrollIntoViewIfNeeded(elm.firstChild, m_elmTreeRoot.parentElement);
 			}
 		}
 	}
