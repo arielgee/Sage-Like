@@ -180,13 +180,13 @@ let discoveryView = (function() {
 		};
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
-		//elmListItem.title += "Feed Title:\u0009" + feed.feedTitle + "\u000d";
-		//elmListItem.title += "Link Title:\u0009" + feed.linkTitle + "\u000d";
-		elmListItem.title += "Title:\u0009" + feed.feedTitle + "\u000d";
-		elmListItem.title += feed.format      ? "Format:\u0009" + feed.format + "\u000d" : "";
-		elmListItem.title += feed.lastUpdated ? "Update:\u0009" + (feed.lastUpdated.toLocaleString() || feed.lastUpdated) + "\u000d" : "";
-		elmListItem.title += feed.items       ? "Items:\u0009" + feed.items + "\u000d" : "";
-		elmListItem.title += "URL:\u0009\u0009" + feed.url;
+		//elmListItem.title += "Feed Title:\u2003" + feed.feedTitle + "\u000d";
+		//elmListItem.title += "Link Title:\u2003" + feed.linkTitle + "\u000d";
+		elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
+		elmListItem.title += feed.format      ? "Format:\u2003" + feed.format + "\u000d" : "";
+		elmListItem.title += feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toLocaleString() || feed.lastUpdated) + "\u000d" : "";
+		elmListItem.title += feed.items       ? "Items:\u2003" + feed.items + "\u000d" : "";
+		elmListItem.title += "URL:\u2003" + feed.url;
 
 		elmListItem.appendChild(elmCheckBox);
 		elmLabel.appendChild(elmLabelCaption);
