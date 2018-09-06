@@ -5,7 +5,7 @@ class StoredKeyedItems {
 
 	//////////////////////////////////////////
 	constructor() {
-		if (new.target === "StoredKeyedItems") {
+		if (new.target.name === "StoredKeyedItems") {
 			throw new Error("Don't do that");
 		}
 		this.clear();
