@@ -945,21 +945,14 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeed(elmLI, newFeedData = null) {
+	function openNewFeedProperties(elmLI) {
+		NewFeedProperties.i.open(elmLI, "New Feed", "");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFeed(elmLI, title, url) {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
-
-			let saveOnlyIfModified = true;
-			let showLocation = false;
-			let title = "New Feed";
-			let url = "http://x/";
-
-			if(newFeedData) {
-				saveOnlyIfModified = false;
-				showLocation = true;
-				title = newFeedData.title ? newFeedData.title : title;
-				url = newFeedData.url;
-			}
 
 			let newBookmark = {
 				index: bookmarks[0].index,
@@ -975,10 +968,6 @@ let rssTreeView = (function() {
 				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
 				elmLI.parentElement.insertBefore(newElm, elmLI);
 				newElm.focus();
-
-				//feedPropertiesView.open(newElm, true, saveOnlyIfModified, showLocation, true);
-				editNewFeedProperties.i.open(elmLI);
-
 			}).finally(() => suspendBookmarksEventHandler(false));
 		});
 	}
@@ -1035,13 +1024,12 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openPropertiesView(elmLI) {
+	function openEditFeedProperties(elmLI) {
 
 		let id = elmLI.id;
 
 		m_objTreeFeedsData.setIfNotExist(id);
-		//feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(id).updateTitle, true, true);
-		editFeedProperties.i.open(elmLI, m_objTreeFeedsData.value(id).updateTitle);
+		EditFeedProperties.i.open(elmLI, m_objTreeFeedsData.value(id).updateTitle);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1305,10 +1293,11 @@ let rssTreeView = (function() {
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
+		openNewFeedProperties: openNewFeedProperties,
 		createNewFeed: createNewFeed,
 		createNewFolder: createNewFolder,
 		deleteFeed: deleteFeed,
-		openPropertiesView: openPropertiesView,
+		openEditFeedProperties: openEditFeedProperties,
 		updateFeedProperties: updateFeedProperties,
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,

@@ -303,7 +303,7 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeNewFeed:
-				rssTreeView.createNewFeed(m_elmEventTarget);
+				rssTreeView.openNewFeedProperties(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
@@ -324,7 +324,7 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeFeedProperties:
-				rssTreeView.openPropertiesView(m_elmEventTarget);
+				rssTreeView.openEditFeedProperties(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 

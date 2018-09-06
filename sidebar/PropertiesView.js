@@ -137,7 +137,7 @@ class PropertiesView {
 
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-class editFeedProperties extends PropertiesView {
+class EditFeedProperties extends PropertiesView {
 
 	///////////////////////////////////////////////////////////////
     constructor() {
@@ -191,7 +191,7 @@ class editFeedProperties extends PropertiesView {
 
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-class editNewFeedProperties extends PropertiesView {
+class NewFeedProperties extends PropertiesView {
 
 	///////////////////////////////////////////////////////////////
     constructor() {
@@ -199,11 +199,11 @@ class editNewFeedProperties extends PropertiesView {
     }
 
 	///////////////////////////////////////////////////////////////
-    open(elmLI) {
+    open(elmLI, title, location) {
         super.open(elmLI);
 
-		this.m_initialProperties.title = "New Feed";
-        this.m_initialProperties.location = "";
+		this.m_initialProperties.title = title;
+        this.m_initialProperties.location = location;
         this.m_initialProperties.updateTitle = true;
 
         this._initData();
@@ -230,7 +230,7 @@ class editNewFeedProperties extends PropertiesView {
 			return;
 		}
 
-		//rssTreeView.updateFeedProperties(this.m_elmFeedItemLI, valTitle, valLocation, valUpdateTitle);
+		rssTreeView.createNewFeed(this.m_elmFeedItemLI, valTitle, valLocation);
 		this.close();
     }
 }
