@@ -976,7 +976,39 @@ let rssTreeView = (function() {
 				elmLI.parentElement.insertBefore(newElm, elmLI);
 				newElm.focus();
 
-				feedPropertiesView.open(newElm, true, saveOnlyIfModified, showLocation, true);
+				//feedPropertiesView.open(newElm, true, saveOnlyIfModified, showLocation, true);
+				editNewFeedProperties.i.open(elmLI);
+
+			}).finally(() => suspendBookmarksEventHandler(false));
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFolder(elmLI) {
+
+		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
+
+			let newFolder = {
+				index: bookmarks[0].index,
+				parentId: bookmarks[0].parentId,
+				title: "New Folder",
+				type: "folder",
+			};
+
+			suspendBookmarksEventHandler(true);
+			browser.bookmarks.create(newFolder).then((created) => {
+
+				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
+
+				let elmUL = createTagUL();
+				newElm.appendChild(elmUL);
+
+				setSubTreeState(newElm, false);
+
+				elmLI.parentElement.insertBefore(newElm, elmLI);
+				newElm.focus();
+
+				/*feedPropertiesView.open(newElm, true, saveOnlyIfModified, showLocation, true);*/
 
 			}).finally(() => suspendBookmarksEventHandler(false));
 		});
@@ -1008,7 +1040,8 @@ let rssTreeView = (function() {
 		let id = elmLI.id;
 
 		m_objTreeFeedsData.setIfNotExist(id);
-		feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(id).updateTitle, true, true);
+		//feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(id).updateTitle, true, true);
+		editFeedProperties.i.open(elmLI, m_objTreeFeedsData.value(id).updateTitle);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1273,6 +1306,7 @@ let rssTreeView = (function() {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
 		createNewFeed: createNewFeed,
+		createNewFolder: createNewFolder,
 		deleteFeed: deleteFeed,
 		openPropertiesView: openPropertiesView,
 		updateFeedProperties: updateFeedProperties,
