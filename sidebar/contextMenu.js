@@ -308,7 +308,7 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeNewFolder:
-				rssTreeView.createNewFolder(m_elmEventTarget);
+				rssTreeView.openNewFolderProperties(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 

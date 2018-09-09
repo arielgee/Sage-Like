@@ -110,3 +110,7 @@
 * mention in the description (readme) that only my Sage preference were implemented
 
 * when selecting a feed with the right mouse key and then a folder (also with right mouse key) the prev selection is not cleared
+
+* drag a feed into a folder
+* open properties for folder
+* create new feed inside folder when folder is selected

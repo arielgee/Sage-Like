@@ -12,14 +12,13 @@
 	<script type="text/javascript" src="rssTreeView.js"></script>
 	<script type="text/javascript" src="rssListView.js"></script>
 	<script type="text/javascript" src="discoveryView.js"></script>
-	<script type="text/javascript" src="feedPropertiesView.js"></script>
-	<script type="text/javascript" src="PropertiesView.js"></script>
+	<script type="text/javascript" src="propertiesView.js"></script>
 	<link rel="stylesheet" type="text/css" href="panel.css" />
 	<link rel="stylesheet" type="text/css" href="contextMenu.css" />
 	<link rel="stylesheet" type="text/css" href="rssTreeView.css" />
 	<link rel="stylesheet" type="text/css" href="rssListView.css" />
 	<link rel="stylesheet" type="text/css" href="discoveryView.css" />
-	<link rel="stylesheet" type="text/css" href="feedPropertiesView.css" />
+	<link rel="stylesheet" type="text/css" href="propertiesView.css" />
 </head>
 
 <body>
@@ -76,28 +75,28 @@
 
 
 	<!-- ////////////////////////// Feed Properties Panel ////////////////////////// -->
-	<div id="feedPropertiesPanel" tabindex="0">
+	<div id="propertiesPanel" tabindex="0">
 
-		<div class="fpPropertiesContainer">
-			<div class="fpPropContainer">
+		<div class="propertiesContainer">
+			<div class="propContainer">
 				<label>Title:</label>
 				<input type="text" id="txtFpTitle">
 			</div>
 
-			<div class="fpPropContainer">
+			<div class="propContainer">
 				<label>Location:</label>
 				<input type="text" id="txtFpLocation">
 			</div>
 
-			<div class="fpPropContainer">
+			<div class="propContainer">
 				<input type="checkbox" id="chkFpUpdateTitle">
 				<label for="chkFpUpdateTitle">Update title from feed</label>
 			</div>
 		</div>
 
 		<div class="fpButtonContainer">
-			<button type="button" class="dlgButton" id="btnFeedPropertiesSave">Save</button>
-			<button type="button" class="dlgButton" id="btnFeedPropertiesCancel">Cancel</button>
+			<button type="button" class="dlgButton" id="btnPropertiesSave">Save</button>
+			<button type="button" class="dlgButton" id="btnPropertiesCancel">Cancel</button>
 		</div>
 
 		<div id="lblErrorMsgs" class="statusbar smallText"></div>

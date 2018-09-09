@@ -4,123 +4,123 @@
 /*****************************************************************************************************************/
 class PropertiesView {
 
-    ///////////////////////////////////////////////////////////////
-    //
+	///////////////////////////////////////////////////////////////
+	//
 	static get i() {
-		if(this.m_instance === undefined) {
+		if (this.m_instance === undefined) {
 			this.m_instance = new this();
 		}
 		return this.m_instance;
-    }
+	}
 
 	///////////////////////////////////////////////////////////////
-    constructor() {
+	constructor() {
 		if (new.target.name === "PropertiesView") {
 			throw new Error("Don't do that");
 		}
-        this._initMembers();
-    }
+		this._initMembers();
+	}
 
 	///////////////////////////////////////////////////////////////
-    open(elmLI) {
+	open(elmLI) {
 
 		// the element been clicked
-        this.m_elmFeedItemLI = elmLI;
+		this.m_elmFeedItemLI = elmLI;
 
-        this.m_elmButtonSave.addEventListener("click", this._onClickButtonSave);
+		this.m_elmButtonSave.addEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.addEventListener("click", this._onClickButtonCancel);
-		this.m_elmFeedPropertiesPanel.addEventListener("keydown", this._onKeyDownFeedPropertiesPanel);
+		this.m_elmPropertiesPanel.addEventListener("keydown", this._onKeyDownPropertiesPanel);
 
-        this._showPanel();
-        this.m_isOpen = true;
-    }
+		this._showPanel();
+		this.m_isOpen = true;
+	}
 
 	///////////////////////////////////////////////////////////////
 	close() {
 
-		if(this.m_isOpen === false) {
+		if (this.m_isOpen === false) {
 			return;
 		}
 
 		slUtil.disableElementTree(this.m_elmMainPanel, false);
-        this.m_elmFeedPropertiesPanel.style.display = "none";
+		this.m_elmPropertiesPanel.style.display = "none";
 
 		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
-		this.m_elmFeedPropertiesPanel.removeEventListener("keydown", this._onKeyDownFeedPropertiesPanel);
+		this.m_elmPropertiesPanel.removeEventListener("keydown", this._onKeyDownPropertiesPanel);
 
-        rssTreeView.setFocus();
-        this.m_isOpen = false;
+		rssTreeView.setFocus();
+		this.m_isOpen = false;
 	}
 
 	///////////////////////////////////////////////////////////////
-    _initMembers() {
+	_initMembers() {
 		this.m_elmSidebarBody = document.body;
 		this.m_elmMainPanel = document.getElementById("mainPanel");
-		this.m_elmFeedPropertiesPanel = document.getElementById("feedPropertiesPanel");
+		this.m_elmPropertiesPanel = document.getElementById("propertiesPanel");
 		this.m_elmTextTitle = document.getElementById("txtFpTitle");
 		this.m_elmTextLocation = document.getElementById("txtFpLocation");
 		this.m_elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
-		this.m_elmButtonSave = document.getElementById("btnFeedPropertiesSave");
-		this.m_elmButtonCancel = document.getElementById("btnFeedPropertiesCancel");
-        this.m_elmLabelErrorMsgs = document.getElementById("lblErrorMsgs");
+		this.m_elmButtonSave = document.getElementById("btnPropertiesSave");
+		this.m_elmButtonCancel = document.getElementById("btnPropertiesCancel");
+		this.m_elmLabelErrorMsgs = document.getElementById("lblErrorMsgs");
 
-        this._onClickButtonSave = this._onClickButtonSave.bind(this);
-        this._onClickButtonCancel = this._onClickButtonCancel.bind(this);
-        this._onKeyDownFeedPropertiesPanel = this._onKeyDownFeedPropertiesPanel.bind(this);
+		this._onClickButtonSave = this._onClickButtonSave.bind(this);
+		this._onClickButtonCancel = this._onClickButtonCancel.bind(this);
+		this._onKeyDownPropertiesPanel = this._onKeyDownPropertiesPanel.bind(this);
 
-        this.m_initialProperties = {
-            title: "",
-            location: "",
-            updateTitle: false,
-        };
+		this.m_initialProperties = {
+			title: "",
+			location: "",
+			updateTitle: false,
+		};
 
-        this.m_isOpen = false;
-    }
+		this.m_isOpen = false;
+	}
 
 	///////////////////////////////////////////////////////////////
-    _initData() {
+	_initData() {
 		this.m_elmTextTitle.value = this.m_initialProperties.title;
-        this.m_elmTextLocation.value = this.m_initialProperties.location;
-        this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
+		this.m_elmTextLocation.value = this.m_initialProperties.location;
+		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
 		this.m_elmLabelErrorMsgs.textContent = "";
 
 		this.m_elmTextTitle.focus();
-		this.m_elmTextTitle.setSelectionRange(0, -1);	// select all
-    }
+		this.m_elmTextTitle.setSelectionRange(0, -1); // select all
+	}
 
 	///////////////////////////////////////////////////////////////
-    _showPanel() {
+	_showPanel() {
 
 		let r = this.m_elmFeedItemLI.getBoundingClientRect();
 		let y = r.top;
 
 		// do it first so element will have dimentions (offsetWidth > 0)
-		this.m_elmFeedPropertiesPanel.style.display = "block";
+		this.m_elmPropertiesPanel.style.display = "block";
 		slUtil.disableElementTree(this.m_elmMainPanel, true);
 
-		if ((y + this.m_elmFeedPropertiesPanel.offsetHeight) > this.m_elmSidebarBody.offsetHeight) {
-			y = this.m_elmSidebarBody.offsetHeight - this.m_elmFeedPropertiesPanel.offsetHeight;
+		if ((y + this.m_elmPropertiesPanel.offsetHeight) > this.m_elmSidebarBody.offsetHeight) {
+			y = this.m_elmSidebarBody.offsetHeight - this.m_elmPropertiesPanel.offsetHeight;
 		}
 
-		this.m_elmFeedPropertiesPanel.style.top = y + "px";
+		this.m_elmPropertiesPanel.style.top = y + "px";
 	}
 
 	///////////////////////////////////////////////////////////////
 	_onClickButtonSave(event) {
-        this._saveAndClose();
+		this._saveAndClose();
 	}
 
 	///////////////////////////////////////////////////////////////
 	_onClickButtonCancel(event) {
 		this.close();
-    }
+	}
 
 	///////////////////////////////////////////////////////////////
-	_onKeyDownFeedPropertiesPanel(event) {
+	_onKeyDownPropertiesPanel(event) {
 		switch (event.key.toLowerCase()) {
 			case "enter":
-                this._saveAndClose();
+				this._saveAndClose();
 				break;
 				//////////////////////////////
 			case "escape":
@@ -134,29 +134,28 @@ class PropertiesView {
 	}
 }
 
-
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-class EditFeedProperties extends PropertiesView {
+class EditFeedPropertiesView extends PropertiesView {
 
 	///////////////////////////////////////////////////////////////
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
 	///////////////////////////////////////////////////////////////
-    open(elmLI, updateTitleValue) {
-        super.open(elmLI);
+	open(elmLI, updateTitleValue) {
+		super.open(elmLI);
 
 		this.m_initialProperties.title = elmLI.firstElementChild.textContent;
-        this.m_initialProperties.location = elmLI.getAttribute("href");
-        this.m_initialProperties.updateTitle = updateTitleValue;
+		this.m_initialProperties.location = elmLI.getAttribute("href");
+		this.m_initialProperties.updateTitle = updateTitleValue;
 
-        this._initData();
-    }
+		this._initData();
+	}
 
 	///////////////////////////////////////////////////////////////
-    _saveAndClose() {
+	_saveAndClose() {
 
 		let valTitle = this.m_elmTextTitle.value;
 		let valLocation = this.m_elmTextLocation.value;
@@ -171,7 +170,7 @@ class EditFeedProperties extends PropertiesView {
 		}
 
 		// Title validation
-		if(valTitle.length === 0) {
+		if (valTitle.length === 0) {
 			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
 			return;
 		}
@@ -186,38 +185,38 @@ class EditFeedProperties extends PropertiesView {
 
 		rssTreeView.updateFeedProperties(this.m_elmFeedItemLI, valTitle, valLocation, valUpdateTitle);
 		this.close();
-    }
+	}
 }
 
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-class NewFeedProperties extends PropertiesView {
+class NewFeedPropertiesView extends PropertiesView {
 
 	///////////////////////////////////////////////////////////////
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
 	///////////////////////////////////////////////////////////////
-    open(elmLI, title, location) {
-        super.open(elmLI);
+	open(elmLI, title, location) {
+		super.open(elmLI);
 
 		this.m_initialProperties.title = title;
-        this.m_initialProperties.location = location;
-        this.m_initialProperties.updateTitle = true;
+		this.m_initialProperties.location = location;
+		this.m_initialProperties.updateTitle = true;
 
-        this._initData();
-    }
+		this._initData();
+	}
 
 	///////////////////////////////////////////////////////////////
-    _saveAndClose() {
+	_saveAndClose() {
 
 		let valTitle = this.m_elmTextTitle.value;
 		let valLocation = this.m_elmTextLocation.value;
 		let valUpdateTitle = this.m_elmChkUpdateTitle.checked;
 
 		// Title validation
-		if(valTitle.length === 0) {
+		if (valTitle.length === 0) {
 			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
 			return;
 		}
@@ -230,7 +229,64 @@ class NewFeedProperties extends PropertiesView {
 			return;
 		}
 
-		rssTreeView.createNewFeed(this.m_elmFeedItemLI, valTitle, valLocation);
+		rssTreeView.createNewFeed(this.m_elmFeedItemLI, valTitle, valLocation, valUpdateTitle);
 		this.close();
-    }
+	}
+}
+
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+class NewFolderPropertiesView extends PropertiesView {
+
+	///////////////////////////////////////////////////////////////
+	constructor() {
+		super();
+	}
+
+	///////////////////////////////////////////////////////////////
+	open(elmLI, title) {
+		super.open(elmLI);
+
+		this._hideNoneTitleProperties(true);
+
+		this.m_initialProperties.title = title;
+		//this.m_initialProperties.location = "";
+		//this.m_initialProperties.updateTitle = false;
+
+		this._initData();
+	}
+
+	///////////////////////////////////////////////////////////////
+	close() {
+
+		// restore back to visible before close for other views
+		this._hideNoneTitleProperties(false);
+		super.close();
+	}
+
+	///////////////////////////////////////////////////////////////
+	_hideNoneTitleProperties(hide) {
+
+		// all none title properties
+		let selector = ".propContainer:not(:first-child)";
+
+		this.m_elmPropertiesPanel.querySelectorAll(selector).forEach((element) => {
+			element.style.display = (hide ? "none" : "");
+		});
+	}
+
+	///////////////////////////////////////////////////////////////
+	_saveAndClose() {
+
+		let valTitle = this.m_elmTextTitle.value;
+
+		// Title validation
+		if (valTitle.length === 0) {
+			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
+			return;
+		}
+
+		rssTreeView.createNewFolder(this.m_elmFeedItemLI, valTitle);
+		this.close();
+	}
 }
