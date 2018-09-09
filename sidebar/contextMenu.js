@@ -8,21 +8,22 @@
 		treeOpenNewWin:			3,
 		treeOpenNewPrivateWin:	4,
 		treeNewFeed:			5,
-		treeCopyUrl:			6,
-		treeDeleteFeed:			7,
-		treeFeedProperties:		8,
-		treeSwitchDirection:	9,
+		treeNewFolder:			6,
+		treeCopyUrl:			7,
+		treeDeleteFeed:			8,
+		treeFeedProperties:		9,
+		treeSwitchDirection:	10,
 
-		listOpen:				10,
-		listOpenNewTab:			11,
-		listOpenNewWin:			12,
-		listOpenNewPrivateWin:	13,
-		listCopyUrl:			14,
-		listToggleReadUnread:	15,
-		listOpenAllInTabs:		16,
-		listMarkAllRead:		17,
-		listMarkAllUnread:		18,
-		listSwitchDirection:	19,
+		listOpen:				11,
+		listOpenNewTab:			12,
+		listOpenNewWin:			13,
+		listOpenNewPrivateWin:	14,
+		listCopyUrl:			15,
+		listToggleReadUnread:	16,
+		listOpenAllInTabs:		17,
+		listMarkAllRead:		18,
+		listMarkAllUnread:		19,
+		listSwitchDirection:	20,
 	});
 
 	//==================================================================================
@@ -87,10 +88,15 @@
 		let showMenu = true;
 		let trgClsList = m_elmEventTarget.classList;
 
-		if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+		if (trgClsList.contains(slGlobals.CLS_RTV_LI_SUB_TREE)) {
+
+			m_bCurrentContext = "treeitemfoldercontext";
+			rssTreeView.setFeedSelectionState(m_elmEventTarget);
+
+		} else if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
 
 			m_bCurrentContext = "treeitemcontext";
-			rssTreeView.setFeedSelectionState(m_elmEventTarget);
+			rssListView.setFeedItemSelectionState(m_elmEventTarget);
 
 		} else if (trgClsList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 
@@ -161,6 +167,7 @@
 				case "w":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 				case "v":	handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
 				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
+				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
 				case "d":	handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
 				case "p":	handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
@@ -204,6 +211,7 @@
 			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 			case "mnuTreeOpenFeedNewPrivateWin":		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
 			case "mnuTreeNewFeed":						handleTreeMenuActions(ContextAction.treeNewFeed);			break;
+			case "mnuTreeNewFolder":					handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
 			case "mnuTreeDeleteFeed":					handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
 			case "mnuTreeFeedProperties":				handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
@@ -229,7 +237,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
-		if([ContextAction.treeNewFeed, ContextAction.treeFeedProperties].indexOf(menuAction) > -1 ) {
+		if([ContextAction.treeNewFeed, ContextAction.treeNewFolder, ContextAction.treeFeedProperties].indexOf(menuAction) > -1 ) {
 			m_bActivePanelOpened = true;
 		}
 
@@ -295,7 +303,12 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeNewFeed:
-				rssTreeView.createNewFeed(m_elmEventTarget);
+				rssTreeView.openNewFeedProperties(m_elmEventTarget);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeNewFolder:
+				rssTreeView.openNewFolderProperties(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
@@ -311,7 +324,7 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeFeedProperties:
-				rssTreeView.openPropertiesView(m_elmEventTarget);
+				rssTreeView.openEditFeedProperties(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 

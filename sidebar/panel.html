@@ -12,13 +12,13 @@
 	<script type="text/javascript" src="rssTreeView.js"></script>
 	<script type="text/javascript" src="rssListView.js"></script>
 	<script type="text/javascript" src="discoveryView.js"></script>
-	<script type="text/javascript" src="feedPropertiesView.js"></script>
+	<script type="text/javascript" src="propertiesView.js"></script>
 	<link rel="stylesheet" type="text/css" href="panel.css" />
 	<link rel="stylesheet" type="text/css" href="contextMenu.css" />
 	<link rel="stylesheet" type="text/css" href="rssTreeView.css" />
 	<link rel="stylesheet" type="text/css" href="rssListView.css" />
 	<link rel="stylesheet" type="text/css" href="discoveryView.css" />
-	<link rel="stylesheet" type="text/css" href="feedPropertiesView.css" />
+	<link rel="stylesheet" type="text/css" href="propertiesView.css" />
 </head>
 
 <body>
@@ -75,28 +75,28 @@
 
 
 	<!-- ////////////////////////// Feed Properties Panel ////////////////////////// -->
-	<div id="feedPropertiesPanel" tabindex="0">
+	<div id="propertiesPanel" tabindex="0">
 
-		<div class="fpPropertiesContainer">
-			<div class="fpPropContainer">
+		<div class="propertiesContainer">
+			<div class="propContainer">
 				<label>Title:</label>
 				<input type="text" id="txtFpTitle">
 			</div>
 
-			<div class="fpPropContainer">
+			<div class="propContainer">
 				<label>Location:</label>
 				<input type="text" id="txtFpLocation">
 			</div>
 
-			<div class="fpPropContainer">
+			<div class="propContainer">
 				<input type="checkbox" id="chkFpUpdateTitle">
 				<label for="chkFpUpdateTitle">Update title from feed</label>
 			</div>
 		</div>
 
 		<div class="fpButtonContainer">
-			<button type="button" class="dlgButton" id="btnFeedPropertiesSave">Save</button>
-			<button type="button" class="dlgButton" id="btnFeedPropertiesCancel">Cancel</button>
+			<button type="button" class="dlgButton" id="btnPropertiesSave">Save</button>
+			<button type="button" class="dlgButton" id="btnPropertiesCancel">Cancel</button>
 		</div>
 
 		<div id="lblErrorMsgs" class="statusbar smallText"></div>
@@ -110,13 +110,14 @@
 		<div id="mnuTreeOpenFeedNewWin" class="contextmenuitem treeitemcontext">Open in New <u>W</u>indow</div>
 		<div id="mnuTreeOpenFeedNewPrivateWin" class="contextmenuitem treeitemcontext">Open in New Pri<u>v</u>ate Window</div>
 		<hr class="treeitemcontext">
-		<div id="mnuTreeNewFeed" class="contextmenuitem treeitemcontext"><u>N</u>ew...</div>
+		<div id="mnuTreeNewFeed" class="contextmenuitem treeitemcontext treeitemfoldercontext"><u>N</u>ew Feed...</div>
+		<div id="mnuTreeNewFolder" class="contextmenuitem treeitemcontext treeitemfoldercontext">New <u>F</u>older...</div>
 		<div id="mnuTreeCopyFeedUrl" class="contextmenuitem treeitemcontext"><u>C</u>opy Link</div>
 		<div id="mnuTreeDeleteFeed" class="contextmenuitem treeitemcontext"><u>D</u>elete</div>
 		<hr class="treeitemcontext">
 		<div id="mnuTreeFeedProperties" class="contextmenuitem treeitemcontext"><u>P</u>roperties...</div>
-		<hr class="treeitemcontext">
-		<div id="mnuTreeSwitchDirection" class="contextmenuitem treeitemcontext treecontext"><u>S</u>witch View Direction</div>
+		<hr class="treeitemfoldercontext treeitemcontext">
+		<div id="mnuTreeSwitchDirection" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext"><u>S</u>witch View Direction</div>
 
 		<div id="mnuListOpenFeedItem" class="contextmenuitem listitemcontext"><u>O</u>pen</div>
 		<div id="mnuListOpenFeedItemNewTab" class="contextmenuitem listitemcontext">Open in New <u>T</u>ab</div>

@@ -1,6 +1,6 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
-#feedPropertiesPanel {
+#propertiesPanel {
 	--panel-spacing: 10px;
 	display: none;
 	position: absolute;
@@ -18,27 +18,27 @@
 	font-weight: normal;
 }
 
-.fpPropContainer {
+.propContainer {
 	display: flex;
 	margin: var(--panel-spacing);
 }
 
-.fpPropContainer label {
+.propContainer label {
 	width: 65px;
 	margin: auto auto auto 0;
 }
 
-.fpPropContainer input[type="text"] {
+.propContainer input[type="text"] {
 	margin: auto 0 auto auto;
 	width: 80%;
 	font-size: inherit;
 }
 
-.fpPropContainer #chkFpUpdateTitle {
+.propContainer #chkFpUpdateTitle {
 	margin: auto var(--panel-spacing) auto 0;
 }
 
-.fpPropContainer #chkFpUpdateTitle:focus {
+.propContainer #chkFpUpdateTitle:focus {
 	outline: 1px dotted gray;
 }
 
@@ -48,7 +48,7 @@
 	margin-right: var(--panel-spacing);
 }
 
-#feedPropertiesPanel .statusbar {
+#propertiesPanel .statusbar {
 	margin-top: 8px;
 	color: red;
 }

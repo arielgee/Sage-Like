@@ -76,7 +76,9 @@ let rssTreeView = (function() {
 			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 				message.details === slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER) {
 				discoveryView.close();
-				feedPropertiesView.close();
+				NewFeedPropertiesView.i.close();
+				NewFolderPropertiesView.i.close();
+				EditFeedPropertiesView.i.close();
 				rssListView.disposeList();
 				createRSSTree();
 			}
@@ -553,9 +555,9 @@ let rssTreeView = (function() {
 
 			if(event.dataTransfer.types.includes("text/x-moz-url")){
 				let mozUrl = event.dataTransfer.getData("text/x-moz-url").split("\n");
-				createNewFeed(elmDropTarget, { url: mozUrl[0], title: mozUrl[1] });
+				createNewFeed(elmDropTarget, mozUrl[1], mozUrl[0], true);
 			} else if(event.dataTransfer.types.includes("text/uri-list")){
-				createNewFeed(elmDropTarget, { url: event.dataTransfer.getData("URL") });
+				createNewFeed(elmDropTarget, "New Feed", event.dataTransfer.getData("URL"), true);
 			} else {
 
 				let gettingDragged = browser.bookmarks.get(m_elmCurrentlyDragged.id);
@@ -945,21 +947,14 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeed(elmLI, newFeedData = null) {
+	function openNewFeedProperties(elmLI) {
+		NewFeedPropertiesView.i.open(elmLI, "New Feed", "");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFeed(elmLI, title, url, updateTitle) {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
-
-			let saveOnlyIfModified = true;
-			let showLocation = false;
-			let title = "New Feed";
-			let url = "http://x/";
-
-			if(newFeedData) {
-				saveOnlyIfModified = false;
-				showLocation = true;
-				title = newFeedData.title ? newFeedData.title : title;
-				url = newFeedData.url;
-			}
 
 			let newBookmark = {
 				index: bookmarks[0].index,
@@ -974,10 +969,49 @@ let rssTreeView = (function() {
 
 				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
 				elmLI.parentElement.insertBefore(newElm, elmLI);
+
+				setFeedVisitedState(newElm, false);
+				m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle });
 				newElm.focus();
 
-				feedPropertiesView.open(newElm, true, saveOnlyIfModified, showLocation, true);
+			}).catch((error) => {
+				console.log("[Sage-Like]", error);
+			}).finally(() => suspendBookmarksEventHandler(false));
+		});
+	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function openNewFolderProperties(elmLI) {
+		NewFolderPropertiesView.i.open(elmLI, "New Folder");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFolder(elmLI, title) {
+
+		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
+
+			let newFolder = {
+				index: bookmarks[0].index,
+				parentId: bookmarks[0].parentId,
+				title: title,
+				type: "folder",
+			};
+
+			suspendBookmarksEventHandler(true);
+			browser.bookmarks.create(newFolder).then((created) => {
+
+				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
+
+				let elmUL = createTagUL();
+				newElm.appendChild(elmUL);
+
+				setSubTreeState(newElm, false);
+
+				elmLI.parentElement.insertBefore(newElm, elmLI);
+				newElm.focus();
+
+			}).catch((error) => {
+				console.log("[Sage-Like]", error);
 			}).finally(() => suspendBookmarksEventHandler(false));
 		});
 	}
@@ -1003,12 +1037,12 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openPropertiesView(elmLI) {
+	function openEditFeedProperties(elmLI) {
 
 		let id = elmLI.id;
 
 		m_objTreeFeedsData.setIfNotExist(id);
-		feedPropertiesView.open(elmLI, m_objTreeFeedsData.value(id).updateTitle, true, true);
+		EditFeedPropertiesView.i.open(elmLI, m_objTreeFeedsData.value(id).updateTitle);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1272,9 +1306,12 @@ let rssTreeView = (function() {
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
+		openNewFeedProperties: openNewFeedProperties,
 		createNewFeed: createNewFeed,
+		openNewFolderProperties: openNewFolderProperties,
+		createNewFolder: createNewFolder,
 		deleteFeed: deleteFeed,
-		openPropertiesView: openPropertiesView,
+		openEditFeedProperties: openEditFeedProperties,
 		updateFeedProperties: updateFeedProperties,
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,
