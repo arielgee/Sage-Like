@@ -1,142 +1,202 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
+:root {
+  --lizard-preference-height: 40px;
+}
+
 body {
-	font-family: Tahoma, Verdana, Segoe, sans-serif;
-	font-size: 16px;
-	font-weight: normal;
-	max-width: 650px;
-	line-height: 21px;
+  font-family: inherit;
+  font-size: 1.273rem;
+  font-weight: normal;
+  min-width: auto;
+  max-width: 700px;
+  line-height: 21px;
+  white-space: nowrap;
 }
 
 .caption {
-	font-size: 22.5px;
+  font-size: 2rem;
+  margin-bottom: 35px;
 }
 
 .prefSeperator {
-	height: 13px;
-	border-bottom: 1px solid lightgray;
-	margin-bottom: 13px;
-}
-
-.caption + .prefSeperator {
-	height: 36px;
+  border-bottom: 1px solid lightgray;
 }
 
 .preference {
-	display: flex;
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 3px;
+  height: var(--lizard-preference-height);
+  min-height: var(--lizard-preference-height);
+  max-height: var(--lizard-preference-height);
+}
+
+.preference.subPref {
+  padding-left: 20px;
 }
 
 .preferenceControl {
-	margin: auto 0 auto auto;
-	display: flex;
-	align-items: center;
+  display: flex;
+}
+
+.controlLabel {
+  padding-left: 5px;
+}
+
+.controlLabel:not(:last-child) {
+  padding-right: 5px;
+  margin-right: 10px;
 }
 
 select {
-	border: 1px solid #7a7a7a;
+  border: 1px solid #7a7a7a;
 }
 
 input[type="radio"],
 input[type="checkbox"] {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	background-color: rgb(241, 241, 241);
-	padding: 0;
-	margin: 0;
-	width: 18px;
-	height: 18px;
-	border: 1px solid #999;
-	transition: 0.2s all linear;
-	outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 2px 0;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #999;
+  transition: 0.2s all linear;
+  outline: none;
 }
 
 input[type="radio"] {
-	border-radius: 50%;
+  border-radius: 50%;
 }
 
 input[type="radio"]:checked,
 input[type="checkbox"]:checked {
-	border: 5px solid #999;
-	background-color: black;
+  border: 5px solid #999;
+  background-color: black;
 }
 
 input[type="color"] {
-	width: 25px;
-	height: 19px;
-	border: none;
-	margin: 0 3px;
-	padding: 1px;
-	background-color: transparent;
-	cursor: pointer;
+  width: 25px;
+  height: 18px;
+  border: none;
+  margin: 2px 3px;
+  padding: 1px;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 input[type="color"]::-moz-color-swatch {
-	border: none;
-	border-radius: 50%;
-	box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.6);
 }
 
 input[type="color"]::-moz-focus-inner {
-	padding: 0;
-}
-
-.controlLabel {
-	padding-left: 3px;
-}
-
-.controlLabel:not(:last-child) {
-	padding-right: 3px;
-	margin-right: 10px;
-}
-
-#checkFeedsInterval option[value="-1"] {
-	background-color: #e0e0e0;
-}
-
-.helpInfo {
-	display: inline-block;
-	border-radius: 50%;
-	height: 18px;
-	width: 18px;
-	background-color: #dddddd;
-	color: #ffffff;
-	font-family: "Open Sans",X-LocaleSpecific,sans-serif;
-	font-size: 14px;
-	font-weight: 700;
-	text-align: center;
-	line-height: 1.3em;
-	vertical-align: top;
-	cursor: help;
-	margin-top: 2px;
-}
-
-.helpInfo:hover {
-	background-color: #2a4364;
+  padding: 0;
 }
 
 .numericInput {
-	border: 1px solid #7a7a7a;
-	padding: 2px;
-	height: 21px;
-	width: 50px;
+  border: 1px solid #7a7a7a;
+  padding: 2px;
+  height: 21px;
+  width: 50px;
 }
 
 .numericInput:invalid  {
-	box-shadow: 0 0 1.5px 1px rgb(255, 0, 0);
+  box-shadow: 0 0 1.5px 1px rgb(255, 0, 0);
+}
+
+.helpInfo {
+  display: inline-block;
+  border-radius: 50%;
+  height: 18px;
+  width: 18px;
+  background-color: #bbbbbb;
+  color: #ffffff;
+  font-family: "Open Sans",X-LocaleSpecific,sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3em;
+  vertical-align: top;
+  cursor: help;
+  margin-top: 2px;
+}
+
+.helpInfo:hover {
+  background-color: #2a4364;
+}
+
+.controlButton {
+  padding: 1px 3px;
+  background-color: rgb(251, 251, 251);
+  border: 1px solid rgb(193, 193, 193);
+  border-radius: 2px;
+  height: 30px;
+  width: 130px;
+  text-align: center;
+  margin-left: 10px;
+}
+
+.controlButton:hover {
+  background-color: rgb(235, 235, 235);
+}
+
+.controlButton:active:hover {
+  background-color: rgb(218, 218, 218);
+}
+
+.annotation {
+  font-family: "Segoe UI";
+  font-size: 9pt;
+  color: gray;
+}
+
+/* Elements that will 'flash' */
+select,
+.annotation,
+.controlButton {
+  background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: background-position 0.2s ease-in 0s;
+}
+
+.annotation.flash {
+  background-position: left bottom;
+  color: black;
+}
+
+select.flash,
+.controlButton.flash {
+  background-position: left bottom;
+}
+
+/* Disabled elements */
+label.disabled,
+input[type="radio"].disabled,
+input[type="checkbox"].disabled {
+  color: darkgray;
+  border-color: darkgray;
+}
+
+#checkFeedsInterval option[value="-1"] {
+  background-color: #e0e0e0;
 }
 
 .controlImage {
-	display: inline-block;
-	width: 24px;
-	height: 20px;
-	margin: auto 0 auto 0;
-	background: transparent no-repeat 4px top/20px 20px;
+  display: inline-block;
+  width: 24px;
+  height: 20px;
+  margin: auto 0 auto 0;
+  background: transparent no-repeat 4px top/20px 20px;
 }
 
 .controlImage:not(:last-child) {
-	margin-right: 18px;
+  margin-right: 18px;
 }
 
 #imageSet0 + .controlImage { background-image: url("/icons/open-0.png"); }
@@ -147,77 +207,22 @@ input[type="color"]::-moz-focus-inner {
 #imageSet5 + .controlImage { background-image: url("/icons/open-5.png"); }
 #imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
 
-.controlButton {
-	padding: 1px 3px;
-	background-color: rgb(251, 251, 251);
-	border: 1px solid rgb(193, 193, 193);
-	border-radius: 2px;
-	height: 30px;
-	width: 130px;
-	text-align: center;
-	margin-left: 10px;
-}
-
-.controlButton:hover {
-	background-color: rgb(235, 235, 235);
-}
-
-.controlButton:active:hover {
-	background-color: rgb(218, 218, 218);
-}
-
-.annotation {
-	font-family: "Segoe UI";
-	font-size: 9pt;
-	color: gray;
-}
-
-
-/* Elements that will 'flash' */
-select,
-.annotation,
-.controlButton {
-	background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
-	background-size: 200% 100%;
-	background-position: right bottom;
-	transition: background-position 0.2s ease-in 0s;
-}
-
-.annotation.flash {
-	background-position: left bottom;
-	color: black;
-}
-
-select.flash,
-.controlButton.flash {
-	background-position: left bottom;
-}
-
-
-/* Disabled elements */
-label.disabled,
-input[type="radio"].disabled,
-input[type="checkbox"].disabled {
-	color: darkgray;
-	border-color: darkgray;
-}
-
 
 /*** Time of day box ***/
 .timeOfDayBox {
-	display: none;
-	position: absolute;
-	border: 1px solid black;
-	border-radius: 8px;
-	padding: 12px;
-	background-color: #f5f5f5;
-	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-	z-index: 1;
-	white-space: nowrap;
+  display: none;
+  position: absolute;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #f5f5f5;
+  box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+  z-index: 1;
+  white-space: nowrap;
 }
 
 .timeOfDayBox #inputTime {
-	pointer-events: initial;
-	border: 1px solid black;
-	padding: 2px;
+  pointer-events: initial;
+  border: 1px solid black;
+  padding: 2px;
 }

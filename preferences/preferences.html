@@ -53,7 +53,7 @@
 		<label for="fetchTimeout" class="preferenceLabel">Single Feed Fetching Timeout&nbsp;<span class="helpInfo" title="Timeout range: 10 - 300 seconds.">?</span></label>
 		<div class="preferenceControl">
 			<input type="text" id="fetchTimeout" class="numericInput" required minlength="2" maxlength="3"
-				pattern="^([1-9][0-9]|[12][0-9]{2}|300)$"/><label for="fetchTimeout">&nbsp;seconds</label>
+				pattern="^([1-9][0-9]|[12][0-9]{2}|300)$"/><label for="fetchTimeout" class="controlLabel">seconds</label>
 		</div>
 	</div>
 	<div class="prefSeperator"></div>
@@ -96,6 +96,7 @@
 	<div class="prefSeperator"></div>
 
 	<div class="preference">
+		<label></label>
 		<div class="preferenceControl">
             <button type="button" class="controlButton" id="btnReloadExtension">Reload Extension</button>
 			<button type="button" class="controlButton" id="btnRestoreDefaults">Restore Defaults</button>
