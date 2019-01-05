@@ -114,4 +114,4 @@
 * drag a feed into a folder
 * create new feed inside folder when folder is selected
 * open properties for folder
-
+* By using Active color in the conext menu the UI is fucked when the selected Active color  is dark (black) like the text.
