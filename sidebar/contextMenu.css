@@ -8,7 +8,6 @@
 	overflow: auto;
 	box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
 	z-index: 1;
-	padding: 5px;
 	border: 1px solid #e0e0e0;
 	font-weight: normal;
 }
@@ -21,7 +20,8 @@
 }
 
 .contextmenu .contextmenuitem:hover {
-	background-color: var(--bk-color-active);
+	background-color: white;
+	filter: invert(100%)
 }
 
 .contextmenu .contextmenuitem u {
