@@ -96,7 +96,7 @@
 		} else if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
 
 			m_bCurrentContext = "treeitemcontext";
-			rssListView.setFeedItemSelectionState(m_elmEventTarget);
+			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
 		} else if (trgClsList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 
