@@ -95,8 +95,12 @@
 	opacity: 0.5;
 }
 
+.treeview li.dragged > .rtvCaption {
+	background-color: transparent;
+}
+
 .treeview li.draggedOver {
-	border-top: 1px solid var(--bk-color-window-inverted);
+	box-shadow: 0px -2px 0px 0px var(--bk-color-window-inverted);
 }
 
 .treeview li.errormsg {
