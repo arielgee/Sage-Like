@@ -25,7 +25,7 @@ class PropertiesView {
 	open(elmLI) {
 
 		// the element been clicked
-		this.m_elmFeedItemLI = elmLI;
+		this.m_elmTreeItemLI = elmLI;
 
 		this.m_elmButtonSave.addEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.addEventListener("click", this._onClickButtonCancel);
@@ -79,6 +79,17 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
+	_hideNoneTitleProperties(hide) {
+
+		// all none title properties
+		let selector = ".propContainer:not(:first-child)";
+
+		this.m_elmPropertiesPanel.querySelectorAll(selector).forEach((element) => {
+			element.style.display = (hide ? "none" : "");
+		});
+	}
+
+	///////////////////////////////////////////////////////////////
 	_initData() {
 		this.m_elmTextTitle.value = this.m_initialProperties.title;
 		this.m_elmTextLocation.value = this.m_initialProperties.location;
@@ -92,7 +103,7 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_showPanel() {
 
-		let r = this.m_elmFeedItemLI.getBoundingClientRect();
+		let r = this.m_elmTreeItemLI.getBoundingClientRect();
 		let y = r.top;
 
 		// do it first so element will have dimentions (offsetWidth > 0)
@@ -183,7 +194,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			return;
 		}
 
-		rssTreeView.updateFeedProperties(this.m_elmFeedItemLI, valTitle, valLocation, valUpdateTitle);
+		rssTreeView.updateFeedProperties(this.m_elmTreeItemLI, valTitle, valLocation, valUpdateTitle);
 		this.close();
 	}
 }
@@ -229,7 +240,57 @@ class NewFeedPropertiesView extends PropertiesView {
 			return;
 		}
 
-		rssTreeView.createNewFeed(this.m_elmFeedItemLI, valTitle, valLocation, valUpdateTitle);
+		rssTreeView.createNewFeed(this.m_elmTreeItemLI, valTitle, valLocation, valUpdateTitle);
+		this.close();
+	}
+}
+
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+class EditFolderPropertiesView extends PropertiesView {
+
+	///////////////////////////////////////////////////////////////
+	constructor() {
+		super();
+	}
+
+	///////////////////////////////////////////////////////////////
+	open(elmLI) {
+		super.open(elmLI);
+
+		this._hideNoneTitleProperties(true);
+
+		this.m_initialProperties.title = elmLI.firstElementChild.textContent;
+
+		this._initData();
+	}
+
+	///////////////////////////////////////////////////////////////
+	close() {
+
+		// restore back to visible before close for other views
+		this._hideNoneTitleProperties(false);
+		super.close();
+	}
+
+	///////////////////////////////////////////////////////////////
+	_saveAndClose() {
+
+		let valTitle = this.m_elmTextTitle.value;
+
+		// Any value was modified
+		if (this.m_initialProperties.title === valTitle) {
+			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify."
+			return;
+		}
+
+		// Title validation
+		if (valTitle.length === 0) {
+			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
+			return;
+		}
+
+		rssTreeView.updateFolderProperties(this.m_elmTreeItemLI, valTitle);
 		this.close();
 	}
 }
@@ -250,8 +311,6 @@ class NewFolderPropertiesView extends PropertiesView {
 		this._hideNoneTitleProperties(true);
 
 		this.m_initialProperties.title = title;
-		//this.m_initialProperties.location = "";
-		//this.m_initialProperties.updateTitle = false;
 
 		this._initData();
 	}
@@ -265,17 +324,6 @@ class NewFolderPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	_hideNoneTitleProperties(hide) {
-
-		// all none title properties
-		let selector = ".propContainer:not(:first-child)";
-
-		this.m_elmPropertiesPanel.querySelectorAll(selector).forEach((element) => {
-			element.style.display = (hide ? "none" : "");
-		});
-	}
-
-	///////////////////////////////////////////////////////////////
 	_saveAndClose() {
 
 		let valTitle = this.m_elmTextTitle.value;
@@ -286,7 +334,7 @@ class NewFolderPropertiesView extends PropertiesView {
 			return;
 		}
 
-		rssTreeView.createNewFolder(this.m_elmFeedItemLI, valTitle);
+		rssTreeView.createNewFolder(this.m_elmTreeItemLI, valTitle);
 		this.close();
 	}
 }

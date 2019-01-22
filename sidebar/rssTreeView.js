@@ -501,7 +501,7 @@ let rssTreeView = (function() {
 
 			// when a subtree is open the height of the LI is as the Height of the entier subtree.
 			// The result is that hovering on the left of the items in the subtree (but not ON a subtree item) marks
-			// the subtree as a drop target. This makes sure that only hovers above the top of the elements are processed
+			// the entire subtree as a drop target. This makes sure that only hovers on the top of the elements are processed
 			if(!eventOccureInItemLineHeight(event, this)) {
 				event.dataTransfer.dropEffect = "none";
 				return false;
@@ -1072,6 +1072,29 @@ let rssTreeView = (function() {
 		}).finally(() => suspendBookmarksEventHandler(false));
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function openEditFolderProperties(elmLI) {
+		EditFolderPropertiesView.i.open(elmLI);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateFolderProperties(elmLI, newTitle) {
+
+		let changes = {
+			title: newTitle,
+		};
+
+		suspendBookmarksEventHandler(true);
+		browser.bookmarks.update(elmLI.id, changes).then((updated) => {
+
+			elmLI.firstElementChild.textContent = updated.title;
+			setFeedTooltipState(elmLI);
+
+		}).catch((error) => {
+			console.log("[Sage-Like]", error);
+		}).finally(() => suspendBookmarksEventHandler(false));
+	}
+
 	//==================================================================================
 	//=== Tree Items status
 	//==================================================================================
@@ -1313,6 +1336,8 @@ let rssTreeView = (function() {
 		deleteFeed: deleteFeed,
 		openEditFeedProperties: openEditFeedProperties,
 		updateFeedProperties: updateFeedProperties,
+		openEditFolderProperties: openEditFolderProperties,
+		updateFolderProperties: updateFolderProperties,
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,

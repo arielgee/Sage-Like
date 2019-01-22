@@ -103,6 +103,7 @@
     => used bk color black and invert(100%) filter for menu item while been hoverd
 * when selecting a feed with the right mouse key and then a folder (also with right mouse key) the prev selection is not cleared
     => wronglly used rssListView.setFeedItemSelectionState() insted of rssTreeView.setFeedSelectionState() in onContextMenu()
+* open properties for folder
 
 ---
 
@@ -115,4 +116,3 @@
 
 * drag a feed into a folder
 * create new feed inside folder when folder is selected
-* open properties for folder

@@ -11,7 +11,7 @@
 		treeNewFolder:			6,
 		treeCopyUrl:			7,
 		treeDeleteFeed:			8,
-		treeFeedProperties:		9,
+		treeProperties:			9,
 		treeSwitchDirection:	10,
 
 		listOpen:				11,
@@ -34,7 +34,7 @@
 	let m_elmContextMenu;
 	let m_elmEventTarget;
 
-	let m_bCurrentContext = "";
+	let m_currentContext = "";
 	let m_bActivePanelOpened = false;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -71,9 +71,9 @@
 		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 
 		if(m_bActivePanelOpened === false) {
-			if(["treeitemcontext", "treecontext"].indexOf(m_bCurrentContext) > -1) {
+			if(["treeitemcontext", "treecontext"].indexOf(m_currentContext) > -1) {
 				rssTreeView.setFocus();
-			} else if(["listitemcontext", "listcontext"].indexOf(m_bCurrentContext) > -1) {
+			} else if(["listitemcontext", "listcontext"].indexOf(m_currentContext) > -1) {
 				rssListView.setFocus();
 			}
 		}
@@ -90,27 +90,27 @@
 
 		if (trgClsList.contains(slGlobals.CLS_RTV_LI_SUB_TREE)) {
 
-			m_bCurrentContext = "treeitemfoldercontext";
+			m_currentContext = "treeitemfoldercontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
 		} else if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
 
-			m_bCurrentContext = "treeitemcontext";
+			m_currentContext = "treeitemcontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
 		} else if (trgClsList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 
-			m_bCurrentContext = "listitemcontext";
+			m_currentContext = "listitemcontext";
 			rssListView.setFeedItemSelectionState(m_elmEventTarget);
 
 		} else if (m_elmEventTarget.closest("#" + slGlobals.ID_UL_RSS_TREE_VIEW) !== null) {
 
-			m_bCurrentContext = "treecontext";
+			m_currentContext = "treecontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);	// select folder
 
 		} else if (m_elmEventTarget.closest("#" + slGlobals.ID_UL_RSS_LIST_VIEW) !== null) {
 
-			m_bCurrentContext = "listcontext";
+			m_currentContext = "listcontext";
 
 		} else {
 			showMenu = false;
@@ -121,7 +121,7 @@
 			m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
 			m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
 
-			showMenuItemsByClassName(m_bCurrentContext);
+			showMenuItemsByClassName(m_currentContext);
 
 			let x = event.clientX;
 			let y = event.clientY;
@@ -155,13 +155,22 @@
 
 		event.preventDefault();
 
-		if(event.key.toLowerCase() === "escape") {
+		let keyLowCase = event.key.toLowerCase();
+
+		if(keyLowCase === "escape") {
 			closeContextMenu();
 			return;
 		}
 
-		if(m_bCurrentContext === "treeitemcontext") {
-			switch (event.key.toLowerCase()) {
+		if(m_currentContext === "treeitemfoldercontext") {
+			switch (keyLowCase) {
+				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
+				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
+				case "p":	handleTreeMenuActions(ContextAction.treeProperties);		break;
+				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+			}
+		} else if(m_currentContext === "treeitemcontext") {
+			switch (keyLowCase) {
 				case "o":	handleTreeMenuActions(ContextAction.treeOpen);				break;
 				case "t":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
 				case "w":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
@@ -170,11 +179,11 @@
 				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
 				case "d":	handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
-				case "p":	handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
+				case "p":	handleTreeMenuActions(ContextAction.treeProperties);		break;
 				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
-		} else if(m_bCurrentContext === "listitemcontext") {
-			switch (event.key.toLowerCase()) {
+		} else if(m_currentContext === "listitemcontext") {
+			switch (keyLowCase) {
 				case "o":	handleListMenuActions(ContextAction.listOpen);				break;
 				case "t":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
 				case "w":	handleListMenuActions(ContextAction.listOpenNewWin);		break;
@@ -186,12 +195,12 @@
 				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
 				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
 			}
-		} else if(m_bCurrentContext === "treecontext") {
-			switch (event.key.toLowerCase()) {
+		} else if(m_currentContext === "treecontext") {
+			switch (keyLowCase) {
 				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
-		} else if(m_bCurrentContext === "listcontext") {
-			switch (event.key.toLowerCase()) {
+		} else if(m_currentContext === "listcontext") {
+			switch (keyLowCase) {
 				case "a":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
 				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
@@ -214,7 +223,7 @@
 			case "mnuTreeNewFolder":					handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
 			case "mnuTreeDeleteFeed":					handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
-			case "mnuTreeFeedProperties":				handleTreeMenuActions(ContextAction.treeFeedProperties);	break;
+			case "mnuTreeProperties":					handleTreeMenuActions(ContextAction.treeProperties);		break;
 			case "mnuTreeSwitchDirection":				handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 
 			case "mnuListOpenFeedItem":					handleListMenuActions(ContextAction.listOpen);				break;
@@ -237,7 +246,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
-		if([ContextAction.treeNewFeed, ContextAction.treeNewFolder, ContextAction.treeFeedProperties].indexOf(menuAction) > -1 ) {
+		if([ContextAction.treeNewFeed, ContextAction.treeNewFolder, ContextAction.treeProperties].indexOf(menuAction) > -1 ) {
 			m_bActivePanelOpened = true;
 		}
 
@@ -323,8 +332,12 @@
 				break;
 				///////////////////////////////////////////
 
-			case ContextAction.treeFeedProperties:
-				rssTreeView.openEditFeedProperties(m_elmEventTarget);
+			case ContextAction.treeProperties:
+				if(m_currentContext === "treeitemcontext") {
+					rssTreeView.openEditFeedProperties(m_elmEventTarget);
+				} else if(m_currentContext === "treeitemfoldercontext") {
+					rssTreeView.openEditFolderProperties(m_elmEventTarget);
+				}
 				break;
 				///////////////////////////////////////////
 
