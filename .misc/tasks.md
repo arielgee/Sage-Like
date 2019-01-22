@@ -104,6 +104,11 @@
 * when selecting a feed with the right mouse key and then a folder (also with right mouse key) the prev selection is not cleared
     => wronglly used rssListView.setFeedItemSelectionState() insted of rssTreeView.setFeedSelectionState() in onContextMenu()
 * open properties for folder
+* create new feed inside folder when folder is selected
+  * THE-FIX: in the private case where a folder is selected, the 'New Feed/Folder' actions (context menu) will create the
+    new Feed/Folder INSIDE the folder as the first item and not above it like in the case where a feed is selected.
+  * For now there is no simple way to create a new feed/folder above a selected folder. It will be created
+    as the first item in the selected folder and the user can always moved it (via drag&drop).
 
 ---
 
@@ -115,4 +120,3 @@
 * mention in the description (readme) that only my Sage preference were implemented
 
 * drag a feed into a folder
-* create new feed inside folder when folder is selected

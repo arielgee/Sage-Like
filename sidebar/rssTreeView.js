@@ -956,9 +956,11 @@ let rssTreeView = (function() {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
+			let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+
 			let newBookmark = {
-				index: bookmarks[0].index,
-				parentId: bookmarks[0].parentId,
+				index: (isFolder ? 0 : bookmarks[0].index),			// insert as first in folder
+				parentId: (isFolder ? bookmarks[0].id : bookmarks[0].parentId),
 				title: title,
 				type: "bookmark",
 				url: url,
@@ -968,7 +970,14 @@ let rssTreeView = (function() {
 			browser.bookmarks.create(newBookmark).then((created) => {
 
 				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
-				elmLI.parentElement.insertBefore(newElm, elmLI);
+
+				if(isFolder) {
+					let elmFolderUL = elmLI.lastElementChild;
+					setSubTreeState(elmLI, true);		// open the sub tree if closed
+					elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
+				} else {
+					elmLI.parentElement.insertBefore(newElm, elmLI);
+				}
 
 				setFeedVisitedState(newElm, false);
 				m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle });
@@ -990,9 +999,11 @@ let rssTreeView = (function() {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
+			let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+
 			let newFolder = {
-				index: bookmarks[0].index,
-				parentId: bookmarks[0].parentId,
+				index: (isFolder ? 0 : bookmarks[0].index),			// insert as first in folder
+				parentId: (isFolder ? bookmarks[0].id : bookmarks[0].parentId),
 				title: title,
 				type: "folder",
 			};
@@ -1007,7 +1018,14 @@ let rssTreeView = (function() {
 
 				setSubTreeState(newElm, false);
 
-				elmLI.parentElement.insertBefore(newElm, elmLI);
+				if(isFolder) {
+					let elmFolderUL = elmLI.lastElementChild;
+					setSubTreeState(elmLI, true);
+					elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
+				} else {
+					elmLI.parentElement.insertBefore(newElm, elmLI);
+				}
+
 				newElm.focus();
 
 			}).catch((error) => {
