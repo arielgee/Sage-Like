@@ -109,7 +109,7 @@
     new Feed/Folder INSIDE the folder as the first item and not above it like in the case where a feed is selected.
   * For now there is no simple way to create a new feed/folder above a selected folder. It will be created
     as the first item in the selected folder and the user can always moved it (via drag&drop).
-
+* slide down an info tip when feed folder is modified by another party
 ---
 
 #### Next

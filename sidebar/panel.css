@@ -143,3 +143,34 @@ html, body {
 .dlgButton:active:hover {
 	background-color: rgb(218, 218, 218);
 }
+
+#infoBar {
+	position: absolute;
+	top: calc(var(--toolbar-height) * 0.75);
+	left: 20px;
+	max-width: 92%;
+	z-index: 1;
+	padding: 3px 9px;
+	background-color: #fffedf;
+	border: 2px solid red;
+	border-radius: 0 12px 12px 12px;
+	font-weight: normal;
+}
+
+#infoBar.fadeIn {
+	visibility: visible;
+	opacity: 1;
+	transition: visibility 0s linear 0s, opacity 800ms;
+}
+
+#infoBar.fadeOut {
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s linear 800ms, opacity 800ms;
+}
+
+#infoBar .infoBarSymbol {
+	font-size: 150%;
+	font-weight: bolder;
+	color: red;
+}

@@ -984,6 +984,21 @@ let slUtil = (function() {
 		return "#" + (("000000" + c.toString(16)).slice(-6));
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function showInfoBar(doc, infoText = "", showDuration = 3500) {
+
+		let elmInfoBar = doc.getElementById("infoBar");
+
+		if(infoText === "") {
+			elmInfoBar.classList.replace("fadeIn", "fadeOut");
+		} else {
+
+			elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText;
+			elmInfoBar.classList.replace("fadeOut", "fadeIn");
+			setTimeout(() => elmInfoBar.classList.replace("fadeIn", "fadeOut"), showDuration);
+		}
+	}
+
 	return {
 		escapeRegExp: escapeRegExp,
 		random1to100: random1to100,
@@ -1009,6 +1024,7 @@ let slUtil = (function() {
 		reloadSageLikeWebExtensionAndTab: reloadSageLikeWebExtensionAndTab,
 		replaceMozExtensionOriginURL: replaceMozExtensionOriginURL,
 		invertColor: invertColor,
+		showInfoBar: showInfoBar,
 	};
 
 })();

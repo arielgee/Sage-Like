@@ -1275,9 +1275,11 @@ let rssTreeView = (function() {
 		if(on) {
 			m_elmCheckTreeFeeds.classList.add("alert");
 			m_elmCheckTreeFeeds.title = "The feed folder or it's content has been modified by another party.\u000dShift+click to reload.";
+			slUtil.showInfoBar(document, m_elmCheckTreeFeeds.title);
 		} else {
 			m_elmCheckTreeFeeds.classList.remove("alert");
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
+			slUtil.showInfoBar(document, "");
 		}
 	}
 
