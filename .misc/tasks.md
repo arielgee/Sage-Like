@@ -99,6 +99,10 @@
   * FIXED: now using '[a-zA-Z0-9-_.]+' instead of '.+'
 * in list view replace '&quot;' with '"' and also: '&amp;', '&gt;', '&lt;', '&copy;', '&trade;', '&reg;'
 * when selecting a folder the tree scrolls the folder out of view => when the selected IL is higher then the viewport
+* By using Active color in the conext menu the UI is fucked when the selected Active color is dark (black) like the text.
+    => used bk color black and invert(100%) filter for menu item while been hoverd
+* when selecting a feed with the right mouse key and then a folder (also with right mouse key) the prev selection is not cleared
+    => wronglly used rssListView.setFeedItemSelectionState() insted of rssTreeView.setFeedSelectionState() in onContextMenu()
 
 ---
 
@@ -109,9 +113,6 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* when selecting a feed with the right mouse key and then a folder (also with right mouse key) the prev selection is not cleared
-
 * drag a feed into a folder
 * create new feed inside folder when folder is selected
 * open properties for folder
-* By using Active color in the conext menu the UI is fucked when the selected Active color  is dark (black) like the text.
