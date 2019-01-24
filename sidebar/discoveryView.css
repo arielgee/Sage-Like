@@ -55,11 +55,11 @@
 }
 
 #discoverPanel #btnRediscover:hover {
-	filter: drop-shadow(0 0 4px rgb(0, 129, 255));
+	filter: drop-shadow(0 0 4px #4747ff);
 }
 
 #discoverPanel #btnRediscover:active {
-	transform: scaleX(-1);
+	filter: drop-shadow(0 0 5px #008f8f);
 }
 
 #discoverPanel #btnRediscover.disabled {

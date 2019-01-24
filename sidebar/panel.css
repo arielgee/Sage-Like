@@ -48,17 +48,17 @@ html, body {
 	height: var(--splitter-height);
 	background-color: #c0c0c0;
 	cursor: n-resize;
-	border-top: 2px gray groove;
-	border-bottom: 2px gray groove;
+	border-top: 1px #e0e0e0 solid;
+	border-bottom: 1px #7f7f7f solid;
 }
 
 .toolbar {
 	--buttons-spacer: 8px;
 	width: 100%;
 	height: var(--toolbar-height);
-	background-color: #9f9f9f;    /*#7f7f7f;*/
-	border-top: 2px gray groove;
-	border-bottom: 2px gray groove;
+	background-color: #e3e3e3;
+	border-top: 1px #7f7f7f solid;
+	border-bottom: 1px #7f7f7f solid;
 	padding: 5px var(--buttons-spacer);
 	display: flex;
 	justify-content: left;
@@ -75,15 +75,15 @@ html, body {
 }
 
 .toolbar .button.alert {
-	filter: drop-shadow(0 0 4px #FF0000);
+	filter: drop-shadow(0 0 4px crimson);
 }
 
 .toolbar .button:hover {
-	filter: drop-shadow(0 0 4px #FFFFFF);
+	filter: drop-shadow(0 0 4px #4747ff);
 }
 
 .toolbar .button:active {
-	transform: scaleX(-1);
+	filter: drop-shadow(0 0 5px #008f8f);
 }
 
 .spacer {
@@ -152,7 +152,7 @@ html, body {
 	z-index: 1;
 	padding: 3px 9px;
 	background-color: #fffedf;
-	border: 2px solid red;
+	border: 2px solid crimson;
 	border-radius: 0 12px 12px 12px;
 	font-weight: normal;
 }
@@ -172,5 +172,5 @@ html, body {
 #infoBar .infoBarSymbol {
 	font-size: 150%;
 	font-weight: bolder;
-	color: red;
+	color: crimson;
 }
