@@ -521,6 +521,8 @@ let rssTreeView = (function() {
 				// it's a SubTree - just in
 				m_objCurrentlyDraggedOver.set(this.id);
 			}
+
+			this.classList.toggle("dropInside", event.shiftKey);
 		}
 
 		this.classList.add("draggedOver");
@@ -530,13 +532,13 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDragLeaveTreeItem(event) {
-		this.classList.remove("draggedOver");
+		this.classList.remove("draggedOver", "dropInside");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDragEndTreeItem(event) {
 		m_elmCurrentlyDragged.classList.remove("dragged");
-		this.classList.remove("draggedOver");
+		this.classList.remove("draggedOver", "dropInside");
 		m_objCurrentlyDraggedOver.init();
 	}
 
@@ -555,9 +557,9 @@ let rssTreeView = (function() {
 
 			if(event.dataTransfer.types.includes("text/x-moz-url")){
 				let mozUrl = event.dataTransfer.getData("text/x-moz-url").split("\n");
-				createNewFeed(elmDropTarget, mozUrl[1], mozUrl[0], true);
+				createNewFeed(elmDropTarget, mozUrl[1], mozUrl[0], true, event.shiftKey);
 			} else if(event.dataTransfer.types.includes("text/uri-list")){
-				createNewFeed(elmDropTarget, "New Feed", event.dataTransfer.getData("URL"), true);
+				createNewFeed(elmDropTarget, "New Feed", event.dataTransfer.getData("URL"), true, event.shiftKey);
 			} else {
 
 				let gettingDragged = browser.bookmarks.get(m_elmCurrentlyDragged.id);
@@ -574,9 +576,12 @@ let rssTreeView = (function() {
 							newIndex--;
 						}
 
+						// if shiftKey is pressed then insert dargged item(s) into the the dropped folder
+						let inSubTree = event.shiftKey && elmDropTarget.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+
 						let destination = {
-							parentId: drop[0].parentId,
-							index: newIndex,
+							parentId: (inSubTree ? drop[0].id : drop[0].parentId),
+							index: (inSubTree ? 0 : newIndex),			// insert as first in folder
 						};
 
 						suspendBookmarksEventHandler(true);
@@ -584,18 +589,29 @@ let rssTreeView = (function() {
 
 							m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
 
+							let elmDropped;
 							let dropHTML = event.dataTransfer.getData("text/html");
-							elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
-							let elmDropped = elmDropTarget.previousElementSibling;
+
+							if(inSubTree) {
+								let elmDropTargetFolderUL = elmDropTarget.lastElementChild;
+								setSubTreeState(elmDropTarget, true);		// open the sub tree if closed
+								elmDropTargetFolderUL.insertAdjacentHTML("afterbegin", dropHTML);
+								elmDropped = elmDropTargetFolderUL.firstChild;
+							} else {
+								elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
+								elmDropped = elmDropTarget.previousElementSibling;
+							}
+
 							removeFeedLoadingStatus(elmDropped);
 							addSubTreeItemsEventListeners(elmDropped);
 							elmDropped.focus();
+
 						}).finally(() => suspendBookmarksEventHandler(false));
 					});
 				});
 			}
 		}
-		elmDropTarget.classList.remove("draggedOver");
+		elmDropTarget.classList.remove("draggedOver", "dropInside");
 		return false;
 	}
 
@@ -952,15 +968,16 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeed(elmLI, title, url, updateTitle) {
+	function createNewFeed(elmLI, title, url, updateTitle, inSubTree) {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
-			let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+			// if inSubTree is true then insert new item inside the provided folder item
+			inSubTree = inSubTree && elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
 			let newBookmark = {
-				index: (isFolder ? 0 : bookmarks[0].index),			// insert as first in folder
-				parentId: (isFolder ? bookmarks[0].id : bookmarks[0].parentId),
+				index: (inSubTree ? 0 : bookmarks[0].index),			// insert as first in folder
+				parentId: (inSubTree ? bookmarks[0].id : bookmarks[0].parentId),
 				title: title,
 				type: "bookmark",
 				url: url,
@@ -971,7 +988,7 @@ let rssTreeView = (function() {
 
 				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
 
-				if(isFolder) {
+				if(inSubTree) {
 					let elmFolderUL = elmLI.lastElementChild;
 					setSubTreeState(elmLI, true);		// open the sub tree if closed
 					elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
@@ -995,15 +1012,16 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFolder(elmLI, title) {
+	function createNewFolder(elmLI, title, inSubTree) {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
-			let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+			// if inSubTree is true then insert new folder inside the provided folder item
+			inSubTree = inSubTree && elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
 			let newFolder = {
-				index: (isFolder ? 0 : bookmarks[0].index),			// insert as first in folder
-				parentId: (isFolder ? bookmarks[0].id : bookmarks[0].parentId),
+				index: (inSubTree ? 0 : bookmarks[0].index),			// insert as first in folder
+				parentId: (inSubTree ? bookmarks[0].id : bookmarks[0].parentId),
 				title: title,
 				type: "folder",
 			};
@@ -1018,7 +1036,7 @@ let rssTreeView = (function() {
 
 				setSubTreeState(newElm, false);
 
-				if(isFolder) {
+				if(inSubTree) {
 					let elmFolderUL = elmLI.lastElementChild;
 					setSubTreeState(elmLI, true);
 					elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);

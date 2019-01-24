@@ -34,11 +34,11 @@
 	font-size: inherit;
 }
 
-.propContainer #chkFpUpdateTitle {
+.propContainer > input[type="checkbox"]:first-child {
 	margin: auto var(--panel-spacing) auto 0;
 }
 
-.propContainer #chkFpUpdateTitle:focus {
+.propContainer > input[type="checkbox"]:first-child:focus {
 	outline: 1px dotted gray;
 }
 

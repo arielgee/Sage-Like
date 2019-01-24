@@ -110,6 +110,11 @@
   * For now there is no simple way to create a new feed/folder above a selected folder. It will be created
     as the first item in the selected folder and the user can always moved it (via drag&drop).
 * slide down an info tip when feed folder is modified by another party
+* drag a feed into a folder
+  * default behavior for drag&drop and create new feed/folder is to insert new item above the selected one.
+  * for drag&drop the shift key while dragging over a folder enable the user to insert the dragged item into the folder (as first item). when
+    the shift key is pressed while dragging over a folder the drop marker highlights the entire folder element
+  * for new feed/folder the dialog provides a checkbox for 'Insert inside selected folder' when selected item is a folder
 ---
 
 #### Next
@@ -119,4 +124,14 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* drag a feed into a folder
+* replace all classList.add\remove pairs with classList.toggle( String [, force] )
+
+* convert suspendBookmarksEventHandler() to a single call function
+    function suspendBookmarksEventHandler(callback) {
+        m_flagSuspendBookmarksEventHandler = true;
+        try {
+            callback();
+        } finally {
+            m_flagSuspendBookmarksEventHandler = false;
+        }
+    }

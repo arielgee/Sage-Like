@@ -61,6 +61,8 @@ class PropertiesView {
 		this.m_elmTextTitle = document.getElementById("txtFpTitle");
 		this.m_elmTextLocation = document.getElementById("txtFpLocation");
 		this.m_elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
+		this.m_elmInsertInsideFolderContainer = document.getElementById("insertInsideFolderContainer");
+		this.m_elmChkInsertInsideFolder = document.getElementById("chkInsertInsideFolder");
 		this.m_elmButtonSave = document.getElementById("btnPropertiesSave");
 		this.m_elmButtonCancel = document.getElementById("btnPropertiesCancel");
 		this.m_elmLabelErrorMsgs = document.getElementById("lblErrorMsgs");
@@ -90,10 +92,16 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
+	_hideOptionInsertInsideFolder(hide) {
+		this.m_elmInsertInsideFolderContainer.style.display = (hide ? "none" : "");
+	}
+
+	///////////////////////////////////////////////////////////////
 	_initData() {
 		this.m_elmTextTitle.value = this.m_initialProperties.title;
 		this.m_elmTextLocation.value = this.m_initialProperties.location;
 		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
+		this.m_elmChkInsertInsideFolder.checked = false;
 		this.m_elmLabelErrorMsgs.textContent = "";
 
 		this.m_elmTextTitle.focus();
@@ -158,11 +166,21 @@ class EditFeedPropertiesView extends PropertiesView {
 	open(elmLI, updateTitleValue) {
 		super.open(elmLI);
 
-		this.m_initialProperties.title = elmLI.firstElementChild.textContent;
-		this.m_initialProperties.location = elmLI.getAttribute("href");
+		this._hideOptionInsertInsideFolder(true);
+
+		this.m_initialProperties.title = this.m_elmTreeItemLI.firstElementChild.textContent;
+		this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
 		this.m_initialProperties.updateTitle = updateTitleValue;
 
 		this._initData();
+	}
+
+	///////////////////////////////////////////////////////////////
+	close() {
+
+		// restore back to visible before close for other views
+		this._hideOptionInsertInsideFolder(false);
+		super.close();
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -212,11 +230,21 @@ class NewFeedPropertiesView extends PropertiesView {
 	open(elmLI, title, location) {
 		super.open(elmLI);
 
+		this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE));
+
 		this.m_initialProperties.title = title;
 		this.m_initialProperties.location = location;
 		this.m_initialProperties.updateTitle = true;
 
 		this._initData();
+	}
+
+	///////////////////////////////////////////////////////////////
+	close() {
+
+		// restore back to visible before close for other views
+		this._hideOptionInsertInsideFolder(false);
+		super.close();
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -240,7 +268,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			return;
 		}
 
-		rssTreeView.createNewFeed(this.m_elmTreeItemLI, valTitle, valLocation, valUpdateTitle);
+		rssTreeView.createNewFeed(this.m_elmTreeItemLI, valTitle, valLocation, valUpdateTitle, this.m_elmChkInsertInsideFolder.checked);
 		this.close();
 	}
 }
@@ -259,8 +287,9 @@ class EditFolderPropertiesView extends PropertiesView {
 		super.open(elmLI);
 
 		this._hideNoneTitleProperties(true);
+		this._hideOptionInsertInsideFolder(true);
 
-		this.m_initialProperties.title = elmLI.firstElementChild.textContent;
+		this.m_initialProperties.title = this.m_elmTreeItemLI.firstElementChild.textContent;
 
 		this._initData();
 	}
@@ -270,6 +299,7 @@ class EditFolderPropertiesView extends PropertiesView {
 
 		// restore back to visible before close for other views
 		this._hideNoneTitleProperties(false);
+		this._hideOptionInsertInsideFolder(false);
 		super.close();
 	}
 
@@ -309,6 +339,7 @@ class NewFolderPropertiesView extends PropertiesView {
 		super.open(elmLI);
 
 		this._hideNoneTitleProperties(true);
+		this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE));
 
 		this.m_initialProperties.title = title;
 
@@ -320,6 +351,7 @@ class NewFolderPropertiesView extends PropertiesView {
 
 		// restore back to visible before close for other views
 		this._hideNoneTitleProperties(false);
+		this._hideOptionInsertInsideFolder(false);
 		super.close();
 	}
 
@@ -334,7 +366,7 @@ class NewFolderPropertiesView extends PropertiesView {
 			return;
 		}
 
-		rssTreeView.createNewFolder(this.m_elmTreeItemLI, valTitle);
+		rssTreeView.createNewFolder(this.m_elmTreeItemLI, valTitle, this.m_elmChkInsertInsideFolder.checked);
 		this.close();
 	}
 }

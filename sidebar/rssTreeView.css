@@ -99,8 +99,14 @@
 	background-color: transparent;
 }
 
-.treeview li.draggedOver {
-	box-shadow: 0px -2px 0px 0px var(--bk-color-window-inverted);
+.treeview li.draggedOver > .rtvCaption {
+	box-shadow: 0 -2px 0 0 var(--bk-color-window-inverted);
+}
+
+.treeview li.rtvSubTree.draggedOver.dropInside > .rtvCaption {
+	box-shadow: none;
+	color: var(--bk-color-window);
+	background-color: var(--bk-color-window-inverted);
 }
 
 .treeview li.errormsg {
