@@ -77,7 +77,7 @@
 #listViewStatusbar:hover {
 	width: calc(100% - var(--rlv-scrollbar-width));
 	opacity: 1;
-	background-color: var(--bk-color-dialog);
+	background-color: var(--bk-color-info-window);
 }
 
 .imgListViewStatusbar {

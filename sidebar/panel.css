@@ -11,6 +11,7 @@
 	--bk-color-window-inverted: #000000;
 	--bk-color-dialog: #EEEEEE;
 	--bk-color-active: #F3C8BA;
+	--bk-color-info-window: #FFFEDF;
 	--color-text: #000000;
 }
 
@@ -151,7 +152,7 @@ html, body {
 	max-width: 92%;
 	z-index: 1;
 	padding: 3px 9px;
-	background-color: #fffedf;
+	background-color: var(--bk-color-info-window);
 	border: 2px solid crimson;
 	border-radius: 0 12px 12px 12px;
 	font-weight: normal;
