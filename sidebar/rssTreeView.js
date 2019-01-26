@@ -914,9 +914,9 @@ let rssTreeView = (function() {
 			Because bookmarks.create() is an asynchronous function the creation of multiple bookmarks
 			sequentially is performed to the same index (last index) and will appear in reverse order.
 
-			This function makes sure the all the create action are done in the order thay were delivered.
+			This function makes sure that all the create actions are done in the order thay were delivered.
 		*/
-
+/*
 		suspendBookmarksEventHandler(true);
 
 		let created, elmLI;
@@ -935,6 +935,29 @@ let rssTreeView = (function() {
 		elmLI.scrollIntoView();		// when loop terminates the elmLI is the last LI appended
 		blinkNewlyAddedFeeds();
 		suspendBookmarksEventHandler(false);
+*/
+
+		suspendBookmarksEventHandler_callback(() => {
+			return new Promise(async (resolve, reject) => {
+
+				let created, elmLI;
+				for(let bookmark of bookmarksList) {
+
+					created = await browser.bookmarks.create(bookmark);
+
+					elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
+					elmLI.classList.add("blinkNew");
+					m_elmTreeRoot.appendChild(elmLI);
+
+					m_objTreeFeedsData.setIfNotExist(created.id);
+					setFeedVisitedState(elmLI, false);
+				}
+
+				elmLI.scrollIntoView();		// when loop terminates the elmLI is the last LI appended
+				blinkNewlyAddedFeeds();
+				resolve();
+			})
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1119,7 +1142,7 @@ let rssTreeView = (function() {
 		let changes = {
 			title: newTitle,
 		};
-
+/*
 		suspendBookmarksEventHandler(true);
 		browser.bookmarks.update(elmLI.id, changes).then((updated) => {
 
@@ -1129,6 +1152,14 @@ let rssTreeView = (function() {
 		}).catch((error) => {
 			console.log("[Sage-Like]", error);
 		}).finally(() => suspendBookmarksEventHandler(false));
+*/
+
+		suspendBookmarksEventHandler_callback(() => {
+			return browser.bookmarks.update(elmLI.id, changes).then((updated) => {
+				elmLI.firstElementChild.textContent = updated.title;
+				setFeedTooltipState(elmLI);
+			})
+		});
 	}
 
 	//==================================================================================
@@ -1304,6 +1335,16 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function suspendBookmarksEventHandler(suspendOrResume) {
 		m_flagSuspendBookmarksEventHandler = suspendOrResume;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function suspendBookmarksEventHandler_callback(callbackPromise) {
+
+		m_flagSuspendBookmarksEventHandler = true;
+
+		callbackPromise().catch((error) => {
+			console.log("[sage-like]", error);
+		}).finally(() => m_flagSuspendBookmarksEventHandler = false);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
