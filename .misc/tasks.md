@@ -115,6 +115,7 @@
   * for drag&drop the shift key while dragging over a folder enable the user to insert the dragged item into the folder (as first item). when
     the shift key is pressed while dragging over a folder the drop marker highlights the entire folder element
   * for new feed/folder the dialog provides a checkbox for 'Insert inside selected folder' when selected item is a folder
+* convert suspendBookmarksEventHandler() to a single call function
 ---
 
 #### Next
@@ -126,12 +127,4 @@
 
 * replace all classList.add\remove pairs with classList.toggle( String [, force] )
 
-* convert suspendBookmarksEventHandler() to a single call function
-    function suspendBookmarksEventHandler(callback) {
-        m_flagSuspendBookmarksEventHandler = true;
-        try {
-            callback();
-        } finally {
-            m_flagSuspendBookmarksEventHandler = false;
-        }
-    }
+* redesign the descovery view

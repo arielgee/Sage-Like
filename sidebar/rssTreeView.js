@@ -58,7 +58,7 @@ let rssTreeView = (function() {
 	let m_lineHeight = 21;
 	let m_lastClickedFeedTime = 0;
 	let m_timeoutIdMonitorRSSTreeFeeds = null;
-	let m_flagSuspendBookmarksEventHandler = false;
+	let m_semSuspendBookmarksEventHandlerReqCounter = 0;
 
 	let m_objOpenSubTrees = new OpenSubTrees();
 	let m_objTreeFeedsData = new TreeFeedsData();
@@ -584,29 +584,29 @@ let rssTreeView = (function() {
 							index: (inSubTree ? 0 : newIndex),			// insert as first in folder
 						};
 
-						suspendBookmarksEventHandler(true);
-						browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
+						suspendBookmarksEventHandler(() => {
+							return browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
 
-							m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
+								m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
 
-							let elmDropped;
-							let dropHTML = event.dataTransfer.getData("text/html");
+								let elmDropped;
+								let dropHTML = event.dataTransfer.getData("text/html");
 
-							if(inSubTree) {
-								let elmDropTargetFolderUL = elmDropTarget.lastElementChild;
-								setSubTreeState(elmDropTarget, true);		// open the sub tree if closed
-								elmDropTargetFolderUL.insertAdjacentHTML("afterbegin", dropHTML);
-								elmDropped = elmDropTargetFolderUL.firstChild;
-							} else {
-								elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
-								elmDropped = elmDropTarget.previousElementSibling;
-							}
+								if(inSubTree) {
+									let elmDropTargetFolderUL = elmDropTarget.lastElementChild;
+									setSubTreeState(elmDropTarget, true);		// open the sub tree if closed
+									elmDropTargetFolderUL.insertAdjacentHTML("afterbegin", dropHTML);
+									elmDropped = elmDropTargetFolderUL.firstChild;
+								} else {
+									elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
+									elmDropped = elmDropTarget.previousElementSibling;
+								}
 
-							removeFeedLoadingStatus(elmDropped);
-							addSubTreeItemsEventListeners(elmDropped);
-							elmDropped.focus();
-
-						}).finally(() => suspendBookmarksEventHandler(false));
+								removeFeedLoadingStatus(elmDropped);
+								addSubTreeItemsEventListeners(elmDropped);
+								elmDropped.focus();
+							});
+						});
 					});
 				});
 			}
@@ -622,7 +622,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBookmarksEventHandler(id, objInfo) {
 
-		if(m_flagSuspendBookmarksEventHandler) {
+		if(m_semSuspendBookmarksEventHandlerReqCounter > 0) {
 			return;
 		}
 
@@ -916,28 +916,8 @@ let rssTreeView = (function() {
 
 			This function makes sure that all the create actions are done in the order thay were delivered.
 		*/
-/*
-		suspendBookmarksEventHandler(true);
 
-		let created, elmLI;
-		for(let bookmark of bookmarksList) {
-
-			created = await browser.bookmarks.create(bookmark);
-
-			elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
-			elmLI.classList.add("blinkNew");
-			m_elmTreeRoot.appendChild(elmLI);
-
-			m_objTreeFeedsData.setIfNotExist(created.id);
-			setFeedVisitedState(elmLI, false);
-		}
-
-		elmLI.scrollIntoView();		// when loop terminates the elmLI is the last LI appended
-		blinkNewlyAddedFeeds();
-		suspendBookmarksEventHandler(false);
-*/
-
-		suspendBookmarksEventHandler_callback(() => {
+		suspendBookmarksEventHandler(() => {
 			return new Promise(async (resolve, reject) => {
 
 				let created, elmLI;
@@ -956,7 +936,7 @@ let rssTreeView = (function() {
 				elmLI.scrollIntoView();		// when loop terminates the elmLI is the last LI appended
 				blinkNewlyAddedFeeds();
 				resolve();
-			})
+			});
 		});
 	}
 
@@ -1006,26 +986,24 @@ let rssTreeView = (function() {
 				url: url,
 			};
 
-			suspendBookmarksEventHandler(true);
-			browser.bookmarks.create(newBookmark).then((created) => {
+			suspendBookmarksEventHandler(() => {
+				return browser.bookmarks.create(newBookmark).then((created) => {
 
-				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
+					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
 
-				if(inSubTree) {
-					let elmFolderUL = elmLI.lastElementChild;
-					setSubTreeState(elmLI, true);		// open the sub tree if closed
-					elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
-				} else {
-					elmLI.parentElement.insertBefore(newElm, elmLI);
-				}
+					if(inSubTree) {
+						let elmFolderUL = elmLI.lastElementChild;
+						setSubTreeState(elmLI, true);		// open the sub tree if closed
+						elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
+					} else {
+						elmLI.parentElement.insertBefore(newElm, elmLI);
+					}
 
-				setFeedVisitedState(newElm, false);
-				m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle });
-				newElm.focus();
-
-			}).catch((error) => {
-				console.log("[Sage-Like]", error);
-			}).finally(() => suspendBookmarksEventHandler(false));
+					setFeedVisitedState(newElm, false);
+					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle });
+					newElm.focus();
+				});
+			});
 		});
 	}
 
@@ -1049,50 +1027,48 @@ let rssTreeView = (function() {
 				type: "folder",
 			};
 
-			suspendBookmarksEventHandler(true);
-			browser.bookmarks.create(newFolder).then((created) => {
+			suspendBookmarksEventHandler(() => {
+				return browser.bookmarks.create(newFolder).then((created) => {
 
-				let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
+					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
 
-				let elmUL = createTagUL();
-				newElm.appendChild(elmUL);
+					let elmUL = createTagUL();
+					newElm.appendChild(elmUL);
 
-				setSubTreeState(newElm, false);
+					setSubTreeState(newElm, false);
 
-				if(inSubTree) {
-					let elmFolderUL = elmLI.lastElementChild;
-					setSubTreeState(elmLI, true);
-					elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
-				} else {
-					elmLI.parentElement.insertBefore(newElm, elmLI);
-				}
+					if(inSubTree) {
+						let elmFolderUL = elmLI.lastElementChild;
+						setSubTreeState(elmLI, true);
+						elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
+					} else {
+						elmLI.parentElement.insertBefore(newElm, elmLI);
+					}
 
-				newElm.focus();
-
-			}).catch((error) => {
-				console.log("[Sage-Like]", error);
-			}).finally(() => suspendBookmarksEventHandler(false));
+					newElm.focus();
+				});
+			});
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function deleteFeed(elmLI) {
 
-		suspendBookmarksEventHandler(true);
-		browser.bookmarks.remove(elmLI.id).then(() => {
+		suspendBookmarksEventHandler(() => {
+			return browser.bookmarks.remove(elmLI.id).then(() => {
 
-			if(elmLI.nextElementSibling !== null) {
-				elmLI.nextElementSibling.focus();
-			} else if(elmLI.previousElementSibling !== null) {
-				elmLI.previousElementSibling.focus();
-			} else {
-				m_elmCurrentlySelected = null;
-			}
+				if(elmLI.nextElementSibling !== null) {
+					elmLI.nextElementSibling.focus();
+				} else if(elmLI.previousElementSibling !== null) {
+					elmLI.previousElementSibling.focus();
+				} else {
+					m_elmCurrentlySelected = null;
+				}
 
-			elmLI.parentElement.removeChild(elmLI);
-			m_objTreeFeedsData.remove(elmLI.id);
-
-		}).finally(() => suspendBookmarksEventHandler(false));
+				elmLI.parentElement.removeChild(elmLI);
+				m_objTreeFeedsData.remove(elmLI.id);
+			});
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1112,23 +1088,21 @@ let rssTreeView = (function() {
 			url: newUrl,
 		};
 
-		suspendBookmarksEventHandler(true);
-		browser.bookmarks.update(elmLI.id, changes).then((updated) => {
+		suspendBookmarksEventHandler(() => {
+			return browser.bookmarks.update(elmLI.id, changes).then((updated) => {
 
-			elmLI.firstElementChild.textContent = updated.title;
+				elmLI.firstElementChild.textContent = updated.title;
 
-			let urlChanged = (elmLI.getAttribute("href") !== updated.url);
+				let urlChanged = (elmLI.getAttribute("href") !== updated.url);
 
-			if(urlChanged) {
-				elmLI.setAttribute("href", updated.url);
-				setFeedVisitedState(elmLI, false);
-			}
-			setFeedTooltipState(elmLI);
-			m_objTreeFeedsData.set(updated.id, { updateTitle: newUpdateTitle });
-
-		}).catch((error) => {
-			console.log("[Sage-Like]", error);
-		}).finally(() => suspendBookmarksEventHandler(false));
+				if(urlChanged) {
+					elmLI.setAttribute("href", updated.url);
+					setFeedVisitedState(elmLI, false);
+				}
+				setFeedTooltipState(elmLI);
+				m_objTreeFeedsData.set(updated.id, { updateTitle: newUpdateTitle });
+			});
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1142,23 +1116,12 @@ let rssTreeView = (function() {
 		let changes = {
 			title: newTitle,
 		};
-/*
-		suspendBookmarksEventHandler(true);
-		browser.bookmarks.update(elmLI.id, changes).then((updated) => {
 
-			elmLI.firstElementChild.textContent = updated.title;
-			setFeedTooltipState(elmLI);
-
-		}).catch((error) => {
-			console.log("[Sage-Like]", error);
-		}).finally(() => suspendBookmarksEventHandler(false));
-*/
-
-		suspendBookmarksEventHandler_callback(() => {
+		suspendBookmarksEventHandler(() => {
 			return browser.bookmarks.update(elmLI.id, changes).then((updated) => {
 				elmLI.firstElementChild.textContent = updated.title;
 				setFeedTooltipState(elmLI);
-			})
+			});
 		});
 	}
 
@@ -1173,11 +1136,11 @@ let rssTreeView = (function() {
 		// don't change title to empty string
 		if(m_objTreeFeedsData.value(elmLI.id).updateTitle === true && title.length > 0) {
 
-			suspendBookmarksEventHandler(true);
-			browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
-				elmLI.firstElementChild.textContent = updatedNode.title;
-			}).finally(() => suspendBookmarksEventHandler(false));
-
+			suspendBookmarksEventHandler(() => {
+				return browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
+					elmLI.firstElementChild.textContent = updatedNode.title;
+				});
+			});
 		}
 	}
 
@@ -1333,18 +1296,13 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function suspendBookmarksEventHandler(suspendOrResume) {
-		m_flagSuspendBookmarksEventHandler = suspendOrResume;
-	}
+	function suspendBookmarksEventHandler(callbackPromise) {
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function suspendBookmarksEventHandler_callback(callbackPromise) {
-
-		m_flagSuspendBookmarksEventHandler = true;
+		m_semSuspendBookmarksEventHandlerReqCounter++;
 
 		callbackPromise().catch((error) => {
 			console.log("[sage-like]", error);
-		}).finally(() => m_flagSuspendBookmarksEventHandler = false);
+		}).finally(() => m_semSuspendBookmarksEventHandlerReqCounter--);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
