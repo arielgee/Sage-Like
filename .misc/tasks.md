@@ -117,6 +117,8 @@
   * for new feed/folder the dialog provides a checkbox for 'Insert inside selected folder' when selected item is a folder
 * convert suspendBookmarksEventHandler() to a single call function
 * replace all classList.add\remove pairs with classList.toggle( String [, force] )
+* dingbats folder in preferencefeeds folder. a BLACK DIAMOND was the best I could find
+* preference -> sidebar colors: write the captions in the color input. NO
 ---
 
 #### Next
@@ -126,15 +128,8 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-
-
 * redesign the descovery view
 
 * mark feed as un-visited
 
 * function appendTagIL(index, title, desc, url) {; not using desc in listView. use it in tooltip(title)?
-
-* preference -> sidebar colors: write thr captions in the color input
-
-* dingbats folder in preferencefeeds folder
-
