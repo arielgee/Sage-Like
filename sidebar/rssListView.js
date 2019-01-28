@@ -261,11 +261,7 @@ let rssListView = (function() {
 	function setItemRealVisitedState(elm, url) {
 
 		browser.history.getVisits({ url: url }).then((vItems) => {
-			if (vItems.length === 0) {
-				elm.classList.add("bold");
-			} else {
-				elm.classList.remove("bold");
-			}
+			elm.classList.toggle("bold", vItems.length === 0);
 		});
 	}
 
@@ -281,7 +277,7 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function markAllItemsAsVisitedState(visited) {
+	function markAllItemsAsVisitedState(isVisited) {
 
 		let funcAddToHistory = function (e) {
 			slUtil.addUrlToBrowserHistory(e.getAttribute("href"), e.textContent);
@@ -291,8 +287,7 @@ let rssListView = (function() {
 			slUtil.deleteUrlFromBrowserHistory(e.getAttribute("href"));
 		};
 
-		let funcHistory = visited ? funcAddToHistory : funcDelFromHistory;
-		let funcClassList = visited ? function(e) { e.classList.remove("bold"); } : function(e) { e.classList.add("bold"); };
+		let funcHistory = isVisited ? funcAddToHistory : funcDelFromHistory;
 
 		let elms = m_elmList.getElementsByTagName("li");
 
@@ -300,7 +295,7 @@ let rssListView = (function() {
 
 			for(let elm of elms) {
 				funcHistory(elm);
-				funcClassList(elm);
+				elm.classList.toggle("bold", !isVisited);
 			}
 		}
 	}

@@ -651,14 +651,14 @@ let slUtil = (function() {
 				elm.setAttribute("tabindex", "-1");
 			}
 			elm.setAttribute("disabled", "");
-			elm.classList.add("disabled");
 		} else {
 			if(elm.getAttribute("tabindex") === "-1") {
 				elm.setAttribute("tabindex", "0");
 			}
 			elm.removeAttribute("disabled");
-			elm.classList.remove("disabled");
 		}
+		//elm.toggleAttribute("disabled", value);		// Firefox v63
+		elm.classList.toggle("disabled", value);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

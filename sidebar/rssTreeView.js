@@ -1176,29 +1176,18 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedLoadingState(elm, loading) {
-
-		if (loading === true) {
-			elm.classList.add("loading");
-		} else {
-			elm.classList.remove("loading");
-		}
+	function setFeedLoadingState(elm, isLoading) {
+		elm.classList.toggle("loading", isLoading);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setOneConcurrentFeedLoadingState(elm, loading) {
+	function setOneConcurrentFeedLoadingState(elm, isLoading) {
 
-		if (loading === true) {
-
-			if (m_elmCurrentlyLoading !== null) {
-				m_elmCurrentlyLoading.classList.remove("loading");
-			}
-			elm.classList.add("loading");
-			m_elmCurrentlyLoading = elm;
-		} else {
-			elm.classList.remove("loading");
-			m_elmCurrentlyLoading = null;
+		if (isLoading && m_elmCurrentlyLoading !== null) {
+			m_elmCurrentlyLoading.classList.remove("loading");
 		}
+		elm.classList.toggle("loading", isLoading);
+		m_elmCurrentlyLoading = isLoading ? elm : null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1220,25 +1209,15 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedVisitedState(elm, visited) {
-
-		if(visited === true) {
-			elm.classList.remove("bold");
-		} else {
-			elm.classList.add("bold");
-		}
+	function setFeedVisitedState(elm, isVisited) {
+		elm.classList.toggle("bold", !isVisited);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedErrorState(elm, error, errorMsg) {
+	function setFeedErrorState(elm, isError, errorMsg) {
 
-		if(error === true) {
-			elm.classList.add("error");
-			setFeedTooltipState(elm, "Error: " + errorMsg);
-		} else {
-			elm.classList.remove("error");
-			setFeedTooltipState(elm);
-		}
+		elm.classList.toggle("error", isError);
+		setFeedTooltipState(elm, isError ? "Error: " + errorMsg : undefined);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1278,18 +1257,18 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setTbButtonCheckFeedsAlert(on) {
+	function setTbButtonCheckFeedsAlert(isAlertOn) {
 
 		if(m_elmCheckTreeFeeds.slSavedTitle === undefined) {
 			m_elmCheckTreeFeeds.slSavedTitle = m_elmCheckTreeFeeds.title;
 		}
 
-		if(on) {
-			m_elmCheckTreeFeeds.classList.add("alert");
+		m_elmCheckTreeFeeds.classList.toggle("alert", isAlertOn);
+
+		if(isAlertOn) {
 			m_elmCheckTreeFeeds.title = "The feed folder or it's content has been modified by another party.\u000dShift+click to reload.";
 			slUtil.showInfoBar(document, m_elmCheckTreeFeeds.title);
 		} else {
-			m_elmCheckTreeFeeds.classList.remove("alert");
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
 			slUtil.showInfoBar(document, "");
 		}
