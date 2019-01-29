@@ -1267,10 +1267,10 @@ let rssTreeView = (function() {
 
 		if(isAlertOn) {
 			m_elmCheckTreeFeeds.title = "The feed folder or it's content has been modified by another party.\u000dShift+click to reload.";
-			slUtil.showInfoBar(document, m_elmCheckTreeFeeds.title);
+			slUtil.showInfoBar(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds, m_elmCheckTreeFeeds.style.direction);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
-			slUtil.showInfoBar(document, "");
+			slUtil.showInfoBar("");
 		}
 	}
 

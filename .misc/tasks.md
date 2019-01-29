@@ -119,6 +119,7 @@
 * replace all classList.add\remove pairs with classList.toggle( String [, force] )
 * dingbats folder in preferencefeeds folder. a BLACK DIAMOND was the best I could find
 * preference -> sidebar colors: write the captions in the color input. NO
+* refine the infobar. + left-to-right support
 ---
 
 #### Next
@@ -133,3 +134,11 @@
 * mark feed as un-visited
 
 * function appendTagIL(index, title, desc, url) {; not using desc in listView. use it in tooltip(title)?
+
+* hide showInfoBar faster when user interact with UI ; on click
+
+* try to fix the issue where clicking to the left of a tree item icon selects it's parent
+
+* try to move the list's 'Open All in Tabs' to a better location in the menu
+
+* the left side of the infobar is outside of the panel when direction is rtl and the text is long and the LI item is deep in the sub folders

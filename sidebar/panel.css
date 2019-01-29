@@ -147,8 +147,6 @@ html, body {
 
 #infoBar {
 	position: absolute;
-	top: calc(var(--toolbar-height) * 0.75);
-	left: 20px;
 	max-width: 92%;
 	z-index: 1;
 	padding: 3px 9px;
@@ -156,6 +154,10 @@ html, body {
 	border: 2px solid crimson;
 	border-radius: 0 12px 12px 12px;
 	font-weight: normal;
+}
+
+#infoBar.rightToLeftBorder {
+	border-radius: 12px 0 12px 12px;
 }
 
 #infoBar.fadeIn {

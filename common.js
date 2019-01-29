@@ -985,18 +985,74 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showInfoBar(doc, infoText = "", showDuration = 3500) {
+	function showInfoBar(infoText = "", refElement = undefined, dirStyle = "", showDuration = 3500) {
 
-		let elmInfoBar = doc.getElementById("infoBar");
+		let elmInfoBar = document.getElementById("infoBar");
 
-		if(infoText === "") {
+		if(infoText === "" || !refElement) {
 			elmInfoBar.classList.replace("fadeIn", "fadeOut");
-		} else {
-
-			elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText;
-			elmInfoBar.classList.replace("fadeOut", "fadeIn");
-			setTimeout(() => elmInfoBar.classList.replace("fadeIn", "fadeOut"), showDuration);
+			return;
 		}
+
+		const POS_OFFSET = 12;
+		// real inner size accounting for the scrollbars width if they exist
+		const INNER_WIDTH = window.innerWidth - getVScrollWidth();
+		const INNER_HEIGHT = window.innerHeight - getHScrollWidth();
+
+		const RECT_REF_ELEMENT = getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
+
+		elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText;
+		elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl")
+		elmInfoBar.classList.replace("fadeOut", "fadeIn");
+
+		elmInfoBar.style.top = RECT_REF_ELEMENT.top + POS_OFFSET + "px";
+		elmInfoBar.style.left = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-elmInfoBar.offsetWidth-POS_OFFSET) : POS_OFFSET) + "px";
+
+		setTimeout(() => elmInfoBar.classList.replace("fadeIn", "fadeOut"), showDuration);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getElementViewportRect(elm, innerWidth, innerHeight) {
+
+		const RECT = elm.getBoundingClientRect();
+
+		let vpRect = { left: 0, top: 0, width: 0, height: 0 };
+
+		vpRect.left = parseInt(RECT.left < 0 ? 0 : Math.min(RECT.left, innerWidth));
+		vpRect.top = parseInt(RECT.top < 0 ? 0 : Math.min(RECT.top, innerHeight));
+
+		vpRect.width = parseInt(RECT.right <= 0 ? 0 : (RECT.left < 0 ? RECT.right : Math.min(RECT.width, Math.max(innerWidth - RECT.left, 0))));
+		vpRect.height = parseInt(RECT.bottom <= 0 ? 0 : (RECT.top < 0 ? RECT.bottom : Math.min(RECT.height, Math.max(innerHeight - RECT.top, 0))));
+
+		// private cases where the element (usualy html & body) is large as the innerSpace and its starting point is negative (scrolled)
+		if (RECT.left < 0 && (RECT.right + Math.abs(RECT.left) === innerWidth)) {
+			vpRect.width = innerWidth;
+		}
+		if (RECT.top < 0 && (RECT.bottom + Math.abs(RECT.top) === innerHeight)) {
+			vpRect.height = innerHeight;
+		}
+
+		return vpRect;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getHScrollWidth() {
+		return (document.body.scrollWidth > (window.innerWidth - getVScrollWidthHScrollIgnored()) ? getScrollbarWidth() : 0);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getVScrollWidth() {
+		return (document.body.scrollHeight > (window.innerHeight - getHScrollWidthVScrollIgnored()) ? getScrollbarWidth() : 0);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getHScrollWidthVScrollIgnored() {
+		return (document.body.scrollWidth > window.innerWidth ? getScrollbarWidth() : 0);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getVScrollWidthHScrollIgnored() {
+		return (document.body.scrollHeight > window.innerHeight ? getScrollbarWidth() : 0);
 	}
 
 	return {
