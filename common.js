@@ -662,9 +662,9 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function copyTextToClipboard(doc, text) {
-		let restoreFocus = doc.activeElement;
-		let input = doc.createElement("textarea");
+	function copyTextToClipboard(text) {
+		let restoreFocus = document.activeElement;
+		let input = document.createElement("textarea");
 		let style = input.style;
 		style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
 		input.value = text;
@@ -693,15 +693,15 @@ let slUtil = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getScrollbarWidth(doc) {
+	function getScrollbarWidth() {
 
 		if(m_savedScrollbarWidth === -1) {
 
-			let inner = doc.createElement("p");
+			let inner = document.createElement("p");
 			inner.style.width = "100%";
 			inner.style.height = "200px";
 
-			let outer = doc.createElement("div");
+			let outer = document.createElement("div");
 			outer.style.position = "absolute";
 			outer.style.top = "0px";
 			outer.style.left = "0px";
@@ -711,13 +711,13 @@ let slUtil = (function() {
 			outer.style.overflow = "hidden";
 			outer.appendChild(inner);
 
-			doc.body.appendChild(outer);
+			document.body.appendChild(outer);
 			let w1 = inner.offsetWidth;
 			outer.style.overflow = "scroll";
 			let w2 = inner.offsetWidth;
 			if (w1 == w2) w2 = outer.clientWidth;
 
-			doc.body.removeChild(outer);
+			document.body.removeChild(outer);
 
 			m_savedScrollbarWidth = (w1 - w2);
 		}

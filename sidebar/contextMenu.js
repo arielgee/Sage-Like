@@ -323,7 +323,7 @@
 
 			case ContextAction.treeCopyUrl:
 			case ContextAction.listCopyUrl:
-				slUtil.copyTextToClipboard(document, actionData.url);
+				slUtil.copyTextToClipboard(actionData.url);
 				break;
 				///////////////////////////////////////////
 

@@ -55,7 +55,7 @@ let rssListView = (function() {
 
 		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
 		if(slUtil.hasHScroll(m_elmList)) {
-			m_elmList.style.height = (m_elmList.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
+			m_elmList.style.height = (m_elmList.clientHeight - slUtil.getScrollbarWidth()) + "px";
 		}
 		setStatusbarIcon(true);
 	}
@@ -393,7 +393,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setStatusbarIcon(isVisible) {
 
-		let sbWidth = (slUtil.hasVScroll(m_elmList) ? slUtil.getScrollbarWidth(document) : 0) + "px";
+		let sbWidth = (slUtil.hasVScroll(m_elmList) ? slUtil.getScrollbarWidth() : 0) + "px";
 
 		document.documentElement.style.setProperty("--rlv-scrollbar-width", sbWidth);
 		m_elmListViewStatusbar.classList.toggle("visible", isVisible);

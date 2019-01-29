@@ -172,7 +172,7 @@ let rssTreeView = (function() {
 
 				// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
 				if (slUtil.hasHScroll(m_elmTreeRoot)) {
-					m_elmTreeRoot.style.height = (m_elmTreeRoot.clientHeight - slUtil.getScrollbarWidth(document)) + "px";
+					m_elmTreeRoot.style.height = (m_elmTreeRoot.clientHeight - slUtil.getScrollbarWidth()) + "px";
 				}
 				m_rssTreeCreatedOK = true;
 				monitorRSSTreeFeeds();
