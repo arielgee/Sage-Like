@@ -124,6 +124,7 @@
 * the left side of the infobar is outside of the panel when direction is rtl and the text is long and the LI item is deep in the sub folders
 * try to move the list's 'Open All in Tabs' to a better location in the menu
 * hide showInfoBar faster when user interact with UI ; on click
+* try to fix the issue where clicking to the left of a tree item icon selects it's parent -> NO. BY DESIGH
 ---
 
 #### Next
@@ -135,5 +136,3 @@
 
 * redesign the descovery view
 * function appendTagIL(index, title, desc, url) {; not using desc in listView. use it in tooltip(title)?
-* try to fix the issue where clicking to the left of a tree item icon selects it's parent
-

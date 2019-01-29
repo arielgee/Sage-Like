@@ -1348,7 +1348,7 @@ let rssTreeView = (function() {
 	function eventOccureInItemLineHeight(evt, elm) {
 
 		// This function checks if the event has occured in the top part of the element
-		return ((evt.clientY - elm.getBoundingClientRect().top) <= m_lineHeight)
+		return ((evt.clientY - elm.getBoundingClientRect().top) <= m_lineHeight);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
