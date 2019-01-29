@@ -120,6 +120,7 @@
 * dingbats folder in preferencefeeds folder. a BLACK DIAMOND was the best I could find
 * preference -> sidebar colors: write the captions in the color input. NO
 * refine the infobar. + left-to-right support
+* mark feed as un-visited
 ---
 
 #### Next
@@ -129,16 +130,10 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* redesign the descovery view
-
-* mark feed as un-visited
-
-* function appendTagIL(index, title, desc, url) {; not using desc in listView. use it in tooltip(title)?
-
-* hide showInfoBar faster when user interact with UI ; on click
-
-* try to fix the issue where clicking to the left of a tree item icon selects it's parent
-
-* try to move the list's 'Open All in Tabs' to a better location in the menu
 
 * the left side of the infobar is outside of the panel when direction is rtl and the text is long and the LI item is deep in the sub folders
+* redesign the descovery view
+* function appendTagIL(index, title, desc, url) {; not using desc in listView. use it in tooltip(title)?
+* hide showInfoBar faster when user interact with UI ; on click
+* try to fix the issue where clicking to the left of a tree item icon selects it's parent
+* try to move the list's 'Open All in Tabs' to a better location in the menu

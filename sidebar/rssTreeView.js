@@ -1072,6 +1072,24 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function toggleFeedVisitedState(elmLI) {
+
+		if(elmLI.classList.contains("error")) {
+			slUtil.showInfoBar("Feed is erroneous", elmLI, m_elmTreeRoot.style.direction);
+			return;
+		}
+
+		if(elmLI.classList.toggle("bold")) {
+			// turned to not visited
+			m_objTreeFeedsData.value(elmLI.id).lastVisited = 0;
+		} else {
+			// turned to visited
+			m_objTreeFeedsData.value(elmLI.id).lastVisited = slUtil.getCurrentLocaleDate().getTime();
+		}
+		m_objTreeFeedsData.setStorage();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function openEditFeedProperties(elmLI) {
 
 		let id = elmLI.id;
@@ -1350,6 +1368,7 @@ let rssTreeView = (function() {
 		openNewFolderProperties: openNewFolderProperties,
 		createNewFolder: createNewFolder,
 		deleteFeed: deleteFeed,
+		toggleFeedVisitedState: toggleFeedVisitedState,
 		openEditFeedProperties: openEditFeedProperties,
 		updateFeedProperties: updateFeedProperties,
 		openEditFolderProperties: openEditFolderProperties,

@@ -7,23 +7,24 @@
 		treeOpenNewTab:			2,
 		treeOpenNewWin:			3,
 		treeOpenNewPrivateWin:	4,
-		treeNewFeed:			5,
-		treeNewFolder:			6,
-		treeCopyUrl:			7,
-		treeDeleteFeed:			8,
-		treeProperties:			9,
-		treeSwitchDirection:	10,
+		treeToggleReadUnread:	5,
+		treeNewFeed:			6,
+		treeNewFolder:			7,
+		treeCopyUrl:			8,
+		treeDeleteFeed:			9,
+		treeProperties:			10,
+		treeSwitchDirection:	11,
 
-		listOpen:				11,
-		listOpenNewTab:			12,
-		listOpenNewWin:			13,
-		listOpenNewPrivateWin:	14,
-		listCopyUrl:			15,
-		listToggleReadUnread:	16,
-		listOpenAllInTabs:		17,
-		listMarkAllRead:		18,
-		listMarkAllUnread:		19,
-		listSwitchDirection:	20,
+		listOpen:				12,
+		listOpenNewTab:			13,
+		listOpenNewWin:			14,
+		listOpenNewPrivateWin:	15,
+		listCopyUrl:			16,
+		listToggleReadUnread:	17,
+		listOpenAllInTabs:		18,
+		listMarkAllRead:		19,
+		listMarkAllUnread:		20,
+		listSwitchDirection:	21,
 	});
 
 	//==================================================================================
@@ -175,6 +176,7 @@
 				case "t":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
 				case "w":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 				case "v":	handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
+				case "g":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
 				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
@@ -219,6 +221,7 @@
 			case "mnuTreeOpenFeedNewTab":				handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
 			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 			case "mnuTreeOpenFeedNewPrivateWin":		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
+			case "mnuTreeToggleFeedReadUnread":			handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
 			case "mnuTreeNewFeed":						handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 			case "mnuTreeNewFolder":					handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
@@ -308,6 +311,11 @@
 			case ContextAction.treeOpenNewPrivateWin:
 			case ContextAction.listOpenNewPrivateWin:
 				browser.windows.create({ url: actionData.url, type: "normal", incognito: true });
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeToggleReadUnread:
+				rssTreeView.toggleFeedVisitedState(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
