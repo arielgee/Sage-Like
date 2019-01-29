@@ -1,7 +1,7 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-  --lizard-preference-height: 40px;
+  --sage-like-preference-height: 40px;
 }
 
 body {
@@ -27,9 +27,9 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 9px 3px;
-  height: var(--lizard-preference-height);
-  min-height: var(--lizard-preference-height);
-  max-height: var(--lizard-preference-height);
+  height: var(--sage-like-preference-height);
+  min-height: var(--sage-like-preference-height);
+  max-height: var(--sage-like-preference-height);
 }
 
 .preference.subPref {
