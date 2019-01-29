@@ -7,6 +7,7 @@
 	//==================================================================================
 
 	let m_elmBody;
+	let m_elmInfoBar;
 	let m_elmTop;
 	let m_elmSplitter;
 	let m_elmBottom;
@@ -45,6 +46,7 @@
 	function onDOMContentLoaded() {
 
 		m_elmBody = document.body;
+		m_elmInfoBar = document.getElementById("infoBar");
 		m_elmTop = document.getElementById("top");
 		m_elmSplitter = document.getElementById("splitter");
 		m_elmBottom = document.getElementById("bottom");
@@ -56,6 +58,8 @@
 		m_elmTree = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
 		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
 
+		m_elmInfoBar.addEventListener("click", onBlurInfoBar);
+		m_elmInfoBar.addEventListener("blur", onBlurInfoBar);
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.addEventListener("resize", () => setPanelLayout(), false);
@@ -74,6 +78,8 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
+		m_elmInfoBar.removeEventListener("click", onBlurInfoBar);
+		m_elmInfoBar.removeEventListener("blur", onBlurInfoBar);
 		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.removeEventListener("resize", () => setPanelLayout(), false);
@@ -152,6 +158,11 @@
 
 		// set listview's CSS variable accordingly depending if has VScroll
 		document.documentElement.style.setProperty("--rlv-scrollbar-width", (slUtil.hasVScroll(m_elmList) ? sbWidth : 0) + "px");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBlurInfoBar(event) {
+		slUtil.showInfoBar("");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

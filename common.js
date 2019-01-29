@@ -569,6 +569,7 @@ let slUtil = (function() {
 
 	let m_savedScrollbarWidth = -1;
 	let m_mozExtensionOrigin = "";
+	let m_elmInfoBar = null;
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function(args) {
@@ -987,28 +988,46 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function showInfoBar(infoText = "", refElement = undefined, dirStyle = "", showDuration = 3500) {
 
-		let elmInfoBar = document.getElementById("infoBar");
+		if(!m_elmInfoBar) {
+			m_elmInfoBar = document.getElementById("infoBar");
+		}
+
+		const CALL_TIMESTAMP = Date.now();
 
 		if(infoText === "" || !refElement) {
-			elmInfoBar.classList.replace("fadeIn", "fadeOut");
+			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+			m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
 			return;
 		}
 
-		const POS_OFFSET = 12;
 		// real inner size accounting for the scrollbars width if they exist
 		const INNER_WIDTH = window.innerWidth - getVScrollWidth();
 		const INNER_HEIGHT = window.innerHeight - getHScrollWidth();
 
 		const RECT_REF_ELEMENT = getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
 
-		elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText;
-		elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl")
-		elmInfoBar.classList.replace("fadeOut", "fadeIn");
+		m_elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText;
+		m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl")
+		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
 
-		elmInfoBar.style.top = RECT_REF_ELEMENT.top + POS_OFFSET + "px";
-		elmInfoBar.style.left = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-elmInfoBar.offsetWidth-POS_OFFSET) : POS_OFFSET) + "px";
+		const POS_OFFSET = 12;
 
-		setTimeout(() => elmInfoBar.classList.replace("fadeIn", "fadeOut"), showDuration);
+		let nTop = RECT_REF_ELEMENT.top + POS_OFFSET;
+		let nLeft = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-m_elmInfoBar.offsetWidth-POS_OFFSET) : POS_OFFSET);
+
+		if (nLeft < 0) nLeft = 0;
+
+		m_elmInfoBar.style.top = nTop + "px";
+		m_elmInfoBar.style.left = nLeft + "px";
+		m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
+
+		setTimeout(() => {
+			if(m_elmInfoBar.slCallTimeStamp === CALL_TIMESTAMP) {		// fade out only if its for the last function call
+				m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+			}
+		}, showDuration);
+
+		m_elmInfoBar.focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
