@@ -333,10 +333,10 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
-		if(m_elmList.style.direction === "rtl") {
-			m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "ltr";
+		if(m_elmList.parentElement.style.direction === "rtl") {
+			m_elmList.parentElement.style.direction = m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "ltr";
 		} else {
-			m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "rtl";
+			m_elmList.parentElement.style.direction = m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "rtl";
 		}
 	}
 

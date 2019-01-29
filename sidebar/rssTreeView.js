@@ -1305,10 +1305,10 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
-		if(m_elmTreeRoot.style.direction === "rtl") {
-			m_elmTreeRoot.style.direction = "ltr";
+		if(m_elmTreeRoot.parentElement.style.direction === "rtl") {
+			m_elmTreeRoot.parentElement.style.direction = m_elmTreeRoot.style.direction = "ltr";
 		} else {
-			m_elmTreeRoot.style.direction = "rtl";
+			m_elmTreeRoot.parentElement.style.direction = m_elmTreeRoot.style.direction = "rtl";
 		}
 	}
 

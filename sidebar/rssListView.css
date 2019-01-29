@@ -70,6 +70,11 @@
 	transition: width 0.5s ease-in 0s, opacity 0.2s ease-in 0s, background-color 0.5s ease-in 0s;
 }
 
+#listViewStatusbar[style*="direction: rtl;"] {
+	right: unset;
+	left: var(--rlv-scrollbar-width);
+}
+
 #listViewStatusbar.visible {
 	display: block;
 }
