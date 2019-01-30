@@ -48,6 +48,38 @@
 	padding-right: 20px;
 }
 
+#feedItemDescPanel {
+	display: none;
+	max-width: 320px;
+	max-height: 216px;
+	box-sizing: border-box;
+	position: absolute;
+	z-index: 1;
+	padding: 6px 9px;
+	color: black;
+	background-color: var(--bk-color-info-window);
+	border: 1px solid black;
+	font-family: Tahoma, Sans;
+	font-weight: normal;
+	font-size: 11px;
+	line-height: var(--line-height);
+	overflow: hidden;
+}
+
+#feedItemDescPanel .descTitle {
+	margin-bottom: 12px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#feedItemDescPanel .descBody {
+	display: block;
+	max-width: 300px;
+	max-height: calc(var(--line-height) * 9);
+	margin-inline-start: 12px;
+	overflow: hidden;
+}
+
 #listViewStatusbar {
 	display: none;
 	position: fixed;
