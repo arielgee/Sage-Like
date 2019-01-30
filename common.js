@@ -628,6 +628,30 @@ let slUtil = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function escapeHtml(html) {
+		let mapHtmlChars = {
+			"&":  "&amp;",
+			"<":  "&lt;",
+			">":  "&gt;",
+			"\"": "&quot;",
+			"'":  "&#039;",
+		};
+		return html.replace(/[&<>"']/g, (c) => { return mapHtmlChars[c]; });
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function unescapeHtml(str) {
+		let mapHtmlChars = {
+			"&amp;":  "&",
+			"&lt;":   "<",
+			"&gt;":   ">",
+			"&quot;": "\"",
+			"&#039;": "'",
+		};
+		return str.replace(/&(amp|lt|gt|quot|#039);/g, (esc) => { return mapHtmlChars[esc]; });
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function random1to100() {
 		return Math.floor(Math.random() * (100 - 1) + 1).toString();
 	}
@@ -1076,6 +1100,8 @@ let slUtil = (function() {
 
 	return {
 		escapeRegExp: escapeRegExp,
+		escapeHtml: escapeHtml,
+		unescapeHtml: unescapeHtml,
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
 		copyTextToClipboard: copyTextToClipboard,
