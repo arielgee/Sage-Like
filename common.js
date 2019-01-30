@@ -152,6 +152,7 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_ROOT_FOLDER = "msgDetails_prefChange_rootFolder";
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL = "msgDetails_prefChange_checkFeedsInterval";
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD = "msgDetails_prefChange_checkFeedsMethod";
+	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC = "msgDetails_prefChange_showFeedItemDesc";
 	const MSGD_PREF_CHANGE_UI_DENSITY = "msgDetails_prefChange_UIDensity";
 	const MSGD_PREF_CHANGE_COLORS = "msgDetails_prefChange_colors";
 	const MSGD_PREF_CHANGE_IMAGES = "msgDetails_prefChange_images";
@@ -201,6 +202,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_ROOT_FOLDER: MSGD_PREF_CHANGE_ROOT_FOLDER,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL: MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD: MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD,
+		MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC: MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC,
 		MSGD_PREF_CHANGE_UI_DENSITY: MSGD_PREF_CHANGE_UI_DENSITY,
 		MSGD_PREF_CHANGE_COLORS: MSGD_PREF_CHANGE_COLORS,
 		MSGD_PREF_CHANGE_IMAGES: MSGD_PREF_CHANGE_IMAGES,
@@ -291,6 +293,7 @@ let prefs = (function() {
 	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
+	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
 	const DEF_PREF_UI_DENSITY_VALUE = "19;18";
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#FFFFFF";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#EEEEEE";
@@ -302,6 +305,7 @@ let prefs = (function() {
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
+	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
 	const PREF_UI_DENSITY = "pref_UIDensity";
 	const PREF_COLOR_BACKGROUND_VALUE = "pref_colorBk";
 	const PREF_COLOR_DIALOG_BACKGROUND_VALUE = "pref_colorDlgBk";
@@ -382,6 +386,25 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_FETCH_TIMEOUT] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getShowFeedItemDesc() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_SHOW_FEED_ITEM_DESC).then((result) => {
+				resolve(result[PREF_SHOW_FEED_ITEM_DESC] === undefined ? DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE : result[PREF_SHOW_FEED_ITEM_DESC]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setShowFeedItemDesc(value) {
+
+		let obj = {};
+		obj[PREF_SHOW_FEED_ITEM_DESC] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -505,6 +528,7 @@ let prefs = (function() {
 		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
+		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
 		this.setUIDensity(DEF_PREF_UI_DENSITY_VALUE);
 		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
 		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
@@ -517,6 +541,7 @@ let prefs = (function() {
 			checkFeedsInterval: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
+			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 			UIDensity: DEF_PREF_UI_DENSITY_VALUE,
 			colorBackground: DEF_PREF_COLOR_BACKGROUND_VALUE,
 			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
@@ -531,6 +556,7 @@ let prefs = (function() {
 		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
+		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 		DEF_PREF_UI_DENSITY_VALUE: DEF_PREF_UI_DENSITY_VALUE,
 		DEF_PREF_COLOR_BACKGROUND_VALUE: DEF_PREF_COLOR_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
@@ -546,6 +572,8 @@ let prefs = (function() {
 		setCheckFeedsMethod: setCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,
 		setFetchTimeout: setFetchTimeout,
+		getShowFeedItemDesc: getShowFeedItemDesc,
+		setShowFeedItemDesc: setShowFeedItemDesc,
 		getUIDensity: getUIDensity,
 		setUIDensity: setUIDensity,
 		getColorBackground: getColorBackground,

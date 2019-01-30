@@ -126,6 +126,9 @@
 * hide showInfoBar faster when user interact with UI ; on click
 * try to fix the issue where clicking to the left of a tree item icon selects it's parent -> NO. BY DESIGH
 * function appendTagIL(index, title, desc, url) {; not using desc in listView. use it in tooltip(title)?
+* add small delay before showing the feed item description panel
+* add checkbox preference if to show list's item description panel
+  * Show Feed Item Description Tooltips, if available
 ---
 
 #### Next
@@ -134,11 +137,6 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 * mention in the description (readme) that only my Sage preference were implemented
-
-
-* add small delay before showing the feed item description panel
-* add checkbox preference if to show list's item description panel
-  * Show Feed Item Description Tooltips, if available
 
 * add 'mark all as read' 'mark all as unread' to the context menu for the tree view.
 * redesign the descovery view

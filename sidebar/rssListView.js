@@ -14,8 +14,23 @@ let rssListView = (function() {
 
 	let m_elmCurrentlySelected = null;
 
+	let m_bShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
+	let m_timeoutMouseOver = null;
+
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
+
+	/**************************************************/
+	browser.runtime.onMessage.addListener((message) => {
+
+		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
+
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC) {
+				setShowFeedItemDescFromPreferences();
+			}
+		}
+	});
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
@@ -28,6 +43,8 @@ let rssListView = (function() {
 
 		m_elmList.addEventListener("mousedown", onMouseDownFeedList);
 		m_elmList.addEventListener("keydown", onKeyDownFeedList);
+
+		setShowFeedItemDescFromPreferences();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +57,14 @@ let rssListView = (function() {
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setShowFeedItemDescFromPreferences() {
+		prefs.getShowFeedItemDesc().then(showDesc => {
+			disposeList();
+			m_bShowFeedItemDesc = showDesc;
+		});
 	}
 
 	//==================================================================================
@@ -73,10 +98,10 @@ let rssListView = (function() {
 		setItemRealVisitedState(elm, url);
 
 		elm.textContent = index.toString() + ". " + title;
-		elm.title = (desc.length > 0 ? "" : title);
+		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.setAttribute("tabindex", "0");
-		elm.setAttribute("data-item-desc", slUtil.escapeHtml(desc));
+		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? slUtil.escapeHtml(desc) : "");
 
 		addListItemEventListeners(elm);
 
@@ -93,8 +118,11 @@ let rssListView = (function() {
 		elm.addEventListener("click", onClickFeedItem);
 		elm.addEventListener("auxclick", onClickFeedItem);
 		elm.addEventListener("mousedown", onClickFeedItem_preventDefault);
-		elm.addEventListener("mouseover", onMouseOverFeedItem);
-		elm.addEventListener("mouseout", onMouseOutFeedItem);
+
+		if(m_bShowFeedItemDesc) {
+			elm.addEventListener("mouseover", onMouseOverFeedItem);
+			elm.addEventListener("mouseout", onMouseOutFeedItem);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -103,8 +131,11 @@ let rssListView = (function() {
 		elm.removeEventListener("click", onClickFeedItem);
 		elm.removeEventListener("auxclick", onClickFeedItem);
 		elm.removeEventListener("mousedown", onClickFeedItem_preventDefault);
-		elm.removeEventListener("mouseover", onMouseOverFeedItem);
-		elm.removeEventListener("mouseout", onMouseOutFeedItem);
+
+		if(m_bShowFeedItemDesc) {
+			elm.removeEventListener("mouseover", onMouseOverFeedItem);
+			elm.removeEventListener("mouseout", onMouseOutFeedItem);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -175,32 +206,41 @@ let rssListView = (function() {
 		// if there is a title then do not display item description
 		if(elmLI.title.length > 0) return;
 
-		m_elmFeedItemDescPanel.querySelectorAll(".descTitle")[0].textContent = elmLI.textContent.replace(/^\d+\. /, "");
-		m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = slUtil.unescapeHtml(elmLI.getAttribute("data-item-desc"));
+		clearTimeout(m_timeoutMouseOver);
+		m_timeoutMouseOver = setTimeout(() => {
 
-		const POS_OFFSET = 4;
-		let x = event.clientX + POS_OFFSET;
-		let y = event.clientY + POS_OFFSET;
+			m_elmFeedItemDescPanel.querySelectorAll(".descTitle")[0].textContent = elmLI.textContent.replace(/^\d+\. /, "");
+			m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = slUtil.unescapeHtml(elmLI.getAttribute("data-item-desc"));
 
-		// do it first so element will have dimentions (offsetWidth > 0)
-		m_elmFeedItemDescPanel.style.display = "block";
+			const POS_OFFSET = 8;
+			let x = event.clientX + POS_OFFSET;
+			let y = event.clientY + POS_OFFSET;
 
-		if ((x + m_elmFeedItemDescPanel.offsetWidth) > m_elmSidebarBody.offsetWidth) {
-			x = m_elmSidebarBody.offsetWidth - m_elmFeedItemDescPanel.offsetWidth-1;
-		}
+			// do it first so element will have dimentions (offsetWidth > 0)
+			m_elmFeedItemDescPanel.style.display = "block";
 
-		if ((y + m_elmFeedItemDescPanel.offsetHeight) > m_elmSidebarBody.offsetHeight) {
-			y = event.clientY - m_elmFeedItemDescPanel.offsetHeight - POS_OFFSET;
-		}
+			if ((x + m_elmFeedItemDescPanel.offsetWidth) > m_elmSidebarBody.offsetWidth) {
+				x = m_elmSidebarBody.offsetWidth - m_elmFeedItemDescPanel.offsetWidth-1;
+			}
 
-		m_elmFeedItemDescPanel.style.direction = m_elmList.style.direction;
+			if ((y + m_elmFeedItemDescPanel.offsetHeight) >= m_elmSidebarBody.offsetHeight) {
+				y = event.clientY - m_elmFeedItemDescPanel.offsetHeight - POS_OFFSET;
+			}
 
-		m_elmFeedItemDescPanel.style.left = x + "px";
-		m_elmFeedItemDescPanel.style.top = y + "px";
+			m_elmFeedItemDescPanel.style.direction = m_elmList.style.direction;
+
+			m_elmFeedItemDescPanel.style.left = x + "px";
+			m_elmFeedItemDescPanel.style.top = y + "px";
+
+		}, 500);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseOutFeedItem(event) {
+
+		clearTimeout(m_timeoutMouseOver);
+		m_timeoutMouseOver = null;
+
 		m_elmFeedItemDescPanel.style.display = "none";
 	}
 
