@@ -8,23 +8,25 @@
 		treeOpenNewWin:			3,
 		treeOpenNewPrivateWin:	4,
 		treeToggleReadUnread:	5,
-		treeNewFeed:			6,
-		treeNewFolder:			7,
-		treeCopyUrl:			8,
-		treeDeleteFeed:			9,
-		treeProperties:			10,
-		treeSwitchDirection:	11,
+		treeMarkAllRead:		6,
+		treeMarkAllUnread:		7,
+		treeNewFeed:			8,
+		treeNewFolder:			9,
+		treeCopyUrl:			10,
+		treeDeleteFeed:			11,
+		treeProperties:			12,
+		treeSwitchDirection:	13,
 
-		listOpen:				12,
-		listOpenNewTab:			13,
-		listOpenNewWin:			14,
-		listOpenNewPrivateWin:	15,
-		listCopyUrl:			16,
-		listToggleReadUnread:	17,
+		listOpen:				14,
+		listOpenNewTab:			15,
+		listOpenNewWin:			16,
+		listOpenNewPrivateWin:	17,
 		listOpenAllInTabs:		18,
-		listMarkAllRead:		19,
-		listMarkAllUnread:		20,
-		listSwitchDirection:	21,
+		listToggleReadUnread:	19,
+		listMarkAllRead:		20,
+		listMarkAllUnread:		21,
+		listCopyUrl:			22,
+		listSwitchDirection:	23,
 	});
 
 	//==================================================================================
@@ -167,6 +169,8 @@
 			switch (keyLowCase) {
 				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
+				case "r":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "u":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
 				case "p":	handleTreeMenuActions(ContextAction.treeProperties);		break;
 				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
@@ -177,6 +181,8 @@
 				case "w":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 				case "v":	handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
 				case "g":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
+				case "r":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "u":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
 				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
@@ -190,15 +196,17 @@
 				case "t":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
 				case "w":	handleListMenuActions(ContextAction.listOpenNewWin);		break;
 				case "v":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
-				case "c":	handleListMenuActions(ContextAction.listCopyUrl);			break;
-				case "g":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
 				case "a":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
+				case "g":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
 				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
+				case "c":	handleListMenuActions(ContextAction.listCopyUrl);			break;
 				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "treecontext") {
 			switch (keyLowCase) {
+				case "r":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "u":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
 				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listcontext") {
@@ -222,6 +230,8 @@
 			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 			case "mnuTreeOpenFeedNewPrivateWin":		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
 			case "mnuTreeToggleFeedReadUnread":			handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
+			case "mnuTreeMarkAllFeedsRead":				handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
+			case "mnuTreeMarkAllFeedsUnread":			handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
 			case "mnuTreeNewFeed":						handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 			case "mnuTreeNewFolder":					handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
@@ -233,11 +243,11 @@
 			case "mnuListOpenFeedItemNewTab":			handleListMenuActions(ContextAction.listOpenNewTab);		break;
 			case "mnuListOpenFeedItemNewWin":			handleListMenuActions(ContextAction.listOpenNewWin);		break;
 			case "mnuListOpenFeedItemNewPrivateWin":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
-			case "mnuListCopyFeedItemUrl":				handleListMenuActions(ContextAction.listCopyUrl);			break;
-			case "mnuListToggleFeedItemReadUnread":		handleListMenuActions(ContextAction.listToggleReadUnread);	break;
 			case "mnuListOpenAllFeedItemsTabs":			handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
+			case "mnuListToggleFeedItemReadUnread":		handleListMenuActions(ContextAction.listToggleReadUnread);	break;
 			case "mnuListMarkAllFeedItemsRead":			handleListMenuActions(ContextAction.listMarkAllRead);		break;
 			case "mnuListMarkAllFeedItemsUnread":		handleListMenuActions(ContextAction.listMarkAllUnread);		break;
+			case "mnuListCopyFeedItemUrl":				handleListMenuActions(ContextAction.listCopyUrl);			break;
 			case "mnuListSwitchDirection":				handleListMenuActions(ContextAction.listSwitchDirection);	break;
 		}
 	}
@@ -249,7 +259,13 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
-		if([ContextAction.treeNewFeed, ContextAction.treeNewFolder, ContextAction.treeProperties].indexOf(menuAction) > -1 ) {
+		let openPanelActions = [
+			ContextAction.treeNewFeed,
+			ContextAction.treeNewFolder,
+			ContextAction.treeProperties,
+		];
+
+		if(openPanelActions.indexOf(menuAction) > -1 ) {
 			m_bActivePanelOpened = true;
 		}
 
@@ -319,6 +335,16 @@
 				break;
 				///////////////////////////////////////////
 
+			case ContextAction.treeMarkAllRead:
+				rssTreeView.markAllFeedsAsVisitedState(true);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeMarkAllUnread:
+				rssTreeView.markAllFeedsAsVisitedState(false);
+				break;
+				///////////////////////////////////////////
+
 			case ContextAction.treeNewFeed:
 				rssTreeView.openNewFeedProperties(m_elmEventTarget);
 				break;
@@ -354,13 +380,13 @@
 				break;
 				///////////////////////////////////////////
 
-			case ContextAction.listToggleReadUnread:
-				rssListView.toggleItemVisitedState(m_elmEventTarget);
+			case ContextAction.listOpenAllInTabs:
+				rssListView.openAllItemsInTabs();
 				break;
 				///////////////////////////////////////////
 
-			case ContextAction.listOpenAllInTabs:
-				rssListView.openAllItemsInTabs();
+			case ContextAction.listToggleReadUnread:
+				rssListView.toggleItemVisitedState(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
