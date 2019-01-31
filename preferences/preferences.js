@@ -101,6 +101,12 @@ let preferences = (function() {
 
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
+
+		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onChanged.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onMoved.removeListener(onBookmarksEventHandler);
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -129,22 +135,18 @@ let preferences = (function() {
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
+
+		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
+		browser.bookmarks.onRemoved.addListener(onBookmarksEventHandler);
+		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
+		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getSavedPreferences() {
 
-		let gettingFolderId = prefs.getRootFeedsFolderId();
-		let creatingSelect = createSelectFeedFolderElements();
-
-		gettingFolderId.then((value) => {
-			creatingSelect.then(() => {
-				m_elmRootFeedsFolder.value = value;
-				setTimeout(() => {
-					flashRootFeedsFolderElement();
-				}, 500);
-			});
-		});
+		initializeSelectFeedsFolder();
 
 		prefs.getCheckFeedsInterval().then((value) => {
 			if(value.includes(":")) {
@@ -345,6 +347,11 @@ let preferences = (function() {
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ALL);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBookmarksEventHandler() {
+		initializeSelectFeedsFolder();
+	}
+
 	//==================================================================================
 	//=== Feeds folder <select> functions
 	//==================================================================================
@@ -362,7 +369,23 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createSelectFeedFolderElements() {
+	function initializeSelectFeedsFolder() {
+
+		let gettingFolderId = prefs.getRootFeedsFolderId();
+		let creatingSelect = createSelectFeedsFolderElements();
+
+		gettingFolderId.then((value) => {
+			creatingSelect.then(() => {
+				m_elmRootFeedsFolder.value = value;
+				setTimeout(() => {
+					flashRootFeedsFolderElement();
+				}, 500);
+			});
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createSelectFeedsFolderElements() {
 
 		return new Promise((resolve) => {
 
@@ -376,7 +399,7 @@ let preferences = (function() {
 				m_elmRootFeedsFolder.appendChild(elmOption);
 
 				for(let child of bookmarks[0].children) {
-					createSelectFeedFolderElement(child, 0);
+					createSelectFeedsFolderElement(child, 0);
 				}
 				resolve();
 			});
@@ -385,14 +408,14 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createSelectFeedFolderElement(bookmarkItem, indent) {
+	function createSelectFeedsFolderElement(bookmarkItem, indent) {
 
 		if(bookmarkItem.type === "folder") {
 			let elmOption = createTagOption(bookmarkItem.id, "&emsp;".repeat(indent) + "◆ " + bookmarkItem.title);
 			m_elmRootFeedsFolder.appendChild(elmOption);
 			indent++;
 			for(let child of bookmarkItem.children) {
-				createSelectFeedFolderElement(child, indent);
+				createSelectFeedsFolderElement(child, indent);
 			}
 			indent--;
 		}

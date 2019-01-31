@@ -134,6 +134,8 @@
 * Unify font size in feed-item description
 * add 'mark all as read' 'mark all as unread' to the context menu for the tree view.
 * only the item with the focus has the outline marker
+* set max-width for select TAG in preferences, a bookmark folder with a very long name will destroy the page.
+* in preferences, force the initializtion of the select feeds folder control when the bookmarks are modified.
 ---
 
 #### Next

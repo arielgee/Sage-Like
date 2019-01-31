@@ -2,6 +2,7 @@
 
 :root {
   --sage-like-preference-height: 40px;
+  --preferences-body-max-width: 700px;
 }
 
 body {
@@ -9,7 +10,7 @@ body {
   font-size: 1.273rem;
   font-weight: normal;
   min-width: auto;
-  max-width: 700px;
+  max-width: var(--preferences-body-max-width);
   line-height: 21px;
   white-space: nowrap;
 }
@@ -50,6 +51,7 @@ body {
 }
 
 select {
+  max-width: calc(var(--preferences-body-max-width) * 0.4);
   border: 1px solid #7a7a7a;
 }
 
