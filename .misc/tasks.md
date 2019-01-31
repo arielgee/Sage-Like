@@ -131,6 +131,7 @@
   * Show Feed Item Description Tooltips, if available
 * change escapeHtml/unescapeHtml to string prototypes
 * resize large images in feed-item description
+* Unify font size in feed-item description
 ---
 
 #### Next

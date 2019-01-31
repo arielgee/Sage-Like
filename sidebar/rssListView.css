@@ -66,13 +66,13 @@
 	overflow: hidden;
 }
 
-#feedItemDescPanel .descTitle {
+#feedItemDescPanel > .descTitle {
 	margin-bottom: 12px;
 	font-weight: bold;
 	text-decoration: underline;
 }
 
-#feedItemDescPanel .descBody {
+#feedItemDescPanel > .descBody {
 	display: block;
 	max-width: 300px;
 	max-height: calc(var(--line-height) * 9);
@@ -80,9 +80,13 @@
 	overflow: hidden;
 }
 
-#feedItemDescPanel .descBody img {
+#feedItemDescPanel > .descBody img {
 	width: auto;
 	height: 60px;
+}
+
+#feedItemDescPanel > .descBody * {
+	font-size: 11px;
 }
 
 #listViewStatusbar {
