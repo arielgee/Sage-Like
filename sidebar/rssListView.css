@@ -80,6 +80,11 @@
 	overflow: hidden;
 }
 
+#feedItemDescPanel .descBody img {
+	width: auto;
+	height: 60px;
+}
+
 #listViewStatusbar {
 	display: none;
 	position: fixed;
