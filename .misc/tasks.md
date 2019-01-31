@@ -129,6 +129,7 @@
 * add small delay before showing the feed item description panel
 * add checkbox preference if to show list's item description panel
   * Show Feed Item Description Tooltips, if available
+* change escapeHtml/unescapeHtml to string prototypes
 ---
 
 #### Next

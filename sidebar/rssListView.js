@@ -101,7 +101,7 @@ let rssListView = (function() {
 		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.setAttribute("tabindex", "0");
-		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? slUtil.escapeHtml(desc) : "");
+		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc.escapeHtml() : "");
 
 		addListItemEventListeners(elm);
 
@@ -210,7 +210,7 @@ let rssListView = (function() {
 		m_timeoutMouseOver = setTimeout(() => {
 
 			m_elmFeedItemDescPanel.querySelectorAll(".descTitle")[0].textContent = elmLI.textContent.replace(/^\d+\. /, "");
-			m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = slUtil.unescapeHtml(elmLI.getAttribute("data-item-desc"));
+			m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = elmLI.getAttribute("data-item-desc").unescapeHtml();
 
 			const POS_OFFSET = 8;
 			let x = event.clientX + POS_OFFSET;

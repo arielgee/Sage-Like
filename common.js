@@ -631,13 +631,9 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	String.prototype.replaceEntityDefinitions = function() {
-
-		let str = this;
-
-		return str.replace(String.prototype.replaceEntityDefinitions.regex, (matched) => {
+		return this.replace(String.prototype.replaceEntityDefinitions.regex, (matched) => {
 			return String.prototype.replaceEntityDefinitions.entities[matched];
-		} );
-
+		});
 	};
 	String.prototype.replaceEntityDefinitions.entities = {
 		"&quot;": "\"",
@@ -647,36 +643,41 @@ let slUtil = (function() {
 		"&copy;": "©",
 		"&trade;": "™",
 		"&reg;": "®",
+		"&nbsp;": " ",
+		"&apos;": "'",
+		"&cent;": "¢",
+		"&pound;": "£",
+		"&yen;": "¥",
+		"&euro;": "€",
 	};
 	String.prototype.replaceEntityDefinitions.regex = new RegExp(Object.keys(String.prototype.replaceEntityDefinitions.entities).join("|"), "gi");
 
 	//////////////////////////////////////////////////////////////////////
-	function escapeRegExp(str) {
-		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-	}
+	String.prototype.escapeHtml = function() {
+		return this.replace(String.prototype.escapeHtml.regex, (match) => {
+			return String.prototype.escapeHtml.htmlReservedCharacters[match];
+		});
+	};
+	String.prototype.escapeHtml.htmlReservedCharacters = {
+		"&": "&amp;",
+		"<": "&lt;",
+		">": "&gt;",
+		"\"": "&quot;",
+		"'": "&#039;",
+	};
+	String.prototype.escapeHtml.regex = new RegExp("[" + Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).join("") + "]", "g");
 
 	//////////////////////////////////////////////////////////////////////
-	function escapeHtml(html) {
-		let mapHtmlChars = {
-			"&":  "&amp;",
-			"<":  "&lt;",
-			">":  "&gt;",
-			"\"": "&quot;",
-			"'":  "&#039;",
-		};
-		return html.replace(/[&<>"']/g, (c) => { return mapHtmlChars[c]; });
-	}
+	String.prototype.unescapeHtml = function() {
+		return this.replace(String.prototype.unescapeHtml.regex, (match) => {
+			return Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).find((key) => String.prototype.escapeHtml.htmlReservedCharacters[key] === match);
+		});
+	};
+	String.prototype.unescapeHtml.regex = new RegExp(Object.values(String.prototype.escapeHtml.htmlReservedCharacters).join("|"), "g");
 
 	//////////////////////////////////////////////////////////////////////
-	function unescapeHtml(str) {
-		let mapHtmlChars = {
-			"&amp;":  "&",
-			"&lt;":   "<",
-			"&gt;":   ">",
-			"&quot;": "\"",
-			"&#039;": "'",
-		};
-		return str.replace(/&(amp|lt|gt|quot|#039);/g, (esc) => { return mapHtmlChars[esc]; });
+	String.prototype.escapeRegExp = function() {
+		return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1127,9 +1128,6 @@ let slUtil = (function() {
 	}
 
 	return {
-		escapeRegExp: escapeRegExp,
-		escapeHtml: escapeHtml,
-		unescapeHtml: unescapeHtml,
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
 		copyTextToClipboard: copyTextToClipboard,
