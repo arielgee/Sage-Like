@@ -84,6 +84,9 @@
 
 .treeview li.selected > .rtvCaption {
 	background-color: var(--bk-color-active);
+}
+
+.treeview li.selected:focus > .rtvCaption {
 	outline: 1px dotted gray;
 }
 

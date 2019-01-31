@@ -133,6 +133,7 @@
 * resize large images in feed-item description
 * Unify font size in feed-item description
 * add 'mark all as read' 'mark all as unread' to the context menu for the tree view.
+* only the item with the focus has the outline marker
 ---
 
 #### Next
@@ -143,5 +144,4 @@
 * mention in the description (readme) that only my Sage preference were implemented
 
 * feed-item description keeps showing bellow bottom edge. maybe when list has VScroll?
-* only the item with the focus has the outline marker
 * redesign the descovery view

@@ -30,6 +30,9 @@
 
 .listview li.selected {
 	background-color: var(--bk-color-active);
+}
+
+.listview li.selected:focus {
 	outline: 1px dotted gray;
 }
 

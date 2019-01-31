@@ -114,7 +114,10 @@
 			style.setProperty("--bk-color-window-inverted", slUtil.invertColor(color));
 		});
 		prefs.getColorDialogBackground().then(color => { style.setProperty("--bk-color-dialog", color); });
-		prefs.getColorSelect().then(color => { style.setProperty("--bk-color-active", color); });
+		prefs.getColorSelect().then(color => {
+			style.setProperty("--bk-color-active", color);
+			style.setProperty("--bk-color-active-inverted", slUtil.invertColor(color));
+		});
 		prefs.getColorText().then(color => { style.setProperty("--color-text", color); });
 	}
 
