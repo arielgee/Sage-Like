@@ -155,6 +155,7 @@ html, body {
 	border: 2px solid crimson;
 	border-radius: 0 12px 12px 12px;
 	font-weight: normal;
+	height: -99999px;
 }
 
 #infoBar.rightToLeftBorder {
