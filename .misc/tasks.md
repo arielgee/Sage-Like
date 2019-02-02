@@ -145,5 +145,14 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* SHIT SHIT SHIT !!! web feeds can be attack vectors. see: https://www.cgisecurity.com/papers/HackingFeeds.pdf
+    * remove <iframe>?
+    * remove <script></script>?
+    * remove <object>?
+    * htmlEntityToLiteral() is not safe - must check any data from xml before display (tree title, list title, description)
+    * any data from XML feed diaplayed in the sidebar need to be striped from any HTML tags AND HTML Entities
+        * feed titles, feed url, feed desc, feed-item titles, feed-item url, feed-item desc
+    * remove link tags including the textContent <a>
+
 * feed-item description keeps showing bellow bottom edge. maybe when list has VScroll?
 * redesign the descovery view

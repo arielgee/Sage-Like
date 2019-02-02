@@ -630,12 +630,13 @@ let slUtil = (function() {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
-	String.prototype.replaceEntityDefinitions = function() {
-		return this.replace(String.prototype.replaceEntityDefinitions.regex, (matched) => {
-			return String.prototype.replaceEntityDefinitions.entities[matched];
+	String.prototype.htmlEntityToLiteral = function() {
+		// this is NOT safe; me be used as an attack vector is result is displayed to user
+		return this.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
+			return String.prototype.htmlEntityToLiteral.entities[matched];
 		});
 	};
-	String.prototype.replaceEntityDefinitions.entities = {
+	String.prototype.htmlEntityToLiteral.entities = {
 		"&quot;": "\"",
 		"&amp;": "&",
 		"&gt;": ">",
@@ -650,7 +651,7 @@ let slUtil = (function() {
 		"&yen;": "¥",
 		"&euro;": "€",
 	};
-	String.prototype.replaceEntityDefinitions.regex = new RegExp(Object.keys(String.prototype.replaceEntityDefinitions.entities).join("|"), "gi");
+	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gi");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeHtml = function() {
@@ -674,6 +675,17 @@ let slUtil = (function() {
 		});
 	};
 	String.prototype.unescapeHtml.regex = new RegExp(Object.values(String.prototype.escapeHtml.htmlReservedCharacters).join("|"), "g");
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.stripHtmlTags = function() {
+		return this
+			.replace(String.prototype.stripHtmlTags.regexATag,"")
+			.replace(String.prototype.stripHtmlTags.regexScriptTag,"")
+			.replace(String.prototype.stripHtmlTags.regexAnyTag, " ");
+	};
+	String.prototype.stripHtmlTags.regexATag = new RegExp("<\\s*a\\s+[^>]+>[^<]+</\\s*a\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexScriptTag = new RegExp("<\\s*script(\\s[^>]*)?>[^<]*</\\s*script\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?[a-zA-Z0-9]+[^>]*>", "gm");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeRegExp = function() {

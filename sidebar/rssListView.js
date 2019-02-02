@@ -78,7 +78,7 @@ let rssListView = (function() {
 
 		disposeList();
 		for(let item of list) {
-			appendTagIL(index++, item.title.replaceEntityDefinitions(), item.desc, item.url);
+			appendTagIL(index++, item.title.stripHtmlTags().htmlEntityToLiteral(), item.desc, item.url);
 		}
 		m_elmListViewRssTitle.textContent = title;
 
@@ -97,11 +97,14 @@ let rssListView = (function() {
 		elm.classList.add(slGlobals.CLS_RLV_LI_LIST_ITEM)
 		setItemRealVisitedState(elm, url);
 
+		// safety first, pure text only
+		desc = desc.stripHtmlTags().trim();
+
 		elm.textContent = index.toString() + ". " + title;
 		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.setAttribute("tabindex", "0");
-		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc.escapeHtml() : "");
+		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc : "");
 
 		addListItemEventListeners(elm);
 
@@ -201,38 +204,45 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseOverFeedItem(event) {
 
+		clearTimeout(m_timeoutMouseOver);
+
 		let elmLI = event.target;
 
 		// if there is a title then do not display item description
 		if(elmLI.title.length > 0) return;
 
-		clearTimeout(m_timeoutMouseOver);
+		m_elmFeedItemDescPanel.querySelectorAll(".descTitle")[0].textContent = elmLI.textContent.replace(/^\d+\. /, "");
+		m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = elmLI.getAttribute("data-item-desc");
+
+		// hide it and place it as high as possible to prevent resizing of
+		// the containing sidebar when html datais retrieved
+		m_elmFeedItemDescPanel.style.visibility = "hidden";
+		m_elmFeedItemDescPanel.style.left = m_elmFeedItemDescPanel.style.top = "0";
+
+		// set display=block as soon as possible to retrieve any remote html data (images, etc) and
+		// panel element will have dimentions (offsetWidth > 0)
+		m_elmFeedItemDescPanel.style.display = "block";
+		m_elmFeedItemDescPanel.style.direction = m_elmList.style.direction;
+
+		const POS_OFFSET = 8;
+		let x = event.clientX + POS_OFFSET;
+		let y = event.clientY + POS_OFFSET;
+
 		m_timeoutMouseOver = setTimeout(() => {
-
-			m_elmFeedItemDescPanel.querySelectorAll(".descTitle")[0].textContent = elmLI.textContent.replace(/^\d+\. /, "");
-			m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = elmLI.getAttribute("data-item-desc").unescapeHtml();
-
-			const POS_OFFSET = 8;
-			let x = event.clientX + POS_OFFSET;
-			let y = event.clientY + POS_OFFSET;
-
-			// do it first so element will have dimentions (offsetWidth > 0)
-			m_elmFeedItemDescPanel.style.display = "block";
 
 			if ((x + m_elmFeedItemDescPanel.offsetWidth) > m_elmSidebarBody.offsetWidth) {
 				x = m_elmSidebarBody.offsetWidth - m_elmFeedItemDescPanel.offsetWidth-1;
 			}
 
-			if ((y + m_elmFeedItemDescPanel.offsetHeight) >= m_elmSidebarBody.offsetHeight) {
+			if ((y + m_elmFeedItemDescPanel.offsetHeight) > m_elmSidebarBody.offsetHeight) {
 				y = event.clientY - m_elmFeedItemDescPanel.offsetHeight - POS_OFFSET;
 			}
 
-			m_elmFeedItemDescPanel.style.direction = m_elmList.style.direction;
-
+			m_elmFeedItemDescPanel.style.visibility = "visible";
 			m_elmFeedItemDescPanel.style.left = x + "px";
 			m_elmFeedItemDescPanel.style.top = y + "px";
 
-		}, 500);
+		}, 800);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +251,7 @@ let rssListView = (function() {
 		clearTimeout(m_timeoutMouseOver);
 		m_timeoutMouseOver = null;
 
-		m_elmFeedItemDescPanel.style.display = "none";
+		//m_elmFeedItemDescPanel.style.display = "none";
 	}
 
 	//==================================================================================

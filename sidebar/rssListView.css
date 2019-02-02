@@ -54,11 +54,11 @@
 #feedItemDescPanel {
 	display: none;
 	max-width: 320px;
-	max-height: 216px;
+	max-height: calc(var(--line-height) * 12);
 	box-sizing: border-box;
 	position: absolute;
 	z-index: 1;
-	padding: 6px 9px;
+	padding: calc(var(--line-height) * 0.3) calc(var(--line-height) * 0.5);
 	color: black;
 	background-color: var(--bk-color-info-window);
 	border: 1px solid black;
@@ -70,28 +70,37 @@
 }
 
 #feedItemDescPanel > .descTitle {
-	margin-bottom: 12px;
+	margin-bottom: calc(var(--line-height) * 0.4);
 	font-weight: bold;
 	text-decoration: underline;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 #feedItemDescPanel > .descBody {
 	display: block;
 	max-width: 300px;
-	max-height: calc(var(--line-height) * 9);
+	max-height: calc(var(--line-height) * 10);
 	margin-inline-start: 12px;
 	overflow: hidden;
 }
-
-#feedItemDescPanel > .descBody img {
+/*
+#feedItemDescPanel > .descBody img,
+#feedItemDescPanel > .descBody iframe {
 	width: auto;
-	height: 60px;
+	height: calc(var(--line-height) * 3);
 }
 
 #feedItemDescPanel > .descBody * {
-	font-size: 11px;
+	background-color: transparent !important;
+	font-family: Tahoma, Sans !important;
+	font-weight: normal !important;
+	font-size: 11px !important;
+	padding: 0 !important;
+	margin: 0 !important;
 }
-
+*/
 #listViewStatusbar {
 	display: none;
 	position: fixed;
