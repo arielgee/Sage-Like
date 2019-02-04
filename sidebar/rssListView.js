@@ -78,7 +78,7 @@ let rssListView = (function() {
 
 		disposeList();
 		for(let item of list) {
-			appendTagIL(index++, item.title.stripHtmlTags().htmlEntityToLiteral(), item.desc, item.url);
+			appendTagIL(index++, item.title, item.desc, item.url);
 		}
 		m_elmListViewRssTitle.textContent = title;
 
@@ -97,9 +97,8 @@ let rssListView = (function() {
 		elm.classList.add(slGlobals.CLS_RLV_LI_LIST_ITEM)
 		setItemRealVisitedState(elm, url);
 
-		// safety first, pure text only
-		desc = desc.stripHtmlTags().trim();
 		if(title.length === 0) title = slGlobals.STR_TITLE_EMPTY;
+		desc = desc.trim();
 
 		elm.textContent = index.toString() + ". " + title;
 		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;

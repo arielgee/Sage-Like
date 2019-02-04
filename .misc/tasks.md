@@ -137,6 +137,17 @@
 * set max-width for select TAG in preferences, a bookmark folder with a very long name will destroy the page.
 * in preferences, force the initializtion of the select feeds folder control when the bookmarks are modified.
 * feed-item description keeps showing bellow bottom edge. maybe when list has VScroll => NO, rewitten
+* SHIT SHIT SHIT !!! web feeds can be attack vectors. see: https://www.cgisecurity.com/papers/HackingFeeds.pdf
+    * remove TAGS (i)frame, script, object a, etc.
+    * htmlEntityToLiteral() is not safe - must check any data from xml before display (tree title, list title, description)
+    * any data from XML feed diaplayed in the sidebar need to be striped from any HTML tags AND HTML Entities
+        * [V] feed title
+        * [X] feed description - no need; not fatched
+        * [X] feed link - no need; parsed as URL
+        * [V] feed-item title
+        * [V] feed-item description
+        * [V] feed-item link
+
 ---
 
 #### Next
@@ -145,15 +156,6 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 * mention in the description (readme) that only my Sage preference were implemented
-
-* SHIT SHIT SHIT !!! web feeds can be attack vectors. see: https://www.cgisecurity.com/papers/HackingFeeds.pdf
-    * remove <iframe>?
-    * remove <script></script>?
-    * remove <object>?
-    * htmlEntityToLiteral() is not safe - must check any data from xml before display (tree title, list title, description)
-    * any data from XML feed diaplayed in the sidebar need to be striped from any HTML tags AND HTML Entities
-        * feed titles, feed url, feed desc, feed-item titles, feed-item url, feed-item desc
-    * remove link tags including the textContent <a>
 
 * fatch feed description; in getFeedData()  rss > channel > description ; RDF > channel > description ; feed > subtitle ;
 * syndication not working when it a local XML file

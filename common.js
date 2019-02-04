@@ -634,7 +634,7 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	String.prototype.htmlEntityToLiteral = function() {
-		// this is NOT safe; me be used as an attack vector is result is displayed to user
+		// this is NOT safe; may be used as an attack vector if result is displayed to user
 		return this.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
 			return String.prototype.htmlEntityToLiteral.entities[matched];
 		});
@@ -654,7 +654,7 @@ let slUtil = (function() {
 		"&yen;": "¥",
 		"&euro;": "€",
 	};
-	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gi");
+	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeHtml = function() {
@@ -669,7 +669,7 @@ let slUtil = (function() {
 		"\"": "&quot;",
 		"'": "&#039;",
 	};
-	String.prototype.escapeHtml.regex = new RegExp("[" + Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).join("") + "]", "g");
+	String.prototype.escapeHtml.regex = new RegExp("[" + Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).join("") + "]", "gm");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.unescapeHtml = function() {
@@ -677,18 +677,25 @@ let slUtil = (function() {
 			return Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).find((key) => String.prototype.escapeHtml.htmlReservedCharacters[key] === match);
 		});
 	};
-	String.prototype.unescapeHtml.regex = new RegExp(Object.values(String.prototype.escapeHtml.htmlReservedCharacters).join("|"), "g");
+	String.prototype.unescapeHtml.regex = new RegExp(Object.values(String.prototype.escapeHtml.htmlReservedCharacters).join("|"), "gm");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.stripHtmlTags = function() {
 		return this
-			.replace(String.prototype.stripHtmlTags.regexATag,"")
-			.replace(String.prototype.stripHtmlTags.regexScriptTag,"")
+			.htmlEntityToLiteral()
+			.replace(String.prototype.stripHtmlTags.regexUnsafeContentTags,"")
 			.replace(String.prototype.stripHtmlTags.regexAnyTag, " ");
 	};
-	String.prototype.stripHtmlTags.regexATag = new RegExp("<\\s*a\\s+[^>]+>[^<]+</\\s*a\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexScriptTag = new RegExp("<\\s*script(\\s[^>]*)?>[^<]*</\\s*script\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?[a-zA-Z0-9]+[^>]*>", "gm");
+	// I know, embed, link, cannot have any child nodes. Not taking any risks
+	String.prototype.stripHtmlTags.regexUnsafeContentTags = new RegExp("<\\s*\\b(a|script|link|i?frame|embed|applet|object)\\b[^>]*>([\\s\\S]*?)</\\s*\\b(a|script|link|i?frame|embed|applet|object)\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexATag = new RegExp("<\\s*\\ba\\b[^>]*>([\\s\\S]*?)</\\s*\\ba\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexScriptTag = new RegExp("<\\s*\\bscript\\b[^>]*>([\\s\\S]*?)</\\s*\\bscript\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexLinkTag = new RegExp("<\\s*\\blink\\b[^>]*>([\\s\\S]*?)</\\s*\\blink\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexFrameTag = new RegExp("<\\s*\\bi?frame\\b[^>]*>([\\s\\S]*?)</\\s*\\bi?frame\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bembed\\b[^>]*>([\\s\\S]*?)</\\s*\\bembed\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bapplet\\b[^>]*>([\\s\\S]*?)</\\s*\\bapplet\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bobject\\b[^>]*>([\\s\\S]*?)</\\s*\\bobject\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?\\s*\\b[a-zA-Z0-9]+\\b[^>]*>", "gm");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeRegExp = function() {

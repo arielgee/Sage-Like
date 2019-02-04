@@ -31,7 +31,7 @@ let syndication = (function() {
 				let url = slUtil.replaceMozExtensionOriginURL(linkFeed.href, origin);
 				let discoveredFeed = {
 					status: "init",
-					linkTitle: linkFeed.title,
+					linkTitle: linkFeed.title.stripHtmlTags(),
 					url: url,
 					requestId: requestId,
 				};
@@ -114,7 +114,7 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function createFeedItemsList(feedData) {
 
-		let elm, FeedItem;
+		let elmLink, FeedItem;
 		let FeedItemList = [];
 
 		// for 'RSS' or 'RDF Site Summary (RSS) 1.0'
@@ -127,12 +127,15 @@ let syndication = (function() {
 			feedData.feeder.forEach((item) => {
 
 				FeedItem = new Object();
+				elmLink = item.querySelector("link");
 
-				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
-				FeedItem["title"] = item.querySelector("title").textContent;
-				FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent : "";
-				FeedItem["url"] = item.querySelector("link").textContent;
-				FeedItemList.push(FeedItem);
+				if(elmLink) {
+					// all versions have <title> & <link>. <description> is optional or missing (v0.90)
+					FeedItem["title"] = item.querySelector("title") ? item.querySelector("title").textContent.stripHtmlTags() : "";
+					FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent.stripHtmlTags() : "";
+					FeedItem["url"] = elmLink.textContent.stripHtmlTags();
+					FeedItemList.push(FeedItem);
+				}
 			});
 
 		} else if(feedData.standard === SyndicationStandard.Atom) {
@@ -144,15 +147,14 @@ let syndication = (function() {
 			feedData.feeder.forEach((item) => {
 
 				FeedItem = new Object();
+				elmLink = item.querySelector("link:not([rel])") || item.querySelector("link[rel=alternate]") || item.querySelector("link");
 
-				FeedItem["title"] = item.querySelector("title").textContent;
-				FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent : "";
-				if ((elm = item.querySelector("link:not([rel])")) ||
-					(elm = item.querySelector("link[rel=alternate]")) ||
-					(elm = item.querySelector("link"))) {
-					FeedItem["url"] = elm.getAttribute("href");
+				if(elmLink) {
+					FeedItem["title"] = item.querySelector("title") ? item.querySelector("title").textContent.stripHtmlTags() : "";
+					FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent.stripHtmlTags() : "";
+					FeedItem["url"] = elmLink.getAttribute("href").stripHtmlTags();
+					FeedItemList.push(FeedItem);
 				}
-				FeedItemList.push(FeedItem);
 			});
 		}
 		return FeedItemList;
@@ -286,7 +288,7 @@ let syndication = (function() {
 
 		for (let selector of selectorSuffixes) {
 			title = doc.querySelector(selectorPrefix + selector);
-			return (title ? title.textContent : "");
+			return (title ? title.textContent.stripHtmlTags() : "");
 		}
 	}
 
