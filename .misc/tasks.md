@@ -147,7 +147,7 @@
         * [V] feed-item title
         * [V] feed-item description
         * [V] feed-item link
-
+* fetch feed description; in getFeedData()  rss > channel > description ; RDF > channel > description ; feed > subtitle ;
 ---
 
 #### Next
@@ -157,6 +157,5 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* fatch feed description; in getFeedData()  rss > channel > description ; RDF > channel > description ; feed > subtitle ;
 * syndication not working when it a local XML file
 * redesign the descovery view

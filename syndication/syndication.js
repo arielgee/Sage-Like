@@ -201,6 +201,7 @@ let syndication = (function() {
 			xmlEncoding: "",
 			feeder: {},
 			title: "",
+			description: "",
 			lastUpdated: 0,
 			items: 0,
 			errorMsg: "",
@@ -228,19 +229,22 @@ let syndication = (function() {
 			if(doc.documentElement.localName === "rss") {							// First lets try 'RSS'
 				feedData.standard = SyndicationStandard.RSS;							// https://validator.w3.org/feed/docs/rss2.html
 				feedData.feeder = doc.querySelector("rss");
-				feedData.title = getFeedTitle(doc, "rss > channel");
+				feedData.title = getNodeTextContent(doc, "rss > channel > title");
+				feedData.description = getNodeTextContent(doc, "rss > channel > description");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");
 				feedData.items = feedData.feeder.querySelectorAll("item").length;
 			} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
 				feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Examples: http://feeds.nature.com/nature/rss/current, https://f1-gate.com/
 				feedData.feeder = doc.querySelector("RDF");
-				feedData.title = getFeedTitle(doc, "RDF > channel");
+				feedData.title = getNodeTextContent(doc, "RDF > channel > title");
+				feedData.description = getNodeTextContent(doc, "RDF > channel > description");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel", "item");
 				feedData.items = feedData.feeder.querySelectorAll("item").length;
 			} else if(doc.documentElement.localName === "feed") {					// FInally let's try 'Atom'
 				feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
 				feedData.feeder = doc.querySelector("feed");
-				feedData.title = getFeedTitle(doc, "feed");
+				feedData.title = getNodeTextContent(doc, "feed > title");
+				feedData.description = getNodeTextContent(doc, "feed > subtitle");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "feed", "entry");
 				feedData.items = feedData.feeder.querySelectorAll("entry").length;
 			} else {
@@ -280,16 +284,9 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedTitle(doc, selectorPrefix) {
-
-		const selectorSuffixes = [ " > title" ];
-
-		let title;
-
-		for (let selector of selectorSuffixes) {
-			title = doc.querySelector(selectorPrefix + selector);
-			return (title ? title.textContent.stripHtmlTags() : "");
-		}
+	function getNodeTextContent(doc, selector) {
+		let node = doc.querySelector(selector);
+		return (node ? node.textContent.stripHtmlTags() : "");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
