@@ -99,6 +99,7 @@ let rssListView = (function() {
 
 		// safety first, pure text only
 		desc = desc.stripHtmlTags().trim();
+		if(title.length === 0) title = slGlobals.STR_TITLE_EMPTY;
 
 		elm.textContent = index.toString() + ". " + title;
 		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;

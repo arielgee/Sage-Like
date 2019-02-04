@@ -157,6 +157,7 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_COLORS = "msgDetails_prefChange_colors";
 	const MSGD_PREF_CHANGE_IMAGES = "msgDetails_prefChange_images";
 
+	const STR_TITLE_EMPTY = "<no title>";
 
 	const FMT_IMAGE_SET = {
 		IMG_OPEN_SUB_TREE:		"url(\"/icons/open-{0}.png\")",
@@ -206,6 +207,8 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_UI_DENSITY: MSGD_PREF_CHANGE_UI_DENSITY,
 		MSGD_PREF_CHANGE_COLORS: MSGD_PREF_CHANGE_COLORS,
 		MSGD_PREF_CHANGE_IMAGES: MSGD_PREF_CHANGE_IMAGES,
+
+		STR_TITLE_EMPTY: STR_TITLE_EMPTY,
 
 		IMAGE_SET_VALUES: IMAGE_SET_VALUES,
 		IMAGE_SET: IMAGE_SET,
