@@ -85,22 +85,7 @@
 	margin-inline-start: 12px;
 	overflow: hidden;
 }
-/*
-#feedItemDescPanel > .descBody img,
-#feedItemDescPanel > .descBody iframe {
-	width: auto;
-	height: calc(var(--line-height) * 3);
-}
 
-#feedItemDescPanel > .descBody * {
-	background-color: transparent !important;
-	font-family: Tahoma, Sans !important;
-	font-weight: normal !important;
-	font-size: 11px !important;
-	padding: 0 !important;
-	margin: 0 !important;
-}
-*/
 #listViewStatusbar {
 	display: none;
 	position: fixed;
