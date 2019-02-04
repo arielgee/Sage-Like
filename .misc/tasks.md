@@ -136,6 +136,7 @@
 * only the item with the focus has the outline marker
 * set max-width for select TAG in preferences, a bookmark folder with a very long name will destroy the page.
 * in preferences, force the initializtion of the select feeds folder control when the bookmarks are modified.
+* feed-item description keeps showing bellow bottom edge. maybe when list has VScroll => NO, rewitten
 ---
 
 #### Next
@@ -154,5 +155,6 @@
         * feed titles, feed url, feed desc, feed-item titles, feed-item url, feed-item desc
     * remove link tags including the textContent <a>
 
-* feed-item description keeps showing bellow bottom edge. maybe when list has VScroll?
+* fatch feed description; in getFeedData()  rss > channel > description ; RDF > channel > description ; feed > subtitle ;
+* syndication not working when it a local XML file
 * redesign the descovery view

@@ -125,6 +125,7 @@ let rssListView = (function() {
 		if(m_bShowFeedItemDesc) {
 			elm.addEventListener("mouseover", onMouseOverFeedItem);
 			elm.addEventListener("mouseout", onMouseOutFeedItem);
+			elm.addEventListener("mousemove", onMouseMoveFeedItem);
 		}
 	}
 
@@ -138,6 +139,7 @@ let rssListView = (function() {
 		if(m_bShowFeedItemDesc) {
 			elm.removeEventListener("mouseover", onMouseOverFeedItem);
 			elm.removeEventListener("mouseout", onMouseOutFeedItem);
+			elm.removeEventListener("mousemove", onMouseMoveFeedItem);
 		}
 	}
 
@@ -204,6 +206,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseOverFeedItem(event) {
 
+		event.stopPropagation();
 		clearTimeout(m_timeoutMouseOver);
 
 		let elmLI = event.target;
@@ -215,7 +218,7 @@ let rssListView = (function() {
 		m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = elmLI.getAttribute("data-item-desc");
 
 		// hide it and place it as high as possible to prevent resizing of
-		// the containing sidebar when html datais retrieved
+		// the containing sidebar when html data is retrieved
 		m_elmFeedItemDescPanel.style.visibility = "hidden";
 		m_elmFeedItemDescPanel.style.left = m_elmFeedItemDescPanel.style.top = "0";
 
@@ -224,18 +227,18 @@ let rssListView = (function() {
 		m_elmFeedItemDescPanel.style.display = "block";
 		m_elmFeedItemDescPanel.style.direction = m_elmList.style.direction;
 
-		const POS_OFFSET = 8;
-		let x = event.clientX + POS_OFFSET;
-		let y = event.clientY + POS_OFFSET;
-
 		m_timeoutMouseOver = setTimeout(() => {
+
+			const POS_OFFSET = 8;
+			let x = m_elmFeedItemDescPanel.slLastClientX + POS_OFFSET;
+			let y = m_elmFeedItemDescPanel.slLastClientY + POS_OFFSET;
 
 			if ((x + m_elmFeedItemDescPanel.offsetWidth) > m_elmSidebarBody.offsetWidth) {
 				x = m_elmSidebarBody.offsetWidth - m_elmFeedItemDescPanel.offsetWidth-1;
 			}
 
 			if ((y + m_elmFeedItemDescPanel.offsetHeight) > m_elmSidebarBody.offsetHeight) {
-				y = event.clientY - m_elmFeedItemDescPanel.offsetHeight - POS_OFFSET;
+				y = m_elmFeedItemDescPanel.slLastClientY - m_elmFeedItemDescPanel.offsetHeight - POS_OFFSET;
 			}
 
 			m_elmFeedItemDescPanel.style.visibility = "visible";
@@ -250,8 +253,13 @@ let rssListView = (function() {
 
 		clearTimeout(m_timeoutMouseOver);
 		m_timeoutMouseOver = null;
+		m_elmFeedItemDescPanel.style.display = "none";
+	}
 
-		//m_elmFeedItemDescPanel.style.display = "none";
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseMoveFeedItem(event) {
+		m_elmFeedItemDescPanel.slLastClientX = event.clientX;
+		m_elmFeedItemDescPanel.slLastClientY = event.clientY;
 	}
 
 	//==================================================================================
