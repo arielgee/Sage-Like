@@ -161,6 +161,7 @@ let discoveryView = (function() {
 		elmCheckBox.id = "chkBox" + feed.index.toString();
 		elmCheckBox.className = "dfChkBox";
 		elmCheckBox.type = "checkbox";
+		elmCheckBox.setAttribute("tabindex", "-1");	// only the elmListItem can get the focus
 
 		elmLabelCaption.textContent = (feed.feedTitle.length > 0 ? feed.feedTitle : feed.linkTitle);
 		elmLabelCaption.className = "dfLabelCaption";
@@ -173,11 +174,17 @@ let discoveryView = (function() {
 
 		elmListItem.className = "dfItem";
 		elmListItem.onclick = (e) => {
-			if(e.target !== elmCheckBox) {
+			if(e.target === elmCheckBox) {
+			 	elmListItem.focus();
+			} else {
 				elmCheckBox.click();
-				elmCheckBox.focus();
 			}
+
 		};
+		elmListItem.onkeyup = (e) => {
+			if(e.code.toLowerCase() === "space") elmCheckBox.click();
+		};
+		elmListItem.setAttribute("tabindex", "0");	// can get the focus
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
 		//elmListItem.title += "Feed Title:\u2003" + feed.feedTitle + "\u000d";

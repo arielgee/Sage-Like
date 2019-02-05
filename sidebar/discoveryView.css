@@ -75,20 +75,16 @@
 	overflow: auto;
 	font-weight: normal;
 	background-color: var(--bk-color-window);
-	border-top: 1px solid #808080;
-	border-left: 1px solid #808080;
-	border-right: 1px solid darkgrey;
-	border-bottom: 1px solid darkgrey;
+	border: 1px solid #252525;
 }
 
 #discoverFeedsList .dfItem {
-	--item-line-height: 29px;
+	--item-height: 29px;
 
 	padding: 0 7px;
-	border-bottom: 1px dashed gray;
 	display: flex;
 	justify-content: left;
-	line-height: var(--item-line-height);
+	min-height: var(--item-height);
 }
 
 #discoverFeedsList .dfItem.novalidfeeds {
@@ -99,10 +95,6 @@
 
 #discoverFeedsList .dfChkBox {
 	margin: auto;
-}
-
-#discoverFeedsList .dfChkBox:focus {
-	outline: 1px dotted gray;
 }
 
 #discoverFeedsList .dfLabel {
@@ -116,9 +108,12 @@
 
 #discoverFeedsList .dfLabel .dfLabelCaption {
 	max-width: 290px;
-	min-height: var(--item-line-height);
 	margin: 0 auto 0 0;
-	overflow-x: hidden;
+	overflow: hidden;
+}
+
+#discoverFeedsList .dfItem:focus .dfLabelCaption {
+	outline: 1px dotted gray;
 }
 
 #discoverFeedsList .dfLabel .dfLabelFormat {
