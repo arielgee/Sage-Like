@@ -321,7 +321,7 @@ let rssTreeView = (function() {
 
 				let updateTime = slUtil.asSafeNumericDate(feedData.lastUpdated);
 
-				setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());
+				setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());		// feedData.description not displayed as thirdLine in tooltip
 				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
 				updateFeedTitle(elmLI, feedData.title);
 			}).catch((error) => {
@@ -1254,12 +1254,17 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedTooltipState(elmLI, secondLine = undefined) {
+	function setFeedTooltipState(elmLI, secondLine = undefined, thirdLine = undefined) {
 
 		elmLI.title = elmLI.firstElementChild.textContent;
 
 		if(secondLine !== undefined) {
 			elmLI.title += "\u000d" + secondLine;
+
+			if(thirdLine !== undefined) {
+				elmLI.title += "\u000d\u000d" + thirdLine;
+			}
+
 		}
 	}
 
