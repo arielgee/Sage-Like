@@ -151,6 +151,7 @@
 * descovery view; set focus (outline) on label and not on checkboxs
 * redesign the descovery view
 * all over; set focus (outline) on label and not on checkboxs
+* syndication not working when it a local XML file. Duh?! Browser Security!!! Can't access user's local files unless selected by the user
 ---
 
 #### Next
@@ -159,7 +160,3 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 * mention in the description (readme) that only my Sage preference were implemented
-
-
-* syndication not working when it a local XML file
-

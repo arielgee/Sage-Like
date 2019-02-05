@@ -557,7 +557,7 @@ let rssTreeView = (function() {
 
 			if(event.dataTransfer.types.includes("text/x-moz-url")){
 				let mozUrl = event.dataTransfer.getData("text/x-moz-url").split("\n");
-				createNewFeed(elmDropTarget, mozUrl[1], mozUrl[0], true, event.shiftKey);
+				createNewFeed(elmDropTarget, (mozUrl[1].length === 0 ? "New Feed" : mozUrl[1]), mozUrl[0], true, event.shiftKey);
 			} else if(event.dataTransfer.types.includes("text/uri-list")){
 				createNewFeed(elmDropTarget, "New Feed", event.dataTransfer.getData("URL"), true, event.shiftKey);
 			} else {
