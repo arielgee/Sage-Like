@@ -52,13 +52,13 @@
 }
 
 #feedItemDescPanel {
+	--line-height: 16px;
 	display: none;
 	max-width: 80%;
-	max-height: calc(var(--line-height) * 12);
 	box-sizing: border-box;
 	position: absolute;
 	z-index: 1;
-	padding: calc(var(--line-height) * 0.3) calc(var(--line-height) * 0.5);
+	padding: 3px 4px;
 	color: black;
 	background-color: var(--bk-color-info-window);
 	border: 1px solid black;
@@ -70,7 +70,7 @@
 }
 
 #feedItemDescPanel > .descTitle {
-	margin-bottom: calc(var(--line-height) * 0.4);
+	height: calc(var(--line-height) * 1.3);
 	font-weight: bold;
 	text-decoration: underline;
 	white-space: nowrap;
@@ -80,9 +80,8 @@
 
 #feedItemDescPanel > .descBody {
 	display: block;
-	max-width: 300px;
-	max-height: calc(var(--line-height) * 10);
-	margin-inline-start: 12px;
+	max-height: calc(var(--line-height) * 12);
+	margin-inline-start: 8px;
 	overflow: hidden;
 }
 
