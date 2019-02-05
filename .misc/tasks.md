@@ -150,6 +150,7 @@
 * fetch feed description; in getFeedData()  rss > channel > description ; RDF > channel > description ; feed > subtitle ;
 * descovery view; set focus (outline) on label and not on checkboxs
 * redesign the descovery view
+* all over; set focus (outline) on label and not on checkboxs
 ---
 
 #### Next
@@ -159,6 +160,6 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* all over; set focus (outline) on label and not on checkboxs
+
 * syndication not working when it a local XML file
 
