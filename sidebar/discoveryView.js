@@ -120,7 +120,7 @@ let discoveryView = (function() {
 					m_elmDiscoverFeedsList.appendChild(createTagLI(feed));
 					setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
 				} else if(feed.status === "error") {
-					console.log("[sage-like]", feed.url.toString(), feed.message);
+					console.log("[Sage-Like]", feed.url.toString(), feed.message);
 				}
 
 				// if last found feed was added

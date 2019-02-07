@@ -2,8 +2,6 @@
 
 let preferences = (function() {
 
-	const MENU_GUID = "menu________";
-
 	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";
 	const TXT_OPTION_EVERY_DAY_AT = "Every day at ";
 
@@ -412,7 +410,7 @@ let preferences = (function() {
 				m_elmRootFeedsFolder.removeChild(m_elmRootFeedsFolder.firstChild);
 			}
 
-			browser.bookmarks.getSubTree(MENU_GUID).then((bookmarks) => {
+			browser.bookmarks.getSubTree(slGlobals.BOOKMARKS_ROOT_MENU_GUID).then((bookmarks) => {
 
 				let elmOption = createTagOption(slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
 				m_elmRootFeedsFolder.appendChild(elmOption);

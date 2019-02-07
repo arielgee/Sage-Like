@@ -158,6 +158,8 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_COLORS = "msgDetails_prefChange_colors";
 	const MSGD_PREF_CHANGE_IMAGES = "msgDetails_prefChange_images";
 
+	const BOOKMARKS_ROOT_MENU_GUID = "menu________";
+	const DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME = "Sage-Like Feeds";
 	const STR_TITLE_EMPTY = "<no title>";
 
 	const FMT_IMAGE_SET = {
@@ -210,6 +212,8 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_COLORS: MSGD_PREF_CHANGE_COLORS,
 		MSGD_PREF_CHANGE_IMAGES: MSGD_PREF_CHANGE_IMAGES,
 
+		BOOKMARKS_ROOT_MENU_GUID: BOOKMARKS_ROOT_MENU_GUID,
+		DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME: DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME,
 		STR_TITLE_EMPTY: STR_TITLE_EMPTY,
 
 		IMAGE_SET_VALUES: IMAGE_SET_VALUES,
@@ -969,7 +973,7 @@ let slUtil = (function() {
 	function scrollIntoViewIfNeeded(elm, docElement) {
 		let result = isElementInViewport(elm, docElement);
 
-		//console.log("[sage-like]", elm.title, result);
+		//console.log("[Sage-Like]", elm.title, result);
 
 		if(!result.inViewport) {
 			elm.scrollIntoView({

@@ -5,6 +5,54 @@
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 
 	//////////////////////////////////////////////////////////////////////
+	// Sage-Like was installed
+	browser.runtime.onInstalled.addListener((details) => {
+
+		if(details.reason !== "install") return;
+
+		browser.bookmarks.search({ title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then((bookmarks) => {
+
+			let isFound = false;
+
+			for (const bookmark of bookmarks) {
+				if (bookmark.type === "folder") {
+					isFound = true;
+					prefs.setRootFeedsFolderId(bookmark.id);
+				}
+			}
+
+			if(!isFound) {
+
+				let newFolder = {
+					parentId: slGlobals.BOOKMARKS_ROOT_MENU_GUID,
+					title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME,
+					type: "folder",
+				};
+
+				browser.bookmarks.create(newFolder).then((created) => {
+
+					let newFeed1 = {parentId: created.id, title: "feed1", url: "https://ariel1"};
+					let newFeed2 = {parentId: created.id, title: "feed2", url: "https://ariel2"};
+					let newFeed3 = {parentId: created.id, title: "feed3", url: "https://ariel3"};
+
+					let createing1 = browser.bookmarks.create(newFeed1);
+					let createing2 = browser.bookmarks.create(newFeed2);
+					let createing3 = browser.bookmarks.create(newFeed3);
+
+					createing1.then(() => {
+						createing2.then(() => {
+							createing3.then(() => {
+								prefs.setRootFeedsFolderId(created.id);
+							});
+						});
+					});
+				});
+			}
+
+		});
+	});
+
+	//////////////////////////////////////////////////////////////////////
 	// Messages handler
 	browser.runtime.onMessage.addListener((message) => {
 
@@ -119,14 +167,14 @@
 						break;
 					}
 				} catch (error) {
-					console.log("[sage-like]", error);
+					console.log("[Sage-Like]", error);
 				}
 			}
 			browser.browserAction.setBadgeText({ text: (showNewBadge ? "N" : "") });
-			//console.log("[sage-like]", "Periodic check for new feeds performed in background.");
+			//console.log("[Sage-Like]", "Periodic check for new feeds performed in background.");
 
 		}).catch((error) => {
-			console.log("[sage-like]", error);
+			console.log("[Sage-Like]", error);
 		});
 	}
 })();

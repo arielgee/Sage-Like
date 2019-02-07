@@ -176,3 +176,5 @@
 
 * create default Sage-Like folder in bookmarks with some default feeds 'Sage-Like Feeds'
 * add dotted line to tree view
+
+* I get 'Error: node is null' when feeds folder is deleted from bookmarks window

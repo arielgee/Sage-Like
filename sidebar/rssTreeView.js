@@ -178,7 +178,7 @@ let rssTreeView = (function() {
 				monitorRSSTreeFeeds();
 
 			}).catch((error) => {
-				m_elmTreeRoot.appendChild(createErrorTagLI("Failed to load feed folder: " + error.message));
+				m_elmTreeRoot.appendChild(createErrorTagLI("Failed to load feeds folder: " + error.message));
 				browser.runtime.openOptionsPage();
 			});
 		});
@@ -303,7 +303,7 @@ let rssTreeView = (function() {
 					await slUtil.sleep(timeoutPause);
 				}
 			}
-			//console.log("[sage-like]", "Periodic check for new feeds performed in sidebar.");
+			//console.log("[Sage-Like]", "Periodic check for new feeds performed in sidebar.");
 		});
 	}
 
@@ -1318,7 +1318,7 @@ let rssTreeView = (function() {
 		m_semSuspendBookmarksEventHandlerReqCounter++;
 
 		callbackPromise().catch((error) => {
-			console.log("[sage-like]", error);
+			console.log("[Sage-Like]", error);
 		}).finally(() => m_semSuspendBookmarksEventHandlerReqCounter--);
 	}
 
