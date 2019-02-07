@@ -227,8 +227,8 @@ let internalPrefs = (function() {
 
 	// internal preferences
 
-	const DEF_PREF_OPEN_SUB_TREES = {};
-	const DEF_PREF_TREE_FEEDS_DATA = {};
+	const DEF_PREF_OPEN_SUB_TREES_VALUE = {};
+	const DEF_PREF_TREE_FEEDS_DATA_VALUE = {};
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
@@ -239,7 +239,7 @@ let internalPrefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_OPEN_SUB_TREES).then((result) => {
-				resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES : result[PREF_OPEN_SUB_TREES]);
+				resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES_VALUE : result[PREF_OPEN_SUB_TREES]);
 			});
 		});
 	}
@@ -258,7 +258,7 @@ let internalPrefs = (function() {
 		return new Promise((resolve) => {
 
 			browser.storage.local.get(PREF_TREE_FEEDS_DATA).then((result) => {
-				resolve(result[PREF_TREE_FEEDS_DATA] === undefined ? DEF_PREF_TREE_FEEDS_DATA : result[PREF_TREE_FEEDS_DATA]);
+				resolve(result[PREF_TREE_FEEDS_DATA] === undefined ? DEF_PREF_TREE_FEEDS_DATA_VALUE : result[PREF_TREE_FEEDS_DATA]);
 			});
 		});
 	}
@@ -273,12 +273,12 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
-		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES);
-		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA);
+		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES_VALUE);
+		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
 
 		return {
-			openSubTrees: DEF_PREF_OPEN_SUB_TREES,
-			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA,
+			openSubTrees: DEF_PREF_OPEN_SUB_TREES_VALUE,
+			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA_VALUE,
 		};
 	}
 
@@ -1016,7 +1016,7 @@ let slUtil = (function() {
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					reject("Root feeds folder id not set");
+					reject("Root feeds folder id not set (isDescendantOfRoot)");
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
@@ -1049,7 +1049,7 @@ let slUtil = (function() {
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					reject("Root feeds folder id not set");
+					reject("Root feeds folder id not set (bookmarksFeedsAsCollection)");
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
