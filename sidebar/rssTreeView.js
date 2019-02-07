@@ -267,18 +267,18 @@ let rssTreeView = (function() {
 		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
 		m_timeoutIdMonitorRSSTreeFeeds = null;
 
-		checkForNewRSSTreeFeedsData();
-
 		prefs.getCheckFeedsInterval().then((nextInterval) => {
 
 			// if interval is zero then do not perform background monitoring
 			if(nextInterval !== "0") {
 
+				checkForNewRSSTreeFeedsData();
+
 				// Repeat a new timeout session.
 				if(nextInterval.includes(":")) {
 					nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
 				}
-				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, nextInterval);
+				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, Number(nextInterval));
 			}
 		});
 	}

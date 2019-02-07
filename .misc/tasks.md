@@ -164,6 +164,7 @@
 * add ? to the 'Feeds Folder' preference explaining about the bookmarks; NO(?) => changed the title to 'Feeds Bookmarks Folder'
 * add the word 'background' to the 'Periodic feed check' preference
 * remove infobar on click
+* why when I say 'no thanks' there is one more checking?
 ---
 
 #### Next
@@ -173,6 +174,5 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* why when I say 'no thanks' there is one more checking?
 * create default Sage-Like folder in bookmarks with some default feeds 'Sage-Like Feeds'
 * add dotted line to tree view
