@@ -117,7 +117,7 @@
   * for new feed/folder the dialog provides a checkbox for 'Insert inside selected folder' when selected item is a folder
 * convert suspendBookmarksEventHandler() to a single call function
 * replace all classList.add\remove pairs with classList.toggle( String [, force] )
-* dingbats folder in preferencefeeds folder. a BLACK DIAMOND was the best I could find
+* dingbats folder in preference feeds folder. a BLACK DIAMOND was the best I could find
 * preference -> sidebar colors: write the captions in the color input. NO
 * refine the infobar. + left-to-right support
 * mark feed as un-visited
@@ -152,6 +152,8 @@
 * redesign the descovery view
 * all over; set focus (outline) on label and not on checkboxs
 * syndication not working when it a local XML file. Duh?! Browser Security!!! Can't access user's local files unless selected by the user
+* disable (optional) Periodic feed check when sage-like sidebar is closed
+    * Do Background Feed Check When Sage-Like Sidebar is Closed
 ---
 
 #### Next
@@ -160,3 +162,18 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 * mention in the description (readme) that only my Sage preference were implemented
+
+* add 'Lazy' option to 'Feed Check method' for one by one ?
+* create default Sage-Like folder in bookmarks with some default feeds 'Sage-Like Feeds'
+* add ? to the 'Feeds Folder' preference explaining about the bookmarks
+* may when I say no thanks there is one more checking?
+* remove infobar/itemDesc on click
+* add the word 'background' to the 'Periodic feed check' preference
+* add dotted line to tree view
+* dingbats folder in preference feeds folder. a BLACK DIAMOND was the best I could find
+    * FILE FOLDER: 📁 - &#x1f4c1;
+    * OPEN FILE FOLDER: 📂 - &#x1f4c2;
+    * BLACK FOLDER: - &#x1f5bf;
+    * OPEN FOLDER: - &#x1f5c1;
+    * FOLDER:  - &#x1f5c0;
+

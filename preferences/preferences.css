@@ -185,6 +185,16 @@ input[type="checkbox"].disabled {
   border-color: darkgray;
 }
 
+input[type="radio"].disabled:checked,
+input[type="checkbox"].disabled:checked  {
+  background-color: #707070;
+}
+
+input[type="radio"].disabled:not(:checked),
+input[type="checkbox"].disabled:not(:checked)  {
+  background-color: #e9e9e9;
+}
+
 #checkFeedsInterval option[value="-1"] {
   background-color: #e0e0e0;
 }

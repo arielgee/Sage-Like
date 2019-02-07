@@ -151,6 +151,7 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_ALL = "msgDetails_prefChange_all";
 	const MSGD_PREF_CHANGE_ROOT_FOLDER = "msgDetails_prefChange_rootFolder";
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL = "msgDetails_prefChange_checkFeedsInterval";
+	const MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED = "msgDetails_prefChange_checkFeedsWhenSbClosed";
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD = "msgDetails_prefChange_checkFeedsMethod";
 	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC = "msgDetails_prefChange_showFeedItemDesc";
 	const MSGD_PREF_CHANGE_UI_DENSITY = "msgDetails_prefChange_UIDensity";
@@ -202,6 +203,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_ALL: MSGD_PREF_CHANGE_ALL,
 		MSGD_PREF_CHANGE_ROOT_FOLDER: MSGD_PREF_CHANGE_ROOT_FOLDER,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL: MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL,
+		MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED: MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD: MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD,
 		MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC: MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC,
 		MSGD_PREF_CHANGE_UI_DENSITY: MSGD_PREF_CHANGE_UI_DENSITY,
@@ -294,6 +296,7 @@ let prefs = (function() {
 
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
+	const DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = true;
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
 	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
@@ -306,6 +309,7 @@ let prefs = (function() {
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
+	const PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = "pref_checkFeedsWhenSbClosed";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
@@ -351,6 +355,25 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_CHECK_FEEDS_INTERVAL] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getCheckFeedsWhenSbClosed() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE).then((result) => {
+				resolve(result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE] === undefined ? DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE : result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setCheckFeedsWhenSbClosed(value) {
+
+		let obj = {};
+		obj[PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -529,6 +552,7 @@ let prefs = (function() {
 	function restoreDefaults() {
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
 		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
+		this.setCheckFeedsWhenSbClosed(DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
 		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
@@ -542,6 +566,7 @@ let prefs = (function() {
 		return {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 			checkFeedsInterval: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
+			checkFeedsWhenSbClosed: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
 			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
@@ -557,6 +582,7 @@ let prefs = (function() {
 	return {
 		DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
+		DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
 		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
@@ -571,6 +597,8 @@ let prefs = (function() {
 		setRootFeedsFolderId: setRootFeedsFolderId,
 		getCheckFeedsInterval: getCheckFeedsInterval,
 		setCheckFeedsInterval: setCheckFeedsInterval,
+		getCheckFeedsWhenSbClosed: getCheckFeedsWhenSbClosed,
+		setCheckFeedsWhenSbClosed: setCheckFeedsWhenSbClosed,
 		getCheckFeedsMethod: getCheckFeedsMethod,
 		setCheckFeedsMethod: setCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,

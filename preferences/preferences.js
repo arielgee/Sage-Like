@@ -14,6 +14,7 @@ let preferences = (function() {
 
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsInterval;
+	let m_elmCheckFeedsWhenSbClosed;
 	let m_elmTimeOfDayBox;
 	let m_elmInputTime;
 	let m_elmCheckFeedsMethod;
@@ -46,6 +47,7 @@ let preferences = (function() {
 
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
 		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
+		m_elmCheckFeedsWhenSbClosed = document.getElementById("checkFeedsWhenSbClosed");
 		m_elmTimeOfDayBox = document.getElementById("timeOfDayBox");
 		m_elmInputTime = document.getElementById("inputTime");
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
@@ -81,6 +83,7 @@ let preferences = (function() {
 
 		m_elmRootFeedsFolder.removeEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsInterval.removeEventListener("change", onChangeCheckFeedsInterval);
+		m_elmCheckFeedsWhenSbClosed.removeEventListener("change", onChangeCheckFeedsWhenSbClosed);
 		m_elmTimeOfDayBox.removeEventListener("keydown", onKeyDownTimeOfDayBox);
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
@@ -115,6 +118,7 @@ let preferences = (function() {
 		// save preferences when changed
 		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
+		m_elmCheckFeedsWhenSbClosed.addEventListener("change", onChangeCheckFeedsWhenSbClosed);
 		m_elmTimeOfDayBox.addEventListener("keydown", onKeyDownTimeOfDayBox);
 		m_elmInputTime.addEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
@@ -155,6 +159,11 @@ let preferences = (function() {
 				m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
 			}
 			m_elmCheckFeedsInterval.value = value;
+			slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, value === "0");
+		});
+
+		prefs.getCheckFeedsWhenSbClosed().then((checked) => {
+			m_elmCheckFeedsWhenSbClosed.checked = checked;
 		});
 
 		prefs.getCheckFeedsMethod().then((value) => {
@@ -255,6 +264,13 @@ let preferences = (function() {
 			prefs.setCheckFeedsInterval(m_elmCheckFeedsInterval.value);
 			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
 		}
+		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, m_elmCheckFeedsInterval.value === "0");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeCheckFeedsWhenSbClosed(event) {
+		prefs.setCheckFeedsWhenSbClosed(m_elmCheckFeedsWhenSbClosed.checked);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -325,8 +341,11 @@ let preferences = (function() {
 		internalPrefs.restoreDefaults();
 		let defPrefs = prefs.restoreDefaults();
 
+		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, defPrefs.checkFeedsInterval === "0");
+
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
+		m_elmCheckFeedsWhenSbClosed.value = defPrefs.checkFeedsWhenSbClosed;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;

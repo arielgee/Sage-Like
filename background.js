@@ -47,6 +47,7 @@
 		//#region Bug 1398833
 		/*
 			+ Bug 1398833: https://bugzilla.mozilla.org/show_bug.cgi?id=1398833
+			+ Bug 1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 			+ sidebarAction.open/close may only be called from a user input handler
 
 			- When (and if) it's fixed I should change the browser_action.default_title
@@ -71,18 +72,17 @@
 		clearTimeout(m_timeoutIdMonitorBookmarkFeeds);
 		m_timeoutIdMonitorBookmarkFeeds = null;
 
-		let nextInterval, isOpen;
-
-		nextInterval = await prefs.getCheckFeedsInterval().catch(() => nextInterval = prefs.DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
+		let nextInterval = await prefs.getCheckFeedsInterval().catch(() => nextInterval = prefs.DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
 
 		// if interval is zero then do not perform background monitoring
 		if(nextInterval !== "0") {
 
-			isOpen = await browser.sidebarAction.isOpen({}).catch(() => isOpen = true);		// supported in 59.0
+			let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));		// supported in 59.0
+			let checkWhenSbClosed = await prefs.getCheckFeedsWhenSbClosed().catch(() => checkWhenSbClosed = prefs.DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
 
 			// background monitoring from the background page is done solely for
 			// the purpose of updating the action button when the sidebar is closed
-			if (!isOpen) {
+			if (isClosed && checkWhenSbClosed) {
 				await checkForNewBookmarkFeeds();
 			}
 
