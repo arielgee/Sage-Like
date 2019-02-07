@@ -888,10 +888,10 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function formatTimeWithAbbreviations(value) {
 
-		let parts = value.split(":");
+		let parts = value.split(":").map(x => Number(x));
 
-		let abbr = Number(parts[0]) < 12 ? "AM" : "PM";
-		parts[0] = Number(parts[0]) % 12 || 12;
+		let abbr = parts[0] < 12 ? "AM" : "PM";
+		parts[0] = parts[0] % 12 || 12;
 
 		// do not use join to avoid seconds
 		return parts[0] + ":" + parts[1] + " " + abbr;
