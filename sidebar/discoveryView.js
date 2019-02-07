@@ -193,7 +193,7 @@ let discoveryView = (function() {
 		elmListItem.title += feed.format      ? "Format:\u2003" + feed.format + "\u000d" : "";
 		elmListItem.title += feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toLocaleString() || feed.lastUpdated) + "\u000d" : "";
 		elmListItem.title += feed.items       ? "Items:\u2003" + feed.items + "\u000d" : "";
-		elmListItem.title += "URL:\u2003" + feed.url;
+		elmListItem.title += "URL:\u2003" + feed.url.toString();
 
 		elmListItem.appendChild(elmCheckBox);
 		elmLabel.appendChild(elmLabelCaption);

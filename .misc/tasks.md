@@ -118,6 +118,11 @@
 * convert suspendBookmarksEventHandler() to a single call function
 * replace all classList.add\remove pairs with classList.toggle( String [, force] )
 * dingbats folder in preference feeds folder. a BLACK DIAMOND was the best I could find
+    * FILE FOLDER: 📁 - &#x1f4c1;           => ugly as fuck
+    * OPEN FILE FOLDER: 📂 - &#x1f4c2;      => ugly as fuck
+    * BLACK FOLDER: - &#x1f5bf;             => not supported
+    * OPEN FOLDER: - &#x1f5c1;              => not supported
+    * FOLDER:  - &#x1f5c0;                  => not supported
 * preference -> sidebar colors: write the captions in the color input. NO
 * refine the infobar. + left-to-right support
 * mark feed as un-visited
@@ -155,6 +160,10 @@
 * disable (optional) Periodic feed check when sage-like sidebar is closed
     * Do Background Feed Check When Sage-Like Sidebar is Closed
 * add 'Lazy' option to 'Feed Check method' for one by one - 1.5 seconds between each one.
+* midTrunc long URLs in dicovery view title => NO
+* add ? to the 'Feeds Folder' preference explaining about the bookmarks; NO(?) => changed the title to 'Feeds Bookmarks Folder'
+* add the word 'background' to the 'Periodic feed check' preference
+* remove infobar on click
 ---
 
 #### Next
@@ -164,17 +173,6 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-
+* why when I say 'no thanks' there is one more checking?
 * create default Sage-Like folder in bookmarks with some default feeds 'Sage-Like Feeds'
-* add ? to the 'Feeds Folder' preference explaining about the bookmarks
-* may when I say no thanks there is one more checking?
-* remove infobar/itemDesc on click
-* add the word 'background' to the 'Periodic feed check' preference
 * add dotted line to tree view
-* dingbats folder in preference feeds folder. a BLACK DIAMOND was the best I could find
-    * FILE FOLDER: 📁 - &#x1f4c1;
-    * OPEN FILE FOLDER: 📂 - &#x1f4c2;
-    * BLACK FOLDER: - &#x1f5bf;
-    * OPEN FOLDER: - &#x1f5c1;
-    * FOLDER:  - &#x1f5c0;
-

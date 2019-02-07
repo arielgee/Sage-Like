@@ -1093,6 +1093,9 @@ let slUtil = (function() {
 
 		if(!m_elmInfoBar) {
 			m_elmInfoBar = document.getElementById("infoBar");
+			m_elmInfoBar.onclick = (e) => {
+				m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+			};
 		}
 
 		const CALL_TIMESTAMP = Date.now();
