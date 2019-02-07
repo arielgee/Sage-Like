@@ -271,7 +271,6 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeCheckFeedsWhenSbClosed(event) {
 		prefs.setCheckFeedsWhenSbClosed(m_elmCheckFeedsWhenSbClosed.checked);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
