@@ -346,8 +346,10 @@ let syndication = (function() {
 				if(ary[0].querySelector(selector) !== null) {
 
 					ary.sort((a, b) => {
-						let d1 = Date.parse(a.querySelector(selector).textContent);
-						let d2 = Date.parse(b.querySelector(selector).textContent);
+						let aNode = a.querySelector(selector);
+						let bNode = b.querySelector(selector);
+						let d1 = aNode ? Date.parse(aNode.textContent) : 0;
+						let d2 = bNode ? Date.parse(bNode.textContent) : 0;
 						return d2 - d1;
 					});
 
