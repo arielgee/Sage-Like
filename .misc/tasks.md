@@ -154,6 +154,7 @@
 * syndication not working when it a local XML file. Duh?! Browser Security!!! Can't access user's local files unless selected by the user
 * disable (optional) Periodic feed check when sage-like sidebar is closed
     * Do Background Feed Check When Sage-Like Sidebar is Closed
+* add 'Lazy' option to 'Feed Check method' for one by one - 1.5 seconds between each one.
 ---
 
 #### Next
@@ -163,7 +164,7 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* add 'Lazy' option to 'Feed Check method' for one by one ?
+
 * create default Sage-Like folder in bookmarks with some default feeds 'Sage-Like Feeds'
 * add ? to the 'Feeds Folder' preference explaining about the bookmarks
 * may when I say no thanks there is one more checking?

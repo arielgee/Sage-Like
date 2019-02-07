@@ -293,9 +293,9 @@ let rssTreeView = (function() {
 		prefs.getCheckFeedsMethod().then(async (value) => {
 
 			let counter = 0;
-			let method = value.split(";");
-			let batchSize = Math.ceil(elmLIs.length / Number(method[0]));
-			let timeoutPause = Number(method[1]);
+			let method = value.split(";").map(x => Number(x));
+			let batchSize = method[0] === 0 ? 1 : Math.ceil(elmLIs.length / method[0]);
+			let timeoutPause = method[1];
 
 			for(let elmLI of elmLIs) {
 				checkForNewFeedData(elmLI, elmLI.id, elmLI.getAttribute("href"));
