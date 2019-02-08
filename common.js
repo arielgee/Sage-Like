@@ -229,9 +229,11 @@ let internalPrefs = (function() {
 
 	const DEF_PREF_OPEN_SUB_TREES_VALUE = {};
 	const DEF_PREF_TREE_FEEDS_DATA_VALUE = {};
+	const DEF_PREF_IS_EXTENSION_INSTALLED_VALUE = null;
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
+	const PREF_IS_EXTENSION_INSTALLED = "pref_isExtensionInstalled";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenSubTrees() {
@@ -272,13 +274,34 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getIsExtensionInstalled() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_IS_EXTENSION_INSTALLED).then((result) => {
+				resolve(result[PREF_IS_EXTENSION_INSTALLED] === undefined ? DEF_PREF_IS_EXTENSION_INSTALLED_VALUE : result[PREF_IS_EXTENSION_INSTALLED]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setIsExtensionInstalled(objValue) {
+
+		let obj = {};
+		obj[PREF_IS_EXTENSION_INSTALLED] = objValue;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
+		this.setIsExtensionInstalled(DEF_PREF_IS_EXTENSION_INSTALLED_VALUE);
 
 		return {
 			openSubTrees: DEF_PREF_OPEN_SUB_TREES_VALUE,
 			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA_VALUE,
+			isExtensionInstalled: DEF_PREF_IS_EXTENSION_INSTALLED_VALUE,
 		};
 	}
 
@@ -287,6 +310,8 @@ let internalPrefs = (function() {
 		setOpenSubTrees: setOpenSubTrees,
 		getTreeFeedsData: getTreeFeedsData,
 		setTreeFeedsData: setTreeFeedsData,
+		getIsExtensionInstalled: getIsExtensionInstalled,
+		setIsExtensionInstalled: setIsExtensionInstalled,
 
 		restoreDefaults: restoreDefaults,
 	};
@@ -1016,7 +1041,7 @@ let slUtil = (function() {
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					reject("Root feeds folder id not set (isDescendantOfRoot)");
+					reject("Root feeds folder id not set (bookmarksFeedsAsCollection)");
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
@@ -1049,7 +1074,13 @@ let slUtil = (function() {
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					reject("Root feeds folder id not set (bookmarksFeedsAsCollection)");
+					reject("Root feeds folder id not set (isDescendantOfRoot)");
+				}
+
+				// if the feeds folder itself was modified
+				if(bookmarkIds.indexOf(folderId) > -1) {
+					resolve(true);
+					return;
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
@@ -1116,7 +1147,7 @@ let slUtil = (function() {
 
 		const RECT_REF_ELEMENT = getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
 
-		m_elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText;
+		m_elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText.replace(/\u000d/g, " ");
 		m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl")
 		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
 

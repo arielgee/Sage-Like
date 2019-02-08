@@ -91,7 +91,12 @@ let rssTreeView = (function() {
 	});
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onDOMContentLoaded() {
+	async function onDOMContentLoaded() {
+
+		if(await internalPrefs.getIsExtensionInstalled()) {
+			internalPrefs.setIsExtensionInstalled(false);
+			await handleOnInstallExtension();
+		}
 
 		m_objTreeFeedsData.purge();
 
@@ -1304,7 +1309,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.classList.toggle("alert", isAlertOn);
 
 		if(isAlertOn) {
-			m_elmCheckTreeFeeds.title = "The feed folder or it's content has been modified by another party.\u000dShift+click to reload.";
+			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\u000dShift+click to reload.";
 			slUtil.showInfoBar(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds, m_elmCheckTreeFeeds.style.direction);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
@@ -1378,6 +1383,94 @@ let rssTreeView = (function() {
 		} else {
 			m_elmTreeRoot.parentElement.focus();
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function handleOnInstallExtension() {
+
+		return new Promise((resolve) => {
+
+			browser.bookmarks.search({ title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then(async (bookmarks) => {
+
+				let rootId = null;
+
+				for (const bookmark of bookmarks) {
+					if (bookmark.type === "folder") {
+						rootId = bookmark.id;
+						break;
+					}
+				}
+
+				if (!rootId) {
+					rootId = await createOnInstallFeedsBookmarksFolder();
+				}
+
+				prefs.setRootFeedsFolderId(rootId);
+				resolve();
+			});
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function createOnInstallFeedsBookmarksFolder() {
+
+		return new Promise(async (resolve) => {
+
+			let folderRoot = {
+				parentId: slGlobals.BOOKMARKS_ROOT_MENU_GUID,
+				title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME,
+				type: "folder",
+			};
+
+			let folders = [
+				{	details: { parentId: null, title: "News", type: "folder" },
+					feeds: [{ parentId: null, title: "Google World United States", url: "https://news.google.com/news/rss/headlines/section/topic/WORLD" },
+							{ parentId: null, title: "Reddit World News", url: "https://www.reddit.com/r/worldnews/.rss" },
+							{ parentId: null, title: "BBC News", url: "http://feeds.bbci.co.uk/news/world/rss.xml" },
+							{ parentId: null, title: "BuzzFeed News", url: "https://www.buzzfeed.com/world.xml" },
+					],
+				},
+				{	details: { parentId: null, title: "Tech", type: "folder" },
+					feeds: [{ parentId: null, title: "Techmeme", url: "http://www.techmeme.com/feed.xml" },
+							{ parentId: null, title: "TechCrunch", url: "http://feeds.feedburner.com/TechCrunch" },
+							{ parentId: null, title: "Top News - MIT", url: "https://www.technologyreview.com/topnews.rss" },
+							{ parentId: null, title: "Ars Technica", url: "http://feeds.arstechnica.com/arstechnica/technology-lab" },
+					],
+				},
+				{	details: { parentId: null, title: "DIY", type: "folder" },
+					feeds: [{ parentId: null, title: "How Does She", url: "http://howdoesshe.com/category/do-it-yourself/feed" },
+						{ parentId: null, title: "Remodelaholic", url: "http://www.remodelaholic.com/category/diy/feed" },
+						{ parentId: null, title: "Smart School House", url: "http://www.smartschoolhouse.com/feed" },
+						{ parentId: null, title: "Ana White", url: "http://www.ana-white.com/feed" },
+					],
+				},
+			];
+
+			let createdRoot = await browser.bookmarks.create(folderRoot);
+			let createdFolder;
+
+			m_objOpenSubTrees.clear();
+
+			for (let idx=0; idx<folders.length; idx++) {
+				folders[idx].details.parentId = createdRoot.id;
+				createdFolder = await createBookmarksFolder(folders[idx]);
+				m_objOpenSubTrees.set(createdFolder.id);
+			}
+
+			resolve(createdRoot.id);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function createBookmarksFolder(folder) {
+
+		let createdFolder = await browser.bookmarks.create(folder.details);
+
+		for (let idx=0; idx<folder.feeds.length; idx++) {
+			folder.feeds[idx].parentId = createdFolder.id;
+			await browser.bookmarks.create(folder.feeds[idx]);
+		}
+		return createdFolder;
 	}
 
 	return {
