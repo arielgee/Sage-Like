@@ -167,6 +167,7 @@
 * why when I say 'no thanks' there is one more checking?
 * create default Sage-Like folder in bookmarks with some default feeds 'Sage-Like Feeds'
 * I get 'Error: node is null' when feeds folder is deleted from bookmarks window; browser.bookmarks.onXXXXX events now handle when the feed folder is deleted
+* need to handle all the browser.bookmarks.onXXXXX events? => onImportBegan & onImportEnded are not supported
 ---
 
 #### Next
@@ -176,7 +177,6 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* need to handle all the browser.bookmarks.onXXXXX events?
 * add dotted line to tree view
 * discovery select all feeds
 * maybe add js files for different code elements

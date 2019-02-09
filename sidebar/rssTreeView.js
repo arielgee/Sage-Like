@@ -633,7 +633,7 @@ let rssTreeView = (function() {
 
 		let ids = [id];
 
-		// bookmark removed
+		// bookmark moved/removed
 		if(objInfo.parentId) {
 			ids.push(objInfo.parentId);
 		}
@@ -1439,16 +1439,22 @@ let rssTreeView = (function() {
 				},
 				{	details: { parentId: null, title: "DIY", type: "folder" },
 					feeds: [{ parentId: null, title: "How Does She", url: "http://howdoesshe.com/category/do-it-yourself/feed" },
-						{ parentId: null, title: "Remodelaholic", url: "http://www.remodelaholic.com/category/diy/feed" },
-						{ parentId: null, title: "Smart School House", url: "http://www.smartschoolhouse.com/feed" },
-						{ parentId: null, title: "Ana White", url: "http://www.ana-white.com/feed" },
+							{ parentId: null, title: "Remodelaholic", url: "http://www.remodelaholic.com/category/diy/feed" },
+							{ parentId: null, title: "Smart School House", url: "http://www.smartschoolhouse.com/feed" },
+							{ parentId: null, title: "Ana White", url: "http://www.ana-white.com/feed" },
 					],
 				},
 				{	details: { parentId: null, title: "Sports", type: "folder" },
 					feeds: [{ parentId: null, title: "RunningPhysio", url: "http://www.running-physio.com/feed" },
-						{ parentId: null, title: "Goal", url: "http://www.goal.com/en/feeds/news?fmt=rss&ICID=HP" },
-						{ parentId: null, title: "Bike Rumor", url: "http://feeds.feedburner.com/BikeRumor" },
-						{ parentId: null, title: "CelticsBlog", url: "http://www.celticsblog.com/rss/current" },
+							{ parentId: null, title: "Goal", url: "http://www.goal.com/en/feeds/news?fmt=rss&ICID=HP" },
+							{ parentId: null, title: "Bike Rumor", url: "http://feeds.feedburner.com/BikeRumor" },
+							{ parentId: null, title: "CelticsBlog", url: "http://www.celticsblog.com/rss/current" },
+					],
+				},
+				{	details: { parentId: null, title: "Mozilla", type: "folder" },
+					feeds: [{ parentId: null, title: "Mozilla Press Center", url: "https://blog.mozilla.org/press/feed/" },
+							{ parentId: null, title: "The Mozilla Blog", url: "https://developer.mozilla.org/devnews/index.php/feed/atom/" },
+							{ parentId: null, title: "Extensions", url: "https://addons.mozilla.org/en-US/firefox/extensions/format:rss?sort=updated" },
 					],
 				},
 			];

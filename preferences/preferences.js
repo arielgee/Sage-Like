@@ -108,7 +108,6 @@ let preferences = (function() {
 		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
 		browser.bookmarks.onChanged.removeListener(onBookmarksEventHandler);
 		browser.bookmarks.onMoved.removeListener(onBookmarksEventHandler);
-
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +142,6 @@ let preferences = (function() {
 		browser.bookmarks.onRemoved.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
-
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
