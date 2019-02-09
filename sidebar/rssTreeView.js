@@ -1444,6 +1444,13 @@ let rssTreeView = (function() {
 						{ parentId: null, title: "Ana White", url: "http://www.ana-white.com/feed" },
 					],
 				},
+				{	details: { parentId: null, title: "Sports", type: "folder" },
+					feeds: [{ parentId: null, title: "RunningPhysio", url: "http://www.running-physio.com/feed" },
+						{ parentId: null, title: "Goal", url: "http://www.goal.com/en/feeds/news?fmt=rss&ICID=HP" },
+						{ parentId: null, title: "Bike Rumor", url: "http://feeds.feedburner.com/BikeRumor" },
+						{ parentId: null, title: "CelticsBlog", url: "http://www.celticsblog.com/rss/current" },
+					],
+				},
 			];
 
 			let createdRoot = await browser.bookmarks.create(folderRoot);
