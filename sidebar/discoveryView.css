@@ -47,22 +47,30 @@
 	margin: auto auto auto 0;
 }
 
-#discoverPanel #btnRediscover {
-	background: transparent url("/icons/reload.png") no-repeat left center;
+#discoverPanel .toolbarButton {
 	width: 16px;
 	height: 16px;
+}
+
+#discoverPanel #btnCheckmarkAll {
+	background: transparent url("/icons/checkmarkall.png") no-repeat left center;
+	margin: auto var(--item-spacer) auto var(--item-spacer);
+}
+
+#discoverPanel #btnRediscover {
+	background: transparent url("/icons/reload.png") no-repeat left center;
 	margin: auto 0 auto var(--item-spacer);
 }
 
-#discoverPanel #btnRediscover:hover {
+#discoverPanel .toolbarButton:hover {
 	filter: drop-shadow(0 0 4px #4747ff);
 }
 
-#discoverPanel #btnRediscover:active {
+#discoverPanel .toolbarButton:active {
 	filter: drop-shadow(0 0 5px #008f8f);
 }
 
-#discoverPanel #btnRediscover.disabled {
+#discoverPanel .toolbarButton.disabled {
 	filter: grayscale(100%) opacity(40%);
 	pointer-events: none;
 }

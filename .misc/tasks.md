@@ -168,6 +168,7 @@
 * create default Sage-Like folder in bookmarks with some default feeds 'Sage-Like Feeds'
 * I get 'Error: node is null' when feeds folder is deleted from bookmarks window; browser.bookmarks.onXXXXX events now handle when the feed folder is deleted
 * need to handle all the browser.bookmarks.onXXXXX events? => onImportBegan & onImportEnded are not supported
+* discovery select all feeds
 ---
 
 #### Next
@@ -178,5 +179,6 @@
 * mention in the description (readme) that only my Sage preference were implemented
 
 * add dotted line to tree view
-* discovery select all feeds
 * maybe add js files for different code elements
+* make toolbar bk color as the dialog bk color
+* need to do something about the CSS buttons hover/active. it looks bad

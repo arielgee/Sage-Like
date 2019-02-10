@@ -17,6 +17,7 @@ let discoveryView = (function() {
 	let m_elmDiscoverPanel = null;
 	let m_elmDiscoverFeedsList;
 
+	let m_elmButtonCheckmarkAll;
 	let m_elmButtonRediscover;
 	let m_elmButtonAdd;
 	let m_elmButtonCancel;
@@ -38,12 +39,14 @@ let discoveryView = (function() {
 		m_elmMainPanel = document.getElementById("mainPanel");
 		m_elmDiscoverPanel = document.getElementById("discoverPanel");
 		m_elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
+		m_elmButtonCheckmarkAll = document.getElementById("btnCheckmarkAll");
 		m_elmButtonRediscover = document.getElementById("btnRediscover");
 		m_elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
 		m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 		m_elmLabelInfobar = document.getElementById("lblInfobar");
 
 		m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
+		m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
 		m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
@@ -69,6 +72,7 @@ let discoveryView = (function() {
 		setStatusbarMessage("", false);
 
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
+		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
 		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
@@ -215,6 +219,7 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setDiscoverLoadingState(isLoading) {
 		m_elmDiscoverPanel.classList.toggle("loading", isLoading);
+		m_elmButtonCheckmarkAll.classList.toggle("disabled", isLoading)
 		m_elmButtonRediscover.classList.toggle("disabled", isLoading)
 	}
 
@@ -265,6 +270,19 @@ let discoveryView = (function() {
 				break;
 				//////////////////////////////
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickButtonCheckmarkAll(event) {
+
+		if(m_elmButtonCheckmarkAll.checkmarkAction === undefined) {
+			m_elmButtonCheckmarkAll.checkmarkAction = true;
+		}
+
+		for (let item of m_elmDiscoverFeedsList.children) {
+			item.firstElementChild.checked = m_elmButtonCheckmarkAll.checkmarkAction;
+		}
+		m_elmButtonCheckmarkAll.checkmarkAction = !m_elmButtonCheckmarkAll.checkmarkAction;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
