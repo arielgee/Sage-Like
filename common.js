@@ -1124,7 +1124,7 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showInfoBar(infoText = "", refElement = undefined, dirStyle = "", showDuration = 3500) {
+	function showInfoBar(infoText = "", refElement = undefined, dirStyle = "", isAlertive = true, showDuration = 3500) {
 
 		if(!m_elmInfoBar) {
 			m_elmInfoBar = document.getElementById("infoBar");
@@ -1148,7 +1148,8 @@ let slUtil = (function() {
 		const RECT_REF_ELEMENT = getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
 
 		m_elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText.replace(/\u000d/g, " ");
-		m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl")
+		m_elmInfoBar.classList.toggle("alertive", isAlertive);
+		m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl");
 		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
 
 		const POS_OFFSET = 12;

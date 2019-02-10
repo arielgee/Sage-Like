@@ -152,10 +152,14 @@ html, body {
 	z-index: 1;
 	padding: 3px 9px;
 	background-color: var(--bk-color-info-window);
-	border: 2px solid crimson;
+	border: 2px solid #143cdc;
 	border-radius: 0 12px 12px 12px;
 	font-weight: normal;
 	top: -99999px;
+}
+
+#infoBar.alertive {
+	border-color: crimson;
 }
 
 #infoBar.rightToLeftBorder {
@@ -177,5 +181,9 @@ html, body {
 #infoBar .infoBarSymbol {
 	font-size: 150%;
 	font-weight: bolder;
+	color: #143cdc;
+}
+
+#infoBar.alertive .infoBarSymbol {
 	color: crimson;
 }
