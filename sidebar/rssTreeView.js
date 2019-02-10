@@ -93,17 +93,17 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
 
-		if(await internalPrefs.getIsExtensionInstalled()) {
-			internalPrefs.setIsExtensionInstalled(false);
-			await handleOnInstallExtension();
-		}
-
-		m_objTreeFeedsData.purge();
-
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
 		m_elmTreeRoot = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
+
+		m_objTreeFeedsData.purge();
+
+		if(await internalPrefs.getIsExtensionInstalled()) {
+			internalPrefs.setIsExtensionInstalled(false);
+			await handleOnInstallExtension();
+		}
 
 		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
@@ -1390,20 +1390,13 @@ let rssTreeView = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.bookmarks.search({ title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then(async (bookmarks) => {
+			browser.bookmarks.search({ title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then(async (treeNodes) => {
 
-				let rootId = null;
+				let foundNode = treeNodes.find((node) => { return node.type === "folder"; });
 
-				for (const bookmark of bookmarks) {
-					if (bookmark.type === "folder") {
-						rootId = bookmark.id;
-						break;
-					}
-				}
-
-				if (!rootId) {
-					rootId = await createOnInstallFeedsBookmarksFolder();
-				}
+				slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, m_elmCheckTreeFeeds.style.direction, false);
+				let rootId = (foundNode ? foundNode.id : await createOnInstallFeedsBookmarksFolder());
+				slUtil.showInfoBar("");
 
 				prefs.setRootFeedsFolderId(rootId);
 				resolve();
@@ -1423,38 +1416,38 @@ let rssTreeView = (function() {
 			};
 
 			let folders = [
-				{	details: { parentId: null, title: "News", type: "folder" },
-					feeds: [{ parentId: null, title: "Google World United States", url: "https://news.google.com/news/rss/headlines/section/topic/WORLD" },
-							{ parentId: null, title: "Reddit World News", url: "https://www.reddit.com/r/worldnews/.rss" },
-							{ parentId: null, title: "BBC News", url: "http://feeds.bbci.co.uk/news/world/rss.xml" },
-							{ parentId: null, title: "BuzzFeed News", url: "https://www.buzzfeed.com/world.xml" },
+				{	details: { title: "News", type: "folder" },
+					feeds: [{ title: "Reddit World News", url: "https://www.reddit.com/r/worldnews/.rss" },
+							{ title: "BBC News", url: "http://feeds.bbci.co.uk/news/world/rss.xml" },
+							{ title: "BuzzFeed News", url: "https://www.buzzfeed.com/world.xml" },
+						//	{ title: "Google World United States", url: "https://news.google.com/news/rss/headlines/section/topic/WORLD" },
 					],
 				},
-				{	details: { parentId: null, title: "Tech", type: "folder" },
-					feeds: [{ parentId: null, title: "Techmeme", url: "http://www.techmeme.com/feed.xml" },
-							{ parentId: null, title: "TechCrunch", url: "http://feeds.feedburner.com/TechCrunch" },
-							{ parentId: null, title: "Top News - MIT", url: "https://www.technologyreview.com/topnews.rss" },
-							{ parentId: null, title: "Ars Technica", url: "http://feeds.arstechnica.com/arstechnica/technology-lab" },
+				{	details: { title: "Tech", type: "folder" },
+					feeds: [{ title: "TechCrunch", url: "http://feeds.feedburner.com/TechCrunch" },
+							{ title: "Top News - MIT", url: "https://www.technologyreview.com/topnews.rss" },
+							{ title: "Ars Technica", url: "http://feeds.arstechnica.com/arstechnica/technology-lab" },
+						//	{ title: "Techmeme", url: "http://www.techmeme.com/feed.xml" },
 					],
 				},
-				{	details: { parentId: null, title: "DIY", type: "folder" },
-					feeds: [{ parentId: null, title: "How Does She", url: "http://howdoesshe.com/category/do-it-yourself/feed" },
-							{ parentId: null, title: "Remodelaholic", url: "http://www.remodelaholic.com/category/diy/feed" },
-							{ parentId: null, title: "Smart School House", url: "http://www.smartschoolhouse.com/feed" },
-							{ parentId: null, title: "Ana White", url: "http://www.ana-white.com/feed" },
+				{	details: { title: "DIY", type: "folder" },
+					feeds: [{ title: "Pretty Handy Girl", url: "https://www.prettyhandygirl.com/feed/" },
+							{ title: "Man Made DIY", url: "https://www.manmadediy.com/site_index.rss" },
+							{ title: "Ana White", url: "http://www.ana-white.com/feed" },
+						//	{ title: "Remodelaholic", url: "http://www.remodelaholic.com/category/diy/feed" },
 					],
 				},
-				{	details: { parentId: null, title: "Sports", type: "folder" },
-					feeds: [{ parentId: null, title: "RunningPhysio", url: "http://www.running-physio.com/feed" },
-							{ parentId: null, title: "Goal", url: "http://www.goal.com/en/feeds/news?fmt=rss&ICID=HP" },
-							{ parentId: null, title: "Bike Rumor", url: "http://feeds.feedburner.com/BikeRumor" },
-							{ parentId: null, title: "CelticsBlog", url: "http://www.celticsblog.com/rss/current" },
+				{	details: { title: "Sports", type: "folder" },
+					feeds: [{ title: "RunningPhysio", url: "http://www.running-physio.com/feed" },
+							{ title: "Goal", url: "http://www.goal.com/en/feeds/news?fmt=rss&ICID=HP" },
+							{ title: "Bike Rumor", url: "http://feeds.feedburner.com/BikeRumor" },
+						//	{ title: "CelticsBlog", url: "http://www.celticsblog.com/rss/current" },
 					],
 				},
-				{	details: { parentId: null, title: "Mozilla", type: "folder" },
-					feeds: [{ parentId: null, title: "Mozilla Press Center", url: "https://blog.mozilla.org/press/feed/" },
-							{ parentId: null, title: "The Mozilla Blog", url: "https://developer.mozilla.org/devnews/index.php/feed/atom/" },
-							{ parentId: null, title: "Extensions", url: "https://addons.mozilla.org/en-US/firefox/extensions/format:rss?sort=updated" },
+				{	details: { title: "Mozilla", type: "folder" },
+					feeds: [{ title: "Mozilla Press Center", url: "https://blog.mozilla.org/press/feed/" },
+							{ title: "The Mozilla Blog", url: "https://developer.mozilla.org/devnews/index.php/feed/atom/" },
+							{ title: "Extensions", url: "https://addons.mozilla.org/en-US/firefox/extensions/format:rss?sort=updated" },
 					],
 				},
 			];
