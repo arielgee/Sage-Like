@@ -181,18 +181,22 @@ let preferences = (function() {
 
 		prefs.getColorBackground().then((color) => {
 			m_elmColorBackground.value = color;
+			m_elmColorBackground.title = colorInputTitle(color);
 		});
 
 		prefs.getColorDialogBackground().then((color) => {
 			m_elmColorDialogBackground.value = color;
+			m_elmColorDialogBackground.title = colorInputTitle(color);
 		});
 
 		prefs.getColorSelect().then((color) => {
 			m_elmColorSelect.value = color;
+			m_elmColorSelect.title = colorInputTitle(color);
 		});
 
 		prefs.getColorText().then((color) => {
 			m_elmColorText.value = color;
+			m_elmColorText.title = colorInputTitle(color);
 		});
 
 		prefs.getImageSet().then((set) => {
@@ -299,24 +303,28 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
+		m_elmColorBackground.title = colorInputTitle(m_elmColorBackground.value);
 		prefs.setColorBackground(m_elmColorBackground.value);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorDialogBackground(event) {
+		m_elmColorDialogBackground.title = colorInputTitle(m_elmColorDialogBackground.value);
 		prefs.setColorDialogBackground(m_elmColorDialogBackground.value);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorSelect(event) {
+		m_elmColorSelect.title = colorInputTitle(m_elmColorSelect.value);
 		prefs.setColorSelect(m_elmColorSelect.value);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorText(event) {
+		m_elmColorText.title = colorInputTitle(m_elmColorText.value);
 		prefs.setColorText(m_elmColorText.value);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
 	}
@@ -504,6 +512,11 @@ let preferences = (function() {
 	//==================================================================================
 	//=== Misc. functions
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function colorInputTitle(colorValue) {
+		return (colorValue && colorValue[0] === "#" ? "HTML notation: " + colorValue.toLowerCase() : "");
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function broadcastPreferencesUpdated(details) {

@@ -7,9 +7,9 @@
 	--line-height: 19px;		/* UI density: Comfortable */
 	--rss-tree-indent: 18px;	/* UI density: Comfortable */
 
-	--bk-color-window: #FFFFFF;
-	--bk-color-window-inverted: #000000;
-	--bk-color-dialog: #EEEEEE;
+	--bk-color-window: #F3F3F3;
+	--bk-color-window-inverted: #0C0C0C;
+	--bk-color-dialog: #E3E3E3;
 	--bk-color-active: #F3C8BA;
 	--bk-color-active-inverted: #0C3745;
 	--bk-color-info-window: #FFFEDF;
@@ -58,7 +58,7 @@ html, body {
 	--buttons-spacer: 8px;
 	width: 100%;
 	height: var(--toolbar-height);
-	background-color: #e3e3e3;
+	background-color: var(--bk-color-dialog);
 	border-top: 1px #7f7f7f solid;
 	border-bottom: 1px #7f7f7f solid;
 	padding: 5px var(--buttons-spacer);
