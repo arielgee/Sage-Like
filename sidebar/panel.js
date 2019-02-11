@@ -111,12 +111,16 @@
 
 		prefs.getColorBackground().then(color => {
 			style.setProperty("--bk-color-window", color);
-			style.setProperty("--bk-color-window-inverted", slUtil.invertColor(color));
+			style.setProperty("--bk-color-window-contrasted", slUtil.contrastColor(color));
 		});
-		prefs.getColorDialogBackground().then(color => { style.setProperty("--bk-color-dialog", color); });
+		prefs.getColorDialogBackground().then(color => {
+			style.setProperty("--bk-color-dialog", color);
+			style.setProperty("--bk-color-dialog-contrasted", slUtil.contrastColor(color));
+			style.setProperty("--bk-color-dialog-contrasted-alfa", slUtil.contrastColor(color) + "80");
+		});
 		prefs.getColorSelect().then(color => {
 			style.setProperty("--bk-color-active", color);
-			style.setProperty("--bk-color-active-inverted", slUtil.invertColor(color));
+			style.setProperty("--bk-color-active-contrasted", slUtil.contrastColor(color));
 		});
 		prefs.getColorText().then(color => { style.setProperty("--color-text", color); });
 	}

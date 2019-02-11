@@ -35,7 +35,7 @@
 }
 
 .propContainer > input[type="checkbox"]:first-child {
-	margin: auto var(--panel-spacing) auto 0;
+	margin: auto 5px auto 0;
 }
 
 .propContainer > input[type="checkbox"]:first-child:focus + label {

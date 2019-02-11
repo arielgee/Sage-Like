@@ -103,13 +103,13 @@
 }
 
 .treeview li.draggedOver > .rtvCaption {
-	box-shadow: 0 -2px 0 0 var(--bk-color-window-inverted);
+	box-shadow: 0 -2px 0 0 var(--bk-color-window-contrasted);
 }
 
 .treeview li.rtvSubTree.draggedOver.dropInside > .rtvCaption {
 	box-shadow: none;
 	color: var(--bk-color-window);
-	background-color: var(--bk-color-window-inverted);
+	background-color: var(--bk-color-window-contrasted);
 }
 
 .treeview li.errormsg {

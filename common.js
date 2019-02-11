@@ -1124,6 +1124,22 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function contrastColor(color) {
+
+		let c = color.replace(/^#/, "");
+
+		let r = parseInt(c.substring(0, 2), 16);
+		let g = parseInt(c.substring(2, 4), 16);
+		let b = parseInt(c.substring(4, 6), 16);
+
+		/// World Wide Web Consortium (W3C) standard formula for
+		// calculating the perceived brightness of a color
+		let brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+		return (brightness < 123) ? "#ffffff" : "#000000";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function showInfoBar(infoText = "", refElement = undefined, dirStyle = "", isAlertive = true, showDuration = 3500) {
 
 		if(!m_elmInfoBar) {
@@ -1240,6 +1256,7 @@ let slUtil = (function() {
 		reloadSageLikeWebExtensionAndTab: reloadSageLikeWebExtensionAndTab,
 		replaceMozExtensionOriginURL: replaceMozExtensionOriginURL,
 		invertColor: invertColor,
+		contrastColor: contrastColor,
 		showInfoBar: showInfoBar,
 	};
 

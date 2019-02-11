@@ -28,7 +28,7 @@
 }
 
 #discoverPanel .captionImage {
-	background: transparent var(--url-img-tree-item) no-repeat left center;
+	background: transparent var(--url-img-tree-item) no-repeat center center;
 	width: 16px;
 	height: 16px;
 	margin: auto var(--item-spacer) auto 0;
@@ -39,7 +39,6 @@
 }
 
 #discoverPanel .caption {
-	margin: 4px 0 4px 0;
 	margin: auto var(--item-spacer) auto 0;
 }
 
@@ -47,30 +46,30 @@
 	margin: auto auto auto 0;
 }
 
-#discoverPanel .toolbarButton {
-	width: 16px;
-	height: 16px;
+#discoverPanel .button {
+	width: 20px;
+	height: 20px;
+	border-radius: 2px;
+	margin: auto 0 auto calc(var(--item-spacer) * 2);
 }
 
 #discoverPanel #btnCheckmarkAll {
-	background: transparent url("/icons/checkmarkall.png") no-repeat left center;
-	margin: auto var(--item-spacer) auto var(--item-spacer);
+	background: transparent url("/icons/checkmarkall.png") no-repeat center center;
 }
 
 #discoverPanel #btnRediscover {
-	background: transparent url("/icons/reload.png") no-repeat left center;
-	margin: auto 0 auto var(--item-spacer);
+	background: transparent url("/icons/reload.png") no-repeat center center;
 }
 
-#discoverPanel .toolbarButton:hover {
-	filter: drop-shadow(0 0 4px #4747ff);
+#discoverPanel .button:hover {
+	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted-alfa);
 }
 
-#discoverPanel .toolbarButton:active {
-	filter: drop-shadow(0 0 5px #008f8f);
+#discoverPanel .button:active {
+	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted);
 }
 
-#discoverPanel .toolbarButton.disabled {
+#discoverPanel .button.disabled {
 	filter: grayscale(100%) opacity(40%);
 	pointer-events: none;
 }

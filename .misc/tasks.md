@@ -171,6 +171,7 @@
 * discovery select all feeds
 * maybe add js files for different code elements => NO
 * make toolbar bk color as the dialog bk color
+* need to do something about the CSS buttons hover/active. it looks bad => much better
 ---
 
 #### Next
@@ -181,4 +182,3 @@
 * mention in the description (readme) that only my Sage preference were implemented
 
 * add dotted line to tree view => FUUUUUUCK
-* need to do something about the CSS buttons hover/active. it looks bad

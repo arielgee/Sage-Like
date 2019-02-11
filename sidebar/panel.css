@@ -8,10 +8,12 @@
 	--rss-tree-indent: 18px;	/* UI density: Comfortable */
 
 	--bk-color-window: #F3F3F3;
-	--bk-color-window-inverted: #0C0C0C;
+	--bk-color-window-contrasted: #000000;
 	--bk-color-dialog: #E3E3E3;
+	--bk-color-dialog-contrasted: #000000;
+	--bk-color-dialog-contrasted-alfa: #00000080;
 	--bk-color-active: #F3C8BA;
-	--bk-color-active-inverted: #0C3745;
+	--bk-color-active-contrasted: #000000;
 	--bk-color-info-window: #FFFEDF;
 	--color-text: #000000;
 }
@@ -67,8 +69,9 @@ html, body {
 }
 
 .toolbar .button {
-	width: 16px;
-	height: 16px;
+	width: 18px;
+	height: 18px;
+	border-radius: 2px;
 	margin: auto var(--buttons-spacer) auto 0;
 }
 
@@ -81,11 +84,11 @@ html, body {
 }
 
 .toolbar .button:hover {
-	filter: drop-shadow(0 0 4px #4747ff);
+	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted-alfa);
 }
 
 .toolbar .button:active {
-	filter: drop-shadow(0 0 5px #008f8f);
+	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted);
 }
 
 .spacer {
@@ -99,19 +102,19 @@ html, body {
 }
 
 #checkTreeFeeds {
-	background: transparent url("/icons/reload.png") no-repeat left center;
+	background: transparent url("/icons/reload.png") no-repeat center center;
 }
 #discoverfeed {
-	background: transparent url("/icons/discover.png") no-repeat left center;
+	background: transparent url("/icons/discover.png") no-repeat center center;
 }
 #expandall {
-	background: transparent url("/icons/expandall.png") no-repeat left center;
+	background: transparent url("/icons/expandall.png") no-repeat center center;
 }
 #collapseall {
-	background: transparent url("/icons/collapseall.png") no-repeat left center;
+	background: transparent url("/icons/collapseall.png") no-repeat center center;
 }
 #preferences {
-	background: transparent url("/icons/preferences.png") no-repeat left center;
+	background: transparent url("/icons/preferences.png") no-repeat center center;
 }
 
 .disabled {
