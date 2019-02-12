@@ -275,6 +275,11 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonCheckmarkAll(event) {
 
+		// noting to checkmark
+		if(m_elmDiscoverFeedsList.firstElementChild.classList.contains("novalidfeeds")) {
+			return;
+		}
+
 		if(m_elmButtonCheckmarkAll.checkmarkAction === undefined) {
 			m_elmButtonCheckmarkAll.checkmarkAction = true;
 		}
