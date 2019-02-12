@@ -503,6 +503,18 @@ let rssListView = (function() {
 		m_elmListViewStatusbar.classList.toggle("visible", isVisible);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function getListViewStats() {
+
+		let totalCount = m_elmList.querySelectorAll(".rlvListItem").length;
+		let unreadCount = m_elmList.querySelectorAll(".rlvListItem.bold").length;
+
+		return {
+			totalCount: totalCount,
+			unreadCount: unreadCount,
+		}
+	}
+
 	return {
 		setFeedItems: setFeedItems,
 		disposeList: disposeList,
@@ -514,6 +526,7 @@ let rssListView = (function() {
 		switchViewDirection: switchViewDirection,
 		openAllItemsInTabs: openAllItemsInTabs,
 		setFocus: setFocus,
+		getListViewStats: getListViewStats,
 	};
 
 })();
