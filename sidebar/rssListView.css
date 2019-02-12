@@ -70,11 +70,10 @@
 }
 
 #feedItemDescPanel > .descTitle {
-	height: calc(var(--line-height) * 1.3);
+	max-height: calc(var(--line-height) * 3);
+	margin-bottom: calc(var(--line-height) * 0.3);
 	font-weight: bold;
 	text-decoration: underline;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 	overflow: hidden;
 }
 
