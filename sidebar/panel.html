@@ -13,12 +13,14 @@
 	<script type="text/javascript" src="rssListView.js"></script>
 	<script type="text/javascript" src="discoveryView.js"></script>
 	<script type="text/javascript" src="propertiesView.js"></script>
+	<script type="text/javascript" src="messageView.js"></script>
 	<link rel="stylesheet" type="text/css" href="panel.css" />
 	<link rel="stylesheet" type="text/css" href="contextMenu.css" />
 	<link rel="stylesheet" type="text/css" href="rssTreeView.css" />
 	<link rel="stylesheet" type="text/css" href="rssListView.css" />
 	<link rel="stylesheet" type="text/css" href="discoveryView.css" />
 	<link rel="stylesheet" type="text/css" href="propertiesView.css" />
+	<link rel="stylesheet" type="text/css" href="messageView.css" />
 </head>
 
 <body>
@@ -156,6 +158,21 @@
 		<div id="mnuListCopyFeedItemUrl" class="contextmenuitem listitemcontext"><u>C</u>opy</div>
 		<hr class="listitemcontext listcontext">
 		<div id="mnuListSwitchDirection" class="contextmenuitem listitemcontext listcontext"><u>S</u>witch View Direction</div>
+	</div>
+
+
+	<!-- ////////////////////////// Context Menu ////////////////////////// -->
+	<div id="messagePanel" tabindex="0">
+
+		<div id="msgText"></div>
+
+		<div id="btnSetOK" class="buttonSet">
+			<button type="button" class="dlgButton" id="btnMsgOK">OK</button>
+		</div>
+		<div id="btnSetYesNo" class="buttonSet">
+			<button type="button" class="dlgButton" id="btnMsgYes">Yes</button>
+			<button type="button" class="dlgButton" id="btnMsgNo">No</button>
+		</div>
 	</div>
 
 </body>

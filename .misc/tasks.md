@@ -172,6 +172,7 @@
 * maybe add js files for different code elements => NO
 * make toolbar bk color as the dialog bk color
 * need to do something about the CSS buttons hover/active. it looks bad => much better
+* add messagePanel with OK & Yes/No buttons => warn before delete feed and notify about RSS drop before treeOpen actions (context menu)
 ---
 
 #### Next
@@ -181,4 +182,6 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
+* convert all panels to work like the messagePanel (with a promise). MAJOR RE-WRITE!
 * add dotted line to tree view => FUUUUUUCK

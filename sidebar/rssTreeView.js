@@ -75,6 +75,7 @@ let rssTreeView = (function() {
 
 			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 				message.details === slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER) {
+				messageView.close();
 				discoveryView.close();
 				NewFeedPropertiesView.i.close();
 				NewFolderPropertiesView.i.close();
@@ -1059,20 +1060,28 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function deleteFeed(elmLI) {
 
-		suspendBookmarksEventHandler(() => {
-			return browser.bookmarks.remove(elmLI.id).then(() => {
+		let text = "Permanently delete <b>'" + elmLI.firstElementChild.textContent + "'</b> from your bookmarks ?"
 
-				if(elmLI.nextElementSibling !== null) {
-					elmLI.nextElementSibling.focus();
-				} else if(elmLI.previousElementSibling !== null) {
-					elmLI.previousElementSibling.focus();
-				} else {
-					m_elmCurrentlySelected = null;
-				}
+		messageView.show(text, messageView.ButtonSet.setYesNo).then((result) => {
 
-				elmLI.parentElement.removeChild(elmLI);
-				m_objTreeFeedsData.remove(elmLI.id);
-			});
+			if(result === messageView.ButtonCode.Yes) {
+
+				suspendBookmarksEventHandler(() => {
+					return browser.bookmarks.remove(elmLI.id).then(() => {
+
+						if(elmLI.nextElementSibling !== null) {
+							elmLI.nextElementSibling.focus();
+						} else if(elmLI.previousElementSibling !== null) {
+							elmLI.previousElementSibling.focus();
+						} else {
+							m_elmCurrentlySelected = null;
+						}
+
+						elmLI.parentElement.removeChild(elmLI);
+						m_objTreeFeedsData.remove(elmLI.id);
+					});
+				});
+			}
 		});
 	}
 

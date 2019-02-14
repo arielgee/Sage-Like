@@ -39,12 +39,16 @@
 
 	let m_currentContext = "";
 	let m_bActivePanelOpened = false;
+	let m_browserVersion;				// V64 RSS support dropped
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
+
+		// V64 RSS support dropped
+		saveBrowserVersion();
 
 		m_elmSidebarBody = document.body;
 		m_elmContextMenu = document.getElementById("mnuContextMenu");
@@ -271,6 +275,24 @@
 
 		closeContextMenu();
 
+		// #ReigonStart V64 RSS support dropped
+		let noSupportOpenRssFeedActions = [
+			ContextAction.treeOpen,
+			ContextAction.treeOpenNewTab,
+			ContextAction.treeOpenNewWin,
+			ContextAction.treeOpenNewPrivateWin,
+		];
+
+		if(noSupportOpenRssFeedActions.indexOf(menuAction) > -1 ) {
+			if(m_browserVersion >= "64") {
+				let text = "Since Firefox 64 the built-in support for RSS feeds was dropped (thanks Mozilla!).<br/><br/>" +
+							"I'll provide a solution for this feature as soon as possible.<br/><br/>Sorry."
+				messageView.show(text, messageView.ButtonSet.setOK, true).then(() => {});
+				return;
+			}
+		}
+		// #ReigonEnd V64 RSS support dropped
+
 		if (m_elmEventTarget !== undefined && m_elmEventTarget !== null) {
 			handleMenuActions(menuAction, { url: m_elmEventTarget.getAttribute("href") });
 		}
@@ -421,6 +443,13 @@
 		// hide the rest
 		m_elmContextMenu.querySelectorAll(":not(." + className + ")").forEach((item) => {
 			item.style.display = "none";
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function saveBrowserVersion() {
+		browser.runtime.getBrowserInfo().then((result) => {
+			m_browserVersion = result.version;
 		});
 	}
 
