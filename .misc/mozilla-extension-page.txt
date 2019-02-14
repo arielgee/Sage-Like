@@ -7,9 +7,9 @@ Since Firefox 64 the built-in support for RSS feeds was dropped (thanks Mozilla!
 
 
 
-+ Product Page Tags
++ Product Page Tags (20 tags)
 --------------------------------------------------------------
-atom, channel, detector, discover, easy, erinome, feed, feedbro, feeder, feedly, firefox57, pinrss, rdf, reader, rss, rsspreview, sage, simple, tiny, web feed
+atom, channel, discover, easy, feed, feedbro, feeder, feedly, pinrss, rdf, reader, rss, rsspreview, sage, simple, syndication, tiny, web feed, feed reader
 
 
 
