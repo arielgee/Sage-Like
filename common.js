@@ -1232,6 +1232,13 @@ let slUtil = (function() {
 		return (document.body.scrollHeight > window.innerHeight ? getScrollbarWidth() : 0);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function getQueryStringValue(field) {
+		let reg = new RegExp("[?&]" + field + "=([^&#]*)", "i");
+		let value = reg.exec(window.location.href);
+		return value ? value[1] : null;
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -1258,6 +1265,7 @@ let slUtil = (function() {
 		invertColor: invertColor,
 		contrastColor: contrastColor,
 		showInfoBar: showInfoBar,
+		getQueryStringValue: getQueryStringValue,
 	};
 
 })();
