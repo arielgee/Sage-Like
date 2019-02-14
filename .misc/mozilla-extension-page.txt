@@ -1,0 +1,27 @@
+
++ Product Page Description (About this extension)
+--------------------------------------------------------------
+Sage-Like is a simple, sidebar based feed reader (Atom, RSS and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I tried to keep it lightweight and fast.
+
+Since Firefox 64 the built-in support for RSS feeds was dropped (thanks Mozilla!). I'll provide a solution for this feature as soon as possible.
+
+
+
++ Product Page Tags
+--------------------------------------------------------------
+atom, channel, detector, discover, easy, erinome, feed, feedbro, feeder, feedly, firefox57, pinrss, rdf, reader, rss, rsspreview, sage, simple, tiny, web feed
+
+
+
++ Manage Version - Version Notes
+--------------------------------------------------------------
+<b>Changes</b>
+<ul>
+  <li>Add warning message before deleting a feed from the tree view.</li>
+  <li>Added notification message for Firefox v64 about dropped RSS support when trying to open a feed in the browser.</li>
+</ul>
+
+<b>Unresolved</b>
+<ul>
+  <li>Due to dropped RSS support since Firefox v64 can't open a feed in the browser as an HTML page (feed -> context menu -> open xxx). I'll provide a solution for this feature as soon as possible.</li>
+</ul>
