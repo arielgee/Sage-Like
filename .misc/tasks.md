@@ -182,6 +182,7 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* get feed-item lastUpdate node from syndication
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * convert all panels to work like the messagePanel (with a promise). MAJOR RE-WRITE!
 * add dotted line to tree view => FUUUUUUCK

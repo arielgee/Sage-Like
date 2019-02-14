@@ -1,0 +1,49 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+:root {
+	font-family: Tahoma, Sans;
+	font-weight: normal;
+	font-size: 12.8px;
+
+}
+
+html {
+    background-color: #c0c0c0;
+}
+
+body {
+    padding: 0 35px;
+}
+
+#feedBody {
+    background-color: #d3d3d3;
+    border: 1px solid #7f7f7f;
+    padding: 35px;
+    margin: 24px auto;
+    padding-inline-start: 30px;
+}
+
+#feedTitleText {
+    font-weight: bold;
+    font-size: 175%;
+    border-bottom: 2px solid #c0c0c0;
+    margin-bottom: 2px;
+}
+
+#feedDescriptionText {
+    font-size: 125%;
+    color: gray;
+    margin-bottom: 18px;
+}
+
+.feedItemTitle {
+    margin: 12.8px 0;
+}
+
+.feedItemTitleText {
+    font-weight: bold;
+}
+
+.feedItemLastUpdatedText {
+    font-size: 90%;
+}
