@@ -90,21 +90,16 @@ let syndication = (function() {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedXMLText(url, reload, timeout).then((feedXML) => {
+			fetchFeedData(url, timeout, reload).then((feedData) => {
 
-				let feedData = getFeedData(feedXML.txtXML);
+				let list = createFeedItemsList(feedData);
 
-				if(feedData.standard === SyndicationStandard.invalid) {
-					reject("Failed to get feed data. " + feedData.errorMsg);
+				if(list.length > 0) {
+					resolve({ list: list, feedData: feedData});
 				} else {
-					let list = createFeedItemsList(feedData);
-
-					if(list.length > 0) {
-						resolve({ list: list, feedData: feedData});
-					} else {
-						reject("No RSS feed items identified in document.");
-					}
+					reject("No RSS feed items identified in document.");
 				}
+
 			}).catch((error) => {
 				reject(error.message);
 			});
