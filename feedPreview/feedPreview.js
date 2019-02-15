@@ -1,75 +1,93 @@
 "use strict";
 
-(function() {
+(function () {
 
-	//==================================================================================
-	//=== Variables Declerations
-	//==================================================================================
-
-    let m_elmFeedContent;
-
-    document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
-        m_elmFeedContent = document.getElementById("feedContent");
+		let urlFeed = slUtil.getQueryStringValue("urlFeed");
 
-        console.log("[Sage-Like]", slUtil.getQueryStringValue("urlFeed"));
-
-
-        document.getElementById("feedTitleText").textContent = "ariel da male";
-        document.getElementById("feedDescriptionText").textContent = "Who is da male ?????????";
-    }
+		createFeedPreview(urlFeed);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createHTMLFeedTitle(feedData) {
+	function createFeedPreview(urlFeed) {
 
-        let elmFeedTitle = document.createElement("div");
-        let elmFeedTitleText = document.createElement("div");
-        let elmFeedDescText = document.createElement("div");
+		prefs.getFetchTimeout().then((timeout) => {
+			syndication.fetchFeedItems(urlFeed, timeout * 1000).then((result) => {
 
-        elmFeedTitle.id = "feedTitle";
-        elmFeedTitleText.id = "feedTitleText";
-        elmFeedDescText.id = "feedDescriptionText";
+				document.title = result.feedData.title;
+				let elmFeedTitle = createFeedTitleElements(result.feedData);
 
-        elmFeedTitleText.textContent = feedData.title;
-        elmFeedDescText.textContent = feedData.description;
+				let elmFeedContent = document.createElement("div");
+				let elmFeedItem;
 
-        elmFeedTitle.appendChild(elmFeedTitleText);
-        elmFeedTitle.appendChild(elmFeedDescText);
+				elmFeedContent.id = "feedContent";
 
-        return elmFeedTitle;
-    }
+				for(let idx=0; idx<result.list.length; idx++) {
+					elmFeedItem = createFeedItemElements(result.list[idx]);
+					elmFeedContent.appendChild(elmFeedItem);
+				}
+
+				let elmFeedBody = document.getElementById("feedBody");
+
+				elmFeedBody.appendChild(elmFeedTitle);
+				elmFeedBody.appendChild(elmFeedContent);
+				elmFeedBody.removeChild(document.getElementById("loadingImg"));
+			});
+		});
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createHTMLFeedItem(feedItem) {
+	function createFeedTitleElements(feedData) {
 
-        let elmFeedItem = document.createElement("div");
-        let elmFeedItemTitle = document.createElement("div");
-        let elmFeedItemLink = document.createElement("a");
-        let elmFeedItemTitleText = document.createElement("div");
-        let elmFeedItemLastUpdatedText = document.createElement("div");
-        let elmFeedItemContent = document.createElement("div");
+		let elmFeedTitle = document.createElement("div");
+		let elmFeedTitleText = document.createElement("div");
+		let elmFeedDescText = document.createElement("div");
 
-        elmFeedItem.className = "feedItem";
-        elmFeedItemTitle.className = "feedItemTitle";
-        elmFeedItemTitleText.className = "feedItemTitleText";
-        elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
-        elmFeedItemContent.className = "feedItemContent";
+		elmFeedTitle.id = "feedTitle";
+		elmFeedTitleText.id = "feedTitleText";
+		elmFeedDescText.id = "feedDescriptionText";
 
-        elmFeedItemLink.href = feedItem.url;
-        elmFeedItemTitleText.textContent = feedItem.title;
-        elmFeedItemLastUpdatedText.textContent = feedItem.???;
-        elmFeedItemContent.textContent = feedItem.desc;
+		elmFeedTitleText.textContent = feedData.title;
+		elmFeedDescText.textContent = feedData.description;
 
-        elmFeedItem.appendChild(elmFeedItemTitle);
-        elmFeedItem.appendChild(elmFeedItemContent);
-        elmFeedItemTitle.appendChild(elmFeedItemLink);
-        elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
-        elmFeedItemLink.appendChild(elmFeedItemTitleText);
+		elmFeedTitle.appendChild(elmFeedTitleText);
+		elmFeedTitle.appendChild(elmFeedDescText);
 
-        return elmFeedItem;
-    }
+		return elmFeedTitle;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createFeedItemElements(feedItem) {
+
+		let elmFeedItem = document.createElement("div");
+		let elmFeedItemTitle = document.createElement("div");
+		let elmFeedItemLink = document.createElement("a");
+		let elmFeedItemTitleText = document.createElement("div");
+		let elmFeedItemLastUpdatedText = document.createElement("div");
+		let elmFeedItemContent = document.createElement("div");
+
+		elmFeedItem.className = "feedItem";
+		elmFeedItemTitle.className = "feedItemTitle";
+		elmFeedItemTitleText.className = "feedItemTitleText";
+		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
+		elmFeedItemContent.className = "feedItemContent";
+
+		elmFeedItemLink.href = feedItem.url;
+		elmFeedItemTitleText.textContent = feedItem.title;
+		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toLocaleString();
+		elmFeedItemContent.textContent = feedItem.desc;
+
+		elmFeedItem.appendChild(elmFeedItemTitle);
+		elmFeedItem.appendChild(elmFeedItemContent);
+		elmFeedItemTitle.appendChild(elmFeedItemLink);
+		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
+		elmFeedItemLink.appendChild(elmFeedItemTitleText);
+
+		return elmFeedItem;
+	}
 
 })();

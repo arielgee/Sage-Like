@@ -329,24 +329,28 @@
 		switch (menuAction) {
 
 			case ContextAction.treeOpen:
+				actionData.url = getFeedPreviewUrl(actionData.url);
 			case ContextAction.listOpen:
 				browser.tabs.update({ url: actionData.url });
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewTab:
+				actionData.url = getFeedPreviewUrl(actionData.url);
 			case ContextAction.listOpenNewTab:
 				browser.tabs.create({ url: actionData.url });
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewWin:
+				actionData.url = getFeedPreviewUrl(actionData.url);
 			case ContextAction.listOpenNewWin:
 				browser.windows.create({ url: actionData.url, type: "normal" });
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewPrivateWin:
+				actionData.url = getFeedPreviewUrl(actionData.url);
 			case ContextAction.listOpenNewPrivateWin:
 				browser.windows.create({ url: actionData.url, type: "normal", incognito: true });
 				break;
@@ -444,6 +448,11 @@
 		m_elmContextMenu.querySelectorAll(":not(." + className + ")").forEach((item) => {
 			item.style.display = "none";
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getFeedPreviewUrl(url) {
+		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + url);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

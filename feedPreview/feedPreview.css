@@ -1,26 +1,81 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-	font-family: Tahoma, Sans;
+	font-family: "Segoe UI", Tahoma, sans-serif;
 	font-weight: normal;
 	font-size: 12.8px;
-
 }
 
 html {
-    background-color: #c0c0c0;
+    background-color: #c8c8c8;
 }
 
 body {
     padding: 0 35px;
+    min-width: 550px;
+}
+
+#pageHeaderContainer {
+    background-color: #ffffe1;
+    border: 1px solid #7f7f7f;
+    border-radius: 0 0 20px 20px;
+    margin: -20px auto 0 auto;
+    padding: 26px 15px 15px 15px;
+    box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
+}
+
+#pageHeaderContainerInner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+#pageHeaderIcon {
+    width: 32px;
+    height: 32px;
+    background: transparent url("/icons/sageLike-32.png") no-repeat center/100%;
+}
+
+#pageHeaderText {
+    font-size: 270%;
+    font-weight: bold;
+    text-align: center;
+    line-height: 48px;
+    margin-left: 12px;
 }
 
 #feedBody {
-    background-color: #d3d3d3;
+    background-color: #ededed;
     border: 1px solid #7f7f7f;
     padding: 35px;
     margin: 24px auto;
     padding-inline-start: 30px;
+    border-radius: 6px;
+    box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
+}
+
+#loadingImg {
+    --loading-img-size: 32px;
+    display: block;
+    width: var(--loading-img-size);
+    height: var(--loading-img-size);
+    margin: 0 auto;
+}
+#loadingImg:after {
+    content: " ";
+    display: block;
+    width: var(--loading-img-size);
+    height: var(--loading-img-size);
+    margin: 1px;
+    border-radius: 50%;
+    border: 5px solid #000000;
+    border-color: #000000 transparent #000000 transparent;
+    animation: loadingImg 1s linear infinite;
+}
+@keyframes loadingImg {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 #feedTitleText {
@@ -32,7 +87,7 @@ body {
 
 #feedDescriptionText {
     font-size: 125%;
-    color: gray;
+    color: #707070;
     margin-bottom: 18px;
 }
 
@@ -46,4 +101,12 @@ body {
 
 .feedItemLastUpdatedText {
     font-size: 90%;
+    color: #707070;
+}
+
+.feedItemContent {
+    margin-inline-start: 15px;
+    padding-inline-start: 5px;
+    padding-inline-end: 5px;
+    background-color: #fdfdfd;
 }
