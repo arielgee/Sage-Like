@@ -195,7 +195,7 @@ let discoveryView = (function() {
 		//elmListItem.title += "Link Title:\u2003" + feed.linkTitle + "\u000d";
 		elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
 		elmListItem.title += feed.format      ? "Format:\u2003" + feed.format + "\u000d" : "";
-		elmListItem.title += feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toLocaleString() || feed.lastUpdated) + "\u000d" : "";
+		elmListItem.title += feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "";
 		elmListItem.title += feed.items       ? "Items:\u2003" + feed.items + "\u000d" : "";
 		elmListItem.title += "URL:\u2003" + feed.url.toString();
 

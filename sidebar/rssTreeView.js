@@ -327,7 +327,7 @@ let rssTreeView = (function() {
 
 				let updateTime = slUtil.asSafeNumericDate(feedData.lastUpdated);
 
-				setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toLocaleString());		// feedData.description not displayed as thirdLine in tooltip
+				setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toWebExtensionLocaleString());		// feedData.description not displayed as thirdLine in tooltip
 				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
 				updateFeedTitle(elmLI, feedData.title);
 			}).catch((error) => {
@@ -429,7 +429,7 @@ let rssTreeView = (function() {
 
 					setFeedVisitedState(elmLI, true);
 					updateFeedTitle(elmLI, result.feedData.title);
-					setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toLocaleString());
+					setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toWebExtensionLocaleString());
 
 					// change the rssListView content only if this is the last user click.
 					if(thisFeedClickTime === m_lastClickedFeedTime) {

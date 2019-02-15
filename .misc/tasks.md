@@ -173,6 +173,8 @@
 * make toolbar bk color as the dialog bk color
 * need to do something about the CSS buttons hover/active. it looks bad => much better
 * add messagePanel with OK & Yes/No buttons => warn before delete feed and notify about RSS drop before treeOpen actions (context menu)
+* get feed-item lastUpdate node from syndication
+* change local dateTime string format
 ---
 
 #### Next
@@ -182,7 +184,7 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* get feed-item lastUpdate node from syndication
+
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * convert all panels to work like the messagePanel (with a promise). MAJOR RE-WRITE!
 * add dotted line to tree view => FUUUUUUCK

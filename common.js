@@ -760,6 +760,20 @@ let slUtil = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	Date.prototype.toWebExtensionLocaleString = function() {
+		let options = {
+			weekday: "long",
+			month: "long",
+			day: "numeric",
+			year: "numeric",
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: false
+		};
+		return this.toLocaleString(undefined, options);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function random1to100() {
 		return Math.floor(Math.random() * (100 - 1) + 1).toString();
 	}
