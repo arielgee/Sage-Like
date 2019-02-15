@@ -209,11 +209,6 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickPreferences(event) {
-		//browser.runtime.openOptionsPage();
-
-
-		// +++ this is temporary - just for testing
-		let url = browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=https://www.ynet.co.il");
-		browser.tabs.create({ active: true, url: url });
+		browser.runtime.openOptionsPage();
 	}
 })();
