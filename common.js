@@ -750,8 +750,8 @@ let slUtil = (function() {
 	String.prototype.stripHtmlTags.regexLinkTag = new RegExp("<\\s*\\blink\\b[^>]*>([\\s\\S]*?)</\\s*\\blink\\b\\s*>", "gim");
 	String.prototype.stripHtmlTags.regexFrameTag = new RegExp("<\\s*\\bi?frame\\b[^>]*>([\\s\\S]*?)</\\s*\\bi?frame\\b\\s*>", "gim");
 	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bembed\\b[^>]*>([\\s\\S]*?)</\\s*\\bembed\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bapplet\\b[^>]*>([\\s\\S]*?)</\\s*\\bapplet\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bobject\\b[^>]*>([\\s\\S]*?)</\\s*\\bobject\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexAppletTag = new RegExp("<\\s*\\bapplet\\b[^>]*>([\\s\\S]*?)</\\s*\\bapplet\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexObjectTag = new RegExp("<\\s*\\bobject\\b[^>]*>([\\s\\S]*?)</\\s*\\bobject\\b\\s*>", "gim");
 	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?\\s*\\b[a-zA-Z0-9]+\\b[^>]*>", "gm");
 
 	//////////////////////////////////////////////////////////////////////
