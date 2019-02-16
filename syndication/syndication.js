@@ -128,7 +128,7 @@ let syndication = (function() {
 					// all versions have <title> & <link>. <description> is optional or missing (v0.90)
 					FeedItem["title"] = item.querySelector("title") ? item.querySelector("title").textContent.stripHtmlTags() : "";
 					FeedItem["lastUpdated"] = getFeedItemLastUpdate(item);
-					FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent.stripHtmlTags() : "";
+					FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent/*.stripHtmlTags()*/ : "";
 					FeedItem["url"] = elmLink.textContent.stripHtmlTags();
 					FeedItemList.push(FeedItem);
 				}
@@ -148,7 +148,7 @@ let syndication = (function() {
 				if(elmLink) {
 					FeedItem["title"] = item.querySelector("title") ? item.querySelector("title").textContent.stripHtmlTags() : "";
 					FeedItem["lastUpdated"] = getFeedItemLastUpdate(item);
-					FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent.stripHtmlTags() : "";
+					FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent/*.stripHtmlTags()*/ : "";
 					FeedItem["url"] = elmLink.getAttribute("href").stripHtmlTags();
 					FeedItemList.push(FeedItem);
 				}

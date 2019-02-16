@@ -79,7 +79,8 @@
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title;
 		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
-		elmFeedItemContent.textContent = feedItem.desc;
+		//elmFeedItemContent.textContent = feedItem.desc;
+		elmFeedItemContent.innerHTML = feedItem.desc;
 
 		elmFeedItem.appendChild(elmFeedItemTitle);
 		elmFeedItem.appendChild(elmFeedItemContent);
