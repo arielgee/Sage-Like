@@ -710,6 +710,10 @@ let slUtil = (function() {
 		"&pound;": "£",
 		"&yen;": "¥",
 		"&euro;": "€",
+		"&raquo;": "»",
+		"&laquo;": "«",
+		"&bull": "•",
+		"&mdash;": "—",
 	};
 	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
 
@@ -768,7 +772,7 @@ let slUtil = (function() {
 			year: "numeric",
 			hour: "2-digit",
 			minute: "2-digit",
-			hour12: false
+			hour12: false,
 		};
 		return this.toLocaleString(undefined, options);
 	}

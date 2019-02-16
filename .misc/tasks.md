@@ -188,3 +188,4 @@
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * convert all panels to work like the messagePanel (with a promise). MAJOR RE-WRITE!
 * add dotted line to tree view => FUUUUUUCK
+* look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()
