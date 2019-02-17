@@ -1060,7 +1060,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function deleteFeed(elmLI) {
 
-		let text = "Permanently delete <b>'" + elmLI.firstElementChild.textContent + "'</b> from your bookmarks ?"
+		let text = "Permanently delete <b>'" + elmLI.firstElementChild.textContent + "'</b> from your bookmarks?"
 
 		messageView.show(text, messageView.ButtonSet.setYesNo).then((result) => {
 
