@@ -48,7 +48,9 @@
 	function onDOMContentLoaded() {
 
 		// V64 RSS support dropped
-		saveBrowserVersion();
+		slUtil.getBrowserVersion().then((version) => {
+			m_browserVersion = version;
+		});
 
 		m_elmSidebarBody = document.body;
 		m_elmContextMenu = document.getElementById("mnuContextMenu");
@@ -263,9 +265,15 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
 
+		closeContextMenu();
+
+		// do noting if no target element
+		if (!m_elmEventTarget) return;
+
 		let openPanelActions = [
 			ContextAction.treeNewFeed,
 			ContextAction.treeNewFolder,
+			ContextAction.treeDeleteFeed,
 			ContextAction.treeProperties,
 		];
 
@@ -273,9 +281,7 @@
 			m_bActivePanelOpened = true;
 		}
 
-		closeContextMenu();
-
-		// #ReigonStart V64 RSS support dropped
+		// V64 RSS support dropped
 		let noSupportOpenRssFeedActions = [
 			ContextAction.treeOpen,
 			ContextAction.treeOpenNewTab,
@@ -283,19 +289,17 @@
 			ContextAction.treeOpenNewPrivateWin,
 		];
 
+		let actionData = { url: "" };
+
 		if(noSupportOpenRssFeedActions.indexOf(menuAction) > -1 ) {
 			if(m_browserVersion >= "64") {
-				let text = "Since Firefox 64 the built-in support for RSS feeds was dropped (thanks Mozilla!).<br/><br/>" +
-							"I'll provide a solution for this feature as soon as possible.<br/><br/>Sorry."
-				messageView.show(text, messageView.ButtonSet.setOK, true).then(() => {});
-				return;
+				actionData.url = getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"));
+			} else {
+				actionData.url = m_elmEventTarget.getAttribute("href");
 			}
 		}
-		// #ReigonEnd V64 RSS support dropped
 
-		if (m_elmEventTarget !== undefined && m_elmEventTarget !== null) {
-			handleMenuActions(menuAction, { url: m_elmEventTarget.getAttribute("href") });
-		}
+		handleMenuActions(menuAction, actionData);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -303,23 +307,23 @@
 
 		closeContextMenu();
 
-		if (m_elmEventTarget !== undefined && m_elmEventTarget !== null) {
+		// do noting if no target element
+		if (!m_elmEventTarget) return;
 
-			let url = m_elmEventTarget.getAttribute("href");
-			handleMenuActions(menuAction, { url: url });
+		let url = m_elmEventTarget.getAttribute("href");
+		handleMenuActions(menuAction, { url: url });
 
-			let openActions = [
-				ContextAction.listOpen,
-				ContextAction.listOpenNewTab,
-				ContextAction.listOpenNewWin,
-				ContextAction.listOpenNewPrivateWin
-			];
+		let openActions = [
+			ContextAction.listOpen,
+			ContextAction.listOpenNewTab,
+			ContextAction.listOpenNewWin,
+			ContextAction.listOpenNewPrivateWin
+		];
 
-			if(openActions.indexOf(menuAction) !== -1) {
-				slUtil.addUrlToBrowserHistory(url, m_elmEventTarget.textContent).then(() => {
-					rssListView.setItemRealVisitedState(m_elmEventTarget, url);
-				});
-			}
+		if(openActions.indexOf(menuAction) !== -1) {
+			slUtil.addUrlToBrowserHistory(url, m_elmEventTarget.textContent).then(() => {
+				rssListView.setItemRealVisitedState(m_elmEventTarget, url);
+			});
 		}
 	}
 
@@ -329,28 +333,24 @@
 		switch (menuAction) {
 
 			case ContextAction.treeOpen:
-				actionData.url = getFeedPreviewUrl(actionData.url);
 			case ContextAction.listOpen:
 				browser.tabs.update({ url: actionData.url });
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewTab:
-				actionData.url = getFeedPreviewUrl(actionData.url);
 			case ContextAction.listOpenNewTab:
 				browser.tabs.create({ url: actionData.url });
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewWin:
-				actionData.url = getFeedPreviewUrl(actionData.url);
 			case ContextAction.listOpenNewWin:
 				browser.windows.create({ url: actionData.url, type: "normal" });
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewPrivateWin:
-				actionData.url = getFeedPreviewUrl(actionData.url);
 			case ContextAction.listOpenNewPrivateWin:
 				browser.windows.create({ url: actionData.url, type: "normal", incognito: true });
 				break;
@@ -453,13 +453,6 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedPreviewUrl(url) {
 		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + url);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function saveBrowserVersion() {
-		browser.runtime.getBrowserInfo().then((result) => {
-			m_browserVersion = result.version;
-		});
 	}
 
 })();

@@ -1257,6 +1257,15 @@ let slUtil = (function() {
 		return value ? value[1] : null;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function getBrowserVersion() {
+		return new Promise((resolve) => {
+			browser.runtime.getBrowserInfo().then((result) => {
+				resolve(result.version);
+			});
+		});
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -1284,6 +1293,7 @@ let slUtil = (function() {
 		contrastColor: contrastColor,
 		showInfoBar: showInfoBar,
 		getQueryStringValue: getQueryStringValue,
+		getBrowserVersion: getBrowserVersion,
 	};
 
 })();
