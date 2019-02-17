@@ -291,12 +291,10 @@
 
 		let actionData = { url: "" };
 
-		if(noSupportOpenRssFeedActions.indexOf(menuAction) > -1 ) {
-			if(m_browserVersion >= "64") {
-				actionData.url = getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"));
-			} else {
-				actionData.url = m_elmEventTarget.getAttribute("href");
-			}
+		if(noSupportOpenRssFeedActions.indexOf(menuAction) > -1 && m_browserVersion >= "64") {
+			actionData.url = getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"));
+		} else {
+			actionData.url = m_elmEventTarget.getAttribute("href");
 		}
 
 		handleMenuActions(menuAction, actionData);
