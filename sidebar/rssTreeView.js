@@ -229,7 +229,7 @@ let rssTreeView = (function() {
 		// ++ normalize the textContent
 		if(textContent.length === 0) {
 			let url = new URL(href);
-			textContent = (href === null) ? slGlobals.STR_TITLE_EMPTY : url.host;
+			textContent = (href === null) ? slGlobals.STR_TITLE_EMPTY : url.hostname;
 		}
 
 		let elmCaption = document.createElement("div");

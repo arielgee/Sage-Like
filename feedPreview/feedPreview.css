@@ -93,6 +93,7 @@ body {
 
 .feedItemTitle {
     margin: 12.8px 0;
+    font-size: 110%;
 }
 
 .feedItemTitleText {
@@ -109,4 +110,11 @@ body {
     padding-inline-start: 5px;
     padding-inline-end: 5px;
     background-color: #fdfdfd;
+}
+
+.feedItemContent img {
+    max-width: 400px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
 }

@@ -84,6 +84,11 @@
 	overflow: hidden;
 }
 
+#feedItemDescPanel > .descBody * {
+	font-size: 11px;
+	font-weight: normal;
+}
+
 #listViewStatusbar {
 	display: none;
 	position: fixed;
