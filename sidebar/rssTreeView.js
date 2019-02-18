@@ -331,7 +331,7 @@ let rssTreeView = (function() {
 				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
 				updateFeedTitle(elmLI, feedData.title);
 			}).catch((error) => {
-				setFeedErrorState(elmLI, true, error);
+				setFeedErrorState(elmLI, true, error.message);
 			}).finally(() => {	// wait for Fx v58
 				setFeedLoadingState(elmLI, false);
 			});
@@ -438,11 +438,11 @@ let rssTreeView = (function() {
 
 				}).catch((error) => {
 
-					setFeedErrorState(elmLI, true, error);
+					setFeedErrorState(elmLI, true, error.message);
 
 					// change the rssListView content only if this is the last user click.
 					if(thisFeedClickTime === m_lastClickedFeedTime) {
-						rssListView.setListErrorMsg(error, elmLI.textContent);
+						rssListView.setListErrorMsg(error.message, elmLI.textContent);
 					}
 				}).finally(() => {	// wait for Fx v58
 

@@ -184,6 +184,8 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* handle error when previewing feed
+* what is 'replaceMozExtensionOriginURL()' to 'relativeToAbsoluteURL()'
 
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * convert all panels to work like the messagePanel (with a promise). MAJOR RE-WRITE!

@@ -1,5 +1,14 @@
 "use strict";
 
+class SyndicationError extends Error {
+	constructor(message, objError = undefined) {
+		super(message);
+		if(objError && objError instanceof Error) {
+			this.message += " " + objError.message;
+		}
+	}
+}
+
 let syndication = (function() {
 
 	let SyndicationStandard = Object.freeze({
@@ -74,13 +83,13 @@ let syndication = (function() {
 				let feedData = getFeedData(feedXML.txtXML);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
-					reject("Failed to get feed data. " + feedData.errorMsg);
+					reject(new SyndicationError("Failed to get feed data. " + feedData.errorMsg));
 				} else {
 					resolve(feedData);
 				}
 
 			}).catch((error) => {
-				reject(error.message);
+				reject(error);
 			});
 		});
 	}
@@ -97,11 +106,11 @@ let syndication = (function() {
 				if(list.length > 0) {
 					resolve({ list: list, feedData: feedData});
 				} else {
-					reject("No RSS feed items identified in document.");
+					reject(new SyndicationError("No RSS feed items identified in document."));
 				}
 
 			}).catch((error) => {
-				reject(error.message);
+				reject(error);
 			});
 		});
 	}
@@ -177,15 +186,15 @@ let syndication = (function() {
 							resolve( { url: url, txtXML: txtXML } );
 						});
 					}).catch((error) => {
-						reject( { url: url, message: "Failed to get response stream (blob). " + error.message } );
+						reject(new SyndicationError("Failed to get response stream (blob).", error));
 					});
 
 				} else {
-					reject( { url: url, message: "Failed to retrieve feed XML from URL. " + response.status + " " + response.statusText } );
+					reject(new SyndicationError("Failed to retrieve feed XML from URL. " + response.status + ": " + response.statusText));
 				}
 
 			}).catch((error) => {
-				reject( { url: url, message: "Failed to fetch feed from URL. " + error.message } );
+				reject(new SyndicationError("Failed to fetch feed from URL.", error));
 			});
 		});
 	}
