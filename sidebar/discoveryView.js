@@ -302,6 +302,7 @@ let discoveryView = (function() {
 
 			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				setStatusbarMessage("Feeds folder not set in Options page.", true);
+				browser.runtime.openOptionsPage();
 			} else {
 
 				let newFeedsList = collectSelectedFeeds();
