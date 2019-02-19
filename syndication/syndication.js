@@ -1,11 +1,15 @@
 "use strict";
 
 class SyndicationError extends Error {
-	constructor(message, objError = undefined) {
-		super(message);
-		if(objError && objError instanceof Error) {
-			this.message += " " + objError.message;
+	constructor(message, errInfo = undefined) {
+		if(errInfo) {
+			if(errInfo instanceof Error) {
+				message += " [ " + errInfo.message + " ]";
+			} else if(typeof(errInfo) === "string") {
+				message += " [ " + errInfo + " ]";
+			}
 		}
+		super(message);
 	}
 }
 
@@ -83,7 +87,7 @@ let syndication = (function() {
 				let feedData = getFeedData(feedXML.txtXML);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
-					reject(new SyndicationError("Failed to get feed data. " + feedData.errorMsg));
+					reject(new SyndicationError("Failed to get feed data.", feedData.errorMsg));
 				} else {
 					resolve(feedData);
 				}
@@ -190,7 +194,7 @@ let syndication = (function() {
 					});
 
 				} else {
-					reject(new SyndicationError("Failed to retrieve feed XML from URL. " + response.status + ": " + response.statusText));
+					reject(new SyndicationError("Failed to retrieve feed XML from URL.", response.status + ": " + response.statusText));
 				}
 
 			}).catch((error) => {
