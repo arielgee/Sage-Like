@@ -741,9 +741,9 @@ let slUtil = (function() {
 	String.prototype.unescapeHtml.regex = new RegExp(Object.values(String.prototype.escapeHtml.htmlReservedCharacters).join("|"), "gm");
 
 	//////////////////////////////////////////////////////////////////////
-	String.prototype.stripHtmlTags = function(regex = null) {
+	String.prototype.stripHtmlTags = function(regex = null, substitution = "") {
 		if(regex) {
-			return this.replace(regex, "")
+			return this.replace(regex, substitution)
 		} else {
 			return this
 				.htmlEntityToLiteral()
@@ -762,6 +762,7 @@ let slUtil = (function() {
 	String.prototype.stripHtmlTags.regexObjectTag = new RegExp("<\\s*\\bobject\\b[^>]*>([\\s\\S]*?)</\\s*\\bobject\\b\\s*>", "gim");
 	String.prototype.stripHtmlTags.regexImgTag = new RegExp("</?\\s*\\bimg\\b[^>]*>", "gim");
 	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?\\s*\\b[a-zA-Z0-9]+\\b[^>]*>", "gm");
+	String.prototype.stripHtmlTags.regexMultiBrTag = new RegExp("(<\\s*\\bbr\\b[^>]*/?>[\\r\\n]*){3,}", "gim");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.stripUnsafeHtmlComponents = function() {
@@ -1280,7 +1281,8 @@ let slUtil = (function() {
 	function getBrowserVersion() {
 		return new Promise((resolve) => {
 			browser.runtime.getBrowserInfo().then((result) => {
-				resolve(result.version);
+				//resolve(result.version);
+				resolve("64"); alert("always v64");
 			});
 		});
 	}

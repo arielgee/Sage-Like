@@ -98,13 +98,17 @@ let rssListView = (function() {
 		setItemRealVisitedState(elm, url);
 
 		if(title.length === 0) title = slGlobals.STR_TITLE_EMPTY;
-		desc = desc.trim();
+		desc = desc
+				.trim()
+				.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
+				.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>")
+				.escapeHtml();
 
 		elm.textContent = index.toString() + ". " + title;
 		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.setAttribute("tabindex", "0");
-		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag).escapeHtml() : "");
+		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc : "");
 
 		addListItemEventListeners(elm);
 

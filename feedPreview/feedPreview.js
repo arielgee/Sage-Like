@@ -74,7 +74,7 @@
 		let elmFeedItem = document.createElement("div");
 		let elmFeedItemTitle = document.createElement("div");
 		let elmFeedItemLink = document.createElement("a");
-		let elmFeedItemTitleText = document.createElement("div");
+		let elmFeedItemTitleText = document.createElement("span");
 		let elmFeedItemLastUpdatedText = document.createElement("div");
 		let elmFeedItemContent = document.createElement("div");
 
@@ -87,7 +87,7 @@
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title;
 		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
-		elmFeedItemContent.innerHTML = feedItem.desc;
+		elmFeedItemContent.innerHTML = feedItem.desc.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
 
 		relativeToAbsoluteURLs(elmFeedItemContent);
 
@@ -106,7 +106,10 @@
 		let elmATags = elm.getElementsByTagName("a");
 
 		for(let idx=0; idx<elmATags.length; idx++) {
-			elmATags[idx].href = slUtil.replaceMozExtensionOriginURL(elmATags[idx].href, m_URL.origin);
+			// Link to a fake anchor result in href pointing to this webExt top page
+			if(elmATags[idx].getAttribute("href") !== "#") {
+				elmATags[idx].href = slUtil.replaceMozExtensionOriginURL(elmATags[idx].href, m_URL.origin);
+			}
 		};
 	}
 

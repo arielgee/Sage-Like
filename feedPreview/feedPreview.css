@@ -55,12 +55,6 @@ body {
     box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
 }
 
-#errorMessage {
-    background: transparent url("/icons/errormsg.png") no-repeat left top;
-    padding-left: 20px;
-    color: crimson;
-}
-
 #loadingImg {
     --loading-img-size: 32px;
     display: block;
@@ -84,6 +78,12 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+#errorMessage {
+    background: transparent url("/icons/errormsg.png") no-repeat left top;
+    padding-left: 20px;
+    color: crimson;
+}
+
 #feedTitleText {
     font-weight: bold;
     font-size: 175%;
@@ -97,8 +97,15 @@ body {
     margin-bottom: 18px;
 }
 
+.feedItem {
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 3px 10px 12px 10px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.6);
+}
+
 .feedItemTitle {
-    margin: 12.8px 0;
+    margin-bottom: 12.8px;
     font-size: 110%;
 }
 
@@ -116,6 +123,7 @@ body {
     padding-inline-start: 5px;
     padding-inline-end: 5px;
     background-color: #fdfdfd;
+    border-radius: 4px;
 }
 
 .feedItemContent img {
