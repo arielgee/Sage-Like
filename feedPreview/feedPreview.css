@@ -55,6 +55,12 @@ body {
     box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
 }
 
+#errorMessage {
+    background: transparent url("/icons/errormsg.png") no-repeat left top;
+    padding-left: 20px;
+    color: crimson;
+}
+
 #loadingImg {
     --loading-img-size: 32px;
     display: block;
@@ -117,4 +123,9 @@ body {
     max-height: 400px;
     width: auto;
     height: auto;
+}
+
+.feedItemContent * {
+	font-size: 100%;
+	font-weight: normal;
 }
