@@ -41,7 +41,7 @@ let syndication = (function() {
 
 			linkFeeds.forEach((linkFeed, index) => {
 
-				let url = slUtil.replaceMozExtensionOriginURL(linkFeed.href, origin);
+				let url = slUtil.replaceMozExtensionOriginURL(linkFeed.href.stripHtmlTags(), origin);
 				let discoveredFeed = {
 					status: "init",
 					linkTitle: linkFeed.title.stripHtmlTags(),
@@ -134,15 +134,14 @@ let syndication = (function() {
 
 			feedData.feeder.forEach((item) => {
 
-				FeedItem = new Object();
 				elmLink = item.querySelector("link");
 
 				if(elmLink) {
 					// all versions have <title> & <link>. <description> is optional or missing (v0.90)
-					FeedItem["title"] = item.querySelector("title") ? item.querySelector("title").textContent.stripHtmlTags() : "";
-					FeedItem["lastUpdated"] = getFeedItemLastUpdate(item);
-					FeedItem["desc"] = item.querySelector("description") ? item.querySelector("description").textContent/*.stripHtmlTags()*/ : "";
-					FeedItem["url"] = elmLink.textContent.stripHtmlTags();
+					FeedItem = createSingleListFeedItem(item.querySelector("title"),
+														item.querySelector("description"),
+														elmLink.textContent,
+														getFeedItemLastUpdate(item));
 					FeedItemList.push(FeedItem);
 				}
 			});
@@ -155,19 +154,28 @@ let syndication = (function() {
 
 			feedData.feeder.forEach((item) => {
 
-				FeedItem = new Object();
 				elmLink = item.querySelector("link:not([rel])") || item.querySelector("link[rel=alternate]") || item.querySelector("link");
 
 				if(elmLink) {
-					FeedItem["title"] = item.querySelector("title") ? item.querySelector("title").textContent.stripHtmlTags() : "";
-					FeedItem["lastUpdated"] = getFeedItemLastUpdate(item);
-					FeedItem["desc"] = item.querySelector("summary") ? item.querySelector("summary").textContent/*.stripHtmlTags()*/ : "";
-					FeedItem["url"] = elmLink.getAttribute("href").stripHtmlTags();
+					FeedItem = createSingleListFeedItem(item.querySelector("title"),
+														item.querySelector("summary"),
+														elmLink.getAttribute("href"),
+														getFeedItemLastUpdate(item));
 					FeedItemList.push(FeedItem);
 				}
 			});
 		}
 		return FeedItemList;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createSingleListFeedItem(elmTitle, elmDesc, strUrl, valLastUpdated) {
+		return {
+			"title": elmTitle ? elmTitle.textContent.stripHtmlTags() : "",
+			"desc": elmDesc ? elmDesc.textContent.stripUnsafeHtmlComponents() : "",
+			"url": strUrl.stripHtmlTags(),
+			"lastUpdated": valLastUpdated,
+		};
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

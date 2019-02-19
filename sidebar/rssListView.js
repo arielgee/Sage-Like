@@ -104,7 +104,7 @@ let rssListView = (function() {
 		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.setAttribute("tabindex", "0");
-		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc : "");
+		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag).escapeHtml() : "");
 
 		addListItemEventListeners(elm);
 
@@ -215,7 +215,7 @@ let rssListView = (function() {
 		if(elmLI.title.length > 0) return;
 
 		m_elmFeedItemDescPanel.querySelectorAll(".descTitle")[0].textContent = elmLI.textContent.replace(/^\d+\. /, "");
-		m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = elmLI.getAttribute("data-item-desc");
+		m_elmFeedItemDescPanel.querySelectorAll(".descBody")[0].innerHTML = elmLI.getAttribute("data-item-desc").unescapeHtml();
 
 		// hide it and place it as high as possible to prevent resizing of
 		// the containing sidebar when html data is retrieved

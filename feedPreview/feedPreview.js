@@ -2,6 +2,8 @@
 
 (function () {
 
+	let m_URL;
+
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -9,16 +11,21 @@
 
 		let urlFeed = slUtil.getQueryStringValue("urlFeed");
 
+		m_URL = new URL(urlFeed);
+
 		createFeedPreview(urlFeed);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function createFeedPreview(urlFeed) {
 
+		let elmFeedBody = document.getElementById("feedBody");
+		let elmLoadImg = document.getElementById("loadingImg");
+
 		prefs.getFetchTimeout().then((timeout) => {
 			syndication.fetchFeedItems(urlFeed, timeout * 1000).then((result) => {
 
-				document.title = result.feedData.title;
+				document.title = result.feedData.title.length > 0 ? result.feedData.title : m_URL.hostname;
 				let elmFeedTitle = createFeedTitleElements(result.feedData);
 
 				let elmFeedContent = document.createElement("div");
@@ -31,12 +38,13 @@
 					elmFeedContent.appendChild(elmFeedItem);
 				}
 
-				let elmFeedBody = document.getElementById("feedBody");
-
 				elmFeedBody.appendChild(elmFeedTitle);
 				elmFeedBody.appendChild(elmFeedContent);
-				elmFeedBody.removeChild(document.getElementById("loadingImg"));
-			});
+
+			}).catch((error) => {
+				document.getElementById("errorMessage").textContent = error.message;
+				console.log("[Sage-Like]", error);
+			}).finally(() => elmFeedBody.removeChild(elmLoadImg) );
 		});
 	}
 
@@ -79,8 +87,9 @@
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title;
 		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
-		//elmFeedItemContent.textContent = feedItem.desc;
 		elmFeedItemContent.innerHTML = feedItem.desc;
+
+		relativeToAbsoluteURLs(elmFeedItemContent);
 
 		elmFeedItem.appendChild(elmFeedItemTitle);
 		elmFeedItem.appendChild(elmFeedItemContent);
@@ -89,6 +98,16 @@
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
 
 		return elmFeedItem;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function relativeToAbsoluteURLs(elm) {
+
+		let elmATags = elm.getElementsByTagName("a");
+
+		for(let idx=0; idx<elmATags.length; idx++) {
+			elmATags[idx].href = slUtil.replaceMozExtensionOriginURL(elmATags[idx].href, m_URL.origin);
+		};
 	}
 
 })();
