@@ -25,7 +25,7 @@
 		prefs.getFetchTimeout().then((timeout) => {
 			syndication.fetchFeedItems(urlFeed, timeout * 1000).then((result) => {
 
-				document.title = result.feedData.title.length > 0 ? result.feedData.title : m_URL.hostname;
+				document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
 				let elmFeedTitle = createFeedTitleElements(result.feedData);
 
 				let elmFeedContent = document.createElement("div");
@@ -59,7 +59,7 @@
 		elmFeedTitleText.id = "feedTitleText";
 		elmFeedDescText.id = "feedDescriptionText";
 
-		elmFeedTitleText.textContent = feedData.title;
+		elmFeedTitleText.textContent = document.title;
 		elmFeedDescText.textContent = feedData.description;
 
 		elmFeedTitle.appendChild(elmFeedTitleText);

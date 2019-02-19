@@ -177,6 +177,7 @@
 * change local dateTime string format
 * what is 'replaceMozExtensionOriginURL()' to 'relativeToAbsoluteURL()' => used replaceMozExtensionOriginURL in relativeToAbsoluteURL
 * handle error when previewing feed
+* Total Commander - feedPreview 'select all' link => when href is '#' do not relativeToAbsoluteURL
 ---
 
 #### Next
@@ -185,10 +186,6 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 * mention in the description (readme) that only my Sage preference were implemented
-
-
-* Total Commander - feedPreview 'select all' link
-    * https://ghisler.ch/board/app.php/smartfeed/feed?sid=5df020233041708694ed1be18d0b86a1
 
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * convert all panels to work like the messagePanel (with a promise). MAJOR RE-WRITE!
