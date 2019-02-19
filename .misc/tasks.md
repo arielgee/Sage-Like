@@ -177,7 +177,8 @@
 * change local dateTime string format
 * what is 'replaceMozExtensionOriginURL()' to 'relativeToAbsoluteURL()' => used replaceMozExtensionOriginURL in relativeToAbsoluteURL
 * handle error when previewing feed
-* Total Commander - feedPreview 'select all' link => when href is '#' do not relativeToAbsoluteURL
+* feedPreview: Total Commander - 'select all' link => when href is '#' do not relativeToAbsoluteURL
+* add first image to mozilla product page for the options page
 ---
 
 #### Next
