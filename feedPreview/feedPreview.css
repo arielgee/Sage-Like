@@ -1,13 +1,19 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-	font-family: "Segoe UI", Tahoma, sans-serif;
-	font-weight: normal;
-	font-size: 12.8px;
+    --background-color-page: #c8c8c8;
+    --background-color-header: #ffffe1;
+    --background-color-feed-body: #ededed;
+    --background-color-feed-item-content: #fdfdfd;
+    --color-loading-image: #000000;
+    --size-loading-image: 32px;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: 12.8px;
 }
 
 html {
-    background-color: #c8c8c8;
+    background-color: var(--background-color-page);
 }
 
 body {
@@ -16,7 +22,7 @@ body {
 }
 
 #pageHeaderContainer {
-    background-color: #ffffe1;
+    background-color: var(--background-color-header);
     border: 1px solid #7f7f7f;
     border-radius: 0 0 20px 20px;
     margin: -20px auto 0 auto;
@@ -46,7 +52,7 @@ body {
 }
 
 #feedBody {
-    background-color: #ededed;
+    background-color: var(--background-color-feed-body);
     border: 1px solid #7f7f7f;
     padding: 35px;
     margin: 24px auto;
@@ -56,21 +62,20 @@ body {
 }
 
 #loadingImg {
-    --loading-img-size: 32px;
     display: block;
-    width: var(--loading-img-size);
-    height: var(--loading-img-size);
+    width: var(--size-loading-image);
+    height: var(--size-loading-image);
     margin: 0 auto;
 }
 #loadingImg:after {
     content: " ";
     display: block;
-    width: var(--loading-img-size);
-    height: var(--loading-img-size);
+    width: var(--size-loading-image);
+    height: var(--size-loading-image);
     margin: 1px;
     border-radius: 50%;
-    border: 5px solid #000000;
-    border-color: #000000 transparent #000000 transparent;
+    border: 5px solid var(--color-loading-image);
+    border-color: var(--color-loading-image) transparent var(--color-loading-image) transparent;
     animation: loadingImg 1s linear infinite;
 }
 @keyframes loadingImg {
@@ -122,18 +127,20 @@ body {
     margin-inline-start: 15px;
     padding-inline-start: 5px;
     padding-inline-end: 5px;
-    background-color: #fdfdfd;
+    background-color: var(--background-color-feed-item-content);
     border-radius: 4px;
 }
 
 .feedItemContent img {
-    max-width: 400px;
-    max-height: 400px;
-    width: auto;
-    height: auto;
+    max-width: 400px !important;
+    max-height: 400px !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 3px !important;
 }
 
 .feedItemContent * {
-	font-size: 100%;
-	font-weight: normal;
+    font-size: 100% !important;
+    font-weight: normal !important;
+    float: initial !important;
 }
