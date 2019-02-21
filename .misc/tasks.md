@@ -179,6 +179,10 @@
 * handle error when previewing feed
 * feedPreview: Total Commander - 'select all' link => when href is '#' do not relativeToAbsoluteURL
 * add first image to mozilla product page for the options page
+* convert all panels to work like the messagePanel (with a promise). MAJOR RE-WRITE!
+* MASSIVE TESTING ON PropertiesView - CHECK EVERY MODIFIED LINE!!!:
+* replace .open() with .show()
+* remove public functions from return{}
 ---
 
 #### Next
@@ -188,7 +192,12 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
+* delete feed/folder with keyboard
+* change screenshot-0; drop shadow to leaf
+
+* can context menu work with a promise? like messagePanel?
+
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
-* convert all panels to work like the messagePanel (with a promise). MAJOR RE-WRITE!
 * add dotted line to tree view => FUUUUUUCK
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()

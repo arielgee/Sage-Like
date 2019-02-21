@@ -80,6 +80,7 @@ let rssTreeView = (function() {
 				NewFeedPropertiesView.i.close();
 				NewFolderPropertiesView.i.close();
 				EditFeedPropertiesView.i.close();
+				EditFolderPropertiesView.i.close();
 				rssListView.disposeList();
 				createRSSTree();
 			}
@@ -973,7 +974,9 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFeedProperties(elmLI) {
-		NewFeedPropertiesView.i.open(elmLI, "New Feed", "");
+		NewFeedPropertiesView.i.show(elmLI, "New Feed", "").then((result) => {
+			createNewFeed(result.elmLI, result.title, result.url, result.updateTitle, result.inSubTree);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1015,7 +1018,9 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFolderProperties(elmLI) {
-		NewFolderPropertiesView.i.open(elmLI, "New Folder");
+		NewFolderPropertiesView.i.show(elmLI, "New Folder").then((result) => {
+			createNewFolder(result.elmLI, result.title, result.inSubTree);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1120,11 +1125,10 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openEditFeedProperties(elmLI) {
-
-		let id = elmLI.id;
-
-		m_objTreeFeedsData.setIfNotExist(id);
-		EditFeedPropertiesView.i.open(elmLI, m_objTreeFeedsData.value(id).updateTitle);
+		m_objTreeFeedsData.setIfNotExist(elmLI.id);
+		EditFeedPropertiesView.i.show(elmLI, m_objTreeFeedsData.value(elmLI.id).updateTitle).then((result) => {
+			updateFeedProperties(result.elmLI, result.title, result.url, result.updateTitle);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1154,7 +1158,9 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openEditFolderProperties(elmLI) {
-		EditFolderPropertiesView.i.open(elmLI);
+		EditFolderPropertiesView.i.show(elmLI).then((result) => {
+			updateFolderProperties(result.elmLI, result.title);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1492,16 +1498,12 @@ let rssTreeView = (function() {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
 		openNewFeedProperties: openNewFeedProperties,
-		createNewFeed: createNewFeed,
 		openNewFolderProperties: openNewFolderProperties,
-		createNewFolder: createNewFolder,
 		deleteFeed: deleteFeed,
 		toggleFeedVisitedState: toggleFeedVisitedState,
 		markAllFeedsAsVisitedState: markAllFeedsAsVisitedState,
 		openEditFeedProperties: openEditFeedProperties,
-		updateFeedProperties: updateFeedProperties,
 		openEditFolderProperties: openEditFolderProperties,
-		updateFolderProperties: updateFolderProperties,
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,

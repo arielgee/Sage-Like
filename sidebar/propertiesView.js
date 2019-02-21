@@ -22,10 +22,13 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	open(elmLI) {
+	show(elmLI, funcPromiseResolve) {
 
 		// the element been clicked
 		this.m_elmTreeItemLI = elmLI;
+
+		// the promise resolve function
+		this.m_funcPromiseResolve = funcPromiseResolve;
 
 		this.m_elmButtonSave.addEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.addEventListener("click", this._onClickButtonCancel);
@@ -78,6 +81,7 @@ class PropertiesView {
 		};
 
 		this.m_isOpen = false;
+		this.m_funcPromiseResolve = null;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -163,16 +167,20 @@ class NewFeedPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	open(elmLI, title, location) {
-		super.open(elmLI);
+	show(elmLI, title, location) {
 
-		this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE));
+		return new Promise((resolve) => {
 
-		this.m_initialProperties.title = title;
-		this.m_initialProperties.location = location;
-		this.m_initialProperties.updateTitle = true;
+			super.show(elmLI, resolve);
 
-		this._initData();
+			this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE));
+
+			this.m_initialProperties.title = title;
+			this.m_initialProperties.location = location;
+			this.m_initialProperties.updateTitle = true;
+
+			this._initData();
+		});
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -186,25 +194,29 @@ class NewFeedPropertiesView extends PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_saveAndClose() {
 
-		let valTitle = this.m_elmTextTitle.value;
-		let valLocation = this.m_elmTextLocation.value;
-		let valUpdateTitle = this.m_elmChkUpdateTitle.checked;
+		let result = {
+			elmLI: this.m_elmTreeItemLI,
+			title: this.m_elmTextTitle.value,
+			url: this.m_elmTextLocation.value,
+			updateTitle: this.m_elmChkUpdateTitle.checked,
+			inSubTree: this.m_elmChkInsertInsideFolder.checked,
+		}
 
 		// Title validation
-		if (valTitle.length === 0) {
+		if (result.title.length === 0) {
 			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
 			return;
 		}
 
 		// URL validation
 		try {
-			new URL(valLocation);
+			new URL(result.url);
 		} catch (error) {
 			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid."
 			return;
 		}
 
-		rssTreeView.createNewFeed(this.m_elmTreeItemLI, valTitle, valLocation, valUpdateTitle, this.m_elmChkInsertInsideFolder.checked);
+		this.m_funcPromiseResolve(result);
 		this.close();
 	}
 }
@@ -219,15 +231,19 @@ class NewFolderPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	open(elmLI, title) {
-		super.open(elmLI);
+	show(elmLI, title) {
 
-		this._hideNoneTitleProperties(true);
-		this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE));
+		return new Promise((resolve) => {
 
-		this.m_initialProperties.title = title;
+			super.show(elmLI, resolve);
 
-		this._initData();
+			this._hideNoneTitleProperties(true);
+			this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE));
+
+			this.m_initialProperties.title = title;
+
+			this._initData();
+		});
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -242,15 +258,19 @@ class NewFolderPropertiesView extends PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_saveAndClose() {
 
-		let valTitle = this.m_elmTextTitle.value;
+		let result = {
+			elmLI: this.m_elmTreeItemLI,
+			title: this.m_elmTextTitle.value,
+			inSubTree: this.m_elmChkInsertInsideFolder.checked,
+		};
 
 		// Title validation
-		if (valTitle.length === 0) {
+		if (result.title.length === 0) {
 			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
 			return;
 		}
 
-		rssTreeView.createNewFolder(this.m_elmTreeItemLI, valTitle, this.m_elmChkInsertInsideFolder.checked);
+		this.m_funcPromiseResolve(result);
 		this.close();
 	}
 }
@@ -265,16 +285,20 @@ class EditFeedPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	open(elmLI, updateTitleValue) {
-		super.open(elmLI);
+	show(elmLI, updateTitleValue) {
 
-		this._hideOptionInsertInsideFolder(true);
+		return new Promise((resolve) => {
 
-		this.m_initialProperties.title = this.m_elmTreeItemLI.firstElementChild.textContent;
-		this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
-		this.m_initialProperties.updateTitle = updateTitleValue;
+			super.show(elmLI, resolve);
 
-		this._initData();
+			this._hideOptionInsertInsideFolder(true);
+
+			this.m_initialProperties.title = this.m_elmTreeItemLI.firstElementChild.textContent;
+			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
+			this.m_initialProperties.updateTitle = updateTitleValue;
+
+			this._initData();
+		});
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -288,33 +312,36 @@ class EditFeedPropertiesView extends PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_saveAndClose() {
 
-		let valTitle = this.m_elmTextTitle.value;
-		let valLocation = this.m_elmTextLocation.value;
-		let valUpdateTitle = this.m_elmChkUpdateTitle.checked;
+		let result = {
+			elmLI: this.m_elmTreeItemLI,
+			title: this.m_elmTextTitle.value,
+			url: this.m_elmTextLocation.value,
+			updateTitle: this.m_elmChkUpdateTitle.checked,
+		}
 
 		// Any value was modified
-		if (this.m_initialProperties.title === valTitle &&
-			this.m_initialProperties.location === valLocation &&
-			this.m_initialProperties.updateTitle === valUpdateTitle) {
+		if (this.m_initialProperties.title === result.title &&
+			this.m_initialProperties.location === result.url &&
+			this.m_initialProperties.updateTitle === result.updateTitle) {
 			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify."
 			return;
 		}
 
 		// Title validation
-		if (valTitle.length === 0) {
+		if (result.title.length === 0) {
 			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
 			return;
 		}
 
 		// URL validation
 		try {
-			new URL(valLocation);
+			new URL(result.url);
 		} catch (error) {
 			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid."
 			return;
 		}
 
-		rssTreeView.updateFeedProperties(this.m_elmTreeItemLI, valTitle, valLocation, valUpdateTitle);
+		this.m_funcPromiseResolve(result);
 		this.close();
 	}
 }
@@ -329,15 +356,19 @@ class EditFolderPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	open(elmLI) {
-		super.open(elmLI);
+	show(elmLI) {
 
-		this._hideNoneTitleProperties(true);
-		this._hideOptionInsertInsideFolder(true);
+		return new Promise((resolve) => {
 
-		this.m_initialProperties.title = this.m_elmTreeItemLI.firstElementChild.textContent;
+			super.show(elmLI, resolve);
 
-		this._initData();
+			this._hideNoneTitleProperties(true);
+			this._hideOptionInsertInsideFolder(true);
+
+			this.m_initialProperties.title = this.m_elmTreeItemLI.firstElementChild.textContent;
+
+			this._initData();
+		});
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -352,21 +383,24 @@ class EditFolderPropertiesView extends PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_saveAndClose() {
 
-		let valTitle = this.m_elmTextTitle.value;
+		let result = {
+			elmLI: this.m_elmTreeItemLI,
+			title: this.m_elmTextTitle.value,
+		}
 
 		// Any value was modified
-		if (this.m_initialProperties.title === valTitle) {
+		if (this.m_initialProperties.title === result.title) {
 			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify."
 			return;
 		}
 
 		// Title validation
-		if (valTitle.length === 0) {
+		if (result.title.length === 0) {
 			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
 			return;
 		}
 
-		rssTreeView.updateFolderProperties(this.m_elmTreeItemLI, valTitle);
+		this.m_funcPromiseResolve(result);
 		this.close();
 	}
 }
