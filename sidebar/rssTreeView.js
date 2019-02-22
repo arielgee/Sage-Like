@@ -1130,11 +1130,20 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openEditFeedProperties(elmLI) {
-		m_objTreeFeedsData.setIfNotExist(elmLI.id);
-		EditFeedPropertiesView.i.show(elmLI, m_objTreeFeedsData.value(elmLI.id).updateTitle).then((result) => {
-			updateFeedProperties(result.elmLI, result.title, result.url, result.updateTitle);
-		});
+	function openEditTreeItemProperties(elmLI) {
+
+		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+
+		if(isSubTree) {
+			EditFolderPropertiesView.i.show(elmLI).then((result) => {
+				updateFolderProperties(result.elmLI, result.title);
+			});
+		} else {
+			m_objTreeFeedsData.setIfNotExist(elmLI.id);
+			EditFeedPropertiesView.i.show(elmLI, m_objTreeFeedsData.value(elmLI.id).updateTitle).then((result) => {
+				updateFeedProperties(result.elmLI, result.title, result.url, result.updateTitle);
+			});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1159,13 +1168,6 @@ let rssTreeView = (function() {
 				setFeedTooltipState(elmLI);
 				m_objTreeFeedsData.set(updated.id, { updateTitle: newUpdateTitle });
 			});
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function openEditFolderProperties(elmLI) {
-		EditFolderPropertiesView.i.show(elmLI).then((result) => {
-			updateFolderProperties(result.elmLI, result.title);
 		});
 	}
 
@@ -1508,8 +1510,7 @@ let rssTreeView = (function() {
 		deleteTreeItem: deleteTreeItem,
 		toggleFeedVisitedState: toggleFeedVisitedState,
 		markAllFeedsAsVisitedState: markAllFeedsAsVisitedState,
-		openEditFeedProperties: openEditFeedProperties,
-		openEditFolderProperties: openEditFolderProperties,
+		openEditTreeItemProperties: openEditTreeItemProperties,
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,

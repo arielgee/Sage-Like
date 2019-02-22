@@ -184,6 +184,8 @@
 * replace .open() with .show()
 * remove public functions from return{}
 * support delete folder
+* can context menu work with a promise? like messagePanel? => NO, not relevent
+* ContextAction; combine rssTreeView openEditFeedProperties() and openEditFolderProperties() to openEditTreeItemProperties()
 ---
 
 #### Next
@@ -195,12 +197,6 @@
 
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * change screenshot-0; drop shadow to leaf
-
-* can context menu work with a promise? like messagePanel? => NO
-
-* ContextAction; combine rssTreeView.openEditFeedProperties() and rssTreeView.openEditFolderProperties() to openEditTreeItemProperties()
-
-
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * add dotted line to tree view => FUUUUUUCK
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()

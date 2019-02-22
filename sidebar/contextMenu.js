@@ -392,11 +392,7 @@
 				///////////////////////////////////////////
 
 			case ContextAction.treeProperties:
-				if(m_currentContext === "treeitemcontext") {
-					rssTreeView.openEditFeedProperties(m_elmEventTarget);
-				} else if(m_currentContext === "treeitemfoldercontext") {
-					rssTreeView.openEditFolderProperties(m_elmEventTarget);
-				}
+				rssTreeView.openEditTreeItemProperties(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
