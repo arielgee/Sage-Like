@@ -9,7 +9,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
-		let urlFeed = slUtil.getQueryStringValue("urlFeed");
+		let urlFeed = decodeURIComponent(slUtil.getQueryStringValue("urlFeed"));
 
 		m_URL = new URL(urlFeed);
 

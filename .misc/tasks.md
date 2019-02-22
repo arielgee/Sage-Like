@@ -195,6 +195,7 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* remember what item was selected and put it in viewport
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * change screenshot-0; drop shadow to leaf
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times

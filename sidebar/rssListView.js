@@ -475,7 +475,7 @@ let rssListView = (function() {
 
 				let parkedTabUrl = browser.extension.getURL("/parkedTab/parked.html?prkTitle=" +
 					elm.textContent.replace(/^[0-9]+\. /, "") +
-					"&prkUrl=" + elm.getAttribute("href"));
+					"&prkUrl=" + encodeURIComponent(elm.getAttribute("href")));
 
 				creatingTab = browser.tabs.create({ active: false, url: parkedTabUrl });
 				addingUrl = slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);

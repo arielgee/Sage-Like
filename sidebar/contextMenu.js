@@ -447,7 +447,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedPreviewUrl(url) {
-		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + url);
+		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + encodeURIComponent(url));
 	}
 
 })();
