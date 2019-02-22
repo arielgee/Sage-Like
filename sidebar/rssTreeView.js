@@ -1063,16 +1063,22 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function deleteFeed(elmLI) {
+	function deleteTreeItem(elmLI) {
 
-		let text = "Permanently delete <b>'" + elmLI.firstElementChild.textContent + "'</b> from your bookmarks?"
+		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+
+		let text = "Permanently delete the " + (isSubTree ? "folder " : "feed ") +
+					"<b>'" + elmLI.firstElementChild.textContent + "'</b> " +
+					(isSubTree ? "<u>and all of its contents</u> " : "") + "from your bookmarks?"
 
 		messageView.show(text, messageView.ButtonSet.setYesNo).then((result) => {
 
 			if(result === messageView.ButtonCode.Yes) {
 
+				let funcBookmarksRemove = isSubTree ? browser.bookmarks.removeTree : browser.bookmarks.remove;
+
 				suspendBookmarksEventHandler(() => {
-					return browser.bookmarks.remove(elmLI.id).then(() => {
+					return funcBookmarksRemove(elmLI.id).then(() => {
 
 						if(elmLI.nextElementSibling !== null) {
 							elmLI.nextElementSibling.focus();
@@ -1499,7 +1505,7 @@ let rssTreeView = (function() {
 		addNewFeeds: addNewFeeds,
 		openNewFeedProperties: openNewFeedProperties,
 		openNewFolderProperties: openNewFolderProperties,
-		deleteFeed: deleteFeed,
+		deleteTreeItem: deleteTreeItem,
 		toggleFeedVisitedState: toggleFeedVisitedState,
 		markAllFeedsAsVisitedState: markAllFeedsAsVisitedState,
 		openEditFeedProperties: openEditFeedProperties,

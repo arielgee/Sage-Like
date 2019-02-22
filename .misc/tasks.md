@@ -183,6 +183,7 @@
 * MASSIVE TESTING ON PropertiesView - CHECK EVERY MODIFIED LINE!!!:
 * replace .open() with .show()
 * remove public functions from return{}
+* support delete folder
 ---
 
 #### Next
@@ -193,10 +194,12 @@
 * mention in the description (readme) that only my Sage preference were implemented
 
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
-* delete feed/folder with keyboard
 * change screenshot-0; drop shadow to leaf
 
-* can context menu work with a promise? like messagePanel?
+* can context menu work with a promise? like messagePanel? => NO
+
+* ContextAction; combine rssTreeView.openEditFeedProperties() and rssTreeView.openEditFolderProperties() to openEditTreeItemProperties()
+
 
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * add dotted line to tree view => FUUUUUUCK

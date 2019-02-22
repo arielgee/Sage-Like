@@ -13,7 +13,7 @@
 		treeNewFeed:			8,
 		treeNewFolder:			9,
 		treeCopyUrl:			10,
-		treeDeleteFeed:			11,
+		treeDeleteTreeItem:		11,
 		treeProperties:			12,
 		treeSwitchDirection:	13,
 
@@ -177,6 +177,7 @@
 				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "r":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
 				case "u":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
+				case "d":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 				case "p":	handleTreeMenuActions(ContextAction.treeProperties);		break;
 				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
@@ -192,7 +193,7 @@
 				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
-				case "d":	handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
+				case "d":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 				case "p":	handleTreeMenuActions(ContextAction.treeProperties);		break;
 				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
@@ -241,7 +242,7 @@
 			case "mnuTreeNewFeed":						handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 			case "mnuTreeNewFolder":					handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
-			case "mnuTreeDeleteFeed":					handleTreeMenuActions(ContextAction.treeDeleteFeed);		break;
+			case "mnuTreeDeleteTreeItem":				handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 			case "mnuTreeProperties":					handleTreeMenuActions(ContextAction.treeProperties);		break;
 			case "mnuTreeSwitchDirection":				handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 
@@ -273,7 +274,7 @@
 		let openPanelActions = [
 			ContextAction.treeNewFeed,
 			ContextAction.treeNewFolder,
-			ContextAction.treeDeleteFeed,
+			ContextAction.treeDeleteTreeItem,
 			ContextAction.treeProperties,
 		];
 
@@ -385,8 +386,8 @@
 				break;
 				///////////////////////////////////////////
 
-			case ContextAction.treeDeleteFeed:
-				rssTreeView.deleteFeed(m_elmEventTarget);
+			case ContextAction.treeDeleteTreeItem:
+				rssTreeView.deleteTreeItem(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
