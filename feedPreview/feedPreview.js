@@ -89,7 +89,7 @@
 		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
 		elmFeedItemContent.innerHTML = feedItem.desc.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
 
-		relativeToAbsoluteURLs(elmFeedItemContent);
+		handleAbnormalURLs(elmFeedItemContent);
 
 		elmFeedItem.appendChild(elmFeedItemTitle);
 		elmFeedItem.appendChild(elmFeedItemContent);
@@ -101,14 +101,24 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function relativeToAbsoluteURLs(elm) {
+	function handleAbnormalURLs(elm) {
 
+		let url;
 		let elmATags = elm.getElementsByTagName("a");
 
 		for(let idx=0; idx<elmATags.length; idx++) {
-			// Link to a fake anchor result in href pointing to this webExt top page
-			if(elmATags[idx].getAttribute("href") !== "#") {
-				elmATags[idx].href = slUtil.replaceMozExtensionOriginURL(elmATags[idx].href, m_URL.origin);
+
+			// Link to a fake anchor result in href pointing to this webExt top page - leave it
+			if(elmATags[idx].getAttribute("href") === "#") continue;
+
+			// modify relative URLs to absolute - for relative URLs .href is 'moz-extension://...'
+			url = slUtil.replaceMozExtensionOriginURL(elmATags[idx].href, m_URL.origin);
+
+			// replaceMozExtensionOriginURL() returns a valid URL object or null is not valid - remove non-vaild
+			if(url === null) {
+				elmATags[idx].removeAttribute("href");
+			} else {
+				elmATags[idx].href = url;
 			}
 		};
 	}

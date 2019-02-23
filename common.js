@@ -1144,10 +1144,14 @@ let slUtil = (function() {
 			m_mozExtensionOrigin = browser.extension.getURL("");
 		}
 
-		if(url.startsWith(m_mozExtensionOrigin)) {
-			return new URL(url.replace(m_mozExtensionOrigin, ""), base);
+		try {
+			if(url.startsWith(m_mozExtensionOrigin)) {
+				return new URL(url.replace(m_mozExtensionOrigin, ""), base);
+			}
+			return new URL(url);
+		} catch (error) {
+			return null;	// URL is not valid
 		}
-		return new URL(url);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1281,8 +1285,8 @@ let slUtil = (function() {
 	function getBrowserVersion() {
 		return new Promise((resolve) => {
 			browser.runtime.getBrowserInfo().then((result) => {
-				//resolve(result.version);
-				resolve("64"); alert("always v64");
+				resolve(result.version);
+				//resolve("64"); alert("always v64");
 			});
 		});
 	}
