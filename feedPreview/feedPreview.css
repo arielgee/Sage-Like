@@ -107,6 +107,11 @@ body {
     margin-bottom: 20px;
     padding: 3px 10px 12px 10px;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.6);
+    transition: 150ms box-shadow ease;
+}
+
+.feedItem:hover {
+    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.8);
 }
 
 .feedItemTitle {
