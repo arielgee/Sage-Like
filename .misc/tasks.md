@@ -195,6 +195,9 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* write a features list !!!!
+* add screenshots with the context menus.
+* replace options screenshot.
 * remember what item was selected and put it in viewport when sidebar is reopend
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * change screenshot-0; drop shadow to leaf
