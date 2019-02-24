@@ -195,6 +195,7 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * write a features list !!!!
 * add screenshots with the context menus.
 * replace options screenshot.
