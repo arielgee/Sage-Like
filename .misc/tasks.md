@@ -186,6 +186,8 @@
 * support delete folder
 * can context menu work with a promise? like messagePanel? => NO, not relevent
 * ContextAction; combine rssTreeView openEditFeedProperties() and openEditFolderProperties() to openEditTreeItemProperties()
+* add screenshots with the context menus.
+* change screenshot-0; drop shadow to leaf
 ---
 
 #### Next
@@ -197,11 +199,9 @@
 
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * write a features list !!!!
-* add screenshots with the context menus.
 * replace options screenshot.
 * remember what item was selected and put it in viewport when sidebar is reopend
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
-* change screenshot-0; drop shadow to leaf
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * add dotted line to tree view => FUUUUUUCK
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()
