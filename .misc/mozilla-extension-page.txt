@@ -25,5 +25,5 @@ atom, channel, discover, easy, feed, feedbro, feeder, feedly, pinrss, rdf, reade
 
 <b>Unresolved</b>
 <ul>
-  <li></li>
+  <li>The Toolbar button and the <i>Ctrl+Shift+F2</i> command that open/close the Sage-Like sidebar will not work properly until Mozilla fixes <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1438465">bug 1438465</a>.</li>
 </ul>
