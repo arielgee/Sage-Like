@@ -30,7 +30,6 @@
 		switch (command) {
 			case "kb-open-sage-like":
 				toggleSidebar();
-				console.log("[Sage-Like]", "Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465");
 				break;
 				//////////////////////////////////////////////////////////////
 		}
@@ -47,6 +46,8 @@
 
 	//////////////////////////////////////////////////////////////////////
 	function toggleSidebar() {
+
+		console.log("[Sage-Like]", "Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465");
 
 		browser.sidebarAction.open();		// supported in 57.0
 
