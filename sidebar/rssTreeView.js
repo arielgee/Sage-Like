@@ -1086,6 +1086,7 @@ let rssTreeView = (function() {
 							elmLI.previousElementSibling.focus();
 						} else {
 							m_elmCurrentlySelected = null;
+							internalPrefs.setSelectedTreeItemId(null);
 						}
 
 						elmLI.parentElement.removeChild(elmLI);
@@ -1191,6 +1192,11 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function restoreSelectedTreeItem() {
+		internalPrefs.getSelectedTreeItemId().then((id) => setFeedSelectionState(document.getElementById(id)) );
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function updateFeedTitle(elmLI, title) {
 
 		// don't change title if user unchecked that option for this feed
@@ -1263,6 +1269,7 @@ let rssTreeView = (function() {
 			// select only selectable tree items
 			if (elm && elm.tagName === "LI") {
 				m_elmCurrentlySelected = elm;
+				internalPrefs.setSelectedTreeItemId(m_elmCurrentlySelected.id);
 				elm.classList.add("selected");
 				slUtil.scrollIntoViewIfNeeded(elm.firstChild, m_elmTreeRoot.parentElement);
 			}
@@ -1514,6 +1521,7 @@ let rssTreeView = (function() {
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,
+		restoreSelectedTreeItem: restoreSelectedTreeItem,
 	};
 
 })();

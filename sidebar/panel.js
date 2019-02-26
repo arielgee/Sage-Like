@@ -165,6 +165,8 @@
 
 		// set listview's CSS variable accordingly depending if has VScroll
 		document.documentElement.style.setProperty("--rlv-scrollbar-width", (slUtil.hasVScroll(m_elmList) ? sbWidth : 0) + "px");
+
+		rssTreeView.restoreSelectedTreeItem();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

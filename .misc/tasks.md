@@ -188,6 +188,9 @@
 * ContextAction; combine rssTreeView openEditFeedProperties() and openEditFolderProperties() to openEditTreeItemProperties()
 * add screenshots with the context menus.
 * change screenshot-0; drop shadow to leaf
+* remove logging from background.js.browser.commands.onCommand.addListener()                => DONE
+* change browser_action.default_title to 'Sage-Like sidebar (Ctrl+Shift+F2)'                => NOT DONE
+* add note to Unresolved in mozilla-extension-page.txt/product page about mozilla bug       => DONE
 ---
 
 #### Next
@@ -197,14 +200,10 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* utilize background.js.toggleSidebar() with logging (this will work when (and if) mozilla fix Bug 1398833/1438465)
-    * remove logging from background.js.browser.commands.onCommand.addListener()
-    * change browser_action.default_title to 'Sage-Like sidebar (Ctrl+Shift+F2)'
-    * add note to Unresolved in mozilla-extension-page.txt/product page about mozilla bug
+* remember what item was selected and put it in viewport when sidebar is reopend. also the scroll position (element.scrollTop/scrollLeft)
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * write a features list !!!!
 * replace options screenshot.
-* remember what item was selected and put it in viewport when sidebar is reopend
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * add dotted line to tree view => FUUUUUUCK

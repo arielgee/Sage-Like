@@ -230,10 +230,12 @@ let internalPrefs = (function() {
 	const DEF_PREF_OPEN_SUB_TREES_VALUE = {};
 	const DEF_PREF_TREE_FEEDS_DATA_VALUE = {};
 	const DEF_PREF_IS_EXTENSION_INSTALLED_VALUE = null;
+	const DEF_PREF_SELECTED_TREE_ITEM_ID_VALUE = null;
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
 	const PREF_IS_EXTENSION_INSTALLED = "pref_isExtensionInstalled";
+	const PREF_SELECTED_TREE_ITEM_ID = "pref_selectedTreeItemId";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenSubTrees() {
@@ -293,15 +295,36 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getSelectedTreeItemId() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_SELECTED_TREE_ITEM_ID).then((result) => {
+				resolve(result[PREF_SELECTED_TREE_ITEM_ID] === undefined ? DEF_PREF_SELECTED_TREE_ITEM_ID_VALUE : result[PREF_SELECTED_TREE_ITEM_ID]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setSelectedTreeItemId(value) {
+
+		let obj = {};
+		obj[PREF_SELECTED_TREE_ITEM_ID] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
 		this.setIsExtensionInstalled(DEF_PREF_IS_EXTENSION_INSTALLED_VALUE);
+		this.setSelectedTreeItemId(DEF_PREF_SELECTED_TREE_ITEM_ID_VALUE);
 
 		return {
 			openSubTrees: DEF_PREF_OPEN_SUB_TREES_VALUE,
 			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA_VALUE,
 			isExtensionInstalled: DEF_PREF_IS_EXTENSION_INSTALLED_VALUE,
+			selectedTreeItemId: DEF_PREF_SELECTED_TREE_ITEM_ID_VALUE,
 		};
 	}
 
@@ -312,6 +335,8 @@ let internalPrefs = (function() {
 		setTreeFeedsData: setTreeFeedsData,
 		getIsExtensionInstalled: getIsExtensionInstalled,
 		setIsExtensionInstalled: setIsExtensionInstalled,
+		getSelectedTreeItemId: getSelectedTreeItemId,
+		setSelectedTreeItemId: setSelectedTreeItemId,
 
 		restoreDefaults: restoreDefaults,
 	};
