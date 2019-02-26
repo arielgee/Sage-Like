@@ -197,6 +197,10 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* utilize background.js.toggleSidebar() with logging (this will work when (and if) mozilla fix Bug 1398833/1438465)
+    * remove logging from background.js.browser.commands.onCommand.addListener()
+    * change browser_action.default_title to 'Sage-Like sidebar (Ctrl+Shift+F2)'
+    * add note to Unresolved in mozilla-extension-page.txt/product page about mozilla bug
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * write a features list !!!!
 * replace options screenshot.
