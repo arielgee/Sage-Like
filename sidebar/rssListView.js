@@ -45,6 +45,8 @@ let rssListView = (function() {
 		m_elmList.addEventListener("keydown", onKeyDownFeedList);
 
 		setShowFeedItemDescFromPreferences();
+
+		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.LIST_VIEW_LOADED);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

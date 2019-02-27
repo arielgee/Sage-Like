@@ -122,6 +122,8 @@ let rssTreeView = (function() {
 		createRSSTree();
 
 		browser.browserAction.setBadgeText({text: ""});
+
+		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -182,6 +184,7 @@ let rssTreeView = (function() {
 					m_elmTreeRoot.style.height = (m_elmTreeRoot.clientHeight - slUtil.getScrollbarWidth()) + "px";
 				}
 				m_rssTreeCreatedOK = true;
+				restoreSelectedTreeItem();
 				monitorRSSTreeFeeds();
 
 			}).catch((error) => {
@@ -1086,7 +1089,6 @@ let rssTreeView = (function() {
 							elmLI.previousElementSibling.focus();
 						} else {
 							m_elmCurrentlySelected = null;
-							internalPrefs.setSelectedTreeItemId(null);
 						}
 
 						elmLI.parentElement.removeChild(elmLI);
@@ -1269,9 +1271,9 @@ let rssTreeView = (function() {
 			// select only selectable tree items
 			if (elm && elm.tagName === "LI") {
 				m_elmCurrentlySelected = elm;
-				internalPrefs.setSelectedTreeItemId(m_elmCurrentlySelected.id);
 				elm.classList.add("selected");
 				slUtil.scrollIntoViewIfNeeded(elm.firstChild, m_elmTreeRoot.parentElement);
+				internalPrefs.setSelectedTreeItemId(m_elmCurrentlySelected.id);
 			}
 		}
 	}
@@ -1521,7 +1523,6 @@ let rssTreeView = (function() {
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,
-		restoreSelectedTreeItem: restoreSelectedTreeItem,
 	};
 
 })();

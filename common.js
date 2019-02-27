@@ -189,6 +189,14 @@ let slGlobals = (function() {
 		};
 	};
 
+	const VIEW_CONTENT_LOAD_FLAG = {
+		TREE_VIEW_LOADED:	parseInt("01", 2),
+		LIST_VIEW_LOADED:	parseInt("10", 2),
+
+		NO_VIEW_LOADED:		parseInt("00", 2),
+		ALL_VIEWS_LOADED:	parseInt("11", 2),
+	};
+
 	return {
 		ID_UL_RSS_TREE_VIEW: ID_UL_RSS_TREE_VIEW,
 		ID_UL_RSS_LIST_VIEW: ID_UL_RSS_LIST_VIEW,
@@ -218,6 +226,8 @@ let slGlobals = (function() {
 
 		IMAGE_SET_VALUES: IMAGE_SET_VALUES,
 		IMAGE_SET: IMAGE_SET,
+
+		VIEW_CONTENT_LOAD_FLAG: VIEW_CONTENT_LOAD_FLAG,
 	};
 
 })();

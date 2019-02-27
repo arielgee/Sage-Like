@@ -1,6 +1,6 @@
 "use strict";
 
-(function() {
+let panel = (function() {
 
 	//==================================================================================
 	//=== Variables Declerations
@@ -18,6 +18,8 @@
 
 	let m_elmTree;
 	let m_elmList;
+
+	let m_viewsLoadedContentFlags = slGlobals.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -70,9 +72,6 @@
 		setPanelDensityFromPreferences();
 		setPanelColorsFromPreferences();
 		setPanelImageSetFromPreferences();
-
-		// from all the onDOMContentLoaded() fired try to make sure its done last
-		setTimeout(() => { setPanelLayout(); }, 150);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -165,8 +164,6 @@
 
 		// set listview's CSS variable accordingly depending if has VScroll
 		document.documentElement.style.setProperty("--rlv-scrollbar-width", (slUtil.hasVScroll(m_elmList) ? sbWidth : 0) + "px");
-
-		rssTreeView.restoreSelectedTreeItem();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -216,4 +213,20 @@
 	function onClickPreferences(event) {
 		browser.runtime.openOptionsPage();
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function notifyViewContentLoaded(viewContentLoadFlag) {
+
+		m_viewsLoadedContentFlags |= viewContentLoadFlag;
+
+		// set panel layout only after the content of rssTreeView & rssListView was loaded
+		if(m_viewsLoadedContentFlags === slGlobals.VIEW_CONTENT_LOAD_FLAG.ALL_VIEWS_LOADED) {
+			setPanelLayout();
+		}
+	}
+
+	return {
+		notifyViewContentLoaded: notifyViewContentLoaded,
+	};
+
 })();
