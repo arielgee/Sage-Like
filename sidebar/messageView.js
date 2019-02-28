@@ -23,6 +23,7 @@ let messageView = (function () {
 	let m_elmButtonYes;
 	let m_elmButtonNo;
 
+	let m_buttonsCode;
 	let m_buttonResult = ButtonCode.none;
 	let m_funcPromiseResolve = null;
 
@@ -33,10 +34,12 @@ let messageView = (function () {
 
 			initialize();
 
+			m_buttonsCode = buttonsCode;
+
 			m_elmMsgText.innerHTML = text;
 			m_elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
-			m_elmButtonSetOK.classList.toggle("visible", buttonsCode === ButtonSet.setOK);
-			m_elmButtonSetYesNo.classList.toggle("visible", buttonsCode === ButtonSet.setYesNo);
+			m_elmButtonSetOK.classList.toggle("visible", m_buttonsCode === ButtonSet.setOK);
+			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonsCode === ButtonSet.setYesNo);
 
 			m_elmMessagePanel.style.display = "block";
 			slUtil.disableElementTree(m_elmMainPanel, true);
@@ -98,13 +101,21 @@ let messageView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownMessagePanel(event) {
 		switch (event.key.toLowerCase()) {
-			case "escape":
-				close()
+			case "enter":
+				if(m_buttonsCode === ButtonSet.setOK) {
+					onClickButtonOK({});
+				} else if(m_buttonsCode === ButtonSet.setYesNo) {
+					onClickButtonYes({});
+				}
 				break;
-			//////////////////////////////
+				//////////////////////////////
+			case "escape":
+				close();
+				break;
+				//////////////////////////////
 			default:
 				break;
-			//////////////////////////////
+				//////////////////////////////
 		}
 	}
 

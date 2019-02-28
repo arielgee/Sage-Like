@@ -268,6 +268,10 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownDiscoverPanel(event) {
 		switch (event.key.toLowerCase()) {
+			case "enter":
+				onClickButtonAdd({});
+				break;
+				//////////////////////////////
 			case "escape":
 				close()
 				break;

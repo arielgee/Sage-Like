@@ -191,6 +191,7 @@
 * remove logging from background.js.browser.commands.onCommand.addListener()                => DONE
 * change browser_action.default_title to 'Sage-Like sidebar (Ctrl+Shift+F2)'                => NOT DONE
 * add note to Unresolved in mozilla-extension-page.txt/product page about mozilla bug       => DONE
+* message panel and descovery panel accept Enter as Yes/OK/Add button
 ---
 
 #### Next
@@ -203,7 +204,7 @@
 * remember what item was selected and put it in viewport when sidebar is reopend. also the scroll position (element.scrollTop/scrollLeft)
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * write a features list !!!!
-* message panel accept Enter as Yes/OK button
+
 * replace options screenshot.
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
