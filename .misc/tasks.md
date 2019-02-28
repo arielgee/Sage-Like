@@ -193,6 +193,7 @@
 * add note to Unresolved in mozilla-extension-page.txt/product page about mozilla bug       => DONE
 * message panel and descovery panel accept Enter as Yes/OK/Add button
 * need to perform event throttling on the resize event in panel.js (setPanelLayout)
+* restore splitter position, tree-view selected item & scroll position when sidebar is reopend.
 ---
 
 #### Next
@@ -201,9 +202,6 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 * mention in the description (readme) that only my Sage preference were implemented
-
-* remember what item was selected and put it in viewport when sidebar is reopend. also the scroll position (element.scrollTop/scrollLeft)
-
 
 * write a features list !!!!
 * replace options screenshot.

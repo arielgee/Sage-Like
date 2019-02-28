@@ -20,6 +20,7 @@ let panel = (function() {
 	let m_elmList;
 
 	let m_panelLayoutThrottler = false;
+	let m_scrollTopThrottler = false;
 
 	let m_viewsLoadedContentFlags = slGlobals.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
 
@@ -64,6 +65,7 @@ let panel = (function() {
 
 		m_elmInfoBar.addEventListener("click", onBlurInfoBar);
 		m_elmInfoBar.addEventListener("blur", onBlurInfoBar);
+		m_elmTop.addEventListener("scroll", onScrollTop);
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.addEventListener("resize", onResize, false);
@@ -81,6 +83,7 @@ let panel = (function() {
 
 		m_elmInfoBar.removeEventListener("click", onBlurInfoBar);
 		m_elmInfoBar.removeEventListener("blur", onBlurInfoBar);
+		m_elmTop.removeEventListener("scroll", onScrollTop);
 		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
 		window.removeEventListener("resize", onResize, false);
@@ -146,6 +149,7 @@ let panel = (function() {
 	function setPanelLayout(splitterTop) {
 
 		splitterTop = splitterTop || m_elmSplitter.offsetTop;
+		internalPrefs.setSplitterTop(splitterTop);
 
 		let reduseH, sbWidth = slUtil.getScrollbarWidth();
 		let splitterMargin = m_elmToolbar.offsetHeight;
@@ -171,6 +175,18 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurInfoBar(event) {
 		slUtil.showInfoBar("");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onScrollTop(event) {
+
+		if(!m_scrollTopThrottler) {
+			m_scrollTopThrottler = true;
+			window.requestAnimationFrame(() => {
+				internalPrefs.setTreeScrollTop(m_elmTop.scrollTop);
+				m_scrollTopThrottler = false;
+			});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -242,7 +258,7 @@ let panel = (function() {
 
 		// set panel layout only after the content of rssTreeView & rssListView was loaded
 		if(m_viewsLoadedContentFlags === slGlobals.VIEW_CONTENT_LOAD_FLAG.ALL_VIEWS_LOADED) {
-			setPanelLayout();
+			internalPrefs.getSplitterTop().then((splitterTop) => setPanelLayout(splitterTop));
 		}
 	}
 

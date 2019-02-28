@@ -241,11 +241,15 @@ let internalPrefs = (function() {
 	const DEF_PREF_TREE_FEEDS_DATA_VALUE = {};
 	const DEF_PREF_IS_EXTENSION_INSTALLED_VALUE = null;
 	const DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE = null;
+	const DEF_PREF_TREE_SCROLL_TOP_VALUE = 0;
+	const DEF_PREF_SPLITTER_TOP_VALUE = undefined;
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
 	const PREF_IS_EXTENSION_INSTALLED = "pref_isExtensionInstalled";
 	const PREF_TREE_SELECTED_ITEM_ID = "pref_treeSelectedItemId";
+	const PREF_TREE_SCROLL_TOP = "pref_treeScrollTop";
+	const PREF_SPLITTER_TOP = "pref_splitterTop";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenSubTrees() {
@@ -324,17 +328,78 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getTreeScrollTop() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_TREE_SCROLL_TOP).then((result) => {
+				resolve(result[PREF_TREE_SCROLL_TOP] === undefined ? DEF_PREF_TREE_SCROLL_TOP_VALUE : result[PREF_TREE_SCROLL_TOP]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setTreeScrollTop(value) {
+
+		let obj = {};
+		obj[PREF_TREE_SCROLL_TOP] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getSplitterTop() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_SPLITTER_TOP).then((result) => {
+				resolve(result[PREF_SPLITTER_TOP] === undefined ? DEF_PREF_SPLITTER_TOP_VALUE : result[PREF_SPLITTER_TOP]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setSplitterTop(value) {
+
+		let obj = {};
+		obj[PREF_SPLITTER_TOP] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getTreeViewRestoreData() {
+
+		return new Promise((resolve) => {
+
+			let getting = browser.storage.local.get([
+				PREF_TREE_SCROLL_TOP,
+				PREF_TREE_SELECTED_ITEM_ID,
+			]);
+
+			getting.then((result) => {
+				resolve({
+					treeScrollTop: result[PREF_TREE_SCROLL_TOP] === undefined ? DEF_PREF_TREE_SCROLL_TOP_VALUE : result[PREF_TREE_SCROLL_TOP],
+					treeSelectedItemId: result[PREF_TREE_SELECTED_ITEM_ID] === undefined ? DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE : result[PREF_TREE_SELECTED_ITEM_ID],
+				});
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
 		this.setIsExtensionInstalled(DEF_PREF_IS_EXTENSION_INSTALLED_VALUE);
 		this.setTreeSelectedItemId(DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE);
+		this.setTreeScrollTop(DEF_PREF_TREE_SCROLL_TOP_VALUE);
+		this.setSplitterTop(DEF_PREF_SPLITTER_TOP_VALUE);
 
 		return {
 			openSubTrees: DEF_PREF_OPEN_SUB_TREES_VALUE,
 			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA_VALUE,
 			isExtensionInstalled: DEF_PREF_IS_EXTENSION_INSTALLED_VALUE,
 			treeSelectedItemId: DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE,
+			treeScrollTop: DEF_PREF_TREE_SCROLL_TOP_VALUE,
+			splitterTop: DEF_PREF_SPLITTER_TOP_VALUE,
 		};
 	}
 
@@ -347,6 +412,12 @@ let internalPrefs = (function() {
 		setIsExtensionInstalled: setIsExtensionInstalled,
 		getTreeSelectedItemId: getTreeSelectedItemId,
 		setTreeSelectedItemId: setTreeSelectedItemId,
+		getTreeScrollTop: getTreeScrollTop,
+		setTreeScrollTop: setTreeScrollTop,
+		getSplitterTop: getSplitterTop,
+		setSplitterTop: setSplitterTop,
+
+		getTreeViewRestoreData: getTreeViewRestoreData,
 
 		restoreDefaults: restoreDefaults,
 	};

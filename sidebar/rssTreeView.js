@@ -184,7 +184,7 @@ let rssTreeView = (function() {
 					m_elmTreeRoot.style.height = (m_elmTreeRoot.clientHeight - slUtil.getScrollbarWidth()) + "px";
 				}
 				m_rssTreeCreatedOK = true;
-				restoreSelectedTreeItem();
+				restoreTreeViewState();
 				monitorRSSTreeFeeds();
 
 			}).catch((error) => {
@@ -263,6 +263,27 @@ let rssTreeView = (function() {
 		elm.classList.add("errormsg");
 		elm.textContent = textContent;
 		return elm;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function restoreTreeViewState() {
+
+		internalPrefs.getTreeViewRestoreData().then((restoreData) => {
+
+			m_elmTreeRoot.parentElement.scrollTop = restoreData.treeScrollTop;
+			setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
+
+			if (m_elmCurrentlySelected) {
+				onClickTreeItem({
+					detail: 1,
+					stopPropagation: () => {},
+					target: m_elmCurrentlySelected,
+					shiftKey: false,
+					clientX: 1,
+					clientY: 1,
+				});
+			}
+		});
 	}
 
 	//==================================================================================
@@ -1192,11 +1213,6 @@ let rssTreeView = (function() {
 	//==================================================================================
 	//=== Tree Items status
 	//==================================================================================
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function restoreSelectedTreeItem() {
-		internalPrefs.getTreeSelectedItemId().then((id) => setFeedSelectionState(document.getElementById(id)) );
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateFeedTitle(elmLI, title) {
