@@ -1195,7 +1195,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function restoreSelectedTreeItem() {
-		internalPrefs.getSelectedTreeItemId().then((id) => setFeedSelectionState(document.getElementById(id)) );
+		internalPrefs.getTreeSelectedItemId().then((id) => setFeedSelectionState(document.getElementById(id)) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1273,7 +1273,7 @@ let rssTreeView = (function() {
 				m_elmCurrentlySelected = elm;
 				elm.classList.add("selected");
 				slUtil.scrollIntoViewIfNeeded(elm.firstChild, m_elmTreeRoot.parentElement, "auto");
-				internalPrefs.setSelectedTreeItemId(m_elmCurrentlySelected.id);
+				internalPrefs.setTreeSelectedItemId(m_elmCurrentlySelected.id);
 			}
 		}
 	}

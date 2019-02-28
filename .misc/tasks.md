@@ -202,11 +202,16 @@
 * mention in the description (readme) that only my Sage preference were implemented
 
 * remember what item was selected and put it in viewport when sidebar is reopend. also the scroll position (element.scrollTop/scrollLeft)
-* BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
-* write a features list !!!!
 
+* need to perform event throttling on the resize event in panel.js (setPanelLayout)
+* write a features list !!!!
 * replace options screenshot.
+
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
-* add dotted line to tree view => FUUUUUUCK
+
+##### low priority
+* re-desigh all popups as slide-down panels
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()
+* BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
+* add dotted line to tree view => FUUUUUUCK
