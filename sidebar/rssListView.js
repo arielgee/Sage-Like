@@ -101,10 +101,10 @@ let rssListView = (function() {
 
 		if(title.length === 0) title = slGlobals.STR_TITLE_EMPTY;
 		desc = desc
-				.trim()
-				.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
-				.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>")
-				.escapeHtml();
+			.trim()
+			.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
+			.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>")
+			.escapeHtml();
 
 		elm.textContent = index.toString() + ". " + title;
 		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;
