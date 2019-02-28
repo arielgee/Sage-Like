@@ -192,6 +192,7 @@
 * change browser_action.default_title to 'Sage-Like sidebar (Ctrl+Shift+F2)'                => NOT DONE
 * add note to Unresolved in mozilla-extension-page.txt/product page about mozilla bug       => DONE
 * message panel and descovery panel accept Enter as Yes/OK/Add button
+* need to perform event throttling on the resize event in panel.js (setPanelLayout)
 ---
 
 #### Next
@@ -203,7 +204,7 @@
 
 * remember what item was selected and put it in viewport when sidebar is reopend. also the scroll position (element.scrollTop/scrollLeft)
 
-* need to perform event throttling on the resize event in panel.js (setPanelLayout)
+
 * write a features list !!!!
 * replace options screenshot.
 

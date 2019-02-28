@@ -19,6 +19,8 @@ let panel = (function() {
 	let m_elmTree;
 	let m_elmList;
 
+	let m_panelLayoutThrottler = false;
+
 	let m_viewsLoadedContentFlags = slGlobals.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -64,7 +66,7 @@ let panel = (function() {
 		m_elmInfoBar.addEventListener("blur", onBlurInfoBar);
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		window.addEventListener("resize", () => setPanelLayout(), false);
+		window.addEventListener("resize", onResize, false);
 
 		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.addEventListener("click", onClickPreferences);
@@ -81,7 +83,7 @@ let panel = (function() {
 		m_elmInfoBar.removeEventListener("blur", onBlurInfoBar);
 		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		window.removeEventListener("resize", () => setPanelLayout(), false);
+		window.removeEventListener("resize", onResize, false);
 
 		m_elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.removeEventListener("click", onClickPreferences);
@@ -197,7 +199,26 @@ let panel = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseMove_dragSplitter(event) {
-		setPanelLayout(m_elmSplitter.offsetTop + event.movementY);
+
+		if(!m_panelLayoutThrottler) {
+			m_panelLayoutThrottler = true;
+			window.requestAnimationFrame(() => {
+				setPanelLayout(m_elmSplitter.offsetTop + event.movementY);
+				m_panelLayoutThrottler = false;
+			});
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onResize(event) {
+
+		if(!m_panelLayoutThrottler) {
+			m_panelLayoutThrottler = true;
+			window.requestAnimationFrame(() => {
+				setPanelLayout();
+				m_panelLayoutThrottler = false;
+			});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
