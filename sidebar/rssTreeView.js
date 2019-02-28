@@ -943,7 +943,7 @@ let rssTreeView = (function() {
 					setFeedVisitedState(elmLI, false);
 				}
 
-				elmLI.scrollIntoView();		// when loop terminates the elmLI is the last LI appended
+				elmLI.scrollIntoView({behavior: "smooth"});		// when loop terminates the elmLI is the last LI appended
 				blinkNewlyAddedFeeds();
 				resolve();
 			});
@@ -1272,7 +1272,7 @@ let rssTreeView = (function() {
 			if (elm && elm.tagName === "LI") {
 				m_elmCurrentlySelected = elm;
 				elm.classList.add("selected");
-				slUtil.scrollIntoViewIfNeeded(elm.firstChild, m_elmTreeRoot.parentElement);
+				slUtil.scrollIntoViewIfNeeded(elm.firstChild, m_elmTreeRoot.parentElement, "auto");
 				internalPrefs.setSelectedTreeItemId(m_elmCurrentlySelected.id);
 			}
 		}
