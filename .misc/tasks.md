@@ -194,6 +194,7 @@
 * message panel and descovery panel accept Enter as Yes/OK/Add button
 * need to perform event throttling on the resize event in panel.js (setPanelLayout)
 * restore splitter position, tree-view selected item & scroll position when sidebar is reopend.
+* write a features list !!!!
 ---
 
 #### Next
@@ -203,9 +204,9 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
-* write a features list !!!!
 * replace options screenshot.
-
+* customize sidebar font (not context menu)
+* support for OPML import/export
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 

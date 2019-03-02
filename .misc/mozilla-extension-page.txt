@@ -3,7 +3,15 @@
 --------------------------------------------------------------
 Sage-Like is a simple, sidebar based feed reader (Atom, RSS and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I tried to keep it lightweight and fast.
 
-features list
+<b>Feature List</b>
+<ul>
+  <li>Sidebar based display.</li>
+  <li>Feed discovery.</li>
+  <li>Integrated with the browser's native bookmarks.</li>
+  <li>Fully customizable feeds tree. Add, edit and delete feeds and feed folders directly from the sidebar.</li>
+  <li>Feed preview (via: feed → context menu → Open xxx).</li>
+  <li>Customizable UI colors.</li>
+</ul>
 
 
 + Product Page Tags (20 tags)
