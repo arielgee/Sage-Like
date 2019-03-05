@@ -24,11 +24,9 @@ atom, channel, discover, easy, feed, feedbro, feeder, feedly, pinrss, rdf, reade
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added build in support for feed preview when Firefox version is 64 or more (feed -> context menu -> open xxx).</li>
-  <li>Addressed a security concern about feed injections.</li>
-  <li>Strip images from the feed-item description tooltip.</li>
-  <li>Added the ability to delete a folder from the context menu.</li>
-  <li>Numerous bug fixes and improvements.</li>
+  <li>Restore the state of the sidebar after its reopened. Splitter position, scroll position and selected feed in tree.</li>
+  <li>Event throttling.</li>
+  <li>Bug fixes and performance improvements.</li>
 </ul>
 
 <b>Unresolved</b>
