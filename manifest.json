@@ -16,7 +16,8 @@
 		"<all_urls>",
 		"tabs",
 		"clipboardWrite",
-		"storage"
+		"storage",
+		"downloads"
 	],
 	"icons": {
 		"16": "icons/sageLike-16.png",

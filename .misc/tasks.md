@@ -204,9 +204,15 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
+* keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
+* toolbar button 'Subscribe Feed to Sage-Like'
+* same redius in feed previewing for title and body
+* ???? buttons in the feed preview? toggle read/unread amrk all as un/read
 * replace options screenshot.
 * customize sidebar font (not context menu)
 * support for OPML import/export
+* url or any bad data in bookmark.title (strip?)
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 
