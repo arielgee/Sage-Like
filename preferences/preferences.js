@@ -32,11 +32,15 @@ let preferences = (function() {
 	let m_elmRadioImageSet4;
 	let m_elmRadioImageSet5;
 	let m_elmRadioImageSet6;
+	let m_elmImportOpml;
 
 	let m_elmBtnReloadExtension;
 	let m_elmBtnRestoreDefaults;
 
 	let m_funcResolveGetTimeOfDay;
+
+	//opml.exportFeeds.run();
+	//opml.importFeeds("C:\\Users\\Ariel\\Downloads\\export.opml");
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -65,6 +69,7 @@ let preferences = (function() {
 		m_elmRadioImageSet4 = document.getElementById("imageSet4");
 		m_elmRadioImageSet5 = document.getElementById("imageSet5");
 		m_elmRadioImageSet6 = document.getElementById("imageSet6");
+		m_elmImportOpml = document.getElementById("inputImportOPML");
 
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
@@ -100,6 +105,7 @@ let preferences = (function() {
 		m_elmRadioImageSet4.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet5.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
+		m_elmImportOpml.removeEventListener("change", onChangeImportOpml);
 
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
@@ -134,6 +140,7 @@ let preferences = (function() {
 		m_elmRadioImageSet4.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
+		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
@@ -335,6 +342,10 @@ let preferences = (function() {
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_IMAGES);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeImportOpml(event) {
+		opml.importFeeds.run(event.target.files[0]);
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnReloadExtension(event) {
 		slUtil.reloadSageLikeWebExtensionAndTab();

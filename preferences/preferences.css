@@ -219,6 +219,29 @@ input[type="checkbox"].disabled:not(:checked)  {
 #imageSet5 + .controlImage { background-image: url("/icons/open-5.png"); }
 #imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
 
+#inputImportOPML {
+  width: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.feedTransButton {
+  font-family: Tahoma, Sans;
+  font-size: 13.3333px;
+  line-height: 17px;
+  padding-bottom: 4px;
+  height: 22px;
+  width: 90px;
+  background-color: rgb(235, 235, 235);
+}
+.feedTransButton:hover {
+  background-color: rgb(218, 218, 218);
+}
+
+.feedTransButton:active:hover {
+  background-color: rgb(182, 182, 182);
+}
+
 
 /*** Time of day box ***/
 .timeOfDayBox {
