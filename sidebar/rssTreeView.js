@@ -55,6 +55,8 @@ let rssTreeView = (function() {
 	let m_rssTreeCreatedOK = false;
 	let m_elmCurrentlyDragged = null;
 
+	let m_prioritySelectedItemId = null;
+
 	let m_lineHeight = 21;
 	let m_lastClickedFeedTime = 0;
 	let m_timeoutIdMonitorRSSTreeFeeds = null;
@@ -89,7 +91,20 @@ let rssTreeView = (function() {
 				message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
 				monitorRSSTreeFeeds();
 			}
+
+		} else if (message.id === slGlobals.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER) {
+
+			m_semSuspendBookmarksEventHandlerReqCounter++;
+
+		} else if (message.id === slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER) {
+
+			m_semSuspendBookmarksEventHandlerReqCounter--;
+
+		} else if (message.id === slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID) {
+
+			m_prioritySelectedItemId = message.itemId;
 		}
+
 	});
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -271,7 +286,20 @@ let rssTreeView = (function() {
 		internalPrefs.getTreeViewRestoreData().then((restoreData) => {
 
 			m_elmTreeRoot.parentElement.scrollTop = restoreData.treeScrollTop;
-			setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
+
+			if(m_prioritySelectedItemId === null) {
+				setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
+			} else {
+
+				// if m_prioritySelectedItemId is not null then select this one and not from the restoreData
+
+				let elm = document.getElementById(m_prioritySelectedItemId);
+				m_prioritySelectedItemId = null;
+
+				setFeedSelectionState(elm);
+				setSubTreeState(elm, true);
+				elm.scrollIntoView(true);
+			}
 
 			if (m_elmCurrentlySelected) {
 				onClickTreeItem({

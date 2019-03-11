@@ -195,6 +195,8 @@
 * need to perform event throttling on the resize event in panel.js (setPanelLayout)
 * restore splitter position, tree-view selected item & scroll position when sidebar is reopend.
 * write a features list !!!!
+* support for OPML import/export
+* scroll imported folder into view
 ---
 
 #### Next
@@ -204,6 +206,7 @@
 
 * mention in the description (readme) that only my Sage preference were implemented
 
+* try to change the mozilla Extensions feed with something that WORKS!!!
 * show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
 * toolbar button 'Subscribe Feed to Sage-Like'
@@ -211,17 +214,22 @@
 * ???? buttons in the feed preview? toggle read/unread amrk all as un/read
 * replace options screenshot.
 * customize sidebar font (not context menu)
-* support for OPML import/export
+
+* replace alert() in preference with something nice
 * timestamp in file name export (with the word 'export'?)
 * in syndication.getXMLTextFromBlob() replace responseText with responseXML so will not need the m_domParser
   * only in text I can avoid a stupid XML/RSS Parsing Errors. if I use xhr.responseType = 'xml'; will i fail on Parsing Errors?
 * url or any bad data in bookmark.title (strip?)
+
 * check all resolve/reject that there is a 'return' after them
 * move all prototypes out of the slUtil function
 * convert getCurrentLocaleDate() to a prototype
 * when opening a folder in tree that is at the bottom it is opend outside the viewport (annoying) file explorer is scrollig the folder to the top of the viewport (neee)
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
+
+* PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741
+* moz feed : https://discourse.mozilla.org/c/add-ons.rss
 
 ##### low priority
 * re-desigh all popups as slide-down panels

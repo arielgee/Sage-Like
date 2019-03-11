@@ -113,11 +113,18 @@
 	</div>
 	<div class="prefSeperator"></div>
 
-	<div class="preference">
-		<label class="preferenceLabel">Feeds Transfer (OPML)</label>
-		<div class="preferenceControl">
-			<label for="inputImportOPML" class="controlButton feedTransButton">Import...</label><input type="file" id="inputImportOPML"/>
-			<button type="button" class="controlButton feedTransButton" id="btnExportOPML">Export...</button>
+	<div id="prefContainerFeedTrans">
+		<div class="preference">
+			<label class="preferenceLabel">Feeds Transfer (OPML)</label>
+			<div class="preferenceControl">
+				<label for="inputImportOPML" class="feedTransButton" tabindex="0">Import...</label>
+				<button type="button" class="feedTransButton" id="btnExportOPML">Export...</button>
+				<input type="file" id="inputImportOPML" accept="text/xml,.opml"/>
+			</div>
+		</div>
+		<div id="prefOverlayFeedTrans">
+			<div id="feedTransProcessingImg"></div>
+			<div id="feedTransProcessingMsg">Please do not close tab until the process is completed.</div>
 		</div>
 	</div>
 	<div class="prefSeperator"></div>

@@ -4,6 +4,115 @@ let opml = (function() {
 
 	//////////////////////////////////////////
 	//////////////////////////////////////////
+	let importFeeds = (function() {
+
+		let m_xhr;
+		let m_funcImportResolve;
+		let m_funcImportReject;
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function run(file) {
+
+			return new Promise((resolve, reject) => {
+
+				m_funcImportResolve = resolve;
+				m_funcImportReject = reject;
+
+				let objUrl = URL.createObjectURL(file);
+
+				m_xhr = new XMLHttpRequest();
+				m_xhr.open("GET", objUrl);
+				m_xhr.overrideMimeType("text/xml");
+				m_xhr.addEventListener("load", onLoad);
+				m_xhr.addEventListener("error", onError);
+				m_xhr.send();
+			});
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function onLoad() {
+			m_xhr.removeEventListener("load", onLoad);
+			processOpmlDocument(m_xhr.responseXML);
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function onError(event) {
+			console.log("[Sage-Like]", event);
+			m_xhr.removeEventListener("error", onError);
+			m_funcImportReject(event);
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function processOpmlDocument(xmlDoc) {
+
+			if(!xmlDoc) {
+				m_funcImportReject("This file may not be a valid OPML file.");
+				return;
+			}
+
+			let nodeTitle = xmlDoc.querySelector("opml > head > title");
+			let nodeCreated = xmlDoc.querySelector("opml > head > dateCreated");
+			let nodeBody = xmlDoc.querySelector("opml > body");
+
+			if(!nodeTitle || !nodeBody) {
+				m_funcImportReject("This file may not be a valid OPML file. Missing elements.");
+				return;
+			}
+			prefs.getRootFeedsFolderId().then((folderId) => {
+
+				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+					m_funcImportReject("Root feeds folder id not set (processOpmlDocument)");
+					return;
+				}
+
+				let title = "Import - " + nodeTitle.textContent + (nodeCreated ? " (created: " + (new Date(nodeCreated.textContent)).toWebExtensionLocaleShortString() + ")": "");
+
+				browser.bookmarks.create({parentId: folderId, title: title, type: "folder"}).then(async (created) => {
+					for (let i=0, len=nodeBody.children.length; i<len; i++) {
+						await processOutlines(nodeBody.children[i], created.id);
+					}
+					m_funcImportResolve(created.id);
+				});
+
+			}).catch((error) => m_funcImportReject(error));
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		async function processOutlines(node, parentId) {
+
+			if(node.nodeName !== "outline") return;
+
+			let title = node.getAttribute("title") || node.getAttribute("text");
+			let isFeed = node.hasAttribute("type") && node.getAttribute("type") === "rss" && node.hasAttribute("xmlUrl");
+
+			let newBmItem = {
+				parentId: parentId,
+				title: title,
+			};
+
+			if(node.children.length > 0 || !isFeed) {
+
+				newBmItem.type = "folder";
+				let fld = await browser.bookmarks.create(newBmItem);
+				for (let i=0, len=node.children.length; i<len; i++) {
+					await processOutlines(node.children[i], fld.id);
+				}
+
+			} else {
+
+				newBmItem.type = "bookmark";
+				newBmItem.url = node.getAttribute("xmlUrl");
+				await browser.bookmarks.create(newBmItem);
+			}
+		}
+
+		return {
+			run: run,
+		};
+	})();
+
+	//////////////////////////////////////////
+	//////////////////////////////////////////
 	let exportFeeds = (function() {
 
 		let m_funcExportResolve;
@@ -25,7 +134,13 @@ let opml = (function() {
 						url: objUrl,
 						filename: "sage-like.opml",
 						saveAs: true,
-					}).catch((error) => reject(error));
+					}).catch((error) => {
+						if(error.message === "Download canceled by the user") {
+							m_funcExportResolve();
+						} else {
+							reject(error);
+						}
+					});
 
 				}).catch((error) => {
 					reject(error);
@@ -95,119 +210,9 @@ let opml = (function() {
 		};
 	})();
 
-
-	//////////////////////////////////////////
-	//////////////////////////////////////////
-	let importFeeds = (function() {
-
-		let m_xhr;
-		let m_funcImportResolve;
-		let m_funcImportReject;
-
-		////////////////////////////////////////////////////////////////////////////////////
-		function run(file) {
-
-			return new Promise((resolve, reject) => {
-
-				m_funcImportResolve = resolve;
-				m_funcImportReject = reject;
-
-				let objUrl = URL.createObjectURL(file);
-
-				m_xhr = new XMLHttpRequest();
-				m_xhr.open("GET", objUrl);
-				m_xhr.overrideMimeType("text/xml");
-				m_xhr.addEventListener("load", onLoad);
-				m_xhr.addEventListener("error", onError);
-				m_xhr.send();
-			});
-		}
-
-		////////////////////////////////////////////////////////////////////////////////////
-		function onLoad() {
-			m_xhr.removeEventListener("load", onLoad);
-			processOpmlDocument(m_xhr.responseXML);
-		}
-
-		////////////////////////////////////////////////////////////////////////////////////
-		function onError(event) {
-			console.log("[Sage-Like]", event);
-			m_xhr.removeEventListener("error", onError);
-			m_funcImportReject(event);
-		}
-
-		////////////////////////////////////////////////////////////////////////////////////
-		function processOpmlDocument(xmlDoc) {
-
-			if(!xmlDoc) {
-				m_funcImportReject("This file may not be a valid OPML file.");
-				return;
-			}
-
-			let nodeTitle = xmlDoc.querySelector("opml > head > title");
-			let nodeCreated = xmlDoc.querySelector("opml > head > dateCreated");
-			let nodeBody = xmlDoc.querySelector("opml > body");
-
-			if(!nodeTitle || !nodeBody) {
-				m_funcImportReject("This file may not be a valid OPML file. Missing elements.");
-				return;
-			}
-			prefs.getRootFeedsFolderId().then((folderId) => {
-
-				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					m_funcImportReject("Root feeds folder id not set (processOpmlDocument)");
-					return;
-				}
-
-				let title = "Import - " + nodeTitle.textContent + (nodeCreated ? " (created: " + (new Date(nodeCreated.textContent)).toWebExtensionLocaleShortString() + ")": "");
-
-				browser.bookmarks.create({parentId: folderId, title: title, type: "folder"}).then(async (created) => {
-					for (let i=nodeBody.children.length-1; i>-1; i--) {
-						await processOutlines(nodeBody.children[i], created.id);
-					}
-					m_funcImportResolve();
-				});
-
-			}).catch((error) => m_funcImportReject(error));
-		}
-
-		////////////////////////////////////////////////////////////////////////////////////
-		async function processOutlines(node, parentId) {
-
-			if(node.nodeName !== "outline") return;
-
-			let title = node.getAttribute("title") || node.getAttribute("text");
-			let isFeed = node.hasAttribute("type") && node.getAttribute("type") === "rss" && node.hasAttribute("xmlUrl");
-
-			let newBmItem = {
-				parentId: parentId,
-				title: title,
-			};
-
-			if(node.children.length > 0 || !isFeed) {
-
-				newBmItem.type = "folder";
-				let fld = await browser.bookmarks.create(newBmItem);
-				for (let i=node.children.length-1; i>-1; i--) {
-					await processOutlines(node.children[i], fld.id);
-				}
-
-			} else {
-
-				newBmItem.type = "bookmark";
-				newBmItem.url = node.getAttribute("xmlUrl");
-				browser.bookmarks.create(newBmItem);
-			}
-		}
-
-		return {
-			run: run,
-		};
-	})();
-
 	return {
-        exportFeeds: exportFeeds,
         importFeeds: importFeeds,
+        exportFeeds: exportFeeds,
 	};
 })();
 

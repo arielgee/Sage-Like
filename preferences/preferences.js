@@ -33,6 +33,7 @@ let preferences = (function() {
 	let m_elmRadioImageSet5;
 	let m_elmRadioImageSet6;
 	let m_elmImportOpml;
+	let m_elmExportOpml;
 
 	let m_elmBtnReloadExtension;
 	let m_elmBtnRestoreDefaults;
@@ -67,6 +68,7 @@ let preferences = (function() {
 		m_elmRadioImageSet5 = document.getElementById("imageSet5");
 		m_elmRadioImageSet6 = document.getElementById("imageSet6");
 		m_elmImportOpml = document.getElementById("inputImportOPML");
+		m_elmExportOpml = document.getElementById("btnExportOPML");
 
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
@@ -103,14 +105,12 @@ let preferences = (function() {
 		m_elmRadioImageSet5.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
 		m_elmImportOpml.removeEventListener("change", onChangeImportOpml);
+		m_elmExportOpml.removeEventListener("click", onClickExportOpml);
 
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
 
-		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onChanged.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onMoved.removeListener(onBookmarksEventHandler);
+		removeBookmarksEventListeners();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -138,14 +138,28 @@ let preferences = (function() {
 		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
 		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
+		m_elmExportOpml.addEventListener("click", onClickExportOpml);
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
 
+		addBookmarksEventListeners();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function addBookmarksEventListeners() {
 		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onRemoved.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function removeBookmarksEventListeners() {
+		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onChanged.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onMoved.removeListener(onBookmarksEventHandler);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -341,8 +355,48 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeImportOpml(event) {
-		opml.importFeeds.run(event.target.files[0]);
+
+		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER });
+		removeBookmarksEventListeners();
+
+		let elmPrefOverlayFeedTrans = document.getElementById("prefOverlayFeedTrans");
+
+		elmPrefOverlayFeedTrans.classList.add("processing");
+		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, true);
+
+		let errResult = null;
+
+		opml.importFeeds.run(event.target.files[0]).then((newFolderId) => {
+			initializeSelectFeedsFolder();
+			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: newFolderId });
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
+		}).catch((error) => {
+			errResult = error;
+			console.log("[Sage-Like]", error);
+		}).finally(() => {
+			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
+			addBookmarksEventListeners();
+
+			elmPrefOverlayFeedTrans.classList.remove("processing");
+			slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, false);
+
+			if(errResult) alert(errResult);
+		});
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickExportOpml(event) {
+
+		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, true);
+
+		opml.exportFeeds.run().catch((error) => {
+			alert(error);
+			console.log("[Sage-Like]", error);
+		}).finally(() => {
+			slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, false);
+		});
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnReloadExtension(event) {
 		slUtil.reloadSageLikeWebExtensionAndTab();
