@@ -33,7 +33,7 @@
 
 				elmFeedContent.id = "feedContent";
 
-				for(let idx=0; idx<result.list.length; idx++) {
+				for(let idx=0, len=result.list.length; idx<len; idx++) {
 					elmFeedItem = createFeedItemElements(result.list[idx]);
 					elmFeedContent.appendChild(elmFeedItem);
 				}
@@ -106,7 +106,7 @@
 		let url;
 		let elmATags = elm.getElementsByTagName("a");
 
-		for(let idx=0; idx<elmATags.length; idx++) {
+		for(let idx=0, len=elmATags.length; idx<len; idx++) {
 
 			// Link to a fake anchor result in href pointing to this webExt top page - leave it
 			if(elmATags[idx].getAttribute("href") === "#") continue;

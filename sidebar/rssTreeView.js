@@ -753,7 +753,7 @@ let rssTreeView = (function() {
 				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 
 				// find target element in list
-				for(let i=0; i<elms.length; i++) {
+				for(let i=0, len=elms.length; i<len; i++) {
 
 					// find in list the immediate PREVIOUS visible element
 					if(elms[i].id === elmTargetLI.id && (i-1) >= 0) {
@@ -772,13 +772,13 @@ let rssTreeView = (function() {
 			case "arrowdown":
 				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 
-				for(let i=0; i<elms.length; i++) {
+				for(let i=0, len=elms.length; i<len; i++) {
 
 					// find target element in list
-					if(elms[i].id === elmTargetLI.id && (i+1) < elms.length) {
+					if(elms[i].id === elmTargetLI.id && (i+1) < len) {
 
 						// find in list the immediate NEXT visible element
-						for(let j=i+1; j<elms.length; j++) {
+						for(let j=i+1; j<len; j++) {
 							if(elms[j].offsetParent !== null) {		// visible or not
 								elms[j].focus();
 								return;
@@ -818,7 +818,7 @@ let rssTreeView = (function() {
 				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
 
 				// find target element in list
-				for(let i=0; i<elms.length; i++) {
+				for(let i=0, len=elms.length; i<len; i++) {
 
 					// find in list the current selected item
 					if(elms[i].id === elmTargetLI.id && (i-1) >= 0) {
@@ -844,12 +844,12 @@ let rssTreeView = (function() {
 				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
 
 				// find target element in list
-				for(let i=0; i<elms.length; i++) {
+				for(let i=0, len=elms.length; i<len; i++) {
 
 					// find in list the current selected item
-					if(elms[i].id === elmTargetLI.id && (i+1) < elms.length) {
+					if(elms[i].id === elmTargetLI.id && (i+1) < len) {
 
-						for(let j=i+1; j<elms.length; j++) {
+						for(let j=i+1; j<len; j++) {
 							if(elms[j].offsetParent !== null) {		// only if visible
 								elm = elms[j];
 								if(++count === elmCount) {
@@ -1505,7 +1505,7 @@ let rssTreeView = (function() {
 
 			m_objOpenSubTrees.clear();
 
-			for (let idx=0; idx<folders.length; idx++) {
+			for (let idx=0, len=folders.length; idx<len; idx++) {
 				folders[idx].details.parentId = createdRoot.id;
 				createdFolder = await createBookmarksFolder(folders[idx]);
 				m_objOpenSubTrees.set(createdFolder.id);
@@ -1520,7 +1520,7 @@ let rssTreeView = (function() {
 
 		let createdFolder = await browser.bookmarks.create(folder.details);
 
-		for (let idx=0; idx<folder.feeds.length; idx++) {
+		for (let idx=0, len=folder.feeds.length; idx<len; idx++) {
 			folder.feeds[idx].parentId = createdFolder.id;
 			await browser.bookmarks.create(folder.feeds[idx]);
 		}
