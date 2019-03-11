@@ -420,6 +420,9 @@ let preferences = (function() {
 
 		return new Promise((resolve) => {
 
+			// hide element to reduce repaint/reflow
+			m_elmRootFeedsFolder.style.display = "none";
+
 			while(m_elmRootFeedsFolder.firstChild) {
 				m_elmRootFeedsFolder.removeChild(m_elmRootFeedsFolder.firstChild);
 			}
@@ -432,6 +435,7 @@ let preferences = (function() {
 				for(let child of bookmarks[0].children) {
 					createSelectFeedsFolderElement(child, 0);
 				}
+				m_elmRootFeedsFolder.style.display = "block";
 				resolve();
 			});
 
