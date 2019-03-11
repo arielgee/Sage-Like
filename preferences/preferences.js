@@ -39,9 +39,6 @@ let preferences = (function() {
 
 	let m_funcResolveGetTimeOfDay;
 
-	//opml.exportFeeds.run();
-	//opml.importFeeds("C:\\Users\\Ariel\\Downloads\\export.opml");
-
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
