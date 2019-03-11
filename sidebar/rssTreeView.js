@@ -1224,7 +1224,7 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
 					elmLI.firstElementChild.textContent = updatedNode.title;
-				});
+				}).catch((error) => console.log("[Sage-Like]", error) );
 			});
 		}
 	}
@@ -1371,7 +1371,7 @@ let rssTreeView = (function() {
 		m_semSuspendBookmarksEventHandlerReqCounter++;
 
 		callbackPromise().catch((error) => {
-			console.log("[Sage-Like]", error);
+			console.log("[Sage-Like]", error, callbackPromise);
 		}).finally(() => m_semSuspendBookmarksEventHandlerReqCounter--);
 	}
 
