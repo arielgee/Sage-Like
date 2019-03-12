@@ -263,7 +263,7 @@ input[type="checkbox"].disabled:not(:checked)  {
   background-color: rgba(0, 0, 0, 0.7) ;
   z-index: 2;
   cursor: wait;
-  transition: width 0.4s linear 0s, height 0.4s linear 0s;
+  transition: width 0.15s linear 0s, height 0.15s linear 0s;
   overflow: hidden;
 }
 

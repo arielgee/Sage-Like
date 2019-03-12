@@ -212,7 +212,7 @@
 * check all resolve/reject that there is a 'return' after them
 * convert getCurrentLocaleDate() to a prototype
 
-* some loding gif in the tree-view until tree is shown
+* some loading gif in the tree-view until tree is shown
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen
 
 * show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
