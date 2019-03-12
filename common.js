@@ -241,6 +241,162 @@ let slGlobals = (function() {
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+let slPrototypes = (function() {
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.format = function(args) {
+		let str = this;
+		return str.replace(String.prototype.format.regex, (item) => {
+			let intVal = parseInt(item.substring(1, item.length - 1));
+			let replace;
+			if (intVal >= 0) {
+				replace = args[intVal];
+			} else if (intVal === -1) {
+				replace = "{";
+			} else if (intVal === -2) {
+				replace = "}";
+			} else {
+				replace = "";
+			}
+			return replace;
+		});
+	};
+	String.prototype.format.regex = new RegExp("{-?[0-9]+}", "g");
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.trunc = function(n) {
+		return (this.length > n) ? this.substr(0, n - 1) + "&hellip;" : this;
+	};
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.midTrunc = function(n) {
+		return (this.length > n) ? this.substr(0, n/2) + "\u2026" + this.substr(-((n-1)/2)) : this;
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////
+	String.prototype.htmlEntityToLiteral = function() {
+		// this is NOT safe; may be used as an attack vector if result is displayed to user
+		return this.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
+			return String.prototype.htmlEntityToLiteral.entities[matched];
+		});
+	};
+	String.prototype.htmlEntityToLiteral.entities = {
+		"&quot;": "\"",
+		"&amp;": "&",
+		"&gt;": ">",
+		"&lt;": "<",
+		"&copy;": "©",
+		"&trade;": "™",
+		"&reg;": "®",
+		"&nbsp;": " ",
+		"&apos;": "'",
+		"&cent;": "¢",
+		"&pound;": "£",
+		"&yen;": "¥",
+		"&euro;": "€",
+		"&raquo;": "»",
+		"&laquo;": "«",
+		"&bull": "•",
+		"&mdash;": "—",
+	};
+	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.escapeHtml = function() {
+		return this.replace(String.prototype.escapeHtml.regex, (match) => {
+			return String.prototype.escapeHtml.htmlReservedCharacters[match];
+		});
+	};
+	String.prototype.escapeHtml.htmlReservedCharacters = {
+		"&": "&amp;",
+		"<": "&lt;",
+		">": "&gt;",
+		"\"": "&quot;",
+		"'": "&#039;",
+	};
+	String.prototype.escapeHtml.regex = new RegExp("[" + Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).join("") + "]", "gm");
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.unescapeHtml = function() {
+		return this.replace(String.prototype.unescapeHtml.regex, (match) => {
+			return Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).find((key) => String.prototype.escapeHtml.htmlReservedCharacters[key] === match);
+		});
+	};
+	String.prototype.unescapeHtml.regex = new RegExp(Object.values(String.prototype.escapeHtml.htmlReservedCharacters).join("|"), "gm");
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.stripHtmlTags = function(regex = null, substitution = "") {
+		if(regex) {
+			return this.replace(regex, substitution)
+		} else {
+			return this
+				.htmlEntityToLiteral()
+				.replace(String.prototype.stripHtmlTags.regexContentTags, "")
+				.replace(String.prototype.stripHtmlTags.regexAnyTag, " ");
+		}
+	};
+	// I know, embed, link, cannot have any child nodes. Not taking any risks
+	String.prototype.stripHtmlTags.regexContentTags = new RegExp("<\\s*\\b(a|script|link|i?frame|embed|applet|object)\\b[^>]*>([\\s\\S]*?)</\\s*\\b(a|script|link|i?frame|embed|applet|object)\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexATag = new RegExp("<\\s*\\ba\\b[^>]*>([\\s\\S]*?)</\\s*\\ba\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexScriptTag = new RegExp("<\\s*\\bscript\\b[^>]*>([\\s\\S]*?)</\\s*\\bscript\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexLinkTag = new RegExp("<\\s*\\blink\\b[^>]*>([\\s\\S]*?)</\\s*\\blink\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexFrameTag = new RegExp("<\\s*\\bi?frame\\b[^>]*>([\\s\\S]*?)</\\s*\\bi?frame\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bembed\\b[^>]*>([\\s\\S]*?)</\\s*\\bembed\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexAppletTag = new RegExp("<\\s*\\bapplet\\b[^>]*>([\\s\\S]*?)</\\s*\\bapplet\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexObjectTag = new RegExp("<\\s*\\bobject\\b[^>]*>([\\s\\S]*?)</\\s*\\bobject\\b\\s*>", "gim");
+	String.prototype.stripHtmlTags.regexImgTag = new RegExp("</?\\s*\\bimg\\b[^>]*>", "gim");
+	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?\\s*\\b[a-zA-Z0-9]+\\b[^>]*>", "gm");
+	String.prototype.stripHtmlTags.regexMultiBrTag = new RegExp("(<\\s*\\bbr\\b[^>]*/?>[\\r\\n]*){3,}", "gim");
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.stripUnsafeHtmlComponents = function() {
+		return this
+			.htmlEntityToLiteral()
+			.replace(String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags, "")
+			.replace(String.prototype.stripUnsafeHtmlComponents.regexJavascript, "")
+			.replace(String.prototype.stripUnsafeHtmlComponents.regexImg1x1, "")
+			.replace(String.prototype.stripUnsafeHtmlComponents.regexEventAttr, "$1");
+	};
+	String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags = new RegExp("<\\s*\\b(script|link|i?frame|embed|applet|object)\\b[^>]*>([\\s\\S]*?)</\\s*\\b(script|link|i?frame|embed|applet|object)\\b\\s*>", "gim");
+	String.prototype.stripUnsafeHtmlComponents.regexJavascript = new RegExp("('\\bjavascript:([\\s\\S]*?)')|(\"\\bjavascript:([\\s\\S]*?)\")", "gim");
+	String.prototype.stripUnsafeHtmlComponents.regexEventAttr = new RegExp("(<\\s*\\b[a-zA-Z0-9]+\\b[^>]*)\\bon[a-zA-Z]+\\s*=\\s*(\"[\\s\\S]*?\"|'[\\s\\S]*?')", "gim");
+	String.prototype.stripUnsafeHtmlComponents.regexImg1x1 = new RegExp("<\\s*\\bimg\\b[^>]*\\b((width\\s*=\\s*[\"']0*1[\"'][^>]*\\bheight\\s*=\\s*[\"']0*1[\"'])|(height\\s*=\\s*[\"']0*1[\"'][^>]*\\bwidth\\s*=\\s*[\"']0*1[\"']))[^>]*>", "gim");
+
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.escapeRegExp = function() {
+		return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	Date.prototype.toWebExtensionLocaleString = function() {
+		let options = {
+			weekday: "long",
+			month: "long",
+			day: "numeric",
+			year: "numeric",
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: false,
+		};
+		return this.toLocaleString(undefined, options);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	Date.prototype.toWebExtensionLocaleShortString = function() {
+		let options = {
+			day: "numeric",
+			month: "numeric",
+			year: "numeric",
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: false,
+		};
+		return this.toLocaleString(undefined, options);
+	}
+
+})();
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 let internalPrefs = (function() {
 
 	// internal preferences
@@ -772,157 +928,6 @@ let slUtil = (function() {
 	let m_savedScrollbarWidth = -1;
 	let m_mozExtensionOrigin = "";
 	let m_elmInfoBar = null;
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.format = function(args) {
-		let str = this;
-		return str.replace(String.prototype.format.regex, (item) => {
-			let intVal = parseInt(item.substring(1, item.length - 1));
-			let replace;
-			if (intVal >= 0) {
-				replace = args[intVal];
-			} else if (intVal === -1) {
-				replace = "{";
-			} else if (intVal === -2) {
-				replace = "}";
-			} else {
-				replace = "";
-			}
-			return replace;
-		});
-	};
-	String.prototype.format.regex = new RegExp("{-?[0-9]+}", "g");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.trunc = function(n) {
-		return (this.length > n) ? this.substr(0, n - 1) + "&hellip;" : this;
-	};
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.midTrunc = function(n) {
-		return (this.length > n) ? this.substr(0, n/2) + "\u2026" + this.substr(-((n-1)/2)) : this;
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////
-	String.prototype.htmlEntityToLiteral = function() {
-		// this is NOT safe; may be used as an attack vector if result is displayed to user
-		return this.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
-			return String.prototype.htmlEntityToLiteral.entities[matched];
-		});
-	};
-	String.prototype.htmlEntityToLiteral.entities = {
-		"&quot;": "\"",
-		"&amp;": "&",
-		"&gt;": ">",
-		"&lt;": "<",
-		"&copy;": "©",
-		"&trade;": "™",
-		"&reg;": "®",
-		"&nbsp;": " ",
-		"&apos;": "'",
-		"&cent;": "¢",
-		"&pound;": "£",
-		"&yen;": "¥",
-		"&euro;": "€",
-		"&raquo;": "»",
-		"&laquo;": "«",
-		"&bull": "•",
-		"&mdash;": "—",
-	};
-	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.escapeHtml = function() {
-		return this.replace(String.prototype.escapeHtml.regex, (match) => {
-			return String.prototype.escapeHtml.htmlReservedCharacters[match];
-		});
-	};
-	String.prototype.escapeHtml.htmlReservedCharacters = {
-		"&": "&amp;",
-		"<": "&lt;",
-		">": "&gt;",
-		"\"": "&quot;",
-		"'": "&#039;",
-	};
-	String.prototype.escapeHtml.regex = new RegExp("[" + Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).join("") + "]", "gm");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.unescapeHtml = function() {
-		return this.replace(String.prototype.unescapeHtml.regex, (match) => {
-			return Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).find((key) => String.prototype.escapeHtml.htmlReservedCharacters[key] === match);
-		});
-	};
-	String.prototype.unescapeHtml.regex = new RegExp(Object.values(String.prototype.escapeHtml.htmlReservedCharacters).join("|"), "gm");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.stripHtmlTags = function(regex = null, substitution = "") {
-		if(regex) {
-			return this.replace(regex, substitution)
-		} else {
-			return this
-				.htmlEntityToLiteral()
-				.replace(String.prototype.stripHtmlTags.regexContentTags, "")
-				.replace(String.prototype.stripHtmlTags.regexAnyTag, " ");
-		}
-	};
-	// I know, embed, link, cannot have any child nodes. Not taking any risks
-	String.prototype.stripHtmlTags.regexContentTags = new RegExp("<\\s*\\b(a|script|link|i?frame|embed|applet|object)\\b[^>]*>([\\s\\S]*?)</\\s*\\b(a|script|link|i?frame|embed|applet|object)\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexATag = new RegExp("<\\s*\\ba\\b[^>]*>([\\s\\S]*?)</\\s*\\ba\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexScriptTag = new RegExp("<\\s*\\bscript\\b[^>]*>([\\s\\S]*?)</\\s*\\bscript\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexLinkTag = new RegExp("<\\s*\\blink\\b[^>]*>([\\s\\S]*?)</\\s*\\blink\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexFrameTag = new RegExp("<\\s*\\bi?frame\\b[^>]*>([\\s\\S]*?)</\\s*\\bi?frame\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bembed\\b[^>]*>([\\s\\S]*?)</\\s*\\bembed\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexAppletTag = new RegExp("<\\s*\\bapplet\\b[^>]*>([\\s\\S]*?)</\\s*\\bapplet\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexObjectTag = new RegExp("<\\s*\\bobject\\b[^>]*>([\\s\\S]*?)</\\s*\\bobject\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexImgTag = new RegExp("</?\\s*\\bimg\\b[^>]*>", "gim");
-	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?\\s*\\b[a-zA-Z0-9]+\\b[^>]*>", "gm");
-	String.prototype.stripHtmlTags.regexMultiBrTag = new RegExp("(<\\s*\\bbr\\b[^>]*/?>[\\r\\n]*){3,}", "gim");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.stripUnsafeHtmlComponents = function() {
-		return this
-			.htmlEntityToLiteral()
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags, "")
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexJavascript, "")
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexImg1x1, "")
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexEventAttr, "$1");
-	};
-	String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags = new RegExp("<\\s*\\b(script|link|i?frame|embed|applet|object)\\b[^>]*>([\\s\\S]*?)</\\s*\\b(script|link|i?frame|embed|applet|object)\\b\\s*>", "gim");
-	String.prototype.stripUnsafeHtmlComponents.regexJavascript = new RegExp("('\\bjavascript:([\\s\\S]*?)')|(\"\\bjavascript:([\\s\\S]*?)\")", "gim");
-	String.prototype.stripUnsafeHtmlComponents.regexEventAttr = new RegExp("(<\\s*\\b[a-zA-Z0-9]+\\b[^>]*)\\bon[a-zA-Z]+\\s*=\\s*(\"[\\s\\S]*?\"|'[\\s\\S]*?')", "gim");
-	String.prototype.stripUnsafeHtmlComponents.regexImg1x1 = new RegExp("<\\s*\\bimg\\b[^>]*\\b((width\\s*=\\s*[\"']0*1[\"'][^>]*\\bheight\\s*=\\s*[\"']0*1[\"'])|(height\\s*=\\s*[\"']0*1[\"'][^>]*\\bwidth\\s*=\\s*[\"']0*1[\"']))[^>]*>", "gim");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.escapeRegExp = function() {
-		return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	Date.prototype.toWebExtensionLocaleString = function() {
-		let options = {
-			weekday: "long",
-			month: "long",
-			day: "numeric",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-			hour12: false,
-		};
-		return this.toLocaleString(undefined, options);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	Date.prototype.toWebExtensionLocaleShortString = function() {
-		let options = {
-			day: "numeric",
-			month: "numeric",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-			hour12: false,
-		};
-		return this.toLocaleString(undefined, options);
-	}
 
 	//////////////////////////////////////////////////////////////////////
 	function random1to100() {
