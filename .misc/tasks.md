@@ -200,17 +200,20 @@
 * mention in the description (readme) that only my Sage preference were implemented                                     => NOT RELEVENT ANYMORE
 * in syndication.getXMLTextFromBlob() replace responseText with responseXML so will not need the m_domParser        => NO WILL FAIL ON 'XML Parsing Error: not well-formed'
   * only in text I can avoid the stupid XML/RSS Parsing Errors. if I use xhr.responseType = 'xml'; will i fail on Parsing Errors?
-  * move all prototypes out of the slUtil function
+* move all prototypes out of the slUtil function
+* url or any bad data in bookmark.title (strip?)
+* use a semaphore in preference instead of removeBookmarksEventListeners()/addBookmarksEventListeners()
 ---
 
 ## Next
 
-* url or any bad data in bookmark.title (strip?)
 * replace alert() in preference with something nice
 * timestamp in file name export (with the word 'export'?)
 * check all resolve/reject that there is a 'return' after them
 * convert getCurrentLocaleDate() to a prototype
 
+* some loding gif in the tree-view until tree is shown
+* discovery is taking too long: http://feeds.tomercohen.com/tomercohen
 
 * show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
@@ -241,7 +244,3 @@
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * add dotted line to tree view => FUUUUUUCK
-
-
-FETCH TEST
-FETCH TEST

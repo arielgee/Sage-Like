@@ -40,6 +40,8 @@ let preferences = (function() {
 
 	let m_funcResolveGetTimeOfDay;
 
+	let m_semSuspendBookmarksEventHandlerReqCounter = 0;
+
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
@@ -357,7 +359,7 @@ let preferences = (function() {
 	function onChangeImportOpml(event) {
 
 		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER });
-		removeBookmarksEventListeners();
+		suspendBookmarksEventHandlerReqCounter(true);
 
 		let elmPrefOverlayFeedTrans = document.getElementById("prefOverlayFeedTrans");
 
@@ -375,7 +377,7 @@ let preferences = (function() {
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
-			addBookmarksEventListeners();
+			suspendBookmarksEventHandlerReqCounter(false);
 
 			elmPrefOverlayFeedTrans.classList.remove("processing");
 			slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, false);
@@ -433,8 +435,32 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onBookmarksEventHandler() {
-		initializeSelectFeedsFolder();
+	function onBookmarksEventHandler(id, objInfo) {
+
+		if(m_semSuspendBookmarksEventHandlerReqCounter === 0) {
+
+			/* Initialize the <select> element only if the modified
+			   bookmark item is a folder
+			*/
+
+			// only for deleted item there is a node object
+			if(objInfo.node !== undefined) {
+
+				// deleted folder
+				if(objInfo.node.type === "folder") {
+					initializeSelectFeedsFolder();
+				}
+
+			} else {
+				browser.bookmarks.get(id).then((bmItems) => {
+
+					// created/moved/changed folder
+					if(bmItems[0].type === "folder") {
+						initializeSelectFeedsFolder();
+					}
+				});
+			}
+		}
 	}
 
 	//==================================================================================
@@ -590,6 +616,15 @@ let preferences = (function() {
 			id: slGlobals.MSG_ID_PREFERENCES_CHANGED,
 			details: details,
 	 	});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function suspendBookmarksEventHandlerReqCounter(bRef) {
+		if(bRef) {
+			m_semSuspendBookmarksEventHandlerReqCounter++;
+		} else if(m_semSuspendBookmarksEventHandlerReqCounter>0) {
+			m_semSuspendBookmarksEventHandlerReqCounter--;
+		}
 	}
 
 })();

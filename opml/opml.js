@@ -87,7 +87,7 @@ let opml = (function() {
 
 			let newBmItem = {
 				parentId: parentId,
-				title: title,
+				title: title.stripHtmlTags(),
 			};
 
 			if(node.children.length > 0 || !isFeed) {
@@ -101,7 +101,7 @@ let opml = (function() {
 			} else {
 
 				newBmItem.type = "bookmark";
-				newBmItem.url = node.getAttribute("xmlUrl");
+				newBmItem.url = node.getAttribute("xmlUrl").stripHtmlTags();
 				await browser.bookmarks.create(newBmItem);
 			}
 		}
