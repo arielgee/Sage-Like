@@ -227,7 +227,7 @@ let syndication = (function() {
 
 		// try to avoid a stupid XML/RSS Parsing Errors
 		txtXML = txtXML.replace(RegExp("^[ \t\n\r]+"), "");							// XML declaration (prolog) not at start of document
-		txtXML = txtXML.replace(RegExp("(</(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\\S\\s]*"), "$1");		// junk after document element
+		txtXML = txtXML.replace(RegExp("(</(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\\S\\s]+"), "$1");		// junk after document element
 
 		// try to get XML encoding from the XML prolog
 		let test = txtXML.match(/^<\?xml[^>]*encoding="([^"]*)"[^>]*>/);
