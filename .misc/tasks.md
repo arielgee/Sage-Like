@@ -209,14 +209,22 @@
 * use suspendBookmarksEventHandlerReqCounter() function for the semaphore                   => NO, CREATED A LOCKER CLASS
 * convert the content of the onMessage.addListener() to switch/case instead of if/else/if/else
 * convert all slGlobals message codes to numbers
+* convert getCurrentLocaleDate() to a prototype         => NO
+* check all resolve/reject that there is a 'return' after them
+* timestamp in file name export (with the word 'export'?)
 ---
 
 ## Next
 
+* in preferences.js when disableElementTree() is true the buttons stil respond to mouse hover
+* check all setTimeout()'s
 * replace alert() in preference with something nice
-* timestamp in file name export (with the word 'export'?)
-* check all resolve/reject that there is a 'return' after them
-* convert getCurrentLocaleDate() to a prototype
+  * all alerts on error display wrong msgs
+
+
+* get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString():
+
+
 
 * some loading gif in the tree-view until tree is shown
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen
