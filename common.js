@@ -1240,6 +1240,7 @@ let slUtil = (function() {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 					reject("Root feeds folder id not set (bookmarksFeedsAsCollection)");
+					return;
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
@@ -1273,6 +1274,7 @@ let slUtil = (function() {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 					reject("Root feeds folder id not set (isDescendantOfRoot)");
+					return;
 				}
 
 				// if the feeds folder itself was modified
