@@ -237,6 +237,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeRootFeedsFolder(event) {
 		prefs.setRootFeedsFolderId(m_elmRootFeedsFolder.value);
+		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 		flashRootFeedsFolderElement();
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
 	}
@@ -410,6 +411,7 @@ let preferences = (function() {
 		let defPrefs = prefs.restoreDefaults();
 
 		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, defPrefs.checkFeedsInterval === "0");
+		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, defPrefs.rootFeedsFolderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
@@ -489,12 +491,17 @@ let preferences = (function() {
 		let gettingFolderId = prefs.getRootFeedsFolderId();
 		let creatingSelect = createSelectFeedsFolderElements();
 
-		gettingFolderId.then((value) => {
+		gettingFolderId.then((folderId) => {
 			creatingSelect.then(() => {
-				m_elmRootFeedsFolder.value = value;
-				setTimeout(() => {
-					flashRootFeedsFolderElement();
-				}, 500);
+
+				m_elmRootFeedsFolder.value = folderId;
+
+				// if folderId is no longer valid (deleted)
+				if(m_elmRootFeedsFolder.options[m_elmRootFeedsFolder.selectedIndex] === undefined) {
+					m_elmRootFeedsFolder.value = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET
+				}
+				slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
+				setTimeout(() => flashRootFeedsFolderElement(), 500);
 			});
 		});
 	}
