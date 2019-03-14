@@ -166,7 +166,7 @@ let opml = (function() {
 					"<opml version=\"1.0\">",
 					"\t<head>",
 					"\t\t<title>Sage-Like Feeds Export</title>",
-					"\t\t<dateCreated>" + slUtil.getCurrentLocaleDate().toISOString() + "</dateCreated>",
+					"\t\t<dateCreated>" + (new Date()).toUTCString() + "</dateCreated>",
 					"\t</head>",
 				];
 
