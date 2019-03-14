@@ -60,7 +60,7 @@ let rssTreeView = (function() {
 	let m_lineHeight = 21;
 	let m_lastClickedFeedTime = 0;
 	let m_timeoutIdMonitorRSSTreeFeeds = null;
-	let m_semSuspendBookmarksEventHandlerReqCounter = 0;
+	let m_lockBookmarksEventHandler = new Locker();
 
 	let m_objOpenSubTrees = new OpenSubTrees();
 	let m_objTreeFeedsData = new TreeFeedsData();
@@ -73,38 +73,43 @@ let rssTreeView = (function() {
 	/**************************************************/
 	browser.runtime.onMessage.addListener((message) => {
 
-		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
+		switch (message.id) {
 
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER) {
-				messageView.close();
-				discoveryView.close();
-				NewFeedPropertiesView.i.close();
-				NewFolderPropertiesView.i.close();
-				EditFeedPropertiesView.i.close();
-				EditFolderPropertiesView.i.close();
-				rssListView.disposeList();
-				createRSSTree();
-			}
+			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER) {
+					messageView.close();
+					discoveryView.close();
+					NewFeedPropertiesView.i.close();
+					NewFolderPropertiesView.i.close();
+					EditFeedPropertiesView.i.close();
+					EditFolderPropertiesView.i.close();
+					rssListView.disposeList();
+					createRSSTree();
+				}
 
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
-				monitorRSSTreeFeeds();
-			}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
+					monitorRSSTreeFeeds();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
 
-		} else if (message.id === slGlobals.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER) {
+			case slGlobals.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER:
+				m_lockBookmarksEventHandler.lock();
+				break;
+				/////////////////////////////////////////////////////////////////////////
 
-			m_semSuspendBookmarksEventHandlerReqCounter++;
+			case slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER:
+				m_lockBookmarksEventHandler.unlock();
+				break;
+				/////////////////////////////////////////////////////////////////////////
 
-		} else if (message.id === slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER) {
-
-			m_semSuspendBookmarksEventHandlerReqCounter--;
-
-		} else if (message.id === slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID) {
-
-			m_prioritySelectedItemId = message.itemId;
+			case slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID:
+				m_prioritySelectedItemId = message.itemId;
+				break;
+				/////////////////////////////////////////////////////////////////////////
 		}
-
 	});
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -681,27 +686,26 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBookmarksEventHandler(id, objInfo) {
 
-		if(m_semSuspendBookmarksEventHandlerReqCounter > 0) {
-			return;
-		}
+		if(m_lockBookmarksEventHandler.isUnlocked) {
 
-		let ids = [id];
+			let ids = [id];
 
-		// bookmark moved/removed
-		if(objInfo.parentId) {
-			ids.push(objInfo.parentId);
-		}
-
-		// bookmark moved
-		if(objInfo.oldParentId) {
-			ids.push(objInfo.oldParentId);
-		}
-
-		slUtil.isDescendantOfRoot(ids).then((isDescendant) => {
-			if(isDescendant) {
-				setTbButtonCheckFeedsAlert(true);
+			// bookmark moved/removed
+			if(objInfo.parentId) {
+				ids.push(objInfo.parentId);
 			}
-		});
+
+			// bookmark moved
+			if(objInfo.oldParentId) {
+				ids.push(objInfo.oldParentId);
+			}
+
+			slUtil.isDescendantOfRoot(ids).then((isDescendant) => {
+				if(isDescendant) {
+					setTbButtonCheckFeedsAlert(true);
+				}
+			});
+		}
 	}
 
 	//==================================================================================
@@ -1396,11 +1400,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function suspendBookmarksEventHandler(callbackPromise) {
 
-		m_semSuspendBookmarksEventHandlerReqCounter++;
+		m_lockBookmarksEventHandler.lock();
 
 		callbackPromise().catch((error) => {
 			console.log("[Sage-Like]", error, callbackPromise);
-		}).finally(() => m_semSuspendBookmarksEventHandlerReqCounter--);
+		}).finally(() => m_lockBookmarksEventHandler.unlock() );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

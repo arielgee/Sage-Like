@@ -40,7 +40,7 @@ let preferences = (function() {
 
 	let m_funcResolveGetTimeOfDay;
 
-	let m_semSuspendBookmarksEventHandlerReqCounter = 0;
+	let m_lockBookmarksEventHandler = new Locker();
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -150,18 +150,18 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function addBookmarksEventListeners() {
-		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
-		browser.bookmarks.onRemoved.addListener(onBookmarksEventHandler);
-		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
-		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
+		browser.bookmarks.onCreated.addListener(onBookmarksEventModifiedHandler);
+		browser.bookmarks.onChanged.addListener(onBookmarksEventModifiedHandler);
+		browser.bookmarks.onMoved.addListener(onBookmarksEventModifiedHandler);
+		browser.bookmarks.onRemoved.addListener(onBookmarksEventRemovedHandler);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function removeBookmarksEventListeners() {
-		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onChanged.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onMoved.removeListener(onBookmarksEventHandler);
+		browser.bookmarks.onCreated.removeListener(onBookmarksEventModifiedHandler);
+		browser.bookmarks.onChanged.removeListener(onBookmarksEventModifiedHandler);
+		browser.bookmarks.onMoved.removeListener(onBookmarksEventModifiedHandler);
+		browser.bookmarks.onRemoved.removeListener(onBookmarksEventRemovedHandler);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -359,7 +359,7 @@ let preferences = (function() {
 	function onChangeImportOpml(event) {
 
 		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER });
-		suspendBookmarksEventHandlerReqCounter(true);
+		m_lockBookmarksEventHandler.lock();
 
 		let elmPrefOverlayFeedTrans = document.getElementById("prefOverlayFeedTrans");
 
@@ -377,7 +377,7 @@ let preferences = (function() {
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
-			suspendBookmarksEventHandlerReqCounter(false);
+			m_lockBookmarksEventHandler.unlock();
 
 			elmPrefOverlayFeedTrans.classList.remove("processing");
 			slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, false);
@@ -435,30 +435,34 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onBookmarksEventHandler(id, objInfo) {
+	function onBookmarksEventModifiedHandler(id, modifyInfo) {
 
-		if(m_semSuspendBookmarksEventHandlerReqCounter === 0) {
+		if(m_lockBookmarksEventHandler.isUnlocked) {
 
 			/* Initialize the <select> element only if the modified
 			   bookmark item is a folder
 			*/
 
-			// only for deleted item there is a node object
-			if(objInfo.node !== undefined) {
-
-				// deleted folder
-				if(objInfo.node.type === "folder") {
+			// created/moved/changed
+			browser.bookmarks.get(id).then((bmItems) => {
+				if(bmItems[0].type === "folder") {
 					initializeSelectFeedsFolder();
 				}
+			});
+		}
+	}
 
-			} else {
-				browser.bookmarks.get(id).then((bmItems) => {
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBookmarksEventRemovedHandler(id, removeInfo) {
 
-					// created/moved/changed folder
-					if(bmItems[0].type === "folder") {
-						initializeSelectFeedsFolder();
-					}
-				});
+		if(m_lockBookmarksEventHandler.isUnlocked) {
+
+			/* Initialize the <select> element only if the deleted
+			   bookmark item is a folder
+			*/
+
+			if(removeInfo.node.type === "folder") {
+				initializeSelectFeedsFolder();
 			}
 		}
 	}
@@ -616,15 +620,6 @@ let preferences = (function() {
 			id: slGlobals.MSG_ID_PREFERENCES_CHANGED,
 			details: details,
 	 	});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function suspendBookmarksEventHandlerReqCounter(bRef) {
-		if(bRef) {
-			m_semSuspendBookmarksEventHandlerReqCounter++;
-		} else if(m_semSuspendBookmarksEventHandlerReqCounter>0) {
-			m_semSuspendBookmarksEventHandlerReqCounter--;
-		}
 	}
 
 })();

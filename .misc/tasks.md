@@ -202,7 +202,12 @@
   * only in text I can avoid the stupid XML/RSS Parsing Errors. if I use xhr.responseType = 'xml'; will i fail on Parsing Errors?
 * move all prototypes out of the slUtil function
 * url or any bad data in bookmark.title (strip?)
-* use a semaphore in preference instead of removeBookmarksEventListeners()/addBookmarksEventListeners()
+* use a locker in preference instead of removeBookmarksEventListeners()/addBookmarksEventListeners()
+* create only one bookmarks event listener in panel.js(?)                                                   => NO, SYNC PROBLEMS
+  * the listener will perform some analysis on the event and send messages to the treeView.js and the preferences.js
+* MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER/MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER need to be deleted? => NO
+* use suspendBookmarksEventHandlerReqCounter() function for the semaphore                   => NO, CREATED A LOCKER CLASS
+* convert the content of the onMessage.addListener() to switch/case instead of if/else/if/else
 ---
 
 ## Next
@@ -211,6 +216,8 @@
 * timestamp in file name export (with the word 'export'?)
 * check all resolve/reject that there is a 'return' after them
 * convert getCurrentLocaleDate() to a prototype
+
+* convert all slGlobals message codes to numbers
 
 * some loading gif in the tree-view until tree is shown
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen
