@@ -124,7 +124,14 @@ let opml = (function() {
 
 				m_funcExportResolve = resolve;
 
-				getFeedsAsOpmlLines().then((opmlLines) => {
+				let dateExport = new Date();
+				let dateExportStr = dateExport.getFullYear() + "-" +
+					dateExport.getMonth().toLocaleString('en', {minimumIntegerDigits:2}) + "-" +
+					dateExport.getDate().toLocaleString('en', {minimumIntegerDigits:2}) + "_" +
+					dateExport.getHours().toLocaleString('en', {minimumIntegerDigits:2}) + "-" +
+					dateExport.getMinutes().toLocaleString('en', {minimumIntegerDigits:2});
+
+				getFeedsAsOpmlLines(dateExport).then((opmlLines) => {
 
 					let blob = new Blob([opmlLines.join("\n")], { type: "text/xml", endings: "native" });
 
@@ -132,7 +139,7 @@ let opml = (function() {
 					browser.downloads.onChanged.addListener(onChangedDownload);
 					browser.downloads.download({
 						url: objUrl,
-						filename: "sage-like.opml",
+						filename: "sage-like_" + dateExportStr + ".opml",
 						saveAs: true,
 					}).catch((error) => {
 						if(error.message === "Download canceled by the user") {
@@ -144,7 +151,6 @@ let opml = (function() {
 
 				}).catch((error) => {
 					reject(error);
-					console.log("[Sage-Like]", error);
 				});
 			});
 		}
@@ -158,7 +164,7 @@ let opml = (function() {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
-		function getFeedsAsOpmlLines() {
+		function getFeedsAsOpmlLines(dateExport) {
 
 			return new Promise((resolve, reject) => {
 
@@ -166,7 +172,7 @@ let opml = (function() {
 					"<opml version=\"1.0\">",
 					"\t<head>",
 					"\t\t<title>Sage-Like Feeds Export</title>",
-					"\t\t<dateCreated>" + (new Date()).toUTCString() + "</dateCreated>",
+					"\t\t<dateCreated>" + dateExport.toUTCString() + "</dateCreated>",
 					"\t</head>",
 				];
 
