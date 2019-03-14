@@ -208,6 +208,7 @@
 * MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER/MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER need to be deleted? => NO
 * use suspendBookmarksEventHandlerReqCounter() function for the semaphore                   => NO, CREATED A LOCKER CLASS
 * convert the content of the onMessage.addListener() to switch/case instead of if/else/if/else
+* convert all slGlobals message codes to numbers
 ---
 
 ## Next
@@ -216,8 +217,6 @@
 * timestamp in file name export (with the word 'export'?)
 * check all resolve/reject that there is a 'return' after them
 * convert getCurrentLocaleDate() to a prototype
-
-* convert all slGlobals message codes to numbers
 
 * some loading gif in the tree-view until tree is shown
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen
