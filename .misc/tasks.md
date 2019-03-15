@@ -212,19 +212,17 @@
 * convert getCurrentLocaleDate() to a prototype         => NO
 * check all resolve/reject that there is a 'return' after them
 * timestamp in file name export (with the word 'export'?)
+* in preferences.js when disableElementTree() is true the buttons stil respond to mouse hover
+* check all setTimeout()'s          => ALL GOOD
 ---
 
 ## Next
 
-* in preferences.js when disableElementTree() is true the buttons stil respond to mouse hover
-* check all setTimeout()'s
+* Event throttling on the dragover event in rssTreeView.js (onDragOverTreeItem)
 * replace alert() in preference with something nice
   * all alerts on error display wrong msgs
 
-
 * get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString():
-
-
 
 * some loading gif in the tree-view until tree is shown
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen

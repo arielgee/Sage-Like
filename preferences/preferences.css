@@ -252,6 +252,12 @@ input[type="checkbox"].disabled:not(:checked)  {
   background-color: rgb(182, 182, 182);
 }
 
+.feedTransButton.disabled {
+  color: darkgray;
+  border-color: darkgray;
+  pointer-events: none;
+}
+
 #prefOverlayFeedTrans {
   display: flex;
   justify-content: flex-start;
