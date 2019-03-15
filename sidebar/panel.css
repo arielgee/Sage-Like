@@ -169,6 +169,11 @@ html, body {
 	border-radius: 12px 0 12px 12px;
 }
 
+/* .generalBorder overrides .rightToLeftBorder */
+#infoBar.generalBorder {
+	border-radius: 12px;
+}
+
 #infoBar.fadeIn {
 	visibility: visible;
 	opacity: 1;

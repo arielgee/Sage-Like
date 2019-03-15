@@ -1354,11 +1354,16 @@ let slUtil = (function() {
 		}
 
 		const CALL_TIMESTAMP = Date.now();
+		const IS_GENERAL_INFO = (refElement === undefined);
 
-		if(infoText === "" || !refElement) {
+		if(infoText === "") {
 			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
 			m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
 			return;
+		}
+
+		if(IS_GENERAL_INFO) {
+			refElement = document.body;
 		}
 
 		// real inner size accounting for the scrollbars width if they exist
@@ -1367,20 +1372,28 @@ let slUtil = (function() {
 
 		const RECT_REF_ELEMENT = getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
 
-		m_elmInfoBar.querySelectorAll(".infoBarText")[0].textContent = infoText.replace(/\u000d/g, " ");
+		// to allow for words that are <b>
+		m_elmInfoBar.querySelector(".infoBarText").innerHTML = infoText;	// .replace(/\u000d/g, " ") when using textContent otherwise 2nd line starts after dot without space in between
 		m_elmInfoBar.classList.toggle("alertive", isAlertive);
 		m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl");
+		m_elmInfoBar.classList.toggle("generalBorder", IS_GENERAL_INFO);			/* .generalBorder overrides .rightToLeftBorder */
 		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
 
-		const POS_OFFSET = 12;
+		const POS_OFFSET = (IS_GENERAL_INFO ? 0 : 12);
 
+		let nLeft;
 		let nTop = RECT_REF_ELEMENT.top + POS_OFFSET;
-		let nLeft = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-m_elmInfoBar.offsetWidth-POS_OFFSET) : POS_OFFSET);
+
+		if(IS_GENERAL_INFO) {
+			nLeft = (INNER_WIDTH - m_elmInfoBar.offsetWidth) / 2;
+		} else {
+			nLeft = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-m_elmInfoBar.offsetWidth-POS_OFFSET) : POS_OFFSET);
+		}
 
 		if (nLeft < 0) nLeft = 0;
 
-		m_elmInfoBar.style.top = nTop + "px";
 		m_elmInfoBar.style.left = nLeft + "px";
+		m_elmInfoBar.style.top = nTop + "px";
 		m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
 
 		setTimeout(() => {
