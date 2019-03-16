@@ -214,6 +214,7 @@
 * timestamp in file name export (with the word 'export'?)
 * in preferences.js when disableElementTree() is true the buttons stil respond to mouse hover
 * check all setTimeout()'s          => ALL GOOD
+* show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
 ---
 
 ## Next
@@ -224,10 +225,11 @@
 
 * get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString():
 
+* are Prefs names (internalPrefs, prefs) must be strings and not numbers like in slGlobals?
+
 * some loading gif in the tree-view until tree is shown
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen
 
-* show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
 * same redius in feed previewing for title and body
 * customize sidebar font (not context menu)
