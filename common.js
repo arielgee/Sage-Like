@@ -435,6 +435,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE = null;
 	const DEF_PREF_TREE_SCROLL_TOP_VALUE = 0;
 	const DEF_PREF_SPLITTER_TOP_VALUE = undefined;
+	const DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE = 5;
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
@@ -442,6 +443,7 @@ let internalPrefs = (function() {
 	const PREF_TREE_SELECTED_ITEM_ID = "pref_treeSelectedItemId";
 	const PREF_TREE_SCROLL_TOP = "pref_treeScrollTop";
 	const PREF_SPLITTER_TOP = "pref_splitterTop";
+	const PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT = "pref_dropInsideFolderShowMsgCount";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenSubTrees() {
@@ -558,6 +560,25 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getDropInsideFolderShowMsgCount() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT).then((result) => {
+				resolve(result[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT] === undefined ? DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE : result[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setDropInsideFolderShowMsgCount(value) {
+
+		let obj = {};
+		obj[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
 
 		return new Promise((resolve) => {
@@ -584,6 +605,7 @@ let internalPrefs = (function() {
 		this.setTreeSelectedItemId(DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE);
 		this.setTreeScrollTop(DEF_PREF_TREE_SCROLL_TOP_VALUE);
 		this.setSplitterTop(DEF_PREF_SPLITTER_TOP_VALUE);
+		this.setDropInsideFolderShowMsgCount(DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE);
 
 		return {
 			openSubTrees: DEF_PREF_OPEN_SUB_TREES_VALUE,
@@ -592,6 +614,7 @@ let internalPrefs = (function() {
 			treeSelectedItemId: DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE,
 			treeScrollTop: DEF_PREF_TREE_SCROLL_TOP_VALUE,
 			splitterTop: DEF_PREF_SPLITTER_TOP_VALUE,
+			dropInsideFolderShowMsgCount: DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE,
 		};
 	}
 
@@ -608,6 +631,8 @@ let internalPrefs = (function() {
 		setTreeScrollTop: setTreeScrollTop,
 		getSplitterTop: getSplitterTop,
 		setSplitterTop: setSplitterTop,
+		getDropInsideFolderShowMsgCount: getDropInsideFolderShowMsgCount,
+		setDropInsideFolderShowMsgCount: setDropInsideFolderShowMsgCount,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 

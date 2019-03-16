@@ -537,6 +537,13 @@ let rssTreeView = (function() {
 
 		m_elmCurrentlyDragged = this;
 
+		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
+			if(count > 0) {
+				slUtil.showInfoBar("Use the Shift key to drop item <b>inside</b> folder.", undefined, m_elmTreeRoot.style.direction, false);
+				internalPrefs.setDropInsideFolderShowMsgCount(--count);
+			}
+		});
+
 		event.dataTransfer.effectAllowed = "move";
 		event.dataTransfer.setData("text/html", m_elmCurrentlyDragged.outerHTML);
 
@@ -661,6 +668,9 @@ let rssTreeView = (function() {
 									setSubTreeState(elmDropTarget, true);		// open the sub tree if closed
 									elmDropTargetFolderUL.insertAdjacentHTML("afterbegin", dropHTML);
 									elmDropped = elmDropTargetFolderUL.firstChild;
+
+									// don't display DropInsideFolder message any more. The user gets it.
+									internalPrefs.setDropInsideFolderShowMsgCount(0);
 								} else {
 									elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
 									elmDropped = elmDropTarget.previousElementSibling;
