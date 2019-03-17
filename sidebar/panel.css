@@ -157,6 +157,7 @@ html, body {
 	background-color: var(--bk-color-info-window);
 	border: 2px solid #143cdc;
 	border-radius: 0 12px 12px 12px;
+	box-shadow: 8px 8px 5px 0 rgba(0,0,0,0.75);
 	font-weight: normal;
 	top: -99999px;
 }

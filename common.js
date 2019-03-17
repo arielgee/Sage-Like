@@ -1404,7 +1404,7 @@ let slUtil = (function() {
 		m_elmInfoBar.classList.toggle("generalBorder", IS_GENERAL_INFO);			/* .generalBorder overrides .rightToLeftBorder */
 		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
 
-		const POS_OFFSET = (IS_GENERAL_INFO ? 0 : 12);
+		const POS_OFFSET = (IS_GENERAL_INFO ? 2 : 12);
 
 		let nLeft;
 		let nTop = RECT_REF_ELEMENT.top + POS_OFFSET;
