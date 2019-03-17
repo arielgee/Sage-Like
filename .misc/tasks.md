@@ -215,7 +215,6 @@
 * in preferences.js when disableElementTree() is true the buttons stil respond to mouse hover
 * check all setTimeout()'s          => ALL GOOD
 * show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
-push/poll test
 ---
 
 ## Next
