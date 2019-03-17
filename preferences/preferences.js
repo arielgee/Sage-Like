@@ -367,14 +367,12 @@ let preferences = (function() {
 		elmPrefOverlayFeedTrans.classList.add("processing");
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, true);
 
-		let errResult = null;
-
 		opml.importFeeds.run(event.target.files[0]).then((newFolderId) => {
 			initializeSelectFeedsFolder();
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: newFolderId });
 			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
 		}).catch((error) => {
-			errResult = error;
+			setTimeout(() => alert(error), 0);	// so the alert() will not block the finally()
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
@@ -382,8 +380,6 @@ let preferences = (function() {
 
 			elmPrefOverlayFeedTrans.classList.remove("processing");
 			slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, false);
-
-			if(errResult) alert(errResult);
 		});
 	}
 
