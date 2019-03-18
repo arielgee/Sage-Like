@@ -21,7 +21,7 @@
 
 .contextmenu .contextmenuitem:hover {
 	background-color: white;
-	filter: invert(100%)
+	filter: invert(100%);
 }
 
 .contextmenu .contextmenuitem u {
