@@ -661,16 +661,16 @@ let prefs = (function() {
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
-	const PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = "pref_checkFeedsWhenSbClosed";
+	const PREF_CHECK_FEEDS_WHEN_SB_CLOSED = "pref_checkFeedsWhenSbClosed";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
 	const PREF_UI_DENSITY = "pref_UIDensity";
-	const PREF_COLOR_BACKGROUND_VALUE = "pref_colorBk";
-	const PREF_COLOR_DIALOG_BACKGROUND_VALUE = "pref_colorDlgBk";
-	const PREF_COLOR_SELECT_VALUE = "pref_colorSelect";
-	const PREF_COLOR_TEXT_VALUE = "pref_colorText";
-	const PREF_IMAGE_SET_VALUE = "pref_imageSet";
+	const PREF_COLOR_BACKGROUND = "pref_colorBk";
+	const PREF_COLOR_DIALOG_BACKGROUND = "pref_colorDlgBk";
+	const PREF_COLOR_SELECT = "pref_colorSelect";
+	const PREF_COLOR_TEXT = "pref_colorText";
+	const PREF_IMAGE_SET = "pref_imageSet";
 
 	//////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId() {
@@ -715,8 +715,8 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE).then((result) => {
-				resolve(result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE] === undefined ? DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE : result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE]);
+			browser.storage.local.get(PREF_CHECK_FEEDS_WHEN_SB_CLOSED).then((result) => {
+				resolve(result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED] === undefined ? DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE : result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED]);
 			});
 		});
 	}
@@ -725,7 +725,7 @@ let prefs = (function() {
 	function setCheckFeedsWhenSbClosed(value) {
 
 		let obj = {};
-		obj[PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE] = value;
+		obj[PREF_CHECK_FEEDS_WHEN_SB_CLOSED] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -810,8 +810,8 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_BACKGROUND_VALUE).then((result) => {
-				resolve(result[PREF_COLOR_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND_VALUE]);
+			browser.storage.local.get(PREF_COLOR_BACKGROUND).then((result) => {
+				resolve(result[PREF_COLOR_BACKGROUND] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND]);
 			});
 		});
 	}
@@ -820,7 +820,7 @@ let prefs = (function() {
 	function setColorBackground(value) {
 
 		let obj = {};
-		obj[PREF_COLOR_BACKGROUND_VALUE] = value;
+		obj[PREF_COLOR_BACKGROUND] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -829,8 +829,8 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_DIALOG_BACKGROUND_VALUE).then((result) => {
-				resolve(result[PREF_COLOR_DIALOG_BACKGROUND_VALUE] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND_VALUE]);
+			browser.storage.local.get(PREF_COLOR_DIALOG_BACKGROUND).then((result) => {
+				resolve(result[PREF_COLOR_DIALOG_BACKGROUND] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND]);
 			});
 		});
 	}
@@ -839,7 +839,7 @@ let prefs = (function() {
 	function setColorDialogBackground(value) {
 
 		let obj = {};
-		obj[PREF_COLOR_DIALOG_BACKGROUND_VALUE] = value;
+		obj[PREF_COLOR_DIALOG_BACKGROUND] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -848,8 +848,8 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_SELECT_VALUE).then((result) => {
-				resolve(result[PREF_COLOR_SELECT_VALUE] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT_VALUE]);
+			browser.storage.local.get(PREF_COLOR_SELECT).then((result) => {
+				resolve(result[PREF_COLOR_SELECT] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT]);
 			});
 		});
 	}
@@ -858,7 +858,7 @@ let prefs = (function() {
 	function setColorSelect(value) {
 
 		let obj = {};
-		obj[PREF_COLOR_SELECT_VALUE] = value;
+		obj[PREF_COLOR_SELECT] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -867,8 +867,8 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_TEXT_VALUE).then((result) => {
-				resolve(result[PREF_COLOR_TEXT_VALUE] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT_VALUE]);
+			browser.storage.local.get(PREF_COLOR_TEXT).then((result) => {
+				resolve(result[PREF_COLOR_TEXT] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT]);
 			});
 		});
 	}
@@ -877,7 +877,7 @@ let prefs = (function() {
 	function setColorText(value) {
 
 		let obj = {};
-		obj[PREF_COLOR_TEXT_VALUE] = value;
+		obj[PREF_COLOR_TEXT] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -886,8 +886,8 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_IMAGE_SET_VALUE).then((result) => {
-				resolve(result[PREF_IMAGE_SET_VALUE] === undefined ? DEF_PREF_IMAGE_SET_VALUE : result[PREF_IMAGE_SET_VALUE]);
+			browser.storage.local.get(PREF_IMAGE_SET).then((result) => {
+				resolve(result[PREF_IMAGE_SET] === undefined ? DEF_PREF_IMAGE_SET_VALUE : result[PREF_IMAGE_SET]);
 			});
 		});
 	}
@@ -896,7 +896,7 @@ let prefs = (function() {
 	function setImageSet(value) {
 
 		let obj = {};
-		obj[PREF_IMAGE_SET_VALUE] = value;
+		obj[PREF_IMAGE_SET] = value;
 		browser.storage.local.set(obj);
 	}
 
