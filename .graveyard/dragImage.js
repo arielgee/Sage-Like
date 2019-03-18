@@ -1,7 +1,7 @@
-    elm.addEventListener("dragstart", onDragStartTreeItem, false);
+	elm.addEventListener("dragstart", onDragStartTreeItem, false);
 
-    ////////////////////////////////////////////////////////////////////////////////////
-	function onDragStartTreeItem(event) {
+		////////////////////////////////////////////////////////////////////////////////////
+		function onDragStartTreeItem(event) {
 
 		event.stopPropagation();
 
@@ -15,51 +15,56 @@
 		});
 
 		event.dataTransfer.effectAllowed = "move";
-        event.dataTransfer.setData("text/html", m_elmCurrentlyDragged.outerHTML);
+		event.dataTransfer.setData("text/html", m_elmCurrentlyDragged.outerHTML);
 
-        m_elmCurrentlyDragged.classList.add("dragged");
+		m_elmCurrentlyDragged.classList.add("dragged");
 
-        /*  setDragImage() (canvas or any other image element) is not working in the
-            work machine. (windows 7; firefox 56.0.2 / 59.0.3 / 65.0.2 ) The image is
-            not displayed like in the home machine (windows 10).
+		/*  setDragImage() (canvas or any other image element) is not working in the
+			work machine. (windows 7; firefox 56.0.2 / 59.0.3 / 65.0.2 ) The image is
+			not displayed like in the home machine (windows 10).
 
-            Could not find any clue in the web about the resone. I'm the only person in
-            the entire universe that this happend to him!!!
+			Could not find any clue in the web about the resone. I'm the only person in
+			the entire universe that this happend to him!!!
 
-            https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setDragImage
+			https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setDragImage
 
-            Test URLs:
-                https://kryogenix.org/code/browser/custom-drag-image.html
-                http://mereskin.github.io/dnd/
-        */
+			Test URLs:
+				https://kryogenix.org/code/browser/custom-drag-image.html
+				http://mereskin.github.io/dnd/
+		*/
 
-		const id = "tytCanvasElapsedPercentage";
-        const bg = "#FFFEDF";
-        const fg = "#000000";
-        const indent = 16;
-        const width = 270;
-        const borderWidth = 2;
 
-        let cnvs = document.createElement("canvas");
-        cnvs.id = id;
-        cnvs.height = 22;
-        cnvs.width = indent + width;
+		const bg = "#FFFEDF";
+		const fg = "#000000";
+		const borderWidth = 2;
 
-        const ctx = cnvs.getContext("2d");
+		let cnvs = document.createElement("canvas");
+		cnvs.id = "canvasMessage";
+		cnvs.height = 22;
+		cnvs.width = 270;
 
-        // background
-        ctx.fillStyle = bg;
-        ctx.fillRect(indent, 0, width, cnvs.height);
+		const ctx = cnvs.getContext("2d");
 
-        ctx.beginPath();
-        ctx.lineWidth = borderWidth;
-        ctx.strokeStyle = fg;
-        ctx.rect(indent+1, 1, cnvs.width-(indent+borderWidth), cnvs.height-borderWidth);
-        ctx.stroke();
+		// background
+		ctx.fillStyle = bg;
+		ctx.fillRect(0, 0, cnvs.width, cnvs.height);
 
-        ctx.fillStyle = fg;
-        ctx.font = "16px serif";
-        ctx.fillText("Use the Shift key to drop item inside folder.", 22, 16, cnvs.width - 25);
+		ctx.beginPath();
+		ctx.lineWidth = borderWidth;
+		ctx.strokeStyle = fg;
+		ctx.rect(1, 1, cnvs.width-borderWidth, cnvs.height-borderWidth);
+		ctx.stroke();
 
-        event.dataTransfer.setDragImage(cnvs, 0, 0);
+		ctx.fillStyle = fg;
+		ctx.font = "16px serif";
+		ctx.fillText("Use the Shift key to drop item inside folder.", 4, 16, cnvs.width - 8);
+
+		/* just text
+		let e = document.createElement("p");
+		e.textContent = "Use the Shift key to drop item inside folder.";
+		document.body.appendChild(e);
+		event.dataTransfer.setDragImage(e, -12, 0);
+		*/
+
+		event.dataTransfer.setDragImage(cnvs, -12, 0);
 	}
