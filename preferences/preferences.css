@@ -118,7 +118,7 @@ input[type="color"]::-moz-focus-inner {
   width: 18px;
   background-color: #bbbbbb;
   color: #ffffff;
-  font-family: "Open Sans",X-LocaleSpecific,sans-serif;
+  font-family: "Open Sans", X-LocaleSpecific, sans-serif;
   font-size: 14px;
   font-weight: 700;
   text-align: center;
@@ -152,7 +152,7 @@ input[type="color"]::-moz-focus-inner {
 }
 
 .annotation {
-  font-family: "Segoe UI";
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
   font-size: 9pt;
   color: gray;
 }
@@ -238,7 +238,7 @@ input[type="checkbox"].disabled:not(:checked)  {
   width: 90px;
   text-align: center;
   margin-left: 10px;
-  font-family: Tahoma, Sans;
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
   font-size: 13.3333px;
   line-height: 17px;
   outline-offset: -3px;

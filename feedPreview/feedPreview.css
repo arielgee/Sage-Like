@@ -7,7 +7,7 @@
     --background-color-feed-item-content: #fdfdfd;
     --color-loading-image: #000000;
     --size-loading-image: 32px;
-    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-family: Tahoma, Verdana, Segoe, sans-serif;
     font-weight: normal;
     font-size: 12.8px;
 }

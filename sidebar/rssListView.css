@@ -62,7 +62,7 @@
 	color: black;
 	background-color: var(--bk-color-info-window);
 	border: 1px solid black;
-	font-family: Tahoma, Sans;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
 	font-size: 11px;
 	line-height: var(--line-height);
@@ -100,7 +100,7 @@
 	background-color: transparent;
 	opacity: 0.45;
 	color: black;
-	font-family: Tahoma, Sans;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
 	font-size: 11px;
 	-moz-user-select: none;

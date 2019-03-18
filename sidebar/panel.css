@@ -125,7 +125,7 @@ html, body {
 .smallText {
 	--text-height: 10px;
 	line-height: var(--text-height);
-	font-family: Tahoma, Sans !important;
+	font-family: Tahoma, Verdana, Segoe, sans-serif !important;
 	font-weight: normal;
 	font-size: var(--text-height) !important;
 }
