@@ -215,24 +215,20 @@
 * in preferences.js when disableElementTree() is true the buttons stil respond to mouse hover
 * check all setTimeout()'s          => ALL GOOD
 * show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
+* replace alert() in preference with something nice                                     => NO NEED
+* Event throttling on the dragover event in rssTreeView.js (onDragOverTreeItem)         => NO NEED
+* customize sidebar font (not context menu)
 ---
 
 ## Next
 
-* Event throttling on the dragover event in rssTreeView.js (onDragOverTreeItem)
-* replace alert() in preference with something nice
-  * all alerts on error display wrong msgs
-
 * get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString():
-
 * are Prefs names (internalPrefs, prefs) must be strings and not numbers like in slGlobals?
-
 * some loading gif in the tree-view until tree is shown
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen
-
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
 * same redius in feed previewing for title and body
-* customize sidebar font (not context menu)
+
 
 * try to change the mozilla Extensions feed with something that WORKS!!!
     * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741

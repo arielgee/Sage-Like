@@ -37,6 +37,14 @@ let panel = (function() {
 				setPanelDensityFromPreferences();
 			}
 			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_FONT_NAME) {
+				setPanelFontNameFromPreferences();
+			}
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT) {
+				setPanelFontSizePercentFromPreferences();
+			}
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 				message.details === slGlobals.MSGD_PREF_CHANGE_COLORS) {
 				setPanelColorsFromPreferences();
 			}
@@ -74,6 +82,8 @@ let panel = (function() {
 		m_elmPreferences.addEventListener("click", onClickPreferences);
 
 		setPanelDensityFromPreferences();
+		setPanelFontNameFromPreferences();
+		setPanelFontSizePercentFromPreferences();
 		setPanelColorsFromPreferences();
 		setPanelImageSetFromPreferences();
 	}
@@ -105,6 +115,23 @@ let panel = (function() {
 
 			style.setProperty("--line-height", parts[0] + "px");
 			style.setProperty("--rss-tree-indent", parts[1] + "px");
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setPanelFontNameFromPreferences() {
+
+		prefs.getFontName().then(name => {
+			document.documentElement.style.setProperty("--font-sidebar", name);
+			m_elmTop.style.fontFamily = m_elmBottom.style.fontFamily = (name === "" ? "" : "var(--font-family-sidebar)");
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setPanelFontSizePercentFromPreferences() {
+
+		prefs.getFontSizePercent().then(percent => {
+			m_elmTop.style.fontSize = m_elmBottom.style.fontSize = parseInt(percent) + "%";
 		});
 	}
 

@@ -1,0 +1,23 @@
+User Preferences Fonts
+======================
+
+* The following sorded font list is the one displayed in the Preferences page.
+
+* Any modifications (adding or removing fonts) must be done here, sorted, and
+  then copied to the preferences.html.
+
+----------------START----------------
+(Browser Default)
+Arial
+Arial Narrow
+Calibri
+Cambria
+Comic Sans MS
+Courier New
+Helvetica
+Lucida Console
+Segoe UI
+Tahoma
+Times New Roman
+Verdana
+-----------------END-----------------

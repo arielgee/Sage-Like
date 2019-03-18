@@ -21,6 +21,8 @@ let preferences = (function() {
 	let m_elmFetchTimeout;
 	let m_elmShowFeedItemDesc;
 	let m_elmUIDensity;
+	let m_elmFontName;
+	let m_elmFontSizePercent;
 	let m_elmColorBackground;
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
@@ -58,6 +60,8 @@ let preferences = (function() {
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
 		m_elmUIDensity = document.getElementById("UIDensity");
+		m_elmFontName = document.getElementById("fontName");
+		m_elmFontSizePercent = document.getElementById("fontSizePercent");
 		m_elmColorBackground = document.getElementById("colorBk");
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
@@ -95,6 +99,8 @@ let preferences = (function() {
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
+		m_elmFontName.removeEventListener("change", onChangeFontName);
+		m_elmFontSizePercent.removeEventListener("change", onChangeFontSizePercent);
 		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
@@ -128,6 +134,8 @@ let preferences = (function() {
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
+		m_elmFontName.addEventListener("change", onChangeFontName);
+		m_elmFontSizePercent.addEventListener("change", onChangeFontSizePercent);
 		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
@@ -197,6 +205,14 @@ let preferences = (function() {
 
 		prefs.getUIDensity().then((value) => {
 			m_elmUIDensity.value = value;
+		});
+
+		prefs.getFontName().then((value) => {
+			m_elmFontName.value = value;
+		});
+
+		prefs.getFontSizePercent().then((value) => {
+			m_elmFontSizePercent.value = value;
 		});
 
 		prefs.getColorBackground().then((color) => {
@@ -323,6 +339,18 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeFontName(event) {
+		prefs.setFontName(m_elmFontName.value);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeFontSizePercent(event) {
+		prefs.setFontSizePercent(m_elmFontSizePercent.value);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		m_elmColorBackground.title = colorInputTitle(m_elmColorBackground.value);
 		prefs.setColorBackground(m_elmColorBackground.value);
@@ -416,6 +444,8 @@ let preferences = (function() {
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
 		m_elmUIDensity.value = defPrefs.UIDensity;
+		m_elmFontName.value = defPrefs.fontName;
+		m_elmFontSizePercent.value = defPrefs.fontSizePercent;
 		m_elmColorBackground.value = defPrefs.colorBackground
 		m_elmColorDialogBackground.value = defPrefs.colorDialogBackground
 		m_elmColorSelect.value = defPrefs.colorSelect

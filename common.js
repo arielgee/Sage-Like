@@ -187,8 +187,10 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD				= 1005;
 	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC				= 1006;
 	const MSGD_PREF_CHANGE_UI_DENSITY						= 1007;
-	const MSGD_PREF_CHANGE_COLORS							= 1008;
-	const MSGD_PREF_CHANGE_IMAGES							= 1009;
+	const MSGD_PREF_CHANGE_FONT_NAME						= 1008;
+	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT				= 1009;
+	const MSGD_PREF_CHANGE_COLORS							= 1010;
+	const MSGD_PREF_CHANGE_IMAGES							= 1011;
 
 	const BOOKMARKS_ROOT_MENU_GUID = "menu________";
 	const DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME = "Sage-Like Feeds";
@@ -253,6 +255,8 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD: MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD,
 		MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC: MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC,
 		MSGD_PREF_CHANGE_UI_DENSITY: MSGD_PREF_CHANGE_UI_DENSITY,
+		MSGD_PREF_CHANGE_FONT_NAME: MSGD_PREF_CHANGE_FONT_NAME,
+		MSGD_PREF_CHANGE_FONT_SIZE_PERCENT: MSGD_PREF_CHANGE_FONT_SIZE_PERCENT,
 		MSGD_PREF_CHANGE_COLORS: MSGD_PREF_CHANGE_COLORS,
 		MSGD_PREF_CHANGE_IMAGES: MSGD_PREF_CHANGE_IMAGES,
 
@@ -653,6 +657,8 @@ let prefs = (function() {
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
 	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
 	const DEF_PREF_UI_DENSITY_VALUE = "19;18";
+	const DEF_PREF_FONT_NAME_VALUE = "";
+	const DEF_PREF_FONT_SIZE_PERCENT_VALUE = "100";
 	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#F3F3F3";
 	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#E3E3E3";
 	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
@@ -666,6 +672,8 @@ let prefs = (function() {
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
 	const PREF_UI_DENSITY = "pref_UIDensity";
+	const PREF_FONT_NAME = "perf_fontName";
+	const PREF_FONT_SIZE_PERCENT = "perf_fontSizePercent";
 	const PREF_COLOR_BACKGROUND = "pref_colorBk";
 	const PREF_COLOR_DIALOG_BACKGROUND = "pref_colorDlgBk";
 	const PREF_COLOR_SELECT = "pref_colorSelect";
@@ -806,6 +814,44 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getFontName() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_FONT_NAME).then((result) => {
+				resolve(result[PREF_FONT_NAME] === undefined ? DEF_PREF_FONT_NAME_VALUE : result[PREF_FONT_NAME]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setFontName(value) {
+
+		let obj = {};
+		obj[PREF_FONT_NAME] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getFontSizePercent() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_FONT_SIZE_PERCENT).then((result) => {
+				resolve(result[PREF_FONT_SIZE_PERCENT] === undefined ? DEF_PREF_FONT_SIZE_PERCENT_VALUE : result[PREF_FONT_SIZE_PERCENT]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setFontSizePercent(value) {
+
+		let obj = {};
+		obj[PREF_FONT_SIZE_PERCENT] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function getColorBackground() {
 
 		return new Promise((resolve) => {
@@ -909,6 +955,8 @@ let prefs = (function() {
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
 		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
 		this.setUIDensity(DEF_PREF_UI_DENSITY_VALUE);
+		this.setFontName(DEF_PREF_FONT_NAME_VALUE);
+		this.setFontSizePercent(DEF_PREF_FONT_SIZE_PERCENT_VALUE);
 		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
 		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
 		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
@@ -923,6 +971,8 @@ let prefs = (function() {
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
 			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 			UIDensity: DEF_PREF_UI_DENSITY_VALUE,
+			fontName: DEF_PREF_FONT_NAME_VALUE,
+			fontSizePercent: DEF_PREF_FONT_SIZE_PERCENT_VALUE,
 			colorBackground: DEF_PREF_COLOR_BACKGROUND_VALUE,
 			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
@@ -939,6 +989,8 @@ let prefs = (function() {
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
 		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 		DEF_PREF_UI_DENSITY_VALUE: DEF_PREF_UI_DENSITY_VALUE,
+		DEF_PREF_FONT_NAME_VALUE: DEF_PREF_FONT_NAME_VALUE,
+		DEF_PREF_FONT_SIZE_PERCENT_VALUE: DEF_PREF_FONT_SIZE_PERCENT_VALUE,
 		DEF_PREF_COLOR_BACKGROUND_VALUE: DEF_PREF_COLOR_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
 		DEF_PREF_COLOR_SELECT_VALUE: DEF_PREF_COLOR_SELECT_VALUE,
@@ -959,6 +1011,10 @@ let prefs = (function() {
 		setShowFeedItemDesc: setShowFeedItemDesc,
 		getUIDensity: getUIDensity,
 		setUIDensity: setUIDensity,
+		getFontName: getFontName,
+		setFontName: setFontName,
+		getFontSizePercent: getFontSizePercent,
+		setFontSizePercent: setFontSizePercent,
 		getColorBackground: getColorBackground,
 		setColorBackground: setColorBackground,
 		getColorDialogBackground: getColorDialogBackground,

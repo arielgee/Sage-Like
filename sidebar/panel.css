@@ -16,6 +16,10 @@
 	--bk-color-active-contrasted: #000000;
 	--bk-color-info-window: #FFFEDF;
 	--color-text: #000000;
+
+	--font-sidebar: Tahoma;
+	--font-family-sidebar-fallback: Tahoma, Verdana, Segoe, sans-serif;
+	--font-family-sidebar: var(--font-sidebar), var(--font-family-sidebar-fallback);
 }
 
 :focus {
