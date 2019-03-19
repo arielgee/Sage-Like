@@ -263,7 +263,7 @@ let preferences = (function() {
 
 		if(m_elmCheckFeedsInterval.value === "-1") {
 
-			let initValue = "";
+			let initValue = "12:00";
 			let elmOption = document.getElementById(ID_OPTION_CHECK_FEEDS_TIME_OF_DAY);
 
 			if(elmOption !== null) {
@@ -635,7 +635,7 @@ let preferences = (function() {
 		}
 
 		m_funcResolveGetTimeOfDay("");
-		m_elmTimeOfDayBox.style.display = "none";
+		setTimeout(() => m_elmTimeOfDayBox.style.display = "none", 0);		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 	}
 
 	//==================================================================================

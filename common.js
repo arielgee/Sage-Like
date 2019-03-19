@@ -1230,7 +1230,7 @@ let slUtil = (function() {
 		parts[0] = parts[0] % 12 || 12;
 
 		// do not use join to avoid seconds
-		return parts[0] + ":" + parts[1] + " " + abbr;
+		return parts[0].toLocaleString(undefined, {minimumIntegerDigits:2}) + ":" + parts[1].toLocaleString(undefined, {minimumIntegerDigits:2}) + " " + abbr;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

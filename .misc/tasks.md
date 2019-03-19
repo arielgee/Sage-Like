@@ -218,6 +218,7 @@
 * replace alert() in preference with something nice                                     => NO NEED
 * Event throttling on the dragover event in rssTreeView.js (onDragOverTreeItem)         => NO NEED
 * customize sidebar font (not context menu)
+* fix some small things in TimeOfDayBox
 ---
 
 ## Next
