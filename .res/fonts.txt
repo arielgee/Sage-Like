@@ -14,10 +14,13 @@ Calibri
 Cambria
 Comic Sans MS
 Courier New
+Geneva
 Helvetica
 Lucida Console
+Lucida Sans Unicode
 Segoe UI
 Tahoma
 Times New Roman
+Trebuchet MS
 Verdana
 -----------------END-----------------
