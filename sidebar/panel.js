@@ -123,7 +123,12 @@ let panel = (function() {
 
 		prefs.getFontName().then(name => {
 			document.documentElement.style.setProperty("--font-sidebar", name);
-			m_elmTop.style.fontFamily = m_elmBottom.style.fontFamily = (name === "" ? "" : "var(--font-family-sidebar)");
+
+			if (name === prefs.DEF_PREF_FONT_NAME_VALUE) {
+				m_elmTop.style.fontFamily = m_elmBottom.style.fontFamily = "";
+			} else {
+				m_elmTop.style.fontFamily = m_elmBottom.style.fontFamily = "var(--font-family-sidebar)";
+			}
 		});
 	}
 
