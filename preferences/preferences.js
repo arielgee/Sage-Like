@@ -2,6 +2,9 @@
 
 let preferences = (function() {
 
+	const ID_OPTION_USER_FONT_NAME = "optionUserFontName";
+	const TXT_OPTION_USER_FONT_NAME = " (user)";
+
 	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";
 	const TXT_OPTION_EVERY_DAY_AT = "Every day at ";
 
@@ -22,6 +25,8 @@ let preferences = (function() {
 	let m_elmShowFeedItemDesc;
 	let m_elmUIDensity;
 	let m_elmFontName;
+	let m_elmUserFontBox;
+	let m_elmUserFontName;
 	let m_elmFontSizePercent;
 	let m_elmColorBackground;
 	let m_elmColorDialogBackground;
@@ -41,6 +46,7 @@ let preferences = (function() {
 	let m_elmBtnRestoreDefaults;
 
 	let m_funcResolveGetTimeOfDay;
+	let m_funcResolveGetUserFontName;
 
 	let m_lockBookmarksEventHandler = new Locker();
 
@@ -61,6 +67,8 @@ let preferences = (function() {
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
 		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmFontName = document.getElementById("fontName");
+		m_elmUserFontBox = document.getElementById("userFontBox");
+		m_elmUserFontName = document.getElementById("userFontName");
 		m_elmFontSizePercent = document.getElementById("fontSizePercent");
 		m_elmColorBackground = document.getElementById("colorBk");
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
@@ -100,6 +108,8 @@ let preferences = (function() {
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
 		m_elmFontName.removeEventListener("change", onChangeFontName);
+		m_elmUserFontBox.removeEventListener("keydown", onKeyDownUserFontBox);
+		m_elmUserFontName.removeEventListener("blur", onBlurUserFontName);
 		m_elmFontSizePercent.removeEventListener("change", onChangeFontSizePercent);
 		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
@@ -135,6 +145,8 @@ let preferences = (function() {
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmFontName.addEventListener("change", onChangeFontName);
+		m_elmUserFontBox.addEventListener("keydown", onKeyDownUserFontBox);
+		m_elmUserFontName.addEventListener("blur", onBlurUserFontName);
 		m_elmFontSizePercent.addEventListener("change", onChangeFontSizePercent);
 		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
@@ -207,8 +219,18 @@ let preferences = (function() {
 			m_elmUIDensity.value = value;
 		});
 
-		prefs.getFontName().then((value) => {
-			m_elmFontName.value = value;
+		prefs.getFontName().then((fontName) => {
+
+			let inStock = false;
+
+			Array.prototype.map.call(m_elmFontName.options, e => inStock |= (e.value === fontName) );
+
+			if(!inStock) {
+				let elmOption = createTagOption(fontName, fontName + TXT_OPTION_USER_FONT_NAME);
+				elmOption.id = ID_OPTION_USER_FONT_NAME;
+				m_elmFontName.insertBefore(elmOption, m_elmFontName.lastElementChild);
+			}
+			m_elmFontName.value = fontName;
 		});
 
 		prefs.getFontSizePercent().then((value) => {
@@ -340,8 +362,63 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeFontName(event) {
-		prefs.setFontName(m_elmFontName.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+
+		if(m_elmFontName.value === "-1") {
+
+			let initValue = "";
+			let elmOption = document.getElementById(ID_OPTION_USER_FONT_NAME);
+
+			if(elmOption !== null) {
+				initValue = elmOption.value;
+			}
+
+			getUserFontName(initValue).then((userFontName) => {
+
+				m_funcResolveGetUserFontName = undefined;
+
+				if(userFontName === "") {
+
+					// user font box was dismissed
+					prefs.getFontName().then((value) => {
+						m_elmFontName.value = value;
+					});
+
+				} else {
+
+					let stockName = "";
+
+					// look if font name exists in stock
+					Array.prototype.map.call(m_elmFontName.options, e => {
+						if(e.value.toLowerCase() === userFontName.toLowerCase()) {
+							stockName = e.value;
+						}
+					});
+
+					// font name not in stock
+					if(stockName === "") {
+
+						if(elmOption === null) {
+							elmOption = createTagOption(userFontName, userFontName + TXT_OPTION_USER_FONT_NAME);
+							elmOption.id = ID_OPTION_USER_FONT_NAME;
+							m_elmFontName.insertBefore(elmOption, m_elmFontName.lastElementChild);
+						} else {
+							elmOption.value = userFontName;
+							elmOption.textContent = userFontName + TXT_OPTION_USER_FONT_NAME;
+						}
+					} else {
+						userFontName = stockName;		// use the font as it is written in stock
+					}
+					m_elmFontName.value = userFontName;
+
+					prefs.setFontName(m_elmFontName.value);
+					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+				}
+			});
+
+		} else {
+			prefs.setFontName(m_elmFontName.value);
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -579,6 +656,64 @@ let preferences = (function() {
 		elm.value = value;
 		elm.innerHTML = text;
 		return elm;
+	}
+
+	//==================================================================================
+	//=== User font box functions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getUserFontName(initValue) {
+
+		return new Promise((resolve) => {
+
+			m_funcResolveGetUserFontName = resolve;
+
+			m_elmUserFontName.value = initValue;
+			m_elmUserFontBox.style.display = "block";
+
+			let x = m_elmFontName.offsetLeft - Math.abs(m_elmUserFontBox.offsetWidth - m_elmFontName.offsetWidth);
+			let y = m_elmFontName.offsetTop;
+
+			m_elmUserFontBox.style.left = (x - 18) + "px";
+			m_elmUserFontBox.style.top = (y - 10) + "px";
+
+			m_elmUserFontName.focus();
+			m_elmUserFontName.select();
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownUserFontBox(event) {
+
+		if(m_funcResolveGetUserFontName === undefined) {
+			return;
+		}
+
+		switch(event.key.toLowerCase()) {
+			case "enter":
+				m_funcResolveGetUserFontName(m_elmUserFontName.value.trim());
+				break;
+
+			case "escape":
+				m_funcResolveGetUserFontName("");
+				break;
+
+			default:
+				return;
+		}
+		m_elmUserFontBox.style.display = "none";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBlurUserFontName(event) {
+
+		if(m_funcResolveGetUserFontName === undefined) {
+			return;
+		}
+
+		m_funcResolveGetUserFontName("");
+		setTimeout(() => m_elmUserFontBox.style.display = "none", 0);		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 	}
 
 	//==================================================================================

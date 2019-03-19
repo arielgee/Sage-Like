@@ -89,7 +89,7 @@
 	<div class="prefSeperator"></div>
 
 	<div class="preference">
-		<label class="preferenceLabel">Sidebar Font</label>
+		<label class="preferenceLabel">Sidebar Font&nbsp;<span class="helpInfo" title="You can pick one from the stock fonts or type in your own font name using the last item in the dropdown list. If the typed font is not recognized the browser will fall back to its default.">?</span></label>
 		<div class="preferenceControl">
 			<select name="fontName" id="fontName">
 				<!-- Modification are first done in '/.res/fonts.txt' -->
@@ -103,12 +103,12 @@
 				<option value="Geneva">Geneva</option>
 				<option value="Helvetica">Helvetica</option>
 				<option value="Lucida Console">Lucida Console</option>
-				<option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
 				<option value="Segoe UI">Segoe UI</option>
 				<option value="Tahoma">Tahoma</option>
 				<option value="Times New Roman">Times New Roman</option>
 				<option value="Trebuchet MS">Trebuchet MS</option>
 				<option value="Verdana">Verdana</option>
+				<option value="-1">&lt;&lt;&ensp;User Font&hellip;&ensp;&gt;&gt;</option>
 			</select>
 			<label class="precedingControlLabel">Size</label>
 			<select name="fontSizePercent" id="fontSizePercent">
@@ -179,13 +179,20 @@
     <br/>
     <p class="annotation">&#10033;&nbsp;Clicking <b>Reload Extension</b> may require reloading this page.</p>
 
+	<!-- ////////////////////////// User Font Box ////////////////////////// -->
+	<div id="userFontBox" class="userFontBox" tabindex="-1">
+			<div class="preferenceControl">
+				<label for="userFontName" class="controlLabel">Font Name:</label><input type="text" id="userFontName">
+			</div>
+		</div>
+
 	<!-- ////////////////////////// Time of Day Box ////////////////////////// -->
 	<div id="timeOfDayBox" class="timeOfDayBox" tabindex="-1">
-		<div class="preferenceControl">
-			<label for="inputTime" class="controlLabel">Every Day at:</label><input type="time" id="inputTime">
+			<div class="preferenceControl">
+				<label for="inputTime" class="controlLabel">Every Day at:</label><input type="time" id="inputTime">
+			</div>
 		</div>
-	</div>
 
-</body>
+	</body>
 
 </html>
