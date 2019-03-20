@@ -219,17 +219,19 @@
 * Event throttling on the dragover event in rssTreeView.js (onDragOverTreeItem)         => NO NEED
 * customize sidebar font (not context menu)
 * fix some small things in TimeOfDayBox
+* change loading img css in feedPreview like the one in preference
+* some loading gif in the tree-view until tree is shown
 ---
 
 ## Next
 
 * get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString():
 * are Prefs names (internalPrefs, prefs) must be strings and not numbers like in slGlobals?
-* some loading gif in the tree-view until tree is shown
+
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
 * same redius in feed previewing for title and body
-
+* apply same tab size standerd on all files.
 
 * try to change the mozilla Extensions feed with something that WORKS!!!
     * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741

@@ -175,16 +175,20 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function createRSSTree() {
 
+		// show loading animation (if not already removed by disposeTree()) if it takes too long
+		setTimeout(() => document.getElementById("treeLoadingImg").classList.add("visible"), 800);
+
 		// get subtree's open/closed statuses from local storage
 		await m_objOpenSubTrees.getStorage();
 
-		disposeTree();
 		m_rssTreeCreatedOK = false;
 		m_elmCurrentlyLoading = null;
 		m_elmCurrentlySelected = null;
 		setTbButtonCheckFeedsAlert(false);
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
+
+			disposeTree();
 
 			if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmTreeRoot.appendChild(createErrorTagLI("The feeds folder is not set in the Options page."));
