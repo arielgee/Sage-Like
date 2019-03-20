@@ -81,6 +81,10 @@ let panel = (function() {
 		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.addEventListener("click", onClickPreferences);
 
+		// get browser default font for font-family fallback
+		let browserFont = getComputedStyle(m_elmBody).getPropertyValue("font-family");
+		document.documentElement.style.setProperty("--font-default-fallback", browserFont);
+
 		setPanelDensityFromPreferences();
 		setPanelFontNameFromPreferences();
 		setPanelFontSizePercentFromPreferences();
@@ -122,11 +126,11 @@ let panel = (function() {
 	function setPanelFontNameFromPreferences() {
 
 		prefs.getFontName().then(name => {
-			document.documentElement.style.setProperty("--font-sidebar", name);
 
 			if (name === prefs.DEF_PREF_FONT_NAME_VALUE) {
 				m_elmTop.style.fontFamily = m_elmBottom.style.fontFamily = "";
 			} else {
+				document.documentElement.style.setProperty("--font-sidebar", name);
 				m_elmTop.style.fontFamily = m_elmBottom.style.fontFamily = "var(--font-family-sidebar)";
 			}
 		});

@@ -17,8 +17,10 @@
 	--bk-color-info-window: #FFFEDF;
 	--color-text: #000000;
 
+	--font-default-fallback: Tahoma;
+
 	--font-sidebar: Tahoma;
-	--font-family-sidebar-fallback: Tahoma, Verdana, Segoe, sans-serif;
+	--font-family-sidebar-fallback: var(--font-default-fallback), Verdana, Segoe, sans-serif;
 	--font-family-sidebar: var(--font-sidebar), var(--font-family-sidebar-fallback);
 }
 
