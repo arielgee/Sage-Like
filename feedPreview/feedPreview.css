@@ -5,8 +5,6 @@
     --background-color-header: #ffffe1;
     --background-color-feed-body: #ededed;
     --background-color-feed-item-content: #fdfdfd;
-    --color-loading-image: #000000;
-    --size-loading-image: 32px;
     font-family: Tahoma, Verdana, Segoe, sans-serif;
     font-weight: normal;
     font-size: 12.8px;
@@ -62,20 +60,15 @@ body {
 }
 
 #loadingImg {
+    --size-image: 32px;
+    --color-image: #000000;
     display: block;
-    width: var(--size-loading-image);
-    height: var(--size-loading-image);
+    width: var(--size-image);
+    height: var(--size-image);
     margin: 0 auto;
-}
-#loadingImg:after {
-    content: " ";
-    display: block;
-    width: var(--size-loading-image);
-    height: var(--size-loading-image);
-    margin: 1px;
     border-radius: 50%;
-    border: 5px solid var(--color-loading-image);
-    border-color: var(--color-loading-image) transparent var(--color-loading-image) transparent;
+    border: 6px solid var(--color-image);
+    border-color: var(--color-image) transparent var(--color-image) transparent;
     animation: loadingImg 1s linear infinite;
 }
 @keyframes loadingImg {
