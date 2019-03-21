@@ -1,144 +1,144 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-    --background-color-page: #c8c8c8;
-    --background-color-header: #ffffe1;
-    --background-color-feed-body: #ededed;
-    --background-color-feed-item-content: #fdfdfd;
-    font-family: Tahoma, Verdana, Segoe, sans-serif;
-    font-weight: normal;
-    font-size: 12.8px;
+	--background-color-page: #c8c8c8;
+	--background-color-header: #ffffe1;
+	--background-color-feed-body: #ededed;
+	--background-color-feed-item-content: #fdfdfd;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-weight: normal;
+	font-size: 12.8px;
 }
 
 html {
-    background-color: var(--background-color-page);
+	background-color: var(--background-color-page);
 }
 
 body {
-    padding: 0 35px;
-    min-width: 550px;
+	padding: 0 35px;
+	min-width: 550px;
 }
 
 #pageHeaderContainer {
-    background-color: var(--background-color-header);
-    border: 1px solid #7f7f7f;
-    border-radius: 0 0 20px 20px;
-    margin: -20px auto 0 auto;
-    padding: 26px 15px 15px 15px;
-    box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
+	background-color: var(--background-color-header);
+	border: 1px solid #7f7f7f;
+	border-radius: 0 0 20px 20px;
+	margin: -20px auto 0 auto;
+	padding: 26px 15px 15px 15px;
+	box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
 }
 
 #pageHeaderContainerInner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: auto;
 }
 
 #pageHeaderIcon {
-    width: 32px;
-    height: 32px;
-    background: transparent url("/icons/sageLike-32.png") no-repeat center/100%;
+	width: 32px;
+	height: 32px;
+	background: transparent url("/icons/sageLike-32.png") no-repeat center/100%;
 }
 
 #pageHeaderText {
-    font-size: 270%;
-    font-weight: bold;
-    text-align: center;
-    line-height: 48px;
-    margin-left: 12px;
+	font-size: 270%;
+	font-weight: bold;
+	text-align: center;
+	line-height: 48px;
+	margin-left: 12px;
 }
 
 #feedBody {
-    background-color: var(--background-color-feed-body);
-    border: 1px solid #7f7f7f;
-    padding: 35px;
-    margin: 24px auto;
-    padding-inline-start: 30px;
-    border-radius: 6px;
-    box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
+	background-color: var(--background-color-feed-body);
+	border: 1px solid #7f7f7f;
+	padding: 35px;
+	margin: 24px auto;
+	padding-inline-start: 30px;
+	border-radius: 6px;
+	box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
 }
 
 #busyAnimLoading {
-    --size-image: 32px;
-    --color-image: #000000;
-    display: block;
-    width: var(--size-image);
-    height: var(--size-image);
-    margin: 0 auto;
-    border-radius: 50%;
-    border: 6px solid var(--color-image);
-    border-color: var(--color-image) transparent var(--color-image) transparent;
-    animation: busyAnimLoadingFrames 1s linear infinite;
+	--size-image: 32px;
+	--color-image: #000000;
+	display: block;
+	width: var(--size-image);
+	height: var(--size-image);
+	margin: 0 auto;
+	border-radius: 50%;
+	border: 6px solid var(--color-image);
+	border-color: var(--color-image) transparent var(--color-image) transparent;
+	animation: busyAnimLoadingFrames 1s linear infinite;
 }
 @keyframes busyAnimLoadingFrames {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 
 #errorMessage {
-    background: transparent url("/icons/errormsg.png") no-repeat left top;
-    padding-left: 20px;
-    color: crimson;
+	background: transparent url("/icons/errormsg.png") no-repeat left top;
+	padding-left: 20px;
+	color: crimson;
 }
 
 #feedTitleText {
-    font-weight: bold;
-    font-size: 175%;
-    border-bottom: 2px solid #c0c0c0;
-    margin-bottom: 2px;
+	font-weight: bold;
+	font-size: 175%;
+	border-bottom: 2px solid #c0c0c0;
+	margin-bottom: 2px;
 }
 
 #feedDescriptionText {
-    font-size: 125%;
-    color: #707070;
-    margin-bottom: 18px;
+	font-size: 125%;
+	color: #707070;
+	margin-bottom: 18px;
 }
 
 .feedItem {
-    border-radius: 4px;
-    margin-bottom: 20px;
-    padding: 3px 10px 12px 10px;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.6);
-    transition: 150ms box-shadow ease;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	padding: 3px 10px 12px 10px;
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.6);
+	transition: 150ms box-shadow ease;
 }
 
 .feedItem:hover {
-    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.8);
+	box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.8);
 }
 
 .feedItemTitle {
-    margin-bottom: 12.8px;
-    font-size: 110%;
+	margin-bottom: 12.8px;
+	font-size: 110%;
 }
 
 .feedItemTitleText {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .feedItemLastUpdatedText {
-    font-size: 90%;
-    color: #707070;
+	font-size: 90%;
+	color: #707070;
 }
 
 .feedItemContent {
-    margin-inline-start: 15px;
-    padding-inline-start: 5px;
-    padding-inline-end: 5px;
-    background-color: var(--background-color-feed-item-content);
-    border-radius: 4px;
+	margin-inline-start: 15px;
+	padding-inline-start: 5px;
+	padding-inline-end: 5px;
+	background-color: var(--background-color-feed-item-content);
+	border-radius: 4px;
 }
 
 .feedItemContent img {
-    max-width: 400px !important;
-    max-height: 400px !important;
-    width: auto !important;
-    height: auto !important;
-    margin: 3px !important;
+	max-width: 400px !important;
+	max-height: 400px !important;
+	width: auto !important;
+	height: auto !important;
+	margin: 3px !important;
 }
 
 .feedItemContent * {
-    font-size: 100% !important;
-    font-weight: normal !important;
-    float: initial !important;
+	font-size: 100% !important;
+	font-weight: normal !important;
+	float: initial !important;
 }

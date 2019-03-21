@@ -222,6 +222,7 @@
 * change loading img css in feedPreview like the one in preference
 * some loading gif in the tree-view until tree is shown
 * same redius in feed previewing for title and body     => NO
+* apply same tab size standerd on all files.
 ---
 
 ## Next
@@ -231,8 +232,6 @@
 
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
-
-* apply same tab size standerd on all files.
 
 * try to change the mozilla Extensions feed with something that WORKS!!!
     * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741
