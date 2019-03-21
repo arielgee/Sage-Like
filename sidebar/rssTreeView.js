@@ -176,7 +176,7 @@ let rssTreeView = (function() {
 	async function createRSSTree() {
 
 		// show loading animation (if not already removed by disposeTree()) if it takes too long
-		setTimeout(() => document.getElementById("treeLoadingImg").classList.add("visible"), 800);
+		showDelayedLoadingAnimation();
 
 		// get subtree's open/closed statuses from local storage
 		await m_objOpenSubTrees.getStorage();
@@ -1571,6 +1571,18 @@ let rssTreeView = (function() {
 			await browser.bookmarks.create(folder.feeds[idx]);
 		}
 		return createdFolder;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function showDelayedLoadingAnimation() {
+
+		// show loading animation (if not already removed by disposeTree()) if it takes too long
+		setTimeout(() => {
+			let anim = document.getElementById("treeLoadingImg");
+			if(anim) {
+				anim.classList.add("visible");
+			}
+		}, 800);
 	}
 
 	return {
