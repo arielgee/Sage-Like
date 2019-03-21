@@ -1578,7 +1578,7 @@ let rssTreeView = (function() {
 
 		// show loading animation (if not already removed by disposeTree()) if it takes too long
 		setTimeout(() => {
-			let anim = document.getElementById("treeLoadingImg");
+			let anim = document.getElementById("busyAnimTreeLoading");
 			if(anim) {
 				anim.classList.add("visible");
 			}

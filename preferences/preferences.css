@@ -289,7 +289,7 @@ input[type="checkbox"].disabled:not(:checked)  {
   height: 100%;
 }
 
-#feedTransProcessingImg {
+#busyAnimFeedTrans {
   --size-image: 30px;
   --color-image: white;
   display: none;
@@ -299,14 +299,14 @@ input[type="checkbox"].disabled:not(:checked)  {
   border-radius: 50%;
   border: 5px solid var(--color-image);
   border-color: var(--color-image) transparent var(--color-image) transparent;
-  animation: feedTransProcessingImgFrames 0.7s linear infinite;
+  animation: busyAnimFeedTransFrames 0.7s linear infinite;
 }
-@keyframes feedTransProcessingImgFrames {
+@keyframes busyAnimFeedTransFrames {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-#prefOverlayFeedTrans.processing #feedTransProcessingImg {
+#prefOverlayFeedTrans.processing #busyAnimFeedTrans {
   display: block;
 }
 

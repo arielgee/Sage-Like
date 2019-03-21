@@ -204,7 +204,7 @@ html, body {
 	color: crimson;
 }
 
-#treeLoadingImg {
+#busyAnimTreeLoading {
 	--size-image: 50px;
 	--color-image: var(--bk-color-window-contrasted);
 	display: none;
@@ -214,13 +214,13 @@ html, body {
 	border-radius: 50%;
 	border: 8px solid var(--color-image);
 	border-color: var(--color-image) transparent var(--color-image) transparent;
-	animation: treeLoadingImg 0.7s linear infinite;
+	animation: busyAnimTreeLoadingFrames 0.7s linear infinite;
   }
-  @keyframes treeLoadingImg {
+  @keyframes busyAnimTreeLoadingFrames {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
   }
 
-  #treeLoadingImg.visible {
+  #busyAnimTreeLoading.visible {
 	display: block;
   }

@@ -20,7 +20,7 @@
 	function createFeedPreview(urlFeed) {
 
 		let elmFeedBody = document.getElementById("feedBody");
-		let elmLoadImg = document.getElementById("loadingImg");
+		let elmLoadImg = document.getElementById("busyAnimLoading");
 
 		prefs.getFetchTimeout().then((timeout) => {
 			syndication.fetchFeedItems(urlFeed, timeout * 1000).then((result) => {

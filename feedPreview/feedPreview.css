@@ -59,7 +59,7 @@ body {
     box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
 }
 
-#loadingImg {
+#busyAnimLoading {
     --size-image: 32px;
     --color-image: #000000;
     display: block;
@@ -69,9 +69,9 @@ body {
     border-radius: 50%;
     border: 6px solid var(--color-image);
     border-color: var(--color-image) transparent var(--color-image) transparent;
-    animation: loadingImg 1s linear infinite;
+    animation: busyAnimLoadingFrames 1s linear infinite;
 }
-@keyframes loadingImg {
+@keyframes busyAnimLoadingFrames {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
