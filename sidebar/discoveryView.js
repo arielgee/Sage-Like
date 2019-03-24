@@ -123,7 +123,7 @@ let discoveryView = (function() {
 
 		let funcHandleDiscoveredFeed = function(feed) {
 
-			// do not prosess stale requests
+			// do not process stale requests
 			if(feed.requestId === m_nRequestId) {
 
 				if(feed.status === "OK") {
@@ -133,9 +133,14 @@ let discoveryView = (function() {
 					console.log("[Sage-Like]", feed.url.toString(), feed.message);
 				}
 
-				// if last found feed was added
+				// if function was called for all founded feeds
 				if(feedCount === ++counter) {
 					setDiscoverLoadingState(false);
+
+					// if none of the feeds was added to the list
+					if(m_elmDiscoverFeedsList.children.length === 0) {
+						setNoFeedsMsg("No valid feeds were discovered.");
+					}
 				}
 			}
 		};
@@ -146,7 +151,7 @@ let discoveryView = (function() {
 		syndication.discoverWebSiteFeeds(txtHTML, timeout*1000, origin, m_nRequestId, funcHandleDiscoveredFeed).then((result) => {
 
 			if((feedCount = result.length) === 0) {
-				setNoFeedsMsg("No valid feeds were discovered.");
+				setNoFeedsMsg("No feeds were discovered.");
 				setDiscoverLoadingState(false);
 			}
 		});

@@ -223,14 +223,14 @@
 * some loading gif in the tree-view until tree is shown
 * same redius in feed previewing for title and body     => NO
 * apply same tab size standerd on all files.
+* are Prefs names (internalPrefs, prefs) must be strings and not numbers like in slGlobals?     => NO
+* discovery is taking too long: http://feeds.tomercohen.com/tomercohen      => BUGFIX: discovery did not handle url feeds that returned with netwrok error
 ---
 
 ## Next
 
 * get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString():
-* are Prefs names (internalPrefs, prefs) must be strings and not numbers like in slGlobals?
 
-* discovery is taking too long: http://feeds.tomercohen.com/tomercohen
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
 
 * try to change the mozilla Extensions feed with something that WORKS!!!

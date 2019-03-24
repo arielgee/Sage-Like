@@ -51,26 +51,23 @@ let syndication = (function() {
 
 				getFeedXMLText(url, reload, timeout).then((feedXML) => {
 
-					// if undefined then this promise was rejected; got the error (e) instead of the feedXML
-					if(feedXML.txtXML !== undefined) {
+					let feedData = getFeedData(feedXML.txtXML);
 
-						let feedData = getFeedData(feedXML.txtXML);
-
-						if(feedData.standard === SyndicationStandard.invalid) {
-							discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
-						} else {
-							discoveredFeed = Object.assign(discoveredFeed, {
-								status: "OK",
-								index: index,
-								feedTitle: feedData.title,
-								lastUpdated: feedData.lastUpdated,
-								format: feedData.standard,
-								items: feedData.items,
-							});
-						}
+					if(feedData.standard === SyndicationStandard.invalid) {
+						discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
 					} else {
-						discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedXML.message});
+						discoveredFeed = Object.assign(discoveredFeed, {
+							status: "OK",
+							index: index,
+							feedTitle: feedData.title,
+							lastUpdated: feedData.lastUpdated,
+							format: feedData.standard,
+							items: feedData.items,
+						});
 					}
+				}).catch((error) => {
+					discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: error.message});
+				}).finally(() => {
 					callback(discoveredFeed);
 				});
 			});
@@ -284,6 +281,7 @@ let syndication = (function() {
 			xhr.open("GET", objUrl);
 			xhr.onload = function() {
 				if(xhr.readyState === xhr.DONE && xhr.status === 200) {
+					// will occur event if it's not an XML document
 					URL.revokeObjectURL(objUrl);
 					resolve(xhr.responseText);
 				}
