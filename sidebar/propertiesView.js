@@ -2,6 +2,40 @@
 
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
+class PropertiesViewElements {
+
+	///////////////////////////////////////////////////////////////
+	//
+	static get i() {
+		if (this.m_instance === undefined) {
+			this.m_instance = new this();
+		}
+		return this.m_instance;
+	}
+
+	///////////////////////////////////////////////////////////////
+	constructor() {
+		this._getViewElementIds();
+	}
+
+	///////////////////////////////////////////////////////////////
+	_getViewElementIds() {
+		this.elmSidebarBody = document.body;
+		this.elmMainPanel = document.getElementById("mainPanel");
+		this.elmPropertiesPanel = document.getElementById("propertiesPanel");
+		this.elmTextTitle = document.getElementById("txtFpTitle");
+		this.elmTextLocation = document.getElementById("txtFpLocation");
+		this.elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
+		this.elmInsertInsideFolderContainer = document.getElementById("insertInsideFolderContainer");
+		this.elmChkInsertInsideFolder = document.getElementById("chkInsertInsideFolder");
+		this.elmButtonSave = document.getElementById("btnPropertiesSave");
+		this.elmButtonCancel = document.getElementById("btnPropertiesCancel");
+		this.elmLabelErrorMsgs = document.getElementById("lblErrorMsgs");
+	}
+}
+
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
 class PropertiesView {
 
 	///////////////////////////////////////////////////////////////
@@ -58,17 +92,17 @@ class PropertiesView {
 
 	///////////////////////////////////////////////////////////////
 	_initMembers() {
-		this.m_elmSidebarBody = document.body;
-		this.m_elmMainPanel = document.getElementById("mainPanel");
-		this.m_elmPropertiesPanel = document.getElementById("propertiesPanel");
-		this.m_elmTextTitle = document.getElementById("txtFpTitle");
-		this.m_elmTextLocation = document.getElementById("txtFpLocation");
-		this.m_elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
-		this.m_elmInsertInsideFolderContainer = document.getElementById("insertInsideFolderContainer");
-		this.m_elmChkInsertInsideFolder = document.getElementById("chkInsertInsideFolder");
-		this.m_elmButtonSave = document.getElementById("btnPropertiesSave");
-		this.m_elmButtonCancel = document.getElementById("btnPropertiesCancel");
-		this.m_elmLabelErrorMsgs = document.getElementById("lblErrorMsgs");
+		this.m_elmSidebarBody = PropertiesViewElements.i.elmSidebarBody;
+		this.m_elmMainPanel = PropertiesViewElements.i.elmMainPanel;
+		this.m_elmPropertiesPanel = PropertiesViewElements.i.elmPropertiesPanel;
+		this.m_elmTextTitle = PropertiesViewElements.i.elmTextTitle;
+		this.m_elmTextLocation = PropertiesViewElements.i.elmTextLocation;
+		this.m_elmChkUpdateTitle = PropertiesViewElements.i.elmChkUpdateTitle;
+		this.m_elmInsertInsideFolderContainer = PropertiesViewElements.i.elmInsertInsideFolderContainer;
+		this.m_elmChkInsertInsideFolder = PropertiesViewElements.i.elmChkInsertInsideFolder;
+		this.m_elmButtonSave = PropertiesViewElements.i.elmButtonSave;
+		this.m_elmButtonCancel = PropertiesViewElements.i.elmButtonCancel;
+		this.m_elmLabelErrorMsgs = PropertiesViewElements.i.elmLabelErrorMsgs;
 
 		this._onClickButtonSave = this._onClickButtonSave.bind(this);
 		this._onClickButtonCancel = this._onClickButtonCancel.bind(this);
