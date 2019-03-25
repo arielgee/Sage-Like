@@ -68,7 +68,7 @@ body {
 	margin: 0 auto;
 	border-radius: 50%;
 	border: 6px solid var(--color-image);
-	border-color: var(--color-image) transparent var(--color-image) transparent;
+	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
 	animation: busyAnimLoadingFrames 1s linear infinite;
 }
 @keyframes busyAnimLoadingFrames {

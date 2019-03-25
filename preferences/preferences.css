@@ -298,7 +298,7 @@ input[type="checkbox"].disabled:not(:checked) {
 	margin: auto 0 auto 10px;
 	border-radius: 50%;
 	border: 5px solid var(--color-image);
-	border-color: var(--color-image) transparent var(--color-image) transparent;
+	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
 	animation: busyAnimFeedTransFrames 0.7s linear infinite;
 }
 @keyframes busyAnimFeedTransFrames {
