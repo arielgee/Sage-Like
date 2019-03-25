@@ -1267,11 +1267,18 @@ let rssTreeView = (function() {
 		// don't change title to empty string
 		if(m_objTreeFeedsData.value(elmLI.id).updateTitle === true && title.length > 0) {
 
-			suspendBookmarksEventHandler(() => {
-				return browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
-					elmLI.firstElementChild.textContent = updatedNode.title;
-				}).catch((error) => console.log("[Sage-Like]", error) );
-			});
+			browser.bookmarks.get(elmLI.id).then((bookmarks) => {
+
+				// don't change title if title is the same
+				if(bookmarks[0].title !== title) {
+
+					suspendBookmarksEventHandler(() => {
+						return browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
+							elmLI.firstElementChild.textContent = updatedNode.title;
+						}).catch((error) => console.log("[Sage-Like]", error) );
+					});
+				}
+			}).catch((error) => console.log("[Sage-Like]", error) );
 		}
 	}
 
