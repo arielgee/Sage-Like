@@ -39,14 +39,7 @@ let discoveryView = (function() {
 
 		return new Promise((resolve) => {
 
-			m_elmMainPanel = document.getElementById("mainPanel");
-			m_elmDiscoverPanel = document.getElementById("discoverPanel");
-			m_elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
-			m_elmButtonCheckmarkAll = document.getElementById("btnCheckmarkAll");
-			m_elmButtonRediscover = document.getElementById("btnRediscover");
-			m_elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
-			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
-			m_elmLabelInfobar = document.getElementById("lblInfobar");
+			initMemberElements();
 
 			m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
 			m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
@@ -89,6 +82,21 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function isOpen() {
 		return (m_elmDiscoverPanel !== null && m_elmDiscoverPanel.style.display === "block");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initMemberElements() {
+
+		if(m_elmMainPanel === null) {
+			m_elmMainPanel = document.getElementById("mainPanel");
+			m_elmDiscoverPanel = document.getElementById("discoverPanel");
+			m_elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
+			m_elmButtonCheckmarkAll = document.getElementById("btnCheckmarkAll");
+			m_elmButtonRediscover = document.getElementById("btnRediscover");
+			m_elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
+			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
+			m_elmLabelInfobar = document.getElementById("lblInfobar");
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
