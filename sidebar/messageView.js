@@ -53,14 +53,16 @@ let messageView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialize() {
 
-		m_elmMainPanel = document.getElementById("mainPanel");
-		m_elmMessagePanel = document.getElementById("messagePanel");
-		m_elmMsgText = document.getElementById("msgText");
-		m_elmButtonSetOK = document.getElementById("btnSetOK");
-		m_elmButtonSetYesNo = document.getElementById("btnSetYesNo");
-		m_elmButtonOK = document.getElementById("btnMsgOK");
-		m_elmButtonYes = document.getElementById("btnMsgYes");
-		m_elmButtonNo = document.getElementById("btnMsgNo");
+		if(m_elmMainPanel === null) {
+			m_elmMainPanel = document.getElementById("mainPanel");
+			m_elmMessagePanel = document.getElementById("messagePanel");
+			m_elmMsgText = document.getElementById("msgText");
+			m_elmButtonSetOK = document.getElementById("btnSetOK");
+			m_elmButtonSetYesNo = document.getElementById("btnSetYesNo");
+			m_elmButtonOK = document.getElementById("btnMsgOK");
+			m_elmButtonYes = document.getElementById("btnMsgYes");
+			m_elmButtonNo = document.getElementById("btnMsgNo");
+		}
 
 		m_elmMessagePanel.addEventListener("keydown", onKeyDownMessagePanel);
 		m_elmButtonOK.addEventListener("click", onClickButtonOK);
