@@ -1541,7 +1541,7 @@ let rssTreeView = (function() {
 				{	details: { title: "Mozilla", type: "folder" },
 					feeds: [{ title: "Mozilla Press Center", url: "https://blog.mozilla.org/press/feed/" },
 							{ title: "The Mozilla Blog", url: "https://developer.mozilla.org/devnews/index.php/feed/atom/" },
-							{ title: "Extensions", url: "https://addons.mozilla.org/en-US/firefox/extensions/format:rss?sort=updated" },
+//							{ title: "Extensions", url: "https://addons.mozilla.org/en-US/firefox/extensions/format:rss?sort=updated" },
 					],
 				},
 			];
