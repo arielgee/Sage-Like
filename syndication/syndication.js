@@ -236,7 +236,12 @@ let syndication = (function() {
 
 		// return if XML not well-formed
 		if(doc.documentElement.nodeName === "parsererror") {
-			feedData.errorMsg = doc.documentElement.textContent.split("\n", 1)[0];	// only the first line
+
+			console.log("[Sage-Like]", "Parser Error\n", doc.documentElement.textContent);
+
+			// the first line and the error location
+			let found = doc.documentElement.textContent.match(/^(.*)[\s\S]*(line number \d+, column \d+):.*/i);
+			feedData.errorMsg = (found[1] ? found[1] + ". " : "") + (found[2] ? found[2] : "");
 			return feedData;
 		}
 
