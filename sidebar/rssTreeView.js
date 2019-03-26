@@ -1291,6 +1291,7 @@ let rssTreeView = (function() {
 		} else {
 			setSubTreeVisibility(elmTreeItem, true);
 			m_objOpenSubTrees.set(elmTreeItem.id);
+			elmTreeItem.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
 		}
 	}
 
@@ -1300,6 +1301,7 @@ let rssTreeView = (function() {
 		if (open) {
 			setSubTreeVisibility(elmTreeItem, true);
 			m_objOpenSubTrees.set(elmTreeItem.id);
+			elmTreeItem.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
 		} else {
 			setSubTreeVisibility(elmTreeItem, false);
 			m_objOpenSubTrees.remove(elmTreeItem.id);
