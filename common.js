@@ -210,7 +210,7 @@ let slGlobals = (function() {
 
 		setNumber = Number(setNumber);
 
-		if(IMAGE_SET_VALUES.indexOf(setNumber) === -1) {
+		if( !(IMAGE_SET_VALUES.includes(setNumber)) ) {
 			throw new Error("Invalid image set number: " + setNumber);
 		}
 
@@ -1339,7 +1339,7 @@ let slUtil = (function() {
 
 			let isDescendant = false;
 			let isChildDescendant = function (bookmark) {
-				if(bookmarkIds.indexOf(bookmark.id) > -1)  {
+				if (bookmarkIds.includes(bookmark.id))  {
 					isDescendant = true;
 					return;
 				} else {
@@ -1359,7 +1359,7 @@ let slUtil = (function() {
 				}
 
 				// if the feeds folder itself was modified
-				if(bookmarkIds.indexOf(folderId) > -1) {
+				if (bookmarkIds.includes(folderId)) {
 					resolve(true);
 					return;
 				}

@@ -123,7 +123,7 @@ let syndication = (function() {
 		let FeedItemList = [];
 
 		// for 'RSS' or 'RDF Site Summary (RSS) 1.0'
-		if([SyndicationStandard.RSS, SyndicationStandard.RDF].indexOf(feedData.standard) !== -1) {
+		if([SyndicationStandard.RSS, SyndicationStandard.RDF].includes(feedData.standard)) {
 
 			//console.log("[Sage-Like]", "Feed: " + feedData.feeder.localName.toUpperCase(), "v" + (feedData.feeder.getAttribute("version") || "?"));
 

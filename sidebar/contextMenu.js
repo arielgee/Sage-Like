@@ -86,9 +86,9 @@ let contextMenu = (function() {
 		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 
 		if(m_bActivePanelOpened === false) {
-			if(["treeitemcontext", "treecontext"].indexOf(m_currentContext) > -1) {
+			if(["treeitemfoldercontext", "treeitemcontext", "treecontext"].includes(m_currentContext)) {
 				rssTreeView.setFocus();
-			} else if(["listitemcontext", "listcontext"].indexOf(m_currentContext) > -1) {
+			} else if(["listitemcontext", "listcontext"].includes(m_currentContext)) {
 				rssListView.setFocus();
 			}
 		}
@@ -287,7 +287,7 @@ let contextMenu = (function() {
 			ContextAction.treeProperties,
 		];
 
-		if(openPanelActions.indexOf(menuAction) > -1 ) {
+		if(openPanelActions.includes(menuAction)) {
 			m_bActivePanelOpened = true;
 		}
 
@@ -301,7 +301,7 @@ let contextMenu = (function() {
 
 		let actionData = { url: "" };
 
-		if(noSupportOpenRssFeedActions.indexOf(menuAction) > -1) {
+		if(noSupportOpenRssFeedActions.includes(menuAction)) {
 			actionData.url = slUtil.getFeedPreviewUrlByBrowserVersion(m_elmEventTarget.getAttribute("href"), m_browserVersion);
 		} else {
 			actionData.url = m_elmEventTarget.getAttribute("href");
@@ -325,10 +325,10 @@ let contextMenu = (function() {
 			ContextAction.listOpen,
 			ContextAction.listOpenNewTab,
 			ContextAction.listOpenNewWin,
-			ContextAction.listOpenNewPrivateWin
+			ContextAction.listOpenNewPrivateWin,
 		];
 
-		if(openActions.indexOf(menuAction) !== -1) {
+		if(openActions.includes(menuAction)) {
 			slUtil.addUrlToBrowserHistory(url, m_elmEventTarget.textContent).then(() => {
 				rssListView.setItemRealVisitedState(m_elmEventTarget, url);
 			});

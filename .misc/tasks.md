@@ -231,11 +231,10 @@
 * initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
 * when opening a folder in tree that is at the bottom it is opend outside the viewport (annoying) file explorer is scrolling the folder to the top of the viewport
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
+* replace Array.indexOf() with Array.includes()
 ---
 
 ## Next
-
-* replace Array.indexOf() with Array.includes()
 
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * replace options screenshot.
