@@ -225,28 +225,22 @@
 * apply same tab size standerd on all files.
 * are Prefs names (internalPrefs, prefs) must be strings and not numbers like in slGlobals?     => NO
 * discovery is taking too long: http://feeds.tomercohen.com/tomercohen      => BUGFIX: discovery did not handle url feeds that returned with netwrok error
+* buttons in the feed preview? toggle read/unread mark all as un/read           => NO.
+* get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString()        ==> NEEDED
+* try to change the mozilla Extensions feed with something that WORKS!!!            => COULD NOT FIND ONE - LINK DELETED
+* initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
+* when opening a folder in tree that is at the bottom it is opend outside the viewport (annoying) file explorer is scrolling the folder to the top of the viewport
+* keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
 ---
 
 ## Next
 
-* get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString():
+* replace Array.indexOf() with Array.includes()
 
-* keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
-
-* try to change the mozilla Extensions feed with something that WORKS!!!
-    * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741
-    * moz feed : https://discourse.mozilla.org/c/add-ons.rss
-* replace options screenshot.
-* toolbar button 'Subscribe Feed to Sage-Like'
-
-* ???? buttons in the feed preview? toggle read/unread mark all as un/read
-
-* when opening a folder in tree that is at the bottom it is opend outside the viewport (annoying) file explorer is scrollig the folder to the top of the viewport (neee)
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
-* initializing member elements may be done too match (document.getElementById). log all getElementById in panels if thay are done to many times
+* replace options screenshot.
 
-
-### When Mozilla fix bug
+### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
 
 ### Unresolved
@@ -257,3 +251,10 @@
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * add dotted line to tree view => FUUUUUUCK
+
+### Toolbar button 'Subscribe Feed to Sage-Like'
+- To implement, this must be a new seperated extension becouse Web-Extensions do not allow more then one toolbat button (browser_action).
+
+### Links for PR work
+* PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741
+* moz feed: https://discourse.mozilla.org/c/add-ons.rss

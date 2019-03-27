@@ -66,6 +66,7 @@ let rssTreeView = (function() {
 	let m_objTreeFeedsData = new TreeFeedsData();
 	let m_objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
+	let m_browserVersion;				// V64 RSS support dropped
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -114,6 +115,11 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
+
+		// V64 RSS support dropped
+		slUtil.getBrowserVersion().then((version) => {
+			m_browserVersion = version;
+		});
 
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
@@ -907,6 +913,77 @@ let rssTreeView = (function() {
 						break;
 					}
 				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "o":
+				browser.tabs.update({
+					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
+				});
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "t":
+				browser.tabs.create({
+					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
+				});
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "w":
+				browser.windows.create({
+					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
+					type: "normal",
+				});
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "v":
+				browser.windows.create({
+					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
+					type: "normal",
+					incognito: true,
+				});
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "g":
+				toggleFeedVisitedState(elmTargetLI);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "r":
+				markAllFeedsAsVisitedState(true);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "u":
+				markAllFeedsAsVisitedState(false);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "n":
+				openNewFeedProperties(elmTargetLI);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "f":
+				openNewFolderProperties(elmTargetLI);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "c":
+				slUtil.copyTextToClipboard(elmTargetLI.getAttribute("href"));
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "d":
+				deleteTreeItem(elmTargetLI);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "p":
+				openEditTreeItemProperties(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 		}

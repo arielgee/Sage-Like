@@ -301,8 +301,8 @@ let contextMenu = (function() {
 
 		let actionData = { url: "" };
 
-		if(noSupportOpenRssFeedActions.indexOf(menuAction) > -1 && m_browserVersion >= "64") {
-			actionData.url = getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"));
+		if(noSupportOpenRssFeedActions.indexOf(menuAction) > -1) {
+			actionData.url = slUtil.getFeedPreviewUrlByBrowserVersion(m_elmEventTarget.getAttribute("href"), m_browserVersion);
 		} else {
 			actionData.url = m_elmEventTarget.getAttribute("href");
 		}
@@ -444,20 +444,16 @@ let contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function showMenuItemsByClassName(className) {
 
-		m_elmContextMenu.querySelectorAll("." + className).forEach((item) => {
-			item.style.display = "block";
+		m_elmContextMenu.querySelectorAll("#mnuContextMenu > ." + className).forEach((item) => {
+			item.style.display = "flex";
 		});
 
 		// hide the rest
-		m_elmContextMenu.querySelectorAll(":not(." + className + ")").forEach((item) => {
+		m_elmContextMenu.querySelectorAll("#mnuContextMenu > :not(." + className + ")").forEach((item) => {
 			item.style.display = "none";
 		});
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedPreviewUrl(url) {
-		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + encodeURIComponent(url));
-	}
 	return {
 		isOpen: isOpen,
 	};
