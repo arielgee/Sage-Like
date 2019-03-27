@@ -8,13 +8,20 @@ class PropertiesViewElements {
 	//
 	static get i() {
 		if (this.m_instance === undefined) {
-			this.m_instance = new this();
+
+			// PropertiesViewElements.m_instanceID is a static value, refers to the class, not to the instance of the class
+			PropertiesViewElements.m_instanceID = Date.now() * Math.random();
+			this.m_instance = new this(PropertiesViewElements.m_instanceID);
 		}
 		return this.m_instance;
 	}
 
 	///////////////////////////////////////////////////////////////
-	constructor() {
+	constructor(instanceID) {
+		if (PropertiesViewElements.m_instanceID === undefined || PropertiesViewElements.m_instanceID !== instanceID){
+			throw new Error("Don't do that");
+		}
+		PropertiesViewElements.m_instanceID = undefined;
 		this._getViewElementIds();
 	}
 
