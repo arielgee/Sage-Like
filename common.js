@@ -1547,6 +1547,17 @@ let slUtil = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function getFeedPreviewUrl(url) {
+		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + encodeURIComponent(url));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getFeedPreviewUrlByBrowserVersion(url, browserVersion) {
+		// V64 RSS support dropped
+		return browserVersion >= "64" ? getFeedPreviewUrl(url) : url;
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -1575,6 +1586,8 @@ let slUtil = (function() {
 		showInfoBar: showInfoBar,
 		getQueryStringValue: getQueryStringValue,
 		getBrowserVersion: getBrowserVersion,
+		getFeedPreviewUrl: getFeedPreviewUrl,
+		getFeedPreviewUrlByBrowserVersion: getFeedPreviewUrlByBrowserVersion,
 	};
 
 })();
