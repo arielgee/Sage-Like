@@ -25,15 +25,7 @@
 
 	//////////////////////////////////////////////////////////////////////
 	// firefox commands (keyboard)
-	browser.commands.onCommand.addListener((command) => {
-
-		switch (command) {
-			case "kb-open-sage-like":
-				toggleSidebar();
-				break;
-				//////////////////////////////////////////////////////////////
-		}
-	});
+	//browser.commands.onCommand.addListener((command) => {	});
 
 	//////////////////////////////////////////////////////////////////////
 	// Sage-Like Toolbar button
@@ -47,7 +39,7 @@
 	//////////////////////////////////////////////////////////////////////
 	function toggleSidebar() {
 
-		console.log("[Sage-Like]", "Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465");
+		console.log("[Sage-Like]", "Can't close Sage-Like sidebar. Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465");
 
 		browser.sidebarAction.open();		// supported in 57.0
 

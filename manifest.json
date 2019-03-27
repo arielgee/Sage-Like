@@ -47,11 +47,10 @@
 		}
 	},
 	"commands": {
-		"kb-open-sage-like": {
+		"_execute_browser_action": {
 			"suggested_key": {
 				"default": "Ctrl+Shift+F2"
-			},
-			"description": "Open Sage-Like sidebar"
+			}
 		}
 	},
 	"background": {
