@@ -215,6 +215,8 @@ let rssListView = (function() {
 		event.stopPropagation();
 		clearTimeout(m_timeoutMouseOver);
 
+		if(contextMenu.isOpen()) return;	// don't display feed-item description panel when context menu is open
+
 		let elmLI = event.target;
 
 		// if there is a title then do not display item description

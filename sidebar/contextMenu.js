@@ -1,6 +1,6 @@
 "use strict";
 
-(function() {
+let contextMenu = (function() {
 
 	let ContextAction = Object.freeze({
 		treeOpen:				1,
@@ -40,6 +40,7 @@
 	let m_currentContext = "";
 	let m_bActivePanelOpened = false;
 	let m_browserVersion;				// V64 RSS support dropped
+	let m_isContextMenuOpen = false;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
@@ -72,6 +73,11 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function isOpen() {
+		return m_isContextMenuOpen;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function closeContextMenu() {
 
 		m_elmContextMenu.style.display = "none";
@@ -86,6 +92,8 @@
 				rssListView.setFocus();
 			}
 		}
+
+		m_isContextMenuOpen = false;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +158,7 @@
 			m_elmContextMenu.style.top = y + "px";
 
 			m_elmContextMenu.focus();
+			m_isContextMenuOpen = true;
 		}
 		event.preventDefault();
 	}
@@ -449,5 +458,8 @@
 	function getFeedPreviewUrl(url) {
 		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + encodeURIComponent(url));
 	}
+	return {
+		isOpen: isOpen,
+	};
 
 })();
