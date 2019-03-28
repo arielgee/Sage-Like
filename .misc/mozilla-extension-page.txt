@@ -11,6 +11,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS and RDF). Like its a
   <li>Fully customizable tree view. Add, edit & delete feeds and folders directly from the sidebar.</li>
   <li>Context menus for feeds and for feed-items (articles) offer more actions.</li>
   <li>Feed preview (via: feed → context menu → Open xxx).</li>
+  <li>Support for import & export feed subscriptions using an OPML file.</li>
   <li>Customizable UI font & colors.</li>
 </ul>
 
@@ -25,7 +26,7 @@ atom, channel, discover, easy, feed, feedbro, feeder, feedly, pinrss, rdf, reade
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>OPML support for import/export of the RSS feeds from the options page.</li>
+  <li>OPML support for import/export of feed subscriptions from the options page.</li>
   <li>Support for shortcut keys to nearly all Sage-Like commands. See context menus.</li>
   <li>Font customization (name & size) from the options page.</li>
   <li>Show message while a tree item is being dragged to tell the user how to drop item inside a folder (for a limited time).</li>
@@ -38,7 +39,7 @@ atom, channel, discover, easy, feed, feedbro, feeder, feedly, pinrss, rdf, reade
 
 <b>Unresolved</b>
 <ul>
-  <li>The Toolbar button and the <i>Ctrl+Shift+F2</i> command to close the Sage-Like sidebar will not work properly until Mozilla fixes <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1438465">bug 1438465</a>.</li>
+  <li>The toolbar button and the <i>Ctrl+Shift+F2</i> command to close the Sage-Like sidebar will not work properly until Mozilla fixes <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1438465">bug 1438465</a>.</li>
 </ul>
 
 
