@@ -1122,8 +1122,18 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFeedProperties(elmLI) {
 		NewFeedPropertiesView.i.show(elmLI, "New Feed", "").then((result) => {
-			createNewFeed(result.elmLI, result.title, result.url, result.updateTitle, result.inSubTree);
+			createNewFeedExtended(result.elmLI, result.title, result.url, result.updateTitle, result.inSubTree);
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFeedExtended(elmItem, title, url, updateTitle, inSubTree) {
+
+		if (elmItem.id === slGlobals.ID_UL_RSS_TREE_VIEW) {
+			createNewFeedInRootFolder(title, url, updateTitle);
+		} else {
+			createNewFeed(elmItem, title, url, updateTitle, inSubTree);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1164,10 +1174,52 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFeedInRootFolder(title, url, updateTitle) {
+
+		prefs.getRootFeedsFolderId().then((folderId) => {
+
+			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				console.log("[Sage-Like]", "Can't create new feed in root folder when root folder is not set.");
+				return;
+			}
+
+			let newBookmark = {
+				parentId: folderId,
+				title: title,
+				type: "bookmark",
+				url: url,
+			};
+
+			suspendBookmarksEventHandler(() => {
+				return browser.bookmarks.create(newBookmark).then((created) => {
+
+					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
+
+					m_elmTreeRoot.appendChild(newElm);
+
+					setFeedVisitedState(newElm, false);
+					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle });
+					newElm.focus();
+				});
+			});
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFolderProperties(elmLI) {
 		NewFolderPropertiesView.i.show(elmLI, "New Folder").then((result) => {
-			createNewFolder(result.elmLI, result.title, result.inSubTree);
+			createNewFolderExtended(result.elmLI, result.title, result.inSubTree);
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFolderExtended(elmItem, title, inSubTree) {
+
+		if (elmItem.id === slGlobals.ID_UL_RSS_TREE_VIEW) {
+			createNewFolderInRootFolder(title);
+		} else {
+			createNewFolder(elmItem, title, inSubTree);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1203,6 +1255,38 @@ let rssTreeView = (function() {
 						elmLI.parentElement.insertBefore(newElm, elmLI);
 					}
 
+					newElm.focus();
+				});
+			});
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createNewFolderInRootFolder(title) {
+
+		prefs.getRootFeedsFolderId().then((folderId) => {
+
+			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				console.log("[Sage-Like]", "Can't create new folder in root folder when root folder is not set.");
+				return;
+			}
+
+			let newFolder = {
+				parentId: folderId,
+				title: title,
+				type: "folder",
+			};
+
+			suspendBookmarksEventHandler(() => {
+				return browser.bookmarks.create(newFolder).then((created) => {
+
+					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
+					let elmUL = createTagUL();
+
+					newElm.appendChild(elmUL);
+					m_elmTreeRoot.appendChild(newElm);
+
+					setSubTreeState(newElm, false);
 					newElm.focus();
 				});
 			});

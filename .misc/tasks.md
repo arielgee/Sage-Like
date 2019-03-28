@@ -232,11 +232,12 @@
 * when opening a folder in tree that is at the bottom it is opend outside the viewport (annoying) file explorer is scrolling the folder to the top of the viewport
 * keystrokes to feed-item read/unread toggle (context menu shortcut keys) and maybe to some other menu items?
 * replace Array.indexOf() with Array.includes()
+* allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 ---
 
 ## Next
 
-* allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
+* showing the context menu when the root folder is not set?
 * replace options screenshot.
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
