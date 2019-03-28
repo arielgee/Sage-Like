@@ -1755,6 +1755,11 @@ let rssTreeView = (function() {
 		}, 800);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function isRssTreeCreatedOK() {
+		return m_rssTreeCreatedOK;
+	}
+
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
@@ -1767,6 +1772,7 @@ let rssTreeView = (function() {
 		isFeedInTree: isFeedInTree,
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,
+		isRssTreeCreatedOK: isRssTreeCreatedOK,
 	};
 
 })();

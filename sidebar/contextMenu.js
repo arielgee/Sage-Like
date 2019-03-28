@@ -99,6 +99,14 @@ let contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onContextMenu(event) {
 
+		event.preventDefault();
+
+		// don't show menu if tree has issues
+		if ( !rssTreeView.isRssTreeCreatedOK() ) {
+			browser.runtime.openOptionsPage();
+			return;
+		}
+
 		m_bActivePanelOpened = false;
 		m_elmEventTarget = event.target;
 
@@ -160,7 +168,6 @@ let contextMenu = (function() {
 			m_elmContextMenu.focus();
 			m_isContextMenuOpen = true;
 		}
-		event.preventDefault();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
