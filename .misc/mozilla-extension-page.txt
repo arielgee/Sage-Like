@@ -5,13 +5,13 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS and RDF). Like its a
 
 <b>Features</b>
 <ul>
-  <li>Sidebar based display.</li>
+  <li>A sidebar based display.</li>
   <li>Feed discovery.</li>
   <li>Integrated with the browser's native bookmarks.</li>
-  <li>Fully customizable feeds tree. Add, edit and delete feeds and feed folders directly from the sidebar.</li>
-  <li>Context menus for feeds and for feed-items (articles) provide more actions.</li>
+  <li>Fully customizable tree view. Add, edit & delete feeds and folders directly from the sidebar.</li>
+  <li>Context menus for feeds and for feed-items (articles) offer more actions.</li>
   <li>Feed preview (via: feed → context menu → Open xxx).</li>
-  <li>Customizable UI colors.</li>
+  <li>Customizable UI font & colors.</li>
 </ul>
 
 
@@ -25,12 +25,24 @@ atom, channel, discover, easy, feed, feedbro, feeder, feedly, pinrss, rdf, reade
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Restore the state of the sidebar after its reopened. Splitter position, scroll position and selected feed in tree.</li>
-  <li>Event throttling.</li>
-  <li>Bug fixes and performance improvements.</li>
+  <li>OPML support for import/export of the RSS feeds from the options page.</li>
+  <li>Support for shortcut keys to nearly all Sage-Like commands. See context menus.</li>
+  <li>Font customization (name & size) from the options page.</li>
+  <li>Show message while a tree item is being dragged to tell the user how to drop item inside a folder (for a limited time).</li>
+  <li>Better handling of bookmarks events.</li>
+  <li>Minor UI improvements.</li>
+  <li>Performance enhancements.</li>
+  <li>Code improvements — crossing the t's and dotting the i's.</li>
+  <li>Several bugs fixed.</li>
 </ul>
 
 <b>Unresolved</b>
 <ul>
-  <li>The Toolbar button and the <i>Ctrl+Shift+F2</i> command that open/close the Sage-Like sidebar will not work properly until Mozilla fixes <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1438465">bug 1438465</a>.</li>
+  <li>The Toolbar button and the <i>Ctrl+Shift+F2</i> command to close the Sage-Like sidebar will not work properly until Mozilla fixes <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1438465">bug 1438465</a>.</li>
 </ul>
+
+
++ Version Notes for next time
+--------------------------------------------------------------
+Code improvements - tightening the bolts.
+Under the hoods Performance enhancements.
