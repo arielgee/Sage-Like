@@ -234,11 +234,12 @@
 * replace Array.indexOf() with Array.includes()
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * showing the context menu when the root folder is not set?
+* replace ALL screenshots.
 ---
 
 ## Next
 
-* replace ALL screenshots.
+* re-desigh all popups as slide-down panels (?)
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
@@ -247,7 +248,6 @@
 * a lot of sub folders in the tree view will fuck up the UI
 
 ### low priority
-* re-desigh all popups as slide-down panels
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * support bookmark seperators in treeView.
