@@ -237,13 +237,13 @@
 * replace ALL screenshots.
 * Toggle sidebar open/close browserAction; Bug workaround using *Connection-based messaging* mecanizem. (https://bugzilla.mozilla.org/show_bug.cgi?id=1438465)
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works     => NO. If user change suggested_key it will not match.
+* parseInt() is faster the Number()
 ---
 
 ## Next
 
 * page action for feed descovery instead of toolbar button. also automatic background feed descovery for each page loaded (heavy)
 * ? change *One-off messages* with *Connection-based messaging*
-* parseInt() is faster the Number()
 * convert: "" + num is faster then num.toString()
 * re-desigh all popups as slide-down panels (?)
 

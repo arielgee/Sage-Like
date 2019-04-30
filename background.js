@@ -128,7 +128,7 @@
 			if(nextInterval.includes(":")) {
 				nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
 			}
-			m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, Number(nextInterval));
+			m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, parseInt(nextInterval));
 		}
 	}
 

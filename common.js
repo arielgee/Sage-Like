@@ -208,7 +208,7 @@ let slGlobals = (function() {
 
 	const IMAGE_SET = function(setNumber) {
 
-		setNumber = Number(setNumber);
+		setNumber = parseInt(setNumber);
 
 		if( !(IMAGE_SET_VALUES.includes(setNumber)) ) {
 			throw new Error("Invalid image set number: " + setNumber);
@@ -1224,7 +1224,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function formatTimeWithAbbreviations(value) {
 
-		let parts = value.split(":").map(x => Number(x));
+		let parts = value.split(":").map(x => parseInt(x));
 
 		let abbr = parts[0] < 12 ? "AM" : "PM";
 		parts[0] = parts[0] % 12 || 12;

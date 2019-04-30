@@ -352,7 +352,7 @@ let rssTreeView = (function() {
 				if(nextInterval.includes(":")) {
 					nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
 				}
-				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, Number(nextInterval));
+				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, parseInt(nextInterval));
 			}
 		});
 	}
@@ -367,7 +367,7 @@ let rssTreeView = (function() {
 		prefs.getCheckFeedsMethod().then(async (value) => {
 
 			let counter = 0;
-			let method = value.split(";").map(x => Number(x));
+			let method = value.split(";").map(x => parseInt(x));
 			let batchSize = method[0] === 0 ? 1 : Math.ceil(elmLIs.length / method[0]);
 			let timeoutPause = method[1];
 

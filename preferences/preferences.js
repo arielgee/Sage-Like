@@ -260,7 +260,7 @@ let preferences = (function() {
 		prefs.getImageSet().then((set) => {
 			let radios = document.getElementsByName("imageSet");
 			for(let radio of radios) {
-				if(Number(radio.value) === set) {
+				if(parseInt(radio.value) === set) {
 					radio.checked = true;
 					break;
 				}
@@ -457,7 +457,7 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickRadioImageSet(event) {
-		prefs.setImageSet(Number(event.target.value));
+		prefs.setImageSet(parseInt(event.target.value));
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_IMAGES);
 	}
 
@@ -530,7 +530,7 @@ let preferences = (function() {
 
 		let radios = document.getElementsByName("imageSet");
 		for(let radio of radios) {
-			if(Number(radio.value) === defPrefs.imageSet) {
+			if(parseInt(radio.value) === defPrefs.imageSet) {
 				radio.checked = true;
 				break;
 			}
