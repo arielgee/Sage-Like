@@ -516,7 +516,7 @@ let preferences = (function() {
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
-		m_elmCheckFeedsWhenSbClosed.value = defPrefs.checkFeedsWhenSbClosed;
+		m_elmCheckFeedsWhenSbClosed.checked = defPrefs.checkFeedsWhenSbClosed;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
