@@ -2,12 +2,25 @@
 
 (function() {
 
+	let m_windowIds = [];
+	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 
 	//////////////////////////////////////////////////////////////////////
-	// Sage-Like was installed
-	browser.runtime.onInstalled.addListener((details) => {
-		internalPrefs.setIsExtensionInstalled(details.reason === "install");
+	// Handle connection from panel.js ( NOTE: port.name is the window ID )
+	browser.runtime.onConnect.addListener((port) => {
+
+		if(port.sender.id === browser.runtime.id) {
+
+			// Connection is open from panel.js. Meaning sidebar is opend. Save ID of new window in array
+			m_windowIds.push(parseInt(port.name));
+
+			// Connection is closed. Meaning the sidebar was closed. Remove window ID from array
+			port.onDisconnect.addListener((p) => {
+				let winId = parseInt(p.name);
+				m_windowIds = m_windowIds.filter((id) => winId !== id);
+			});
+		}
 	});
 
 	//////////////////////////////////////////////////////////////////////
@@ -24,6 +37,12 @@
 	});
 
 	//////////////////////////////////////////////////////////////////////
+	// Sage-Like was installed
+	browser.runtime.onInstalled.addListener((details) => {
+		internalPrefs.setIsExtensionInstalled(details.reason === "install");
+	});
+
+	//////////////////////////////////////////////////////////////////////
 	// firefox commands (keyboard)
 	//browser.commands.onCommand.addListener((command) => {	});
 
@@ -32,25 +51,45 @@
 	browser.browserAction.onClicked.addListener(toggleSidebar);
 	browser.browserAction.setBadgeBackgroundColor({color: [0, 128, 0, 128]});
 
+	//////////////////////////////////////////////////////////////////////
+	// Remove closed windows ID from array
+	browser.windows.onRemoved.addListener((removedWinId) => {
+		m_windowIds = m_windowIds.filter((id) => removedWinId !== id);
+	});
+
+	//////////////////////////////////////////////////////////////////////
+	// Get browser's current window ID
+	browser.windows.getCurrent().then((winInfo) => {
+		m_currentWindowId = winInfo.id;
+	});
+
+	//////////////////////////////////////////////////////////////////////
+	// Change browser's current window ID
+	browser.windows.onFocusChanged.addListener((winId) => {
+		if(!!m_currentWindowId) {
+			m_currentWindowId = winId;
+		}
+	});
+
 	// start the first bookmark feeds check after 2 seconds to allow the browser's
 	// initilization to terminate and possibly the sidebar to be displayed.
 	m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, 2000);
 
+
 	//////////////////////////////////////////////////////////////////////
 	function toggleSidebar() {
 
-		console.log("[Sage-Like]", "Can't close Sage-Like sidebar. Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465");
-
-		browser.sidebarAction.open();		// supported in 57.0
+		if(m_windowIds.includes(m_currentWindowId)) {
+			browser.sidebarAction.close();		// supported in 57.0
+		} else {
+			browser.sidebarAction.open();		// supported in 57.0
+		}
 
 		//#region Bug 1398833
 		/*
 			+ Bug 1398833: https://bugzilla.mozilla.org/show_bug.cgi?id=1398833
 			+ Bug 1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 			+ sidebarAction.open/close may only be called from a user input handler
-
-			- When (and if) it's fixed I should change the browser_action.default_title
-			- string value in the manifest.json file to 'Sage-Like sidebar (Ctrl+Shift+F2)'.
 
 		browser.sidebarAction.isOpen({}).then((isOpen) => {		// supported in 59.0
 			if(isOpen) {

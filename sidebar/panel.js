@@ -28,6 +28,11 @@ let panel = (function() {
 	window.addEventListener("unload", onUnload);
 
 	/**************************************************/
+	browser.windows.getCurrent().then((winInfo) => {
+		browser.runtime.connect({name: "" + winInfo.id});	// port.name is the window ID
+	});
+
+	/**************************************************/
 	browser.runtime.onMessage.addListener((message) => {
 
 		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {

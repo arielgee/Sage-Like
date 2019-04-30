@@ -235,14 +235,20 @@
 * allow to add new feed/folder to the root feed folder when right clicking the treeView root UL
 * showing the context menu when the root folder is not set?
 * replace ALL screenshots.
+* Toggle sidebar open/close browserAction; Bug workaround using *Connection-based messaging* mecanizem. (https://bugzilla.mozilla.org/show_bug.cgi?id=1438465)
+* In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works     => NO. If user change suggested_key it will not match.
 ---
 
 ## Next
 
+* page action for feed descovery instead of toolbar button. also automatic background feed descovery for each page loaded (heavy)
+* ? change *One-off messages* with *Connection-based messaging*
+* parseInt() is faster the Number()
+* convert: "" + num is faster then num.toString()
 * re-desigh all popups as slide-down panels (?)
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
-* In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works
+* for now there is a bug workaround using *Connection-based messaging* mecanizem.
 
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI
