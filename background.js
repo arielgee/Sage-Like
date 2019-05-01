@@ -6,10 +6,36 @@
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 
-	//////////////////////////////////////////////////////////////////////
-	// Handle connection from panel.js ( NOTE: port.name is the window ID )
-	browser.runtime.onConnect.addListener((port) => {
+	initilization();
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+
+		browser.runtime.onConnect.addListener(onRuntimeConnect);				// Handle connection from panel.js
+		browser.runtime.onMessage.addListener(onRuntimeMessage);				// Messages handler
+		browser.runtime.onInstalled.addListener(onRuntimeInstalled);			// Sage-Like was installed
+		//browser.commands.onCommand.addListener((command) => {	});				// firefox commands (keyboard)
+		browser.browserAction.onClicked.addListener(onBrowserActionClicked);	// Sage-Like Toolbar button - toggle sidebar
+		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
+		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
+
+		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
+		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
+
+		// start the first bookmark feeds check after 2 seconds to allow the browser's
+		// initilization to terminate and possibly the sidebar to be displayed.
+		m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, 2000);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//		Event listener handlers
+	////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onRuntimeConnect(port) {
+
+		// Handle connection from panel.js
+		// + NOTE: port.name is the window ID
 		if(port.sender.id === browser.runtime.id) {
 
 			// Connection is open from panel.js. Meaning sidebar is opend. Save ID of new window in array
@@ -21,11 +47,10 @@
 				m_windowIds = m_windowIds.filter((id) => winId !== id);
 			});
 		}
-	});
+	}
 
-	//////////////////////////////////////////////////////////////////////
-	// Messages handler
-	browser.runtime.onMessage.addListener((message) => {
+	////////////////////////////////////////////////////////////////////////////////////
+	function onRuntimeMessage(message) {
 
 		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
 
@@ -34,50 +59,15 @@
 				monitorBookmarkFeeds();
 			}
 		}
-	});
+	}
 
-	//////////////////////////////////////////////////////////////////////
-	// Sage-Like was installed
-	browser.runtime.onInstalled.addListener((details) => {
+	////////////////////////////////////////////////////////////////////////////////////
+	function onRuntimeInstalled(details) {
 		internalPrefs.setIsExtensionInstalled(details.reason === "install");
-	});
+	}
 
-	//////////////////////////////////////////////////////////////////////
-	// firefox commands (keyboard)
-	//browser.commands.onCommand.addListener((command) => {	});
-
-	//////////////////////////////////////////////////////////////////////
-	// Sage-Like Toolbar button
-	browser.browserAction.onClicked.addListener(toggleSidebar);
-	browser.browserAction.setBadgeBackgroundColor({color: [0, 128, 0, 128]});
-
-	//////////////////////////////////////////////////////////////////////
-	// Remove closed windows ID from array
-	browser.windows.onRemoved.addListener((removedWinId) => {
-		m_windowIds = m_windowIds.filter((id) => removedWinId !== id);
-	});
-
-	//////////////////////////////////////////////////////////////////////
-	// Get browser's current window ID
-	browser.windows.getCurrent().then((winInfo) => {
-		m_currentWindowId = winInfo.id;
-	});
-
-	//////////////////////////////////////////////////////////////////////
-	// Change browser's current window ID
-	browser.windows.onFocusChanged.addListener((winId) => {
-		if(!!m_currentWindowId) {
-			m_currentWindowId = winId;
-		}
-	});
-
-	// start the first bookmark feeds check after 2 seconds to allow the browser's
-	// initilization to terminate and possibly the sidebar to be displayed.
-	m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, 2000);
-
-
-	//////////////////////////////////////////////////////////////////////
-	function toggleSidebar() {
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBrowserActionClicked() {
 
 		if(m_windowIds.includes(m_currentWindowId)) {
 			browser.sidebarAction.close();		// supported in 57.0
@@ -101,6 +91,22 @@
 		*/
 		//#endregion
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onWindowsRemoved(removedWinId) {
+		m_windowIds = m_windowIds.filter((id) => removedWinId !== id);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onWindowsFocusChanged(winId) {
+		if(!!m_currentWindowId) {
+			m_currentWindowId = winId;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//		Feed monitor
+	////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function monitorBookmarkFeeds() {
@@ -167,4 +173,5 @@
 			console.log("[Sage-Like]", error);
 		});
 	}
+
 })();
