@@ -34,7 +34,8 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onRuntimeConnect(port) {
 
-		// Handle connection from panel.js
+		// Handle connection opend from panel.js
+
 		// + NOTE: port.name is the window ID
 		if(port.sender.id === browser.runtime.id) {
 
@@ -42,6 +43,7 @@
 			m_windowIds.push(parseInt(port.name));
 
 			// Connection is closed. Meaning the sidebar was closed. Remove window ID from array
+			// It will not be called when the browser's window is closed by the user. This is handled by onWindowsRemoved()
 			port.onDisconnect.addListener((p) => {
 				let winId = parseInt(p.name);
 				m_windowIds = m_windowIds.filter((id) => winId !== id);
