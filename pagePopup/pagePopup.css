@@ -1,0 +1,99 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+:root {
+	--line-height: 19px;		/* UI density: Comfortable */
+}
+
+body {
+	padding: 5px 10px 10px 10px;
+	font-size: 110%;
+	background-color: #505050;
+	color: rgb(240, 240, 240)
+}
+
+#popupCaption {
+	font-weight: bold;
+	font-size: 130%;
+	margin: 10px 0 10px 0;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	min-width: 100%;
+}
+
+#busyAnimLoading {
+	--size-image: 32px;
+	--color-image: #FFFFFF;
+	display: block;
+	width: var(--size-image);
+	height: var(--size-image);
+	margin: 0 auto;
+	border-radius: 50%;
+	border: 6px solid var(--color-image);
+	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
+	animation: busyAnimLoadingFrames 1s linear infinite;
+}
+@keyframes busyAnimLoadingFrames {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+
+#pageFeedsList {
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 10px 0;
+	overflow: auto;
+	font-weight: normal;
+}
+
+.feedItem {
+	padding: 4px;
+	display: flex;
+	justify-content: left;
+	flex-wrap: nowrap;
+	align-items: center;
+	overflow: hidden;
+	margin: 3px;
+	border-radius: 4px;
+}
+
+.feedItem:hover {
+	background-color: rgb(30, 30, 30);
+}
+
+.feedItem .feedChkBox {
+	margin: auto;
+}
+
+.feedItem .feedLabel {
+	margin: auto;
+	padding-left: 6px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	min-width: 100%;
+}
+
+.buttonContainer {
+	display: flex;
+	justify-content: right;
+}
+
+.pfButton {
+	padding: 1px 10px;
+	background-color: rgb(251, 251, 251);
+	border: 1px solid rgb(193, 193, 193);
+	border-radius: 2px;
+	height: 30px;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.pfButton:hover {
+	background-color: rgb(235, 235, 235);
+}
+
+.pfButton:active:hover {
+	background-color: rgb(218, 218, 218);
+}

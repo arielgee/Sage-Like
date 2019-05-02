@@ -245,6 +245,15 @@
 * page action for feed descovery instead of toolbar button. also automatic background feed descovery for each page loaded (heavy)
 * ? change *One-off messages* with *Connection-based messaging*
 * convert: "" + num is faster then num.toString()
+* in descovery look for links <a> with the name feed or syndication or syndicate
+* create initilization(); functions in all js files
+* page Popup text direction match page text direction
+* replace 'browser.tabs.query({ currentWindow: true' with 'browser.tabs.getCurrent()'
+* in descovery view if domain name is empty use doc title (ex; file:///C:/Users/arielg/Desktop/Example.htm). also add title to view UI
+* in descovery view in runDiscoverFeeds() use pageData.getCurrent() instead of pageData.get(); issue with message phrasing for setNoFeedsMsg()
+* use messaging between descoveryView and content.js instead of class PageData() to get document data.
+* common.js is getting very large. (expeselly when icluded in manifest's content_scripts). need to split it and include when needed.
+* in syndication.discoverWebSiteFeeds use document instead of domParser
 * re-desigh all popups as slide-down panels (?)
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465

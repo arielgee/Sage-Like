@@ -46,6 +46,15 @@
 			"48": "icons/sageLike-48.png"
 		}
 	},
+	"page_action": {
+		"browser_style": true,
+		"default_icon": {
+			"19": "icons/pagePopup-19.png",
+			"38": "icons/pagePopup-38.png"
+		},
+		"default_title": "Add Page Feeds to Sage-Like",
+		"default_popup": "/pagePopup/pagePopup.html"
+	},
 	"commands": {
 		"_execute_browser_action": {
 			"suggested_key": {
@@ -61,6 +70,17 @@
 			"background.js"
 		]
 	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": [
+				"common.js",
+				"/syndication/syndication.js",
+				"content.js"
+			],
+			"run_at": "document_end"
+		}
+	],
 	"options_ui": {
 		"browser_style": true,
 		"page": "/preferences/preferences.html"

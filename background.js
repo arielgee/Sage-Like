@@ -19,6 +19,8 @@
 		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
 
+		browser.tabs.onUpdated.addListener(onTabsUpdated);						// Check if page has feeds for pageAction TBD: User Pref
+
 		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
 
@@ -103,6 +105,21 @@
 	function onWindowsFocusChanged(winId) {
 		if(!!m_currentWindowId) {
 			m_currentWindowId = winId;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onTabsUpdated(tabId, changeInfo, tab) {
+
+		if (!tab.url.match(/^about:/) && tab.status === "complete") {
+
+			browser.tabs.sendMessage(tabId, { message: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
+
+				if(response.feedCount > 0) {
+					browser.pageAction.show(tabId);
+				}
+
+			}).catch((error) => console.log("[Sage-Like]", error));
 		}
 	}
 
