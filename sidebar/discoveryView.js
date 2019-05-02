@@ -2,13 +2,6 @@
 
 let discoveryView = (function() {
 
-	const MSGID_GET_DOC_TEXT_HTML = "msgGetDocumentTextHTML";
-
-	const CODE_INJECTION = "browser.runtime.sendMessage( { id: \"" + MSGID_GET_DOC_TEXT_HTML + "\"," +
-														  "txtHTML: document.documentElement.outerHTML," +
-														  "domainName: document.domain," +
-														  "origin: window.location.origin, } );";
-
 	//==================================================================================
 	//=== Variables Declerations
 	//==================================================================================
@@ -26,13 +19,6 @@ let discoveryView = (function() {
 	let m_nRequestId = 0;
 
 	let m_funcPromiseResolve = null;
-
-	/**************************************************/
-	browser.runtime.onMessage.addListener((message) => {
-		if(message.id === MSGID_GET_DOC_TEXT_HTML) {
-			loadDiscoverFeedsList(message.txtHTML, message.domainName, message.origin);
-		}
-	});
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function show() {
@@ -111,13 +97,17 @@ let discoveryView = (function() {
 
 			if(tab[0].status === "loading") {
 				setNoFeedsMsg("Current tab is still loading.");
-				return;
-			}
+			} else {
 
-			browser.tabs.executeScript(tab[0].id, { code: CODE_INJECTION, runAt: "document_start" }).catch((error) => {
-				setNoFeedsMsg("Unable to access current tab.");
-				//console.log("[Sage-Like]", error);
-			});
+				const pageData = new PageData();
+
+				pageData.get(tab[0].id).then((pageData) => {
+					loadDiscoverFeedsList(pageData.txtHTML, pageData.domainName, pageData.origin);
+				}).catch((error) => {
+					setNoFeedsMsg("Unable to access current tab.");
+					//console.log("[Sage-Like]", error);
+				}).finally(() => pageData.dispose());
+			}
 		});
 	}
 

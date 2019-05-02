@@ -158,6 +158,89 @@ class TreeFeedsData extends StoredKeyedItems {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+class PageData {
+
+	//////////////////////////////////////////
+	constructor() {
+
+		this._MSGID_GET_PAGE_DATA = "msg_pageData_getDocumentData";
+
+		this._CODE_INJECTION = "browser.runtime.sendMessage( { id: \"" + this._MSGID_GET_PAGE_DATA + "\"," +
+															  "title: document.title," +
+															  "domainName: document.domain," +
+															  "origin: window.location.origin," +
+															  "txtHTML: document.documentElement.outerHTML, } );";
+
+		this._funcPromiseResolve = null;
+		this._funcPromiseReject = null;
+
+		this._onRuntimeMessage = this._onRuntimeMessage.bind(this);
+
+		browser.runtime.onMessage.addListener(this._onRuntimeMessage);
+	}
+
+	//////////////////////////////////////////
+	dispose() {
+		browser.runtime.onMessage.removeListener(this._onRuntimeMessage);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	get(tabId) {
+
+		return new Promise((resolve, reject) => {
+
+			this._funcPromiseResolve = resolve;
+			this._funcPromiseReject = reject;
+
+			this._injectCode(tabId);
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	getCurrent() {
+
+		return new Promise((resolve, reject) => {
+
+			this._funcPromiseResolve = resolve;
+			this._funcPromiseReject = reject;
+
+			browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
+
+				if(tab[0].status === "loading") {
+					reject({errorMsg: "Current tab is still loading.", nativeError: null });
+				} else {
+					this._injectCode(tab[0].id);
+				}
+
+			}).catch((error) => {
+				reject({errorMsg: "Query for current tab failed.", nativeError: error });
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	_injectCode(tabId) {
+
+		browser.tabs.executeScript(tabId, { code: this._CODE_INJECTION, runAt: "document_end" }).catch((error) => {
+
+			if(typeof this._funcPromiseReject === "function") {
+				this._funcPromiseReject({errorMsg: "Code injection failed.", nativeError: error });
+				this._funcPromiseReject = null;
+			}
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	_onRuntimeMessage(message) {
+
+		if(message.id === this._MSGID_GET_PAGE_DATA && (typeof this._funcPromiseResolve === "function")) {
+			this._funcPromiseResolve({ title: message.title, domainName: message.domainName, origin: message.origin, txtHTML: message.txtHTML });
+			this._funcPromiseResolve = null;
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 let slGlobals = (function() {
 
 	const ID_UL_RSS_TREE_VIEW = "rssTreeView";
