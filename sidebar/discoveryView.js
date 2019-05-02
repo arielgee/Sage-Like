@@ -176,7 +176,7 @@ let discoveryView = (function() {
 		elmCheckBox.type = "checkbox";
 		elmCheckBox.setAttribute("tabindex", "-1");	// only the elmListItem can get the focus
 
-		elmLabelCaption.textContent = (feed.feedTitle.length > 0 ? feed.feedTitle : feed.linkTitle);
+		elmLabelCaption.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : feed.linkTitle);
 		elmLabelCaption.className = "dfLabelCaption";
 
 		elmLabelFormat.textContent = feed.format;
