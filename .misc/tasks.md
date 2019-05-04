@@ -252,8 +252,9 @@
 * in descovery view if domain name is empty use doc title (ex; file:///C:/Users/arielg/Desktop/Example.htm). also add title to view UI
 * in descovery view in runDiscoverFeeds() use pageData.getCurrent() instead of pageData.get(); issue with message phrasing for setNoFeedsMsg()
 * use messaging between descoveryView and content.js instead of class PageData() to get document data.
-* common.js is getting very large. (expeselly when icluded in manifest's content_scripts). need to split it and include when needed.
+* common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.
 * in syndication.discoverWebSiteFeeds use document instead of domParser
+* at http://feeds.tomercohen.com/tomercohen the page feeds is empty
 * re-desigh all popups as slide-down panels (?)
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465

@@ -19,7 +19,7 @@
 		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
 
-		browser.tabs.onUpdated.addListener(onTabsUpdated);						// Check if page has feeds for pageAction TBD: User Pref
+		browser.tabs.onUpdated.addListener(onTabsUpdated);						// Check if page has feeds for pageAction TBD: User Pref / extraParameters; {url:["*://*/*"], properties:["status"]}
 
 		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
@@ -111,15 +111,29 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsUpdated(tabId, changeInfo, tab) {
 
-		if (!tab.url.match(/^about:/) && tab.status === "complete") {
+		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
+		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
+		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(/^(https?|file):/)) {
 
-			browser.tabs.sendMessage(tabId, { message: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
+			let injectCommon = browser.tabs.executeScript(tabId, { file: "/common.js", runAt: "document_end" });
+			let injectSyndic = browser.tabs.executeScript(tabId, { file: "/syndication/syndication.js", runAt: "document_end" });
+			let injectContent = browser.tabs.executeScript(tabId, { file: "/content.js", runAt: "document_end" });
 
-				if(response.feedCount > 0) {
-					browser.pageAction.show(tabId);
-				}
+			injectCommon.then(() => {
+				injectSyndic.then(() => {
+					injectContent.then(() => {
 
-			}).catch((error) => console.log("[Sage-Like]", error));
+						browser.tabs.sendMessage(tabId, { message: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
+
+							if(response.feedCount > 0) {
+								browser.pageAction.show(tabId);
+							}
+
+						}).catch((error) => console.log("[Sage-Like]", "send message", error));
+
+					}).catch((error) => console.log("[Sage-Like]", "inject content.js", error));
+				}).catch((error) => console.log("[Sage-Like]", "inject syndication.js", error));
+			}).catch((error) => console.log("[Sage-Like]", "inject common.js", error));
 		}
 	}
 
