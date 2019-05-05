@@ -1032,26 +1032,12 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function addNewFeeds(newFeedsList) {
 
-		let index, parentId;
-		let last = m_elmTreeRoot.lastElementChild;
-
-		// tree can be empty
-		if (last === null || last.id === undefined || last.id === "") {
-			index = -1;
-			parentId = await prefs.getRootFeedsFolderId();
-		} else {
-			let bookmarks = await browser.bookmarks.get(last.id);
-			index = bookmarks[0].index;
-			parentId = bookmarks[0].parentId;
-		}
-
-		let counter = 1;
 		let bookmarksList = [];
+		let parentId = await prefs.getRootFeedsFolderId();
 
 		for(let feed of newFeedsList) {
 
 			bookmarksList.push( {
-				index: index + (counter++),
 				parentId: parentId,
 				title: feed.title,
 				url: feed.url,
