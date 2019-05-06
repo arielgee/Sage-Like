@@ -262,8 +262,12 @@ let rssTreeView = (function() {
 
 		// ++ normalize the textContent
 		if(textContent.length === 0) {
-			let url = new URL(href);
-			textContent = (href === null) ? slGlobals.STR_TITLE_EMPTY : url.hostname;
+			try {
+				let url = new URL(href);
+				textContent = url.hostname;
+			} catch {
+				textContent = slGlobals.STR_TITLE_EMPTY;
+			}
 		}
 
 		let elmCaption = document.createElement("div");
