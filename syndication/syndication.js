@@ -213,6 +213,7 @@ let syndication = (function() {
 
 		let feedData = {
 			standard: SyndicationStandard.invalid,
+			xmlVersion: "",
 			xmlEncoding: "",
 			feeder: {},
 			title: "",
@@ -222,15 +223,19 @@ let syndication = (function() {
 			errorMsg: "",
 		};
 
-		// try to avoid a stupid XML/RSS Parsing Errors
-		txtXML = txtXML.replace(RegExp("^[ \t\n\r]+"), "");							// XML declaration (prolog) not at start of document
-		txtXML = txtXML.replace(RegExp("(</(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\\S\\s]+"), "$1");		// junk after document element
+		// try to get XML version from the XML prolog
+		let test = txtXML.match(/^<\?xml[^>]*version="([^"]*)"[^>]*>/);
+		if(test && test[1]) {
+			feedData.xmlVersion = test[1];
+		}
 
 		// try to get XML encoding from the XML prolog
-		let test = txtXML.match(/^<\?xml[^>]*encoding="([^"]*)"[^>]*>/);
+		test = txtXML.match(/^<\?xml[^>]*encoding="([^"]*)"[^>]*>/);
 		if(test && test[1]) {
 			feedData.xmlEncoding = test[1];
 		}
+
+		txtXML = removeXMLParsingErrors(txtXML, feedData.xmlVersion);
 
 		let doc = m_domParser.parseFromString(txtXML, "text/xml");
 
@@ -404,6 +409,25 @@ let syndication = (function() {
 			}
 		}
 		return ary;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function removeXMLParsingErrors(txtXML, xmlVersion) {
+
+		// try to avoid stupid XML/RSS Parsing Errors
+		txtXML = txtXML.replace(RegExp("^[ \t\n\r]+"), "");							// XML declaration (prolog) not at start of document
+		txtXML = txtXML.replace(RegExp("(</(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\\S\\s]+"), "$1");		// junk after document element
+
+		// remove invalid characters
+		if(xmlVersion === "1.0") {
+			// xml 1.0	-	https://www.w3.org/TR/REC-xml/#charsets
+			txtXML = txtXML.replace(RegExp("[^\u0009\r\n\u0020-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+", "ug"), "");
+		} else if(xmlVersion === "1.1") {
+			// xml 1.1	-	https://www.w3.org/TR/2006/REC-xml11-20060816/#charsets
+			txtXML = txtXML.replace(RegExp("[^\u0001-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+", "ug"), "");
+		}
+
+		return txtXML;
 	}
 
 	//////////////////////////////////////////
