@@ -265,7 +265,6 @@ let slGlobals = (function() {
 	const MSG_ID_GET_PAGE_DATA							= 106;
 	const MSG_ID_WAIT_AND_HIDE_POPUP					= 107;
 	const MSG_ID_ADD_NEW_DISCOVERED_FEEDS				= 108;
-	const MSG_ID_SIDEBAR_OPEN_FOR_WINDOW				= 109;
 
 	// Message Details IDs
 	const MSGD_PREF_CHANGE_ALL								= 1001;

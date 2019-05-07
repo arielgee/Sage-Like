@@ -256,7 +256,7 @@
   * in descovery view in runDiscoverFeeds() use pageData.getCurrent() instead of pageData.get(); issue with message phrasing for setNoFeedsMsg()
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.
 * in syndication.discoverWebSiteFeeds use document instead of domParser
-* in message listeners the message id is sometimes 'id' and sometime 'message'. background.js, content.js CHANGE ALL TO 'id'
+* in message listeners the message id is sometimes 'id' and sometime 'message'. background.js, content.js CHANGE ALL TO 'msgId'
 * sort the feeds in the descoveryView like its done in the pagePopup.js createFeedList()  (feeds.sort) => problematic may interfere with user actions
 * try to resolve the setTimeout(420) in pageData.js
 * re-desigh all popups as slide-down panels (?)

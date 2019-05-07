@@ -43,27 +43,12 @@ let pagePopup = (function() {
 
 		if(newFeedsList.length > 0) {
 
-			browser.windows.getCurrent().then((winInfo) => {
-				browser.runtime.sendMessage({id: slGlobals.MSG_ID_SIDEBAR_OPEN_FOR_WINDOW, winId: winInfo.id }).then((isOpen) => {
+			browser.sidebarAction.open().then(() => {
 
-					if(isOpen) {
-						dispatchNewDiscoveredFeeds(newFeedsList)
-						console.log("[Sage-Like]", "is open");
-					} else {
-						console.log("[Sage-Like]", "is MOT open");
-						// Wait for the sidebar to completely be loaded and the message listener registered in the
-						// page content so the message sent in the next line will be received in the content.
-						setTimeout(() =>  dispatchNewDiscoveredFeeds(newFeedsList), 420);
-					}
-				}).catch((e) => { console.log("[Sage-Like]", err, e);});
+				// Wait for the sidebar to completely be loaded and the message listener registered in the
+				// page content so the message sent in the next line will be received in the content.
+				setTimeout(() =>  dispatchNewDiscoveredFeeds(newFeedsList), 420);
 			});
-
-			// browser.sidebarAction.open().then(() => {
-
-			// 	// Wait for the sidebar to completely be loaded and the message listener registered in the
-			// 	// page content so the message sent in the next line will be received in the content.
-			// 	setTimeout(() =>  dispatchNewDiscoveredFeeds(newFeedsList), 420);
-			// });
 		} else {
 			updateStatusBar("Nothing to add.");
 		}
