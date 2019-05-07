@@ -51,7 +51,7 @@ let syndication = (function() {
 
 				getFeedXMLText(url, reload, timeout).then((feedXML) => {
 
-					let feedData = getFeedData(feedXML.txtXML);
+					let feedData = getFeedData(feedXML.txtXML, url);
 
 					if(feedData.standard === SyndicationStandard.invalid) {
 						discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
@@ -81,7 +81,7 @@ let syndication = (function() {
 
 			getFeedXMLText(url, reload, timeout).then((feedXML) => {
 
-				let feedData = getFeedData(feedXML.txtXML);
+				let feedData = getFeedData(feedXML.txtXML, url);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
 					reject(new SyndicationError("Failed to get feed data.", feedData.errorMsg));
@@ -209,7 +209,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedData(txtXML) {
+	function getFeedData(txtXML, logUrl) {
 
 		let feedData = {
 			standard: SyndicationStandard.invalid,
@@ -242,7 +242,7 @@ let syndication = (function() {
 		// return if XML not well-formed
 		if(doc.documentElement.nodeName === "parsererror") {
 
-			console.log("[Sage-Like]", "Parser Error\n", doc.documentElement.textContent);
+			console.log("[Sage-Like]", "Parser Error at " + logUrl + "\n", doc.documentElement.textContent);
 
 			// the first line and the error location
 			let found = doc.documentElement.textContent.match(/^(.*)[\s\S]*(line number \d+, column \d+):.*/i);
