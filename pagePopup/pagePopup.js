@@ -76,7 +76,7 @@ let pagePopup = (function() {
 
 			let currentTabId = tabs[0].id;
 
-			browser.tabs.sendMessage(currentTabId, { message: slGlobals.MSG_ID_GET_PAGE_DATA }).then((response) => {
+			browser.tabs.sendMessage(currentTabId, { id: slGlobals.MSG_ID_GET_PAGE_DATA }).then((response) => {
 
 				elmSubCaption.textContent = response.title;
 
@@ -178,7 +178,7 @@ let pagePopup = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function dispatchNewDiscoveredFeeds(newFeedsList) {
 
-		browser.runtime.sendMessage({id: slGlobals.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, winId: m_windowId, feeds: newFeedsList }).then((response) => {
+		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, winId: m_windowId, feeds: newFeedsList }).then((response) => {
 
 			if(!!response && !!response.existInTree) {
 				updateStatusBar("Already in tree: '" + response.existInTree + "'.");

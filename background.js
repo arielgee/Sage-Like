@@ -125,7 +125,7 @@
 
 			injectContentScripts(tabId).then((result) => {
 
-				browser.tabs.sendMessage(tabId, { message: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
+				browser.tabs.sendMessage(tabId, { id: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
 					if(response.feedCount > 0) {
 						browser.pageAction.show(tabId);
 					}
@@ -207,6 +207,8 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//		Helper functions
+	////////////////////////////////////////////////////////////////////////////////////
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function injectContentScripts(tabId) {
 

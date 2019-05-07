@@ -13,11 +13,11 @@ class Content {
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	_onRuntimeMessage(request, sender) {
+	_onRuntimeMessage(message, sender) {
 
 		return new Promise((resolve, reject) => {
 
-			switch (request.message) {
+			switch (message.id) {
 
 				case slGlobals.MSG_ID_GET_PAGE_FEED_COUNT:
 					this._collectPageFeeds().then((count) => resolve({ feedCount: count }));
