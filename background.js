@@ -56,12 +56,28 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onRuntimeMessage(message) {
 
-		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
+		switch (message.id) {
 
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
-				monitorBookmarkFeeds();
-			}
+			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
+					monitorBookmarkFeeds();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case slGlobals.MSG_ID_WAIT_AND_HIDE_POPUP:
+				setTimeout(() => browser.pageAction.hide(message.tabId), message.msWait);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+
+			case slGlobals.MSG_ID_SIDEBAR_OPEN_FOR_WINDOW:
+				console.log("[Sage-Likehh]", message.winId, m_windowIds.includes(message.winId));
+				Promise.resolve(m_windowIds.includes(message.winId));
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
 		}
 	}
 
@@ -111,29 +127,21 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsUpdated(tabId, changeInfo, tab) {
 
+		//console.log("[Sage-Like]", "onTabsUpdated", changeInfo, "\n", tab);
+
 		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
 		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
 		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(/^(https?|file):/)) {
 
-			let injectCommon = browser.tabs.executeScript(tabId, { file: "/common.js", runAt: "document_end" });
-			let injectSyndic = browser.tabs.executeScript(tabId, { file: "/syndication/syndication.js", runAt: "document_end" });
-			let injectContent = browser.tabs.executeScript(tabId, { file: "/content.js", runAt: "document_end" });
+			injectContentScripts(tabId).then((result) => {
 
-			injectCommon.then(() => {
-				injectSyndic.then(() => {
-					injectContent.then(() => {
+				browser.tabs.sendMessage(tabId, { message: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
+					if(response.feedCount > 0) {
+						browser.pageAction.show(tabId);
+					}
+				}).catch((error) => console.log("[Sage-Like]", "send message", error));
 
-						browser.tabs.sendMessage(tabId, { message: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
-
-							if(response.feedCount > 0) {
-								browser.pageAction.show(tabId);
-							}
-
-						}).catch((error) => console.log("[Sage-Like]", "send message", error));
-
-					}).catch((error) => console.log("[Sage-Like]", "inject content.js", error));
-				}).catch((error) => console.log("[Sage-Like]", "inject syndication.js", error));
-			}).catch((error) => console.log("[Sage-Like]", "inject common.js", error));
+			}).catch((error) => {console.log("[Sage-Like]", "inject content scripts", error);});
 		}
 	}
 
@@ -204,6 +212,25 @@
 
 		}).catch((error) => {
 			console.log("[Sage-Like]", error);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//		Helper functions
+	////////////////////////////////////////////////////////////////////////////////////
+	function injectContentScripts(tabId) {
+
+		return new Promise((resolve, reject) => {
+
+			browser.tabs.executeScript(tabId, { file: "/common.js", runAt: "document_end" }).then(() => {
+				browser.tabs.executeScript(tabId, { file: "/syndication/syndication.js", runAt: "document_end" }).then(() => {
+					browser.tabs.executeScript(tabId, { file: "/content.js", runAt: "document_end" }).then(() => {
+
+						resolve(1);
+
+					}).catch((err) => { err.message.startsWith("redeclaration") ? resolve(-3) : reject(err); } );
+				}).catch((err) => { err.message.startsWith("redeclaration") ? resolve(-2) : reject(err); } );
+			}).catch((err) => { err.message.startsWith("redeclaration") ? resolve(-1) : reject(err); } );
 		});
 	}
 

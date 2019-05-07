@@ -238,23 +238,27 @@
 * Toggle sidebar open/close browserAction; Bug workaround using *Connection-based messaging* mecanizem. (https://bugzilla.mozilla.org/show_bug.cgi?id=1438465)
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works     => NO. If user change suggested_key it will not match.
 * parseInt() is faster the Number()
+* Button 'Subscribe Feeds to Sage-Like'. pageAction for feed descovery instead of toolbar button. also automatic background feed descovery for each page loaded (heavy)
+* at http://feeds.tomercohen.com/tomercohen the page feeds is empty
+* page Popup text direction match page text direction   => NO
+* replace 'browser.tabs.query({ currentWindow: true' with 'browser.tabs.getCurrent()' => return undefined if not in browser tab context
 ---
 
 ## Next
-
-* page action for feed descovery instead of toolbar button. also automatic background feed descovery for each page loaded (heavy)
+* add preference for background feed descovery for web pages visible via pageAction/pagePopup
+* in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * convert: "" + num is faster then num.toString()
-* in descovery look for links <a> with the name feed or syndication or syndicate
 * create initilization(); functions in all js files
-* page Popup text direction match page text direction
-* replace 'browser.tabs.query({ currentWindow: true' with 'browser.tabs.getCurrent()'
 * in descovery view if domain name is empty use doc title (ex; file:///C:/Users/arielg/Desktop/Example.htm). also add title to view UI
-* in descovery view in runDiscoverFeeds() use pageData.getCurrent() instead of pageData.get(); issue with message phrasing for setNoFeedsMsg()
-* use messaging between descoveryView and content.js instead of class PageData() to get document data.
+* descoveryView.runDiscoverFeeds() & PageData()
+  * use messaging between descoveryView and content.js instead of class PageData() to get document data.
+  * in descovery view in runDiscoverFeeds() use pageData.getCurrent() instead of pageData.get(); issue with message phrasing for setNoFeedsMsg()
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.
 * in syndication.discoverWebSiteFeeds use document instead of domParser
-* at http://feeds.tomercohen.com/tomercohen the page feeds is empty
+* in message listeners the message id is sometimes 'id' and sometime 'message'. background.js, content.js CHANGE ALL TO 'id'
+* sort the feeds in the descoveryView like its done in the pagePopup.js createFeedList()  (feeds.sort) => problematic may interfere with user actions
+* try to resolve the setTimeout(420) in pageData.js
 * re-desigh all popups as slide-down panels (?)
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
@@ -271,9 +275,6 @@
     > elmHr.id = bookmark.id;
     > parentElement.appendChild(elmHr);
 * add dotted line to tree view => FUUUUUUCK
-
-### Toolbar button 'Subscribe Feed to Sage-Like'
-- To implement, this must be a new seperated extension becouse Web-Extensions do not allow more then one toolbat button (browser_action).
 
 ### Links for PR work
 * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741

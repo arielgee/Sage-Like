@@ -19,18 +19,21 @@
 
 	<ul id="pageFeedsList">
 
-		<div id="busyContainer">
+		<div id="busyContainer" class="feedsListInfo">
 			<div id="busyAnimLoading"></div>
-			<div id="busyMessage">Oops... Either you're too fast, or the network is too slow.<br>Please wait.</div>
+			<div id="busyText" class="infoMessage">Oops... Either you're too fast, or the network is too slow.<br>Please wait.</div>
+		</div>
+
+		<div id="noticeContainer" class="feedsListInfo">
+			<div id="noticeText" class="infoMessage">Bummer... Feeds were found, but none of them were valid.</div>
 		</div>
 
 	</ul>
 
-	<div class="buttonContainer">
+	<div class="footerContainer">
+		<div id="statusBar"></div>
 		<button type="button" class="pfButton" id="btnAddFeeds">Add to Sage-Like</button>
 	</div>
-
-	<!-- <div id="statusBar"></div> -->
 
 </body>
 

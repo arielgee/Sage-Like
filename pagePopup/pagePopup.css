@@ -24,6 +24,7 @@ body {
 }
 
 #popupSubCaption {
+	font-weight: normal;
 	font-size: 90%;
 	margin: 0 0 10px 0;
 	white-space: nowrap;
@@ -32,7 +33,7 @@ body {
 	min-width: 100%;
 }
 
-#busyContainer {
+.feedsListInfo {
 	padding: 12px;
 }
 
@@ -53,12 +54,16 @@ body {
 	100% { transform: rotate(360deg); }
 }
 
-#busyMessage {
+.infoMessage {
 	padding-top: 8px;
 	text-align: center;
 	width: 100%;
 	color: wheat;
 	line-height: 180%;
+}
+
+#noticeContainer {
+	display: none;
 }
 
 #pageFeedsList {
@@ -99,7 +104,7 @@ body {
 	min-width: 100%;
 }
 
-.buttonContainer {
+.footerContainer {
 	display: flex;
 	justify-content: right;
 }
@@ -112,6 +117,7 @@ body {
 	height: 30px;
 	text-align: center;
 	margin-left: 10px;
+	flex-shrink: 0;
 }
 
 .pfButton:hover {
@@ -122,11 +128,19 @@ body {
 	background-color: rgb(218, 218, 218);
 }
 
-/* #statusBar {
-	--text-height: 10px;
-	margin-top: 8px;
+.pfButton[disabled] {
+	filter: grayscale(100%) opacity(40%);
+	pointer-events: none;
+}
+
+#statusBar {
+	--text-height: 11px;
+	margin-top: 0px;
 	line-height: var(--text-height);
 	font-family: Tahoma, Verdana, Segoe, sans-serif !important;
 	font-weight: normal;
 	font-size: var(--text-height) !important;
-} */
+	color: lightpink;
+	white-space: nowrap;
+	margin: auto auto 0 0;
+}

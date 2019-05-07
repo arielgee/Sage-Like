@@ -110,6 +110,16 @@ let rssTreeView = (function() {
 				m_prioritySelectedItemId = message.itemId;
 				break;
 				/////////////////////////////////////////////////////////////////////////
+
+			case slGlobals.MSG_ID_ADD_NEW_DISCOVERED_FEEDS:
+				for(let feed of message.feeds) {
+					if(isFeedInTree(feed.url)) {
+						return Promise.resolve({ existInTree: feed.title});
+					}
+				}
+				addNewFeeds(message.feeds);
+				break;
+				/////////////////////////////////////////////////////////////////////////
 		}
 	});
 

@@ -2,6 +2,9 @@
 
 let pagePopup = (function() {
 
+	const STATUS_BAR_MESSEGE_PREFIX = "⚠ "; //&#9888;&ensp;
+
+	let m_elmPageFeedsList;
 	let m_elmButtonAddFeeds;
 	let m_elmStatusBar;
 
@@ -11,39 +14,60 @@ let pagePopup = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
+		m_elmPageFeedsList = document.getElementById("pageFeedsList");
 		m_elmButtonAddFeeds = document.getElementById("btnAddFeeds");
 		m_elmStatusBar = document.getElementById("statusBar");
 
 		m_elmButtonAddFeeds.addEventListener("click", onClickButtonAdd);
+
+		prefs.getRootFeedsFolderId().then((folderId) => {
+
+			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				updateStatusBar("Feeds folder not set in Options page.");
+				m_elmButtonAddFeeds.disabled = true;
+				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
+			}
+		});
 
 		createFeedList();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
-
 		m_elmButtonAddFeeds.removeEventListener("click", onClickButtonAdd);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonAdd(event) {
 
-		prefs.getRootFeedsFolderId().then((folderId) => {
+		let newFeedsList = collectSelectedFeeds();
 
-			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-				//m_elmStatusBar.textContent ="Feeds folder not set in Options page.";
-				browser.runtime.openOptionsPage();
-			} else {
+		if(newFeedsList.length > 0) {
 
-				let newFeedsList = collectSelectedFeeds();
+			browser.windows.getCurrent().then((winInfo) => {
+				browser.runtime.sendMessage({id: slGlobals.MSG_ID_SIDEBAR_OPEN_FOR_WINDOW, winId: winInfo.id }).then((isOpen) => {
 
-				if(newFeedsList.length > 0) {
-					browser.sidebarAction.open();
-					//m_funcPromiseResolve(newFeedsList);
-					window.close();
-				}
-			}
-		});
+					if(isOpen) {
+						dispatchNewDiscoveredFeeds(newFeedsList)
+						console.log("[Sage-Like]", "is open");
+					} else {
+						console.log("[Sage-Like]", "is MOT open");
+						// Wait for the sidebar to completely be loaded and the message listener registered in the
+						// page content so the message sent in the next line will be received in the content.
+						setTimeout(() =>  dispatchNewDiscoveredFeeds(newFeedsList), 420);
+					}
+				}).catch((e) => { console.log("[Sage-Like]", err, e);});
+			});
+
+			// browser.sidebarAction.open().then(() => {
+
+			// 	// Wait for the sidebar to completely be loaded and the message listener registered in the
+			// 	// page content so the message sent in the next line will be received in the content.
+			// 	setTimeout(() =>  dispatchNewDiscoveredFeeds(newFeedsList), 420);
+			// });
+		} else {
+			updateStatusBar("Nothing to add.");
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -51,23 +75,25 @@ let pagePopup = (function() {
 
 		let elmSubCaption = document.getElementById("popupSubCaption");
 		let elmBusyContainer = document.getElementById("busyContainer");
-		let elmPageFeedsList = document.getElementById("pageFeedsList");
 
 
 		// empty list if it was filled
-		if(!!elmPageFeedsList.firstElementChild && elmPageFeedsList.firstElementChild !== elmBusyContainer) {
-			while (elmPageFeedsList.firstElementChild) {
-				elmPageFeedsList.removeChild(elmPageFeedsList.firstElementChild);
+		if(!!m_elmPageFeedsList.firstElementChild && m_elmPageFeedsList.firstElementChild !== elmBusyContainer) {
+			while (m_elmPageFeedsList.firstElementChild) {
+				m_elmPageFeedsList.removeChild(m_elmPageFeedsList.firstElementChild);
 			}
 		}
 
-		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
+		browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
 
-			browser.tabs.sendMessage(tab[0].id, { message: slGlobals.MSG_ID_GET_PAGE_DATA }).then((response) => {
+			let currentTabId = tabs[0].id;
+
+			browser.tabs.sendMessage(currentTabId, { message: slGlobals.MSG_ID_GET_PAGE_DATA }).then((response) => {
 
 				elmSubCaption.textContent = response.title;
 
-				let feedsLen = response.feeds.length;
+				const feeds = response.feeds;
+				const feedsLen = feeds.length;
 
 				if(feedsLen < response.feedCount) {
 					setTimeout(createFeedList, 2000);
@@ -76,9 +102,14 @@ let pagePopup = (function() {
 					elmBusyContainer.parentElement.removeChild(elmBusyContainer);
 				}
 
+				// sort by index
+				feeds.sort((a, b) => a.index > b.index ? 1 : -1);
+
+				let isListEmpty = true;
+
 				for (let idx=0; idx<feedsLen; idx++) {
 
-					const feed = response.feeds[idx];
+					const feed = feeds[idx];
 
 					// For some unclear reason the data type of the lastUpdated property is converted from Date to string
 					// during its transfer via the response object of the tabs.sendMessage() function when delivered
@@ -88,20 +119,17 @@ let pagePopup = (function() {
 					feed.lastUpdated = new Date(feed.lastUpdated);
 
 					if(feed.status === "OK") {
-						elmPageFeedsList.appendChild(createTagLI(feed));
+						m_elmPageFeedsList.appendChild(createTagLI(feed));
+						isListEmpty = false;
 					} else if(feed.status === "error") {
 						console.log("[Sage-Like]", feed.url.toString(), feed.message);
 					}
 				}
 
-				/*
-
-				if (!!!elmPageFeedsList.firstElementChild) {
-					elmPageFeedsList.appendChild(document.createElement("div"));
-					elmPageFeedsList.firstElementChild.id = "busyMessage";
-					elmPageFeedsList.firstElementChild.textContent = "Feeds were found, but none of them were valid."
+				if (isListEmpty) {
+					document.getElementById("noticeContainer").style.display = "block";
+					browser.runtime.sendMessage({ id: slGlobals.MSG_ID_WAIT_AND_HIDE_POPUP, tabId: currentTabId, msWait: 7000 });
 				}
-				*/
 
 			}).catch((error) => console.log("[Sage-Like]", error));
 		});
@@ -146,7 +174,33 @@ let pagePopup = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function collectSelectedFeeds() {
-		return [1];
+
+		let newFeedsList = [];
+
+		for (let item of m_elmPageFeedsList.children) {
+			if(!!item.firstElementChild && item.firstElementChild.checked) {
+				newFeedsList.push( { title: item.getAttribute("name"), url: item.getAttribute("href") } );
+			}
+		}
+		return newFeedsList;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function dispatchNewDiscoveredFeeds(newFeedsList) {
+
+		browser.runtime.sendMessage({id: slGlobals.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, feeds: newFeedsList }).then((response) => {
+
+			if(!!response && !!response.existInTree) {
+				updateStatusBar("Already in tree: '" + response.existInTree + "'.");
+			} else {
+				window.close();
+			}
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateStatusBar(msg) {
+		m_elmStatusBar.textContent = STATUS_BAR_MESSEGE_PREFIX + msg;
 	}
 
 })();
