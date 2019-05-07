@@ -119,8 +119,6 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsUpdated(tabId, changeInfo, tab) {
 
-		//console.log("[Sage-Like]", "onTabsUpdated", changeInfo, "\n", tab);
-
 		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
 		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
 		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(/^(https?|file):/)) {
