@@ -22,6 +22,8 @@ let panel = (function() {
 	let m_panelLayoutThrottler = false;
 	let m_scrollTopThrottler = false;
 
+	let m_windowId = null;
+
 	let m_viewsLoadedContentFlags = slGlobals.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
@@ -29,6 +31,7 @@ let panel = (function() {
 
 	/**************************************************/
 	browser.windows.getCurrent().then((winInfo) => {
+		m_windowId = winInfo.id;
 		browser.runtime.connect({name: "" + winInfo.id});	// port.name is the window ID
 	});
 
@@ -303,7 +306,13 @@ let panel = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function getWindowId() {
+		return m_windowId;
+	}
+
 	return {
+		getWindowId: getWindowId,
 		notifyViewContentLoaded: notifyViewContentLoaded,
 	};
 

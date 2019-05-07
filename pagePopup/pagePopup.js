@@ -8,11 +8,15 @@ let pagePopup = (function() {
 	let m_elmButtonAddFeeds;
 	let m_elmStatusBar;
 
+	let m_windowId = null;
+
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
+
+		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);
 
 		m_elmPageFeedsList = document.getElementById("pageFeedsList");
 		m_elmButtonAddFeeds = document.getElementById("btnAddFeeds");
@@ -174,7 +178,7 @@ let pagePopup = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function dispatchNewDiscoveredFeeds(newFeedsList) {
 
-		browser.runtime.sendMessage({id: slGlobals.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, feeds: newFeedsList }).then((response) => {
+		browser.runtime.sendMessage({id: slGlobals.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, winId: m_windowId, feeds: newFeedsList }).then((response) => {
 
 			if(!!response && !!response.existInTree) {
 				updateStatusBar("Already in tree: '" + response.existInTree + "'.");
