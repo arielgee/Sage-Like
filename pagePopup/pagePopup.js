@@ -24,7 +24,6 @@ let pagePopup = (function() {
 
 			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				updateStatusBar("Feeds folder not set in Options page.");
-				m_elmButtonAddFeeds.disabled = true;
 				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
 			}
 		});
@@ -129,6 +128,8 @@ let pagePopup = (function() {
 				if (isListEmpty) {
 					document.getElementById("noticeContainer").style.display = "block";
 					browser.runtime.sendMessage({ id: slGlobals.MSG_ID_WAIT_AND_HIDE_POPUP, tabId: currentTabId, msWait: 7000 });
+				} else {
+					m_elmButtonAddFeeds.disabled = false;
 				}
 
 			}).catch((error) => console.log("[Sage-Like]", error));
