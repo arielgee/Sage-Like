@@ -119,7 +119,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsUpdated(tabId, changeInfo, tab) {
 
-		// also accept Sake-Like feed preview URL
+		// also accept Sage-Like feed preview URL
 		let reUrlFilter = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrl("").escapeRegExp())
 
 		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
