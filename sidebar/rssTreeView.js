@@ -1321,8 +1321,13 @@ let rssTreeView = (function() {
 							m_elmCurrentlySelected = null;
 						}
 
+						if(rssListView.getListViewTitle() === elmLI.firstElementChild.textContent) {
+							rssListView.disposeList();
+						}
+
 						elmLI.parentElement.removeChild(elmLI);
 						m_objTreeFeedsData.remove(elmLI.id);
+
 					});
 				});
 			}

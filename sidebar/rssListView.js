@@ -571,6 +571,11 @@ let rssListView = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function getListViewTitle() {
+		return m_elmListViewRssTitle.textContent;
+	}
+
 	return {
 		setFeedItems: setFeedItems,
 		disposeList: disposeList,
@@ -583,6 +588,7 @@ let rssListView = (function() {
 		openAllItemsInTabs: openAllItemsInTabs,
 		setFocus: setFocus,
 		getListViewStats: getListViewStats,
+		getListViewTitle: getListViewTitle,
 	};
 
 })();
