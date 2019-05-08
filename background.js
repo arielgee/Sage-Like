@@ -218,11 +218,11 @@
 				browser.tabs.executeScript(tabId, { file: "/syndication/syndication.js", runAt: "document_end" }).then(() => {
 					browser.tabs.executeScript(tabId, { file: "/content.js", runAt: "document_end" }).then(() => {
 
-						resolve(1);
+						resolve({ errorCode: 0 });
 
-					}).catch((err) => { err.message.startsWith("redeclaration") ? resolve(-3) : reject(err); } );
-				}).catch((err) => { err.message.startsWith("redeclaration") ? resolve(-2) : reject(err); } );
-			}).catch((err) => { err.message.startsWith("redeclaration") ? resolve(-1) : reject(err); } );
+					}).catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -3 }) : reject(err); } );
+				}).catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -2 }) : reject(err); } );
+			}).catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -1 }) : reject(err); } );
 		});
 	}
 
