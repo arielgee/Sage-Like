@@ -260,6 +260,7 @@
 * in syndication.discoverWebSiteFeeds use document instead of domParser
 * sort the feeds in the descoveryView like its done in the pagePopup.js createFeedList()  (feeds.sort) => problematic may interfere with user actions
 * try to resolve the setTimeout(420) in pageData.js
+* add search capabilities to the treeView
 * re-desigh all popups as slide-down panels (?)
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465

@@ -119,9 +119,12 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsUpdated(tabId, changeInfo, tab) {
 
+		// also accept Sake-Like feed preview URL
+		let reUrlFilter = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrl("").escapeRegExp())
+
 		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
 		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
-		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(/^(https?|file):/)) {
+		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(reUrlFilter)) {
 
 			injectContentScripts(tabId).then((result) => {
 
