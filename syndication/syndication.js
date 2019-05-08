@@ -25,7 +25,42 @@ let syndication = (function() {
 	let m_domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function discoverWebSiteFeeds(txtHTML, timeout, origin, requestId, callback, reload) {
+	function feedDiscovery(url, timeout, reload) {
+
+		return new Promise((resolve) => {
+
+			let discoveredFeed = {
+				status: "init",
+				linkTitle: "",
+				url: url,
+			};
+
+			getFeedXMLText(url, reload, timeout).then((feedXML) => {
+
+				let feedData = getFeedData(feedXML.txtXML, url);
+
+				if(feedData.standard === SyndicationStandard.invalid) {
+					discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
+				} else {
+					discoveredFeed = Object.assign(discoveredFeed, {
+						status: "OK",
+						index: 0,		// there is only one
+						feedTitle: feedData.title,
+						lastUpdated: feedData.lastUpdated,
+						format: feedData.standard,
+						items: feedData.items,
+					});
+				}
+			}).catch((error) => {
+				discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: error.message});
+			}).finally(() => {
+				resolve(discoveredFeed);
+			});
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, reload) {
 
 		return new Promise((resolve) => {
 
@@ -432,7 +467,8 @@ let syndication = (function() {
 
 	//////////////////////////////////////////
 	return {
-		discoverWebSiteFeeds: discoverWebSiteFeeds,
+		feedDiscovery: feedDiscovery,
+		webPageFeedsDiscovery: webPageFeedsDiscovery,
 		fetchFeedData: fetchFeedData,
 		fetchFeedItems: fetchFeedItems,
 	};

@@ -40,41 +40,43 @@ class Content {
 	//////////////////////////////////////////////////////////////////////
 	_collectPageFeeds() {
 
-		return new Promise((resolve) => {
+		return new Promise(async (resolve) => {
 
-			prefs.getFetchTimeout().then((timeout) => {
+			const timeout = await prefs.getFetchTimeout() * 1000;	// to millisec
+			const docElement = document.documentElement;
+			const winLocation = window.location;
 
-				this._feeds = [];
-				this._feedCount = 0;
-				timeout *= 1000;		// to millisec
+			this._feeds = [];
+			this._feedCount = 0;
 
-				// for Fx63 Feed Preview (feedHandler)
-				if(document.documentElement.id === "feedHandler" && !!!document.domain) {
+			if(docElement.id === "feedHandler" && !!!document.domain) {
 
-					syndication.fetchFeedData(window.location, timeout).then((feedData) => {
+				// Fx v63 build-in Feed Preview
 
-						// feedData must be discoveredFeed
-						// write some wrapper to fetchFeedData() to mimic discoverWebSiteFeeds()'s return object
-						this._feeds.push(feedData);
-						this._feedCount = 1;
-						resolve(1);
-					}).catch((error) => {
-						console.log("[Sage-Like]", error);
-						resolve(0);
-					})
+				resolve(this._feedCount = 1);
+				syndication.feedDiscovery(winLocation.toString(), timeout).then((feedData) => {
+					this._feeds.push(feedData);
+				});
 
-					return;
-				}
+			} else if(docElement.id === "_sage-LikeFeedPreview") {
 
-				// Sage-Like Feed Preview
-				// TBD
+				// Fx v64 Sage-Like Feed Preview
 
-				// for regular http(s) pages
-				syndication.discoverWebSiteFeeds(document.documentElement.outerHTML, timeout, window.location.origin, 0, (fd) => this._feeds.push(fd)).then((result) => {
+				resolve(this._feedCount = 1);
+				let url = decodeURIComponent(winLocation.toString().substring(slUtil.getFeedPreviewUrl("").length));
+				syndication.feedDiscovery(url, timeout).then((feedData) => {
+					this._feeds.push(feedData);
+				});
+
+			} else {
+
+				// For regular web pages
+
+				syndication.webPageFeedsDiscovery(docElement.outerHTML, timeout, winLocation.origin, 0, (fd) => this._feeds.push(fd)).then((result) => {
 					this._feedCount = result.length;
 					resolve(this._feedCount);
 				});
-			});
+			}
 		});
 	}
 };

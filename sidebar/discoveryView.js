@@ -146,7 +146,7 @@ let discoveryView = (function() {
 		setDiscoverLoadingState(true);
 		emptyDiscoverFeedsList();
 		setStatusbarMessage(domainName, false);
-		syndication.discoverWebSiteFeeds(txtHTML, timeout*1000, origin, m_nRequestId, funcHandleDiscoveredFeed).then((result) => {
+		syndication.webPageFeedsDiscovery(txtHTML, timeout*1000, origin, m_nRequestId, funcHandleDiscoveredFeed).then((result) => {
 
 			if((feedCount = result.length) === 0) {
 				setNoFeedsMsg("No feeds were discovered.");

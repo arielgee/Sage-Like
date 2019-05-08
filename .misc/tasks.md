@@ -246,6 +246,7 @@
 ---
 
 ## Next
+* when deleting and the deleted feed shows its items, I need to remote those items
 * Subscribe button need to be shown when opening an rss.xml file or a feedPreview
 * add preference for background feed descovery for web pages visible via pageAction/pagePopup
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
