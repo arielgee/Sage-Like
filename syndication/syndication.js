@@ -224,13 +224,13 @@ let syndication = (function() {
 		};
 
 		// try to get XML version from the XML prolog
-		let test = txtXML.match(/^<\?xml[^>]*version="([^"]*)"[^>]*>/);
+		let test = txtXML.match(/^[ \t\n\r]*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/);
 		if(test && test[1]) {
 			feedData.xmlVersion = test[1];
 		}
 
 		// try to get XML encoding from the XML prolog
-		test = txtXML.match(/^<\?xml[^>]*encoding="([^"]*)"[^>]*>/);
+		test = txtXML.match(/^[ \t\n\r]*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/);
 		if(test && test[1]) {
 			feedData.xmlEncoding = test[1];
 		}
