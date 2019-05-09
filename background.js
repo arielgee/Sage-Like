@@ -70,6 +70,10 @@
 				setTimeout(() => browser.pageAction.hide(message.tabId), message.msWait);
 				break;
 				/////////////////////////////////////////////////////////////////////////
+
+			case slGlobals.MSG_ID_SIDEBAR_OPEN_FOR_WINDOW:
+				return Promise.resolve(m_windowIds.includes(message.winId));
+				/////////////////////////////////////////////////////////////////////////
 		}
 	}
 

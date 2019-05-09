@@ -9,14 +9,13 @@ let pagePopup = (function() {
 	let m_elmStatusBar;
 
 	let m_windowId = null;
+	let m_isSidebarOpen;
 
 	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	window.addEventListener("unload", onUnload);
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
-
-		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);
 
 		m_elmPageFeedsList = document.getElementById("pageFeedsList");
 		m_elmButtonAddFeeds = document.getElementById("btnAddFeeds");
@@ -32,6 +31,13 @@ let pagePopup = (function() {
 			}
 		});
 
+		browser.windows.getCurrent().then((winInfo) => {
+			m_windowId = winInfo.id
+			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SIDEBAR_OPEN_FOR_WINDOW, winId: m_windowId }).then((isOpen) => {
+				m_isSidebarOpen = isOpen;
+			});
+		});
+
 		createFeedList();
 	}
 
@@ -41,18 +47,25 @@ let pagePopup = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickButtonAdd(event) {
+	async function onClickButtonAdd(event) {
+
+		const MAX_WAIT_FOR_SIDEBAR = 450;
 
 		let newFeedsList = collectSelectedFeeds();
 
 		if(newFeedsList.length > 0) {
 
-			browser.sidebarAction.open().then(() => {
+			if(!m_isSidebarOpen) {
 
-				// Wait for the sidebar to completely be loaded and the message listener registered in the
-				// page content so the message sent in the next line will be received in the content.
-				setTimeout(() =>  dispatchNewDiscoveredFeeds(newFeedsList), 420);
-			});
+				// If sidebar is closed we need to open it AND wait for the sidebar to be loaded and for the message listener in the page content
+				// to be registered so that the message sent in dispatchNewDiscoveredFeeds() will be received in the content and responded to.
+
+				await browser.sidebarAction.open();
+				await slUtil.sleep(MAX_WAIT_FOR_SIDEBAR);
+			}
+
+			dispatchNewDiscoveredFeeds(newFeedsList);
+
 		} else {
 			updateStatusBar("Nothing to add.");
 		}
