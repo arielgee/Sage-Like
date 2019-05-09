@@ -323,6 +323,7 @@ let syndication = (function() {
 
 			let objUrl = URL.createObjectURL(blob);
 			let xhr = new XMLHttpRequest();
+			xhr.overrideMimeType("text/plain");
 			xhr.open("GET", objUrl);
 			xhr.onload = function() {
 				if(xhr.readyState === xhr.DONE && xhr.status === 200) {
