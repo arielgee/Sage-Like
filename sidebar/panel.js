@@ -193,10 +193,14 @@ let panel = (function() {
 	function setPanelLayout(splitterTop) {
 
 		splitterTop = splitterTop || m_elmSplitter.offsetTop;
-		internalPrefs.setSplitterTop(splitterTop);
 
 		let reduseH, sbWidth = slUtil.getScrollbarWidth();
 		let splitterMargin = m_elmToolbar.offsetHeight;
+
+		// is splitter is bellow the total height
+		if((m_elmBody.offsetHeight - splitterTop) <= splitterMargin) {
+			splitterTop = m_elmBody.offsetHeight - splitterMargin - 1;
+		}
 
 		if (splitterTop > splitterMargin && (m_elmBody.offsetHeight - splitterTop) > splitterMargin) {
 			m_elmSplitter.style.top = splitterTop + "px";
@@ -210,6 +214,8 @@ let panel = (function() {
 
 			reduseH = slUtil.hasHScroll(m_elmList) ? sbWidth : 0;
 			m_elmList.style.height = (m_elmBottom.offsetHeight - reduseH) + "px";
+
+			internalPrefs.setSplitterTop(splitterTop);
 		}
 
 		// set listview's CSS variable accordingly depending if has VScroll
