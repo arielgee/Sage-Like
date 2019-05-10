@@ -23,14 +23,6 @@ let pagePopup = (function() {
 
 		m_elmButtonAddFeeds.addEventListener("click", onClickButtonAdd);
 
-		prefs.getRootFeedsFolderId().then((folderId) => {
-
-			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-				updateStatusBar("Feeds folder not set in Options page.");
-				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
-			}
-		});
-
 		browser.windows.getCurrent().then((winInfo) => {
 			m_windowId = winInfo.id
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SIDEBAR_OPEN_FOR_WINDOW, winId: m_windowId }).then((isOpen) => {
@@ -38,7 +30,16 @@ let pagePopup = (function() {
 			});
 		});
 
-		createFeedList();
+		prefs.getRootFeedsFolderId().then((folderId) => {
+
+			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				m_elmPageFeedsList.style.display = "none";
+				updateStatusBar("Feeds folder not set in Options page.");
+				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
+			} else {
+				createFeedList();
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
