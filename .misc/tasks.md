@@ -245,10 +245,10 @@
 * in message listeners the message id is sometimes 'id' and sometime 'message'. background.js, content.js CHANGE ALL TO 'id'
 * when deleting and the deleted feed shows its items, I need to remote those items
 * Subscribe button need to be shown when opening an rss.xml file or a feedPreview
+* add preference for background feed descovery for web pages visible via pageAction/pagePopup
 ---
 
 ## Next
-* add preference for background feed descovery for web pages visible via pageAction/pagePopup
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * convert: "" + num is faster then num.toString()
