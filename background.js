@@ -19,7 +19,7 @@
 		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
 
-		browser.tabs.onUpdated.addListener(onTabsUpdated);						// Check if page has feeds for pageAction TBD: User Pref / extraParameters; {url:["*://*/*"], properties:["status"]}
+		handlePrefShowSubscribeButton();										// Check if page has feeds for pageAction
 
 		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
@@ -62,6 +62,10 @@
 				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 					message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
 					monitorBookmarkFeeds();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_SUBSCRIBE_BUTTON) {
+					handlePrefShowSubscribeButton();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -231,6 +235,31 @@
 				}).catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -2 }) : reject(err); } );
 			}).catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -1 }) : reject(err); } );
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function handlePrefShowSubscribeButton() {
+
+		let showSubscribeButton = await prefs.getShowSubscribeButton();
+
+		if(showSubscribeButton) {
+
+			browser.tabs.onUpdated.addListener(onTabsUpdated);		// Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
+
+		} else if(browser.tabs.onUpdated.hasListener(onTabsUpdated)) {
+
+			// hasListener() will return false if handlePrefShowSubscribeButton() was called from webExt loading.
+
+			browser.tabs.onUpdated.removeListener(onTabsUpdated);
+
+			(await browser.tabs.query({})).forEach((tab) => {
+				browser.pageAction.isShown({ tabId: tab.id }).then((shown) => {
+					if(shown) {
+						browser.pageAction.hide(tab.id);
+					}
+				});
+			});
+		}
 	}
 
 })();

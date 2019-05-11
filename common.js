@@ -274,11 +274,12 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED		= 1004;
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD				= 1005;
 	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC				= 1006;
-	const MSGD_PREF_CHANGE_UI_DENSITY						= 1007;
-	const MSGD_PREF_CHANGE_FONT_NAME						= 1008;
-	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT				= 1009;
-	const MSGD_PREF_CHANGE_COLORS							= 1010;
-	const MSGD_PREF_CHANGE_IMAGES							= 1011;
+	const MSGD_PREF_CHANGE_SHOW_SUBSCRIBE_BUTTON			= 1007;
+	const MSGD_PREF_CHANGE_UI_DENSITY						= 1008;
+	const MSGD_PREF_CHANGE_FONT_NAME						= 1009;
+	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT				= 1010;
+	const MSGD_PREF_CHANGE_COLORS							= 1011;
+	const MSGD_PREF_CHANGE_IMAGES							= 1012;
 
 	const BOOKMARKS_ROOT_MENU_GUID = "menu________";
 	const DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME = "Sage-Like Feeds";
@@ -347,6 +348,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED: MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD: MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD,
 		MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC: MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC,
+		MSGD_PREF_CHANGE_SHOW_SUBSCRIBE_BUTTON: MSGD_PREF_CHANGE_SHOW_SUBSCRIBE_BUTTON,
 		MSGD_PREF_CHANGE_UI_DENSITY: MSGD_PREF_CHANGE_UI_DENSITY,
 		MSGD_PREF_CHANGE_FONT_NAME: MSGD_PREF_CHANGE_FONT_NAME,
 		MSGD_PREF_CHANGE_FONT_SIZE_PERCENT: MSGD_PREF_CHANGE_FONT_SIZE_PERCENT,
@@ -749,6 +751,7 @@ let prefs = (function() {
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
 	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
+	const DEF_PREF_SHOW_SUBSCRIBE_BUTTON_VALUE = true;
 	const DEF_PREF_UI_DENSITY_VALUE = "19;18";
 	const DEF_PREF_FONT_NAME_VALUE = "(Browser Default)";
 	const DEF_PREF_FONT_SIZE_PERCENT_VALUE = "100";
@@ -764,6 +767,7 @@ let prefs = (function() {
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
+	const PREF_SHOW_SUBSCRIBE_BUTTON = "pref_showSubscribeButton";
 	const PREF_UI_DENSITY = "pref_UIDensity";
 	const PREF_FONT_NAME = "perf_fontName";
 	const PREF_FONT_SIZE_PERCENT = "perf_fontSizePercent";
@@ -884,6 +888,25 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_SHOW_FEED_ITEM_DESC] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getShowSubscribeButton() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_SHOW_SUBSCRIBE_BUTTON).then((result) => {
+				resolve(result[PREF_SHOW_SUBSCRIBE_BUTTON] === undefined ? DEF_PREF_SHOW_SUBSCRIBE_BUTTON_VALUE : result[PREF_SHOW_SUBSCRIBE_BUTTON]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setShowSubscribeButton(value) {
+
+		let obj = {};
+		obj[PREF_SHOW_SUBSCRIBE_BUTTON] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -1047,6 +1070,7 @@ let prefs = (function() {
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
 		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
+		this.setShowSubscribeButton(DEF_PREF_SHOW_SUBSCRIBE_BUTTON_VALUE);
 		this.setUIDensity(DEF_PREF_UI_DENSITY_VALUE);
 		this.setFontName(DEF_PREF_FONT_NAME_VALUE);
 		this.setFontSizePercent(DEF_PREF_FONT_SIZE_PERCENT_VALUE);
@@ -1063,6 +1087,7 @@ let prefs = (function() {
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
 			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
+			showSubscribeButton: DEF_PREF_SHOW_SUBSCRIBE_BUTTON_VALUE,
 			UIDensity: DEF_PREF_UI_DENSITY_VALUE,
 			fontName: DEF_PREF_FONT_NAME_VALUE,
 			fontSizePercent: DEF_PREF_FONT_SIZE_PERCENT_VALUE,
@@ -1081,6 +1106,7 @@ let prefs = (function() {
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
 		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
+		DEF_PREF_SHOW_SUBSCRIBE_BUTTON_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 		DEF_PREF_UI_DENSITY_VALUE: DEF_PREF_UI_DENSITY_VALUE,
 		DEF_PREF_FONT_NAME_VALUE: DEF_PREF_FONT_NAME_VALUE,
 		DEF_PREF_FONT_SIZE_PERCENT_VALUE: DEF_PREF_FONT_SIZE_PERCENT_VALUE,
@@ -1102,6 +1128,8 @@ let prefs = (function() {
 		setFetchTimeout: setFetchTimeout,
 		getShowFeedItemDesc: getShowFeedItemDesc,
 		setShowFeedItemDesc: setShowFeedItemDesc,
+		getShowSubscribeButton: getShowSubscribeButton,
+		setShowSubscribeButton: setShowSubscribeButton,
 		getUIDensity: getUIDensity,
 		setUIDensity: setUIDensity,
 		getFontName: getFontName,
