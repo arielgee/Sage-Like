@@ -250,6 +250,8 @@
 * descoveryView.runDiscoverFeeds() & PageDataByInjection()
   * use messaging between descoveryView and content.js instead of class PageDataByInjection() to get document data.    => NO. messaging will not work if pref showSubscribeButton is unchecked
   * in descovery view in runDiscoverFeeds() use PageDataByInjection.getCurrent() instead of PageDataByInjection.get(); => NO. PageDataByInjection.getCurrent() was removed.
+* try to resolve the setTimeout(420) in pagePopup.js => the sidebar opening and the wait are done only if the sidebar is closed.
+* sort the feeds in the descoveryView like its done in the pagePopup.js createFeedList()  (feeds.sort) => problematic may interfere with user actions
 ---
 
 ## Next
@@ -259,8 +261,6 @@
 * create initilization(); functions in all js files
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.
 * in syndication.discoverWebSiteFeeds use document instead of domParser
-* sort the feeds in the descoveryView like its done in the pagePopup.js createFeedList()  (feeds.sort) => problematic may interfere with user actions
-* try to resolve the setTimeout(420) in pagePopup.js
 * add search capabilities to the treeView
 * re-desigh all popups as slide-down panels (?)
 

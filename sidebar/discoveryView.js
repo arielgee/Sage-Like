@@ -138,6 +138,8 @@ let discoveryView = (function() {
 					// if none of the feeds was added to the list
 					if(m_elmDiscoverFeedsList.children.length === 0) {
 						setNoFeedsMsg("No valid feeds were discovered.");
+					} else {
+						sortDiscoverFeedsList();
 					}
 				}
 			}
@@ -153,6 +155,17 @@ let discoveryView = (function() {
 				setDiscoverLoadingState(false);
 			}
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function sortDiscoverFeedsList() {
+
+		let items = Array.from(m_elmDiscoverFeedsList.children);
+		items.sort((a, b) => a.getAttribute("data-index") > b.getAttribute("data-index") ? 1 : -1);
+
+		for(let i=0, len=items.length; i<len; i++) {
+			m_elmDiscoverFeedsList.appendChild(m_elmDiscoverFeedsList.removeChild(items[i]));
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -200,6 +213,7 @@ let discoveryView = (function() {
 		elmListItem.setAttribute("tabindex", "0");	// can get the focus
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
+		elmListItem.setAttribute("data-index", feed.index);
 		//elmListItem.title += "Feed Title:\u2003" + feed.feedTitle + "\u000d";
 		//elmListItem.title += "Link Title:\u2003" + feed.linkTitle + "\u000d";
 		elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
