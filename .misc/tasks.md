@@ -246,6 +246,7 @@
 * when deleting and the deleted feed shows its items, I need to remote those items
 * Subscribe button need to be shown when opening an rss.xml file or a feedPreview
 * add preference for background feed descovery for web pages visible via pageAction/pagePopup
+* in descovery view if domain name is empty use doc title (ex; file:///C:/Users/arielg/Desktop/Example.htm).
 ---
 
 ## Next
@@ -253,7 +254,6 @@
 * ? change *One-off messages* with *Connection-based messaging*
 * convert: "" + num is faster then num.toString()
 * create initilization(); functions in all js files
-* in descovery view if domain name is empty use doc title (ex; file:///C:/Users/arielg/Desktop/Example.htm). also add title to view UI
 * descoveryView.runDiscoverFeeds() & PageData()
   * use messaging between descoveryView and content.js instead of class PageData() to get document data.
   * in descovery view in runDiscoverFeeds() use pageData.getCurrent() instead of pageData.get(); issue with message phrasing for setNoFeedsMsg()

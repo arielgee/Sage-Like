@@ -102,7 +102,7 @@ let discoveryView = (function() {
 				const pageData = new PageData();
 
 				pageData.get(tab[0].id).then((pageData) => {
-					loadDiscoverFeedsList(pageData.txtHTML, pageData.domainName, pageData.origin);
+					loadDiscoverFeedsList(pageData.txtHTML, (!!pageData.domainName ? pageData.domainName : pageData.title), pageData.origin);
 				}).catch((error) => {
 					setNoFeedsMsg("Unable to access current tab.");
 					//console.log("[Sage-Like]", error);
