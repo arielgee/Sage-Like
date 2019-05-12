@@ -1,6 +1,6 @@
 "use strict";
 
-let pagePopup = (function() {
+(function() {
 
 	const STATUS_BAR_MESSEGE_PREFIX = "⚠ "; //&#9888;&ensp;
 
@@ -11,8 +11,13 @@ let pagePopup = (function() {
 	let m_windowId = null;
 	let m_isSidebarOpen;
 
-	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-	window.addEventListener("unload", onUnload);
+	initilization();
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.addEventListener("unload", onUnload);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
@@ -45,6 +50,9 @@ let pagePopup = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 		m_elmButtonAddFeeds.removeEventListener("click", onClickButtonAdd);
+
+		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.removeEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

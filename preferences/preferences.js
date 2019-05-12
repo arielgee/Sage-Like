@@ -51,8 +51,13 @@ let preferences = (function() {
 
 	let m_lockBookmarksEventHandler = new Locker();
 
-	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-	window.addEventListener("unload", onUnload);
+	initilization();
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.addEventListener("unload", onUnload);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {

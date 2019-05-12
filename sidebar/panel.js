@@ -26,17 +26,23 @@ let panel = (function() {
 
 	let m_viewsLoadedContentFlags = slGlobals.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
 
-	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-	window.addEventListener("unload", onUnload);
+	initilization();
 
-	/**************************************************/
-	browser.windows.getCurrent().then((winInfo) => {
-		m_windowId = winInfo.id;
-		browser.runtime.connect({name: "" + winInfo.id});	// port.name is the window ID
-	});
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.addEventListener("unload", onUnload);
 
-	/**************************************************/
-	browser.runtime.onMessage.addListener((message) => {
+		browser.windows.getCurrent().then((winInfo) => {
+			m_windowId = winInfo.id;
+			browser.runtime.connect({name: "" + winInfo.id});	// port.name is the window ID
+		});
+
+		browser.runtime.onMessage.addListener(onRuntimeMessage);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onRuntimeMessage(message) {
 
 		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
 
@@ -61,7 +67,7 @@ let panel = (function() {
 				setPanelImageSetFromPreferences();
 			}
 		}
-	});
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {

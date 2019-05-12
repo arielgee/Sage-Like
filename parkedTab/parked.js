@@ -2,7 +2,16 @@
 
 (function() {
 
-	let onFocusDocument = (event) => {
+	initilization();
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+		document.title = decodeURI(slUtil.getQueryStringValue("prkTitle"));
+		document.addEventListener("focus", onFocusDocument);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onFocusDocument(event) {
 
 		browser.tabs.getCurrent().then((tab) => {
 			browser.tabs.update(tab.tabId, { url: decodeURIComponent(slUtil.getQueryStringValue("prkUrl")) });
@@ -10,8 +19,5 @@
 		});
 		document.removeEventListener("focus", onFocusDocument);
 	};
-
-	document.title = decodeURI(slUtil.getQueryStringValue("prkTitle"));
-	document.addEventListener("focus", onFocusDocument);
 
 })();

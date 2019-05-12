@@ -42,8 +42,13 @@ let contextMenu = (function() {
 	let m_browserVersion;				// V64 RSS support dropped
 	let m_isContextMenuOpen = false;
 
-	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-	window.addEventListener("unload", onUnload);
+	initilization();
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.addEventListener("unload", onUnload);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {

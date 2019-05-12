@@ -4,7 +4,13 @@
 
 	let m_URL;
 
-	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+	initilization();
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.addEventListener("unload", onUnload);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
@@ -14,6 +20,12 @@
 		m_URL = new URL(urlFeed);
 
 		createFeedPreview(urlFeed);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onUnload(event) {
+		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.removeEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

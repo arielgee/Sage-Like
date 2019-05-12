@@ -17,11 +17,18 @@ let rssListView = (function() {
 	let m_bShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
 	let m_timeoutMouseOver = null;
 
-	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-	window.addEventListener("unload", onUnload);
+	initilization();
 
-	/**************************************************/
-	browser.runtime.onMessage.addListener((message) => {
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.addEventListener("unload", onUnload);
+
+		browser.runtime.onMessage.addListener(onRuntimeMessage);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onRuntimeMessage(message) {
 
 		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
 
@@ -30,7 +37,7 @@ let rssListView = (function() {
 				setShowFeedItemDescFromPreferences();
 			}
 		}
-	});
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {

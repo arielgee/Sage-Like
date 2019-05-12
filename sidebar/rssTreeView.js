@@ -68,11 +68,18 @@ let rssTreeView = (function() {
 
 	let m_browserVersion;				// V64 RSS support dropped
 
-	document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-	window.addEventListener("unload", onUnload);
+	initilization();
 
-	/**************************************************/
-	browser.runtime.onMessage.addListener((message) => {
+	////////////////////////////////////////////////////////////////////////////////////
+	function initilization() {
+		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+		window.addEventListener("unload", onUnload);
+
+		browser.runtime.onMessage.addListener(onRuntimeMessage);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onRuntimeMessage(message) {
 
 		switch (message.id) {
 
@@ -123,7 +130,7 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 		}
-	});
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
