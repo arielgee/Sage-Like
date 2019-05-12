@@ -99,10 +99,10 @@ let discoveryView = (function() {
 				setNoFeedsMsg("Current tab is still loading.");
 			} else {
 
-				const pageData = new PageData();
+				const pageData = new PageDataByInjection();
 
-				pageData.get(tab[0].id).then((pageData) => {
-					loadDiscoverFeedsList(pageData.txtHTML, (!!pageData.domainName ? pageData.domainName : pageData.title), pageData.origin);
+				pageData.get(tab[0].id).then((pd) => {
+					loadDiscoverFeedsList(pd.txtHTML, (!!pd.domainName ? pd.domainName : pd.title), pd.origin);
 				}).catch((error) => {
 					setNoFeedsMsg("Unable to access current tab.");
 					//console.log("[Sage-Like]", error);

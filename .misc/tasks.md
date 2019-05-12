@@ -247,6 +247,9 @@
 * Subscribe button need to be shown when opening an rss.xml file or a feedPreview
 * add preference for background feed descovery for web pages visible via pageAction/pagePopup
 * in descovery view if domain name is empty use doc title (ex; file:///C:/Users/arielg/Desktop/Example.htm).
+* descoveryView.runDiscoverFeeds() & PageDataByInjection()
+  * use messaging between descoveryView and content.js instead of class PageDataByInjection() to get document data.    => NO. messaging will not work if pref showSubscribeButton is unchecked
+  * in descovery view in runDiscoverFeeds() use PageDataByInjection.getCurrent() instead of PageDataByInjection.get(); => NO. PageDataByInjection.getCurrent() was removed.
 ---
 
 ## Next
@@ -254,13 +257,10 @@
 * ? change *One-off messages* with *Connection-based messaging*
 * convert: "" + num is faster then num.toString()
 * create initilization(); functions in all js files
-* descoveryView.runDiscoverFeeds() & PageData()
-  * use messaging between descoveryView and content.js instead of class PageData() to get document data.
-  * in descovery view in runDiscoverFeeds() use pageData.getCurrent() instead of pageData.get(); issue with message phrasing for setNoFeedsMsg()
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.
 * in syndication.discoverWebSiteFeeds use document instead of domParser
 * sort the feeds in the descoveryView like its done in the pagePopup.js createFeedList()  (feeds.sort) => problematic may interfere with user actions
-* try to resolve the setTimeout(420) in pageData.js
+* try to resolve the setTimeout(420) in pagePopup.js
 * add search capabilities to the treeView
 * re-desigh all popups as slide-down panels (?)
 

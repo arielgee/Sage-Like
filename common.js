@@ -158,7 +158,7 @@ class TreeFeedsData extends StoredKeyedItems {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-class PageData {
+class PageDataByInjection {
 
 	//////////////////////////////////////////
 	constructor() {
@@ -193,28 +193,6 @@ class PageData {
 			this._funcPromiseReject = reject;
 
 			this._injectCode(tabId);
-		});
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	getCurrent() {
-
-		return new Promise((resolve, reject) => {
-
-			this._funcPromiseResolve = resolve;
-			this._funcPromiseReject = reject;
-
-			browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
-
-				if(tab[0].status === "loading") {
-					reject({errorMsg: "Current tab is still loading.", nativeError: null });
-				} else {
-					this._injectCode(tab[0].id);
-				}
-
-			}).catch((error) => {
-				reject({errorMsg: "Query for current tab failed.", nativeError: error });
-			});
 		});
 	}
 
