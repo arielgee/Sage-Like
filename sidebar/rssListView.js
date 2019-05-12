@@ -109,7 +109,7 @@ let rssListView = (function() {
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>")
 			.escapeHtml();
 
-		elm.textContent = index.toString() + ". " + title;
+		elm.textContent = index + ". " + title;
 		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.setAttribute("tabindex", "0");

@@ -184,7 +184,7 @@ let discoveryView = (function() {
 		let elmLabel = document.createElement("label");
 		let elmListItem = document.createElement("li");
 
-		elmCheckBox.id = "chkBox" + feed.index.toString();
+		elmCheckBox.id = "chkBox" + feed.index;
 		elmCheckBox.className = "dfChkBox";
 		elmCheckBox.type = "checkbox";
 		elmCheckBox.setAttribute("tabindex", "-1");	// only the elmListItem can get the focus
