@@ -110,23 +110,19 @@ html, body {
 	margin: auto;
 }
 
-.toolbar #filter.button {
-	transition: width 400ms linear 0ms, min-width 400ms linear 0ms, margin-right 400ms linear 0ms;
-}
-
-.toolbar #filter.button.collapsed {
-	width: 0;
-	min-width: 0;
-	margin-right: 0;
-}
-
-#textFilterContainer {
-
+#filterContainer {
 	--width-filter-image: 16px;
 	--width-filter-text: 140px;
 	--width-filter-clear: var(--toolbar-button-size);
 	--width-container: calc(var(--width-filter-image) + var(--width-filter-text) + var(--width-filter-clear) + 2px); /* 2px => border*/
+	display: flex;
+}
 
+#filter.button {
+	transition: width 400ms linear 0ms, min-width 400ms linear 0ms, margin-right 400ms linear 0ms;
+}
+
+#textFilterBorderContainer {
 	display: flex;
 	border: 0 solid #7f7f7f;
 	overflow: hidden;
@@ -135,13 +131,6 @@ html, body {
 	height: 20px;
 	pointer-events: none;
 	transition: width 300ms ease-out 80ms, min-width 300ms ease-out 80ms, border-width 300ms ease-out 80ms;
-}
-
-#textFilterContainer.expanded {
-	border-width: 1px;
-	width: var(--width-container);
-	min-width: var(--width-container);
-	pointer-events: auto;
 }
 
 #imageFilter {
@@ -157,8 +146,21 @@ html, body {
 	height: var(--toolbar-button-size);
 }
 
-#textFilterContainer.filterOn > #imageFilter,
-#textFilterContainer.filterOn > #textFilter {
+#filterContainer.switched > #filter.button {
+	width: 0;
+	min-width: 0;
+	margin-right: 0;
+}
+
+#filterContainer.switched > #textFilterBorderContainer {
+	border-width: 1px;
+	width: var(--width-container);
+	min-width: var(--width-container);
+	pointer-events: auto;
+}
+
+#filterContainer.filterOn #imageFilter,
+#filterContainer.filterOn #textFilter {
 	background-color:rgb(255, 192, 192);
 }
 

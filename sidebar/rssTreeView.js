@@ -44,14 +44,16 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const FILTER_TOOLTIP_TITLE = "To filter the displayed feeds, you can use: \u000d" +
-									" \u2776 Simple text (case-insensitive). \u000d" +
-									" \u2777 Enclosed Regular Expression pattern between two slashes ('/'). Only supported flag is 'i' when placed after the second slash. \u000d" +
-									" \u2778 Special tag ':unread' for unvisited feeds. \u000d" +
-									" \u2779 Special tag ':read' for visited feeds. \u000d" +
-									" \u277a Special tag ':error' for feeds that failed to update. \u000d" +
-									" \u277b Special tag ':load' for feeds that are still loading. \u000d\u000d" +
-									"\u25cf Filtering may seem incorrect due to feeds changing their status AFTER the filtering process has finished.";
+	const FILTER_TOOLTIP_TITLE = "The displayed feeds can be filter using: \u000d" +
+									"\u2776 A simple search text (case-insensitive). \u000d" +
+									"\u2777 An enclosed regular expression pattern between two slashes ('/'). \u000d" +
+									"      The flag 'i' (case-insensitive) is supported when placed after the second slash. \u000d" +
+									"\u2778 A special tag ':unread' for unvisited feeds. \u000d" +
+									"\u2779 A special tag ':read' for visited feeds. \u000d" +
+									"\u277a A special tag ':error' for feeds that failed to update. \u000d" +
+									"\u277b A special tag ':load' for feeds that are still loading. \u000d\u000d" +
+									"\u25cf Filtering may seem incorrect due to feeds changing their status AFTER the filtering \u000d" +
+									"   process has finished.";
 
 	let TreeItemStatus = Object.freeze({
 		invalid: -1,
@@ -64,8 +66,8 @@ let rssTreeView = (function() {
 	let m_elmCheckTreeFeeds;
 	let m_elmExpandAll;
 	let m_elmCollapseAll;
+	let m_elmfilterContainer;
 	let m_elmButtonFilter;
-	let m_elmFilterContainer;
 	let m_elmTextFilter;
 	let m_elmClearFilter;
 
@@ -163,8 +165,8 @@ let rssTreeView = (function() {
 
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
+		m_elmfilterContainer = document.getElementById("filterContainer");
 		m_elmButtonFilter = document.getElementById("filter");
-		m_elmFilterContainer = document.getElementById("textFilterContainer");
 		m_elmTextFilter = document.getElementById("textFilter");
 		m_elmClearFilter = document.getElementById("clearFilter");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
@@ -195,7 +197,7 @@ let rssTreeView = (function() {
 		createRSSTree();
 
 		browser.browserAction.setBadgeText({text: ""});
-		document.getElementById("imageFilter").title = m_elmTextFilter.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
+		document.getElementById("textFilterBorderContainer").title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 
 		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
 	}
@@ -1083,8 +1085,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickFilter(event) {
-		m_elmButtonFilter.classList.add("collapsed");
-		m_elmFilterContainer.classList.add("expanded");
+		m_elmfilterContainer.classList.add("switched");
 		m_elmTextFilter.focus();
 	}
 
@@ -1095,7 +1096,7 @@ let rssTreeView = (function() {
 
 		if(txtValue !== "") {
 
-			m_elmFilterContainer.classList.add("filterOn");
+			filterContainer.classList.add("filterOn");
 
 			if(txtValue === ":read") {
 				filterTreeItemStatus(TreeItemStatus.VISITED);
@@ -1113,7 +1114,7 @@ let rssTreeView = (function() {
 
 		} else {
 			unfilterAllTreeItems();
-			m_elmFilterContainer.classList.remove("filterOn");
+			filterContainer.classList.remove("filterOn");
 		}
 	}
 
@@ -1121,9 +1122,8 @@ let rssTreeView = (function() {
 	function onClickClearFilter(event) {
 		m_elmTextFilter.value = "";
 		unfilterAllTreeItems();
-		m_elmFilterContainer.classList.remove("filterOn");
-		m_elmButtonFilter.classList.remove("collapsed");
-		m_elmFilterContainer.classList.remove("expanded");
+		filterContainer.classList.remove("filterOn");
+		m_elmfilterContainer.classList.remove("switched");
 	}
 
 	//==================================================================================
@@ -1868,7 +1868,7 @@ let rssTreeView = (function() {
 			} else if(status === TreeItemStatus.VISITED) {
 				elms[i].style.display = !cList.contains("bold") && !cList.contains("error") && !cList.contains("loading") ? "" : "none";
 			} else if(status === TreeItemStatus.UNVISITED) {
-				elms[i].style.display = cList.contains("bold") ? "" : "none";
+				elms[i].style.display = cList.contains("bold") && !cList.contains("error") ? "" : "none";
 			} else if(status === TreeItemStatus.LOADING) {
 				elms[i].style.display = cList.contains("loading") ? "" : "none";
 			}
