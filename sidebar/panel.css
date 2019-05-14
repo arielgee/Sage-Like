@@ -2,6 +2,7 @@
 
 :root {
 	--toolbar-height: 31px;
+	--toolbar-button-size: 18px;
 	--top-height: 60%;
 	--splitter-height: 7px;
 	--line-height: 19px;		/* UI density: Comfortable */
@@ -75,8 +76,9 @@ html, body {
 }
 
 .toolbar .button {
-	width: 18px;
-	height: 18px;
+	width: var(--toolbar-button-size);
+	height: var(--toolbar-button-size);
+	min-width: var(--toolbar-button-size);
 	border-radius: 2px;
 	margin: auto var(--buttons-spacer) auto 0;
 }
@@ -99,12 +101,65 @@ html, body {
 
 .spacer {
 	width: var(--buttons-spacer);
+	min-width: var(--buttons-spacer);
 	height: 16px;
 	pointer-events: none;
 }
 
 .springSpacer {
 	margin: auto;
+}
+
+.toolbar #filter.button {
+	transition: width 400ms linear 0ms, min-width 400ms linear 0ms, margin-right 400ms linear 0ms;
+}
+
+.toolbar #filter.button.collapsed {
+	width: 0;
+	min-width: 0;
+	margin-right: 0;
+}
+
+#textFilterContainer {
+
+	--width-filter-image: 16px;
+	--width-filter-text: 140px;
+	--width-filter-clear: var(--toolbar-button-size);
+	--width-container: calc(var(--width-filter-image) + var(--width-filter-text) + var(--width-filter-clear) + 2px); /* 2px => border*/
+
+	display: flex;
+	border: 0 solid #7f7f7f;
+	overflow: hidden;
+	width: 0;
+	min-width: 0;
+	height: 20px;
+	pointer-events: none;
+	transition: width 300ms ease-out 80ms, min-width 300ms ease-out 80ms, border-width 300ms ease-out 80ms;
+}
+
+#textFilterContainer.expanded {
+	border-width: 1px;
+	width: var(--width-container);
+	min-width: var(--width-container);
+	pointer-events: auto;
+}
+
+#imageFilter {
+	width: var(--width-filter-image);
+	height: var(--toolbar-button-size);
+	background: -moz-Field url("/icons/filter-12.png") no-repeat 2px 4px;
+}
+
+#textFilter {
+	border: 0;
+	padding: 1px;
+	width: var(--width-filter-text);
+	height: var(--toolbar-button-size);
+}
+
+#textFilterContainer.filterOn > #imageFilter,
+#textFilterContainer.filterOn > #textFilter {
+	background-color:rgb(255, 192, 192);
 }
 
 #checkTreeFeeds {
@@ -118,6 +173,12 @@ html, body {
 }
 #collapseall {
 	background: transparent url("/icons/collapseall.png") no-repeat center center;
+}
+#filter {
+	background: transparent url("/icons/filter.png") no-repeat center center;
+}
+#clearFilter {
+	background: transparent url("/icons/clear.png") no-repeat center center;
 }
 #preferences {
 	background: transparent url("/icons/preferences.png") no-repeat center center;

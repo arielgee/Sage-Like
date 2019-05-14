@@ -44,9 +44,30 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
+	const FILTER_TOOLTIP_TITLE = "To filter the displayed feeds, you can use: \u000d" +
+									" \u2776 Simple text (case-insensitive). \u000d" +
+									" \u2777 Enclosed Regular Expression pattern between two slashes ('/'). Only supported flag is 'i' when placed after the second slash. \u000d" +
+									" \u2778 Special tag ':unread' for unvisited feeds. \u000d" +
+									" \u2779 Special tag ':read' for visited feeds. \u000d" +
+									" \u277a Special tag ':error' for feeds that failed to update. \u000d" +
+									" \u277b Special tag ':load' for feeds that are still loading. \u000d\u000d" +
+									"\u25cf Filtering may seem incorrect due to feeds changing their status AFTER the filtering process has finished.";
+
+	let TreeItemStatus = Object.freeze({
+		invalid: -1,
+		ERROR: 0,
+		VISITED: 1,
+		UNVISITED: 2,
+		LOADING: 3,
+	});
+
 	let m_elmCheckTreeFeeds;
 	let m_elmExpandAll;
 	let m_elmCollapseAll;
+	let m_elmButtonFilter;
+	let m_elmFilterContainer;
+	let m_elmTextFilter;
+	let m_elmClearFilter;
 
 	let m_elmTreeRoot;
 
@@ -142,6 +163,10 @@ let rssTreeView = (function() {
 
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
+		m_elmButtonFilter = document.getElementById("filter");
+		m_elmFilterContainer = document.getElementById("textFilterContainer");
+		m_elmTextFilter = document.getElementById("textFilter");
+		m_elmClearFilter = document.getElementById("clearFilter");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
 		m_elmTreeRoot = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
 
@@ -155,6 +180,9 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
+		m_elmButtonFilter.addEventListener("click",onClickFilter);
+		m_elmTextFilter.addEventListener("input", onInputChangeFilter);
+		m_elmClearFilter.addEventListener("click", onClickClearFilter);
 		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
 		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
@@ -167,6 +195,7 @@ let rssTreeView = (function() {
 		createRSSTree();
 
 		browser.browserAction.setBadgeText({text: ""});
+		document.getElementById("imageFilter").title = m_elmTextFilter.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 
 		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
 	}
@@ -182,6 +211,9 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
+		m_elmButtonFilter.removeEventListener("click",onClickFilter);
+		m_elmTextFilter.removeEventListener("input", onInputChangeFilter);
+		m_elmClearFilter.removeEventListener("click", onClickClearFilter);
 		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
 		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
@@ -1020,6 +1052,7 @@ let rssTreeView = (function() {
 	function onClickCheckTreeFeeds(event) {
 
 		if( !m_rssTreeCreatedOK || event.shiftKey ) {
+			onClickClearFilter({});
 			rssListView.disposeList();
 			createRSSTree();
 		} else {
@@ -1046,6 +1079,51 @@ let rssTreeView = (function() {
 			}
 		}
 		setFocus();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickFilter(event) {
+		m_elmButtonFilter.classList.add("collapsed");
+		m_elmFilterContainer.classList.add("expanded");
+		m_elmTextFilter.focus();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onInputChangeFilter(event) {
+
+		const txtValue = m_elmTextFilter.value;
+
+		if(txtValue !== "") {
+
+			m_elmFilterContainer.classList.add("filterOn");
+
+			if(txtValue === ":read") {
+				filterTreeItemStatus(TreeItemStatus.VISITED);
+			} else if(txtValue === ":unread") {
+				filterTreeItemStatus(TreeItemStatus.UNVISITED);
+			} else if(txtValue === ":error") {
+				filterTreeItemStatus(TreeItemStatus.ERROR);
+			} else if(txtValue === ":load") {
+				filterTreeItemStatus(TreeItemStatus.LOADING);
+			} else {
+				filterTreeItemText(txtValue);
+			}
+
+			filterEmptySubTreeItems();
+
+		} else {
+			unfilterAllTreeItems();
+			m_elmFilterContainer.classList.remove("filterOn");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickClearFilter(event) {
+		m_elmTextFilter.value = "";
+		unfilterAllTreeItems();
+		m_elmFilterContainer.classList.remove("filterOn");
+		m_elmButtonFilter.classList.remove("collapsed");
+		m_elmFilterContainer.classList.remove("expanded");
 	}
 
 	//==================================================================================
@@ -1772,6 +1850,90 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function isRssTreeCreatedOK() {
 		return m_rssTreeCreatedOK;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function filterTreeItemStatus(status) {
+
+		// select all tree items
+		let elms = m_elmTreeRoot.querySelectorAll("li.rtvTreeItem");
+
+		// hide the ones that do not match the filter
+		for(let i=0, len=elms.length; i<len; i++) {
+
+			const cList = elms[i].classList;
+
+			if(status === TreeItemStatus.ERROR) {
+				elms[i].style.display = cList.contains("error") ? "" : "none";
+			} else if(status === TreeItemStatus.VISITED) {
+				elms[i].style.display = !cList.contains("bold") && !cList.contains("error") && !cList.contains("loading") ? "" : "none";
+			} else if(status === TreeItemStatus.UNVISITED) {
+				elms[i].style.display = cList.contains("bold") ? "" : "none";
+			} else if(status === TreeItemStatus.LOADING) {
+				elms[i].style.display = cList.contains("loading") ? "" : "none";
+			}
+		}
+
+		filterEmptySubTreeItems();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function filterTreeItemText(txtFilter) {
+
+		let funcSimpleFilter = (text, filter) => text.toLowerCase().includes(filter);
+		let funcRegExpFilter = (text, filter) => text.match(new RegExp(...(filter.split('/').filter(e => e.length > 0)))) !== null;
+
+		let test, funcFilter;
+
+		// select which filter function to use
+		if( !!(test = txtFilter.match(/^(\/.*\/)([gimsuy]*)$/)) ) {
+			txtFilter = test[1] + (test[2].includes("i") ? "i" : "");		// remove all flags except for 'i'
+			funcFilter = funcRegExpFilter;
+		} else {
+			txtFilter = txtFilter.toLowerCase();						// case-insensitive
+			funcFilter = funcSimpleFilter;
+		}
+
+		// select all tree items
+		let elms = m_elmTreeRoot.querySelectorAll("li.rtvTreeItem");
+
+		// hide the ones that do not match the filter
+		for(let i=0, len=elms.length; i<len; i++) {
+
+			if(funcFilter(elms[i].firstElementChild.textContent, txtFilter)) {
+				elms[i].style.display = "";
+			} else {
+				elms[i].style.display = "none";
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function filterEmptySubTreeItems() {
+
+		// select all sub tree items
+		let elms = m_elmTreeRoot.querySelectorAll("li.rtvSubTree");
+
+		// hide the ones that all their children are hidden
+		for(let i=0, len=elms.length; i<len; i++) {
+
+			if(elms[i].querySelector("ul > .rtvTreeItem:not([style*='display: none'])") !== null) {
+				elms[i].style.display = "";
+			} else {
+				elms[i].style.display = "none";
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function unfilterAllTreeItems() {
+
+		let elms = m_elmTreeRoot.querySelectorAll("li.rtvTreeItem, li.rtvSubTree");
+
+		// hide the ones that all their children are hidden
+		for(let i=0, len=elms.length; i<len; i++) {
+			elms[i].style.display = "";
+		}
 	}
 
 	return {

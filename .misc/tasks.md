@@ -255,13 +255,14 @@
 * convert: "" + num is faster then num.toString()
 * in syndication.webPageFeedsDiscovery use document instead of domParser => CANNOT since using the PageDataByInjection() the Document object can't be sent via One-off messages
 * create initilization(); functions in all js files
+* add search capabilities to the treeView
 ---
 
 ## Next
+* re-apply filtering when statuses of feeds has changed ?
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.
-* add search capabilities to the treeView
 * re-desigh all popups as slide-down panels (?)
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
