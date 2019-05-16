@@ -112,17 +112,31 @@ html, body {
 
 #filterContainer {
 	--width-filter-image: 16px;
-	--width-filter-text: 140px;
+	--width-filter-text: 120px;
+	--width-filter-reapply: var(--toolbar-button-size);
+	--margin-right-filter-button: 4px;
 	--width-filter-clear: var(--toolbar-button-size);
-	--width-container: calc(var(--width-filter-image) + var(--width-filter-text) + var(--width-filter-clear) + 2px); /* 2px => border*/
+	--width-container: calc(var(--width-filter-image) + var(--width-filter-text) + var(--width-filter-reapply) + var(--margin-right-filter-button) + var(--width-filter-clear) + 2px);	/* 2px => border*/
+
+	--transition-speed-factor: 0.8;
+	--trans-duration-filter-button: calc(100ms * var(--transition-speed-factor));
+	--trans-delay-filter-button: calc(200ms * var(--transition-speed-factor));
+	--trans-duration-filter-box: calc(300ms * var(--transition-speed-factor));
+	--trans-delay-filter-box: calc(0ms * var(--transition-speed-factor));
+
 	display: flex;
 }
 
-#filter.button {
-	transition: width 400ms linear 0ms, min-width 400ms linear 0ms, margin-right 400ms linear 0ms;
+#filterContainer .button {
+	margin-right: 0;
 }
 
-#textFilterBorderContainer {
+#filter.button {
+	transition: width var(--trans-duration-filter-button) linear var(--trans-delay-filter-button),
+				min-width var(--trans-duration-filter-button) linear var(--trans-delay-filter-button);
+}
+
+#filterTextBoxContainer {
 	display: flex;
 	border: 0 solid #7f7f7f;
 	overflow: hidden;
@@ -130,29 +144,44 @@ html, body {
 	min-width: 0;
 	height: 20px;
 	pointer-events: none;
-	transition: width 300ms ease-out 80ms, min-width 300ms ease-out 80ms, border-width 300ms ease-out 80ms;
+	transition: width var(--trans-duration-filter-box) ease-out var(--trans-delay-filter-box),
+				min-width var(--trans-duration-filter-box) ease-out var(--trans-delay-filter-box),
+				border-width var(--trans-duration-filter-box) ease-out var(--trans-delay-filter-box);
+}
+
+#filterTextBoxContainer.visibleOverflow {
+	overflow: visible;
 }
 
 #imageFilter {
 	width: var(--width-filter-image);
 	height: var(--toolbar-button-size);
-	background: -moz-Field url("/icons/filter-12.png") no-repeat 2px 4px;
+	background: -moz-Field url("/icons/filter-12.png") no-repeat 2px center;
 }
 
 #textFilter {
 	border: 0;
-	padding: 1px;
+	padding: 1px 1px 1px 0;
 	width: var(--width-filter-text);
 	height: var(--toolbar-button-size);
 }
 
+#filterTextBoxContainer .button {
+	border-radius: 0;
+}
+
+#filterTextBoxContainer .button:not(:last-child) {
+	margin-right: var(--margin-right-filter-button)
+}
+
 #filterContainer.switched > #filter.button {
+	--trans-delay-filter-button: 0ms;
 	width: 0;
 	min-width: 0;
 	margin-right: 0;
 }
 
-#filterContainer.switched > #textFilterBorderContainer {
+#filterContainer.switched > #filterTextBoxContainer {
 	border-width: 1px;
 	width: var(--width-container);
 	min-width: var(--width-container);
@@ -161,7 +190,7 @@ html, body {
 
 #filterContainer.filterOn #imageFilter,
 #filterContainer.filterOn #textFilter {
-	background-color:rgb(255, 192, 192);
+	background-color: rgb(255, 192, 192);
 }
 
 #checkTreeFeeds {
@@ -179,8 +208,11 @@ html, body {
 #filter {
 	background: transparent url("/icons/filter.png") no-repeat center center;
 }
+#reapplyFilter {
+	background: transparent url("/icons/filter-reapply.png") no-repeat center center;
+}
 #clearFilter {
-	background: transparent url("/icons/clear.png") no-repeat center center;
+	background: transparent url("/icons/filter-clear.png") no-repeat center center;
 }
 #preferences {
 	background: transparent url("/icons/preferences.png") no-repeat center center;

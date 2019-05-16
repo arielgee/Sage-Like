@@ -259,6 +259,7 @@
 ---
 
 ## Next
+* problem with reg exp /[^z]/.  should not get the feed named 'zzzzz'
 * re-apply filtering when statuses of feeds has changed ?
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*

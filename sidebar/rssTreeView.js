@@ -44,16 +44,15 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const FILTER_TOOLTIP_TITLE = "The displayed feeds can be filter using: \u000d" +
-									"\u2776 A simple search text (case-insensitive). \u000d" +
-									"\u2777 An enclosed regular expression pattern between two slashes ('/'). \u000d" +
+	const FILTER_TOOLTIP_TITLE = "The displayed feeds can be filter using the following: \u000d" +
+									"\u2776 Simple search text (case-insensitive). \u000d" +
+									"\u2777 Regular expression pattern enclosed between two slashes ('/'). \u000d" +
 									"      The flag 'i' (case-insensitive) is supported when placed after the second slash. \u000d" +
-									"\u2778 A special tag ':unread' for unvisited feeds. \u000d" +
-									"\u2779 A special tag ':read' for visited feeds. \u000d" +
-									"\u277a A special tag ':error' for feeds that failed to update. \u000d" +
-									"\u277b A special tag ':load' for feeds that are still loading. \u000d\u000d" +
-									"\u25cf Filtering may seem incorrect due to feeds changing their status AFTER the filtering \u000d" +
-									"   process has finished.";
+									"\u2778 Special tag ':unread' for unvisited feeds. \u000d" +
+									"\u2779 Special tag ':read' for visited feeds. \u000d" +
+									"\u277a Special tag ':error' for feeds that failed to update. \u000d" +
+									"\u277b Special tag ':load' for feeds that are still loading. \u000d\u000d" +
+									"\u25cf Feeds may change their status after the filter was applied.";
 
 	let TreeItemStatus = Object.freeze({
 		invalid: -1,
@@ -69,6 +68,7 @@ let rssTreeView = (function() {
 	let m_elmfilterContainer;
 	let m_elmButtonFilter;
 	let m_elmTextFilter;
+	let m_elmReapplyFilter;
 	let m_elmClearFilter;
 
 	let m_elmTreeRoot;
@@ -168,6 +168,7 @@ let rssTreeView = (function() {
 		m_elmfilterContainer = document.getElementById("filterContainer");
 		m_elmButtonFilter = document.getElementById("filter");
 		m_elmTextFilter = document.getElementById("textFilter");
+		m_elmReapplyFilter = document.getElementById("reapplyFilter");
 		m_elmClearFilter = document.getElementById("clearFilter");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
 		m_elmTreeRoot = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
@@ -184,6 +185,7 @@ let rssTreeView = (function() {
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmButtonFilter.addEventListener("click",onClickFilter);
 		m_elmTextFilter.addEventListener("input", onInputChangeFilter);
+		m_elmReapplyFilter.addEventListener("click", onClickReapplyFilter);
 		m_elmClearFilter.addEventListener("click", onClickClearFilter);
 		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
@@ -197,7 +199,7 @@ let rssTreeView = (function() {
 		createRSSTree();
 
 		browser.browserAction.setBadgeText({text: ""});
-		document.getElementById("textFilterBorderContainer").title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
+		document.getElementById("filterTextBoxContainer").title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 
 		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
 	}
@@ -215,6 +217,7 @@ let rssTreeView = (function() {
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmButtonFilter.removeEventListener("click",onClickFilter);
 		m_elmTextFilter.removeEventListener("input", onInputChangeFilter);
+		m_elmReapplyFilter.removeEventListener("click", onClickReapplyFilter);
 		m_elmClearFilter.removeEventListener("click", onClickClearFilter);
 		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
@@ -1085,6 +1088,13 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickFilter(event) {
+
+		// ugly way to apply 'overflow: visible' after the transition was completed
+		let propVal = getComputedStyle(m_elmfilterContainer).getPropertyValue("--trans-duration-filter-box");
+		let multiNumbers = propVal.replace(/[^\d\.\*]+/g, "").split("*");
+		let timeout = (!!multiNumbers && multiNumbers.length  === 2) ? multiNumbers[0] * multiNumbers[1] : 1000;
+		setTimeout(() => document.getElementById("filterTextBoxContainer").classList.add("visibleOverflow"), timeout);
+
 		m_elmfilterContainer.classList.add("switched");
 		m_elmTextFilter.focus();
 	}
@@ -1119,10 +1129,18 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onClickReapplyFilter(event) {
+		onInputChangeFilter();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onClickClearFilter(event) {
+
 		m_elmTextFilter.value = "";
 		unfilterAllTreeItems();
 		filterContainer.classList.remove("filterOn");
+
+		document.getElementById("filterTextBoxContainer").classList.remove("visibleOverflow");
 		m_elmfilterContainer.classList.remove("switched");
 	}
 
