@@ -260,6 +260,11 @@
 
 ## Next
 * problem with reg exp /[^z]/.  should not get the feed named 'zzzzz'
+* in onDropTreeItem() event listeners are not removed from the m_elmCurrentlyDragged tree item before it's removed from the tree.
+    * before this line: m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
+* use ONE SINGLE addEventListener() on entire treeview instead of many listeners on each tree item!!!!
+    * https://gomakethings.com/checking-event-target-selectors-with-event-bubbling-in-vanilla-javascript/
+    * https://gomakethings.com/why-event-delegation-is-a-better-way-to-listen-for-events-in-vanilla-js/
 * re-apply filtering when statuses of feeds has changed ?
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*

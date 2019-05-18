@@ -90,6 +90,7 @@ let rssTreeView = (function() {
 	let m_objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
 	let m_browserVersion;				// V64 RSS support dropped
+	let m_isFilterApplied = false;
 
 	initilization();
 
@@ -1095,6 +1096,7 @@ let rssTreeView = (function() {
 		let timeout = (!!multiNumbers && multiNumbers.length  === 2) ? multiNumbers[0] * multiNumbers[1] : 1000;
 		setTimeout(() => document.getElementById("filterTextBoxContainer").classList.add("visibleOverflow"), timeout);
 
+		m_elmReapplyFilter.classList.remove("alert");
 		m_elmfilterContainer.classList.add("switched");
 		m_elmTextFilter.focus();
 	}
@@ -1106,7 +1108,9 @@ let rssTreeView = (function() {
 
 		if(txtValue !== "") {
 
-			filterContainer.classList.add("filterOn");
+			m_elmReapplyFilter.classList.remove("alert");
+			m_elmfilterContainer.classList.add("filterOn");
+			m_isFilterApplied = true;
 
 			if(txtValue === ":read") {
 				filterTreeItemStatus(TreeItemStatus.VISITED);
@@ -1124,7 +1128,9 @@ let rssTreeView = (function() {
 
 		} else {
 			unfilterAllTreeItems();
-			filterContainer.classList.remove("filterOn");
+			m_elmReapplyFilter.classList.remove("alert");
+			m_elmfilterContainer.classList.remove("filterOn");
+			m_isFilterApplied = false;
 		}
 	}
 
@@ -1138,7 +1144,9 @@ let rssTreeView = (function() {
 
 		m_elmTextFilter.value = "";
 		unfilterAllTreeItems();
-		filterContainer.classList.remove("filterOn");
+		m_elmfilterContainer.classList.remove("filterOn");
+		m_elmReapplyFilter.classList.remove("alert");
+		m_isFilterApplied = false;
 
 		document.getElementById("filterTextBoxContainer").classList.remove("visibleOverflow");
 		m_elmfilterContainer.classList.remove("switched");
@@ -1589,6 +1597,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedLoadingState(elm, isLoading) {
 		elm.classList.toggle("loading", isLoading);
+		notifyAppliedFilter();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1599,6 +1608,7 @@ let rssTreeView = (function() {
 		}
 		elm.classList.toggle("loading", isLoading);
 		m_elmCurrentlyLoading = isLoading ? elm : null;
+		notifyAppliedFilter();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1623,6 +1633,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedVisitedState(elm, isVisited) {
 		elm.classList.toggle("bold", !isVisited);
+		notifyAppliedFilter();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1630,6 +1641,7 @@ let rssTreeView = (function() {
 
 		elm.classList.toggle("error", isError);
 		setFeedTooltipState(elm, isError ? "Error: " + errorMsg : undefined);
+		notifyAppliedFilter();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1953,6 +1965,19 @@ let rssTreeView = (function() {
 		// hide the ones that all their children are hidden
 		for(let i=0, len=elms.length; i<len; i++) {
 			elms[i].style.display = "";
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function notifyAppliedFilter() {
+		if(m_isFilterApplied) {
+			m_elmReapplyFilter.classList.add("alert");
+
+			if(m_elmReapplyFilter.slSavedTitle === undefined) {
+				m_elmReapplyFilter.slSavedTitle = m_elmReapplyFilter.title;
+			}
+
+			m_elmReapplyFilter.title = "One or more feed statuses have changed. Filter may require applying.";
 		}
 	}
 
