@@ -1657,6 +1657,16 @@ let slUtil = (function() {
 		return browserVersion >= "64" ? getFeedPreviewUrl(url) : url;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function isRegExpValid(pattern, flags) {
+		try {
+			new RegExp(pattern, flags);
+			return true;
+		} catch (error) {
+			return false;
+		}
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -1687,6 +1697,7 @@ let slUtil = (function() {
 		getBrowserVersion: getBrowserVersion,
 		getFeedPreviewUrl: getFeedPreviewUrl,
 		getFeedPreviewUrlByBrowserVersion: getFeedPreviewUrlByBrowserVersion,
+		isRegExpValid: isRegExpValid,
 	};
 
 })();

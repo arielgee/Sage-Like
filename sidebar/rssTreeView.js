@@ -1904,7 +1904,9 @@ let rssTreeView = (function() {
 		let test, funcFilter;
 
 		// select which filter function to use
-		if( !!(test = txtFilter.match(/^(\/.*\/)([gimsuy]*)$/)) ) {
+		if( !!(test = txtFilter.match(/^(\/.*\/)([gimsuy]*)$/)) &&
+				slUtil.isRegExpValid(...(txtFilter.split('/').filter(e => e.length > 0))) ) {
+
 			txtFilter = test[1] + (test[2].includes("i") ? "i" : "");		// remove all flags except for 'i'
 			funcFilter = funcRegExpFilter;
 		} else {
