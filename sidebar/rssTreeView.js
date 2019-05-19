@@ -44,18 +44,18 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const FILTER_TOOLTIP_TITLE = "The displayed feeds can be filter using the following: \u000d" +
-									"\u2776 Simple search text (case-insensitive). \u000d" +
-									"\u2777 Regular expression pattern enclosed between two slashes ('/'). \u000d" +
-									"      The flag 'i' (case-insensitive) is supported when placed after the second slash. \u000d" +
-									"\u2778 Special tag ':unread' for unvisited feeds. \u000d" +
-									"\u2779 Special tag ':read' for visited feeds. \u000d" +
-									"\u277a Special tag ':error' for feeds that failed to update. \u000d" +
-									"\u277b Special tag ':load' for feeds that are still loading. \u000d\u000d" +
-									"\u25cf Feeds may change their status after the filter was applied.";
+	const FILTER_TOOLTIP_TITLE = "The displayed feeds can be filtered using the following: \u000d" +
+									"  \u271a Simple search text (case-insensitive). \u000d" +
+									"  \u271a Regular expression pattern enclosed between two slashes ('/'). \u000d" +
+									"      Flag 'i' (case-insensitive) is supported when placed after the second slash. \u000d" +
+									"  \u271a Special command '>unread' for unvisited feeds. \u000d" +
+									"  \u271a Special command '>read' for visited feeds. \u000d" +
+									"  \u271a Special command '>error' for feeds that failed to update. \u000d" +
+									"  \u271a Special command '>load' for feeds that are still loading. \u000d\u000d" +
+									"\u2731 Feeds may change their status after the filter was applied.";
 
 	let TreeItemStatus = Object.freeze({
-		invalid: -1,
+		INVALID: -1,
 		ERROR: 0,
 		VISITED: 1,
 		UNVISITED: 2,
@@ -1096,7 +1096,6 @@ let rssTreeView = (function() {
 		let timeout = (!!multiNumbers && multiNumbers.length  === 2) ? multiNumbers[0] * multiNumbers[1] : 1000;
 		setTimeout(() => document.getElementById("filterTextBoxContainer").classList.add("visibleOverflow"), timeout);
 
-		m_elmReapplyFilter.classList.remove("alert");
 		m_elmfilterContainer.classList.add("switched");
 		m_elmTextFilter.focus();
 	}
@@ -1106,20 +1105,23 @@ let rssTreeView = (function() {
 
 		const txtValue = m_elmTextFilter.value;
 
+		notifyAppliedFilter(true);
+		m_elmfilterContainer.classList.remove("filterTextOn", "filterRegExpOn", "filterTagOn");
+
 		if(txtValue !== "") {
 
-			m_elmReapplyFilter.classList.remove("alert");
-			m_elmfilterContainer.classList.add("filterOn");
 			m_isFilterApplied = true;
 
-			if(txtValue === ":read") {
-				filterTreeItemStatus(TreeItemStatus.VISITED);
-			} else if(txtValue === ":unread") {
-				filterTreeItemStatus(TreeItemStatus.UNVISITED);
-			} else if(txtValue === ":error") {
-				filterTreeItemStatus(TreeItemStatus.ERROR);
-			} else if(txtValue === ":load") {
-				filterTreeItemStatus(TreeItemStatus.LOADING);
+			if(txtValue[0] === ">") {
+
+				switch (txtValue.toLowerCase()) {
+					case ">read":	filterTreeItemStatus(TreeItemStatus.VISITED);	break;
+					case ">unread":	filterTreeItemStatus(TreeItemStatus.UNVISITED);	break;
+					case ">error":	filterTreeItemStatus(TreeItemStatus.ERROR);		break;
+					case ">load":	filterTreeItemStatus(TreeItemStatus.LOADING);	break;
+					default:		filterTreeItemStatus(TreeItemStatus.INVALID);	break;
+				}
+
 			} else {
 				filterTreeItemText(txtValue);
 			}
@@ -1128,8 +1130,6 @@ let rssTreeView = (function() {
 
 		} else {
 			unfilterAllTreeItems();
-			m_elmReapplyFilter.classList.remove("alert");
-			m_elmfilterContainer.classList.remove("filterOn");
 			m_isFilterApplied = false;
 		}
 	}
@@ -1144,8 +1144,8 @@ let rssTreeView = (function() {
 
 		m_elmTextFilter.value = "";
 		unfilterAllTreeItems();
-		m_elmfilterContainer.classList.remove("filterOn");
-		m_elmReapplyFilter.classList.remove("alert");
+		m_elmfilterContainer.classList.remove("filterTextOn", "filterRegExpOn", "filterTagOn");
+		notifyAppliedFilter(true);
 		m_isFilterApplied = false;
 
 		document.getElementById("filterTextBoxContainer").classList.remove("visibleOverflow");
@@ -1885,6 +1885,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function filterTreeItemStatus(status) {
 
+		m_elmfilterContainer.classList.add("filterTagOn");
+
 		// select all tree items
 		let elms = m_elmTreeRoot.querySelectorAll("li.rtvTreeItem");
 
@@ -1901,6 +1903,8 @@ let rssTreeView = (function() {
 				elms[i].style.display = cList.contains("bold") && !cList.contains("error") ? "" : "none";
 			} else if(status === TreeItemStatus.LOADING) {
 				elms[i].style.display = cList.contains("loading") ? "" : "none";
+			} else {
+				elms[i].style.display = "none";
 			}
 		}
 
@@ -1919,9 +1923,11 @@ let rssTreeView = (function() {
 		if( !!(test = txtFilter.match(/^(\/.*\/)([gimsuy]*)$/)) &&
 				slUtil.isRegExpValid(...(txtFilter.split('/').filter(e => e.length > 0))) ) {
 
+			m_elmfilterContainer.classList.add("filterRegExpOn");
 			txtFilter = test[1] + (test[2].includes("i") ? "i" : "");		// remove all flags except for 'i'
 			funcFilter = funcRegExpFilter;
 		} else {
+			m_elmfilterContainer.classList.add("filterTextOn");
 			txtFilter = txtFilter.toLowerCase();						// case-insensitive
 			funcFilter = funcSimpleFilter;
 		}
@@ -1969,15 +1975,21 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function notifyAppliedFilter() {
+	function notifyAppliedFilter(reset = false) {
+
 		if(m_isFilterApplied) {
-			m_elmReapplyFilter.classList.add("alert");
 
 			if(m_elmReapplyFilter.slSavedTitle === undefined) {
 				m_elmReapplyFilter.slSavedTitle = m_elmReapplyFilter.title;
 			}
 
-			m_elmReapplyFilter.title = "One or more feed statuses have changed. Filter may require applying.";
+			if(reset) {
+				m_elmReapplyFilter.classList.remove("alert");
+				m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle;
+			} else {
+				m_elmReapplyFilter.classList.add("alert");
+				m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle + "\u000d\u000d\u2731 The status of one or more feeds has changed. Filter may require reapplying.";
+			}
 		}
 	}
 

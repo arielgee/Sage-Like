@@ -188,9 +188,19 @@ html, body {
 	pointer-events: auto;
 }
 
-#filterContainer.filterOn #imageFilter,
-#filterContainer.filterOn #textFilter {
-	background-color: rgb(255, 192, 192);
+#filterContainer.filterTextOn #imageFilter,
+#filterContainer.filterTextOn #textFilter {
+	background-color: rgb(255, 220, 154);
+}
+
+#filterContainer.filterRegExpOn #imageFilter,
+#filterContainer.filterRegExpOn #textFilter {
+	background-color: rgb(177, 227, 255);
+}
+
+#filterContainer.filterTagOn #imageFilter,
+#filterContainer.filterTagOn #textFilter {
+	background-color: rgb(170, 255, 170);
 }
 
 #checkTreeFeeds {
