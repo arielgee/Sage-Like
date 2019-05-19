@@ -258,11 +258,11 @@
 * add search capabilities to the treeView
 * problem with reg exp /[^z]/.  should not get the feed named 'zzzzz' => feed title for http://megafon-news.co.il/ looks empty but has two '\u00' chars so 'zzz' is actually '\u00\u00zzz'
 * re-apply filtering when statuses of feeds has changed. Notify applied filter about feed status change.
+* in onDropTreeItem() event listeners are not removed from the m_elmCurrentlyDragged tree item before it's removed from the tree.
+    * before this line: m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
 ---
 
 ## Next
-* in onDropTreeItem() event listeners are not removed from the m_elmCurrentlyDragged tree item before it's removed from the tree.
-    * before this line: m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
 * use ONE SINGLE addEventListener() on entire treeview instead of many listeners on each tree item!!!!
     * https://gomakethings.com/checking-event-target-selectors-with-event-bubbling-in-vanilla-javascript/
     * https://gomakethings.com/why-event-delegation-is-a-better-way-to-listen-for-events-in-vanilla-js/

@@ -499,9 +499,24 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function addSubTreeItemsEventListeners(elm) {
 
-		addTreeItemEventListeners(elm);
+		if(elm.tagName === "LI") {
+			addTreeItemEventListeners(elm);
+		}
+
 		for(let child of elm.children) {
 			addSubTreeItemsEventListeners(child);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function removeSubTreeItemsEventListeners(elm) {
+
+		if(elm.tagName === "LI") {
+			removeTreeItemEventListeners(elm);
+		}
+
+		for(let child of elm.children) {
+			removeSubTreeItemsEventListeners(child);
 		}
 	}
 
@@ -729,6 +744,7 @@ let rssTreeView = (function() {
 						suspendBookmarksEventHandler(() => {
 							return browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
 
+								removeSubTreeItemsEventListeners(m_elmCurrentlyDragged);
 								m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
 
 								let elmDropped;
@@ -1436,6 +1452,7 @@ let rssTreeView = (function() {
 							rssListView.disposeList();
 						}
 
+						removeSubTreeItemsEventListeners(elmLI);
 						elmLI.parentElement.removeChild(elmLI);
 						m_objTreeFeedsData.remove(elmLI.id);
 
