@@ -260,14 +260,14 @@
 * re-apply filtering when statuses of feeds has changed. Notify applied filter about feed status change.
 * in onDropTreeItem() event listeners are not removed from the m_elmCurrentlyDragged tree item before it's removed from the tree.
     * before this line: m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
+* remember last filter
+* dropdown list for filter ">" commands   => NO only 4 commands, WTF?
 ---
 
 ## Next
 * use ONE SINGLE addEventListener() on entire treeview instead of many listeners on each tree item!!!!
     * https://gomakethings.com/checking-event-target-selectors-with-event-bubbling-in-vanilla-javascript/
     * https://gomakethings.com/why-event-delegation-is-a-better-way-to-listen-for-events-in-vanilla-js/
-* remember last filter
-* dropdown list for filter ">" commands
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.

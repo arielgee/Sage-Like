@@ -67,6 +67,7 @@ let rssTreeView = (function() {
 	let m_elmCollapseAll;
 	let m_elmfilterContainer;
 	let m_elmButtonFilter;
+	let m_elmFilterTextBoxContainer;
 	let m_elmTextFilter;
 	let m_elmReapplyFilter;
 	let m_elmClearFilter;
@@ -168,6 +169,7 @@ let rssTreeView = (function() {
 		m_elmCollapseAll = document.getElementById("collapseall");
 		m_elmfilterContainer = document.getElementById("filterContainer");
 		m_elmButtonFilter = document.getElementById("filter");
+		m_elmFilterTextBoxContainer = document.getElementById("filterTextBoxContainer");
 		m_elmTextFilter = document.getElementById("textFilter");
 		m_elmReapplyFilter = document.getElementById("reapplyFilter");
 		m_elmClearFilter = document.getElementById("clearFilter");
@@ -185,7 +187,8 @@ let rssTreeView = (function() {
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmButtonFilter.addEventListener("click",onClickFilter);
-		m_elmTextFilter.addEventListener("input", onInputChangeFilter);
+		m_elmTextFilter.addEventListener("input", onInputChangeTextFilter);
+		m_elmTextFilter.addEventListener("keydown", onKeyDownTextFilter);
 		m_elmReapplyFilter.addEventListener("click", onClickReapplyFilter);
 		m_elmClearFilter.addEventListener("click", onClickClearFilter);
 		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
@@ -200,7 +203,7 @@ let rssTreeView = (function() {
 		createRSSTree();
 
 		browser.browserAction.setBadgeText({text: ""});
-		document.getElementById("filterTextBoxContainer").title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
+		m_elmFilterTextBoxContainer.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 
 		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
 	}
@@ -217,7 +220,8 @@ let rssTreeView = (function() {
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmButtonFilter.removeEventListener("click",onClickFilter);
-		m_elmTextFilter.removeEventListener("input", onInputChangeFilter);
+		m_elmTextFilter.removeEventListener("input", onInputChangeTextFilter);
+		m_elmTextFilter.removeEventListener("keydown", onKeyDownTextFilter);
 		m_elmReapplyFilter.removeEventListener("click", onClickReapplyFilter);
 		m_elmClearFilter.removeEventListener("click", onClickClearFilter);
 		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
@@ -387,6 +391,15 @@ let rssTreeView = (function() {
 					clientY: 1,
 				});
 			}
+
+			if(restoreData.feedsFilter !== "") {
+				setTimeout(() => {
+					m_elmTextFilter.value = restoreData.feedsFilter;
+					onClickFilter()
+					onInputChangeTextFilter();
+				}, 400);
+			}
+
 		});
 	}
 
@@ -1109,15 +1122,15 @@ let rssTreeView = (function() {
 		// ugly way to apply 'overflow: visible' after the transition was completed
 		let propVal = getComputedStyle(m_elmfilterContainer).getPropertyValue("--trans-duration-filter-box");
 		let multiNumbers = propVal.replace(/[^\d\.\*]+/g, "").split("*");
-		let timeout = (!!multiNumbers && multiNumbers.length  === 2) ? multiNumbers[0] * multiNumbers[1] : 1000;
-		setTimeout(() => document.getElementById("filterTextBoxContainer").classList.add("visibleOverflow"), timeout);
+		let timeout = (!!multiNumbers && multiNumbers.length  === 2) ? multiNumbers[0] * multiNumbers[1] + 10 : 1000;
+		setTimeout(() => m_elmFilterTextBoxContainer.classList.add("visibleOverflow"), timeout);
 
 		m_elmfilterContainer.classList.add("switched");
 		m_elmTextFilter.focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onInputChangeFilter(event) {
+	function onInputChangeTextFilter(event) {
 
 		const txtValue = m_elmTextFilter.value;
 
@@ -1148,11 +1161,20 @@ let rssTreeView = (function() {
 			unfilterAllTreeItems();
 			m_isFilterApplied = false;
 		}
+
+		internalPrefs.setFeedsFilter(txtValue);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownTextFilter(event) {
+		if(event.key.toLowerCase() === "escape") {
+			onClickClearFilter();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickReapplyFilter(event) {
-		onInputChangeFilter();
+		onInputChangeTextFilter();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1164,7 +1186,9 @@ let rssTreeView = (function() {
 		notifyAppliedFilter(true);
 		m_isFilterApplied = false;
 
-		document.getElementById("filterTextBoxContainer").classList.remove("visibleOverflow");
+		internalPrefs.setFeedsFilter("");
+
+		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
 		m_elmfilterContainer.classList.remove("switched");
 	}
 
@@ -1524,6 +1548,7 @@ let rssTreeView = (function() {
 			return browser.bookmarks.update(elmLI.id, changes).then((updated) => {
 
 				elmLI.firstElementChild.textContent = updated.title;
+				notifyAppliedFilter();
 
 				let urlChanged = (elmLI.getAttribute("href") !== updated.url);
 
@@ -1571,6 +1596,7 @@ let rssTreeView = (function() {
 					suspendBookmarksEventHandler(() => {
 						return browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
 							elmLI.firstElementChild.textContent = updatedNode.title;
+							notifyAppliedFilter();
 						}).catch((error) => console.log("[Sage-Like]", error) );
 					});
 				}
@@ -2005,7 +2031,7 @@ let rssTreeView = (function() {
 				m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle;
 			} else {
 				m_elmReapplyFilter.classList.add("alert");
-				m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle + "\u000d\u000d\u2731 The status of one or more feeds has changed. Filter may require reapplying.";
+				m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle + "\u000d\u000d\u2731 The status or title of one or more feeds has changed. Filter may require reapplying.";
 			}
 		}
 	}

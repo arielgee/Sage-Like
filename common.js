@@ -513,6 +513,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_TREE_SCROLL_TOP_VALUE = 0;
 	const DEF_PREF_SPLITTER_TOP_VALUE = undefined;
 	const DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE = 5;
+	const DEF_PREF_FEEDS_FILTER_VALUE = "";
 
 	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
@@ -521,6 +522,7 @@ let internalPrefs = (function() {
 	const PREF_TREE_SCROLL_TOP = "pref_treeScrollTop";
 	const PREF_SPLITTER_TOP = "pref_splitterTop";
 	const PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT = "pref_dropInsideFolderShowMsgCount";
+	const PREF_FEEDS_FILTER = "pref_feedsFilter";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenSubTrees() {
@@ -656,6 +658,26 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getFeedsFilter() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_FEEDS_FILTER).then((result) => {
+				resolve(result[PREF_FEEDS_FILTER] === undefined ? DEF_PREF_FEEDS_FILTER_VALUE : result[PREF_FEEDS_FILTER]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setFeedsFilter(value) {
+
+		let obj = {};
+		obj[PREF_FEEDS_FILTER] = value;
+		browser.storage.local.set(obj);
+	}
+
+
+	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
 
 		return new Promise((resolve) => {
@@ -663,12 +685,14 @@ let internalPrefs = (function() {
 			let getting = browser.storage.local.get([
 				PREF_TREE_SCROLL_TOP,
 				PREF_TREE_SELECTED_ITEM_ID,
+				PREF_FEEDS_FILTER,
 			]);
 
 			getting.then((result) => {
 				resolve({
 					treeScrollTop: result[PREF_TREE_SCROLL_TOP] === undefined ? DEF_PREF_TREE_SCROLL_TOP_VALUE : result[PREF_TREE_SCROLL_TOP],
 					treeSelectedItemId: result[PREF_TREE_SELECTED_ITEM_ID] === undefined ? DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE : result[PREF_TREE_SELECTED_ITEM_ID],
+					feedsFilter: result[PREF_FEEDS_FILTER] === undefined ? DEF_PREF_FEEDS_FILTER_VALUE : result[PREF_FEEDS_FILTER],
 				});
 			});
 		});
@@ -683,6 +707,7 @@ let internalPrefs = (function() {
 		this.setTreeScrollTop(DEF_PREF_TREE_SCROLL_TOP_VALUE);
 		this.setSplitterTop(DEF_PREF_SPLITTER_TOP_VALUE);
 		this.setDropInsideFolderShowMsgCount(DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE);
+		this.setFeedsFilter(DEF_PREF_FEEDS_FILTER_VALUE);
 
 		return {
 			openSubTrees: DEF_PREF_OPEN_SUB_TREES_VALUE,
@@ -692,6 +717,7 @@ let internalPrefs = (function() {
 			treeScrollTop: DEF_PREF_TREE_SCROLL_TOP_VALUE,
 			splitterTop: DEF_PREF_SPLITTER_TOP_VALUE,
 			dropInsideFolderShowMsgCount: DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE,
+			feedsFilter: DEF_PREF_FEEDS_FILTER_VALUE,
 		};
 	}
 
@@ -710,6 +736,8 @@ let internalPrefs = (function() {
 		setSplitterTop: setSplitterTop,
 		getDropInsideFolderShowMsgCount: getDropInsideFolderShowMsgCount,
 		setDropInsideFolderShowMsgCount: setDropInsideFolderShowMsgCount,
+		getFeedsFilter: getFeedsFilter,
+		setFeedsFilter: setFeedsFilter,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 
@@ -1667,6 +1695,17 @@ let slUtil = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function setLimitedInterval(callback, interval, repeats) {
+
+		let intId = setInterval(() => {
+			callback();
+			if(--repeats === 0) {
+				clearInterval(intId);
+			}
+		}, interval);
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -1698,6 +1737,7 @@ let slUtil = (function() {
 		getFeedPreviewUrl: getFeedPreviewUrl,
 		getFeedPreviewUrlByBrowserVersion: getFeedPreviewUrlByBrowserVersion,
 		isRegExpValid: isRegExpValid,
+		setLimitedInterval: setLimitedInterval,
 	};
 
 })();
