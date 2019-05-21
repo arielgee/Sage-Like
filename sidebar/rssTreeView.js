@@ -395,8 +395,8 @@ let rssTreeView = (function() {
 			if(restoreData.feedsFilter !== "") {
 				setTimeout(() => {
 					m_elmTextFilter.value = restoreData.feedsFilter;
-					onClickFilter()
-					onInputChangeTextFilter();
+					onClickFilter({});
+					onInputChangeTextFilter({});
 				}, 400);
 			}
 
@@ -1168,13 +1168,13 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTextFilter(event) {
 		if(event.key.toLowerCase() === "escape") {
-			onClickClearFilter();
+			onClickClearFilter({});
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickReapplyFilter(event) {
-		onInputChangeTextFilter();
+		onInputChangeTextFilter({});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
