@@ -183,6 +183,7 @@ let rssTreeView = (function() {
 			await handleOnInstallExtension();
 		}
 
+		// toolbar buttons event listeners
 		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
@@ -191,8 +192,21 @@ let rssTreeView = (function() {
 		m_elmTextFilter.addEventListener("keydown", onKeyDownTextFilter);
 		m_elmReapplyFilter.addEventListener("click", onClickReapplyFilter);
 		m_elmClearFilter.addEventListener("click", onClickClearFilter);
+
+		// treeView event listeners
 		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
+		m_elmTreeRoot.addEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
+		m_elmTreeRoot.addEventListener("click", onClickTreeItem,);
+		m_elmTreeRoot.addEventListener("dblclick", onDoubleClickTreeItem,);
+		m_elmTreeRoot.addEventListener("dragstart", onDragStartTreeItem,);
+		m_elmTreeRoot.addEventListener("dragenter", onDragEnterTreeItem,);
+		m_elmTreeRoot.addEventListener("dragover", onDragOverTreeItem,);
+		m_elmTreeRoot.addEventListener("dragleave", onDragLeaveTreeItem,);
+		m_elmTreeRoot.addEventListener("dragend", onDragEndTreeItem,);
+		m_elmTreeRoot.addEventListener("drop", onDropTreeItem,);
+
+		// browser bookmarks event listeners
 		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onRemoved.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
@@ -211,11 +225,10 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
-		removeAllTreeItemsEventListeners();
-
 		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
 		m_timeoutIdMonitorRSSTreeFeeds = null;
 
+		// toolbar buttons event listeners
 		m_elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
@@ -224,8 +237,21 @@ let rssTreeView = (function() {
 		m_elmTextFilter.removeEventListener("keydown", onKeyDownTextFilter);
 		m_elmReapplyFilter.removeEventListener("click", onClickReapplyFilter);
 		m_elmClearFilter.removeEventListener("click", onClickClearFilter);
+
+		// treeView event listeners
 		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
+		m_elmTreeRoot.removeEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
+		m_elmTreeRoot.removeEventListener("click", onClickTreeItem,);
+		m_elmTreeRoot.removeEventListener("dblclick", onDoubleClickTreeItem,);
+		m_elmTreeRoot.removeEventListener("dragstart", onDragStartTreeItem,);
+		m_elmTreeRoot.removeEventListener("dragenter", onDragEnterTreeItem,);
+		m_elmTreeRoot.removeEventListener("dragover", onDragOverTreeItem,);
+		m_elmTreeRoot.removeEventListener("dragleave", onDragLeaveTreeItem,);
+		m_elmTreeRoot.removeEventListener("dragend", onDragEndTreeItem,);
+		m_elmTreeRoot.removeEventListener("drop", onDropTreeItem,);
+
+		// browser bookmarks event listeners
 		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
 		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
 		browser.bookmarks.onChanged.removeListener(onBookmarksEventHandler);
@@ -347,7 +373,6 @@ let rssTreeView = (function() {
 		elm.appendChild(elmCaption);
 
 		setFeedTooltipState(elm);
-		addTreeItemEventListeners(elm);
 
 		return elm;
 	}
@@ -481,57 +506,8 @@ let rssTreeView = (function() {
 	}
 
 	//==================================================================================
-	//=== Tree Item Event Listeners
+	//=== Tree Item Event Listeners; delegated from the treeView element
 	//==================================================================================
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function addTreeItemEventListeners(elm) {
-		elm.addEventListener("focus", onFocusTreeItem, false);
-		elm.addEventListener("click", onClickTreeItem, false);
-		elm.addEventListener("dblclick", onDoubleClickTreeItem, false);
-		elm.addEventListener("dragstart", onDragStartTreeItem, false);
-		elm.addEventListener("dragenter", onDragEnterTreeItem, false)
-		elm.addEventListener("dragover", onDragOverTreeItem, false);
-		elm.addEventListener("dragleave", onDragLeaveTreeItem, false);
-		elm.addEventListener("dragend", onDragEndTreeItem, false);
-		elm.addEventListener("drop", onDropTreeItem, false);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function removeTreeItemEventListeners(elm) {
-		elm.removeEventListener("focus", onFocusTreeItem, false);
-		elm.removeEventListener("click", onClickTreeItem, false);
-		elm.removeEventListener("dragstart", onDragStartTreeItem, false);
-		elm.removeEventListener("dragenter", onDragEnterTreeItem, false)
-		elm.removeEventListener("dragover", onDragOverTreeItem, false);
-		elm.removeEventListener("dragleave", onDragLeaveTreeItem, false);
-		elm.removeEventListener("dragend", onDragEndTreeItem, false);
-		elm.removeEventListener("drop", onDropTreeItem, false);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function addSubTreeItemsEventListeners(elm) {
-
-		if(elm.tagName === "LI") {
-			addTreeItemEventListeners(elm);
-		}
-
-		for(let child of elm.children) {
-			addSubTreeItemsEventListeners(child);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function removeSubTreeItemsEventListeners(elm) {
-
-		if(elm.tagName === "LI") {
-			removeTreeItemEventListeners(elm);
-		}
-
-		for(let child of elm.children) {
-			removeSubTreeItemsEventListeners(child);
-		}
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onFocusTreeItem(event) {
@@ -541,14 +517,15 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickTreeItem(event) {
 
+		let elmLI = event.target;
+
 		// check the current click count to avoid the double-click's second click.
-		if(event.detail > 1) {
+		if(elmLI.tagName !== "LI" || event.detail > 1) {
 			return;
 		}
 
 		event.stopPropagation();
 
-		let elmLI = event.target;
 		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
 		// when a subtree is open the height of the LI is as the Height of the entire subtree.
@@ -634,7 +611,7 @@ let rssTreeView = (function() {
 
 		event.stopPropagation();
 
-		m_elmCurrentlyDragged = this;
+		m_elmCurrentlyDragged = event.target;
 
 		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
 			if(count > 0) {
@@ -659,56 +636,62 @@ let rssTreeView = (function() {
 		event.stopPropagation();
 		event.preventDefault();
 
-		// prevent element from been droped into itself.
-		if((m_elmCurrentlyDragged === null || m_elmCurrentlyDragged.contains(this)) && !event.dataTransfer.types.includes("text/uri-list")) {
+		let target = event.target;
+
+		// + Drop only on LI element
+		// + Prevent element from been droped into itself.
+		// + Unless the dropped data is a URI
+		if((target.tagName !== "LI" || !!!m_elmCurrentlyDragged || m_elmCurrentlyDragged.contains(target)) && !event.dataTransfer.types.includes("text/uri-list")) {
 			event.dataTransfer.dropEffect = "none";
 			return false;
 		}
 
-		let isSubTree = this.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+		let isSubTree = target.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
 		if(isSubTree) {
 
 			// when a subtree is open the height of the LI is as the Height of the entier subtree.
 			// The result is that hovering on the left of the items in the subtree (but not ON a subtree item) marks
 			// the entire subtree as a drop target. This makes sure that only hovers on the top of the elements are processed
-			if(!eventOccureInItemLineHeight(event, this)) {
+			if(!eventOccureInItemLineHeight(event, target)) {
 				event.dataTransfer.dropEffect = "none";
 				return false;
 			}
 
 			// it's a SubTree - lingering
-			if(this.id === m_objCurrentlyDraggedOver.id) {
+			if(target.id === m_objCurrentlyDraggedOver.id) {
 
-				let isSubTreeClosed = this.classList.contains("closed");
+				let isSubTreeClosed = target.classList.contains("closed");
 
 				if(isSubTreeClosed && m_objCurrentlyDraggedOver.lingered) {
 					// mouse has lingered enough, open the closed SubTree
-					setSubTreeState(this, true);
+					setSubTreeState(target, true);
 				}
 
 			} else {
 				// it's a SubTree - just in
-				m_objCurrentlyDraggedOver.set(this.id);
+				m_objCurrentlyDraggedOver.set(target.id);
 			}
 
-			this.classList.toggle("dropInside", event.shiftKey);
+			target.classList.toggle("dropInside", event.shiftKey);
 		}
 
-		this.classList.add("draggedOver");
+		target.classList.add("draggedOver");
 		event.dataTransfer.dropEffect = "move";
 		return false;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDragLeaveTreeItem(event) {
-		this.classList.remove("draggedOver", "dropInside");
+		event.stopPropagation();
+		event.target.classList.remove("draggedOver", "dropInside");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDragEndTreeItem(event) {
+		event.stopPropagation();
 		m_elmCurrentlyDragged.classList.remove("dragged");
-		this.classList.remove("draggedOver", "dropInside");
+		event.target.classList.remove("draggedOver", "dropInside");
 		m_objCurrentlyDraggedOver.init();
 	}
 
@@ -718,7 +701,7 @@ let rssTreeView = (function() {
 		// prevent propagation from the perent (subtree)
 		event.stopPropagation();
 
-		let elmDropTarget = this;
+		let elmDropTarget = event.target;
 
 		// nothing to do if dropped in the same location OR in a SubTree
 		if(elmDropTarget === m_elmCurrentlyDragged) {
@@ -757,7 +740,6 @@ let rssTreeView = (function() {
 						suspendBookmarksEventHandler(() => {
 							return browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
 
-								removeSubTreeItemsEventListeners(m_elmCurrentlyDragged);
 								m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
 
 								let elmDropped;
@@ -777,7 +759,6 @@ let rssTreeView = (function() {
 								}
 
 								removeFeedLoadingStatus(elmDropped);
-								addSubTreeItemsEventListeners(elmDropped);
 								elmDropped.focus();
 							});
 						});
@@ -1476,7 +1457,6 @@ let rssTreeView = (function() {
 							rssListView.disposeList();
 						}
 
-						removeSubTreeItemsEventListeners(elmLI);
 						elmLI.parentElement.removeChild(elmLI);
 						m_objTreeFeedsData.remove(elmLI.id);
 
@@ -1714,16 +1694,6 @@ let rssTreeView = (function() {
 		elmLI.title += "\u000d" + secondLine;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function removeAllTreeItemsEventListeners() {
-
-		let elms = m_elmTreeRoot.getElementsByTagName("li");
-
-		for (let elm of elms) {
-			removeTreeItemEventListeners(elm);
-		}
-	}
-
 	//==================================================================================
 	//=== Utils
 	//==================================================================================
@@ -1792,7 +1762,6 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function disposeTree() {
 
-		removeAllTreeItemsEventListeners();
 		while (m_elmTreeRoot.firstChild) {
 			m_elmTreeRoot.removeChild(m_elmTreeRoot.firstChild);
 		}

@@ -262,12 +262,15 @@
     * before this line: m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
 * remember last filter
 * dropdown list for filter ">" commands   => NO only 4 commands, WTF?
----
-
-## Next
 * use ONE SINGLE addEventListener() on entire treeview instead of many listeners on each tree item!!!!
     * https://gomakethings.com/checking-event-target-selectors-with-event-bubbling-in-vanilla-javascript/
     * https://gomakethings.com/why-event-delegation-is-a-better-way-to-listen-for-events-in-vanilla-js/
+        * about focus event: https://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
+---
+
+## Next
+* use ONE SINGLE addEventListener() for listView
+* replace all x !== null or x !== undefined with double-tap
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.
