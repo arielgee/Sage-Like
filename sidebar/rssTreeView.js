@@ -519,8 +519,8 @@ let rssTreeView = (function() {
 
 		let elmLI = event.target;
 
-		// check the current click count to avoid the double-click's second click.
-		if(elmLI.tagName !== "LI" || event.detail > 1) {
+		// event.detail: check the current click count to avoid the double-click's second click.
+		if(!!!elmLI || !elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM) || event.detail > 1) {
 			return;
 		}
 
