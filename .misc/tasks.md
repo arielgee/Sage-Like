@@ -266,11 +266,17 @@
     * https://gomakethings.com/checking-event-target-selectors-with-event-bubbling-in-vanilla-javascript/
     * https://gomakethings.com/why-event-delegation-is-a-better-way-to-listen-for-events-in-vanilla-js/
         * about focus event: https://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
+* use ONE SINGLE addEventListener() for listView
 ---
 
 ## Next
-* use ONE SINGLE addEventListener() for listView
 * replace all x !== null or x !== undefined with double-tap
+* Lines are cut in listView desc Tooltips
+    * https://www.manmadediy.com/site_index.rss
+* hide listView desc Tooltips when the escape key is pressed
+* regexp for HTML elements do not need to check for spaces between the '<' and the element tag name. /<\s*\bimg\b/
+* regexp for HTML elements do not need to check for spaces between the '<' and the '/'.
+* use the rssListView.getListViewStats() function
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.

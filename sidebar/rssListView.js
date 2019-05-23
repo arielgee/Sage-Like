@@ -50,6 +50,9 @@ let rssListView = (function() {
 
 		m_elmList.addEventListener("mousedown", onMouseDownFeedList);
 		m_elmList.addEventListener("keydown", onKeyDownFeedList);
+		m_elmList.addEventListener("focus", onFocusFeedItem, true);
+		m_elmList.addEventListener("click", onClickFeedItem);
+		m_elmList.addEventListener("auxclick", onClickFeedItem);
 
 		setShowFeedItemDescFromPreferences();
 
@@ -63,6 +66,11 @@ let rssListView = (function() {
 
 		m_elmList.removeEventListener("mousedown", onMouseDownFeedList);
 		m_elmList.removeEventListener("keydown", onKeyDownFeedList);
+		m_elmList.removeEventListener("focus", onFocusFeedItem);
+		m_elmList.removeEventListener("click", onClickFeedItem);
+		m_elmList.removeEventListener("auxclick", onClickFeedItem);
+
+		handleFeedItemDescEventListeners(false);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -70,9 +78,10 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setShowFeedItemDescFromPreferences() {
+
 		prefs.getShowFeedItemDesc().then(showDesc => {
-			disposeList();
 			m_bShowFeedItemDesc = showDesc;
+			handleFeedItemDescEventListeners(m_bShowFeedItemDesc);
 		});
 	}
 
@@ -122,8 +131,6 @@ let rssListView = (function() {
 		elm.setAttribute("tabindex", "0");
 		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc : "");
 
-		addListItemEventListeners(elm);
-
 		m_elmList.appendChild(elm);
 	}
 
@@ -132,30 +139,16 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function addListItemEventListeners(elm) {
-		elm.addEventListener("focus", onFocusFeedItem);
-		elm.addEventListener("click", onClickFeedItem);
-		elm.addEventListener("auxclick", onClickFeedItem);
-		elm.addEventListener("mousedown", onClickFeedItem_preventDefault);
+	function handleFeedItemDescEventListeners(bAddListeners) {
 
-		if(m_bShowFeedItemDesc) {
-			elm.addEventListener("mouseover", onMouseOverFeedItem);
-			elm.addEventListener("mouseout", onMouseOutFeedItem);
-			elm.addEventListener("mousemove", onMouseMoveFeedItem);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function removeListItemEventListeners(elm) {
-		elm.removeEventListener("focus", onFocusFeedItem);
-		elm.removeEventListener("click", onClickFeedItem);
-		elm.removeEventListener("auxclick", onClickFeedItem);
-		elm.removeEventListener("mousedown", onClickFeedItem_preventDefault);
-
-		if(m_bShowFeedItemDesc) {
-			elm.removeEventListener("mouseover", onMouseOverFeedItem);
-			elm.removeEventListener("mouseout", onMouseOutFeedItem);
-			elm.removeEventListener("mousemove", onMouseMoveFeedItem);
+		if(bAddListeners) {
+			m_elmList.addEventListener("mouseover", onMouseOverFeedItem);
+			m_elmList.addEventListener("mouseout", onMouseOutFeedItem);
+			m_elmList.addEventListener("mousemove", onMouseMoveFeedItem);
+		} else {
+			m_elmList.removeEventListener("mouseover", onMouseOverFeedItem);
+			m_elmList.removeEventListener("mouseout", onMouseOutFeedItem);
+			m_elmList.removeEventListener("mousemove", onMouseMoveFeedItem);
 		}
 	}
 
@@ -166,6 +159,11 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickFeedItem(event) {
+
+		// only for list item elements
+		if(!!!event.target || !event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+			return;
+		}
 
 		let elm = event.target;
 		let handled = true;		// optimistic
@@ -209,18 +207,12 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickFeedItem_preventDefault(event) {
-
-		// This is to prevent the default behaviour of Fx when
-		// clicking with the middle button (scroll).
-		// Next event, for middle button, will be 'auxclick'
-
-		event.preventDefault();		// The 'click' event is fired anyway.
-		event.stopPropagation();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseOverFeedItem(event) {
+
+		// only for list item elements
+		if(!!!event.target || !event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+			return;
+		}
 
 		event.stopPropagation();
 		clearTimeout(m_timeoutMouseOver);
@@ -269,15 +261,22 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseOutFeedItem(event) {
 
-		clearTimeout(m_timeoutMouseOver);
-		m_timeoutMouseOver = null;
-		m_elmFeedItemDescPanel.style.display = "none";
+		// only for list item elements
+		if(!!event.target && event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+			clearTimeout(m_timeoutMouseOver);
+			m_timeoutMouseOver = null;
+			m_elmFeedItemDescPanel.style.display = "none";
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseMoveFeedItem(event) {
-		m_elmFeedItemDescPanel.slLastClientX = event.clientX;
-		m_elmFeedItemDescPanel.slLastClientY = event.clientY;
+
+		// only for list item elements
+		if(!!event.target && event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+			m_elmFeedItemDescPanel.slLastClientX = event.clientX;
+			m_elmFeedItemDescPanel.slLastClientY = event.clientY;
+		}
 	}
 
 	//==================================================================================
@@ -286,6 +285,11 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseDownFeedList(event) {
+
+		// The default behaviour of Fx is to call "mousedown" when
+		// clicking with the middle button (scroll).
+		// Next event, for middle button, will be 'auxclick'
+
 		if(event.target === m_elmList) {
 			event.stopPropagation();
 			event.preventDefault();
@@ -515,7 +519,6 @@ let rssListView = (function() {
 		m_elmCurrentlySelected = null;
 
 		while (el = m_elmList.firstChild) {
-			removeListItemEventListeners(el);
 			m_elmList.removeChild(el);
 		}
 		setStatusbarIcon(false);
