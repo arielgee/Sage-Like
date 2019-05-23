@@ -268,14 +268,14 @@
         * about focus event: https://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
 * use ONE SINGLE addEventListener() for listView
 * hide listView desc Tooltips when the escape key is pressed
+* replace all x !== null or x !== undefined with double-tap     ==> NO; 84 replacements in 10 files; HUGE regression, not worth it
 ---
 
 ## Next
-* replace all x !== null or x !== undefined with double-tap
-* Lines are cut in listView desc Tooltips
-    * https://www.manmadediy.com/site_index.rss
 * regexp for HTML elements do not need to check for spaces between the '<' and the element tag name. /<\s*\bimg\b/
 * regexp for HTML elements do not need to check for spaces between the '<' and the '/'.
+* Lines are cut in listView desc Tooltips
+    * https://www.manmadediy.com/site_index.rss
 * use the rssListView.getListViewStats() function
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
