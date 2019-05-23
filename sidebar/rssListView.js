@@ -377,6 +377,13 @@ let rssListView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
+			case "escape":
+				if(m_elmFeedItemDescPanel.style.visibility === "visible") {
+					onMouseOutFeedItem({ target: elmTargetLI });
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
 			case "o":
 				browser.tabs.update({ url: elmTargetLI.getAttribute("href") });
 				break;

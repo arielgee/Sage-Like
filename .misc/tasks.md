@@ -267,13 +267,13 @@
     * https://gomakethings.com/why-event-delegation-is-a-better-way-to-listen-for-events-in-vanilla-js/
         * about focus event: https://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
 * use ONE SINGLE addEventListener() for listView
+* hide listView desc Tooltips when the escape key is pressed
 ---
 
 ## Next
 * replace all x !== null or x !== undefined with double-tap
 * Lines are cut in listView desc Tooltips
     * https://www.manmadediy.com/site_index.rss
-* hide listView desc Tooltips when the escape key is pressed
 * regexp for HTML elements do not need to check for spaces between the '<' and the element tag name. /<\s*\bimg\b/
 * regexp for HTML elements do not need to check for spaces between the '<' and the '/'.
 * use the rssListView.getListViewStats() function
