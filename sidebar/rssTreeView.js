@@ -44,14 +44,15 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const FILTER_TOOLTIP_TITLE = "The displayed feeds can be filtered using the following: \u000d" +
+	const FILTER_TOOLTIP_TITLE = "Filter the Displayed Feeds Using the Following Options: \u000d" +
 									"  \u271a Simple search text (case-insensitive). \u000d" +
 									"  \u271a Regular expression pattern enclosed between two slashes ('/'). \u000d" +
 									"      Flag 'i' (case-insensitive) is supported when placed after the second slash. \u000d" +
-									"  \u271a Special command '>unread' for unvisited feeds. \u000d" +
-									"  \u271a Special command '>read' for visited feeds. \u000d" +
-									"  \u271a Special command '>error' for feeds that failed to update. \u000d" +
-									"  \u271a Special command '>load' for feeds that are still loading. \u000d\u000d" +
+									"  \u271a Special commands prefixed with a single greater-than character ('>'): \u000d" +
+									"     \u2726 Use '>unread' for unvisited feeds. \u000d" +
+									"     \u2726 Use '>read' for visited feeds. \u000d" +
+									"     \u2726 Use '>error' for feeds that failed to update. \u000d" +
+									"     \u2726 Use '>load' for feeds that are still loading. \u000d\u000d" +
 									"\u2731 Feeds may change their status after the filter was applied.";
 
 	let TreeItemStatus = Object.freeze({
