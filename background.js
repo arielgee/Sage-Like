@@ -19,7 +19,7 @@
 		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
 
-		handlePrefShowSubscribeButton();										// Check if page has feeds for pageAction
+		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for pageAction
 
 		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
@@ -64,8 +64,8 @@
 					monitorBookmarkFeeds();
 				}
 				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_SUBSCRIBE_BUTTON) {
-					handlePrefShowSubscribeButton();
+					message.details === slGlobals.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE) {
+					handlePrefDetectFeedsInWebPage();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -238,17 +238,17 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function handlePrefShowSubscribeButton() {
+	async function handlePrefDetectFeedsInWebPage() {
 
-		let showSubscribeButton = await prefs.getShowSubscribeButton();
+		let detectFeedsInWebPage = await prefs.getDetectFeedsInWebPage();
 
-		if(showSubscribeButton) {
+		if(detectFeedsInWebPage) {
 
 			browser.tabs.onUpdated.addListener(onTabsUpdated);		// Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
 
 		} else if(browser.tabs.onUpdated.hasListener(onTabsUpdated)) {
 
-			// hasListener() will return false if handlePrefShowSubscribeButton() was called from webExt loading.
+			// hasListener() will return false if handlePrefDetectFeedsInWebPage() was called from webExt loading.
 
 			browser.tabs.onUpdated.removeListener(onTabsUpdated);
 

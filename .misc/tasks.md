@@ -271,13 +271,21 @@
 * replace all x !== null or x !== undefined with double-tap     ==> NO; 84 replacements in 10 files; HUGE regression, not worth it
 * regexp for HTML elements do not need to check for spaces between the '<' and the element tag name. /<\s*\bimg\b/
 * regexp for HTML elements do not need to check for spaces between the '<' and the '/'.
+* rephrase preference title and preference member    detectFeedsInWebPage
+    * CHANGED THIS: Show Subscribe button <img src="../icons/pagepopup-16.png"> in address bar when feeds are detected in web page
+    * TO THIS: Detect feeds in web pages and show subscribe button <img src="../icons/pagepopup-16.png"> in address bar.
+    * Detect feeds in web page and show <img src="../icons/pagepopup-16.png"> button in address bar.
+    * Detect feeds in web page. Subscribe button <img src="../icons/pagepopup-16.png"> will appear in address bar.
 ---
 
 ## Next
-* rephrase preference title and preference member    detectFeedsInWebPage
-    * Detect feeds in web page and show subscribe button <img src="../icons/pagepopup-16.png"> in address bar.
-    * Detect feeds in web page and show <img src="../icons/pagepopup-16.png"> button in address bar.
-    * Show Subscribe button <img src="../icons/pagepopup-16.png"> in address bar when feeds are detected in web page
+* in onClickTreeItem()
+    1. restore default
+    2. set a valid feed folder
+    3. quickly select a feed
+    4. get the error 'm_objTreeFeedsData.value(...) is undefined' in catch() in onClickTreeItem()
+    ==> The m_objTreeFeedsData.value() cant find the ID. the m_objTreeFeedsData was still not initialized by getStorage()
+* preference "Feed check method" => "Feed refresh method" => "refresh interval"
 * Lines are cut in listView desc Tooltips
     * https://www.manmadediy.com/site_index.rss
 * use the rssListView.getListViewStats() function

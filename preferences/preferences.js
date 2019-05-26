@@ -23,7 +23,7 @@ let preferences = (function() {
 	let m_elmCheckFeedsMethodInfo;
 	let m_elmFetchTimeout;
 	let m_elmShowFeedItemDesc;
-	let m_elmShowSubscribeButton;
+	let m_elmDetectFeedsInWebPage;
 	let m_elmUIDensity;
 	let m_elmFontName;
 	let m_elmUserFontBox;
@@ -71,7 +71,7 @@ let preferences = (function() {
 		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
-		m_elmShowSubscribeButton = document.getElementById("showSubscribeButton");
+		m_elmDetectFeedsInWebPage = document.getElementById("detectFeedsInWebPage");
 		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmFontName = document.getElementById("fontName");
 		m_elmUserFontBox = document.getElementById("userFontBox");
@@ -113,7 +113,7 @@ let preferences = (function() {
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
-		m_elmShowSubscribeButton.removeEventListener("change", onChangeShowSubscribeButton);
+		m_elmDetectFeedsInWebPage.removeEventListener("change", onChangeDetectFeedsInWebPage);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
 		m_elmFontName.removeEventListener("change", onChangeFontName);
 		m_elmUserFontBox.removeEventListener("keydown", onKeyDownUserFontBox);
@@ -151,7 +151,7 @@ let preferences = (function() {
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
-		m_elmShowSubscribeButton.addEventListener("change", onChangeShowSubscribeButton);
+		m_elmDetectFeedsInWebPage.addEventListener("change", onChangeDetectFeedsInWebPage);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmFontName.addEventListener("change", onChangeFontName);
 		m_elmUserFontBox.addEventListener("keydown", onKeyDownUserFontBox);
@@ -224,8 +224,8 @@ let preferences = (function() {
 			m_elmShowFeedItemDesc.checked = checked;
 		});
 
-		prefs.getShowSubscribeButton().then((checked) => {
-			m_elmShowSubscribeButton.checked = checked;
+		prefs.getDetectFeedsInWebPage().then((checked) => {
+			m_elmDetectFeedsInWebPage.checked = checked;
 		});
 
 		prefs.getUIDensity().then((value) => {
@@ -368,9 +368,9 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeShowSubscribeButton(event) {
-		prefs.setShowSubscribeButton(m_elmShowSubscribeButton.checked);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_SUBSCRIBE_BUTTON);
+	function onChangeDetectFeedsInWebPage(event) {
+		prefs.setDetectFeedsInWebPage(m_elmDetectFeedsInWebPage.checked);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -539,7 +539,7 @@ let preferences = (function() {
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
-		m_elmShowSubscribeButton.checked = defPrefs.showSubscribeButton;
+		m_elmDetectFeedsInWebPage.checked = defPrefs.detectFeedsInWebPage;
 		m_elmUIDensity.value = defPrefs.UIDensity;
 		m_elmFontName.value = defPrefs.fontName;
 		m_elmFontSizePercent.value = defPrefs.fontSizePercent;
