@@ -348,6 +348,17 @@ let slGlobals = (function() {
 /////////////////////////////////////////////////////////////////////////////////////////////
 let slPrototypes = (function() {
 
+	let m_sRxATag = "</?a\\b[^>]*>";
+	let m_sRxScriptTag = "<script\\b[^>]*>(([\\s\\S]*?)</\\s*\\bscript\\b\\s*>)?";
+	let m_sRxLinkTag = "</?link\\b[^>]*>";
+	let m_sRxFrameTag = "</?i?frame(set)?\\b[^>]*>";
+	let m_sRxEmbedTag = "</?embed\\b[^>]*>";
+	let m_sRxAppletTag = "</?applet\\b[^>]*>";
+	let m_sRxObjectTag = "</?object\\b[^>]*>";
+
+	let m_sRxUnsafeTags = m_sRxScriptTag + "|" + m_sRxLinkTag + "|" + m_sRxFrameTag + "|" + m_sRxEmbedTag + "|" + m_sRxAppletTag + "|" + m_sRxObjectTag;
+	let m_sRxContentTags = m_sRxATag + "|" + m_sRxUnsafeTags;
+
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function(args) {
 		let str = this;
@@ -441,31 +452,31 @@ let slPrototypes = (function() {
 		}
 	};
 	// I know, embed, link, cannot have any child nodes. Not taking any risks
-	String.prototype.stripHtmlTags.regexContentTags = new RegExp("<\\s*\\b(a|script|link|i?frame|embed|applet|object)\\b[^>]*>([\\s\\S]*?)</\\s*\\b(a|script|link|i?frame|embed|applet|object)\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexATag = new RegExp("<\\s*\\ba\\b[^>]*>([\\s\\S]*?)</\\s*\\ba\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexScriptTag = new RegExp("<\\s*\\bscript\\b[^>]*>([\\s\\S]*?)</\\s*\\bscript\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexLinkTag = new RegExp("<\\s*\\blink\\b[^>]*>([\\s\\S]*?)</\\s*\\blink\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexFrameTag = new RegExp("<\\s*\\bi?frame\\b[^>]*>([\\s\\S]*?)</\\s*\\bi?frame\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp("<\\s*\\bembed\\b[^>]*>([\\s\\S]*?)</\\s*\\bembed\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexAppletTag = new RegExp("<\\s*\\bapplet\\b[^>]*>([\\s\\S]*?)</\\s*\\bapplet\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexObjectTag = new RegExp("<\\s*\\bobject\\b[^>]*>([\\s\\S]*?)</\\s*\\bobject\\b\\s*>", "gim");
-	String.prototype.stripHtmlTags.regexImgTag = new RegExp("</?\\s*\\bimg\\b[^>]*>", "gim");
-	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?\\s*\\b[a-zA-Z0-9]+\\b[^>]*>", "gm");
-	String.prototype.stripHtmlTags.regexMultiBrTag = new RegExp("(<\\s*\\bbr\\b[^>]*/?>[\\r\\n]*){3,}", "gim");
+	String.prototype.stripHtmlTags.regexContentTags = new RegExp(m_sRxContentTags, "gim");
+	String.prototype.stripHtmlTags.regexATag = new RegExp(m_sRxATag, "gim");
+	String.prototype.stripHtmlTags.regexScriptTag = new RegExp(m_sRxScriptTag, "gim");
+	String.prototype.stripHtmlTags.regexLinkTag = new RegExp(m_sRxLinkTag, "gim");
+	String.prototype.stripHtmlTags.regexFrameTag = new RegExp(m_sRxFrameTag, "gim");
+	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp(m_sRxEmbedTag, "gim");
+	String.prototype.stripHtmlTags.regexAppletTag = new RegExp(m_sRxAppletTag, "gim");
+	String.prototype.stripHtmlTags.regexObjectTag = new RegExp(m_sRxObjectTag, "gim");
+	String.prototype.stripHtmlTags.regexImgTag = new RegExp("</?img\\b[^>]*>", "gim");
+	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?[a-zA-Z0-9]+\\b[^>]*>", "gm");
+	String.prototype.stripHtmlTags.regexMultiBrTag = new RegExp("(</?br\\b[^>]*/?>\\s*){2,}", "gim");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.stripUnsafeHtmlComponents = function() {
 		return this
 			.htmlEntityToLiteral()
 			.replace(String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags, "")
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexJavascript, "")
+			.replace(String.prototype.stripUnsafeHtmlComponents.regexJavascript, "'#striped'")
 			.replace(String.prototype.stripUnsafeHtmlComponents.regexImg1x1, "")
 			.replace(String.prototype.stripUnsafeHtmlComponents.regexEventAttr, "$1");
 	};
-	String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags = new RegExp("<\\s*\\b(script|link|i?frame|embed|applet|object)\\b[^>]*>([\\s\\S]*?)</\\s*\\b(script|link|i?frame|embed|applet|object)\\b\\s*>", "gim");
+	String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags = new RegExp(m_sRxUnsafeTags, "gim");
 	String.prototype.stripUnsafeHtmlComponents.regexJavascript = new RegExp("('\\bjavascript:([\\s\\S]*?)')|(\"\\bjavascript:([\\s\\S]*?)\")", "gim");
-	String.prototype.stripUnsafeHtmlComponents.regexEventAttr = new RegExp("(<\\s*\\b[a-zA-Z0-9]+\\b[^>]*)\\bon[a-zA-Z]+\\s*=\\s*(\"[\\s\\S]*?\"|'[\\s\\S]*?')", "gim");
-	String.prototype.stripUnsafeHtmlComponents.regexImg1x1 = new RegExp("<\\s*\\bimg\\b[^>]*\\b((width\\s*=\\s*[\"']0*1[\"'][^>]*\\bheight\\s*=\\s*[\"']0*1[\"'])|(height\\s*=\\s*[\"']0*1[\"'][^>]*\\bwidth\\s*=\\s*[\"']0*1[\"']))[^>]*>", "gim");
+	String.prototype.stripUnsafeHtmlComponents.regexEventAttr = new RegExp("(<[a-zA-Z0-9]+\\b[^>]*)\\bon[a-zA-Z]+\\s*=\\s*(\"[\\s\\S]*?\"|'[\\s\\S]*?')", "gim");
+	String.prototype.stripUnsafeHtmlComponents.regexImg1x1 = new RegExp("<img\\b[^>]*\\b(width|height)\\b\\s*=\\s*[\"']0*1[\"'][^>]*\\b(width|height)\\b\\s*=\\s*[\"']0*1[\"'][^>]*>", "gim");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeRegExp = function() {

@@ -269,11 +269,15 @@
 * use ONE SINGLE addEventListener() for listView
 * hide listView desc Tooltips when the escape key is pressed
 * replace all x !== null or x !== undefined with double-tap     ==> NO; 84 replacements in 10 files; HUGE regression, not worth it
+* regexp for HTML elements do not need to check for spaces between the '<' and the element tag name. /<\s*\bimg\b/
+* regexp for HTML elements do not need to check for spaces between the '<' and the '/'.
 ---
 
 ## Next
-* regexp for HTML elements do not need to check for spaces between the '<' and the element tag name. /<\s*\bimg\b/
-* regexp for HTML elements do not need to check for spaces between the '<' and the '/'.
+* rephrase preference title and preference member    detectFeedsInWebPage
+    * Detect feeds in web page and show subscribe button <img src="../icons/pagepopup-16.png"> in address bar.
+    * Detect feeds in web page and show <img src="../icons/pagepopup-16.png"> button in address bar.
+    * Show Subscribe button <img src="../icons/pagepopup-16.png"> in address bar when feeds are detected in web page
 * Lines are cut in listView desc Tooltips
     * https://www.manmadediy.com/site_index.rss
 * use the rssListView.getListViewStats() function
