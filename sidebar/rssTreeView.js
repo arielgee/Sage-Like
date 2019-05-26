@@ -1145,6 +1145,11 @@ let rssTreeView = (function() {
 		}
 
 		internalPrefs.setFeedsFilter(txtValue);
+
+		// selected item always in view
+		if(!!m_elmCurrentlySelected) {
+			slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto");
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1172,6 +1177,11 @@ let rssTreeView = (function() {
 
 		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
 		m_elmfilterContainer.classList.remove("switched");
+
+		// selected item always in view
+		if(!!m_elmCurrentlySelected) {
+			slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto");
+		}
 	}
 
 	//==================================================================================
