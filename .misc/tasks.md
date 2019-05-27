@@ -276,15 +276,15 @@
     * TO THIS: Detect feeds in web pages and show subscribe button <img src="../icons/pagepopup-16.png"> in address bar.
     * Detect feeds in web page and show <img src="../icons/pagepopup-16.png"> button in address bar.
     * Detect feeds in web page. Subscribe button <img src="../icons/pagepopup-16.png"> will appear in address bar.
----
-
-## Next
 * in onClickTreeItem()
     1. restore default
     2. set a valid feed folder
     3. quickly select a feed
     4. get the error 'm_objTreeFeedsData.value(...) is undefined' in catch() in onClickTreeItem()
     ==> The m_objTreeFeedsData.value() cant find the ID. the m_objTreeFeedsData was still not initialized by getStorage()
+---
+
+## Next
 * preference "Feed check method" => "Feed refresh method" => "refresh interval"
 * Lines are cut in listView desc Tooltips
     * https://www.manmadediy.com/site_index.rss

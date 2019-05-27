@@ -1575,9 +1575,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateFeedTitle(elmLI, title) {
 
+		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
+
 		// don't change title if user unchecked that option for this feed
 		// don't change title to empty string
-		if(m_objTreeFeedsData.value(elmLI.id).updateTitle === true && title.length > 0) {
+		if(!!treeFeedsData && treeFeedsData.updateTitle === true && title.length > 0) {
 
 			browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
@@ -1696,8 +1698,10 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedTooltipFullState(elmLI, firstLine, secondLine) {
 
+		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
+
 		// don't use channel title if user unchecked that option for this feed
-		if(m_objTreeFeedsData.value(elmLI.id).updateTitle && firstLine) {
+		if(!!treeFeedsData && treeFeedsData.updateTitle && firstLine) {
 			elmLI.title = firstLine;
 		} else {
 			elmLI.title = elmLI.firstElementChild.textContent;
