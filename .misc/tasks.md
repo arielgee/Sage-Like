@@ -282,12 +282,12 @@
     3. quickly select a feed
     4. get the error 'm_objTreeFeedsData.value(...) is undefined' in catch() in onClickTreeItem()
     ==> The m_objTreeFeedsData.value() cant find the ID. the m_objTreeFeedsData was still not initialized by getStorage()
+* preference "Feed check method" => "Feed refresh method" => "refresh interval"     ==> NO
+* Lines are cut in listView desc Tooltips
+    * https://www.manmadediy.com/site_index.rss
 ---
 
 ## Next
-* preference "Feed check method" => "Feed refresh method" => "refresh interval"
-* Lines are cut in listView desc Tooltips
-    * https://www.manmadediy.com/site_index.rss
 * use the rssListView.getListViewStats() function
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
