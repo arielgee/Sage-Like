@@ -320,7 +320,7 @@ let rssListView = (function() {
 			case "enter":
 				// emulate event object
 				onClickFeedItem({
-					target: event.target,
+					target: elmTargetLI,
 					type: "click",
 					button: 0,
 					ctrlKey: event.ctrlKey,
