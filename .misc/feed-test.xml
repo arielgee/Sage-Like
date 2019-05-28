@@ -46,5 +46,15 @@
             <link>http://www.ynet.co.il/</link>
             <pubDate>Tue, 26 Oct 2004 14:06:44 -0500</pubDate>
         </item>
+
+        <!-- BAD URL -->
+        <item>
+            <title>shit</title>
+            <description>
+                &lt;b&gt;FeedScout&lt;/b&gt; enables you to view RSS/ATOM/RDF feeds from different sites directly in Internet Explorer. You can even set your Home Page to show favorite feeds. Feed Scout is a plug-in for Internet Explorer, so you won&apos;t have to learn anything except for how to press 2 new buttons on Internet Explorer toolbar. &lt;br&gt;More &lt;a href=&quot;http://www.bytescout.com/feedscout.html&quot;&gt;Information on FeedScout&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;SurfPack&lt;/b&gt; can feature search tools, horoscopes, current weather conditions, LiveJournal diaries, humor, web modules and other dynamically updated content. &lt;br&gt;More &lt;a href=&quot;http://www.surfpack.com/&quot;&gt;Information on SurfPack&lt;/a&gt;&lt;br&gt;
+            </description>
+            <link>kuku 8 AAA/</link>
+            <pubDate>Tue, 26 Oct 2004 14:06:44 -0500</pubDate>
+        </item>
     </channel>
 </rss>

@@ -174,7 +174,7 @@ let syndication = (function() {
 														item.querySelector("description"),
 														elmLink.textContent,
 														getFeedItemLastUpdate(item));
-					FeedItemList.push(FeedItem);
+					if (!!FeedItem) FeedItemList.push(FeedItem);
 				}
 			});
 
@@ -193,7 +193,7 @@ let syndication = (function() {
 														item.querySelector("summary"),
 														elmLink.getAttribute("href"),
 														getFeedItemLastUpdate(item));
-					FeedItemList.push(FeedItem);
+					if (!!FeedItem) FeedItemList.push(FeedItem);
 				}
 			});
 		}
@@ -202,6 +202,14 @@ let syndication = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function createSingleListFeedItem(elmTitle, elmDesc, strUrl, valLastUpdated) {
+
+		try {
+			new URL(strUrl);
+		} catch (error) {
+			console.log("[Sage-Like]", "URL validation", error);
+			return null;
+		}
+
 		return {
 			"title": elmTitle ? elmTitle.textContent.stripHtmlTags() : "",
 			"desc": elmDesc ? elmDesc.textContent.stripUnsafeHtmlComponents() : "",

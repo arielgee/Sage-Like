@@ -92,14 +92,11 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedItems(list, title) {
 
-		let urlTester, index = 1;
+		let index = 1;
 
 		disposeList();
 		for(let item of list) {
-			try {
-				urlTester = new URL(item.url);
-				appendTagIL(index++, item.title, item.desc, item.url);
-			} catch {}	// URL is invalid
+			appendTagIL(index++, item.title, item.desc, item.url);
 		}
 		m_elmListViewRssTitle.textContent = title;
 
