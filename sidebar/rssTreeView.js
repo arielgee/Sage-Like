@@ -568,7 +568,7 @@ let rssTreeView = (function() {
 
 					// change the rssListView content only if this is the last user click.
 					if(thisFeedClickTime === m_lastClickedFeedTime) {
-						rssListView.setFeedItems(result.list, elmLI.textContent);
+						rssListView.setFeedItems(result.list, elmLI.firstElementChild.textContent);
 					}
 
 				}).catch((error) => {
@@ -577,7 +577,7 @@ let rssTreeView = (function() {
 
 					// change the rssListView content only if this is the last user click.
 					if(thisFeedClickTime === m_lastClickedFeedTime) {
-						rssListView.setListErrorMsg(error.message, elmLI.textContent);
+						rssListView.setListErrorMsg(error.message, elmLI.firstElementChild.textContent);
 					}
 				}).finally(() => {	// wait for Fx v58
 
