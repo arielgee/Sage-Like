@@ -337,7 +337,6 @@ let contextMenu = (function() {
 			ContextAction.listOpen,
 			ContextAction.listOpenNewTab,
 			ContextAction.listOpenNewWin,
-			ContextAction.listOpenNewPrivateWin,
 		];
 
 		if(openActions.includes(menuAction)) {

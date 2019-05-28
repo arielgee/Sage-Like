@@ -385,17 +385,44 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "o":
-				browser.tabs.update({ url: elmTargetLI.getAttribute("href") });
+				// emulate event object for open in current tab; click
+				onClickFeedItem({
+					target: elmTargetLI,
+					type: "click",
+					button: 0,
+					ctrlKey: false,
+					shiftKey: false,
+					stopPropagation: () => {},
+					preventDefault: () => {},
+				});
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "t":
-				browser.tabs.create({ url: elmTargetLI.getAttribute("href") });
+				// emulate event object for open in new tab; middle click
+				onClickFeedItem({
+					target: elmTargetLI,
+					type: "auxclick",
+					button: 1,
+					ctrlKey: false,
+					shiftKey: false,
+					stopPropagation: () => {},
+					preventDefault: () => {},
+				});
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "w":
-				browser.windows.create({ url: elmTargetLI.getAttribute("href"), type: "normal" });
+				// emulate event object for open in new window; shift+click
+				onClickFeedItem({
+					target: elmTargetLI,
+					type: "click",
+					button: 0,
+					ctrlKey: false,
+					shiftKey: true,
+					stopPropagation: () => {},
+					preventDefault: () => {},
+				});
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
