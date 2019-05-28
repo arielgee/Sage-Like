@@ -14,7 +14,7 @@ let rssListView = (function() {
 
 	let m_elmCurrentlySelected = null;
 
-	let m_bShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
+	let m_bPrefShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
 	let m_timeoutMouseOver = null;
 
 	initilization();
@@ -80,8 +80,8 @@ let rssListView = (function() {
 	function setShowFeedItemDescFromPreferences() {
 
 		prefs.getShowFeedItemDesc().then(showDesc => {
-			m_bShowFeedItemDesc = showDesc;
-			handleFeedItemDescEventListeners(m_bShowFeedItemDesc);
+			m_bPrefShowFeedItemDesc = showDesc;
+			handleFeedItemDescEventListeners(m_bPrefShowFeedItemDesc);
 		});
 	}
 
@@ -126,10 +126,10 @@ let rssListView = (function() {
 			.escapeHtml();
 
 		elm.textContent = index + ". " + title;
-		elm.title = (m_bShowFeedItemDesc && desc.length > 0) ? "" : title;
+		elm.title = (m_bPrefShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.setAttribute("tabindex", "0");
-		elm.setAttribute("data-item-desc", m_bShowFeedItemDesc ? desc : "");
+		elm.setAttribute("data-item-desc", m_bPrefShowFeedItemDesc ? desc : "");
 
 		m_elmList.appendChild(elm);
 	}
