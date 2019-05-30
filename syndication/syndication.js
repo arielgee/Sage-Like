@@ -121,7 +121,7 @@ let syndication = (function() {
 				if(feedData.standard === SyndicationStandard.invalid) {
 					reject(new SyndicationError("Failed to get feed data.", feedData.errorMsg));
 				} else {
-					resolve(feedData);
+					resolve({ feedData: feedData });
 				}
 
 			}).catch((error) => {
@@ -135,12 +135,12 @@ let syndication = (function() {
 
 		return new Promise((resolve, reject) => {
 
-			fetchFeedData(url, timeout, reload).then((feedData) => {
+			fetchFeedData(url, timeout, reload).then((result) => {
 
-				let list = createFeedItemsList(feedData);
+				let list = createFeedItemsList(result.feedData);
 
 				if(list.length > 0) {
-					resolve({ list: list, feedData: feedData});
+					resolve({ list: list, feedData: result.feedData});
 				} else {
 					reject(new SyndicationError("No RSS feed items identified in document."));
 				}

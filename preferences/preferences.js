@@ -22,6 +22,7 @@ let preferences = (function() {
 	let m_elmCheckFeedsMethod;
 	let m_elmCheckFeedsMethodInfo;
 	let m_elmFetchTimeout;
+	let m_elmShowFeedStats;
 	let m_elmShowFeedItemDesc;
 	let m_elmDetectFeedsInWebPage;
 	let m_elmUIDensity;
@@ -70,6 +71,7 @@ let preferences = (function() {
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
+		m_elmShowFeedStats = document.getElementById("showFeedStats");
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
 		m_elmDetectFeedsInWebPage = document.getElementById("detectFeedsInWebPage");
 		m_elmUIDensity = document.getElementById("UIDensity");
@@ -112,6 +114,7 @@ let preferences = (function() {
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
+		m_elmShowFeedStats.removeEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
 		m_elmDetectFeedsInWebPage.removeEventListener("change", onChangeDetectFeedsInWebPage);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
@@ -150,6 +153,7 @@ let preferences = (function() {
 		m_elmInputTime.addEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
+		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
 		m_elmDetectFeedsInWebPage.addEventListener("change", onChangeDetectFeedsInWebPage);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
@@ -218,6 +222,10 @@ let preferences = (function() {
 
 		prefs.getFetchTimeout().then((timeoutSec) => {
 			m_elmFetchTimeout.value = timeoutSec;
+		});
+
+		prefs.getShowFeedStats().then((checked) => {
+			m_elmShowFeedStats.checked = checked;
 		});
 
 		prefs.getShowFeedItemDesc().then((checked) => {
@@ -359,6 +367,12 @@ let preferences = (function() {
 		} else {
 			prefs.setFetchTimeout(m_elmFetchTimeout.value);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeShowFeedStats(event) {
+		prefs.setShowFeedStats(m_elmShowFeedStats.checked);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_STATS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -538,6 +552,7 @@ let preferences = (function() {
 		m_elmCheckFeedsWhenSbClosed.checked = defPrefs.checkFeedsWhenSbClosed;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
+		m_elmShowFeedStats.checked = defPrefs.showFeedStats;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
 		m_elmDetectFeedsInWebPage.checked = defPrefs.detectFeedsInWebPage;
 		m_elmUIDensity.value = defPrefs.UIDensity;

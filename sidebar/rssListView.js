@@ -13,6 +13,7 @@ let rssListView = (function() {
 	let m_elmListViewRssTitle;
 
 	let m_elmCurrentlySelected = null;
+	let m_elmLITreeFeed = null;
 
 	let m_bPrefShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
 	let m_timeoutMouseOver = null;
@@ -90,7 +91,7 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedItems(list, title) {
+	function setFeedItems(list, title, elmLITreeFeed) {
 
 		let index = 1;
 
@@ -98,6 +99,7 @@ let rssListView = (function() {
 		for(let item of list) {
 			appendTagIL(index++, item.title, item.desc, item.url);
 		}
+		m_elmLITreeFeed = elmLITreeFeed;
 		m_elmListViewRssTitle.textContent = title;
 
 		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
@@ -113,7 +115,7 @@ let rssListView = (function() {
 		let elm = document.createElement("li");
 
 		elm.classList.add(slGlobals.CLS_RLV_LI_LIST_ITEM)
-		setItemRealVisitedState(elm, url);
+		setItemRealVisitedState(elm, url, false);
 
 		if(title.length === 0) title = slGlobals.STR_TITLE_EMPTY;
 		desc = desc
@@ -460,10 +462,15 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setItemRealVisitedState(elm, url) {
+	function setItemRealVisitedState(elm, url, bUpdateTreeFeed = true) {
 
 		browser.history.getVisits({ url: url }).then((vItems) => {
+
 			elm.classList.toggle("bold", vItems.length === 0);
+
+			if (bUpdateTreeFeed) {
+				rssTreeView.updateFeedStats(m_elmLITreeFeed, ...(getListViewStats()));
+			}
 		});
 	}
 
@@ -476,6 +483,7 @@ let rssListView = (function() {
 			// turned to visited
 			slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
 		}
+		rssTreeView.updateFeedStats(m_elmLITreeFeed, ...(getListViewStats()));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -499,6 +507,7 @@ let rssListView = (function() {
 				funcHistory(elm);
 				elm.classList.toggle("bold", !isVisited);
 			}
+			rssTreeView.updateFeedStats(m_elmLITreeFeed, ...(getListViewStats()));
 		}
 	}
 
@@ -548,6 +557,7 @@ let rssListView = (function() {
 		let el;
 
 		m_elmCurrentlySelected = null;
+		m_elmLITreeFeed = null;
 
 		while (el = m_elmList.firstChild) {
 			m_elmList.removeChild(el);
@@ -603,13 +613,13 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getListViewStats() {
 
-		let totalCount = m_elmList.querySelectorAll(".rlvListItem").length;
-		let unreadCount = m_elmList.querySelectorAll(".rlvListItem.bold").length;
+		let totalCount = m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM).length;
+		let unreadCount = m_elmList.querySelectorAll(".bold." + slGlobals.CLS_RLV_LI_LIST_ITEM).length;
 
-		return {
-			totalCount: totalCount,
-			unreadCount: unreadCount,
-		}
+		return [
+			totalCount,
+			unreadCount,
+		];
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -628,7 +638,6 @@ let rssListView = (function() {
 		switchViewDirection: switchViewDirection,
 		openAllItemsInTabs: openAllItemsInTabs,
 		setFocus: setFocus,
-		getListViewStats: getListViewStats,
 		getListViewTitle: getListViewTitle,
 	};
 

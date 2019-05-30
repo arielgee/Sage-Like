@@ -334,7 +334,7 @@ class EditFeedPropertiesView extends PropertiesView {
 
 			this._hideOptionInsertInsideFolder(true);
 
-			this.m_initialProperties.title = this.m_elmTreeItemLI.firstElementChild.textContent;
+			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
 			this.m_initialProperties.updateTitle = updateTitleValue;
 
@@ -406,7 +406,7 @@ class EditFolderPropertiesView extends PropertiesView {
 			this._hideNoneTitleProperties(true);
 			this._hideOptionInsertInsideFolder(true);
 
-			this.m_initialProperties.title = this.m_elmTreeItemLI.firstElementChild.textContent;
+			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 
 			this._initData();
 		});

@@ -93,6 +93,7 @@ let rssTreeView = (function() {
 
 	let m_browserVersion;				// V64 RSS support dropped
 	let m_isFilterApplied = false;
+	let m_bPrefShowFeedStats = prefs.DEF_PREF_SHOW_FEED_STATS_VALUE;
 
 	initilization();
 
@@ -125,6 +126,11 @@ let rssTreeView = (function() {
 				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 					message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
 					monitorRSSTreeFeeds();
+				}
+
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_STATS) {
+					setShowFeedStatsFromPreferences();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -220,6 +226,8 @@ let rssTreeView = (function() {
 		browser.browserAction.setBadgeText({text: ""});
 		m_elmFilterTextBoxContainer.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 
+		setShowFeedStatsFromPreferences();
+
 		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
 	}
 
@@ -260,6 +268,29 @@ let rssTreeView = (function() {
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setShowFeedStatsFromPreferences() {
+
+		prefs.getShowFeedStats().then(showStats => {
+
+			m_bPrefShowFeedStats = showStats;
+
+			if(m_bPrefShowFeedStats) {
+
+				// switched from 'do not show' to 'show', just refresh tree
+				monitorRSSTreeFeeds();
+			} else {
+
+				// switched from 'show' to 'do not show', clear stat text
+				let elms = m_elmTreeRoot.querySelectorAll(".treeview ." + slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION_STATS);
+
+				for(let i=0, len=elms.length; i<len; i++) {
+					elms[i].textContent = "";
+				}
+			}
+		});
 	}
 
 	//==================================================================================
@@ -346,23 +377,27 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createTagLI(id, textContent, className, href = null) {
+	function createTagLI(id, text, className, href = null) {
 
 		// ++ normalize the textContent
-		if(textContent.length === 0) {
+		if(text.length === 0) {
 			try {
 				let url = new URL(href);
-				textContent = url.hostname;
+				text = url.hostname;
 			} catch {
-				textContent = slGlobals.STR_TITLE_EMPTY;
+				text = slGlobals.STR_TITLE_EMPTY;
 			}
 		}
 
+		let elmTitle = document.createElement("span");
+		let elmStats = document.createElement("span");
 		let elmCaption = document.createElement("div");
 		let elm = document.createElement("li");
 
+		elmTitle.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION_TITLE;
+		elmTitle.textContent = text;
+		elmStats.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION_STATS;
 		elmCaption.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION;
-		elmCaption.textContent = textContent;
 
 		elm.id = id;
 		elm.className = className;
@@ -371,6 +406,9 @@ let rssTreeView = (function() {
 		if (href !== null) {
 			elm.setAttribute("href", href);
 		}
+
+		elmCaption.appendChild(elmTitle);
+		elmCaption.appendChild(elmStats);
 		elm.appendChild(elmCaption);
 
 		setFeedTooltipState(elm);
@@ -379,10 +417,10 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createErrorTagLI(textContent) {
+	function createErrorTagLI(text) {
 		let elm = document.createElement("li");
 		elm.classList.add("errormsg");
-		elm.textContent = textContent;
+		elm.textContent = text;
 		return elm;
 	}
 
@@ -491,13 +529,20 @@ let rssTreeView = (function() {
 		m_objTreeFeedsData.setLastChecked(id);
 
 		prefs.getFetchTimeout().then((timeout) => {
-			syndication.fetchFeedData(url, timeout*1000).then((feedData) => {
 
-				let updateTime = slUtil.asSafeNumericDate(feedData.lastUpdated);
+			timeout *= 1000;	// to milliseconds
+
+			let fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout) : syndication.fetchFeedData(url, timeout);
+
+			fetching.then((fetchResult) => {
+
+				let updateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
 				setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toWebExtensionLocaleString());		// feedData.description not displayed as thirdLine in tooltip
 				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
-				updateFeedTitle(elmLI, feedData.title);
+				updateFeedTitle(elmLI, fetchResult.feedData.title);
+				updateFeedStatsFromHistory(elmLI, fetchResult.list);
+				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
 				setFeedErrorState(elmLI, true, error.message);
 			}).finally(() => {	// wait for Fx v58
@@ -564,11 +609,13 @@ let rssTreeView = (function() {
 
 					setFeedVisitedState(elmLI, true);
 					updateFeedTitle(elmLI, result.feedData.title);
+					updateFeedStatsFromHistory(elmLI, result.list);
+					updateTreeBranchFoldersStats(elmLI);
 					setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toWebExtensionLocaleString());
 
 					// change the rssListView content only if this is the last user click.
 					if(thisFeedClickTime === m_lastClickedFeedTime) {
-						rssListView.setFeedItems(result.list, elmLI.firstElementChild.textContent);
+						rssListView.setFeedItems(result.list, getTreeItemText(elmLI), elmLI);
 					}
 
 				}).catch((error) => {
@@ -577,7 +624,7 @@ let rssTreeView = (function() {
 
 					// change the rssListView content only if this is the last user click.
 					if(thisFeedClickTime === m_lastClickedFeedTime) {
-						rssListView.setListErrorMsg(error.message, elmLI.firstElementChild.textContent);
+						rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI));
 					}
 				}).finally(() => {	// wait for Fx v58
 
@@ -1444,7 +1491,7 @@ let rssTreeView = (function() {
 		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
 		let text = "Permanently delete the " + (isSubTree ? "folder " : "feed ") +
-					"<b>'" + elmLI.firstElementChild.textContent + "'</b> " +
+					"<b>'" + getTreeItemText(elmLI) + "'</b> " +
 					(isSubTree ? "<u>and all of its contents</u> " : "") + "from your bookmarks?"
 
 		messageView.show(text, messageView.ButtonSet.setYesNo).then((result) => {
@@ -1464,7 +1511,7 @@ let rssTreeView = (function() {
 							m_elmCurrentlySelected = null;
 						}
 
-						if(rssListView.getListViewTitle() === elmLI.firstElementChild.textContent) {
+						if(rssListView.getListViewTitle() === getTreeItemText(elmLI)) {
 							rssListView.disposeList();
 						}
 
@@ -1493,6 +1540,7 @@ let rssTreeView = (function() {
 			m_objTreeFeedsData.value(elmLI.id).lastVisited = slUtil.getCurrentLocaleDate().getTime();
 		}
 		m_objTreeFeedsData.setStorage();
+		updateTreeBranchFoldersStats(elmLI);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1507,6 +1555,7 @@ let rssTreeView = (function() {
 				m_objTreeFeedsData.value(elm.id).lastVisited = isVisited ? slUtil.getCurrentLocaleDate().getTime() : 0;
 			}
 			m_objTreeFeedsData.setStorage();
+			updateAllTreeFoldersStats();
 		}
 	}
 
@@ -1538,7 +1587,7 @@ let rssTreeView = (function() {
 		suspendBookmarksEventHandler(() => {
 			return browser.bookmarks.update(elmLI.id, changes).then((updated) => {
 
-				elmLI.firstElementChild.textContent = updated.title;
+				setTreeItemText(elmLI, updated.title);
 				notifyAppliedFilter();
 
 				let urlChanged = (elmLI.getAttribute("href") !== updated.url);
@@ -1562,7 +1611,7 @@ let rssTreeView = (function() {
 
 		suspendBookmarksEventHandler(() => {
 			return browser.bookmarks.update(elmLI.id, changes).then((updated) => {
-				elmLI.firstElementChild.textContent = updated.title;
+				setTreeItemText(elmLI, updated.title);
 				setFeedTooltipState(elmLI);
 			});
 		});
@@ -1571,6 +1620,77 @@ let rssTreeView = (function() {
 	//==================================================================================
 	//=== Tree Items status
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateTreeBranchFoldersStats(elmLI) {
+
+		if(!elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+			return;
+		}
+
+		let totalCount, unreadCount;
+		let elmULSubFolder = elmLI.parentElement;
+
+		while(elmULSubFolder !== m_elmTreeRoot) {
+
+			totalCount = elmULSubFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM).length;
+			unreadCount = elmULSubFolder.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_ITEM).length;
+
+			updateTreeItemStats(elmULSubFolder.parentElement, totalCount, unreadCount);
+
+			elmULSubFolder = elmULSubFolder.parentElement.parentElement;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateAllTreeFoldersStats() {
+
+		let totalCount, unreadCount, elmLI;
+		let elmLIs = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_SUB_TREE);
+
+		for (let i=0, len=elmLIs.length; i<len; i++) {
+
+			elmLI = elmLIs[i];
+
+			totalCount = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM).length;
+			unreadCount = elmLI.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_ITEM).length;
+
+			updateTreeItemStats(elmLI, totalCount, unreadCount);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function updateFeedStatsFromHistory(elmLI, feedItems) {
+
+		if (m_bPrefShowFeedStats)  {
+
+			let totalCount = feedItems.length;
+			let vItems, unreadCount = 0;
+
+			for(let i=0; i<totalCount; i++) {
+				try {
+					vItems = await browser.history.getVisits({ url: feedItems[i].url });
+					if(vItems.length === 0) {
+						unreadCount++;
+					}
+				} catch (error) {
+					console.log("[Sage-Like]", "get history visits", error);
+				}
+			}
+			updateTreeItemStats(elmLI, totalCount, unreadCount);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateTreeItemStats(elmLI, totalCount, unreadCount) {
+
+		if(m_bPrefShowFeedStats && !!elmLI && !!elmLI.classList &&
+			(elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE) ||
+			elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM))) {
+
+			setTreeItemStats(elmLI, "(\u2009" + unreadCount + "\u2009/\u2009" + totalCount + "\u2009)");	// thin space
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateFeedTitle(elmLI, title) {
@@ -1588,7 +1708,7 @@ let rssTreeView = (function() {
 
 					suspendBookmarksEventHandler(() => {
 						return browser.bookmarks.update(elmLI.id, { title: title }).then((updatedNode) => {
-							elmLI.firstElementChild.textContent = updatedNode.title;
+							setTreeItemText(elmLI, updatedNode.title);
 							notifyAppliedFilter();
 						}).catch((error) => console.log("[Sage-Like]", error) );
 					});
@@ -1683,7 +1803,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedTooltipState(elmLI, secondLine = undefined, thirdLine = undefined) {
 
-		elmLI.title = elmLI.firstElementChild.textContent;
+		elmLI.title = getTreeItemText(elmLI);
 
 		if(secondLine !== undefined) {
 			elmLI.title += "\u000d" + secondLine;
@@ -1704,7 +1824,7 @@ let rssTreeView = (function() {
 		if(!!treeFeedsData && treeFeedsData.updateTitle && firstLine) {
 			elmLI.title = firstLine;
 		} else {
-			elmLI.title = elmLI.firstElementChild.textContent;
+			elmLI.title = getTreeItemText(elmLI);
 		}
 		elmLI.title += "\u000d" + secondLine;
 	}
@@ -1965,7 +2085,7 @@ let rssTreeView = (function() {
 		// hide the ones that do not match the filter
 		for(let i=0, len=elms.length; i<len; i++) {
 
-			if(funcFilter(elms[i].firstElementChild.textContent, txtFilter)) {
+			if(funcFilter(getTreeItemText(elms[i]), txtFilter)) {
 				elms[i].style.display = "";
 			} else {
 				elms[i].style.display = "none";
@@ -2020,6 +2140,26 @@ let rssTreeView = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function getTreeItemText(elmLI) {
+		return elmLI.firstElementChild.firstElementChild.textContent;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setTreeItemText(elmLI, text) {
+		elmLI.firstElementChild.firstElementChild.textContent = text;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getTreeItemStats(elmLI) {
+		return elmLI.firstElementChild.firstElementChild.nextElementSibling.textContent;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setTreeItemStats(elmLI, text) {
+		elmLI.firstElementChild.firstElementChild.nextElementSibling.textContent = text;
+	}
+
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
@@ -2033,6 +2173,8 @@ let rssTreeView = (function() {
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,
 		isRssTreeCreatedOK: isRssTreeCreatedOK,
+		updateFeedStats: updateTreeItemStats,
+		getTreeItemText: getTreeItemText,
 	};
 
 })();

@@ -228,6 +228,8 @@ let slGlobals = (function() {
 	const CLS_RTV_LI_SUB_TREE = "rtvSubTree";
 	const CLS_RTV_LI_TREE_ITEM = "rtvTreeItem";
 	const CLS_RTV_DIV_TREE_ITEM_CAPTION = "rtvCaption";
+	const CLS_RTV_DIV_TREE_ITEM_CAPTION_TITLE = "rtvCaptionTitle";
+	const CLS_RTV_DIV_TREE_ITEM_CAPTION_STATS = "rtvCaptionStats";
 
 	// RSS List View classes
 	const CLS_RLV_LI_LIST_ITEM = "rlvListItem";
@@ -251,13 +253,14 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL				= 1003;
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED		= 1004;
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD				= 1005;
-	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC				= 1006;
-	const MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE			= 1007;
-	const MSGD_PREF_CHANGE_UI_DENSITY						= 1008;
-	const MSGD_PREF_CHANGE_FONT_NAME						= 1009;
-	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT				= 1010;
-	const MSGD_PREF_CHANGE_COLORS							= 1011;
-	const MSGD_PREF_CHANGE_IMAGES							= 1012;
+	const MSGD_PREF_CHANGE_SHOW_FEED_STATS					= 1006;
+	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC				= 1007;
+	const MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE			= 1008;
+	const MSGD_PREF_CHANGE_UI_DENSITY						= 1009;
+	const MSGD_PREF_CHANGE_FONT_NAME						= 1010;
+	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT				= 1011;
+	const MSGD_PREF_CHANGE_COLORS							= 1012;
+	const MSGD_PREF_CHANGE_IMAGES							= 1013;
 
 	const BOOKMARKS_ROOT_MENU_GUID = "menu________";
 	const DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME = "Sage-Like Feeds";
@@ -305,6 +308,8 @@ let slGlobals = (function() {
 		CLS_RTV_LI_SUB_TREE: CLS_RTV_LI_SUB_TREE,
 		CLS_RTV_LI_TREE_ITEM: CLS_RTV_LI_TREE_ITEM,
 		CLS_RTV_DIV_TREE_ITEM_CAPTION: CLS_RTV_DIV_TREE_ITEM_CAPTION,
+		CLS_RTV_DIV_TREE_ITEM_CAPTION_TITLE: CLS_RTV_DIV_TREE_ITEM_CAPTION_TITLE,
+		CLS_RTV_DIV_TREE_ITEM_CAPTION_STATS: CLS_RTV_DIV_TREE_ITEM_CAPTION_STATS,
 
 		CLS_RLV_LI_LIST_ITEM: CLS_RLV_LI_LIST_ITEM,
 
@@ -767,6 +772,7 @@ let prefs = (function() {
 	const DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = true;
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
+	const DEF_PREF_SHOW_FEED_STATS_VALUE = true;
 	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
 	const DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE = true;
 	const DEF_PREF_UI_DENSITY_VALUE = "19;18";
@@ -783,6 +789,7 @@ let prefs = (function() {
 	const PREF_CHECK_FEEDS_WHEN_SB_CLOSED = "pref_checkFeedsWhenSbClosed";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
+	const PREF_SHOW_FEED_STATS = "pref_showFeedStats";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
 	const PREF_DETECT_FEEDS_IN_WEB_PAGE = "pref_detectFeedsInWebPage";
 	const PREF_UI_DENSITY = "pref_UIDensity";
@@ -886,6 +893,25 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_FETCH_TIMEOUT] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getShowFeedStats() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_SHOW_FEED_STATS).then((result) => {
+				resolve(result[PREF_SHOW_FEED_STATS] === undefined ? DEF_PREF_SHOW_FEED_STATS_VALUE : result[PREF_SHOW_FEED_STATS]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setShowFeedStats(value) {
+
+		let obj = {};
+		obj[PREF_SHOW_FEED_STATS] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -1086,6 +1112,7 @@ let prefs = (function() {
 		this.setCheckFeedsWhenSbClosed(DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
+		this.setShowFeedStats(DEF_PREF_SHOW_FEED_STATS_VALUE);
 		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
 		this.setDetectFeedsInWebPage(DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE);
 		this.setUIDensity(DEF_PREF_UI_DENSITY_VALUE);
@@ -1103,6 +1130,7 @@ let prefs = (function() {
 			checkFeedsWhenSbClosed: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
+			showFeedStats: DEF_PREF_SHOW_FEED_STATS_VALUE,
 			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 			detectFeedsInWebPage: DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE,
 			UIDensity: DEF_PREF_UI_DENSITY_VALUE,
@@ -1122,6 +1150,7 @@ let prefs = (function() {
 		DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
+		DEF_PREF_SHOW_FEED_STATS_VALUE: DEF_PREF_SHOW_FEED_STATS_VALUE,
 		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 		DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE: DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE,
 		DEF_PREF_UI_DENSITY_VALUE: DEF_PREF_UI_DENSITY_VALUE,
@@ -1143,6 +1172,8 @@ let prefs = (function() {
 		setCheckFeedsMethod: setCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,
 		setFetchTimeout: setFetchTimeout,
+		getShowFeedStats: getShowFeedStats,
+		setShowFeedStats: setShowFeedStats,
 		getShowFeedItemDesc: getShowFeedItemDesc,
 		setShowFeedItemDesc: setShowFeedItemDesc,
 		getDetectFeedsInWebPage: getDetectFeedsInWebPage,

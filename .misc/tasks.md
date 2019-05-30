@@ -289,6 +289,22 @@
 
 ## Next
 * use the rssListView.getListViewStats() function
+* update stats after adding new feed or folder
+* update stats after deleting new feed or folder
+* after pref "show feed stats numbers" is implemented consider the creation of the .rtvStats div element is pref is unchecked
+* situation:
+    1. feed selected in sidebar. Its 10 feed-items are displayed - stats are: ( 2 / 10 )
+    2. background monitoring handels that feed and return 10 completely new items.
+    ==> Should I update the listView/feedStats Just becouse it is displayed?
+* in list, handle keyboard event when list (UL) is selected but NO list item is selected.
+* consider opening feed item from a single place. list click event, list KB event, ContextMenu click event, ContextMenu KB event
+* include image in feedPreview
+* rssListView.setFeedItems() gets feed title AND feed LI.
+    * feed LI contains the title.
+    * also when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if the title match rssListView.getListViewTitle(). title can change. Use rssListView.m_elmLITreeFeed ??
+* if 'mark all as read' is selected on folder it should relate to that folder only
+* change 'Open all in tabs' to 'Open all unread in tabs'
+
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.

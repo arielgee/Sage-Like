@@ -78,8 +78,26 @@
 	min-height: var(--line-height);
 	padding: 1px 5px 1px 3px;
 	pointer-events: none; /* otherwise the menucontext is not fired */
+	display: flex;
+	align-items: flex-end;
+}
+
+.treeview .rtvCaptionTitle {
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.treeview .rtvCaptionStats {
+	padding-left: 8px;
+	font-size: 80%;
+	font-style: normal;
+	font-weight: normal;
+	background-color: transparent;
+	filter: opacity(65%);
+}
+
+.treeview .rtvCaptionStats.hidden {
+	display: none;
 }
 
 .treeview li.selected > .rtvCaption {
@@ -90,7 +108,7 @@
 	outline: 1px dotted gray;
 }
 
-.treeview li.rtvTreeItem:hover > .rtvCaption {
+.treeview li.rtvTreeItem:hover > .rtvCaption > .rtvCaptionTitle {
 	text-decoration: underline;
 }
 
