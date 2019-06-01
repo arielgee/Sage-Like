@@ -284,7 +284,7 @@ let rssTreeView = (function() {
 			} else {
 
 				// switched from 'show' to 'do not show', clear stat text
-				let elms = m_elmTreeRoot.querySelectorAll(".treeview ." + slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION_STATS);
+				let elms = m_elmTreeRoot.querySelectorAll(".treeview ." + slGlobals.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS);
 
 				for(let i=0, len=elms.length; i<len; i++) {
 					elms[i].textContent = "";
@@ -394,9 +394,9 @@ let rssTreeView = (function() {
 		let elmCaption = document.createElement("div");
 		let elm = document.createElement("li");
 
-		elmTitle.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION_TITLE;
+		elmTitle.className = slGlobals.CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE;
 		elmTitle.textContent = text;
-		elmStats.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION_STATS;
+		elmStats.className = slGlobals.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS;
 		elmCaption.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION;
 
 		elm.id = id;
