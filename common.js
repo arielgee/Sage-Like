@@ -225,8 +225,9 @@ let slGlobals = (function() {
 	const ID_UL_RSS_LIST_VIEW = "rssListView";
 
 	// RSS Tree View classes
-	const CLS_RTV_LI_SUB_TREE = "rtvSubTree";
 	const CLS_RTV_LI_TREE_ITEM = "rtvTreeItem";
+	const CLS_RTV_LI_TREE_FOLDER = "rtvTreeFolder";
+	const CLS_RTV_LI_TREE_FEED = "rtvTreeFeed";
 	const CLS_RTV_DIV_TREE_ITEM_CAPTION = "rtvCaption";
 	const CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE = "rtvCaptionTitle";
 	const CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS = "rtvCaptionStats";
@@ -267,8 +268,8 @@ let slGlobals = (function() {
 	const STR_TITLE_EMPTY = "<no title>";
 
 	const FMT_IMAGE_SET = {
-		IMG_OPEN_SUB_TREE:		"url(\"/icons/open-{0}.png\")",
-		IMG_CLOSED_SUB_TREE:	"url(\"/icons/closed-{0}.png\")",
+		IMG_OPEN_FOLDER:		"url(\"/icons/open-{0}.png\")",
+		IMG_CLOSED_FOLDER:	"url(\"/icons/closed-{0}.png\")",
 		IMG_TREE_ITEM:			"url(\"/icons/rss-{0}.png\")",
 		IMG_TREE_ITEM_LOADING:	"url(\"/icons/loading-{0}.gif\")",
 		IMG_TREE_ITEM_ERROR:	"url(\"/icons/error-{0}.png\")",
@@ -285,8 +286,8 @@ let slGlobals = (function() {
 		}
 
 		return {
-			IMG_OPEN_SUB_TREE:		FMT_IMAGE_SET.IMG_OPEN_SUB_TREE.format([setNumber]),
-			IMG_CLOSED_SUB_TREE:	FMT_IMAGE_SET.IMG_CLOSED_SUB_TREE.format([setNumber]),
+			IMG_OPEN_FOLDER:		FMT_IMAGE_SET.IMG_OPEN_FOLDER.format([setNumber]),
+			IMG_CLOSED_FOLDER:	FMT_IMAGE_SET.IMG_CLOSED_FOLDER.format([setNumber]),
 			IMG_TREE_ITEM:			FMT_IMAGE_SET.IMG_TREE_ITEM.format([setNumber]),
 			IMG_TREE_ITEM_LOADING:	FMT_IMAGE_SET.IMG_TREE_ITEM_LOADING.format([setNumber]),
 			IMG_TREE_ITEM_ERROR:	FMT_IMAGE_SET.IMG_TREE_ITEM_ERROR.format([setNumber]),
@@ -305,8 +306,9 @@ let slGlobals = (function() {
 		ID_UL_RSS_TREE_VIEW: ID_UL_RSS_TREE_VIEW,
 		ID_UL_RSS_LIST_VIEW: ID_UL_RSS_LIST_VIEW,
 
-		CLS_RTV_LI_SUB_TREE: CLS_RTV_LI_SUB_TREE,
 		CLS_RTV_LI_TREE_ITEM: CLS_RTV_LI_TREE_ITEM,
+		CLS_RTV_LI_TREE_FOLDER: CLS_RTV_LI_TREE_FOLDER,
+		CLS_RTV_LI_TREE_FEED: CLS_RTV_LI_TREE_FEED,
 		CLS_RTV_DIV_TREE_ITEM_CAPTION: CLS_RTV_DIV_TREE_ITEM_CAPTION,
 		CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE: CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE,
 		CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS: CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS,
@@ -330,6 +332,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL: MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED: MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD: MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD,
+		MSGD_PREF_CHANGE_SHOW_FEED_STATS: MSGD_PREF_CHANGE_SHOW_FEED_STATS,
 		MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC: MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC,
 		MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE: MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE,
 		MSGD_PREF_CHANGE_UI_DENSITY: MSGD_PREF_CHANGE_UI_DENSITY,
@@ -522,7 +525,7 @@ let internalPrefs = (function() {
 
 	// internal preferences
 
-	const DEF_PREF_OPEN_SUB_TREES_VALUE = {};
+	const DEF_PREF_OPEN_FOLDERS_VALUE = {};
 	const DEF_PREF_TREE_FEEDS_DATA_VALUE = {};
 	const DEF_PREF_IS_EXTENSION_INSTALLED_VALUE = null;
 	const DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE = null;
@@ -531,7 +534,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE = 5;
 	const DEF_PREF_FEEDS_FILTER_VALUE = "";
 
-	const PREF_OPEN_SUB_TREES = "pref_openSubTrees";
+	const PREF_OPEN_FOLDERS = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
 	const PREF_IS_EXTENSION_INSTALLED = "pref_isExtensionInstalled";
 	const PREF_TREE_SELECTED_ITEM_ID = "pref_treeSelectedItemId";
@@ -541,21 +544,21 @@ let internalPrefs = (function() {
 	const PREF_FEEDS_FILTER = "pref_feedsFilter";
 
 	//////////////////////////////////////////////////////////////////////
-	function getOpenSubTrees() {
+	function getOpenFolders() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_OPEN_SUB_TREES).then((result) => {
-				resolve(result[PREF_OPEN_SUB_TREES] === undefined ? DEF_PREF_OPEN_SUB_TREES_VALUE : result[PREF_OPEN_SUB_TREES]);
+			browser.storage.local.get(PREF_OPEN_FOLDERS).then((result) => {
+				resolve(result[PREF_OPEN_FOLDERS] === undefined ? DEF_PREF_OPEN_FOLDERS_VALUE : result[PREF_OPEN_FOLDERS]);
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setOpenSubTrees(objValue) {
+	function setOpenSubFolders(objValue) {
 
 		let obj = {};
-		obj[PREF_OPEN_SUB_TREES] = objValue;
+		obj[PREF_OPEN_FOLDERS] = objValue;
 		browser.storage.local.set(obj);
 	}
 
@@ -716,7 +719,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
-		this.setOpenSubTrees(DEF_PREF_OPEN_SUB_TREES_VALUE);
+		this.setOpenSubFolders(DEF_PREF_OPEN_FOLDERS_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
 		this.setIsExtensionInstalled(DEF_PREF_IS_EXTENSION_INSTALLED_VALUE);
 		this.setTreeSelectedItemId(DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE);
@@ -726,7 +729,7 @@ let internalPrefs = (function() {
 		this.setFeedsFilter(DEF_PREF_FEEDS_FILTER_VALUE);
 
 		return {
-			openSubTrees: DEF_PREF_OPEN_SUB_TREES_VALUE,
+			openSubFolders: DEF_PREF_OPEN_FOLDERS_VALUE,
 			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA_VALUE,
 			isExtensionInstalled: DEF_PREF_IS_EXTENSION_INSTALLED_VALUE,
 			treeSelectedItemId: DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE,
@@ -738,8 +741,8 @@ let internalPrefs = (function() {
 	}
 
 	return {
-		getOpenSubTrees: getOpenSubTrees,
-		setOpenSubTrees: setOpenSubTrees,
+		getOpenFolders: getOpenFolders,
+		setOpenSubFolders: setOpenSubFolders,
 		getTreeFeedsData: getTreeFeedsData,
 		setTreeFeedsData: setTreeFeedsData,
 		getIsExtensionInstalled: getIsExtensionInstalled,

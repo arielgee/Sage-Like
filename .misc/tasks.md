@@ -304,7 +304,7 @@
     * also when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if the title match rssListView.getListViewTitle(). title can change. Use rssListView.m_elmLITreeFeed ??
 * if 'mark all as read' is selected on folder it should relate to that folder only
 * change 'Open all in tabs' to 'Open all unread in tabs'
-
+* Renaming: subTree to folder (OpenSubTrees etc.)
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.

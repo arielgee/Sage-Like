@@ -187,8 +187,8 @@ let panel = (function() {
 			let style = document.documentElement.style;
 			let imageSet = slGlobals.IMAGE_SET(setNumber);
 
-			style.setProperty("--url-img-open-sub-tree", imageSet.IMG_OPEN_SUB_TREE);
-			style.setProperty("--url-img-closed-sub-tree", imageSet.IMG_CLOSED_SUB_TREE);
+			style.setProperty("--url-img-open-folder", imageSet.IMG_OPEN_FOLDER);
+			style.setProperty("--url-img-closed-folder", imageSet.IMG_CLOSED_FOLDER);
 			style.setProperty("--url-img-tree-item", imageSet.IMG_TREE_ITEM);
 			style.setProperty("--url-img-tree-item-loading", imageSet.IMG_TREE_ITEM_LOADING);
 			style.setProperty("--url-img-tree-item-error", imageSet.IMG_TREE_ITEM_ERROR);

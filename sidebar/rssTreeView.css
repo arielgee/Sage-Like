@@ -1,8 +1,8 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-	--url-img-open-sub-tree: url("/icons/open-0.png");
-	--url-img-closed-sub-tree: url("/icons/closed-0.png");
+	--url-img-open-folder: url("/icons/open-0.png");
+	--url-img-closed-folder: url("/icons/closed-0.png");
 	--url-img-tree-item: url("/icons/rss-0.png");
 	--url-img-tree-item-loading: url("/icons/loading-0.gif");
 	--url-img-tree-item-error: url("/icons/error-0.png");
@@ -31,43 +31,43 @@
 	cursor: default;
 }
 
-/* <li> elements that contains sub trees (other ULs) */
-.treeview li.rtvSubTree {
+/* <li> elements that contains folders (other ULs) */
+.treeview li.rtvTreeFolder {
 	background: transparent no-repeat left calc((var(--line-height) + 2px - 16px) / 2); /* (captionHeight + captionBorders - imageHeight) / 2 */
 }
 
-.treeview li.rtvSubTree.open {
-	background-image: var(--url-img-open-sub-tree);
+.treeview li.rtvTreeFolder.open {
+	background-image: var(--url-img-open-folder);
 }
 
-.treeview li.rtvSubTree.closed {
-	background-image: var(--url-img-closed-sub-tree);
+.treeview li.rtvTreeFolder.closed {
+	background-image: var(--url-img-closed-folder);
 }
 
-.treeview li.rtvSubTree.open > ul {
+.treeview li.rtvTreeFolder.open > ul {
 	display: block;
 }
 
-.treeview li.rtvSubTree.closed > ul {
+.treeview li.rtvTreeFolder.closed > ul {
 	display: none;
 }
 
 /* <li> elements that are tree leafs */
-.treeview li.rtvTreeItem {
+.treeview li.rtvTreeFeed {
 	background: transparent var(--url-img-tree-item) no-repeat left center;
 	cursor: pointer;
 }
 
-.treeview li.rtvTreeItem.bold {
+.treeview li.rtvTreeFeed.bold {
 	font-weight: bold;
 }
 
-.treeview li.rtvTreeItem.loading {
+.treeview li.rtvTreeFeed.loading {
 	background-image: var(--url-img-tree-item-loading);
 	cursor: wait;
 }
 
-.treeview li.rtvTreeItem.error {
+.treeview li.rtvTreeFeed.error {
 	background-image: var(--url-img-tree-item-error);
 	font-style: italic;
 	font-weight: normal;
@@ -108,7 +108,7 @@
 	outline: 1px dotted gray;
 }
 
-.treeview li.rtvTreeItem:hover > .rtvCaption > .rtvCaptionTitle {
+.treeview li.rtvTreeFeed:hover > .rtvCaption > .rtvCaptionTitle {
 	text-decoration: underline;
 }
 
@@ -124,7 +124,7 @@
 	box-shadow: 0 -2px 0 0 var(--bk-color-window-contrasted);
 }
 
-.treeview li.rtvSubTree.draggedOver.dropInside > .rtvCaption {
+.treeview li.rtvTreeFolder.draggedOver.dropInside > .rtvCaption {
 	box-shadow: none;
 	color: var(--bk-color-window);
 	background-color: var(--bk-color-window-contrasted);

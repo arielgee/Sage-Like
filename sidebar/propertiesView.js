@@ -214,7 +214,7 @@ class NewFeedPropertiesView extends PropertiesView {
 
 			super.show(elmLI, resolve);
 
-			this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE));
+			this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
 
 			this.m_initialProperties.title = title;
 			this.m_initialProperties.location = location;
@@ -240,7 +240,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			title: this.m_elmTextTitle.value,
 			url: this.m_elmTextLocation.value,
 			updateTitle: this.m_elmChkUpdateTitle.checked,
-			inSubTree: this.m_elmChkInsertInsideFolder.checked,
+			inFolder: this.m_elmChkInsertInsideFolder.checked,
 		}
 
 		// Title validation
@@ -279,7 +279,7 @@ class NewFolderPropertiesView extends PropertiesView {
 			super.show(elmLI, resolve);
 
 			this._hideNoneTitleProperties(true);
-			this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE));
+			this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
 
 			this.m_initialProperties.title = title;
 
@@ -302,7 +302,7 @@ class NewFolderPropertiesView extends PropertiesView {
 		let result = {
 			elmLI: this.m_elmTreeItemLI,
 			title: this.m_elmTextTitle.value,
-			inSubTree: this.m_elmChkInsertInsideFolder.checked,
+			inFolder: this.m_elmChkInsertInsideFolder.checked,
 		};
 
 		// Title validation

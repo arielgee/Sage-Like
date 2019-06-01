@@ -6,17 +6,17 @@ let rssTreeView = (function() {
 	//=== Class Declerations
 	//==================================================================================
 
-	class OpenSubTrees extends StoredKeyedItems {
+	class OpenFolders extends StoredKeyedItems {
 		getStorage() {
 			return new Promise((resolve) => {
-				internalPrefs.getOpenSubTrees().then((items) => {
+				internalPrefs.getOpenFolders().then((items) => {
 					this._items = items;
 					resolve(this.length);
 				});
 			});
 		}
 		setStorage() {
-			internalPrefs.setOpenSubTrees(this._items);
+			internalPrefs.setOpenSubFolders(this._items);
 		}
 	};
 
@@ -87,7 +87,7 @@ let rssTreeView = (function() {
 	let m_timeoutIdMonitorRSSTreeFeeds = null;
 	let m_lockBookmarksEventHandler = new Locker();
 
-	let m_objOpenSubTrees = new OpenSubTrees();
+	let m_objOpenSubFolders = new OpenFolders();
 	let m_objTreeFeedsData = new TreeFeedsData();
 	let m_objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
@@ -303,8 +303,8 @@ let rssTreeView = (function() {
 		// show loading animation (if not already removed by disposeTree()) if it takes too long
 		showDelayedLoadingAnimation();
 
-		// get subtree's open/closed statuses from local storage
-		await m_objOpenSubTrees.getStorage();
+		// get folder's open/closed statuses from local storage
+		await m_objOpenSubFolders.getStorage();
 
 		m_rssTreeCreatedOK = false;
 		m_elmCurrentlyLoading = null;
@@ -350,12 +350,12 @@ let rssTreeView = (function() {
 
 		if (bookmark.type === "folder") {
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
+			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_TREE_FOLDER, null);
 
 			let elmUL = createTagUL();
 			elmLI.appendChild(elmUL);
 
-			setSubTreeState(elmLI, m_objOpenSubTrees.exist(bookmark.id));
+			setFolderState(elmLI, m_objOpenSubFolders.exist(bookmark.id));
 
 			for (let child of bookmark.children) {
 				createTreeItem(elmUL, child);
@@ -363,7 +363,7 @@ let rssTreeView = (function() {
 
 		} else if (bookmark.type === "bookmark") {
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_TREE_ITEM, bookmark.url);
+			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_TREE_FEED, bookmark.url);
 		} else {
 			return;	// separator
 		}
@@ -400,7 +400,7 @@ let rssTreeView = (function() {
 		elmCaption.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION;
 
 		elm.id = id;
-		elm.className = className;
+		elm.className = slGlobals.CLS_RTV_LI_TREE_ITEM + " " + className;
 		elm.setAttribute("draggable", "true");
 		elm.setAttribute("tabindex", "0");
 		if (href !== null) {
@@ -441,7 +441,7 @@ let rssTreeView = (function() {
 				m_prioritySelectedItemId = null;
 
 				setFeedSelectionState(elm);
-				setSubTreeState(elm, true);
+				setFolderState(elm, true);
 				elm.scrollIntoView(true);
 			}
 
@@ -500,7 +500,7 @@ let rssTreeView = (function() {
 
 		await m_objTreeFeedsData.getStorage();
 
-		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM);
+		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
 
 		prefs.getCheckFeedsMethod().then(async (value) => {
 
@@ -566,25 +566,25 @@ let rssTreeView = (function() {
 		let elmLI = event.target;
 
 		// event.detail: check the current click count to avoid the double-click's second click.
-		if(!!!elmLI || !elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM) || event.detail > 1) {
+		if(!!!elmLI || !elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED) || event.detail > 1) {
 			return;
 		}
 
 		event.stopPropagation();
 
-		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+		let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
-		// when a subtree is open the height of the LI is as the Height of the entire subtree.
-		// The result is that clicking on the left of the items in the subtree (but not ON a subtree item) closes
-		// the subtree. This make sure that only clicks on the top of the elements are processed.
+		// when a folder is open the height of the LI is as the Height of the entire folder.
+		// The result is that clicking on the left of the items in the folder (but not ON a folder item) closes
+		// the folder. This make sure that only clicks on the top of the elements are processed.
 		if(!eventOccureInItemLineHeight(event, elmLI)) {
-			if(isSubTree) {
+			if(isFolder) {
 				elmLI.focus();
 			}
 			return;
 		}
 
-		if (!isSubTree) {
+		if (!isFolder) {
 
 			// remove here if is error
 			setFeedErrorState(elmLI, false);
@@ -647,10 +647,9 @@ let rssTreeView = (function() {
 		event.stopPropagation();
 
 		let elmLI = event.target;
-		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
 
-		if(isSubTree) {
-			toggleSubTreeState(elmLI);
+		if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
+			toggleFolderState(elmLI);
 		}
 	}
 
@@ -694,30 +693,30 @@ let rssTreeView = (function() {
 			return false;
 		}
 
-		let isSubTree = target.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+		let isFolder = target.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
-		if(isSubTree) {
+		if(isFolder) {
 
-			// when a subtree is open the height of the LI is as the Height of the entier subtree.
-			// The result is that hovering on the left of the items in the subtree (but not ON a subtree item) marks
-			// the entire subtree as a drop target. This makes sure that only hovers on the top of the elements are processed
+			// when a folder is open the height of the LI is as the Height of the entier folder.
+			// The result is that hovering on the left of the items in the folder (but not ON a folder item) marks
+			// the entire folder as a drop target. This makes sure that only hovers on the top of the elements are processed
 			if(!eventOccureInItemLineHeight(event, target)) {
 				event.dataTransfer.dropEffect = "none";
 				return false;
 			}
 
-			// it's a SubTree - lingering
+			// it's a folder - lingering
 			if(target.id === m_objCurrentlyDraggedOver.id) {
 
-				let isSubTreeClosed = target.classList.contains("closed");
+				let isFolderClosed = target.classList.contains("closed");
 
-				if(isSubTreeClosed && m_objCurrentlyDraggedOver.lingered) {
-					// mouse has lingered enough, open the closed SubTree
-					setSubTreeState(target, true);
+				if(isFolderClosed && m_objCurrentlyDraggedOver.lingered) {
+					// mouse has lingered enough, open the closed folder
+					setFolderState(target, true);
 				}
 
 			} else {
-				// it's a SubTree - just in
+				// it's a folder - just in
 				m_objCurrentlyDraggedOver.set(target.id);
 			}
 
@@ -746,12 +745,12 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDropTreeItem(event) {
 
-		// prevent propagation from the perent (subtree)
+		// prevent propagation from the perent (folder)
 		event.stopPropagation();
 
 		let elmDropTarget = event.target;
 
-		// nothing to do if dropped in the same location OR in a SubTree
+		// nothing to do if dropped in the same location OR in a folder
 		if(elmDropTarget === m_elmCurrentlyDragged) {
 			m_elmCurrentlyDragged.classList.remove("dragged");
 		} else {
@@ -771,31 +770,32 @@ let rssTreeView = (function() {
 
 						let newIndex = drop[0].index;
 
-						// when moving a bookmark item down in it's SubTree the target index should me decresed by one
+						// when moving a bookmark item down in it's folder the target index should me decresed by one
 						// becouse the indexing will shift down due to the removal of the dragged item.
 						if( (dragged[0].parentId === drop[0].parentId) && (dragged[0].index < drop[0].index) ) {
 							newIndex--;
 						}
 
 						// if shiftKey is pressed then insert dargged item(s) into the the dropped folder
-						let inSubTree = event.shiftKey && elmDropTarget.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+						let inFolder = event.shiftKey && elmDropTarget.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
 						let destination = {
-							parentId: (inSubTree ? drop[0].id : drop[0].parentId),
-							index: (inSubTree ? 0 : newIndex),			// insert as first in folder
+							parentId: (inFolder ? drop[0].id : drop[0].parentId),
+							index: (inFolder ? 0 : newIndex),			// insert as first in folder
 						};
 
 						suspendBookmarksEventHandler(() => {
 							return browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
 
-								m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
+								let elmDraggedFolderUL = m_elmCurrentlyDragged.parentElement;
+								elmDraggedFolderUL.removeChild(m_elmCurrentlyDragged);
 
 								let elmDropped;
 								let dropHTML = event.dataTransfer.getData("text/html");
 
-								if(inSubTree) {
+								if(inFolder) {
 									let elmDropTargetFolderUL = elmDropTarget.lastElementChild;
-									setSubTreeState(elmDropTarget, true);		// open the sub tree if closed
+									setFolderState(elmDropTarget, true);		// open the folder if closed
 									elmDropTargetFolderUL.insertAdjacentHTML("afterbegin", dropHTML);
 									elmDropped = elmDropTargetFolderUL.firstChild;
 
@@ -807,6 +807,8 @@ let rssTreeView = (function() {
 								}
 
 								removeFeedLoadingStatus(elmDropped);
+								updateTreeBranchFoldersStats(elmDraggedFolderUL);
+								updateTreeBranchFoldersStats(elmDropped);
 								elmDropped.focus();
 							});
 						});
@@ -872,11 +874,11 @@ let rssTreeView = (function() {
 
 		let count, elmCount, elm, elms;
 		let elmTargetLI = event.target;
-		let isSubTree = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
-		let isSubTreeOpen;
+		let isFolder = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
+		let isFolderOpen;
 
-		if(isSubTree) {
-			isSubTreeOpen = elmTargetLI.classList.contains("open");
+		if(isFolder) {
+			isFolderOpen = elmTargetLI.classList.contains("open");
 		}
 
 		switch(event.key.toLowerCase()) {
@@ -887,8 +889,8 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "enter":
-				if(isSubTree) {
-					toggleSubTreeState(elmTargetLI);
+				if(isFolder) {
+					toggleFolderState(elmTargetLI);
 				} else {
 					// emulate event object
 					onClickTreeItem( {
@@ -961,8 +963,8 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowleft":
-				if(isSubTree && isSubTreeOpen) {
-					setSubTreeState(elmTargetLI, false);
+				if(isFolder && isFolderOpen) {
+					setFolderState(elmTargetLI, false);
 					return;
 				}
 				if(elmTargetLI.parentElement.parentElement.tagName === "LI") {
@@ -972,12 +974,12 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "arrowright":
-				if(isSubTree) {
-					if(isSubTreeOpen) {
+				if(isFolder) {
+					if(isFolderOpen) {
 						elms = elmTargetLI.querySelectorAll("#" + elmTargetLI.id + " > ul > li:first-child"); // first direct child
 						elms[0].focus();
 					} else {
-						setSubTreeState(elmTargetLI, true);
+						setFolderState(elmTargetLI, true);
 					}
 				}
 				break;
@@ -1135,11 +1137,11 @@ let rssTreeView = (function() {
 			elmLI = elmUL.parentElement;
 
 			if(this.id === "expandall") {
-				setSubTreeState(elmLI, true);
-				m_objOpenSubTrees.set(elmLI.id);
+				setFolderState(elmLI, true);
+				m_objOpenSubFolders.set(elmLI.id);
 			} else {
-				setSubTreeState(elmLI, false);
-				m_objOpenSubTrees.remove(elmLI.id);
+				setFolderState(elmLI, false);
+				m_objOpenSubFolders.remove(elmLI.id);
 			}
 		}
 		setFocus();
@@ -1184,7 +1186,7 @@ let rssTreeView = (function() {
 				filterTreeItemText(txtValue);
 			}
 
-			filterEmptySubTreeItems();
+			filterEmptyFolderItems();
 
 		} else {
 			unfilterAllTreeItems();
@@ -1271,7 +1273,7 @@ let rssTreeView = (function() {
 
 					created = await browser.bookmarks.create(bookmark);
 
-					elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
+					elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FEED, created.url);
 					elmLI.classList.add("blinkNew");
 					m_elmTreeRoot.appendChild(elmLI);
 
@@ -1314,31 +1316,31 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFeedProperties(elmLI) {
 		NewFeedPropertiesView.i.show(elmLI, "New Feed", "").then((result) => {
-			createNewFeedExtended(result.elmLI, result.title, result.url, result.updateTitle, result.inSubTree);
+			createNewFeedExtended(result.elmLI, result.title, result.url, result.updateTitle, result.inFolder);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeedExtended(elmItem, title, url, updateTitle, inSubTree) {
+	function createNewFeedExtended(elmItem, title, url, updateTitle, inFolder) {
 
 		if (elmItem.id === slGlobals.ID_UL_RSS_TREE_VIEW) {
 			createNewFeedInRootFolder(title, url, updateTitle);
 		} else {
-			createNewFeed(elmItem, title, url, updateTitle, inSubTree);
+			createNewFeed(elmItem, title, url, updateTitle, inFolder);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeed(elmLI, title, url, updateTitle, inSubTree) {
+	function createNewFeed(elmLI, title, url, updateTitle, inFolder) {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
-			// if inSubTree is true then insert new item inside the provided folder item
-			inSubTree = inSubTree && elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+			// if inFolder is true then insert new item inside the provided folder item
+			inFolder = inFolder && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
 			let newBookmark = {
-				index: (inSubTree ? 0 : bookmarks[0].index),			// insert as first in folder
-				parentId: (inSubTree ? bookmarks[0].id : bookmarks[0].parentId),
+				index: (inFolder ? 0 : bookmarks[0].index),			// insert as first in folder
+				parentId: (inFolder ? bookmarks[0].id : bookmarks[0].parentId),
 				title: title,
 				type: "bookmark",
 				url: url,
@@ -1347,17 +1349,18 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.create(newBookmark).then((created) => {
 
-					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
+					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FEED, created.url);
 
-					if(inSubTree) {
+					if(inFolder) {
 						let elmFolderUL = elmLI.lastElementChild;
-						setSubTreeState(elmLI, true);		// open the sub tree if closed
+						setFolderState(elmLI, true);		// open the folder if closed
 						elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
 					} else {
 						elmLI.parentElement.insertBefore(newElm, elmLI);
 					}
 
 					setFeedVisitedState(newElm, false);
+					updateTreeBranchFoldersStats(newElm);
 					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle });
 					newElm.focus();
 				});
@@ -1385,7 +1388,7 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.create(newBookmark).then((created) => {
 
-					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_ITEM, created.url);
+					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FEED, created.url);
 
 					m_elmTreeRoot.appendChild(newElm);
 
@@ -1400,31 +1403,31 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFolderProperties(elmLI) {
 		NewFolderPropertiesView.i.show(elmLI, "New Folder").then((result) => {
-			createNewFolderExtended(result.elmLI, result.title, result.inSubTree);
+			createNewFolderExtended(result.elmLI, result.title, result.inFolder);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFolderExtended(elmItem, title, inSubTree) {
+	function createNewFolderExtended(elmItem, title, inFolder) {
 
 		if (elmItem.id === slGlobals.ID_UL_RSS_TREE_VIEW) {
 			createNewFolderInRootFolder(title);
 		} else {
-			createNewFolder(elmItem, title, inSubTree);
+			createNewFolder(elmItem, title, inFolder);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFolder(elmLI, title, inSubTree) {
+	function createNewFolder(elmLI, title, inFolder) {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
-			// if inSubTree is true then insert new folder inside the provided folder item
-			inSubTree = inSubTree && elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+			// if inFolder is true then insert new folder inside the provided folder item
+			inFolder = inFolder && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
 			let newFolder = {
-				index: (inSubTree ? 0 : bookmarks[0].index),			// insert as first in folder
-				parentId: (inSubTree ? bookmarks[0].id : bookmarks[0].parentId),
+				index: (inFolder ? 0 : bookmarks[0].index),			// insert as first in folder
+				parentId: (inFolder ? bookmarks[0].id : bookmarks[0].parentId),
 				title: title,
 				type: "folder",
 			};
@@ -1432,16 +1435,16 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.create(newFolder).then((created) => {
 
-					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
+					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FOLDER, null);
 
 					let elmUL = createTagUL();
 					newElm.appendChild(elmUL);
 
-					setSubTreeState(newElm, false);
+					setFolderState(newElm, false);
 
-					if(inSubTree) {
+					if(inFolder) {
 						let elmFolderUL = elmLI.lastElementChild;
-						setSubTreeState(elmLI, true);
+						setFolderState(elmLI, true);
 						elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
 					} else {
 						elmLI.parentElement.insertBefore(newElm, elmLI);
@@ -1472,13 +1475,13 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.create(newFolder).then((created) => {
 
-					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_SUB_TREE, null);
+					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FOLDER, null);
 					let elmUL = createTagUL();
 
 					newElm.appendChild(elmUL);
 					m_elmTreeRoot.appendChild(newElm);
 
-					setSubTreeState(newElm, false);
+					setFolderState(newElm, false);
 					newElm.focus();
 				});
 			});
@@ -1488,17 +1491,17 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function deleteTreeItem(elmLI) {
 
-		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+		let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
-		let text = "Permanently delete the " + (isSubTree ? "folder " : "feed ") +
+		let text = "Permanently delete the " + (isFolder ? "folder " : "feed ") +
 					"<b>'" + getTreeItemText(elmLI) + "'</b> " +
-					(isSubTree ? "<u>and all of its contents</u> " : "") + "from your bookmarks?"
+					(isFolder ? "<u>and all of its contents</u> " : "") + "from your bookmarks?"
 
 		messageView.show(text, messageView.ButtonSet.setYesNo).then((result) => {
 
 			if(result === messageView.ButtonCode.Yes) {
 
-				let funcBookmarksRemove = isSubTree ? browser.bookmarks.removeTree : browser.bookmarks.remove;
+				let funcBookmarksRemove = isFolder ? browser.bookmarks.removeTree : browser.bookmarks.remove;
 
 				suspendBookmarksEventHandler(() => {
 					return funcBookmarksRemove(elmLI.id).then(() => {
@@ -1515,7 +1518,9 @@ let rssTreeView = (function() {
 							rssListView.disposeList();
 						}
 
-						elmLI.parentElement.removeChild(elmLI);
+						let elmDeletedFolderUL = elmLI.parentElement;
+						elmDeletedFolderUL.removeChild(elmLI);
+						updateTreeBranchFoldersStats(elmDeletedFolderUL);
 						m_objTreeFeedsData.remove(elmLI.id);
 
 					});
@@ -1546,7 +1551,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function markAllFeedsAsVisitedState(isVisited) {
 
-		let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM + ":not(.error)");
+		let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + ":not(.error)");
 
 		if(elms.length > 0) {
 
@@ -1562,9 +1567,9 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openEditTreeItemProperties(elmLI) {
 
-		let isSubTree = elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE);
+		let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
-		if(isSubTree) {
+		if(isFolder) {
 			EditFolderPropertiesView.i.show(elmLI).then((result) => {
 				updateFolderProperties(result.elmLI, result.title);
 			});
@@ -1622,23 +1627,28 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function updateTreeBranchFoldersStats(elmLI) {
+	function updateTreeBranchFoldersStats(elm) {
 
-		if(!elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+		let elmULFolder;
+
+		if(elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+			elmULFolder = elm.parentElement;
+		} else if(elm.tagName === "UL") {
+			elmULFolder = elm;
+		} else {
 			return;
 		}
 
 		let totalCount, unreadCount;
-		let elmULSubFolder = elmLI.parentElement;
 
-		while(elmULSubFolder !== m_elmTreeRoot) {
+		while(elmULFolder !== m_elmTreeRoot) {
 
-			totalCount = elmULSubFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM).length;
-			unreadCount = elmULSubFolder.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_ITEM).length;
+			totalCount = elmULFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+			unreadCount = elmULFolder.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
 
-			updateTreeItemStats(elmULSubFolder.parentElement, totalCount, unreadCount);
+			updateTreeItemStats(elmULFolder.parentElement, totalCount, unreadCount);
 
-			elmULSubFolder = elmULSubFolder.parentElement.parentElement;
+			elmULFolder = elmULFolder.parentElement.parentElement;
 		}
 	}
 
@@ -1646,14 +1656,14 @@ let rssTreeView = (function() {
 	function updateAllTreeFoldersStats() {
 
 		let totalCount, unreadCount, elmLI;
-		let elmLIs = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_SUB_TREE);
+		let elmLIs = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
 		for (let i=0, len=elmLIs.length; i<len; i++) {
 
 			elmLI = elmLIs[i];
 
-			totalCount = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM).length;
-			unreadCount = elmLI.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_ITEM).length;
+			totalCount = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+			unreadCount = elmLI.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
 
 			updateTreeItemStats(elmLI, totalCount, unreadCount);
 		}
@@ -1684,11 +1694,9 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateTreeItemStats(elmLI, totalCount, unreadCount) {
 
-		if(m_bPrefShowFeedStats && !!elmLI && !!elmLI.classList &&
-			(elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE) ||
-			elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM))) {
-
-			setTreeItemStats(elmLI, "(\u2009" + unreadCount + "\u2009/\u2009" + totalCount + "\u2009)");	// thin space
+		if(m_bPrefShowFeedStats && !!elmLI && !!elmLI.classList && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+			//setTreeItemStats(elmLI, "(\u200a" + unreadCount + "\u200a/\u200a" + totalCount + "\u200a)");	// THIN SPACE
+			setTreeItemStats(elmLI, unreadCount > 0 ? "(\u200a" + unreadCount + "\u200a)" : "");	// HAIR SPACE
 		}
 	}
 
@@ -1718,33 +1726,33 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function toggleSubTreeState(elmTreeItem) {
+	function toggleFolderState(elmTreeItem) {
 
 		if (elmTreeItem.classList.contains("open")) {
-			setSubTreeVisibility(elmTreeItem, false);
-			m_objOpenSubTrees.remove(elmTreeItem.id);
+			setFolderVisibility(elmTreeItem, false);
+			m_objOpenSubFolders.remove(elmTreeItem.id);
 		} else {
-			setSubTreeVisibility(elmTreeItem, true);
-			m_objOpenSubTrees.set(elmTreeItem.id);
+			setFolderVisibility(elmTreeItem, true);
+			m_objOpenSubFolders.set(elmTreeItem.id);
 			elmTreeItem.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setSubTreeState(elmTreeItem, open) {
+	function setFolderState(elmTreeItem, open) {
 
 		if (open) {
-			setSubTreeVisibility(elmTreeItem, true);
-			m_objOpenSubTrees.set(elmTreeItem.id);
+			setFolderVisibility(elmTreeItem, true);
+			m_objOpenSubFolders.set(elmTreeItem.id);
 			elmTreeItem.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
 		} else {
-			setSubTreeVisibility(elmTreeItem, false);
-			m_objOpenSubTrees.remove(elmTreeItem.id);
+			setFolderVisibility(elmTreeItem, false);
+			m_objOpenSubFolders.remove(elmTreeItem.id);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setSubTreeVisibility(elmLI, open) {
+	function setFolderVisibility(elmLI, open) {
 		// Don't Call This Directlly
 		elmLI.classList.remove("open", "closed");
 		elmLI.classList.add(open ? "open" : "closed");
@@ -1865,9 +1873,9 @@ let rssTreeView = (function() {
 	function removeFeedLoadingStatus(elmLI) {
 
 		let list;
-		if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_SUB_TREE)) {
-			list = elmLI.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM)
-		} else if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+		if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
+			list = elmLI.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED)
+		} else if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
 			list = [elmLI];
 		}
 
@@ -1891,7 +1899,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isFeedInTree(url) {
-		return (m_elmTreeRoot.querySelector("." + slGlobals.CLS_RTV_LI_TREE_ITEM + "[href=\"" + url + "\"]") !== null);
+		return (m_elmTreeRoot.querySelector("." + slGlobals.CLS_RTV_LI_TREE_FEED + "[href=\"" + url + "\"]") !== null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1988,12 +1996,12 @@ let rssTreeView = (function() {
 			let createdRoot = await browser.bookmarks.create(folderRoot);
 			let createdFolder;
 
-			m_objOpenSubTrees.clear();
+			m_objOpenSubFolders.clear();
 
 			for (let idx=0, len=folders.length; idx<len; idx++) {
 				folders[idx].details.parentId = createdRoot.id;
 				createdFolder = await createBookmarksFolder(folders[idx]);
-				m_objOpenSubTrees.set(createdFolder.id);
+				m_objOpenSubFolders.set(createdFolder.id);
 			}
 
 			resolve(createdRoot.id);
@@ -2035,7 +2043,7 @@ let rssTreeView = (function() {
 		m_elmfilterContainer.classList.add("filterTagOn");
 
 		// select all tree items
-		let elms = m_elmTreeRoot.querySelectorAll("li.rtvTreeItem");
+		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
 
 		// hide the ones that do not match the filter
 		for(let i=0, len=elms.length; i<len; i++) {
@@ -2055,7 +2063,7 @@ let rssTreeView = (function() {
 			}
 		}
 
-		filterEmptySubTreeItems();
+		filterEmptyFolderItems();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2080,7 +2088,7 @@ let rssTreeView = (function() {
 		}
 
 		// select all tree items
-		let elms = m_elmTreeRoot.querySelectorAll("li.rtvTreeItem");
+		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
 
 		// hide the ones that do not match the filter
 		for(let i=0, len=elms.length; i<len; i++) {
@@ -2094,15 +2102,15 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function filterEmptySubTreeItems() {
+	function filterEmptyFolderItems() {
 
-		// select all sub tree items
-		let elms = m_elmTreeRoot.querySelectorAll("li.rtvSubTree");
+		// select all folder items
+		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
 		// hide the ones that all their children are hidden
 		for(let i=0, len=elms.length; i<len; i++) {
 
-			if(elms[i].querySelector("ul > .rtvTreeItem:not([style*='display: none'])") !== null) {
+			if(elms[i].querySelector("ul > ." + slGlobals.CLS_RTV_LI_TREE_FEED + ":not([style*='display: none'])") !== null) {
 				elms[i].style.display = "";
 			} else {
 				elms[i].style.display = "none";
@@ -2113,7 +2121,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function unfilterAllTreeItems() {
 
-		let elms = m_elmTreeRoot.querySelectorAll("li.rtvTreeItem, li.rtvSubTree");
+		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED + ", li." + slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
 		// hide the ones that all their children are hidden
 		for(let i=0, len=elms.length; i<len; i++) {
@@ -2148,11 +2156,6 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemText(elmLI, text) {
 		elmLI.firstElementChild.firstElementChild.textContent = text;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function getTreeItemStats(elmLI) {
-		return elmLI.firstElementChild.firstElementChild.nextElementSibling.textContent;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

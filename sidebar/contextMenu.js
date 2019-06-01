@@ -118,12 +118,12 @@ let contextMenu = (function() {
 		let showMenu = true;
 		let trgClsList = m_elmEventTarget.classList;
 
-		if (trgClsList.contains(slGlobals.CLS_RTV_LI_SUB_TREE)) {
+		if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
 
 			m_currentContext = "treeitemfoldercontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
-		} else if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+		} else if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
 
 			m_currentContext = "treeitemcontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
