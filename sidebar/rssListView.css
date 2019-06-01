@@ -14,7 +14,7 @@
 	line-height: var(--line-height);
 }
 
-.listview li {
+.listview li.rlvListItem {
 	box-sizing: content-box;
 	list-style-type: none;
 	margin: 0;

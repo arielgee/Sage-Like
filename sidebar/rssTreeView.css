@@ -25,7 +25,7 @@
 }
 
 /* All <li> elements */
-.treeview li {
+.treeview li.rtvTreeItem {
 	list-style-type: none;
 	padding-left: var(--rss-tree-indent);
 	cursor: default;
