@@ -52,7 +52,7 @@
 			"19": "/icons/pagePopup-19.png",
 			"38": "/icons/pagePopup-38.png"
 		},
-		"default_title": "Subscribe Feeds to Sage-Like",
+		"default_title": "Subscribe Using Sage-Like",
 		"default_popup": "/pagePopup/pagePopup.html"
 	},
 	"commands": {
