@@ -9,7 +9,7 @@
         <copyright>Copyright 2004 NotePage, Inc.</copyright>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <language>en-us</language>
-        <lastBuildDate>Mon, 1 Nov 2004 13:17:17 -0500</lastBuildDate>
+        <lastBuildDate>Mon, 1 Nov 2020 13:17:17 -0500</lastBuildDate>
         <managingEditor>marketing@feedforall.com</managingEditor>
         <pubDate>Tue, 26 Oct 2004 14:06:44 -0500</pubDate>
         <webMaster>webmaster@feedforall.com</webMaster>
@@ -41,20 +41,46 @@
         <item>
             <title>ynet</title>
             <description>
-                &lt;b&gt;FeedScout&lt;/b&gt; enables you to view RSS/ATOM/RDF feeds from different sites directly in Internet Explorer. You can even set your Home Page to show favorite feeds. Feed Scout is a plug-in for Internet Explorer, so you won&apos;t have to learn anything except for how to press 2 new buttons on Internet Explorer toolbar. &lt;br&gt;More &lt;a href=&quot;http://www.bytescout.com/feedscout.html&quot;&gt;Information on FeedScout&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;SurfPack&lt;/b&gt; can feature search tools, horoscopes, current weather conditions, LiveJournal diaries, humor, web modules and other dynamically updated content. &lt;br&gt;More &lt;a href=&quot;http://www.surfpack.com/&quot;&gt;Information on SurfPack&lt;/a&gt;&lt;br&gt;
+                &lt;b&gt;YNET&lt;/b&gt; some news site in the .il space
             </description>
             <link>http://www.ynet.co.il/</link>
             <pubDate>Tue, 26 Oct 2004 14:06:44 -0500</pubDate>
         </item>
 
-        <!-- BAD URL -->
         <item>
-            <title>shit</title>
+            <title>some feed 1</title>
+            <description>some feed's description</description>
+            <link>http://www.realitybugs.me/</link>
+            <pubDate>Tue, 26 Oct 1958 14:03:25 -0500</pubDate>
+        </item>
+        <item>
+            <title>some feed 2</title>
+            <description>some feed's description</description>
+            <link>https://www.digitalwhisper.co.il/0xA4/</link>
+            <pubDate>Tue, 26 Oct 2047 14:03:25 -0500</pubDate>
+        </item>
+        <item>
+            <title>some feed 3</title>
+            <description>some feed's description</description>
+            <link>http://feeds.tomercohen.com/tomercohen</link>
+            <pubDate>Tue, 26 Oct 2007 14:03:25 -0500</pubDate>
+        </item>
+        <item>
+            <title>some feed 4</title>
+            <description>some feed's description</description>
+            <link>https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query</link>
+            <pubDate>Tue, 26 Oct 2018 14:03:25 -0500</pubDate>
+        </item>
+
+    <!-- BAD URL
+        <item>
+            <title>Bad URL</title>
             <description>
                 &lt;b&gt;FeedScout&lt;/b&gt; enables you to view RSS/ATOM/RDF feeds from different sites directly in Internet Explorer. You can even set your Home Page to show favorite feeds. Feed Scout is a plug-in for Internet Explorer, so you won&apos;t have to learn anything except for how to press 2 new buttons on Internet Explorer toolbar. &lt;br&gt;More &lt;a href=&quot;http://www.bytescout.com/feedscout.html&quot;&gt;Information on FeedScout&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;SurfPack&lt;/b&gt; can feature search tools, horoscopes, current weather conditions, LiveJournal diaries, humor, web modules and other dynamically updated content. &lt;br&gt;More &lt;a href=&quot;http://www.surfpack.com/&quot;&gt;Information on SurfPack&lt;/a&gt;&lt;br&gt;
             </description>
-            <link>kuku 8 AAA/</link>
+            <link>URL.to.Hell/</link>
             <pubDate>Tue, 26 Oct 2004 14:06:44 -0500</pubDate>
         </item>
+    -->
     </channel>
 </rss>
