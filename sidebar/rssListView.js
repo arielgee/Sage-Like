@@ -596,6 +596,8 @@ let rssListView = (function() {
 	function setFocus() {
 		if(m_elmCurrentlySelected !== null) {
 			m_elmCurrentlySelected.focus();
+		} else if(!!m_elmList.firstElementChild && m_elmList.firstElementChild.tagName === "LI") {
+			m_elmList.firstElementChild.focus();
 		} else {
 			m_elmList.parentElement.focus();
 		}
