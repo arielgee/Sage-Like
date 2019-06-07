@@ -290,13 +290,13 @@
 * update stats after deleting new feed or folder
 * after pref "show feed stats numbers" is implemented consider the creation of the .rtvStats div element is pref is unchecked ==> NO
 * Renaming: subTree to folder (OpenSubTrees etc.)
----
-
-## Next
 * situation:
     1. feed selected in sidebar. Its 10 feed-items are displayed - stats are: ( 2 / 10 )
     2. background monitoring handels that feed and return 10 completely new items.
-    ==> Should I update the listView/feedStats Just becouse it is displayed?
+    ==> Should I update the listView/feedStats Just becouse it is displayed?    ==> NO the list is used by user and it can by very annoying
+---
+
+## Next
 * in list, handle keyboard event when list (UL) is selected but NO list item is selected.
 * consider opening feed item from a single place. list click event, list KB event, ContextMenu click event, ContextMenu KB event
 * include image in feedPreview
