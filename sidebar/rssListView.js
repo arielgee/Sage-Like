@@ -289,7 +289,7 @@ let rssListView = (function() {
 		// clicking with the middle button (scroll).
 		// Next event, for middle button, will be 'auxclick'
 
-		if(event.target === m_elmList) {
+		if(event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 			event.stopPropagation();
 			event.preventDefault();
 			setFocus();
