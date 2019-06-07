@@ -648,7 +648,7 @@ let rssTreeView = (function() {
 
 		let elmLI = event.target;
 
-		if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
+		if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER) && eventOccureInItemLineHeight(event, elmLI)) {
 			toggleFolderState(elmLI);
 		}
 	}
