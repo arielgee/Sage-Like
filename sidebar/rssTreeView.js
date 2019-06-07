@@ -435,6 +435,8 @@ let rssTreeView = (function() {
 				setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
 			} else {
 
+				// After OPML import, AND IF THE SIDEBAR IS OPEN, the tree is re-created and the newly imported
+				// folder will get selected
 				// if m_prioritySelectedItemId is not null then select this one and not from the restoreData
 
 				let elm = document.getElementById(m_prioritySelectedItemId);
