@@ -447,15 +447,8 @@ let rssTreeView = (function() {
 				elm.scrollIntoView(true);
 			}
 
-			if (m_elmCurrentlySelected) {
-				onClickTreeItem({
-					detail: 1,
-					stopPropagation: () => {},
-					target: m_elmCurrentlySelected,
-					shiftKey: false,
-					clientX: 1,
-					clientY: 1,
-				});
+			if (!!m_elmCurrentlySelected && m_elmCurrentlySelected.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+				openTreeFeed(m_elmCurrentlySelected, false);
 			}
 
 			if(restoreData.feedsFilter !== "") {
@@ -568,79 +561,11 @@ let rssTreeView = (function() {
 		let elmLI = event.target;
 
 		// event.detail: check the current click count to avoid the double-click's second click.
-		if(!!!elmLI || !elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED) || event.detail > 1) {
-			return;
+		if(!!elmLI && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED) && event.detail <= 1) {
+
+			event.stopPropagation();
+			openTreeFeed(elmLI, event.shiftKey);
 		}
-
-		event.stopPropagation();
-
-		let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
-
-		// when a folder is open the height of the LI is as the Height of the entire folder.
-		// The result is that clicking on the left of the items in the folder (but not ON a folder item) closes
-		// the folder. This make sure that only clicks on the top of the elements are processed.
-		if(!eventOccureInItemLineHeight(event, elmLI)) {
-			if(isFolder) {
-				elmLI.focus();
-			}
-			return;
-		}
-
-		if (!isFolder) {
-
-			// remove here if is error
-			setFeedErrorState(elmLI, false);
-
-			rssListView.disposeList();
-
-			let url = elmLI.getAttribute("href");
-
-			// Since all is asynchronous, if a slow responding feed is clicked right before a faster one it
-			// will be processed last and will alter the rssListView result.
-			// Therefore to make sure that the last user-click is not overridden by the slower previous one
-			// save the time of the last feed click twice; globally and locally. Then perform selected functions only if
-			// the time of this feed click time is equal to the global.
-			let thisFeedClickTime = m_lastClickedFeedTime = Date.now();
-
-			setOneConcurrentFeedLoadingState(elmLI, true);
-
-			prefs.getFetchTimeout().then((timeout) => {
-				syndication.fetchFeedItems(url, timeout*1000, event.shiftKey).then((result) => {
-
-					let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
-
-					setFeedVisitedState(elmLI, true);
-					updateFeedTitle(elmLI, result.feedData.title);
-					updateFeedStatsFromHistory(elmLI, result.list);
-					updateTreeBranchFoldersStats(elmLI);
-					setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toWebExtensionLocaleString());
-
-					// change the rssListView content only if this is the last user click.
-					if(thisFeedClickTime === m_lastClickedFeedTime) {
-						rssListView.setFeedItems(result.list, getTreeItemText(elmLI), elmLI);
-					}
-
-				}).catch((error) => {
-
-					setFeedErrorState(elmLI, true, error.message);
-
-					// change the rssListView content only if this is the last user click.
-					if(thisFeedClickTime === m_lastClickedFeedTime) {
-						rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI));
-					}
-				}).finally(() => {	// wait for Fx v58
-
-					// change loading state only if this is the last user click.
-					if(thisFeedClickTime === m_lastClickedFeedTime) {
-						setOneConcurrentFeedLoadingState(elmLI, false);
-					}
-
-					// even if there was an error the feed was visited
-					m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
-				});
-			});
-		}
-		elmLI.focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -822,6 +747,64 @@ let rssTreeView = (function() {
 		return false;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function openTreeFeed(elmLI, reload) {
+
+		// remove here if is error
+		setFeedErrorState(elmLI, false);
+
+		rssListView.disposeList();
+
+		let url = elmLI.getAttribute("href");
+
+		// Since all is asynchronous, if a slow responding feed is clicked right before a faster one it
+		// will be processed last and will alter the rssListView result.
+		// Therefore to make sure that the last user-click is not overridden by the slower previous one
+		// save the time of the last feed click twice; globally and locally. Then perform selected functions only if
+		// the time of this feed click time is equal to the global.
+		let thisFeedClickTime = m_lastClickedFeedTime = Date.now();
+
+		setOneConcurrentFeedLoadingState(elmLI, true);
+
+		prefs.getFetchTimeout().then((timeout) => {
+			syndication.fetchFeedItems(url, timeout*1000, reload).then((result) => {
+
+				let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
+
+				setFeedVisitedState(elmLI, true);
+				updateFeedTitle(elmLI, result.feedData.title);
+				updateFeedStatsFromHistory(elmLI, result.list);
+				updateTreeBranchFoldersStats(elmLI);
+				setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toWebExtensionLocaleString());
+
+				// change the rssListView content only if this is the last user click.
+				if(thisFeedClickTime === m_lastClickedFeedTime) {
+					rssListView.setFeedItems(result.list, getTreeItemText(elmLI), elmLI);
+				}
+
+			}).catch((error) => {
+
+				setFeedErrorState(elmLI, true, error.message);
+
+				// change the rssListView content only if this is the last user click.
+				if(thisFeedClickTime === m_lastClickedFeedTime) {
+					rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI));
+				}
+			}).finally(() => {	// wait for Fx v58
+
+				// change loading state only if this is the last user click.
+				if(thisFeedClickTime === m_lastClickedFeedTime) {
+					setOneConcurrentFeedLoadingState(elmLI, false);
+				}
+
+				// even if there was an error the feed was visited
+				m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+			});
+		});
+
+		elmLI.focus();
+	}
+
 	//==================================================================================
 	//=== Bookmarks Event Listeners
 	//==================================================================================
@@ -894,15 +877,7 @@ let rssTreeView = (function() {
 				if(isFolder) {
 					toggleFolderState(elmTargetLI);
 				} else {
-					// emulate event object
-					onClickTreeItem( {
-						detail: 1,
-						stopPropagation: () => {},
-						target: elmTargetLI,
-						shiftKey: event.shiftKey,
-						clientX: 1,
-						clientY: 1,
-					} );
+					openTreeFeed(elmTargetLI, event.shiftKey);
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
