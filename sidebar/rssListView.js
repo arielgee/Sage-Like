@@ -18,6 +18,14 @@ let rssListView = (function() {
 	let m_bPrefShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
 	let m_timeoutMouseOver = null;
 
+	let URLOpenMethod = Object.freeze({
+		INVALID: 0,
+		IN_TAB: 1,
+		IN_NEW_TAB: 2,
+		IN_NEW_WIN: 3,
+		IN_NEW_PRIVATE_WIN: 4,
+	});
+
 	initilization();
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -159,49 +167,34 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickFeedItem(event) {
 
-		// only for list item elements
-		if(!!!event.target || !event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
-			return;
-		}
-
 		let elm = event.target;
-		let handled = true;		// optimistic
-		let feedItemUrl = elm.getAttribute("href");
 
-		if (event.type === "click" && event.button === 0 && !event.ctrlKey && !event.shiftKey) {
+		// only for list item elements
+		if(!!elm && elm.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 
-			// open in current tab; click
-			browser.tabs.update({ url: feedItemUrl });
+			let openMethod = URLOpenMethod.INVALID;
 
-		} else if ((event.type === "auxclick" && event.button === 1) || (event.type === "click" && event.button === 0 && event.ctrlKey)) {
+			if (event.type === "click" && event.button === 0 && !event.ctrlKey && !event.shiftKey) {
 
-			// open in new tab; middle click or ctrl+click
-			browser.tabs.create({ url: feedItemUrl });
+				// open in current tab; click
+				openMethod = URLOpenMethod.IN_TAB;
 
-		} else if (event.type === "click" && event.button === 0 && event.shiftKey) {
+			} else if ((event.type === "auxclick" && event.button === 1) || (event.type === "click" && event.button === 0 && event.ctrlKey)) {
 
-			// open in new window; shift+click
-			browser.windows.create({ url: feedItemUrl, type: "normal" });
+				// open in new tab; middle click or ctrl+click
+				openMethod = URLOpenMethod.IN_NEW_TAB;
 
-		} else {
-			handled = false;
-		}
+			} else if (event.type === "click" && event.button === 0 && event.shiftKey) {
 
-		if(handled) {
+				// open in new window; shift+click
+				openMethod = URLOpenMethod.IN_NEW_WIN;
+			}
 
-			elm.focus();
-
-			// Redirect are not saved in history. So when a feed url is
-			// redirected from http to https or from feedproxy.google.com
-			// to the target page it cannot be found in browser.history.
-			// So this function will record the redirecting url in history
-			// https://wiki.mozilla.org/Browser_History:Redirects
-			slUtil.addUrlToBrowserHistory(feedItemUrl, elm.textContent).then(() => {
-				setItemRealVisitedState(elm, feedItemUrl);
-			});
-
-			event.stopPropagation();
-			event.preventDefault();
+			if(openMethod !== URLOpenMethod.INVALID) {
+				event.stopPropagation();
+				event.preventDefault();
+				openListFeedItem(elm, openMethod);
+			}
 		}
 	}
 
@@ -278,6 +271,36 @@ let rssListView = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function openListFeedItem(elm, openMethod) {
+
+		// only for list item elements
+		if(!!!elm || !elm.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) return;
+
+		let url = elm.getAttribute("href");
+
+		switch (openMethod) {
+			case URLOpenMethod.IN_TAB:				browser.tabs.update({ url: url });										break;
+			case URLOpenMethod.IN_NEW_TAB:			browser.tabs.create({ url: url });										break;
+			case URLOpenMethod.IN_NEW_WIN:			browser.windows.create({ url: url, type: "normal" });					break;
+			case URLOpenMethod.IN_NEW_PRIVATE_WIN:	browser.windows.create({ url: url, type: "normal", incognito: true });	break;
+		}
+
+		elm.focus();
+
+		if(openMethod !== URLOpenMethod.IN_NEW_PRIVATE_WIN) {
+
+			// Redirect are not saved in history. So when a feed url is
+			// redirected from http to https or from feedproxy.google.com
+			// to the target page it cannot be found in browser.history.
+			// So this function will record the redirecting url in history
+			// https://wiki.mozilla.org/Browser_History:Redirects
+			slUtil.addUrlToBrowserHistory(url, elm.textContent).then(() => {
+				setItemRealVisitedState(elm, url);
+			});
+		}
+	}
+
 	//==================================================================================
 	//=== List Event Listeners
 	//==================================================================================
@@ -317,16 +340,7 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "enter":
-				// emulate event object
-				onClickFeedItem({
-					target: elmTargetLI,
-					type: "click",
-					button: 0,
-					ctrlKey: event.ctrlKey,
-					shiftKey: event.shiftKey,
-					stopPropagation: () => {},
-					preventDefault: () => {},
-				});
+				openListFeedItem(elmTargetLI, event.ctrlKey ? URLOpenMethod.IN_NEW_TAB : (event.shiftKey ? URLOpenMethod.IN_NEW_WIN: URLOpenMethod.IN_TAB));
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -384,49 +398,22 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "o":
-				// emulate event object for open in current tab; click
-				onClickFeedItem({
-					target: elmTargetLI,
-					type: "click",
-					button: 0,
-					ctrlKey: false,
-					shiftKey: false,
-					stopPropagation: () => {},
-					preventDefault: () => {},
-				});
+				openListFeedItem(elmTargetLI, URLOpenMethod.IN_TAB);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "t":
-				// emulate event object for open in new tab; middle click
-				onClickFeedItem({
-					target: elmTargetLI,
-					type: "auxclick",
-					button: 1,
-					ctrlKey: false,
-					shiftKey: false,
-					stopPropagation: () => {},
-					preventDefault: () => {},
-				});
+				openListFeedItem(elmTargetLI, URLOpenMethod.IN_NEW_TAB);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "w":
-				// emulate event object for open in new window; shift+click
-				onClickFeedItem({
-					target: elmTargetLI,
-					type: "click",
-					button: 0,
-					ctrlKey: false,
-					shiftKey: true,
-					stopPropagation: () => {},
-					preventDefault: () => {},
-				});
+				openListFeedItem(elmTargetLI, URLOpenMethod.IN_NEW_WIN);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "v":
-				browser.windows.create({ url: elmTargetLI.getAttribute("href"), type: "normal", incognito: true });
+				openListFeedItem(elmTargetLI, URLOpenMethod.IN_NEW_PRIVATE_WIN);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -630,11 +617,13 @@ let rssListView = (function() {
 	}
 
 	return {
+		URLOpenMethod: URLOpenMethod,
+
 		setFeedItems: setFeedItems,
 		disposeList: disposeList,
+		openListFeedItem: openListFeedItem,
 		setListErrorMsg: setListErrorMsg,
 		setFeedItemSelectionState: setFeedItemSelectionState,
-		setItemRealVisitedState: setItemRealVisitedState,
 		toggleItemVisitedState: toggleItemVisitedState,
 		markAllItemsAsVisitedState: markAllItemsAsVisitedState,
 		switchViewDirection: switchViewDirection,

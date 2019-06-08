@@ -332,18 +332,6 @@ let contextMenu = (function() {
 
 		let url = m_elmEventTarget.getAttribute("href");
 		handleMenuActions(menuAction, { url: url });
-
-		let openActions = [
-			ContextAction.listOpen,
-			ContextAction.listOpenNewTab,
-			ContextAction.listOpenNewWin,
-		];
-
-		if(openActions.includes(menuAction)) {
-			slUtil.addUrlToBrowserHistory(url, m_elmEventTarget.textContent).then(() => {
-				rssListView.setItemRealVisitedState(m_elmEventTarget, url);
-			});
-		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -352,26 +340,42 @@ let contextMenu = (function() {
 		switch (menuAction) {
 
 			case ContextAction.treeOpen:
-			case ContextAction.listOpen:
 				browser.tabs.update({ url: actionData.url });
 				break;
 				///////////////////////////////////////////
 
+			case ContextAction.listOpen:
+				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_TAB);
+				break;
+				///////////////////////////////////////////
+
 			case ContextAction.treeOpenNewTab:
-			case ContextAction.listOpenNewTab:
 				browser.tabs.create({ url: actionData.url });
 				break;
 				///////////////////////////////////////////
 
+			case ContextAction.listOpenNewTab:
+				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_TAB);
+				break;
+				///////////////////////////////////////////
+
 			case ContextAction.treeOpenNewWin:
-			case ContextAction.listOpenNewWin:
 				browser.windows.create({ url: actionData.url, type: "normal" });
 				break;
 				///////////////////////////////////////////
 
+			case ContextAction.listOpenNewWin:
+				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_WIN);
+				break;
+				///////////////////////////////////////////
+
 			case ContextAction.treeOpenNewPrivateWin:
-			case ContextAction.listOpenNewPrivateWin:
 				browser.windows.create({ url: actionData.url, type: "normal", incognito: true });
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.listOpenNewPrivateWin:
+				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_PRIVATE_WIN);
 				break;
 				///////////////////////////////////////////
 
