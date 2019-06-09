@@ -82,6 +82,29 @@ body {
 	color: crimson;
 }
 
+#feedTitle {
+	display: flex;
+	padding-bottom: 6px;
+}
+
+#feedTitleTexts {
+	flex-grow: 1;
+}
+
+#feedTitleImage {
+	flex-grow: 0;
+	width: 80px;
+	height: 80px;
+	margin-left: 4px;
+	border-radius: 6px;
+	background: transparent no-repeat center/contain;
+}
+
+#feedTitleImage[style*="background-image: url(\"\")"] {
+	width: 0;
+	margin-left: 0;
+}
+
 #feedTitleText {
 	font-weight: bold;
 	font-size: 175%;

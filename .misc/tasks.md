@@ -300,12 +300,17 @@
 
 ## Next
 * include image in feedPreview
+* BIG-BUG: when pref 'Periodic background feed check' is 'no thanks' clicking on toolbar's 'check feeds' is not working
 * rssListView.setFeedItems() gets feed title AND feed LI.
     * feed LI contains the title.
     * also when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if the title match rssListView.getListViewTitle(). title can change. Use rssListView.m_elmLITreeFeed ??
 * if 'mark all as read' is selected on folder it should relate to that folder only
 * change 'Open all in tabs' to 'Open all unread in tabs'
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
+* in Fx v67.0.1 there is some sort of 'feed preview' for some urls
+    * for: http://feeds.nature.com/nature/rss/current       (RDF)
+    * but not for: https://blog.mozilla.org/press/feed/     (RSS)
+    * and but not for: https://ghisler.ch/board/app.php/feed/forum/3    (ATOM)
 * ? change *One-off messages* with *Connection-based messaging*
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.
 * re-desigh all popups as slide-down panels (?)

@@ -37,6 +37,8 @@
 		prefs.getFetchTimeout().then((timeout) => {
 			syndication.fetchFeedItems(urlFeed, timeout * 1000).then((result) => {
 
+				elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
+
 				document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
 				let elmFeedTitle = createFeedTitleElements(result.feedData);
 
@@ -64,21 +66,29 @@
 	function createFeedTitleElements(feedData) {
 
 		let elmFeedTitle = document.createElement("div");
+		let elmFeedTitleTexts = document.createElement("div");
 		let elmFeedTitleText = document.createElement("div");
 		let elmFeedDescText = document.createElement("div");
+		let elmFeedTitleImage = document.createElement("div");
 
 		elmFeedTitle.id = "feedTitle";
+		elmFeedTitleTexts.id = "feedTitleTexts";
 		elmFeedTitleText.id = "feedTitleText";
 		elmFeedDescText.id = "feedDescriptionText";
+		elmFeedTitleImage.id = "feedTitleImage";
 
 		elmFeedTitleText.textContent = document.title;
 		elmFeedDescText.textContent = feedData.description;
+		elmFeedTitleImage.style.backgroundImage = "url('" + feedData.imageUrl + "')";
 
-		elmFeedTitle.appendChild(elmFeedTitleText);
-		elmFeedTitle.appendChild(elmFeedDescText);
+		elmFeedTitleTexts.appendChild(elmFeedTitleText);
+		elmFeedTitleTexts.appendChild(elmFeedDescText);
+		elmFeedTitle.appendChild(elmFeedTitleTexts);
+		elmFeedTitle.appendChild(elmFeedTitleImage);
 
 		return elmFeedTitle;
 	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function createFeedItemElements(feedItem) {

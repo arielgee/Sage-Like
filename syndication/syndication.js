@@ -260,6 +260,7 @@ let syndication = (function() {
 			xmlEncoding: "",
 			feeder: {},
 			title: "",
+			imageUrl: "",
 			description: "",
 			lastUpdated: 0,
 			items: 0,
@@ -298,6 +299,7 @@ let syndication = (function() {
 				feedData.standard = SyndicationStandard.RSS;							// https://validator.w3.org/feed/docs/rss2.html
 				feedData.feeder = doc.querySelector("rss");
 				feedData.title = getNodeTextContent(doc, "rss > channel > title");
+				feedData.imageUrl = getNodeTextContent(doc, "rss > channel > image > url");
 				feedData.description = getNodeTextContent(doc, "rss > channel > description");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");
 				feedData.items = feedData.feeder.querySelectorAll("item").length;
@@ -305,6 +307,7 @@ let syndication = (function() {
 				feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Examples: http://feeds.nature.com/nature/rss/current, https://f1-gate.com/
 				feedData.feeder = doc.querySelector("RDF");
 				feedData.title = getNodeTextContent(doc, "RDF > channel > title");
+				feedData.imageUrl = getNodeTextContent(doc, "RDF > image > url");
 				feedData.description = getNodeTextContent(doc, "RDF > channel > description");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel", "item");
 				feedData.items = feedData.feeder.querySelectorAll("item").length;
@@ -312,6 +315,7 @@ let syndication = (function() {
 				feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
 				feedData.feeder = doc.querySelector("feed");
 				feedData.title = getNodeTextContent(doc, "feed > title");
+				feedData.imageUrl = getNodeTextContent(doc, "feed > logo");
 				feedData.description = getNodeTextContent(doc, "feed > subtitle");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "feed", "entry");
 				feedData.items = feedData.feeder.querySelectorAll("entry").length;
