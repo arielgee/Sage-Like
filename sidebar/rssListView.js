@@ -456,7 +456,7 @@ let rssListView = (function() {
 			elm.classList.toggle("bold", vItems.length === 0);
 
 			if (bUpdateTreeFeed) {
-				rssTreeView.updateFeedStats(m_elmLITreeFeed, ...(getListViewStats()));
+				rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
 			}
 		});
 	}
@@ -470,7 +470,7 @@ let rssListView = (function() {
 			// turned to visited
 			slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
 		}
-		rssTreeView.updateFeedStats(m_elmLITreeFeed, ...(getListViewStats()));
+		rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -494,7 +494,7 @@ let rssListView = (function() {
 				funcHistory(elm);
 				elm.classList.toggle("bold", !isVisited);
 			}
-			rssTreeView.updateFeedStats(m_elmLITreeFeed, ...(getListViewStats()));
+			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
 		}
 	}
 

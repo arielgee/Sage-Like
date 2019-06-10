@@ -2156,7 +2156,7 @@ let rssTreeView = (function() {
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,
 		isRssTreeCreatedOK: isRssTreeCreatedOK,
-		updateFeedStats: updateTreeItemStats,
+		updateTreeItemStats: updateTreeItemStats,
 		getTreeItemText: getTreeItemText,
 	};
 
