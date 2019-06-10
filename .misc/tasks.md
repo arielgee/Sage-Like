@@ -306,6 +306,7 @@
     * feed LI contains the title.
     * also when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if the title match rssListView.getListViewTitle(). title can change. Use rssListView.m_elmLITreeFeed ??
 * if 'mark all as read' is selected on folder it should relate to that folder only
+* toggle feed-item read/unread affects the folder stats?????
 * change 'Open all in tabs' to 'Open all unread in tabs'
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * in Fx v67.0.1 there is some sort of 'feed preview' for some urls
