@@ -315,7 +315,7 @@ let syndication = (function() {
 				feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
 				feedData.feeder = doc.querySelector("feed");
 				feedData.title = getNodeTextContent(doc, "feed > title");
-				feedData.imageUrl = getNodeTextContent(doc, "feed > logo");
+				feedData.imageUrl = getNodeTextContent(doc, "feed > logo", "feed > icon");
 				feedData.description = getNodeTextContent(doc, "feed > subtitle");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "feed", "entry");
 				feedData.items = feedData.feeder.querySelectorAll("entry").length;
@@ -358,9 +358,17 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getNodeTextContent(doc, selector) {
+	function getNodeTextContent(doc, selector, fallbackSelector) {
 		let node = doc.querySelector(selector);
-		return (node ? node.textContent.stripHtmlTags() : "");
+
+		if(!!node) {
+			return node.textContent.stripHtmlTags()
+		} else if(!!fallbackSelector) {
+			node = doc.querySelector(fallbackSelector);
+			return (node ? node.textContent.stripHtmlTags() : "");
+		} else {
+			return "";
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

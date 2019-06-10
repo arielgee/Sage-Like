@@ -296,10 +296,10 @@
     ==> Should I update the listView/feedStats Just becouse it is displayed?    ==> NO the list is used by user and it can by very annoying
 * in list, handle keyboard event when list (UL) is selected but NO list item is selected. => Focus first item if any before focusing the parent list UL
 * consider opening feed item from a single place. list click event, list KB event, ContextMenu click event, ContextMenu KB event
+* include image in feedPreview  => will not get image link/title. Atom has no such thing
 ---
 
 ## Next
-* include image in feedPreview
 * BIG-BUG: when pref 'Periodic background feed check' is 'no thanks' clicking on toolbar's 'check feeds' is not working
 * rssListView.setFeedItems() gets feed title AND feed LI.
     * feed LI contains the title.
