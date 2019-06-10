@@ -298,10 +298,10 @@
 * consider opening feed item from a single place. list click event, list KB event, ContextMenu click event, ContextMenu KB event
 * include image in feedPreview  => will not get image link/title. Atom has no such thing
 * BIG-BUG: when pref 'Periodic background feed check' is 'no thanks' clicking on toolbar's 'check feeds' is not working
+* limit the actions of updateAllTreeFoldersStats() & updateTreeBranchFoldersStats() with m_bPrefShowFeedStats like updateFeedStatsFromHistory() & updateTreeItemStats()
 ---
 
 ## Next
-* limit the actions of updateAllTreeFoldersStats() & updateTreeBranchFoldersStats() with m_bPrefShowFeedStats like updateFeedStatsFromHistory() & updateTreeItemStats()
 * rssListView.setFeedItems() gets feed title AND feed LI.
     * feed LI contains the title.
     * also when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if the title match rssListView.getListViewTitle(). title can change. Use rssListView.m_elmLITreeFeed ??

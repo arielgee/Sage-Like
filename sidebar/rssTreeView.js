@@ -1609,6 +1609,9 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateTreeBranchFoldersStats(elm) {
 
+		// Pity the CPU
+		if(!m_bPrefShowFeedStats) return;
+
 		let elmULFolder;
 
 		if(elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
@@ -1635,6 +1638,9 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateAllTreeFoldersStats() {
 
+		// Have mercy on the CPU
+		if(!m_bPrefShowFeedStats) return;
+
 		let totalCount, unreadCount, elmLI;
 		let elmLIs = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
@@ -1652,7 +1658,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function updateFeedStatsFromHistory(elmLI, feedItems) {
 
-		if (m_bPrefShowFeedStats)  {
+		if(m_bPrefShowFeedStats) {
 
 			let totalCount = feedItems.length;
 			let vItems, unreadCount = 0;
