@@ -221,12 +221,12 @@ let rssTreeView = (function() {
 
 		m_lineHeight = parseInt(getComputedStyle(m_elmTreeRoot).getPropertyValue("line-height"));
 
+		m_bPrefShowFeedStats = await prefs.getShowFeedStats();
+
 		createRSSTree();
 
 		browser.browserAction.setBadgeText({text: ""});
 		m_elmFilterTextBoxContainer.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
-
-		setShowFeedStatsFromPreferences();
 
 		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
 	}
