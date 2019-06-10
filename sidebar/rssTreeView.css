@@ -76,7 +76,7 @@
 .treeview .rtvCaption {
 	box-sizing: content-box;
 	min-height: var(--line-height);
-	padding: 1px 5px 1px 3px;
+	padding: 1px 5px 1px 0;
 	pointer-events: none; /* otherwise the menucontext is not fired */
 	display: flex;
 	align-items: flex-end;
@@ -85,10 +85,11 @@
 .treeview .rtvCaptionTitle {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding-inline-start: 3px;
+	padding-inline-end: 8px;
 }
 
 .treeview .rtvCaptionStats {
-	padding-left: 8px;
 	font-size: 80%;
 	font-style: normal;
 	font-weight: normal;
