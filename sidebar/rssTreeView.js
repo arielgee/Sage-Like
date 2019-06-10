@@ -280,7 +280,7 @@ let rssTreeView = (function() {
 			if(m_bPrefShowFeedStats) {
 
 				// switched from 'do not show' to 'show', just refresh tree
-				monitorRSSTreeFeeds();
+				monitorRSSTreeFeeds(true);
 			} else {
 
 				// switched from 'show' to 'do not show', clear stat text
@@ -334,7 +334,7 @@ let rssTreeView = (function() {
 				}
 				m_rssTreeCreatedOK = true;
 				restoreTreeViewState();
-				monitorRSSTreeFeeds();
+				monitorRSSTreeFeeds(true);
 
 			}).catch((error) => {
 				m_elmTreeRoot.appendChild(createErrorTagLI("Failed to load feeds folder: " + error.message));
@@ -467,7 +467,7 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function monitorRSSTreeFeeds() {
+	function monitorRSSTreeFeeds(bForce = false) {
 
 		// first clear the current timeout if called from preference change to
 		// set a new interval value or to have no background monitoring at all
@@ -476,10 +476,13 @@ let rssTreeView = (function() {
 
 		prefs.getCheckFeedsInterval().then((nextInterval) => {
 
-			// if interval is zero then do not perform background monitoring
-			if(nextInterval !== "0") {
-
+			// if interval is zero then do not perform background monitoring unless forced
+			if(nextInterval !== "0" || bForce) {
 				checkForNewRSSTreeFeedsData();
+			}
+
+			// if interval is zero then do not schedule the next background monitoring
+			if(nextInterval !== "0") {
 
 				// Repeat a new timeout session.
 				if(nextInterval.includes(":")) {
@@ -1099,7 +1102,7 @@ let rssTreeView = (function() {
 			rssListView.disposeList();
 			createRSSTree();
 		} else {
-			monitorRSSTreeFeeds();
+			monitorRSSTreeFeeds(true);
 		}
 		setFocus();
 	}
