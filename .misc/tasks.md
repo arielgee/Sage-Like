@@ -304,10 +304,10 @@
     * when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if title match rssListView.getListViewTitle(). TITLE CAN CHANGE. ==> Used MutationObserver to monitor LI caption
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.   ==> NO Need (yet)
 * toggle feed-item read/unread affects the folder stats?????     => NO
+* if 'mark all as read' is selected on folder it should relate to that folder only
 ---
 
 ## Next
-* if 'mark all as read' is selected on folder it should relate to that folder only
 * change 'Open all in tabs' to 'Open all unread in tabs'
 * in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * in Fx v67.0.1 there is some sort of 'feed preview' for some urls

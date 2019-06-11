@@ -196,6 +196,7 @@ let contextMenu = (function() {
 			switch (keyLowCase) {
 				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
+				case "g":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
 				case "r":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
 				case "u":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
 				case "d":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
@@ -380,7 +381,7 @@ let contextMenu = (function() {
 				///////////////////////////////////////////
 
 			case ContextAction.treeToggleReadUnread:
-				rssTreeView.toggleFeedVisitedState(m_elmEventTarget);
+				rssTreeView.toggleVisitedState(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 

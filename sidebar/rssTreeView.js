@@ -1049,7 +1049,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "g":
-				toggleFeedVisitedState(elmTargetLI);
+				toggleVisitedState(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -1510,6 +1510,18 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function toggleVisitedState(elmLI) {
+
+		if(!!elmLI) {
+			if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+				toggleFeedVisitedState(elmLI);
+			} else if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
+				toggleFolderFeedsVisitedState(elmLI);
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function toggleFeedVisitedState(elmLI) {
 
 		if(elmLI.classList.contains("error")) {
@@ -1526,6 +1538,32 @@ let rssTreeView = (function() {
 		}
 		m_objTreeFeedsData.setStorage();
 		updateTreeBranchFoldersStats(elmLI);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function toggleFolderFeedsVisitedState(elmLI) {
+
+		// matching elements are in document order
+		let elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + ":not(.error)");
+
+		if(elms.length > 0) {
+
+			let elm, visitedState = elms[0].classList.contains("bold");		// first element sets the visited state; document order
+
+			for(let i=0, len=elms.length; i<len; i++) {
+
+				elm = elms[i];
+
+				elm.classList.toggle("bold", !visitedState);
+				m_objTreeFeedsData.value(elm.id).lastVisited = visitedState ? slUtil.getCurrentLocaleDate().getTime() : 0;
+
+				// only once per folder
+				if(!!!elm.nextElementSibling) {
+					updateTreeBranchFoldersStats(elm);
+				}
+			}
+			m_objTreeFeedsData.setStorage();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2155,7 +2193,7 @@ let rssTreeView = (function() {
 		openNewFeedProperties: openNewFeedProperties,
 		openNewFolderProperties: openNewFolderProperties,
 		deleteTreeItem: deleteTreeItem,
-		toggleFeedVisitedState: toggleFeedVisitedState,
+		toggleVisitedState: toggleVisitedState,
 		markAllFeedsAsVisitedState: markAllFeedsAsVisitedState,
 		openEditTreeItemProperties: openEditTreeItemProperties,
 		isFeedInTree: isFeedInTree,
