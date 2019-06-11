@@ -299,12 +299,12 @@
 * include image in feedPreview  => will not get image link/title. Atom has no such thing
 * BIG-BUG: when pref 'Periodic background feed check' is 'no thanks' clicking on toolbar's 'check feeds' is not working
 * limit the actions of updateAllTreeFoldersStats() & updateTreeBranchFoldersStats() with m_bPrefShowFeedStats like updateFeedStatsFromHistory() & updateTreeItemStats()
+* rssListView.setFeedItems() gets feed title AND feed LI.
+    * feed LI contains the title.
+    * when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if title match rssListView.getListViewTitle(). TITLE CAN CHANGE. ==> Used MutationObserver to monitor LI caption
 ---
 
 ## Next
-* rssListView.setFeedItems() gets feed title AND feed LI.
-    * feed LI contains the title.
-    * also when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if the title match rssListView.getListViewTitle(). title can change. Use rssListView.m_elmLITreeFeed ??
 * if 'mark all as read' is selected on folder it should relate to that folder only
 * toggle feed-item read/unread affects the folder stats?????
 * change 'Open all in tabs' to 'Open all unread in tabs'

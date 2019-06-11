@@ -14,6 +14,7 @@ let rssListView = (function() {
 
 	let m_elmCurrentlySelected = null;
 	let m_elmLITreeFeed = null;
+	let m_observerElmLITreeFeed = null;
 
 	let m_bPrefShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
 	let m_timeoutMouseOver = null;
@@ -34,6 +35,13 @@ let rssListView = (function() {
 		window.addEventListener("unload", onUnload);
 
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
+
+		// observer for changes to the title of the to the tree feed
+		m_observerElmLITreeFeed = new MutationObserver(() => {
+			if(!!m_elmLITreeFeed && m_elmLITreeFeed.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+				m_elmListViewRssTitle.textContent = rssTreeView.getTreeItemText(m_elmLITreeFeed);
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +81,8 @@ let rssListView = (function() {
 
 		disposeList();
 
+		m_observerElmLITreeFeed = null;
+
 		m_elmList.removeEventListener("mousedown", onMouseDownFeedList);
 		m_elmList.removeEventListener("keydown", onKeyDownFeedList);
 		m_elmList.removeEventListener("focus", onFocusFeedItem);
@@ -108,6 +118,8 @@ let rssListView = (function() {
 			appendTagIL(index++, item.title, item.desc, item.url);
 		}
 		m_elmLITreeFeed = elmLITreeFeed;
+		m_observerElmLITreeFeed.observe(m_elmLITreeFeed.firstElementChild.firstElementChild, { childList: true, subtree: false });
+
 		m_elmListViewRssTitle.textContent = title;
 
 		// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
@@ -544,6 +556,9 @@ let rssListView = (function() {
 		let el;
 
 		m_elmCurrentlySelected = null;
+
+		m_observerElmLITreeFeed.takeRecords();
+		m_observerElmLITreeFeed.disconnect();
 		m_elmLITreeFeed = null;
 
 		while (el = m_elmList.firstChild) {
