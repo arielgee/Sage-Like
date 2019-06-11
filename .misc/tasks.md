@@ -305,15 +305,15 @@
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.   ==> NO Need (yet)
 * toggle feed-item read/unread affects the folder stats?????     => NO
 * if 'mark all as read' is selected on folder it should relate to that folder only
----
-
-## Next
-* change 'Open all in tabs' to 'Open all unread in tabs'
-* in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
-* in Fx v67.0.1 there is some sort of 'feed preview' for some urls
+* in Fx v67.0.1 there is some sort of 'feed preview' for some urls  ==> "syndicated content powered by FeedBurner"
     * for: http://feeds.nature.com/nature/rss/current       (RDF)
     * but not for: https://blog.mozilla.org/press/feed/     (RSS)
     * and but not for: https://ghisler.ch/board/app.php/feed/forum/3    (ATOM)
+* change 'Open all in tabs' to 'Open all unread in tabs'
+---
+
+## Next
+* in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * ? change *One-off messages* with *Connection-based messaging*
 * re-desigh all popups as slide-down panels (?)
 

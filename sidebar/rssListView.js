@@ -568,9 +568,9 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openAllItemsInTabs() {
+	function openAllItemsInTabs(onlyUnread = true) {
 
-		let elms = m_elmList.getElementsByTagName("li");
+		let elms = m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM + (onlyUnread ? ".bold" : ""));
 
 		if(elms[0] !== undefined && !(elms[0].classList.contains("errormsg"))) {
 
