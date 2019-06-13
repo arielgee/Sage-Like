@@ -240,8 +240,8 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setDiscoverLoadingState(isLoading) {
 		m_elmDiscoverPanel.classList.toggle("loading", isLoading);
-		m_elmButtonCheckmarkAll.classList.toggle("disabled", isLoading)
-		m_elmButtonRediscover.classList.toggle("disabled", isLoading)
+		m_elmButtonCheckmarkAll.classList.toggle("disabled", isLoading);
+		m_elmButtonRediscover.classList.toggle("disabled", isLoading);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
