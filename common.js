@@ -1562,6 +1562,8 @@ let slUtil = (function() {
 		try {
 			if(url.startsWith(m_mozExtensionOrigin)) {
 				return new URL(url.replace(m_mozExtensionOrigin, ""), base);
+			} else if(url.startsWith("moz-extension:")) {
+				return new URL(url.replace("moz-extension:", (new URL(base)).protocol));
 			}
 			return new URL(url);
 		} catch (error) {
