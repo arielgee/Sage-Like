@@ -149,6 +149,10 @@
 	pointer-events: none;
 }
 
+#chkAggressiveDiscovery {
+	margin: 3px 3px 3px 0;
+}
+
 #chkAggressiveDiscovery:focus {
 	outline: 1px dotted gray;
 }
