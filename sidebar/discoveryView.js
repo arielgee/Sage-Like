@@ -290,7 +290,7 @@ let discoveryView = (function() {
 				break;
 				//////////////////////////////
 			case "escape":
-				close()
+				close();
 				break;
 				//////////////////////////////
 			default:
