@@ -533,6 +533,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_SPLITTER_TOP_VALUE = undefined;
 	const DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE = 5;
 	const DEF_PREF_FEEDS_FILTER_VALUE = "";
+	const DEF_PREF_AGGRESSIVE_DISCOVERY_VALUE = false;
 
 	const PREF_OPEN_FOLDERS = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
@@ -542,6 +543,7 @@ let internalPrefs = (function() {
 	const PREF_SPLITTER_TOP = "pref_splitterTop";
 	const PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT = "pref_dropInsideFolderShowMsgCount";
 	const PREF_FEEDS_FILTER = "pref_feedsFilter";
+	const PREF_AGGRESSIVE_DISCOVERY = "pref_aggressiveDiscovery";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenFolders() {
@@ -695,6 +697,24 @@ let internalPrefs = (function() {
 		browser.storage.local.set(obj);
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	function getAggressiveDiscovery() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_AGGRESSIVE_DISCOVERY).then((result) => {
+				resolve(result[PREF_AGGRESSIVE_DISCOVERY] === undefined ? DEF_PREF_AGGRESSIVE_DISCOVERY_VALUE : result[PREF_AGGRESSIVE_DISCOVERY]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setAggressiveDiscovery(value) {
+
+		let obj = {};
+		obj[PREF_AGGRESSIVE_DISCOVERY] = value;
+		browser.storage.local.set(obj);
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
@@ -727,6 +747,7 @@ let internalPrefs = (function() {
 		this.setSplitterTop(DEF_PREF_SPLITTER_TOP_VALUE);
 		this.setDropInsideFolderShowMsgCount(DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE);
 		this.setFeedsFilter(DEF_PREF_FEEDS_FILTER_VALUE);
+		this.setAggressiveDiscovery(DEF_PREF_AGGRESSIVE_DISCOVERY_VALUE);
 
 		return {
 			openSubFolders: DEF_PREF_OPEN_FOLDERS_VALUE,
@@ -737,6 +758,7 @@ let internalPrefs = (function() {
 			splitterTop: DEF_PREF_SPLITTER_TOP_VALUE,
 			dropInsideFolderShowMsgCount: DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE,
 			feedsFilter: DEF_PREF_FEEDS_FILTER_VALUE,
+			aggressiveDiscovery: DEF_PREF_AGGRESSIVE_DISCOVERY_VALUE,
 		};
 	}
 
@@ -757,6 +779,8 @@ let internalPrefs = (function() {
 		setDropInsideFolderShowMsgCount: setDropInsideFolderShowMsgCount,
 		getFeedsFilter: getFeedsFilter,
 		setFeedsFilter: setFeedsFilter,
+		getAggressiveDiscovery: getAggressiveDiscovery,
+		setAggressiveDiscovery: setAggressiveDiscovery,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 

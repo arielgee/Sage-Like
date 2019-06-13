@@ -59,19 +59,24 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, reload) {
+	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, aggressive = false, reload) {
 
 		return new Promise((resolve) => {
 
 			let doc = m_domParser.parseFromString(txtHTML, "text/html");
 
-			let selector =	"link[type=\"application/rss+xml\" i]," +			// standard publicized RSS for discovery
+			let selector =	"link[type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
 							"link[type=\"application/rdf+xml\" i]," +
-							"link[type=\"application/atom+xml\" i]," +
-							"a[href*=\"rss\" i]," +								// non-standard publication of RSS links
-							"a[href*=\"feed\" i]," +
-							"a[href*=\"atom\" i]," +
-							"a[href*=\"syndicat\" i]";
+							"link[type=\"application/atom+xml\" i]";
+
+			let anchorRssLinks = "a[href*=\"rss\" i]," +					// non-standard publication of RSS links
+								 "a[href*=\"feed\" i]," +
+								 "a[href*=\"atom\" i]," +
+								 "a[href*=\"syndicat\" i]";
+
+			if(aggressive) {
+				selector += "," + anchorRssLinks;
+			}
 
 			// array of just the url links (href) as strings for easy filtering of duplicates
 			let linkFeeds = Array.from(doc.querySelectorAll(selector), item => slUtil.replaceMozExtensionOriginURL(item.href.stripHtmlTags(), origin).toString());

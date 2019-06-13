@@ -137,6 +137,21 @@
 	justify-content: right;
 }
 
+#aggressiveDiscoveryContainer {
+	display: flex;
+	margin: auto auto auto 0;
+	font-weight: normal;
+}
+
+#aggressiveDiscoveryContainer.disabled {
+	filter: grayscale(100%) opacity(40%);
+	pointer-events: none;
+}
+
+#chkAggressiveDiscovery:focus {
+	outline: 1px dotted gray;
+}
+
 #discoverPanel .statusbar {
 	margin-top: 8px;
 	overflow: hidden;

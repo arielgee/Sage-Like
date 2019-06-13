@@ -12,6 +12,8 @@ let discoveryView = (function() {
 
 	let m_elmButtonCheckmarkAll;
 	let m_elmButtonRediscover;
+	let m_elmAggressiveDiscoveryContainer;
+	let m_elmChkAggressiveDiscovery;
 	let m_elmButtonAdd;
 	let m_elmButtonCancel;
 	let m_elmLabelInfobar;
@@ -30,8 +32,11 @@ let discoveryView = (function() {
 			m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
 			m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 			m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
+			m_elmChkAggressiveDiscovery.addEventListener("change", onChangeAggressiveDiscovery);
 			m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
 			m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
+
+			internalPrefs.getAggressiveDiscovery().then(checked => m_elmChkAggressiveDiscovery.checked = checked);
 
 			m_elmDiscoverPanel.style.display = "block";
 			slUtil.disableElementTree(m_elmMainPanel, true);
@@ -59,6 +64,7 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
+		m_elmChkAggressiveDiscovery.removeEventListener("change", onChangeAggressiveDiscovery);
 		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
 
@@ -79,6 +85,8 @@ let discoveryView = (function() {
 			m_elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
 			m_elmButtonCheckmarkAll = document.getElementById("btnCheckmarkAll");
 			m_elmButtonRediscover = document.getElementById("btnRediscover");
+			m_elmAggressiveDiscoveryContainer = document.getElementById("aggressiveDiscoveryContainer");
+			m_elmChkAggressiveDiscovery = document.getElementById("chkAggressiveDiscovery");
 			m_elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
 			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 			m_elmLabelInfobar = document.getElementById("lblInfobar");
@@ -118,6 +126,7 @@ let discoveryView = (function() {
 
 		let feedCount = -1, counter = 0;
 		let timeout = await prefs.getFetchTimeout();
+		let aggressiveDiscovery = await internalPrefs.getAggressiveDiscovery();
 
 		let funcHandleDiscoveredFeed = function(feed) {
 
@@ -148,7 +157,7 @@ let discoveryView = (function() {
 		setDiscoverLoadingState(true);
 		emptyDiscoverFeedsList();
 		setStatusbarMessage(domainName, false);
-		syndication.webPageFeedsDiscovery(txtHTML, timeout*1000, origin, m_nRequestId, funcHandleDiscoveredFeed).then((result) => {
+		syndication.webPageFeedsDiscovery(txtHTML, timeout*1000, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveDiscovery).then((result) => {
 
 			if((feedCount = result.length) === 0) {
 				setNoFeedsMsg("No feeds were discovered.");
@@ -242,6 +251,7 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.classList.toggle("loading", isLoading);
 		m_elmButtonCheckmarkAll.classList.toggle("disabled", isLoading);
 		m_elmButtonRediscover.classList.toggle("disabled", isLoading);
+		m_elmAggressiveDiscoveryContainer.classList.toggle("disabled", isLoading);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -318,6 +328,11 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonRediscover(event) {
 		runDiscoverFeeds();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeAggressiveDiscovery(event) {
+		internalPrefs.setAggressiveDiscovery(m_elmChkAggressiveDiscovery.checked);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
