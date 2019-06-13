@@ -102,6 +102,7 @@
 
 #discoverFeedsList .dfChkBox {
 	margin: auto;
+	outline: 0;
 }
 
 #discoverFeedsList .dfLabel {

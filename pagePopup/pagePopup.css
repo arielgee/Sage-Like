@@ -93,6 +93,7 @@ body {
 
 .feedItem .feedChkBox {
 	margin: auto;
+	outline: 0;
 }
 
 .feedItem .feedLabel {
