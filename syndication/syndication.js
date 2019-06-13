@@ -31,7 +31,6 @@ let syndication = (function() {
 
 			let discoveredFeed = {
 				status: "init",
-				linkTitle: "",
 				url: url,
 			};
 
@@ -66,20 +65,27 @@ let syndication = (function() {
 
 			let doc = m_domParser.parseFromString(txtHTML, "text/html");
 
-			let selector =	"link[type=\"application/rss+xml\"]," +
-							"link[type=\"application/rdf+xml\"]," +
-							"link[type=\"application/atom+xml\"]";
+			let selector =	"link[type=\"application/rss+xml\" i]," +			// standard publicized RSS for discovery
+							"link[type=\"application/rdf+xml\" i]," +
+							"link[type=\"application/atom+xml\" i]," +
+							"a[href*=\"rss\" i]," +								// non-standard publication of RSS links
+							"a[href*=\"feed\" i]," +
+							"a[href*=\"atom\" i]," +
+							"a[href*=\"syndicat\" i]";
 
-			let linkFeeds = doc.querySelectorAll(selector);
+			// array of just the url links (href) as strings for easy filtering of duplicates
+			let linkFeeds = Array.from(doc.querySelectorAll(selector), item => slUtil.replaceMozExtensionOriginURL(item.href.stripHtmlTags(), origin).toString());
+
+			// filter out duplicates
+			linkFeeds = linkFeeds.filter((item, idx) => linkFeeds.indexOf(item) === idx);
 
 			resolve({ length: linkFeeds.length });
 
 			linkFeeds.forEach((linkFeed, index) => {
 
-				let url = slUtil.replaceMozExtensionOriginURL(linkFeed.href.stripHtmlTags(), origin);
+				let url = new URL(linkFeed);
 				let discoveredFeed = {
 					status: "init",
-					linkTitle: linkFeed.title.stripHtmlTags(),
 					url: url,
 					requestId: requestId,
 				};

@@ -161,7 +161,7 @@
 
 		elmLabel.className = "feedLabel";
 		elmLabel.htmlFor = elmCheckBox.id;
-		elmLabel.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : feed.linkTitle);
+		elmLabel.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : slGlobals.STR_TITLE_EMPTY);
 
 		elmListItem.className = "feedItem";
 		elmListItem.setAttribute("tabindex", "0");	// can get the focus
@@ -170,9 +170,7 @@
 		elmListItem.onclick = (e) => { if(e.target === elmListItem) elmCheckBox.click(); };
 		elmListItem.onkeyup = (e) => { if(e.code.toLowerCase() === "space") elmCheckBox.click(); };
 
-		elmListItem.title += "Feed Title:\u2003" + feed.feedTitle + "\u000d";
-		elmListItem.title += "Link Title:\u2003" + feed.linkTitle + "\u000d";
-		//elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
+		elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
 		elmListItem.title += feed.format ? "Format:\u2003" + feed.format + "\u000d" : "";
 		elmListItem.title += feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "";
 		elmListItem.title += feed.items ? "Items:\u2003" + feed.items + "\u000d" : "";

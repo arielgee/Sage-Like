@@ -311,11 +311,14 @@
     * and but not for: https://ghisler.ch/board/app.php/feed/forum/3    (ATOM)
 * change 'Open all in tabs' to 'Open all unread in tabs'
 * discoveryView on 'http://megafon-news.co.il/asys/archives/299005' gets scroll bars. title (feedTitle) is too long
+* in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 ---
 
 ## Next
-* in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * event delegating the descoveryView
+* 'Aggressive Descovery' checkbox in the descoveryView to also look at <a> elements
+* use img in feedPreview; better when image is not found (google: better display when img src not fount or missing)
+    * like here: http://www.bundysoft.com/news/blogfeed.php
 * ? change *One-off messages* with *Connection-based messaging*
 * re-desigh all popups as slide-down panels (?)
 

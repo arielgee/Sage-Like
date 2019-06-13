@@ -189,7 +189,7 @@ let discoveryView = (function() {
 		elmCheckBox.type = "checkbox";
 		elmCheckBox.setAttribute("tabindex", "-1");	// only the elmListItem can get the focus
 
-		elmLabelCaption.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : feed.linkTitle);
+		elmLabelCaption.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : slGlobals.STR_TITLE_EMPTY);
 		elmLabelCaption.className = "dfLabelCaption";
 
 		elmLabelFormat.textContent = feed.format;
@@ -214,8 +214,6 @@ let discoveryView = (function() {
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
 		elmListItem.setAttribute("data-index", feed.index);
-		//elmListItem.title += "Feed Title:\u2003" + feed.feedTitle + "\u000d";
-		//elmListItem.title += "Link Title:\u2003" + feed.linkTitle + "\u000d";
 		elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
 		elmListItem.title += feed.format      ? "Format:\u2003" + feed.format + "\u000d" : "";
 		elmListItem.title += feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "";
