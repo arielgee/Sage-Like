@@ -114,7 +114,7 @@
 }
 
 #discoverFeedsList .dfLabel .dfLabelCaption {
-	max-width: 290px;
+	width: 275px;
 	margin: 0 auto 0 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -129,6 +129,7 @@
 	margin: auto 0 auto 0;
 	color: gray;
 	vertical-align: text-bottom;
+	padding-inline-end: 3px;
 }
 
 .dfButtonContainer {
