@@ -153,8 +153,8 @@
         * [V] feed-item description
         * [V] feed-item link
 * fetch feed description; in getFeedData()  rss > channel > description ; RDF > channel > description ; feed > subtitle ;
-* descovery view; set focus (outline) on label and not on checkboxs
-* redesign the descovery view
+* discovery view; set focus (outline) on label and not on checkboxs
+* redesign the discovery view
 * all over; set focus (outline) on label and not on checkboxs
 * syndication not working when it a local XML file. Duh?! Browser Security!!! Can't access user's local files unless selected by the user
 * disable (optional) Periodic feed check when sage-like sidebar is closed
@@ -191,7 +191,7 @@
 * remove logging from background.js.browser.commands.onCommand.addListener()                => DONE
 * change browser_action.default_title to 'Sage-Like sidebar (Ctrl+Shift+F2)'                => NOT DONE
 * add note to Unresolved in mozilla-extension-page.txt/product page about mozilla bug       => DONE
-* message panel and descovery panel accept Enter as Yes/OK/Add button
+* message panel and discovery panel accept Enter as Yes/OK/Add button
 * need to perform event throttling on the resize event in panel.js (setPanelLayout)
 * restore splitter position, tree-view selected item & scroll position when sidebar is reopend.
 * write a features list !!!!
@@ -238,20 +238,20 @@
 * Toggle sidebar open/close browserAction; Bug workaround using *Connection-based messaging* mecanizem. (https://bugzilla.mozilla.org/show_bug.cgi?id=1438465)
 * In manifest.json add ' (Ctrl+Shift+F2)' to browser_action/default_title when it works     => NO. If user change suggested_key it will not match.
 * parseInt() is faster the Number()
-* Button 'Subscribe Feeds to Sage-Like'. pageAction for feed descovery instead of toolbar button. also automatic background feed descovery for each page loaded (heavy)
+* Button 'Subscribe Feeds to Sage-Like'. pageAction for feed discovery instead of toolbar button. also automatic background feed discovery for each page loaded (heavy)
 * at http://feeds.tomercohen.com/tomercohen the page feeds is empty
 * page Popup text direction match page text direction   => NO
 * replace 'browser.tabs.query({ currentWindow: true' with 'browser.tabs.getCurrent()' => return undefined if not in browser tab context
 * in message listeners the message id is sometimes 'id' and sometime 'message'. background.js, content.js CHANGE ALL TO 'id'
 * when deleting and the deleted feed shows its items, I need to remote those items
 * Subscribe button need to be shown when opening an rss.xml file or a feedPreview
-* add preference for background feed descovery for web pages visible via pageAction/pagePopup
-* in descovery view if domain name is empty use doc title (ex; file:///C:/Users/arielg/Desktop/Example.htm).
-* descoveryView.runDiscoverFeeds() & PageDataByInjection()
-  * use messaging between descoveryView and content.js instead of class PageDataByInjection() to get document data.    => NO. messaging will not work if pref showSubscribeButton is unchecked
-  * in descovery view in runDiscoverFeeds() use PageDataByInjection.getCurrent() instead of PageDataByInjection.get(); => NO. PageDataByInjection.getCurrent() was removed.
+* add preference for background feed discovery for web pages visible via pageAction/pagePopup
+* in discovery view if domain name is empty use doc title (ex; file:///C:/Users/arielg/Desktop/Example.htm).
+* discoveryView.runDiscoverFeeds() & PageDataByInjection()
+  * use messaging between discoveryView and content.js instead of class PageDataByInjection() to get document data.    => NO. messaging will not work if pref showSubscribeButton is unchecked
+  * in discovery view in runDiscoverFeeds() use PageDataByInjection.getCurrent() instead of PageDataByInjection.get(); => NO. PageDataByInjection.getCurrent() was removed.
 * try to resolve the setTimeout(420) in pagePopup.js => the sidebar opening and the wait are done only if the sidebar is closed.
-* sort the feeds in the descoveryView like its done in the pagePopup.js createFeedList()  (feeds.sort) => problematic may interfere with user actions
+* sort the feeds in the discoveryView like its done in the pagePopup.js createFeedList()  (feeds.sort) => problematic may interfere with user actions
 * convert: "" + num is faster then num.toString()
 * in syndication.webPageFeedsDiscovery use document instead of domParser => CANNOT since using the PageDataByInjection() the Document object can't be sent via One-off messages
 * create initilization(); functions in all js files
@@ -311,12 +311,12 @@
     * and but not for: https://ghisler.ch/board/app.php/feed/forum/3    (ATOM)
 * change 'Open all in tabs' to 'Open all unread in tabs'
 * discoveryView on 'http://megafon-news.co.il/asys/archives/299005' gets scroll bars. title (feedTitle) is too long
-* in descovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
+* in discovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 ---
 
 ## Next
-* event delegating the descoveryView
-* 'Aggressive Descovery' checkbox in the descoveryView to also look at <a> elements
+* event delegating the discoveryView
+* 'Aggressive Discovery' checkbox in the discoveryView to also look at <a> elements
 * use img in feedPreview; better when image is not found (google: better display when img src not fount or missing)
     * like here: http://www.bundysoft.com/news/blogfeed.php
 * ? change *One-off messages* with *Connection-based messaging*
