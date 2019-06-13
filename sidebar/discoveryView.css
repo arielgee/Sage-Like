@@ -111,6 +111,7 @@
 	padding-left: 6px;
 	width: 100%;
 	margin: auto 0 auto 0;
+	pointer-events: none;
 }
 
 #discoverFeedsList .dfLabel .dfLabelCaption {

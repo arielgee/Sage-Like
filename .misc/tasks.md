@@ -314,10 +314,12 @@
 * in discovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
 * 'Aggressive Discovery' checkbox in the discoveryView to also look at <a> elements
 * discoveryView; small text in the bottom status bar is cutting the bottom part of the letters y & g
+* event delegating the discoveryView
 ---
 
 ## Next
-* event delegating the discoveryView
+* up/down keys in discoveryView
+* event delegating the popup list
 * discoveryView is not working on feedPreview
 * use img in feedPreview; better when image is not found (google: better display when img src not fount or missing)
     * like here: http://www.bundysoft.com/news/blogfeed.php

@@ -32,6 +32,8 @@ let discoveryView = (function() {
 			m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
 			m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 			m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
+			m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
+			m_elmDiscoverFeedsList.addEventListener("keyup", onKeyUpDiscoverFeedsList);
 			m_elmChkAggressiveDiscovery.addEventListener("change", onChangeAggressiveDiscovery);
 			m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
 			m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
@@ -64,6 +66,8 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
+		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
+		m_elmDiscoverFeedsList.removeEventListener("keyup", onKeyUpDiscoverFeedsList);
 		m_elmChkAggressiveDiscovery.removeEventListener("change", onChangeAggressiveDiscovery);
 		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
@@ -190,7 +194,7 @@ let discoveryView = (function() {
 		let elmCheckBox = document.createElement("input");
 		let elmLabelCaption = document.createElement("div");
 		let elmLabelFormat = document.createElement("div");
-		let elmLabel = document.createElement("label");
+		let elmLabel = document.createElement("div");
 		let elmListItem = document.createElement("li");
 
 		elmCheckBox.id = "chkBox" + feed.index;
@@ -205,20 +209,8 @@ let discoveryView = (function() {
 		elmLabelFormat.className = "dfLabelFormat smallText";
 
 		elmLabel.className = "dfLabel";
-		//elmLabel.htmlFor = elmCheckBox.id;
 
 		elmListItem.className = "dfItem";
-		elmListItem.onclick = (e) => {
-			if(e.target === elmCheckBox) {
-			 	elmListItem.focus();
-			} else {
-				elmCheckBox.click();
-			}
-
-		};
-		elmListItem.onkeyup = (e) => {
-			if(e.code.toLowerCase() === "space") elmCheckBox.click();
-		};
 		elmListItem.setAttribute("tabindex", "0");	// can get the focus
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
@@ -328,6 +320,30 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonRediscover(event) {
 		runDiscoverFeeds();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickDiscoverFeedsList(event) {
+
+		let target = event.target;
+
+		if(!!target) {
+			if(target.classList.contains("dfChkBox")) {
+				target.parentElement.focus();				// checkbox is clicked and changed, focus the list item
+			} else if(target.classList.contains("dfItem")) {
+				target.firstElementChild.click();			// list item is focused, click and changed the checkbox
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyUpDiscoverFeedsList(event) {
+
+		let target = event.target;
+
+		if(!!target && target.classList.contains("dfItem") && event.code.toLowerCase() === "space") {
+			target.firstElementChild.click();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
