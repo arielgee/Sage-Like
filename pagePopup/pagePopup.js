@@ -26,6 +26,8 @@
 		m_elmButtonAddFeeds = document.getElementById("btnAddFeeds");
 		m_elmStatusBar = document.getElementById("statusBar");
 
+		m_elmPageFeedsList.addEventListener("click", onClickPageFeedsList);
+		m_elmPageFeedsList.addEventListener("keydown", onKeyDownPageFeedsList);
 		m_elmButtonAddFeeds.addEventListener("click", onClickButtonAdd);
 
 		browser.windows.getCurrent().then((winInfo) => {
@@ -49,10 +51,79 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
+		m_elmPageFeedsList.removeEventListener("click", onClickPageFeedsList);
+		m_elmPageFeedsList.removeEventListener("keydown", onKeyDownPageFeedsList);
 		m_elmButtonAddFeeds.removeEventListener("click", onClickButtonAdd);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickPageFeedsList(event) {
+
+		let target = event.target;
+
+		if(!!target) {
+			if(target.classList.contains("feedChkBox")) {
+				target.parentElement.focus();				// checkbox is clicked and changed, focus the list item
+			} else if(target.classList.contains("feedItem")) {
+				target.firstElementChild.click();			// list item is focused, click and changed the checkbox
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownPageFeedsList(event) {
+
+		let target = event.target;
+
+		if(!!target && target.classList.contains("feedItem")) {
+
+			switch (event.code) {
+
+				case "Space":
+					target.firstElementChild.click();
+					break;
+					/////////////////////////////////////////////////////////////////////////
+
+				case "Home":
+					if(!!m_elmPageFeedsList.firstElementChild.nextElementSibling) {
+						m_elmPageFeedsList.firstElementChild.nextElementSibling.focus();
+					}
+					break;
+					/////////////////////////////////////////////////////////////////////////
+
+				case "End":
+					if(!!m_elmPageFeedsList.lastElementChild) {
+						m_elmPageFeedsList.lastElementChild.focus();
+					}
+					break;
+					/////////////////////////////////////////////////////////////////////////
+
+				case "ArrowUp":
+					if(!!target.previousElementSibling && target.previousElementSibling.classList.contains("feedItem")) {
+						target.previousElementSibling.focus();
+					}
+					break;
+					//////////////////////////////
+
+				case "ArrowDown":
+					if(!!target.nextElementSibling) {
+						target.nextElementSibling.focus();
+					}
+					break;
+					//////////////////////////////
+
+				default:
+					return;		// do not stop propagation
+					//////////////////////////////
+			}
+
+			event.stopPropagation();
+			event.preventDefault();
+		}
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -167,8 +238,6 @@
 		elmListItem.setAttribute("tabindex", "0");	// can get the focus
 		elmListItem.setAttribute("name", elmLabel.textContent);
 		elmListItem.setAttribute("href", feed.url);
-		elmListItem.onclick = (e) => { if(e.target === elmListItem) elmCheckBox.click(); };
-		elmListItem.onkeyup = (e) => { if(e.code.toLowerCase() === "space") elmCheckBox.click(); };
 
 		elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
 		elmListItem.title += feed.format ? "Format:\u2003" + feed.format + "\u000d" : "";

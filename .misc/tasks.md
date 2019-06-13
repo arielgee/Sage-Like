@@ -317,10 +317,10 @@
 * event delegating the discoveryView
 * up/down keys in discoveryView
 * for keyboard keydown I should use event.code and not event.key that can change its case
+* event delegating in the pagePopup list
 ---
 
 ## Next
-* event delegating in the popupPage list
 * discoveryView is not working on feedPreview
 * use img in feedPreview; better when image is not found (google: better display when img src not fount or missing)
     * like here: http://www.bundysoft.com/news/blogfeed.php
