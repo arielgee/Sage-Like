@@ -33,7 +33,7 @@ let discoveryView = (function() {
 			m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 			m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
 			m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
-			m_elmDiscoverFeedsList.addEventListener("keyup", onKeyUpDiscoverFeedsList);
+			m_elmDiscoverFeedsList.addEventListener("keydown", onKeyDownDiscoverFeedsList);
 			m_elmChkAggressiveDiscovery.addEventListener("change", onChangeAggressiveDiscovery);
 			m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
 			m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
@@ -67,7 +67,7 @@ let discoveryView = (function() {
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
 		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
-		m_elmDiscoverFeedsList.removeEventListener("keyup", onKeyUpDiscoverFeedsList);
+		m_elmDiscoverFeedsList.removeEventListener("keydown", onKeyDownDiscoverFeedsList);
 		m_elmChkAggressiveDiscovery.removeEventListener("change", onChangeAggressiveDiscovery);
 		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
@@ -337,12 +337,54 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onKeyUpDiscoverFeedsList(event) {
+	function onKeyDownDiscoverFeedsList(event) {
 
 		let target = event.target;
 
-		if(!!target && target.classList.contains("dfItem") && event.code.toLowerCase() === "space") {
-			target.firstElementChild.click();
+		if(!!target && target.classList.contains("dfItem")) {
+
+			switch (event.code) {
+
+				case "Space":
+					target.firstElementChild.click();
+					break;
+					/////////////////////////////////////////////////////////////////////////
+
+				case "Home":
+					if(!!m_elmDiscoverFeedsList.firstElementChild) {
+						m_elmDiscoverFeedsList.firstElementChild.focus();
+					}
+					break;
+					/////////////////////////////////////////////////////////////////////////
+
+				case "End":
+					if(!!m_elmDiscoverFeedsList.lastElementChild) {
+						m_elmDiscoverFeedsList.lastElementChild.focus();
+					}
+					break;
+					/////////////////////////////////////////////////////////////////////////
+
+				case "ArrowUp":
+					if(!!target.previousElementSibling) {
+						target.previousElementSibling.focus();
+					}
+					break;
+					//////////////////////////////
+
+				case "ArrowDown":
+					if(!!target.nextElementSibling) {
+						target.nextElementSibling.focus();
+					}
+					break;
+					//////////////////////////////
+
+				default:
+					return;		// do not stop propagation
+					//////////////////////////////
+			}
+
+			event.stopPropagation();
+			event.preventDefault();
 		}
 	}
 
