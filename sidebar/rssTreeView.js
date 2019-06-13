@@ -869,14 +869,15 @@ let rssTreeView = (function() {
 			isFolderOpen = elmTargetLI.classList.contains("open");
 		}
 
-		switch(event.key.toLowerCase()) {
+		switch (event.code) {
 
-			case "tab":
+			case "Tab":
 				rssListView.setFocus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "enter":
+			case "Enter":
+			case "NumpadEnter":
 				if(isFolder) {
 					toggleFolderState(elmTargetLI);
 				} else {
@@ -885,12 +886,12 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "home":
+			case "Home":
 				m_elmTreeRoot.firstElementChild.focus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "end":
+			case "End":
 				elms = m_elmTreeRoot.querySelectorAll("li:last-child");		// get all selectable elements
 
 				for(let i=elms.length-1; i>=0; i--) {
@@ -902,7 +903,7 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "arrowup":
+			case "ArrowUp":
 				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 
 				// find target element in list
@@ -922,7 +923,7 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "arrowdown":
+			case "ArrowDown":
 				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 
 				for(let i=0, len=elms.length; i<len; i++) {
@@ -942,7 +943,7 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "arrowleft":
+			case "ArrowLeft":
 				if(isFolder && isFolderOpen) {
 					setFolderState(elmTargetLI, false);
 					return;
@@ -953,7 +954,7 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "arrowright":
+			case "ArrowRight":
 				if(isFolder) {
 					if(isFolderOpen) {
 						elms = elmTargetLI.querySelectorAll("#" + elmTargetLI.id + " > ul > li:first-child"); // first direct child
@@ -965,7 +966,7 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "pageup":
+			case "PageUp":
 				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 				count = 1;
 				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
@@ -991,7 +992,7 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "pagedown":
+			case "PageDown":
 				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
 				count = 1;
 				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
@@ -1017,21 +1018,21 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "o":
+			case "KeyO":
 				browser.tabs.update({
 					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
 				});
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "t":
+			case "KeyT":
 				browser.tabs.create({
 					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
 				});
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "w":
+			case "KeyW":
 				browser.windows.create({
 					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
 					type: "normal",
@@ -1039,7 +1040,7 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "v":
+			case "KeyV":
 				browser.windows.create({
 					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
 					type: "normal",
@@ -1048,42 +1049,42 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "g":
+			case "KeyG":
 				toggleVisitedState(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "r":
+			case "KeyR":
 				markAllFeedsAsVisitedState(true);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "u":
+			case "KeyU":
 				markAllFeedsAsVisitedState(false);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "n":
+			case "KeyN":
 				openNewFeedProperties(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "f":
+			case "KeyF":
 				openNewFolderProperties(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "c":
+			case "KeyC":
 				slUtil.copyTextToClipboard(elmTargetLI.getAttribute("href"));
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "d":
+			case "KeyD":
 				deleteTreeItem(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "p":
+			case "KeyP":
 				openEditTreeItemProperties(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -1183,7 +1184,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTextFilter(event) {
-		if(event.key.toLowerCase() === "escape") {
+		if(event.code === "Escape") {
 			onClickClearFilter({});
 		}
 	}

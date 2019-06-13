@@ -344,29 +344,30 @@ let rssListView = (function() {
 		let elm, elmsCount, index;
 		let elmTargetLI = event.target;
 
-		switch(event.key.toLowerCase()) {
+		switch (event.code) {
 
-			case "tab":
+			case "Tab":
 				rssTreeView.setFocus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "enter":
+			case "Enter":
+			case "NumpadEnter":
 				openListFeedItem(elmTargetLI, event.ctrlKey ? URLOpenMethod.IN_NEW_TAB : (event.shiftKey ? URLOpenMethod.IN_NEW_WIN: URLOpenMethod.IN_TAB));
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "home":
+			case "Home":
 				m_elmList.firstElementChild.focus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "end":
+			case "End":
 				m_elmList.lastElementChild.focus();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "arrowup":
+			case "ArrowUp":
 				elm = elmTargetLI.previousElementSibling
 				if(elm !== null) {
 					elm.focus();
@@ -374,7 +375,7 @@ let rssListView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "arrowdown":
+			case "ArrowDown":
 				elm = elmTargetLI.nextElementSibling
 				if(elm !== null) {
 					elm.focus();
@@ -382,7 +383,7 @@ let rssListView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "pageup":
+			case "PageUp":
 				elmsCount = slUtil.numberOfVItemsInViewport(elmTargetLI, m_elmList);
 				index = Array.prototype.indexOf.call(m_elmList.children, elmTargetLI);
 				index = index-(elmsCount-1);
@@ -390,7 +391,7 @@ let rssListView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "pagedown":
+			case "PageDown":
 				elmsCount = slUtil.numberOfVItemsInViewport(elmTargetLI, m_elmList);
 				index = Array.prototype.indexOf.call(m_elmList.children, elmTargetLI);
 				index = index+(elmsCount-1);
@@ -402,54 +403,54 @@ let rssListView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "escape":
+			case "Escape":
 				if(m_elmFeedItemDescPanel.style.visibility === "visible") {
 					onMouseOutFeedItem({ target: elmTargetLI });
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "o":
+			case "KeyO":
 				openListFeedItem(elmTargetLI, URLOpenMethod.IN_TAB);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "t":
+			case "KeyT":
 				openListFeedItem(elmTargetLI, URLOpenMethod.IN_NEW_TAB);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "w":
+			case "KeyW":
 				openListFeedItem(elmTargetLI, URLOpenMethod.IN_NEW_WIN);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "v":
+			case "KeyV":
 				openListFeedItem(elmTargetLI, URLOpenMethod.IN_NEW_PRIVATE_WIN);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "a":
+			case "KeyA":
 				openAllItemsInTabs();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "g":
+			case "KeyG":
 				toggleItemVisitedState(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "r":
+			case "KeyR":
 				markAllItemsAsVisitedState(true);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "u":
+			case "KeyU":
 				markAllItemsAsVisitedState(false);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "c":
+			case "KeyC":
 				slUtil.copyTextToClipboard(elmTargetLI.getAttribute("href"));
 				break;
 				/////////////////////////////////////////////////////////////////////////

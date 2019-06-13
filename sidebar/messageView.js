@@ -102,8 +102,9 @@ let messageView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownMessagePanel(event) {
-		switch (event.key.toLowerCase()) {
-			case "enter":
+		switch (event.code) {
+			case "Enter":
+			case "NumpadEnter":
 				if(m_buttonsCode === ButtonSet.setOK) {
 					onClickButtonOK({});
 				} else if(m_buttonsCode === ButtonSet.setYesNo) {
@@ -111,7 +112,7 @@ let messageView = (function () {
 				}
 				break;
 				//////////////////////////////
-			case "escape":
+			case "Escape":
 				close();
 				break;
 				//////////////////////////////

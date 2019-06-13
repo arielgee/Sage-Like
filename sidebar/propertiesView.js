@@ -182,12 +182,13 @@ class PropertiesView {
 
 	///////////////////////////////////////////////////////////////
 	_onKeyDownPropertiesPanel(event) {
-		switch (event.key.toLowerCase()) {
-			case "enter":
+		switch (event.code) {
+			case "Enter":
+			case "NumpadEnter":
 				this._saveAndClose();
 				break;
 				//////////////////////////////
-			case "escape":
+			case "Escape":
 				this.close();
 				break;
 				//////////////////////////////

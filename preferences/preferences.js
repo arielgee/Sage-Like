@@ -725,12 +725,13 @@ let preferences = (function() {
 			return;
 		}
 
-		switch(event.key.toLowerCase()) {
-			case "enter":
+		switch(event.code) {
+			case "Enter":
+			case "NumpadEnter":
 				m_funcResolveGetUserFontName(m_elmUserFontName.value.trim());
 				break;
 
-			case "escape":
+			case "Escape":
 				m_funcResolveGetUserFontName("");
 				break;
 
@@ -782,12 +783,13 @@ let preferences = (function() {
 			return;
 		}
 
-		switch(event.key.toLowerCase()) {
-			case "enter":
+		switch(event.code) {
+			case "Enter":
+			case "NumpadEnter":
 				m_funcResolveGetTimeOfDay(m_elmInputTime.value);
 				break;
 
-			case "escape":
+			case "Escape":
 				m_funcResolveGetTimeOfDay("");
 				break;
 

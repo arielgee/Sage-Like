@@ -185,65 +185,65 @@ let contextMenu = (function() {
 
 		event.preventDefault();
 
-		let keyLowCase = event.key.toLowerCase();
+		let keyCode = event.code;
 
-		if(keyLowCase === "escape") {
+		if(keyCode === "Escape") {
 			closeContextMenu();
 			return;
 		}
 
 		if(m_currentContext === "treeitemfoldercontext") {
-			switch (keyLowCase) {
-				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
-				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
-				case "g":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
-				case "r":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
-				case "u":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
-				case "d":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
-				case "p":	handleTreeMenuActions(ContextAction.treeProperties);		break;
-				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+			switch (keyCode) {
+				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
+				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
+				case "KeyG":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
+				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
+				case "KeyD":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
+				case "KeyP":	handleTreeMenuActions(ContextAction.treeProperties);		break;
+				case "KeyS":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "treeitemcontext") {
-			switch (keyLowCase) {
-				case "o":	handleTreeMenuActions(ContextAction.treeOpen);				break;
-				case "t":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
-				case "w":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
-				case "v":	handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
-				case "g":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
-				case "r":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
-				case "u":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
-				case "n":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
-				case "f":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
-				case "c":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
-				case "d":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
-				case "p":	handleTreeMenuActions(ContextAction.treeProperties);		break;
-				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+			switch (keyCode) {
+				case "KeyO":	handleTreeMenuActions(ContextAction.treeOpen);				break;
+				case "KeyT":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
+				case "KeyW":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
+				case "KeyV":	handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
+				case "KeyG":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
+				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
+				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
+				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
+				case "KeyC":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
+				case "KeyD":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
+				case "KeyP":	handleTreeMenuActions(ContextAction.treeProperties);		break;
+				case "KeyS":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listitemcontext") {
-			switch (keyLowCase) {
-				case "o":	handleListMenuActions(ContextAction.listOpen);				break;
-				case "t":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
-				case "w":	handleListMenuActions(ContextAction.listOpenNewWin);		break;
-				case "v":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
-				case "a":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
-				case "g":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
-				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
-				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
-				case "c":	handleListMenuActions(ContextAction.listCopyUrl);			break;
-				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
+			switch (keyCode) {
+				case "KeyO":	handleListMenuActions(ContextAction.listOpen);				break;
+				case "KeyT":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
+				case "KeyW":	handleListMenuActions(ContextAction.listOpenNewWin);		break;
+				case "KeyV":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
+				case "KeyA":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
+				case "KeyG":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
+				case "KeyR":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
+				case "KeyU":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
+				case "KeyC":	handleListMenuActions(ContextAction.listCopyUrl);			break;
+				case "KeyS":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "treecontext") {
-			switch (keyLowCase) {
-				case "r":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
-				case "u":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
-				case "s":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+			switch (keyCode) {
+				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
+				case "KeyS":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listcontext") {
-			switch (keyLowCase) {
-				case "a":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
-				case "r":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
-				case "u":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
-				case "s":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
+			switch (keyCode) {
+				case "KeyA":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
+				case "KeyR":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
+				case "KeyU":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
+				case "KeyS":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
 			}
 		}
 	}
