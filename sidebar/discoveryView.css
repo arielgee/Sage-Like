@@ -108,9 +108,9 @@
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: left;
-	padding-left: 6px;
+	padding-left: 3px;
 	width: 100%;
-	margin: auto 0 auto 0;
+	margin: auto 0 auto 3px;
 	pointer-events: none;
 }
 
@@ -121,7 +121,7 @@
 	text-overflow: ellipsis;
 }
 
-#discoverFeedsList .dfItem:focus .dfLabelCaption {
+#discoverFeedsList .dfItem:focus .dfLabel {
 	outline: 1px dotted gray;
 }
 
