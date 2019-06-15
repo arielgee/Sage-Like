@@ -204,14 +204,14 @@ let rssTreeView = (function() {
 		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
 		m_elmTreeRoot.addEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
-		m_elmTreeRoot.addEventListener("click", onClickTreeItem,);
-		m_elmTreeRoot.addEventListener("dblclick", onDoubleClickTreeItem,);
-		m_elmTreeRoot.addEventListener("dragstart", onDragStartTreeItem,);
-		m_elmTreeRoot.addEventListener("dragenter", onDragEnterTreeItem,);
-		m_elmTreeRoot.addEventListener("dragover", onDragOverTreeItem,);
-		m_elmTreeRoot.addEventListener("dragleave", onDragLeaveTreeItem,);
-		m_elmTreeRoot.addEventListener("dragend", onDragEndTreeItem,);
-		m_elmTreeRoot.addEventListener("drop", onDropTreeItem,);
+		m_elmTreeRoot.addEventListener("click", onClickTreeItem);
+		m_elmTreeRoot.addEventListener("dblclick", onDoubleClickTreeItem);
+		m_elmTreeRoot.addEventListener("dragstart", onDragStartTreeItem);
+		m_elmTreeRoot.addEventListener("dragenter", onDragEnterTreeItem);
+		m_elmTreeRoot.addEventListener("dragover", onDragOverTreeItem);
+		m_elmTreeRoot.addEventListener("dragleave", onDragLeaveTreeItem);
+		m_elmTreeRoot.addEventListener("dragend", onDragEndTreeItem);
+		m_elmTreeRoot.addEventListener("drop", onDropTreeItem);
 
 		// browser bookmarks event listeners
 		browser.bookmarks.onCreated.addListener(onBookmarksEventHandler);
@@ -251,14 +251,14 @@ let rssTreeView = (function() {
 		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
-		m_elmTreeRoot.removeEventListener("click", onClickTreeItem,);
-		m_elmTreeRoot.removeEventListener("dblclick", onDoubleClickTreeItem,);
-		m_elmTreeRoot.removeEventListener("dragstart", onDragStartTreeItem,);
-		m_elmTreeRoot.removeEventListener("dragenter", onDragEnterTreeItem,);
-		m_elmTreeRoot.removeEventListener("dragover", onDragOverTreeItem,);
-		m_elmTreeRoot.removeEventListener("dragleave", onDragLeaveTreeItem,);
-		m_elmTreeRoot.removeEventListener("dragend", onDragEndTreeItem,);
-		m_elmTreeRoot.removeEventListener("drop", onDropTreeItem,);
+		m_elmTreeRoot.removeEventListener("click", onClickTreeItem);
+		m_elmTreeRoot.removeEventListener("dblclick", onDoubleClickTreeItem);
+		m_elmTreeRoot.removeEventListener("dragstart", onDragStartTreeItem);
+		m_elmTreeRoot.removeEventListener("dragenter", onDragEnterTreeItem);
+		m_elmTreeRoot.removeEventListener("dragover", onDragOverTreeItem);
+		m_elmTreeRoot.removeEventListener("dragleave", onDragLeaveTreeItem);
+		m_elmTreeRoot.removeEventListener("dragend", onDragEndTreeItem);
+		m_elmTreeRoot.removeEventListener("drop", onDropTreeItem);
 
 		// browser bookmarks event listeners
 		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
