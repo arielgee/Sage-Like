@@ -326,8 +326,9 @@
 ---
 
 ## Next
+* re-desigh all popups as slide-down panels
+* add Big caption to messagePanel & propertiesView slide-down panels
 * ? change *One-off messages* with *Connection-based messaging*
-* re-desigh all popups as slide-down panels (?)
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
