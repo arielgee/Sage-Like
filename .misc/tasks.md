@@ -322,10 +322,10 @@
     * like here: http://www.bundysoft.com/news/blogfeed.php
 * middle click in tree open feedPreview WITHOUT updating the feed state.
 * change stats UI to and elyptic div justified to the end withot '()'       ==> looks like SHIT
+* discoveryView is not working on feedPreview
 ---
 
 ## Next
-* discoveryView is not working on feedPreview
 * ? change *One-off messages* with *Connection-based messaging*
 * re-desigh all popups as slide-down panels (?)
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.

@@ -105,20 +105,69 @@ let discoveryView = (function() {
 		emptyDiscoverFeedsList();
 		setStatusbarMessage("", false);
 
-		browser.tabs.query({ currentWindow: true, active: true }).then((tab) => {
+		browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
 
-			if(tab[0].status === "loading") {
+			const tab = tabs[0];
+
+			if(tab.status === "loading") {
 				setNoFeedsMsg("Current tab is still loading.");
 			} else {
 
 				const pageData = new PageDataByInjection();
 
-				pageData.get(tab[0].id).then((pd) => {
-					loadDiscoverFeedsList(pd.txtHTML, (!!pd.domainName ? pd.domainName : pd.title), pd.origin);
+				pageData.get(tab.id).then((pd) => {
+
+					if(pd.docElmId === "feedHandler" && !!!pd.domainName) {
+
+						// Fx v63 build-in Feed Preview
+
+						loadSingleDiscoverFeed(tab.url.toString(), pd.title);
+
+					} else if(pd.docElmId === "_sage-LikeFeedPreview") {
+
+						// Fx v64 Sage-Like Feed Preview
+
+						loadSingleDiscoverFeed(decodeURIComponent(tab.url.toString().substring(slUtil.getFeedPreviewUrl("").length)), pd.title);
+
+					} else {
+
+						// For regular web pages
+
+						loadDiscoverFeedsList(pd.txtHTML, (!!pd.domainName ? pd.domainName : pd.title), pd.origin);
+					}
+
 				}).catch((error) => {
 					setNoFeedsMsg("Unable to access current tab.");
 					//console.log("[Sage-Like]", error);
 				}).finally(() => pageData.dispose());
+			}
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function loadSingleDiscoverFeed(strUrl, domainName) {
+
+		m_nRequestId = Date.now();
+
+		let timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
+
+		setDiscoverLoadingState(true);
+		emptyDiscoverFeedsList();
+		setStatusbarMessage(domainName, false);
+
+		syndication.feedDiscovery(strUrl, timeout).then((feedData) => {
+
+			if(feedData.status === "OK") {
+				m_elmDiscoverFeedsList.appendChild(createTagLI(feedData));
+				setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
+			} else if(feedData.status === "error") {
+				console.log("[Sage-Like]", feedData.url.toString(), feedData.message);
+			}
+
+			setDiscoverLoadingState(false);
+			// if no feed was added to the list
+			if(m_elmDiscoverFeedsList.children.length === 0) {
+				setNoFeedsMsg("No valid feeds were discovered.");
 			}
 		});
 	}

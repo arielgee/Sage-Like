@@ -166,6 +166,7 @@ class PageDataByInjection {
 		this._MSGID_GET_PAGE_DATA = "msg_pageData_getDocumentData";
 
 		this._CODE_INJECTION = "browser.runtime.sendMessage( { id: \"" + this._MSGID_GET_PAGE_DATA + "\"," +
+															  "docElmId: document.documentElement.id," +
 															  "title: document.title," +
 															  "domainName: document.domain," +
 															  "origin: window.location.origin," +
@@ -212,7 +213,7 @@ class PageDataByInjection {
 	_onRuntimeMessage(message) {
 
 		if(message.id === this._MSGID_GET_PAGE_DATA && (typeof this._funcPromiseResolve === "function")) {
-			this._funcPromiseResolve({ title: message.title, domainName: message.domainName, origin: message.origin, txtHTML: message.txtHTML });
+			this._funcPromiseResolve({ docElmId: message.docElmId, title: message.title, domainName: message.domainName, origin: message.origin, txtHTML: message.txtHTML });
 			this._funcPromiseResolve = null;
 		}
 	}
