@@ -318,14 +318,22 @@
 * up/down keys in discoveryView
 * for keyboard keydown I should use event.code and not event.key that can change its case
 * event delegating in the pagePopup list
+* use img in feedPreview; better when image is not found (google: better display when img src not fount or missing)
+    * like here: http://www.bundysoft.com/news/blogfeed.php
 ---
 
 ## Next
+* middle click open feedPreview in tree
 * discoveryView is not working on feedPreview
-* use img in feedPreview; better when image is not found (google: better display when img src not fount or missing)
-    * like here: http://www.bundysoft.com/news/blogfeed.php
 * ? change *One-off messages* with *Connection-based messaging*
 * re-desigh all popups as slide-down panels (?)
+* fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
+    > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
+    > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
+    > google this: javascript change encoding
+    * Example: http://www.haayal.co.il/xml/rss
+    * Example: http://israblog.nana.co.il/blog_rss.asp?blog=106751
+    * Example: http://israblog.nana.co.il/blog_rss.asp?blog=177394
 
 ### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 * for now there is a bug workaround using *Connection-based messaging* mecanizem.

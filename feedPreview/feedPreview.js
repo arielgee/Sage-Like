@@ -3,11 +3,16 @@
 (function () {
 
 	let m_URL;
+	let m_imgMissingImage;
 
 	initilization();
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initilization() {
+
+		m_imgMissingImage = new Image();
+		m_imgMissingImage.src = "/icons/sageLike-48.png";
+
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 	}
@@ -69,7 +74,7 @@
 		let elmFeedTitleTexts = document.createElement("div");
 		let elmFeedTitleText = document.createElement("div");
 		let elmFeedDescText = document.createElement("div");
-		let elmFeedTitleImage = document.createElement("div");
+		let elmFeedTitleImage = document.createElement("img");
 
 		elmFeedTitle.id = "feedTitle";
 		elmFeedTitleTexts.id = "feedTitleTexts";
@@ -79,7 +84,10 @@
 
 		elmFeedTitleText.textContent = document.title;
 		elmFeedDescText.textContent = feedData.description;
-		elmFeedTitleImage.style.backgroundImage = "url('" + feedData.imageUrl + "')";
+		if(feedData.imageUrl.length > 0) {
+			elmFeedTitleImage.src = slUtil.replaceMozExtensionOriginURL(feedData.imageUrl, m_URL.origin);
+			elmFeedTitleImage.onerror = () => elmFeedTitleImage.src = createMissingImage();
+		}
 
 		elmFeedTitleTexts.appendChild(elmFeedTitleText);
 		elmFeedTitleTexts.appendChild(elmFeedDescText);
@@ -142,6 +150,40 @@
 				elmATags[idx].href = url;
 			}
 		};
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createMissingImage() {
+
+		const id = "slCanvasNoImage";
+		const bgColor = "#d8d8d8";
+		const fgColor = "#cc0000";
+
+		let canvasMissingImage = document.getElementById(id);
+
+		if(canvasMissingImage === null) {
+			canvasMissingImage = document.createElement("canvas");
+			canvasMissingImage.id = id;
+			canvasMissingImage.width = canvasMissingImage.height = 80;
+		}
+
+		const ctx = canvasMissingImage.getContext("2d");
+
+		// background
+		ctx.fillStyle = bgColor;
+		ctx.fillRect(0, 0, canvasMissingImage.width, canvasMissingImage.height);
+
+		// image
+		ctx.drawImage(m_imgMissingImage, 16, 8);
+
+		// text
+		ctx.fillStyle = fgColor;
+		ctx.font = "bold 16pt serif";
+		ctx.fillText("Oops...", 10, 35);
+		ctx.font = "10pt Segoe UI";
+		ctx.fillText("Missing!", 16, 70);
+
+		return canvasMissingImage.toDataURL();
 	}
 
 })();

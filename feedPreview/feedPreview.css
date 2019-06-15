@@ -84,25 +84,27 @@ body {
 
 #feedTitle {
 	display: flex;
-	padding-bottom: 6px;
+	align-items: flex-start;
+	padding-bottom: 8px;
 }
 
 #feedTitleTexts {
-	flex-grow: 1;
+	flex: 1 1;
 }
 
 #feedTitleImage {
-	flex-grow: 0;
-	width: 80px;
-	height: 80px;
-	margin-left: 4px;
+	justify-self: end;
+	align-self: center;
+	max-width: 320px;
+	max-height: 80px;
+	min-height: 40px;
+	margin-left: 10px;
 	border-radius: 4px;
-	background: transparent no-repeat center/contain;
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.6);
 }
 
-#feedTitleImage[style*="background-image: url(\"\")"] {
-	width: 0;
-	margin-left: 0;
+#feedTitleImage:not([src]) {
+	display: none;
 }
 
 #feedTitleText {
