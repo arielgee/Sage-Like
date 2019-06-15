@@ -380,7 +380,7 @@ let discoveryView = (function() {
 		if(!!target) {
 			if(target.classList.contains("dfChkBox")) {
 				target.parentElement.focus();				// checkbox is clicked and changed, focus the list item
-			} else if(target.classList.contains("dfItem")) {
+			} else if(target.classList.contains("dfItem") && !target.classList.contains("novalidfeeds")) {
 				target.firstElementChild.click();			// list item is focused, click and changed the checkbox
 			}
 		}
