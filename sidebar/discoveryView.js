@@ -129,7 +129,7 @@ let discoveryView = (function() {
 		m_nRequestId = Date.now();
 
 		let feedCount = -1, counter = 0;
-		let timeout = await prefs.getFetchTimeout();
+		let timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 		let aggressiveDiscovery = await internalPrefs.getAggressiveDiscovery();
 
 		let funcHandleDiscoveredFeed = function(feed) {
@@ -161,7 +161,7 @@ let discoveryView = (function() {
 		setDiscoverLoadingState(true);
 		emptyDiscoverFeedsList();
 		setStatusbarMessage(domainName, false);
-		syndication.webPageFeedsDiscovery(txtHTML, timeout*1000, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveDiscovery).then((result) => {
+		syndication.webPageFeedsDiscovery(txtHTML, timeout, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveDiscovery).then((result) => {
 
 			if((feedCount = result.length) === 0) {
 				setNoFeedsMsg("No feeds were discovered.");
