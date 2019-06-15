@@ -205,6 +205,7 @@ let rssTreeView = (function() {
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
 		m_elmTreeRoot.addEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
 		m_elmTreeRoot.addEventListener("click", onClickTreeItem);
+		m_elmTreeRoot.addEventListener("auxclick", onClickTreeItem);
 		m_elmTreeRoot.addEventListener("dblclick", onDoubleClickTreeItem);
 		m_elmTreeRoot.addEventListener("dragstart", onDragStartTreeItem);
 		m_elmTreeRoot.addEventListener("dragenter", onDragEnterTreeItem);
@@ -252,6 +253,7 @@ let rssTreeView = (function() {
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
 		m_elmTreeRoot.removeEventListener("click", onClickTreeItem);
+		m_elmTreeRoot.removeEventListener("auxclick", onClickTreeItem);
 		m_elmTreeRoot.removeEventListener("dblclick", onDoubleClickTreeItem);
 		m_elmTreeRoot.removeEventListener("dragstart", onDragStartTreeItem);
 		m_elmTreeRoot.removeEventListener("dragenter", onDragEnterTreeItem);
@@ -567,7 +569,17 @@ let rssTreeView = (function() {
 		if(!!elmLI && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED) && event.detail <= 1) {
 
 			event.stopPropagation();
-			openTreeFeed(elmLI, event.shiftKey);
+
+			if(event.type === "click" && event.button === 0) {
+
+				openTreeFeed(elmLI, event.shiftKey);
+
+			} else if(event.type === "auxclick" && event.button === 1) {
+
+				browser.tabs.create({
+					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmLI.getAttribute("href"), m_browserVersion),
+				});
+			}
 		}
 	}
 
@@ -843,7 +855,13 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseDownTreeRoot(event) {
-		if(event.target === m_elmTreeRoot) {
+
+		// The default behaviour of Fx is to call "mousedown" when
+		// clicking with the middle button (scroll).
+		// Next event, for middle button, will be 'auxclick'
+
+
+		if(event.target === m_elmTreeRoot || event.target.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
 			event.stopPropagation();
 			event.preventDefault();
 			setFocus();

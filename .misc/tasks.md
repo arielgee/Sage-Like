@@ -320,10 +320,11 @@
 * event delegating in the pagePopup list
 * use img in feedPreview; better when image is not found (google: better display when img src not fount or missing)
     * like here: http://www.bundysoft.com/news/blogfeed.php
+* middle click in tree open feedPreview WITHOUT updating the feed state.
 ---
 
 ## Next
-* middle click open feedPreview in tree
+* change stats UI to and elyptic div justified to the end withot '()'
 * discoveryView is not working on feedPreview
 * ? change *One-off messages* with *Connection-based messaging*
 * re-desigh all popups as slide-down panels (?)
