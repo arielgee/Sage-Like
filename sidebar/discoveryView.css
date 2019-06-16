@@ -141,7 +141,7 @@
 
 #aggressiveDiscoveryContainer {
 	display: flex;
-	margin: auto auto auto 0;
+	margin: 0 auto auto 0;
 	font-weight: normal;
 }
 
