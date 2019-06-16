@@ -8,7 +8,7 @@
 	cursor: wait;
 }
 
-#discoverPanel > #captionContainer {
+#discoverPanel > .captionContainer {
 	display: flex;
 	justify-content: left;
 	--item-spacer: 5px;
