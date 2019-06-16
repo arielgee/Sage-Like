@@ -326,11 +326,12 @@
 * re-desigh all popups as slide-down panels
 * add some caption to messagePanel & propertiesView slide-down panels
 * toolbar min-width is creating a wird scroll problem. also with a panel shown  => A hidden label content was larger then sidebar overflow: hidden; to slide down panels
+* change *One-off messages* with *Connection-based messaging*   => NO
 ---
 
 ## Next
 * RND & support json feeds
-* ? change *One-off messages* with *Connection-based messaging*
+* add dotted line to tree view
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">

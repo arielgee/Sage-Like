@@ -1492,9 +1492,13 @@ let rssTreeView = (function() {
 
 		let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
-		let text = "Permanently delete the " + (isFolder ? "folder " : "feed ") +
-					"<b>'" + getTreeItemText(elmLI) + "'</b> " +
-					(isFolder ? "<u>and all of its contents</u> " : "") + "from your bookmarks?"
+		let text = "Permanently delete the ";
+
+		if(isFolder) {
+			text += "folder <b>'" + getTreeItemText(elmLI) + "'</b> <u>and all of its contents</u> from your bookmarks?"
+		} else {
+			text += "feed <b title=\"" + elmLI.getAttribute("href") + "\">'" + getTreeItemText(elmLI) + "'</b> from your bookmarks?"
+		}
 
 		messageView.show(text, messageView.ButtonSet.setYesNo).then((result) => {
 
