@@ -65,6 +65,8 @@ let discoveryView = (function() {
 		emptyDiscoverFeedsList();
 		setStatusbarMessage("", false);
 
+		delete m_elmButtonCheckmarkAll["slCheckmarkAction"];
+
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
@@ -359,14 +361,14 @@ let discoveryView = (function() {
 			return;
 		}
 
-		if(m_elmButtonCheckmarkAll.checkmarkAction === undefined) {
-			m_elmButtonCheckmarkAll.checkmarkAction = true;
+		if(m_elmButtonCheckmarkAll.slCheckmarkAction === undefined) {
+			m_elmButtonCheckmarkAll.slCheckmarkAction = true;
 		}
 
 		for (let item of m_elmDiscoverFeedsList.children) {
-			item.firstElementChild.checked = m_elmButtonCheckmarkAll.checkmarkAction;
+			item.firstElementChild.checked = m_elmButtonCheckmarkAll.slCheckmarkAction;
 		}
-		m_elmButtonCheckmarkAll.checkmarkAction = !m_elmButtonCheckmarkAll.checkmarkAction;
+		m_elmButtonCheckmarkAll.slCheckmarkAction = !m_elmButtonCheckmarkAll.slCheckmarkAction;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

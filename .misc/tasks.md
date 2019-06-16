@@ -329,7 +329,6 @@
 ---
 
 ## Next
-
 * RND & support json feeds
 * ? change *One-off messages* with *Connection-based messaging*
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
