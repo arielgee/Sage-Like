@@ -4,6 +4,10 @@
 	font-weight: normal;
 }
 
+#messagePanel > .caption {
+	margin: 0 0 10px;
+}
+
 #msgText {
 	width: 100%;
 	word-wrap: normal;

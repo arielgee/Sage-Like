@@ -6,6 +6,10 @@
 	font-weight: normal;
 }
 
+#propertiesPanel > .caption {
+	margin: 0 0 var(--panel-spacing);
+}
+
 .propContainer {
 	display: flex;
 	margin: var(--panel-spacing);
