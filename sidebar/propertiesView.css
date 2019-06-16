@@ -2,18 +2,6 @@
 
 #propertiesPanel {
 	--panel-spacing: 10px;
-	display: none;
-	position: absolute;
-	left: 3px;
-	background-color: var(--bk-color-dialog);
-	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-	min-width: 300px;
-	max-width: 94%;
-	width: 94%;
-	padding: var(--panel-spacing);
-	border: 1px solid black;
-	border-radius: 8px;
-	z-index: 1;
 	white-space: nowrap;
 	font-weight: normal;
 }

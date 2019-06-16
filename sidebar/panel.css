@@ -228,6 +228,30 @@ html, body {
 	background: transparent url("/icons/preferences.png") no-repeat center center;
 }
 
+.slideDownPanel {
+	position: absolute;
+	top: -500px;
+	left: 0;
+	box-sizing: border-box;
+	max-width: 100%;
+	min-width: 100%;
+	width: 100%;
+	background-color: var(--bk-color-dialog);
+	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+	padding: 10px;
+	border: solid black;
+	border-width: 0 1px 1px;
+	border-radius: 0 0 6px 6px;
+	z-index: 1;
+	transition: top 0.4s cubic-bezier(0.7, 0, 0.2, 2) 0s;
+}
+
+.slideDownPanel.visible {
+	top: 0;
+	min-width: 300px;
+	width: calc(100% - 1px);
+}
+
 .disabled {
 	pointer-events: none;
 	filter: blur(1.5px);

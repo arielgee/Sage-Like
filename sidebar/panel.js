@@ -99,6 +99,8 @@ let panel = (function() {
 		let browserFont = getComputedStyle(m_elmBody).getPropertyValue("font-family");
 		document.documentElement.style.setProperty("--font-default-fallback", browserFont);
 
+		disableSlideDownPanels();
+
 		setPanelDensityFromPreferences();
 		setPanelFontNameFromPreferences();
 		setPanelFontSizePercentFromPreferences();
@@ -121,6 +123,15 @@ let panel = (function() {
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function disableSlideDownPanels() {
+		setTimeout(() => {
+			slUtil.disableElementTree(document.getElementById("discoverPanel"), true);
+			slUtil.disableElementTree(document.getElementById("propertiesPanel"), true);
+			slUtil.disableElementTree(document.getElementById("messagePanel"), true);
+		}, 10);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

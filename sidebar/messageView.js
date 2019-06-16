@@ -41,7 +41,8 @@ let messageView = (function () {
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonsCode === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonsCode === ButtonSet.setYesNo);
 
-			m_elmMessagePanel.style.display = "block";
+			m_elmMessagePanel.classList.add("visible");
+			slUtil.disableElementTree(m_elmMessagePanel, false);
 			slUtil.disableElementTree(m_elmMainPanel, true);
 
 			m_elmMessagePanel.focus();
@@ -79,8 +80,9 @@ let messageView = (function () {
 			return;
 		}
 
+		m_elmMessagePanel.classList.remove("visible");
+		slUtil.disableElementTree(m_elmMessagePanel, true);
 		slUtil.disableElementTree(m_elmMainPanel, false);
-		m_elmMessagePanel.style.display = "none";
 
 		m_elmMessagePanel.removeEventListener("keydown", onKeyDownMessagePanel);
 		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
@@ -93,7 +95,7 @@ let messageView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isOpen() {
-		return (m_elmMessagePanel !== null && m_elmMessagePanel.style.display === "block");
+		return (m_elmMessagePanel !== null && m_elmMessagePanel.classList.contains("visible"));
 	}
 
 	//==================================================================================

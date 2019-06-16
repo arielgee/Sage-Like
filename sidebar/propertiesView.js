@@ -86,8 +86,9 @@ class PropertiesView {
 			return;
 		}
 
+		this.m_elmPropertiesPanel.classList.remove("visible");
+		slUtil.disableElementTree(this.m_elmPropertiesPanel, true);
 		slUtil.disableElementTree(this.m_elmMainPanel, false);
-		this.m_elmPropertiesPanel.style.display = "none";
 
 		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
@@ -156,18 +157,10 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_showPanel() {
 
-		let r = this.m_elmTreeItemLI.getBoundingClientRect();
-		let y = r.top;
-
 		// do it first so element will have dimentions (offsetWidth > 0)
-		this.m_elmPropertiesPanel.style.display = "block";
+		this.m_elmPropertiesPanel.classList.add("visible");
+		slUtil.disableElementTree(this.m_elmPropertiesPanel, false);
 		slUtil.disableElementTree(this.m_elmMainPanel, true);
-
-		if ((y + this.m_elmPropertiesPanel.offsetHeight) > this.m_elmSidebarBody.offsetHeight) {
-			y = this.m_elmSidebarBody.offsetHeight - this.m_elmPropertiesPanel.offsetHeight;
-		}
-
-		this.m_elmPropertiesPanel.style.top = y + "px";
 	}
 
 	///////////////////////////////////////////////////////////////

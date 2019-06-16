@@ -40,7 +40,8 @@ let discoveryView = (function() {
 
 			internalPrefs.getAggressiveDiscovery().then(checked => m_elmChkAggressiveDiscovery.checked = checked);
 
-			m_elmDiscoverPanel.style.display = "block";
+			m_elmDiscoverPanel.classList.add("visible");
+			slUtil.disableElementTree(m_elmDiscoverPanel, false);
 			slUtil.disableElementTree(m_elmMainPanel, true);
 
 			m_elmDiscoverPanel.focus()
@@ -57,8 +58,9 @@ let discoveryView = (function() {
 			return;
 		}
 
+		m_elmDiscoverPanel.classList.remove("visible");
+		slUtil.disableElementTree(m_elmDiscoverPanel, true);
 		slUtil.disableElementTree(m_elmMainPanel, false);
-		m_elmDiscoverPanel.style.display = "none";
 		m_nRequestId = 0;
 		emptyDiscoverFeedsList();
 		setStatusbarMessage("", false);
@@ -77,7 +79,7 @@ let discoveryView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isOpen() {
-		return (m_elmDiscoverPanel !== null && m_elmDiscoverPanel.style.display === "block");
+		return (m_elmDiscoverPanel !== null && m_elmDiscoverPanel.classList.contains("visible"));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

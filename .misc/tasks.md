@@ -323,11 +323,13 @@
 * middle click in tree open feedPreview WITHOUT updating the feed state.
 * change stats UI to and elyptic div justified to the end withot '()'       ==> looks like SHIT
 * discoveryView is not working on feedPreview
+* re-desigh all popups as slide-down panels
 ---
 
 ## Next
-* re-desigh all popups as slide-down panels
 * add Big caption to messagePanel & propertiesView slide-down panels
+* toolbar min-width is creating a wird scroll problem. also with a panel shown
+* RND & support json feeds
 * ? change *One-off messages* with *Connection-based messaging*
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
