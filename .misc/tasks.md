@@ -327,7 +327,7 @@
 ---
 
 ## Next
-* add Big caption to messagePanel & propertiesView slide-down panels
+* add some caption to messagePanel & propertiesView slide-down panels
 * toolbar min-width is creating a wird scroll problem. also with a panel shown
 * RND & support json feeds
 * ? change *One-off messages* with *Connection-based messaging*
