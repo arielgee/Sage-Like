@@ -11,6 +11,7 @@
 #discoverPanel > .captionContainer {
 	display: flex;
 	justify-content: left;
+	margin: 0 0 var(--panel-spacing);
 	--item-spacer: 5px;
 }
 
@@ -64,6 +65,7 @@
 #discoverFeedsList {
 	list-style-type: none;
 	padding: 0;
+	margin: 0 0 var(--panel-spacing);
 	min-height: 140px;
 	max-height: 140px;
 	overflow: auto;

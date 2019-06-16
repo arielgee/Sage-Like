@@ -1,13 +1,25 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 #propertiesPanel {
-	--panel-spacing: 10px;
 	white-space: nowrap;
 	font-weight: normal;
 }
 
-#propertiesPanel > .caption {
+#propertiesPanel > .captionContainer {
+	display: flex;
+	justify-content: left;
 	margin: 0 0 var(--panel-spacing);
+}
+
+#propertiesPanel .captionImage {
+	background: transparent url("/icons/sageLike-16.png") no-repeat center center;
+	width: 16px;
+	height: 16px;
+	margin: auto 8px auto 0;
+}
+
+#propertiesPanel .caption {
+	margin: 0;
 }
 
 .propContainer {
@@ -41,6 +53,8 @@
 }
 
 #propertiesPanel .statusbar {
-	margin-top: 8px;
+	margin-top: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	color: red;
 }

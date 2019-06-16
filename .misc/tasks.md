@@ -324,10 +324,10 @@
 * change stats UI to and elyptic div justified to the end withot '()'       ==> looks like SHIT
 * discoveryView is not working on feedPreview
 * re-desigh all popups as slide-down panels
+* add some caption to messagePanel & propertiesView slide-down panels
 ---
 
 ## Next
-* add some caption to messagePanel & propertiesView slide-down panels
 * toolbar min-width is creating a wird scroll problem. also with a panel shown
 * RND & support json feeds
 * ? change *One-off messages* with *Connection-based messaging*

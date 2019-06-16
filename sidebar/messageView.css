@@ -4,8 +4,21 @@
 	font-weight: normal;
 }
 
-#messagePanel > .caption {
-	margin: 0 0 10px;
+#messagePanel > .captionContainer {
+	display: flex;
+	justify-content: left;
+	margin: 0 0 var(--panel-spacing);
+}
+
+#messagePanel .captionImage {
+	background: transparent url("/icons/sageLike-16.png") no-repeat center center;
+	width: 16px;
+	height: 16px;
+	margin: auto 8px auto 0;
+}
+
+#messagePanel .caption {
+	margin: 0;
 }
 
 #msgText {
@@ -13,7 +26,7 @@
 	word-wrap: normal;
 	text-align: center;
 	max-height: calc(var(--line-height) * 15);
-	margin-bottom: 16px;
+	margin-bottom: var(--panel-spacing);
 	overflow: hidden;
 	font-size: 13px;
 }
@@ -24,7 +37,8 @@
 
 .buttonSet {
 	display: none;
-	justify-content: flex-end;
+	justify-content: right;
+	margin-right: var(--panel-spacing);
 }
 
 .buttonSet.visible {
