@@ -2,6 +2,7 @@
 
 #messagePanel {
 	font-weight: normal;
+	overflow: hidden;
 }
 
 #messagePanel > .captionContainer {

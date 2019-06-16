@@ -3,6 +3,7 @@
 #propertiesPanel {
 	white-space: nowrap;
 	font-weight: normal;
+	overflow: hidden;
 }
 
 #propertiesPanel > .captionContainer {
@@ -30,6 +31,10 @@
 .propContainer label {
 	width: 65px;
 	margin: auto auto auto 0;
+}
+
+.propContainer label:last-child {
+	width: auto;
 }
 
 .propContainer input[type="text"] {

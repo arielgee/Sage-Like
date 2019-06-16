@@ -2,6 +2,8 @@
 
 #discoverPanel {
 	white-space: nowrap;
+	font-weight: normal;
+	overflow: hidden;
 }
 
 #discoverPanel.loading {
@@ -69,7 +71,6 @@
 	min-height: 140px;
 	max-height: 140px;
 	overflow: auto;
-	font-weight: normal;
 	background-color: var(--bk-color-window);
 	border: 1px solid #252525;
 }
@@ -131,7 +132,6 @@
 #aggressiveDiscoveryContainer {
 	display: flex;
 	margin: 0 auto auto 0;
-	font-weight: normal;
 }
 
 #aggressiveDiscoveryContainer.disabled {

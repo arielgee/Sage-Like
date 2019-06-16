@@ -75,6 +75,7 @@ html, body {
 	padding: 5px var(--buttons-spacer);
 	display: flex;
 	justify-content: left;
+	overflow: hidden;
 }
 
 .toolbar .button {

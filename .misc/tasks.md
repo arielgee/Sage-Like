@@ -325,10 +325,11 @@
 * discoveryView is not working on feedPreview
 * re-desigh all popups as slide-down panels
 * add some caption to messagePanel & propertiesView slide-down panels
+* toolbar min-width is creating a wird scroll problem. also with a panel shown  => A hidden label content was larger then sidebar overflow: hidden; to slide down panels
 ---
 
 ## Next
-* toolbar min-width is creating a wird scroll problem. also with a panel shown
+
 * RND & support json feeds
 * ? change *One-off messages* with *Connection-based messaging*
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
