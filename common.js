@@ -270,7 +270,7 @@ let slGlobals = (function() {
 
 	const FMT_IMAGE_SET = {
 		IMG_OPEN_FOLDER:		"url(\"/icons/open-{0}.png\")",
-		IMG_CLOSED_FOLDER:	"url(\"/icons/closed-{0}.png\")",
+		IMG_CLOSED_FOLDER:		"url(\"/icons/closed-{0}.png\")",
 		IMG_TREE_ITEM:			"url(\"/icons/rss-{0}.png\")",
 		IMG_TREE_ITEM_LOADING:	"url(\"/icons/loading-{0}.gif\")",
 		IMG_TREE_ITEM_ERROR:	"url(\"/icons/error-{0}.png\")",
@@ -288,7 +288,7 @@ let slGlobals = (function() {
 
 		return {
 			IMG_OPEN_FOLDER:		FMT_IMAGE_SET.IMG_OPEN_FOLDER.format([setNumber]),
-			IMG_CLOSED_FOLDER:	FMT_IMAGE_SET.IMG_CLOSED_FOLDER.format([setNumber]),
+			IMG_CLOSED_FOLDER:		FMT_IMAGE_SET.IMG_CLOSED_FOLDER.format([setNumber]),
 			IMG_TREE_ITEM:			FMT_IMAGE_SET.IMG_TREE_ITEM.format([setNumber]),
 			IMG_TREE_ITEM_LOADING:	FMT_IMAGE_SET.IMG_TREE_ITEM_LOADING.format([setNumber]),
 			IMG_TREE_ITEM_ERROR:	FMT_IMAGE_SET.IMG_TREE_ITEM_ERROR.format([setNumber]),
