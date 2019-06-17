@@ -327,6 +327,11 @@
 ---
 
 ## Next
+* Make sure all objXXX.slYYYYY members are initilized; search for regexp: '\w\.sl\w'
+* use this when filter is first opened
+    * slUtil.showInfoBar("Hover the filter text box for vital information.", m_elmTextFilter, m_elmTreeRoot.style.direction, false, 5000);
+* cannot drag feed items !!! the content of onMouseDownTreeRoot() is fucking the dragging
+* treeview scroll after first load is clanky
 * add some caption to messagePanel & propertiesView slide-down panels
 * toolbar min-width is creating a wird scroll problem. also with a panel shown
 * RND & support json feeds
