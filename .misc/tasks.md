@@ -330,12 +330,13 @@
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels  => cannot reproduse
 * cannot drag feed items !!! the content of onMouseDownTreeRoot() is fucking the dragging
 * tree item are shifting down when are bolded (example: do mark all as read/unread)
+* make slideDown panel longer and move from -500px to -10px instead of -500px to 0px    => panel top padding set to 80px and top to -70px, hidden top position set to -700px
 ---
 
 ## Next
+* when slide down panels are closed I can get a glimps of the hidden elements restored; the _hideXXX() in close() are faster the transition
 * the tree scroller is not dragged by the mouse; * treeview scroll after first load is clanky
 * expand all scroll tree to bottom to mach scrollIntoView() in setFolderState/toggleFolderState ?
-* make slideDoen panel longer and move from -500px to -10px instead of -500px to 0px
 * RND & support json feeds  JSON.parse(txtXML)
 * add dotted line to tree view
 * Make sure all objXXX.slYYYYY members are initilized; search for regexp: '\w\.sl\w'
