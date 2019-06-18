@@ -246,7 +246,7 @@ html, body {
 	border-width: 0 1px 1px;
 	border-radius: 0 0 6px 6px;
 	z-index: 1;
-	transition: top 0.4s cubic-bezier(0.7, 0, 0.2, 1.75) 0s;
+	transition: top 0.4s cubic-bezier(0.7, 0, 0.2, 1.5) 0s;
 }
 
 .slideDownPanel.visible {
