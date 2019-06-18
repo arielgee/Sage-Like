@@ -181,7 +181,7 @@ let syndication = (function() {
 
 				if(elmLink) {
 					// all versions have <title> & <link>. <description> is optional or missing (v0.90)
-					FeedItem = createSingleListFeedItem(item.querySelector("title"),
+					FeedItem = createSingleListItemFeed(item.querySelector("title"),
 														item.querySelector("description"),
 														elmLink.textContent,
 														getFeedItemLastUpdate(item));
@@ -200,7 +200,7 @@ let syndication = (function() {
 				elmLink = item.querySelector("link:not([rel])") || item.querySelector("link[rel=alternate]") || item.querySelector("link");
 
 				if(elmLink) {
-					FeedItem = createSingleListFeedItem(item.querySelector("title"),
+					FeedItem = createSingleListItemFeed(item.querySelector("title"),
 														item.querySelector("summary"),
 														elmLink.getAttribute("href"),
 														getFeedItemLastUpdate(item));
@@ -212,7 +212,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createSingleListFeedItem(elmTitle, elmDesc, strUrl, valLastUpdated) {
+	function createSingleListItemFeed(elmTitle, elmDesc, strUrl, valLastUpdated) {
 
 		try {
 			new URL(strUrl);
@@ -292,6 +292,8 @@ let syndication = (function() {
 
 		txtXML = removeXMLParsingErrors(txtXML, feedData.xmlVersion);
 
+		// This line is the one that throw to the console the log line 'XML Parsing Error: not well-formed' at
+		// the location of: 'moz-extension://66135a72-02a1-4a68-a040-60511bfea6a2/sidebar/panel.html'.
 		let doc = m_domParser.parseFromString(txtXML, "text/xml");
 
 		// return if XML not well-formed
