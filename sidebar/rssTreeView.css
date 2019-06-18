@@ -79,7 +79,7 @@
 	padding: 1px 5px 1px 0;
 	pointer-events: none; /* otherwise the menucontext is not fired */
 	display: flex;
-	align-items: baseline;
+	align-items: flex-end;
 }
 
 .treeview .rtvCaptionTitle {

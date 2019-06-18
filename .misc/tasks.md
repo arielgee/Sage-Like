@@ -329,10 +329,10 @@
 * change *One-off messages* with *Connection-based messaging*   => NO
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels  => cannot reproduse
 * cannot drag feed items !!! the content of onMouseDownTreeRoot() is fucking the dragging
+* tree item are shifting down when are bolded (example: do mark all as read/unread)
 ---
 
 ## Next
-* tree item are shifting down when are bolded (example: do mark all as read/unread)
 * the tree scroller is not dragged by the mouse; * treeview scroll after first load is clanky
 * expand all scroll tree to bottom to mach scrollIntoView() in setFolderState/toggleFolderState ?
 * make slideDoen panel longer and move from -500px to -10px instead of -500px to 0px
