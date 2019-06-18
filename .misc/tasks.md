@@ -327,10 +327,13 @@
 * add some caption to messagePanel & propertiesView slide-down panels
 * toolbar min-width is creating a wird scroll problem. also with a panel shown  => A hidden label content was larger then sidebar overflow: hidden; to slide down panels
 * change *One-off messages* with *Connection-based messaging*   => NO
+* BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels  => cannot reproduse
 ---
 
 ## Next
-* RND & support json feeds
+* RND & support json feeds  JSON.parse(txtXML)
+* expand all scroll tree to bottom to mach scrollIntoView() in setFolderState/toggleFolderState ?
+* the tree scroller is not dragged by the mouse.
 * add dotted line to tree view
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
@@ -348,7 +351,6 @@
 
 ### low priority
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()
-* BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels
 * support bookmark seperators in treeView.
     > let elmHr = document.createElement("hr");
     > elmHr.id = bookmark.id;
