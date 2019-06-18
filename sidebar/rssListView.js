@@ -182,21 +182,21 @@ let rssListView = (function() {
 		let elm = event.target;
 
 		// only for list item elements
-		if(!!elm && elm.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		if(event.detail === 1 && !!elm && elm.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 
 			let openMethod = URLOpenMethod.INVALID;
 
-			if (event.type === "click" && event.button === 0 && !event.ctrlKey && !event.shiftKey) {
+			if (event.button === 0 && !event.ctrlKey && !event.shiftKey) {
 
 				// open in current tab; click
 				openMethod = URLOpenMethod.IN_TAB;
 
-			} else if ((event.type === "auxclick" && event.button === 1) || (event.type === "click" && event.button === 0 && event.ctrlKey)) {
+			} else if (event.button === 1 || (event.button === 0 && event.ctrlKey)) {
 
 				// open in new tab; middle click or ctrl+click
 				openMethod = URLOpenMethod.IN_NEW_TAB;
 
-			} else if (event.type === "click" && event.button === 0 && event.shiftKey) {
+			} else if (event.button === 0 && event.shiftKey) {
 
 				// open in new window; shift+click
 				openMethod = URLOpenMethod.IN_NEW_WIN;
@@ -324,7 +324,7 @@ let rssListView = (function() {
 		// clicking with the middle button (scroll).
 		// Next event, for middle button, will be 'auxclick'
 
-		if(event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		if(event.button === 1 || event.target === m_elmList) {
 			event.stopPropagation();
 			event.preventDefault();
 			setFocus();

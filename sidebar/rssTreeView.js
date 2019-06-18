@@ -566,15 +566,15 @@ let rssTreeView = (function() {
 		let elmLI = event.target;
 
 		// event.detail: check the current click count to avoid the double-click's second click.
-		if(!!elmLI && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED) && event.detail <= 1) {
+		if(event.detail === 1 && !!elmLI && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
 
 			event.stopPropagation();
 
-			if(event.type === "click" && event.button === 0) {
+			if(event.button === 0) {						// left click
 
 				openTreeFeed(elmLI, event.shiftKey);
 
-			} else if(event.type === "auxclick" && event.button === 1) {
+			} else if(event.button === 1) {					// middle click
 
 				browser.tabs.create({
 					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmLI.getAttribute("href"), m_browserVersion),
@@ -860,8 +860,7 @@ let rssTreeView = (function() {
 		// clicking with the middle button (scroll).
 		// Next event, for middle button, will be 'auxclick'
 
-
-		if(event.target === m_elmTreeRoot || event.target.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+		if(event.button === 1 || event.target === m_elmTreeRoot) {
 			event.stopPropagation();
 			event.preventDefault();
 			setFocus();

@@ -328,18 +328,19 @@
 * toolbar min-width is creating a wird scroll problem. also with a panel shown  => A hidden label content was larger then sidebar overflow: hidden; to slide down panels
 * change *One-off messages* with *Connection-based messaging*   => NO
 * BUG: elm is null in common.js when changing feeds folder and sidebar is open;  I think its one of the panels  => cannot reproduse
+* cannot drag feed items !!! the content of onMouseDownTreeRoot() is fucking the dragging
 ---
 
 ## Next
-* RND & support json feeds  JSON.parse(txtXML)
+* tree item are shifting down when are bolded (example: do mark all as read/unread)
+* the tree scroller is not dragged by the mouse; * treeview scroll after first load is clanky
 * expand all scroll tree to bottom to mach scrollIntoView() in setFolderState/toggleFolderState ?
-* the tree scroller is not dragged by the mouse.
+* make slideDoen panel longer and move from -500px to -10px instead of -500px to 0px
+* RND & support json feeds  JSON.parse(txtXML)
 * add dotted line to tree view
 * Make sure all objXXX.slYYYYY members are initilized; search for regexp: '\w\.sl\w'
 * use this when filter is first opened
     * slUtil.showInfoBar("Hover the filter text box for vital information.", m_elmTextFilter, m_elmTreeRoot.style.direction, false, 5000);
-* cannot drag feed items !!! the content of onMouseDownTreeRoot() is fucking the dragging
-* treeview scroll after first load is clanky
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
