@@ -1135,7 +1135,7 @@ let rssTreeView = (function() {
 			elmLI = elmUL.parentElement;
 
 			if(this.id === "expandall") {
-				setFolderState(elmLI, true);
+				setFolderState(elmLI, true, false);
 				m_objOpenSubFolders.set(elmLI.id);
 			} else {
 				setFolderState(elmLI, false);
@@ -1785,12 +1785,15 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFolderState(elmTreeItem, open) {
+	function setFolderState(elmTreeItem, open, scrollIntoView = true) {
 
 		if (open) {
 			setFolderVisibility(elmTreeItem, true);
 			m_objOpenSubFolders.set(elmTreeItem.id);
-			elmTreeItem.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+
+			if(scrollIntoView) {
+				elmTreeItem.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+			}
 		} else {
 			setFolderVisibility(elmTreeItem, false);
 			m_objOpenSubFolders.remove(elmTreeItem.id);

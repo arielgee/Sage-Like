@@ -332,16 +332,16 @@
 * tree item are shifting down when are bolded (example: do mark all as read/unread)
 * make slideDown panel longer and move from -500px to -10px instead of -500px to 0px    => panel top padding set to 80px and top to -70px, hidden top position set to -700px
 * when slide down panels are closed I can get a glimps of the hidden elements restored; the _hideXXX() in close() are faster then the transition
+* expand all scroll tree to bottom to mach scrollIntoView() in setFolderState/toggleFolderState ?
 ---
 
 ## Next
-* the tree scroller is not dragged by the mouse; * treeview scroll after first load is clanky
-* expand all scroll tree to bottom to mach scrollIntoView() in setFolderState/toggleFolderState ?
-* RND & support json feeds  JSON.parse(txtXML)
-* add dotted line to tree view
 * Make sure all objXXX.slYYYYY members are initilized; search for regexp: '\w\.sl\w'
 * use this when filter is first opened
     * slUtil.showInfoBar("Hover the filter text box for vital information.", m_elmTextFilter, m_elmTreeRoot.style.direction, false, 5000);
+* the tree scroller is not dragged by the mouse; * treeview scroll after first load is clanky
+* RND & support json feeds  JSON.parse(txtXML)
+* add dotted line to tree view
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
