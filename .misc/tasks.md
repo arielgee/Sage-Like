@@ -342,6 +342,9 @@
 * the tree scroller is not dragged by the mouse; * treeview scroll after first load is clanky
 * RND & support json feeds  JSON.parse(txtXML)
 * add dotted line to tree view
+    * https://stackoverflow.com/questions/34860815/displaying-a-tree-list-using-css-or-js-with-dots-on-end-of-lines
+    * https://codepen.io/jaminroe/pen/EJvcw
+    * https://gist.github.com/dylancwood/7368914
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
