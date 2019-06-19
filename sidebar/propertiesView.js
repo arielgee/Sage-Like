@@ -127,19 +127,19 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	_hideNoneTitleProperties(hide) {
+	_showNoneTitleProperties(show) {
 
 		// all none title properties
 		let selector = ".propContainer:not(:first-child)";
 
 		this.m_elmPropertiesPanel.querySelectorAll(selector).forEach((element) => {
-			element.style.display = (hide ? "none" : "");
+			element.style.display = (show ? "" : "none");
 		});
 	}
 
 	///////////////////////////////////////////////////////////////
-	_hideOptionInsertInsideFolder(hide) {
-		this.m_elmInsertInsideFolderContainer.style.display = (hide ? "none" : "");
+	_showOptionInsertInsideFolder(show) {
+		this.m_elmInsertInsideFolderContainer.style.display = (show ? "" : "none");
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -208,7 +208,8 @@ class NewFeedPropertiesView extends PropertiesView {
 
 			super.show(elmLI, resolve);
 
-			this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
+			this._showNoneTitleProperties(true);
+			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
 
 			this.m_initialProperties.title = title;
 			this.m_initialProperties.location = location;
@@ -216,14 +217,6 @@ class NewFeedPropertiesView extends PropertiesView {
 
 			this._initData();
 		});
-	}
-
-	///////////////////////////////////////////////////////////////
-	close() {
-
-		// restore back to visible before close for other views
-		this._hideOptionInsertInsideFolder(false);
-		super.close();
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -272,22 +265,13 @@ class NewFolderPropertiesView extends PropertiesView {
 
 			super.show(elmLI, resolve);
 
-			this._hideNoneTitleProperties(true);
-			this._hideOptionInsertInsideFolder(!this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
+			this._showNoneTitleProperties(false);
+			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
 
 			this.m_initialProperties.title = title;
 
 			this._initData();
 		});
-	}
-
-	///////////////////////////////////////////////////////////////
-	close() {
-
-		// restore back to visible before close for other views
-		this._hideNoneTitleProperties(false);
-		this._hideOptionInsertInsideFolder(false);
-		super.close();
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -326,7 +310,8 @@ class EditFeedPropertiesView extends PropertiesView {
 
 			super.show(elmLI, resolve);
 
-			this._hideOptionInsertInsideFolder(true);
+			this._showNoneTitleProperties(true);
+			this._showOptionInsertInsideFolder(false);
 
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
@@ -334,14 +319,6 @@ class EditFeedPropertiesView extends PropertiesView {
 
 			this._initData();
 		});
-	}
-
-	///////////////////////////////////////////////////////////////
-	close() {
-
-		// restore back to visible before close for other views
-		this._hideOptionInsertInsideFolder(false);
-		super.close();
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -397,22 +374,13 @@ class EditFolderPropertiesView extends PropertiesView {
 
 			super.show(elmLI, resolve);
 
-			this._hideNoneTitleProperties(true);
-			this._hideOptionInsertInsideFolder(true);
+			this._showNoneTitleProperties(false);
+			this._showOptionInsertInsideFolder(false);
 
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 
 			this._initData();
 		});
-	}
-
-	///////////////////////////////////////////////////////////////
-	close() {
-
-		// restore back to visible before close for other views
-		this._hideNoneTitleProperties(false);
-		this._hideOptionInsertInsideFolder(false);
-		super.close();
 	}
 
 	///////////////////////////////////////////////////////////////
