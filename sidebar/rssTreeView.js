@@ -604,7 +604,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
 			if(count > 0) {
-				slUtil.showInfoBar("Use the Shift key to drop item <b>inside</b> folder.", undefined, m_elmTreeRoot.style.direction, false);
+				slUtil.showInfoBar("Press the Shift key to drop item <b>inside</b> folder.", undefined, m_elmTreeRoot.style.direction, false);
 				internalPrefs.setDropInsideFolderShowMsgCount(--count);
 			}
 		});
@@ -1155,7 +1155,15 @@ let rssTreeView = (function() {
 		setTimeout(() => m_elmFilterTextBoxContainer.classList.add("visibleOverflow"), timeout);
 
 		m_elmfilterContainer.classList.add("switched");
-		m_elmTextFilter.focus();
+
+		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
+			if(count > 0) {
+				slUtil.showInfoBar("Hover over the filter text box for vital information.", m_elmfilterContainer, m_elmTreeRoot.style.direction, false, 4000);
+				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
+			} else {
+				m_elmTextFilter.focus();
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

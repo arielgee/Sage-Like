@@ -535,6 +535,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE = 5;
 	const DEF_PREF_FEEDS_FILTER_VALUE = "";
 	const DEF_PREF_AGGRESSIVE_DISCOVERY_VALUE = false;
+	const DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE = 3;
 
 	const PREF_OPEN_FOLDERS = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
@@ -545,6 +546,7 @@ let internalPrefs = (function() {
 	const PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT = "pref_dropInsideFolderShowMsgCount";
 	const PREF_FEEDS_FILTER = "pref_feedsFilter";
 	const PREF_AGGRESSIVE_DISCOVERY = "pref_aggressiveDiscovery";
+	const PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT = "pref_hoverFilterTextBoxShowMsgCount";
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenFolders() {
@@ -739,6 +741,26 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getHoverFilterTextBoxShowMsgCount() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT).then((result) => {
+				resolve(result[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT] === undefined ? DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE : result[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setHoverFilterTextBoxShowMsgCount(value) {
+
+		let obj = {};
+		obj[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT] = value;
+		browser.storage.local.set(obj);
+	}
+
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setOpenSubFolders(DEF_PREF_OPEN_FOLDERS_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
@@ -749,6 +771,7 @@ let internalPrefs = (function() {
 		this.setDropInsideFolderShowMsgCount(DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE);
 		this.setFeedsFilter(DEF_PREF_FEEDS_FILTER_VALUE);
 		this.setAggressiveDiscovery(DEF_PREF_AGGRESSIVE_DISCOVERY_VALUE);
+		this.setHoverFilterTextBoxShowMsgCount(DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE);
 
 		return {
 			openSubFolders: DEF_PREF_OPEN_FOLDERS_VALUE,
@@ -760,6 +783,7 @@ let internalPrefs = (function() {
 			dropInsideFolderShowMsgCount: DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE,
 			feedsFilter: DEF_PREF_FEEDS_FILTER_VALUE,
 			aggressiveDiscovery: DEF_PREF_AGGRESSIVE_DISCOVERY_VALUE,
+			hoverFilterTextBoxShowMsgCount: DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE,
 		};
 	}
 
@@ -782,6 +806,8 @@ let internalPrefs = (function() {
 		setFeedsFilter: setFeedsFilter,
 		getAggressiveDiscovery: getAggressiveDiscovery,
 		setAggressiveDiscovery: setAggressiveDiscovery,
+		getHoverFilterTextBoxShowMsgCount: getHoverFilterTextBoxShowMsgCount,
+		setHoverFilterTextBoxShowMsgCount: setHoverFilterTextBoxShowMsgCount,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 
@@ -1626,11 +1652,9 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function showInfoBar(infoText = "", refElement = undefined, dirStyle = "", isAlertive = true, showDuration = 3500) {
 
-		if(!m_elmInfoBar) {
+		if(!!!m_elmInfoBar) {
 			m_elmInfoBar = document.getElementById("infoBar");
-			m_elmInfoBar.onclick = (e) => {
-				m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
-			};
+			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
 		}
 
 		const CALL_TIMESTAMP = Date.now();

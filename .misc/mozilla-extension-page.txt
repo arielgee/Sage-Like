@@ -47,3 +47,4 @@ atom, channel, discover, easy, feed, feedbro, feeder, feedly, pinrss, rdf, reade
 --------------------------------------------------------------
 Code improvements - tightening the bolts.
 Under the hoods Performance enhancements.
+Reduce memory utilization

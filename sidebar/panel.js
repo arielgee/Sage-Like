@@ -7,7 +7,6 @@ let panel = (function() {
 	//==================================================================================
 
 	let m_elmBody;
-	let m_elmInfoBar;
 	let m_elmTop;
 	let m_elmSplitter;
 	let m_elmBottom;
@@ -73,7 +72,6 @@ let panel = (function() {
 	function onDOMContentLoaded() {
 
 		m_elmBody = document.body;
-		m_elmInfoBar = document.getElementById("infoBar");
 		m_elmTop = document.getElementById("top");
 		m_elmSplitter = document.getElementById("splitter");
 		m_elmBottom = document.getElementById("bottom");
@@ -85,8 +83,6 @@ let panel = (function() {
 		m_elmTree = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
 		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
 
-		m_elmInfoBar.addEventListener("click", onBlurInfoBar);
-		m_elmInfoBar.addEventListener("blur", onBlurInfoBar);
 		m_elmTop.addEventListener("scroll", onScrollTop);
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
@@ -111,8 +107,6 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
-		m_elmInfoBar.removeEventListener("click", onBlurInfoBar);
-		m_elmInfoBar.removeEventListener("blur", onBlurInfoBar);
 		m_elmTop.removeEventListener("scroll", onScrollTop);
 		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
@@ -237,11 +231,6 @@ let panel = (function() {
 
 		// set listview's CSS variable accordingly depending if has VScroll
 		document.documentElement.style.setProperty("--rlv-scrollbar-width", (slUtil.hasVScroll(m_elmList) ? sbWidth : 0) + "px");
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onBlurInfoBar(event) {
-		slUtil.showInfoBar("");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
