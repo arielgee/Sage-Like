@@ -132,6 +132,7 @@
 }
 
 .treeview li.errormsg {
+	padding-inline-start: var(--rss-tree-indent);
 	background: transparent url("/icons/errormsg.png") no-repeat left top;
 	color: crimson;
 	cursor: default;
