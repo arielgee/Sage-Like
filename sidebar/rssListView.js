@@ -334,9 +334,6 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownFeedList(event) {
 
-		event.stopPropagation();
-		event.preventDefault();
-
 		if(event.target.getAttribute("disabled") !== null) {
 			return;
 		}
@@ -454,7 +451,14 @@ let rssListView = (function() {
 				slUtil.copyTextToClipboard(elmTargetLI.getAttribute("href"));
 				break;
 				/////////////////////////////////////////////////////////////////////////
+
+			default:
+				return;		// do not stop propagation
+				/////////////////////////////////////////////////////////////////////////
 		}
+
+		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	//==================================================================================

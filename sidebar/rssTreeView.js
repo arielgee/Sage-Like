@@ -870,9 +870,6 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTreeRoot(event) {
 
-		event.stopPropagation();
-		event.preventDefault();
-
 		if(event.target.getAttribute("disabled") !== null) {
 			return;
 		}
@@ -914,7 +911,7 @@ let rssTreeView = (function() {
 				for(let i=elms.length-1; i>=0; i--) {
 					if(elms[i].offsetParent !== null) {		// visible or not
 						elms[i].focus();
-						return;
+						break;
 					}
 				}
 				break;
@@ -932,9 +929,10 @@ let rssTreeView = (function() {
 						for(let j=i-1; j>=0; j--) {
 							if(elms[j].offsetParent !== null) {		// visible or not
 								elms[j].focus();
-								return;
+								break;
 							}
 						}
+						break;
 					}
 				}
 				break;
@@ -952,9 +950,10 @@ let rssTreeView = (function() {
 						for(let j=i+1; j<len; j++) {
 							if(elms[j].offsetParent !== null) {		// visible or not
 								elms[j].focus();
-								return;
+								break;
 							}
 						}
+						break;
 					}
 				}
 				break;
@@ -963,9 +962,7 @@ let rssTreeView = (function() {
 			case "ArrowLeft":
 				if(isFolder && isFolderOpen) {
 					setFolderState(elmTargetLI, false);
-					return;
-				}
-				if(elmTargetLI.parentElement.parentElement.tagName === "LI") {
+				} else if(elmTargetLI.parentElement.parentElement.tagName === "LI") {
 					elmTargetLI.parentElement.parentElement.focus();
 				}
 				break;
@@ -1105,7 +1102,14 @@ let rssTreeView = (function() {
 				openEditTreeItemProperties(elmTargetLI);
 				break;
 				/////////////////////////////////////////////////////////////////////////
+
+			default:
+				return;		// do not stop propagation
+				/////////////////////////////////////////////////////////////////////////
 		}
+
+		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	//==================================================================================
