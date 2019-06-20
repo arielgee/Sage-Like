@@ -1652,17 +1652,27 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function showInfoBar(infoText = "", refElement = undefined, dirStyle = "", isAlertive = true, showDuration = 3500) {
 
+		let funcDismissInfobar = () => {
+			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+			if(!!m_elmInfoBar.slRefElement) {
+				m_elmInfoBar.slRefElement.focus();
+			}
+		};
+
 		if(!!!m_elmInfoBar) {
 			m_elmInfoBar = document.getElementById("infoBar");
-			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => funcDismissInfobar();
+			m_elmInfoBar.onkeydown = (e) => { if(e.code === "Escape") funcDismissInfobar(); };
 		}
+
+		m_elmInfoBar.slRefElement = refElement;
 
 		const CALL_TIMESTAMP = Date.now();
 		const IS_GENERAL_INFO = (refElement === undefined);
 
 		if(infoText === "") {
-			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
 			m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
+			funcDismissInfobar();
 			return;
 		}
 
@@ -1702,7 +1712,7 @@ let slUtil = (function() {
 
 		setTimeout(() => {
 			if(m_elmInfoBar.slCallTimeStamp === CALL_TIMESTAMP) {		// fade out only if its for the last function call
-				m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+				funcDismissInfobar();
 			}
 		}, showDuration);
 
