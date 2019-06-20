@@ -2131,7 +2131,7 @@ let rssTreeView = (function() {
 	function filterTreeItemText(txtFilter) {
 
 		let funcSimpleFilter = (text, filter) => text.toLowerCase().includes(filter);
-		let funcRegExpFilter = (text, filter) => text.match(new RegExp(...(filter.split('/').filter(e => e.length > 0)))) !== null;
+		let funcRegExpFilter = (text, filter) => text.match(new RegExp(...(filter.split('/').filter((e, idx) => idx > 0)))) !== null;
 
 		let test, funcFilter;
 
