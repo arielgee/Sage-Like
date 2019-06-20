@@ -336,15 +336,16 @@
 * Make sure all objXXX.slYYYYY members are initilized; search for regexp: '\w\.sl\w'    => DONE
 * use this when filter is first opened
     * slUtil.showInfoBar("Hover the filter text box for vital information.", m_elmTextFilter, m_elmTreeRoot.style.direction, false, 5000);
+* add dotted line to tree view => NO NEED.  no one is doing it.
+* support bookmark seperators in treeView.          ==> NO
+    > let elmHr = document.createElement("hr");
+    > elmHr.id = bookmark.id;
+    > parentElement.appendChild(elmHr);
+* look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()    => never seen again
 ---
 
 ## Next
-* the tree scroller is not dragged by the mouse; * treeview scroll after first load is clanky
 * RND & support json feeds  JSON.parse(txtXML)
-* add dotted line to tree view
-    * https://stackoverflow.com/questions/34860815/displaying-a-tree-list-using-css-or-js-with-dots-on-end-of-lines
-    * https://codepen.io/jaminroe/pen/EJvcw
-    * https://gist.github.com/dylancwood/7368914
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
@@ -353,19 +354,14 @@
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=106751
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=177394
 
-### Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
-* for now there is a bug workaround using *Connection-based messaging* mecanizem.
-
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI
 
 ### low priority
-* look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()
-* support bookmark seperators in treeView.
-    > let elmHr = document.createElement("hr");
-    > elmHr.id = bookmark.id;
-    > parentElement.appendChild(elmHr);
-* add dotted line to tree view => FUUUUUUCK
+* Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on.
+    * second reload or closing & re-opening the sidebar fixes the issue.
+* Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
+    * for now there is a bug workaround using *Connection-based messaging* mecanizem.   => VERY good solution
 
 ### Links for PR work
 * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741
