@@ -800,6 +800,7 @@ let rssTreeView = (function() {
 			}).catch((error) => {
 
 				setFeedErrorState(elmLI, true, error.message);
+				updateTreeItemStats(elmLI, 0, 0);		// will remove the stats
 
 				// change the rssListView content only if this is the last user click.
 				if(thisFeedClickTime === m_lastClickedFeedTime) {
