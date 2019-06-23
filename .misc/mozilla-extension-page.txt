@@ -11,6 +11,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS and RDF). Like its a
   <li>Fully customizable tree view. Add, edit & delete feeds and folders directly from the sidebar.</li>
   <li>Filtering capabilities to the feeds tree.</li>
   <li>Context menus for feeds and for feed-items (articles) offer more actions.</li>
+  <li>Support for <i>Middle Click</i>, <i>Ctrl+Click</i> & <i>Shift+Click</i> in the feed-items list.</li>
   <li>Feed preview (via: feed → context menu → Open xxx).</li>
   <li>Support for import & export feed subscriptions using an OPML file.</li>
   <li>Customizable UI font & colors.</li>
@@ -30,10 +31,10 @@ atom, channel, discover, easy, feed, feedbro, feeder, feedly, pinrss, rdf, reade
   <li>Workaround the unresolved: Fixed the issue with closing the sidebar using the toolbar button or the <i>Ctrl+Shift+F2</i> command.</li>
   <li>Added background detection of feeds in web pages and a new button with a popup in the address bar to select and subscribe.</li>
   <li>Added filtering capabilities to the feeds tree.</li>
-  <li>Added total number of unread feeds and feed items to the feeds tree.</li>
+  <li>Added total number of unread feeds and feed-items to the feeds tree.</li>
   <li>Added the ability to toggle the Read/Unread state of an entire folder.</li>
   <li>The 'Open all in tabs' in the feed-items list's context menu is now 'Open all unread in tabs'.</li>
-  <li>Added 'Aggressive descovery' - When selected, discovery from the sidebar will also check each hyperlink in the page that its URL might suggest it links to an RSS feed.</li>
+  <li>Added option for 'Aggressive' in the discovery slide-down panel to also check each hyperlink in the page that its URL might suggest it links to an RSS feed.</li>
   <li>Added support for middle click in the feeds tree to open a feed's preview in a new tab.</li>
   <li>Redesigned all popups as slide-down panels.</li>
   <li>UI improvements and modifications.</li>
