@@ -246,7 +246,7 @@ let syndication = (function() {
 
 						getXMLTextFromBlob(blob).then((txtXML) => {
 							//console.log("[Sage-Like]", url + "\n", txtXML.substr(0, 1024));
-							resolve( { url: url, txtXML: txtXML } );
+							resolve( { txtXML: text } );
 						});
 					}).catch((error) => {
 						reject(new SyndicationError("Failed to get response stream (blob).", error));
