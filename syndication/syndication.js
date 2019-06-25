@@ -34,9 +34,9 @@ let syndication = (function() {
 				url: url,
 			};
 
-			getFeedXMLText(url, reload, timeout).then((feedXML) => {
+			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
 
-				let feedData = getFeedData(feedXML.txtXML, url);
+				let feedData = getXMLFeedData(feedSrc.text, url);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
 					discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
@@ -95,9 +95,9 @@ let syndication = (function() {
 					requestId: requestId,
 				};
 
-				getFeedXMLText(url, reload, timeout).then((feedXML) => {
+				getFeedSourceText(url, reload, timeout).then((feedSrc) => {
 
-					let feedData = getFeedData(feedXML.txtXML, url);
+					let feedData = getXMLFeedData(feedSrc.text, url);
 
 					if(feedData.standard === SyndicationStandard.invalid) {
 						discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
@@ -125,9 +125,9 @@ let syndication = (function() {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedXMLText(url, reload, timeout).then((feedXML) => {
+			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
 
-				let feedData = getFeedData(feedXML.txtXML, url);
+				let feedData = getXMLFeedData(feedSrc.text, url);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
 					reject(new SyndicationError("Failed to get feed data.", feedData.errorMsg));
@@ -230,7 +230,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedXMLText(url, reload = false, timeout = 60000) {
+	function getFeedSourceText(url, reload = false, timeout = 60000) {
 
 		let init = {
 			cache: reload ? "reload" : "default",
@@ -244,16 +244,16 @@ let syndication = (function() {
 
 					response.blob().then((blob) => {
 
-						getXMLTextFromBlob(blob).then((txtXML) => {
-							//console.log("[Sage-Like]", url + "\n", txtXML.substr(0, 1024));
-							resolve( { txtXML: text } );
+						getResponseTextFromBlob(blob).then((txt) => {
+							//console.log("[Sage-Like]", url + "\n", txt.substr(0, 1024));
+							resolve( { text: txt } );
 						});
 					}).catch((error) => {
 						reject(new SyndicationError("Failed to get response stream (blob).", error));
 					});
 
 				} else {
-					reject(new SyndicationError("Failed to retrieve feed XML from URL.", response.status + ": " + response.statusText));
+					reject(new SyndicationError("Failed to retrieve feed source text from URL.", response.status + ": " + response.statusText));
 				}
 
 			}).catch((error) => {
@@ -263,7 +263,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedData(txtXML, logUrl) {
+	function getXMLFeedData(txtXML, logUrl) {
 
 		let feedData = {
 			standard: SyndicationStandard.invalid,
@@ -342,7 +342,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getXMLTextFromBlob(blob) {
+	function getResponseTextFromBlob(blob) {
 
 		return new Promise((resolve) => {
 
@@ -352,7 +352,6 @@ let syndication = (function() {
 			xhr.open("GET", objUrl);
 			xhr.onload = function() {
 				if(xhr.readyState === xhr.DONE && xhr.status === 200) {
-					// will occur event if it's not an XML document
 					URL.revokeObjectURL(objUrl);
 					resolve(xhr.responseText);
 				}

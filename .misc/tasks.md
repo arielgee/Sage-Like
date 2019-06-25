@@ -342,10 +342,10 @@
     > elmHr.id = bookmark.id;
     > parentElement.appendChild(elmHr);
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()    => never seen again
+* Refactor syndication.js. Rename the functions including the term XML as preperation for JSON support
 ---
 
 ## Next
-* Refactor syndication.js. Rename the functions including the term XML as preperation for JSON support
 * RND & support json feeds  JSON.parse(txtXML)
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
