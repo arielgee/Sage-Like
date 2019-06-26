@@ -47,7 +47,7 @@ let syndication = (function() {
 						feedTitle: feedData.title,
 						lastUpdated: feedData.lastUpdated,
 						format: feedData.standard,
-						items: feedData.items,
+						itemCount: feedData.itemCount,
 					});
 				}
 			}).catch((error) => {
@@ -108,7 +108,7 @@ let syndication = (function() {
 							feedTitle: feedData.title,
 							lastUpdated: feedData.lastUpdated,
 							format: feedData.standard,
-							items: feedData.items,
+							itemCount: feedData.itemCount,
 						});
 					}
 				}).catch((error) => {
@@ -274,7 +274,7 @@ let syndication = (function() {
 			imageUrl: "",
 			description: "",
 			lastUpdated: 0,
-			items: 0,
+			itemCount: 0,
 			errorMsg: "",
 		};
 
@@ -315,7 +315,7 @@ let syndication = (function() {
 				feedData.imageUrl = getNodeTextContent(doc, "rss > channel > image > url");
 				feedData.description = getNodeTextContent(doc, "rss > channel > description");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");
-				feedData.items = feedData.feeder.querySelectorAll("item").length;
+				feedData.itemCount = feedData.feeder.querySelectorAll("item").length;
 			} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
 				feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Examples: http://feeds.nature.com/nature/rss/current, https://f1-gate.com/
 				feedData.feeder = doc.querySelector("RDF");
@@ -323,7 +323,7 @@ let syndication = (function() {
 				feedData.imageUrl = getNodeTextContent(doc, "RDF > image > url");
 				feedData.description = getNodeTextContent(doc, "RDF > channel > description");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel", "item");
-				feedData.items = feedData.feeder.querySelectorAll("item").length;
+				feedData.itemCount = feedData.feeder.querySelectorAll("item").length;
 			} else if(doc.documentElement.localName === "feed") {					// FInally let's try 'Atom'
 				feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
 				feedData.feeder = doc.querySelector("feed");
@@ -331,7 +331,7 @@ let syndication = (function() {
 				feedData.imageUrl = getNodeTextContent(doc, "feed > logo", "feed > icon");
 				feedData.description = getNodeTextContent(doc, "feed > subtitle");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "feed", "entry");
-				feedData.items = feedData.feeder.querySelectorAll("entry").length;
+				feedData.itemCount = feedData.feeder.querySelectorAll("entry").length;
 			} else {
 				feedData.errorMsg = "RSS feed not identified in document";
 			}
