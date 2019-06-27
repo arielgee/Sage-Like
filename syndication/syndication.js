@@ -20,6 +20,7 @@ let syndication = (function() {
 		RSS: "RSS",
 		RDF: "RDF",
 		Atom: "Atom",
+		JSON: "JSON",
 	});
 
 	let m_domParser = new DOMParser();
@@ -36,7 +37,7 @@ let syndication = (function() {
 
 			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
 
-				let feedData = getXMLFeedData(feedSrc.text, url);
+				let feedData = getFeedData(feedSrc.text, url);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
 					discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
@@ -65,9 +66,10 @@ let syndication = (function() {
 
 			let doc = m_domParser.parseFromString(txtHTML, "text/html");
 
-			let selector =	"link[type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
-							"link[type=\"application/rdf+xml\" i]," +
-							"link[type=\"application/atom+xml\" i]";
+			let selector =	"link[rel=\"alternate\" i][type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
+							"link[rel=\"alternate\" i][type=\"application/rdf+xml\" i]," +
+							"link[rel=\"alternate\" i][type=\"application/atom+xml\" i]," +
+							"link[rel=\"alternate\" i][type=\"application/json\" i]";
 
 			let anchorRssLinks = "a[href*=\"rss\" i]," +					// non-standard publication of RSS links
 								 "a[href*=\"feed\" i]," +
@@ -97,7 +99,7 @@ let syndication = (function() {
 
 				getFeedSourceText(url, reload, timeout).then((feedSrc) => {
 
-					let feedData = getXMLFeedData(feedSrc.text, url);
+					let feedData = getFeedData(feedSrc.text, url);
 
 					if(feedData.standard === SyndicationStandard.invalid) {
 						discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
@@ -127,7 +129,7 @@ let syndication = (function() {
 
 			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
 
-				let feedData = getXMLFeedData(feedSrc.text, url);
+				let feedData = getFeedData(feedSrc.text, url);
 
 				if(feedData.standard === SyndicationStandard.invalid) {
 					reject(new SyndicationError("Failed to get feed data.", feedData.errorMsg));
@@ -207,6 +209,29 @@ let syndication = (function() {
 					if (!!FeedItem) FeedItemList.push(FeedItem);
 				}
 			});
+
+		} else if(feedData.standard === SyndicationStandard.JSON) {
+
+			//console.log("[Sage-Like]", "Feed: JSON", "v" + (feedData.jsonVersion.match(/[\d.]+$/) || "?"));
+
+			feedData.feeder = sortJSONFeederByDate(feedData.feeder);
+
+			feedData.feeder.forEach((item) => {
+
+				try {
+					new URL(item.url);
+
+					FeedItem = {
+						title: item.title.stripHtmlTags(),
+						desc: (!!item.summary ? item.summary : (!!item.content_text ? item.content_text : "")).stripHtmlTags(),
+						url: item.url.stripHtmlTags(),
+						lastUpdated: getJSONFeedItemLastUpdate(item),
+					};
+					FeedItemList.push(FeedItem);
+				} catch (error) {
+					console.log("[Sage-Like]", "URL validation", error);
+				}
+			});
 		}
 		return FeedItemList;
 	}
@@ -260,6 +285,30 @@ let syndication = (function() {
 				reject(new SyndicationError("Failed to fetch feed from URL.", error));
 			});
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getFeedData(text, logUrl) {
+
+		if(text.match(/^[ \t\n\r]*<\?xml\b/i)) {			// XML prolog for RSS/RDF/Atom
+
+			return getXMLFeedData(text, logUrl);
+
+		} else if(text.match(/^\s*{/i)) {			// JSON version for jsonfeed
+
+			return getJSONFeedData(text, logUrl);
+
+		} else {
+
+			let errMsg = "Feed format is neither XML nor JSON.";
+
+			console.log("[Sage-Like]", "Parser Error at " + logUrl, "\n" + errMsg);
+			return {
+				standard: SyndicationStandard.invalid,
+				errorMsg: errMsg,
+			};
+
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -339,6 +388,53 @@ let syndication = (function() {
 			feedData.errorMsg = error.message;
 		}
 		return feedData;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getJSONFeedData(txtJson, logUrl) {
+
+		let feedData = {
+			standard: SyndicationStandard.invalid,
+			jsonVersion: "",
+			feeder: [],
+			title: "",
+			imageUrl: "",
+			description: "",
+			lastUpdated: 0,
+			itemCount: 0,
+			errorMsg: "",
+		};
+
+		let oJson;
+
+		try {
+			oJson = JSON.parse(txtJson);
+
+			if(!!!oJson.version) throw { message: "Invalid jsonfeed, top-level string 'version:' is undefined." };
+			if(!oJson.version.startsWith("https://jsonfeed.org/version/")) throw { message: "invalid jsonfeed, unexpected version value. '" +  oJson.version + "'"};
+
+		} catch (error) {
+			console.log("[Sage-Like]", "Parser Error at " + logUrl, "\n" + error.message);
+			feedData.errorMsg = error.message
+			return feedData;
+		}
+
+		try {
+			feedData.standard = SyndicationStandard.JSON;					// https://daringfireball.net/feeds/json
+			feedData.jsonVersion = oJson.version.match(/[\d.]+$/)[0];
+			feedData.feeder = oJson.items;
+			feedData.title = (!!oJson.title ? oJson.title.stripHtmlTags() : "");
+			feedData.imageUrl = (!!oJson.icon ? oJson.icon : (!!oJson.favicon ? oJson.favicon : "")).stripHtmlTags();
+			feedData.description = (!!oJson.description ? oJson.description.stripHtmlTags() : "");
+			feedData.lastUpdated = getJSONFeedLastUpdate(oJson.items);
+			feedData.itemCount = oJson.items.length;
+
+			//console.log("[Sage-Like feedData]", feedData);
+
+		} catch (error) {
+			feedData.errorMsg = error.message;
+		}
+		return feedData
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -453,6 +549,32 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function getJSONFeedLastUpdate(items) {
+
+		let dateVal = new Date(items.reduce((prv, cur) => prv.date_modified > cur.date_modified ? prv : cur ).date_modified);
+
+		if(isNaN(dateVal)) {
+			dateVal = new Date(items.reduce((prv, cur) => prv.date_published > cur.date_published ? prv : cur ).date_published);
+			return isNaN(dateVal) ? slUtil.getCurrentLocaleDate() : dateVal;
+		} else {
+			return dateVal;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getJSONFeedItemLastUpdate(item) {
+
+		let dateVal = new Date(item.date_modified);
+
+		if(isNaN(dateVal)) {
+			dateVal = new Date(item.date_published);
+			return isNaN(dateVal) ? slUtil.getCurrentLocaleDate() : dateVal;
+		} else {
+			return dateVal;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function sortFeederByDate(feeder) {
 
 		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
@@ -475,6 +597,24 @@ let syndication = (function() {
 					break;
 				}
 			}
+		}
+		return ary;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function sortJSONFeederByDate(feeder) {
+
+		let ary = Array.prototype.slice.call(feeder, 0);
+
+		if(!!(ary[0])) {
+
+			ary.sort((a, b) => {
+				let v1 = Date.parse(a.date_modified || a.date_published);
+				let v2 = Date.parse(b.date_modified || b.date_published);
+				let d1 = isNaN(v1) ? 0 : v1;
+				let d2 = isNaN(v2) ? 0 : v2;
+				return d2 - d1;
+			});
 		}
 		return ary;
 	}

@@ -347,6 +347,12 @@
 
 ## Next
 * RND & support json feeds  JSON.parse(txtXML)
+    * discovery <link rel="alternate" type="application/json" title="JSON Feed" href="https://jsonfeed.org/feed.json" />
+    * https://indieweb.org/JSON_Feed
+    * https://adactio.com/journal/
+    * https://daringfireball.net/feeds/json
+* RegExp replace [ \t\r\n]* with \s*
+* the var + "\n", in console.log() is adding an extra " in the console
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
