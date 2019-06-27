@@ -245,7 +245,7 @@ let syndication = (function() {
 					response.blob().then((blob) => {
 
 						getResponseTextFromBlob(blob).then((txt) => {
-							//console.log("[Sage-Like]", url + "\n", txt.substr(0, 1024));
+							//console.log("[Sage-Like]", url, "\n" + txt.substr(0, 1024));
 							resolve( { text: txt } );
 						});
 					}).catch((error) => {
@@ -299,7 +299,7 @@ let syndication = (function() {
 		// return if XML not well-formed
 		if(doc.documentElement.nodeName === "parsererror") {
 
-			console.log("[Sage-Like]", "Parser Error at " + logUrl + "\n", doc.documentElement.textContent);
+			console.log("[Sage-Like]", "Parser Error at " + logUrl, "\n" + doc.documentElement.textContent);
 
 			// the first line and the error location
 			let found = doc.documentElement.textContent.match(/^(.*)[\s\S]*(line number \d+, column \d+):.*/i);
