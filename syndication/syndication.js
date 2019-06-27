@@ -432,7 +432,7 @@ let syndication = (function() {
 
 		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
 
-		let elmLastUpdated, txtLastUpdatedVal = "",  dateVal = NaN;;
+		let elmLastUpdated, txtLastUpdatedVal = "",  dateVal = NaN;
 
 		for (let selector of selectores) {
 
