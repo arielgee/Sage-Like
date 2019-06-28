@@ -121,6 +121,8 @@ let discoveryView = (function() {
 
 				pageData.get(tab.id).then((pd) => {
 
+					if(!!!pd.title) pd.title = slGlobals.STR_TITLE_EMPTY;
+
 					if(pd.docElmId === "feedHandler" && !!!pd.domainName) {
 
 						// Fx v63 build-in Feed Preview
