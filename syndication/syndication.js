@@ -218,13 +218,16 @@ let syndication = (function() {
 
 			feedData.feeder.forEach((item) => {
 
+				// some feed put the url in the external_url (WTF?) 		// https://matthiasott.com/links/feed.json
+				let itemUrl = (!!item.url ? item.url : item.external_url);
+
 				try {
-					new URL(item.url);
+					new URL(itemUrl);
 
 					FeedItem = {
-						title: item.title.stripHtmlTags(),
-						desc: (!!item.summary ? item.summary : (!!item.content_text ? item.content_text : "")).stripHtmlTags(),
-						url: item.url.stripHtmlTags(),
+						title: getJSONFeedItemTitle(item).stripHtmlTags(),
+						desc: getJSONFeedItemDesc(item).stripHtmlTags(),
+						url: itemUrl.stripHtmlTags(),
 						lastUpdated: getJSONFeedItemLastUpdate(item),
 					};
 					FeedItemList.push(FeedItem);
@@ -559,6 +562,42 @@ let syndication = (function() {
 		} else {
 			return dateVal;
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getJSONFeedItemTitle(item) {
+
+		let retVal;
+
+		if(!!item.title) {
+			retVal = item.title;
+		} else if(!!item.id) {
+			retVal = item.id;
+		} else {
+			return "";
+		}
+
+		// some feed put an empty object in the summery (WTF?)			// https://matthiasott.com/articles/feed.json
+		return (typeof(retVal) === "string" ? retVal : "");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getJSONFeedItemDesc(item) {
+
+		let retVal;
+
+		if(!!item.summary) {
+			retVal = item.summary;
+		} else if(!!item.content_text) {
+			retVal = item.content_text;
+		} else if(!!item.content_html) {
+			retVal = item.content_html;
+		} else {
+			return "";
+		}
+
+		// some feed put an empty object in the summery (WTF?)			// https://matthiasott.com/articles/feed.json
+		return (typeof(retVal) === "string" ? retVal : "");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

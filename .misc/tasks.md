@@ -351,8 +351,12 @@
     * https://indieweb.org/JSON_Feed
     * https://adactio.com/journal/
     * https://daringfireball.net/feeds/json
+* handle json as feedPreview
+* detect feed from feedPreview
 * RegExp replace [ \t\r\n]* with \s*
 * the var + "\n", in console.log() is adding an extra " in the console
+* add format to list items in the pagePopup ?
+* feed without title. what am I not using "<no title>"???
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
