@@ -79,7 +79,6 @@ body {
 .feedItem {
 	padding: 4px;
 	display: flex;
-	justify-content: left;
 	flex-wrap: nowrap;
 	align-items: center;
 	overflow: hidden;
@@ -92,17 +91,30 @@ body {
 }
 
 .feedItem .feedChkBox {
-	margin: auto;
+	margin: auto 0 auto 0;
 	outline: 0;
 }
 
 .feedItem .feedLabel {
-	margin: auto;
+	margin: auto auto auto 0;
 	padding-left: 6px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	min-width: 100%;
+}
+
+.feedItem .format {
+	--text-height: 10px;
+	line-height: calc(var(--text-height) * 1.2);
+	font-family: Tahoma, Verdana, Segoe, sans-serif !important;
+	font-weight: normal;
+	font-size: var(--text-height) !important;
+	max-width: 40px;
+	margin: auto 0 auto 5px;
+	color: #a0a0a0;
+	vertical-align: text-bottom;
+	padding-inline-end: 3px;
+	pointer-events: none;
 }
 
 .footerContainer {
@@ -144,4 +156,6 @@ body {
 	color: lightpink;
 	white-space: nowrap;
 	margin: auto auto 0 0;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }

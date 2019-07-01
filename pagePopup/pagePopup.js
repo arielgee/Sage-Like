@@ -223,6 +223,7 @@
 
 		let elmCheckBox = document.createElement("input");
 		let elmLabel = document.createElement("label");
+		let elmFormat = document.createElement("span");
 		let elmListItem = document.createElement("li");
 
 		elmCheckBox.id = "chkBox" + feed.index;
@@ -233,6 +234,9 @@
 		elmLabel.className = "feedLabel";
 		elmLabel.htmlFor = elmCheckBox.id;
 		elmLabel.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : slGlobals.STR_TITLE_EMPTY);
+
+		elmFormat.className = "format";
+		elmFormat.textContent = feed.format ? feed.format : "\u2003\u2003\u2003";
 
 		elmListItem.className = "feedItem";
 		elmListItem.setAttribute("tabindex", "0");	// can get the focus
@@ -247,6 +251,7 @@
 
 		elmListItem.appendChild(elmCheckBox);
 		elmListItem.appendChild(elmLabel);
+		elmListItem.appendChild(elmFormat);
 
 		return elmListItem;
 	}
