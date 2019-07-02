@@ -1812,6 +1812,16 @@ let slUtil = (function() {
 		}, interval);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function validURL(url, objRetErr) {
+		try {
+			return new URL(url);
+		} catch (error) {
+			if(typeof(objRetErr) === "object") objRetErr.error = error;
+			return null;
+		}
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -1844,6 +1854,7 @@ let slUtil = (function() {
 		getFeedPreviewUrlByBrowserVersion: getFeedPreviewUrlByBrowserVersion,
 		isRegExpValid: isRegExpValid,
 		setLimitedInterval: setLimitedInterval,
+		validURL: validURL,
 	};
 
 })();

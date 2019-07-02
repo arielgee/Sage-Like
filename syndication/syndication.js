@@ -218,22 +218,31 @@ let syndication = (function() {
 
 			feedData.feeder.forEach((item) => {
 
-				// some feed put the url in the external_url (WTF?) 		// https://matthiasott.com/links/feed.json
-				let itemUrl = (!!item.url ? item.url : item.external_url);
+				// first option.
+				// Ideally, the id is the full URL of the resource described by the item
+				let itemUrl = item.id;
 
-				try {
-					new URL(itemUrl);
+				if(!!!slUtil.validURL(itemUrl)) {
 
-					FeedItem = {
-						title: getJSONFeedItemTitle(item).stripHtmlTags(),
-						desc: getJSONFeedItemDesc(item).stripHtmlTags(),
-						url: itemUrl.stripHtmlTags(),
-						lastUpdated: getJSONFeedItemLastUpdate(item),
-					};
-					FeedItemList.push(FeedItem);
-				} catch (error) {
-					console.log("[Sage-Like]", "URL validation", error);
+					// second options.
+					// ++ some feeds put the url in the external_url (WTF?) 			// https://matthiasott.com/links/feed.json
+					// ++ some feeds are for audio/video files as attachments (WTF?) 	// https://www.npr.org/feeds/510317/feed.json
+					itemUrl = (!!item.url ? item.url : (!!item.external_url ? item.external_url : item.attachments[0].url));
+
+					let oErr = {};
+					if(!!!slUtil.validURL(itemUrl, oErr)) {
+						console.log("[Sage-Like]", "URL validation", oErr.error);
+						return;
+					}
 				}
+
+				FeedItem = {
+					title: getJSONFeedItemTitle(item).stripHtmlTags(),
+					desc: getJSONFeedItemDesc(item).stripHtmlTags(),
+					url: itemUrl.stripHtmlTags(),
+					lastUpdated: getJSONFeedItemLastUpdate(item),
+				};
+				FeedItemList.push(FeedItem);
 			});
 		}
 		return FeedItemList;
