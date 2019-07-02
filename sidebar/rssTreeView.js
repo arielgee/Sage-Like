@@ -1697,14 +1697,18 @@ let rssTreeView = (function() {
 
 		let totalCount, unreadCount;
 
-		while(elmULFolder !== m_elmTreeRoot) {
+		try {
+			while(elmULFolder !== m_elmTreeRoot) {
 
-			totalCount = elmULFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
-			unreadCount = elmULFolder.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+				totalCount = elmULFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+				unreadCount = elmULFolder.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
 
-			updateTreeItemStats(elmULFolder.parentElement, totalCount, unreadCount);
+				updateTreeItemStats(elmULFolder.parentElement, totalCount, unreadCount);
 
-			elmULFolder = elmULFolder.parentElement.parentElement;
+				elmULFolder = elmULFolder.parentElement.parentElement;
+			}
+		} catch (error) {
+			console.log("[Sage-Like]", "A tree item may have been deleted. ", error);
 		}
 	}
 
