@@ -236,7 +236,7 @@
 		elmLabel.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : slGlobals.STR_TITLE_EMPTY);
 
 		elmFormat.className = "format";
-		elmFormat.textContent = feed.format ? feed.format : "\u2003\u2003\u2003";
+		elmFormat.textContent = feed.format;
 
 		elmListItem.className = "feedItem";
 		elmListItem.setAttribute("tabindex", "0");	// can get the focus
