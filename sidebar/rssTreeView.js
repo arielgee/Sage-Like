@@ -386,7 +386,7 @@ let rssTreeView = (function() {
 			try {
 				let url = new URL(href);
 				text = url.hostname;
-			} catch {
+			} catch (error) {
 				text = slGlobals.STR_TITLE_EMPTY;
 			}
 		}
