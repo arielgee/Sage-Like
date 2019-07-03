@@ -4,6 +4,7 @@
     },
     "exclude": [
         "./.*",
-        "./icons"
+        "./icons",
+        "node_modules"
     ]
 }
