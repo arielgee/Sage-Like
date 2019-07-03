@@ -351,6 +351,7 @@
     * https://indieweb.org/JSON_Feed
     * https://adactio.com/journal/
     * https://daringfireball.net/feeds/json
+* handle 'Error: Extension does not have permission for incognito mode'
 * handle json as feedPreview
 * detect feed from feedPreview
 * RegExp replace [ \t\r\n]* with \s*

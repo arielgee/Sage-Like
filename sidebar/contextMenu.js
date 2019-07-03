@@ -39,7 +39,6 @@ let contextMenu = (function() {
 
 	let m_currentContext = "";
 	let m_bActivePanelOpened = false;
-	let m_browserVersion;				// V64 RSS support dropped
 	let m_isContextMenuOpen = false;
 
 	initilization();
@@ -52,11 +51,6 @@ let contextMenu = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
-
-		// V64 RSS support dropped
-		slUtil.getBrowserVersion().then((version) => {
-			m_browserVersion = version;
-		});
 
 		m_elmSidebarBody = document.body;
 		m_elmContextMenu = document.getElementById("mnuContextMenu");
@@ -315,7 +309,7 @@ let contextMenu = (function() {
 		let actionData = { url: "" };
 
 		if(noSupportOpenRssFeedActions.includes(menuAction)) {
-			actionData.url = slUtil.getFeedPreviewUrlByBrowserVersion(m_elmEventTarget.getAttribute("href"), m_browserVersion);
+			actionData.url = slUtil.getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"));
 		} else {
 			actionData.url = m_elmEventTarget.getAttribute("href");
 		}

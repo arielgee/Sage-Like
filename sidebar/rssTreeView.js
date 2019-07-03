@@ -91,7 +91,6 @@ let rssTreeView = (function() {
 	let m_objTreeFeedsData = new TreeFeedsData();
 	let m_objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
-	let m_browserVersion;				// V64 RSS support dropped
 	let m_isFilterApplied = false;
 	let m_bPrefShowFeedStats = prefs.DEF_PREF_SHOW_FEED_STATS_VALUE;
 
@@ -166,11 +165,6 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
-
-		// V64 RSS support dropped
-		slUtil.getBrowserVersion().then((version) => {
-			m_browserVersion = version;
-		});
 
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
@@ -577,7 +571,7 @@ let rssTreeView = (function() {
 			} else if(event.button === 1) {					// middle click
 
 				browser.tabs.create({
-					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmLI.getAttribute("href"), m_browserVersion),
+					url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")),
 				});
 			}
 		}
@@ -1035,21 +1029,21 @@ let rssTreeView = (function() {
 
 			case "KeyO":
 				browser.tabs.update({
-					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
+					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
 				});
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyT":
 				browser.tabs.create({
-					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
+					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
 				});
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyW":
 				browser.windows.create({
-					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
+					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
 					type: "normal",
 				});
 				break;
@@ -1057,7 +1051,7 @@ let rssTreeView = (function() {
 
 			case "KeyV":
 				browser.windows.create({
-					url: slUtil.getFeedPreviewUrlByBrowserVersion(elmTargetLI.getAttribute("href"), m_browserVersion),
+					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
 					type: "normal",
 					incognito: true,
 				});
