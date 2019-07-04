@@ -1,0 +1,77 @@
+{
+	"manifest_version": 2,
+	"applications": {
+		"gecko": {
+			"id": "sage-like@webExtension.arielg.il",
+			"strict_min_version": "59.0"
+		}
+	},
+	"name": "Sage-Like",
+	"version": "1.5",
+	"description": "A basic RSS reader like the good ol' Sage add-on, may the gods avenge his untimely death.",
+	"author": "arielg",
+	"permissions": [
+		"bookmarks",
+		"history",
+		"<all_urls>",
+		"tabs",
+		"clipboardWrite",
+		"storage",
+		"downloads"
+	],
+	"icons": {
+		"16": "/icons/sageLike-16.png",
+		"32": "/icons/sageLike-32.png",
+		"48": "/icons/sageLike-48.png"
+	},
+	"web_accessible_resources": [
+		"/icons/sageLike-32.png"
+	],
+	"browser_action": {
+		"browser_style": true,
+		"default_title": "Sage-Like sidebar",
+		"default_icon": {
+			"16": "/icons/sageLike-16.png",
+			"32": "/icons/sageLike-32.png",
+			"48": "/icons/sageLike-48.png"
+		}
+	},
+	"sidebar_action": {
+		"browser_style": true,
+		"default_title": "Sage-Like",
+		"default_panel": "/sidebar/panel.html",
+		"default_icon": {
+			"16": "/icons/sageLike-16.png",
+			"32": "/icons/sageLike-32.png",
+			"48": "/icons/sageLike-48.png"
+		}
+	},
+	"page_action": {
+		"browser_style": true,
+		"default_icon": {
+			"19": "/icons/pagePopup-19.png",
+			"38": "/icons/pagePopup-38.png"
+		},
+		"default_title": "Subscribe Using Sage-Like",
+		"default_popup": "/pagePopup/pagePopup.html"
+	},
+	"commands": {
+		"_execute_browser_action": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+F2"
+			},
+			"description": "Toggle Sage-Like sidebar"
+		}
+	},
+	"background": {
+		"scripts": [
+			"/common.js",
+			"/syndication/syndication.js",
+			"/background.js"
+		]
+	},
+	"options_ui": {
+		"browser_style": true,
+		"page": "/preferences/preferences.html"
+	}
+}
