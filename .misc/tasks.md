@@ -352,11 +352,11 @@
 * detect feed from feedPreview
 * add format to list items in the pagePopup
 * handle 'Error: Extension does not have permission for incognito mode'
+* RegExp replace [ \t\r\n]* with \s*
+* the var + "\n", in console.log() is adding an extra " in the console => ALL occurrences are "\n" + var
 ---
 
 ## Next
-* RegExp replace [ \t\r\n]* with \s*
-* the var + "\n", in console.log() is adding an extra " in the console
 * feed without title. why am I not using "<no title>"???
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding

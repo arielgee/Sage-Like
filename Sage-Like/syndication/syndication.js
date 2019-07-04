@@ -302,11 +302,11 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedData(text, logUrl) {
 
-		if(text.match(/^[ \t\n\r]*<\?xml\b/i)) {			// XML prolog for RSS/RDF/Atom
+		if(text.match(/^\s*<\?xml\b/i)) {			// XML prolog for RSS/RDF/Atom
 
 			return getXMLFeedData(text, logUrl);
 
-		} else if(text.match(/^\s*{/i)) {			// JSON version for jsonfeed
+		} else if(text.match(/^\s*{/i)) {					// JSON bracket for jsonfeed
 
 			return getJSONFeedData(text, logUrl);
 
@@ -319,7 +319,6 @@ let syndication = (function() {
 				standard: SyndicationStandard.invalid,
 				errorMsg: errMsg,
 			};
-
 		}
 	}
 
@@ -340,13 +339,13 @@ let syndication = (function() {
 		};
 
 		// try to get XML version from the XML prolog
-		let test = txtXML.match(/^[ \t\n\r]*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/);
+		let test = txtXML.match(/^\s*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/);
 		if(test && test[1]) {
 			feedData.xmlVersion = test[1];
 		}
 
 		// try to get XML encoding from the XML prolog
-		test = txtXML.match(/^[ \t\n\r]*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/);
+		test = txtXML.match(/^\s*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/);
 		if(test && test[1]) {
 			feedData.xmlEncoding = test[1];
 		}
@@ -671,7 +670,7 @@ let syndication = (function() {
 	function removeXMLParsingErrors(txtXML, xmlVersion) {
 
 		// try to avoid stupid XML/RSS Parsing Errors
-		txtXML = txtXML.replace(RegExp("^[ \t\n\r]+"), "");							// XML declaration (prolog) not at start of document
+		txtXML = txtXML.replace(RegExp("^\\s+"), "");							// XML declaration (prolog) not at start of document
 		txtXML = txtXML.replace(RegExp("(</(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\\S\\s]+"), "$1");		// junk after document element
 
 		// remove invalid characters
