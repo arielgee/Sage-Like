@@ -23,23 +23,23 @@ let messageView = (function () {
 	let m_elmButtonYes;
 	let m_elmButtonNo;
 
-	let m_buttonsCode;
-	let m_buttonResult = ButtonCode.none;
+	let m_buttonSet;
+	let m_buttonCodeResult = ButtonCode.none;
 	let m_funcPromiseResolve = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function show(text, buttonsCode, isTextLeftAlign = false) {
+	function show(text, btnSet = messageView.ButtonSet.setOK, isTextLeftAlign = false) {
 
 		return new Promise((resolve) => {
 
 			initialize();
 
-			m_buttonsCode = buttonsCode;
+			m_buttonSet = btnSet;
 
 			m_elmMsgText.innerHTML = text;
 			m_elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
-			m_elmButtonSetOK.classList.toggle("visible", m_buttonsCode === ButtonSet.setOK);
-			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonsCode === ButtonSet.setYesNo);
+			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
+			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
 
 			m_elmMessagePanel.classList.add("visible");
 			slUtil.disableElementTree(m_elmMessagePanel, false);
@@ -70,7 +70,7 @@ let messageView = (function () {
 		m_elmButtonYes.addEventListener("click", onClickButtonYes);
 		m_elmButtonNo.addEventListener("click", onClickButtonNo);
 
-		m_buttonResult = ButtonCode.none;
+		m_buttonCodeResult = ButtonCode.none;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ let messageView = (function () {
 		m_elmButtonYes.removeEventListener("click", onClickButtonYes);
 		m_elmButtonNo.removeEventListener("click", onClickButtonNo);
 
-		m_funcPromiseResolve(m_buttonResult);
+		m_funcPromiseResolve(m_buttonCodeResult);
 		rssTreeView.setFocus();
 	}
 
@@ -107,9 +107,9 @@ let messageView = (function () {
 		switch (event.code) {
 			case "Enter":
 			case "NumpadEnter":
-				if(m_buttonsCode === ButtonSet.setOK) {
+				if(m_buttonSet === ButtonSet.setOK) {
 					onClickButtonOK({});
-				} else if(m_buttonsCode === ButtonSet.setYesNo) {
+				} else if(m_buttonSet === ButtonSet.setYesNo) {
 					onClickButtonYes({});
 				}
 				break;
@@ -126,19 +126,19 @@ let messageView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonOK(event) {
-		m_buttonResult = ButtonCode.OK;
+		m_buttonCodeResult = ButtonCode.OK;
 		close();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonYes(event) {
-		m_buttonResult = ButtonCode.Yes;
+		m_buttonCodeResult = ButtonCode.Yes;
 		close();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonNo(event) {
-		m_buttonResult = ButtonCode.No;
+		m_buttonCodeResult = ButtonCode.No;
 		close();
 	}
 
