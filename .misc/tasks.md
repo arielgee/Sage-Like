@@ -351,10 +351,10 @@
 * handle json as feedPreview
 * detect feed from feedPreview
 * add format to list items in the pagePopup
+* handle 'Error: Extension does not have permission for incognito mode'
 ---
 
 ## Next
-* handle 'Error: Extension does not have permission for incognito mode'
 * RegExp replace [ \t\r\n]* with \s*
 * the var + "\n", in console.log() is adding an extra " in the console
 * feed without title. why am I not using "<no title>"???

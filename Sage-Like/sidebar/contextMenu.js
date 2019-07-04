@@ -365,7 +365,8 @@ let contextMenu = (function() {
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewPrivateWin:
-				browser.windows.create({ url: actionData.url, type: "normal", incognito: true });
+				browser.windows.create({ url: actionData.url, type: "normal", incognito: true })
+					.catch((error) => messageView.show(slUtil.incognitoErrorMessage(error)) );
 				break;
 				///////////////////////////////////////////
 

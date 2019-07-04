@@ -1054,7 +1054,7 @@ let rssTreeView = (function() {
 					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
 					type: "normal",
 					incognito: true,
-				});
+				}).catch((error) => messageView.show(slUtil.incognitoErrorMessage(error)) );
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
