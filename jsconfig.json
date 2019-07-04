@@ -2,9 +2,10 @@
     "compilerOptions": {
         "target": "es2016"
     },
+    "include": [
+        "./Sage-Like/**/*.js",
+    ],
     "exclude": [
-        "./.*",
-        "./icons",
-        "node_modules"
+        "./Sage-Like/icons"
     ]
 }
