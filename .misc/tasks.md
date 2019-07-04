@@ -354,10 +354,10 @@
 * handle 'Error: Extension does not have permission for incognito mode'
 * RegExp replace [ \t\r\n]* with \s*
 * the var + "\n", in console.log() is adding an extra " in the console => ALL occurrences are "\n" + var
+* feed without title. why am I not using "<no title>"???    => I DO. It's that fucken feed with the invisible chars
 ---
 
 ## Next
-* feed without title. why am I not using "<no title>"???
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
