@@ -241,9 +241,9 @@ html, body {
 	width: 100%;
 	background-color: var(--bk-color-dialog);
 	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-	padding: 60px 10px 10px;
-	border: solid black;
-	border-width: 0 1px 1px;
+	padding: 10px 10px 10px;
+	border: 1px solid black;
+	border-top: 50px solid #888888;
 	border-radius: 0 0 6px 6px;
 	z-index: 1;
 	transition: top 0.4s cubic-bezier(0.7, 0, 0.2, 1.5) 0s;
