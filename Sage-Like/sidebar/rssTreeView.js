@@ -2122,8 +2122,6 @@ let rssTreeView = (function() {
 				elms[i].style.display = "none";
 			}
 		}
-
-		filterEmptyFolderItems();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
