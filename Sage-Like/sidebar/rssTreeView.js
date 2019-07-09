@@ -1127,19 +1127,19 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickExpandCollapseAll(event) {
 
-		let elmLI, elmULs = m_elmTreeRoot.getElementsByTagName("ul");
+		if(this.id === "expandall") {
 
-		for (let elmUL of elmULs) {
-
-			elmLI = elmUL.parentElement;
-
-			if(this.id === "expandall") {
+			m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed").forEach((elmLI) => {
 				setFolderState(elmLI, true, false);
 				m_objOpenSubFolders.set(elmLI.id);
-			} else {
+			});
+
+		} else {
+
+			m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".open").forEach((elmLI) => {
 				setFolderState(elmLI, false);
 				m_objOpenSubFolders.remove(elmLI.id);
-			}
+			});
 		}
 		setFocus();
 	}
