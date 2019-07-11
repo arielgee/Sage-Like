@@ -358,7 +358,13 @@
 ---
 
 ## Next
-* search in URLs with special prefix character
+* replace all the slow for-in/forEach loops with simple for loops
+    * https://www.oreilly.com/library/view/high-performance-javascript/9781449382308/ch04.html
+* search in URLs with special prefix character %
+* toolbar buttons:
+  * quick access buttons to '>read', '>unread', '>error', '>load'
+  * quick access buttons to '>read', '>unread' only
+  * single quick access button with 4 radio buttons dropdown for '>read', '>unread', '>error', '>load'
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
@@ -366,6 +372,7 @@
     * Example: http://www.haayal.co.il/xml/rss
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=106751
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=177394
+    * Example: https://www.bathlizard.com/archives/2013/arik-einstein
 
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI

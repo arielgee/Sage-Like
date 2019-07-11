@@ -1129,17 +1129,19 @@ let rssTreeView = (function() {
 
 		if(this.id === "expandall") {
 
-			m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed").forEach((elmLI) => {
-				setFolderState(elmLI, true, false);
-				m_objOpenSubFolders.set(elmLI.id);
-			});
+			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed");
+			for(let i=0, len=elms.length; i<len; i++) {
+				setFolderState(elms[i], true, false);
+				m_objOpenSubFolders.set(elms[i].id);
+			}
 
 		} else {
 
-			m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".open").forEach((elmLI) => {
-				setFolderState(elmLI, false);
-				m_objOpenSubFolders.remove(elmLI.id);
-			});
+			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".open");
+			for(let i=0, len=elms.length; i<len; i++) {
+				setFolderState(elms[i], false);
+				m_objOpenSubFolders.remove(elms[i].id);
+			}
 		}
 		setFocus();
 	}
