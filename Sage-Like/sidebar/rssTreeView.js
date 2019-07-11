@@ -429,6 +429,11 @@ let rssTreeView = (function() {
 
 			if(m_prioritySelectedItemId === null) {
 				setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
+
+				if (!!m_elmCurrentlySelected && m_elmCurrentlySelected.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+					openTreeFeed(m_elmCurrentlySelected, false);
+				}
+
 			} else {
 
 				// After OPML import, AND IF THE SIDEBAR IS OPEN, the tree is re-created and the newly imported
@@ -441,10 +446,6 @@ let rssTreeView = (function() {
 				setFeedSelectionState(elm);
 				setFolderState(elm, true);
 				elm.scrollIntoView(true);
-			}
-
-			if (!!m_elmCurrentlySelected && m_elmCurrentlySelected.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
-				openTreeFeed(m_elmCurrentlySelected, false);
 			}
 
 			if(restoreData.feedsFilter !== "") {
