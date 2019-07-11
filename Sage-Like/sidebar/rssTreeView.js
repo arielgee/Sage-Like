@@ -56,11 +56,12 @@ let rssTreeView = (function() {
 									"\u2731 Feeds may change their status after the filter was applied.";
 
 	let TreeItemStatus = Object.freeze({
-		INVALID: -1,
+		UNDEFINED: -1,
 		ERROR: 0,
 		VISITED: 1,
 		UNVISITED: 2,
 		LOADING: 3,
+		EMPTY: 4,
 	});
 
 	let m_elmCheckTreeFeeds;
@@ -93,6 +94,8 @@ let rssTreeView = (function() {
 
 	let m_isFilterApplied = false;
 	let m_bPrefShowFeedStats = prefs.DEF_PREF_SHOW_FEED_STATS_VALUE;
+
+	let m_filterChangeDebouncer = null;
 
 	initilization();
 
@@ -452,7 +455,7 @@ let rssTreeView = (function() {
 				setTimeout(() => {
 					m_elmTextFilter.value = restoreData.feedsFilter;
 					onClickFilter({});
-					onInputChangeTextFilter({});
+					handleTreeFilter();
 				}, 400);
 			}
 
@@ -1116,7 +1119,7 @@ let rssTreeView = (function() {
 	function onClickCheckTreeFeeds(event) {
 
 		if( !m_rssTreeCreatedOK || event.shiftKey ) {
-			onClickClearFilter({});
+			handleTreeClearFilter();
 			rssListView.disposeList();
 			createRSSTree();
 		} else {
@@ -1171,73 +1174,57 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onInputChangeTextFilter(event) {
 
-		const txtValue = m_elmTextFilter.value;
+		clearTimeout(m_filterChangeDebouncer);
+		m_filterChangeDebouncer = setTimeout(() => {
 
-		notifyAppliedFilter(true);
-		m_elmfilterContainer.classList.remove("filterTextOn", "filterRegExpOn", "filterTagOn");
+			handleTreeFilter();
 
-		if(txtValue !== "") {
-
-			m_isFilterApplied = true;
-
-			if(txtValue[0] === ">") {
-
-				switch (txtValue.toLowerCase()) {
-					case ">read":	filterTreeItemStatus(TreeItemStatus.VISITED);	break;
-					case ">unread":	filterTreeItemStatus(TreeItemStatus.UNVISITED);	break;
-					case ">error":	filterTreeItemStatus(TreeItemStatus.ERROR);		break;
-					case ">load":	filterTreeItemStatus(TreeItemStatus.LOADING);	break;
-					default:		filterTreeItemStatus(TreeItemStatus.INVALID);	break;
-				}
-
-			} else {
-				filterTreeItemText(txtValue);
+			// selected item always in view if it's visible
+			if(!!m_elmCurrentlySelected && !!m_elmCurrentlySelected.offsetParent) {
+				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto"), 600);
 			}
 
-			filterEmptyFolderItems();
-
-		} else {
-			unfilterAllTreeItems();
-			m_isFilterApplied = false;
-		}
-
-		internalPrefs.setFeedsFilter(txtValue);
-
-		// selected item always in view
-		if(!!m_elmCurrentlySelected) {
-			slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto");
-		}
+			m_filterChangeDebouncer = null;
+		}, 150);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTextFilter(event) {
 		if(event.code === "Escape") {
-			onClickClearFilter({});
+			handleTreeClearFilter();
+
+			// selected item always in view
+			if(!!m_elmCurrentlySelected) {
+				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto"), 600);
+			}
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickReapplyFilter(event) {
-		onInputChangeTextFilter({});
+
+		clearTimeout(m_filterChangeDebouncer);
+		m_filterChangeDebouncer = setTimeout(() => {
+
+			handleTreeFilter();
+
+			// selected item always in view if it's visible
+			if(!!m_elmCurrentlySelected && !!m_elmCurrentlySelected.offsetParent) {
+				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto"), 600);
+			}
+
+			m_filterChangeDebouncer = null;
+		}, 150);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickClearFilter(event) {
 
-		m_elmTextFilter.value = "";
-		unfilterAllTreeItems();
-		m_elmfilterContainer.classList.remove("filterTextOn", "filterRegExpOn", "filterTagOn");
-		notifyAppliedFilter(true);
-		m_isFilterApplied = false;
-
-		internalPrefs.setFeedsFilter("");
-
-		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
-		m_elmfilterContainer.classList.remove("switched");
+		handleTreeClearFilter();
 
 		// selected item always in view
 		if(!!m_elmCurrentlySelected) {
-			slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto");
+			setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto"), 600);
 		}
 	}
 
@@ -2101,51 +2088,158 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function handleTreeFilter() {
+
+		const txtValue = m_elmTextFilter.value;
+
+		let itemsFiltered = false;		// pessimistic
+
+		notifyAppliedFilter(true);
+		m_elmfilterContainer.classList.remove("filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
+		m_elmTreeRoot.style.display = "none";
+
+		if(txtValue !== "") {
+
+			m_isFilterApplied = true;
+
+			if(txtValue[0] === ">") {
+
+				switch (txtValue.toLowerCase()) {
+					case ">":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.EMPTY);		break;
+					case ">read":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.VISITED);	break;
+					case ">unread":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.UNVISITED);	break;
+					case ">error":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.ERROR);		break;
+					case ">load":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.LOADING);	break;
+					default:		itemsFiltered = filterTreeItemStatus(TreeItemStatus.UNDEFINED);	break;
+				}
+
+			} else if(txtValue[0] === "%") {
+
+				itemsFiltered = filterTreeItemURL(txtValue.substring(1).trim().toLowerCase());
+
+			} else {
+				itemsFiltered = filterTreeItemText(txtValue);
+			}
+		}
+
+		if (itemsFiltered) {
+			filterEmptyFolderItems();
+		} else {
+			unfilterAllTreeItems();
+			m_isFilterApplied = false;
+		}
+
+		m_elmTreeRoot.style.display = "";
+
+		internalPrefs.setFeedsFilter(txtValue);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function handleTreeClearFilter() {
+
+		m_elmfilterContainer.classList.remove("switched", "filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
+		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
+		m_elmTextFilter.value = "";
+		notifyAppliedFilter(true);
+		m_isFilterApplied = false;
+
+		setTimeout(() => unfilterAllTreeItems(), 300);
+
+		internalPrefs.setFeedsFilter("");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function filterTreeItemStatus(status) {
 
-		m_elmfilterContainer.classList.add("filterTagOn");
+		m_elmfilterContainer.classList.add("filterStatusOn");
+
+		// nothing to hide
+		if(status === TreeItemStatus.EMPTY) {
+			return false;
+		}
 
 		// select all tree items
 		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
 
 		// hide the ones that do not match the filter
-		for(let i=0, len=elms.length; i<len; i++) {
-
-			const cList = elms[i].classList;
-
-			if(status === TreeItemStatus.ERROR) {
-				elms[i].style.display = cList.contains("error") ? "" : "none";
-			} else if(status === TreeItemStatus.VISITED) {
+		if(status === TreeItemStatus.ERROR) {
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].style.display = elms[i].classList.contains("error") ? "" : "none";
+			}
+		} else if(status === TreeItemStatus.VISITED) {
+			for(let i=0, len=elms.length; i<len; i++) {
+				const cList = elms[i].classList;
 				elms[i].style.display = !cList.contains("bold") && !cList.contains("error") && !cList.contains("loading") ? "" : "none";
-			} else if(status === TreeItemStatus.UNVISITED) {
+			}
+		} else if(status === TreeItemStatus.UNVISITED) {
+			for(let i=0, len=elms.length; i<len; i++) {
+				const cList = elms[i].classList;
 				elms[i].style.display = cList.contains("bold") && !cList.contains("error") ? "" : "none";
-			} else if(status === TreeItemStatus.LOADING) {
-				elms[i].style.display = cList.contains("loading") ? "" : "none";
-			} else {
+			}
+		} else if(status === TreeItemStatus.LOADING) {
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].style.display = elms[i].classList.contains("loading") ? "" : "none";
+			}
+		} else if(status === TreeItemStatus.UNDEFINED) {
+			for(let i=0, len=elms.length; i<len; i++) {
 				elms[i].style.display = "none";
 			}
 		}
+
+		return true;	// itemsFiltered;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function filterTreeItemURL(txtFilter) {
+
+		m_elmfilterContainer.classList.add("filterUrlOn");
+
+		if(txtFilter.length > 0) {
+
+			// select all tree items
+			let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
+
+			// hide the ones that do not match the filter
+			for(let i=0, len=elms.length; i<len; i++) {
+
+				if(elms[i].getAttribute("href").toLowerCase().includes(txtFilter)) {
+					elms[i].style.display = "";
+				} else {
+					elms[i].style.display = "none";
+				}
+			}
+			return true;		// itemsFiltered
+		}
+
+		return false;		// itemsFiltered
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function filterTreeItemText(txtFilter) {
 
 		let funcSimpleFilter = (text, filter) => text.toLowerCase().includes(filter);
-		let funcRegExpFilter = (text, filter) => text.match(new RegExp(...(filter.split('/').filter((e, idx) => idx > 0)))) !== null;
+		let funcRegExpFilter = (text, filter) => text.match(filter) !== null;
 
-		let test, funcFilter;
+		const REG_EXP_PATTERN = new RegExp("^(\/.*\/)([gimuy]*)$");
+		let funcFilter, paramFilter, test = txtFilter.match(REG_EXP_PATTERN);
 
 		// select which filter function to use
-		if( !!(test = txtFilter.match(/^(\/.*\/)([gimsuy]*)$/)) &&
-				slUtil.isRegExpValid(...(txtFilter.split('/').filter(e => e.length > 0))) ) {
+		if( !!test && slUtil.isRegExpValid(...(txtFilter.split('/').filter(e => e.length > 0))) ) {
 
 			m_elmfilterContainer.classList.add("filterRegExpOn");
-			txtFilter = test[1] + (test[2].includes("i") ? "i" : "");		// remove all flags except for 'i'
+			paramFilter = test[1] + (test[2].includes("i") ? "i" : "");							// remove all flags except for 'i'
+			paramFilter = new RegExp(...(paramFilter.split('/').filter((e, idx) => idx > 0)));	// convert to RegExp
 			funcFilter = funcRegExpFilter;
 		} else {
+
 			m_elmfilterContainer.classList.add("filterTextOn");
-			txtFilter = txtFilter.toLowerCase();						// case-insensitive
+			paramFilter = txtFilter.toLowerCase();						// case-insensitive
 			funcFilter = funcSimpleFilter;
+		}
+
+		// if empty RegExp filter
+		if(paramFilter.constructor.name === "RegExp" && paramFilter.source === "(?:)") {
+			return false;
 		}
 
 		// select all tree items
@@ -2154,12 +2248,14 @@ let rssTreeView = (function() {
 		// hide the ones that do not match the filter
 		for(let i=0, len=elms.length; i<len; i++) {
 
-			if(funcFilter(getTreeItemText(elms[i]), txtFilter)) {
+			if(funcFilter(getTreeItemText(elms[i]), paramFilter)) {
 				elms[i].style.display = "";
 			} else {
 				elms[i].style.display = "none";
 			}
 		}
+
+		return true;		// itemsFiltered
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2182,12 +2278,37 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function unfilterAllTreeItems() {
 
-		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED + ", li." + slGlobals.CLS_RTV_LI_TREE_FOLDER);
+		// show all that is hidden
+		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM + "[style*='display: none']");
+		let len = elms.length;
 
-		// hide the ones that all their children are hidden
-		for(let i=0, len=elms.length; i<len; i++) {
-			elms[i].style.display = "";
-		}
+
+		if(len === 0) return;
+
+		//  Duff’s Device: limiting loop iterations pattern
+		let iterations = Math.ceil(len / 10);
+		let startAt = len % 10;
+		let i = 0, interval = 0, zeroed = 1;
+
+		do {
+			setTimeout(() => {
+				switch(startAt){
+					case 0: elms[i++].style.display = "";
+					case 9: elms[i++].style.display = "";
+					case 8: elms[i++].style.display = "";
+					case 7: elms[i++].style.display = "";
+					case 6: elms[i++].style.display = "";
+					case 5: elms[i++].style.display = "";
+					case 4: elms[i++].style.display = "";
+					case 3: elms[i++].style.display = "";
+					case 2: elms[i++].style.display = "";
+					case 1: elms[i++].style.display = "";
+				}
+				startAt = 0;
+			}, interval++ * 10 * zeroed);			// process in intervals of 10 ms
+
+			if(interval === 100) zeroed = 0;		// after 100 intervals do not timeout the process
+		} while (--iterations);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2203,8 +2324,14 @@ let rssTreeView = (function() {
 				m_elmReapplyFilter.classList.remove("alert");
 				m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle;
 			} else {
-				m_elmReapplyFilter.classList.add("alert");
-				m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle + "\u000d\u000d\u2731 The status or title of one or more feeds has changed. Filter may require reapplying.";
+
+				// Do NOT notify the filter about changes if the current filter is on feed URLs.
+				// Unlike feed title & feed status, a feed's URL is not modified by tree updates.
+
+				if(!m_elmfilterContainer.classList.contains("filterUrlOn")) {
+					m_elmReapplyFilter.classList.add("alert");
+					m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle + "\u000d\u000d\u2731 The status or title of one or more feeds has changed. Filter may require reapplying.";
+				}
 			}
 		}
 	}

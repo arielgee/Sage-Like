@@ -201,9 +201,14 @@ html, body {
 	background-color: rgb(177, 227, 255);
 }
 
-#filterContainer.filterTagOn #imageFilter,
-#filterContainer.filterTagOn #textFilter {
+#filterContainer.filterStatusOn #imageFilter,
+#filterContainer.filterStatusOn #textFilter {
 	background-color: rgb(170, 255, 170);
+}
+
+#filterContainer.filterUrlOn #imageFilter,
+#filterContainer.filterUrlOn #textFilter {
+	background-color: rgb(255, 190, 255);
 }
 
 #checkTreeFeeds {
