@@ -1813,9 +1813,9 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFolderVisibility(elmLI, open) {
-		// Don't Call This Directlly
-		elmLI.classList.remove("open", "closed");
-		elmLI.classList.add(open ? "open" : "closed");
+		// Don't Call This Directly
+		elmLI.classList.toggle("open", open);
+		elmLI.classList.toggle("closed", !open);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
