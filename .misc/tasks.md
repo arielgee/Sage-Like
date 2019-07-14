@@ -356,11 +356,11 @@
 * the var + "\n", in console.log() is adding an extra " in the console => ALL occurrences are "\n" + var
 * feed without title. why am I not using "<no title>"???    => I DO. It's that fucken feed with the invisible chars:   https://feeds.feedburner.com/co/bnZM
 * search in URLs with special prefix character %
+* add info about URL filtering in tooltip
+    * URL search prefixed with a single percent character ('%')
 ---
 
 ## Next
-* add info about URL filtering in tooltip
-    * URL search prefixed with a single percent character ('%')
 * replace all the slow for-in/forEach loops with simple for loops
     * https://www.oreilly.com/library/view/high-performance-javascript/9781449382308/ch04.html
 * toolbar buttons:

@@ -45,10 +45,11 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	const FILTER_TOOLTIP_TITLE = "Filter the Displayed Feeds Using the Following Options: \u000d" +
-									"  \u271a Simple search text (case-insensitive). \u000d" +
+									"  \u271a Simple search in feed title (case-insensitive). \u000d" +
 									"  \u271a Regular expression pattern enclosed between two slashes ('/'). \u000d" +
 									"      Flag 'i' (case-insensitive) is supported when placed after the second slash. \u000d" +
-									"  \u271a Special commands prefixed with a single greater-than character ('>'): \u000d" +
+									"  \u271a Search in feed URL prefixed with a single percent sign ('%'). \u000d" +
+									"  \u271a Special commands prefixed with a single greater-than sign ('>'): \u000d" +
 									"     \u2726 Use '>unread' for unvisited feeds. \u000d" +
 									"     \u2726 Use '>read' for visited feeds. \u000d" +
 									"     \u2726 Use '>error' for feeds that failed to update. \u000d" +
