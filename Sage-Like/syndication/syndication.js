@@ -232,7 +232,7 @@ let syndication = (function() {
 					let oErr = {};
 					if(!!!slUtil.validURL(itemUrl, oErr)) {
 						console.log("[Sage-Like]", "URL validation", oErr.error);
-						return;
+						continue;		// skip and try next feed-item
 					}
 				}
 
