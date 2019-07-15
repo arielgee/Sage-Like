@@ -1269,10 +1269,6 @@ let slUtil = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function disableElementTree(elm, value) {
 
-		if (elm.nodeType !== Node.ELEMENT_NODE) {
-			return;
-		}
-
 		for (let i in elm.children) {
 			disableElementTree(elm.children[i], value);
 		}
