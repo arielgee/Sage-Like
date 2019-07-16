@@ -360,12 +360,12 @@
     * URL search prefixed with a single percent character ('%')
 * replace all the slow for-in/forEach loops with simple for loops
     * https://www.oreilly.com/library/view/high-performance-javascript/9781449382308/ch04.html
+* replace typeof() with .constructor.name ???   => NO
 ---
 
 ## Next
-* replace typeof() with .constructor.name ???
-* wider --width-filter-text ? 130px ?
 * slUtil.disableElementTree() is too slow; do I realy need to scan the entire tree?
+* wider --width-filter-text ? 130px ?
 * replace xxx.querySelectorAll() with xxx.children
 * toolbar buttons:
   * quick access buttons to '>read', '>unread', '>error', '>load'
