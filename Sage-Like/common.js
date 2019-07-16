@@ -1269,7 +1269,7 @@ let slUtil = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function disableElementTree(elm, value) {
 
-		for (let i in elm.children) {
+		for (let i=0, len=elm.children.length; i<len; i++) {
 			disableElementTree(elm.children[i], value);
 		}
 

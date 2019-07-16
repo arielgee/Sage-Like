@@ -131,10 +131,11 @@ class PropertiesView {
 
 		// all none title properties
 		let selector = ".propContainer:not(:first-child)";
+		let props = this.m_elmPropertiesPanel.querySelectorAll(selector);
 
-		this.m_elmPropertiesPanel.querySelectorAll(selector).forEach((element) => {
-			element.style.display = (show ? "" : "none");
-		});
+		for (let i=0, len=props.length; i<len; i++) {
+			props[i].style.display = (show ? "" : "none");
+		}
 	}
 
 	///////////////////////////////////////////////////////////////

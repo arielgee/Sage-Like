@@ -88,9 +88,9 @@ let syndication = (function() {
 
 			resolve({ length: linkFeeds.length });
 
-			linkFeeds.forEach((linkFeed, index) => {
+			for(let index=0, len=linkFeeds.length; index<len; index++) {
 
-				let url = new URL(linkFeed);
+				let url = new URL(linkFeeds[index]);
 				let discoveredFeed = {
 					status: "init",
 					url: url,
@@ -118,7 +118,7 @@ let syndication = (function() {
 				}).finally(() => {
 					callback(discoveredFeed);
 				});
-			});
+			}
 		});
 	}
 
@@ -169,6 +169,7 @@ let syndication = (function() {
 
 		let elmLink, FeedItem;
 		let FeedItemList = [];
+		let i, len, item;
 
 		// for 'RSS' or 'RDF Site Summary (RSS) 1.0'
 		if([SyndicationStandard.RSS, SyndicationStandard.RDF].includes(feedData.standard)) {
@@ -177,8 +178,9 @@ let syndication = (function() {
 
 			feedData.feeder = sortFeederByDate(feedData.feeder.querySelectorAll("item"));
 
-			feedData.feeder.forEach((item) => {
+			for(i=0, len=feedData.feeder.length; i<len; i++) {
 
+				item = feedData.feeder[i];
 				elmLink = item.querySelector("link");
 
 				if(elmLink) {
@@ -189,7 +191,7 @@ let syndication = (function() {
 														getFeedItemLastUpdate(item));
 					if (!!FeedItem) FeedItemList.push(FeedItem);
 				}
-			});
+			}
 
 		} else if(feedData.standard === SyndicationStandard.Atom) {
 
@@ -197,8 +199,9 @@ let syndication = (function() {
 
 			feedData.feeder = sortFeederByDate(feedData.feeder.querySelectorAll("entry"));
 
-			feedData.feeder.forEach((item) => {
+			for(i=0, len=feedData.feeder.length; i<len; i++) {
 
+				item = feedData.feeder[i];
 				elmLink = item.querySelector("link:not([rel])") || item.querySelector("link[rel=alternate]") || item.querySelector("link");
 
 				if(elmLink) {
@@ -208,7 +211,7 @@ let syndication = (function() {
 														getFeedItemLastUpdate(item));
 					if (!!FeedItem) FeedItemList.push(FeedItem);
 				}
-			});
+			}
 
 		} else if(feedData.standard === SyndicationStandard.JSON) {
 
@@ -216,7 +219,9 @@ let syndication = (function() {
 
 			feedData.feeder = sortJSONFeederByDate(feedData.feeder);
 
-			feedData.feeder.forEach((item) => {
+			for(i=0, len=feedData.feeder.length; i<len; i++) {
+
+				item = feedData.feeder[i];
 
 				// first option.
 				// Ideally, the id is the full URL of the resource described by the item
@@ -243,7 +248,7 @@ let syndication = (function() {
 					lastUpdated: getJSONFeedItemLastUpdate(item),
 				};
 				FeedItemList.push(FeedItem);
-			});
+			}
 		}
 		return FeedItemList;
 	}

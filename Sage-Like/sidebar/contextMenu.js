@@ -455,14 +455,12 @@ let contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function showMenuItemsByClassName(className) {
 
-		m_elmContextMenu.querySelectorAll("#mnuContextMenu > ." + className).forEach((item) => {
-			item.style.display = "flex";
-		});
+		let elms = m_elmContextMenu.children;
 
-		// hide the rest
-		m_elmContextMenu.querySelectorAll("#mnuContextMenu > :not(." + className + ")").forEach((item) => {
-			item.style.display = "none";
-		});
+		// show className and hide the rest
+		for (let i=0, len=elms.length; i<len; i++) {
+			elms[i].style.display = elms[i].classList.contains(className) ? "flex" : "none";
+		}
 	}
 
 	return {

@@ -1287,10 +1287,13 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function blinkNewlyAddedFeeds() {
 
-		m_elmTreeRoot.querySelectorAll(".blinkNew").forEach((elm) => {
+		let elms = m_elmTreeRoot.querySelectorAll(".blinkNew");
+
+		for (let i=0, len=elms.length; i<len; i++) {
+			const elm = elms[i];
 			blinkElement(elm, elm.style.visibility, 200, 1500);
 			elm.classList.remove("blinkNew");
-		});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1930,13 +1933,13 @@ let rssTreeView = (function() {
 			list = [elmLI];
 		}
 
-		list.forEach((elm) => {
-			if(m_elmCurrentlyLoading && m_elmCurrentlyLoading.id === elm.id) {
-				setOneConcurrentFeedLoadingState(elm, false);
+		for (let i=0, len=list.length; i<len; i++) {
+			if(m_elmCurrentlyLoading && m_elmCurrentlyLoading.id === list[i].id) {
+				setOneConcurrentFeedLoadingState(list[i], false);
 			} else {
-				elm.classList.remove("loading");				// if loading from periodic check
+				list[i].classList.remove("loading");				// if loading from periodic check
 			}
-		});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

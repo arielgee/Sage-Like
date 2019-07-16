@@ -252,13 +252,15 @@
 
 			browser.tabs.onUpdated.removeListener(onTabsUpdated);
 
-			(await browser.tabs.query({})).forEach((tab) => {
-				browser.pageAction.isShown({ tabId: tab.id }).then((shown) => {
+			let tabs = await browser.tabs.query({});
+
+			for (let i=0, len=tabs.length; i<len; i++) {
+				browser.pageAction.isShown({ tabId: tabs[i].id }).then((shown) => {
 					if(shown) {
-						browser.pageAction.hide(tab.id);
+						browser.pageAction.hide(tabs[i].id);
 					}
 				});
-			});
+			}
 		}
 	}
 
