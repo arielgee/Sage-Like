@@ -365,6 +365,7 @@
 
 ## Next
 * slUtil.disableElementTree() is too slow; do I realy need to scan the entire tree?
+* use properties tabIndex/disabled instaed of getAttribute()
 * wider --width-filter-text ? 130px ?
 * replace xxx.querySelectorAll() with xxx.children
 * toolbar buttons:

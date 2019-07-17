@@ -1267,29 +1267,40 @@ let slUtil = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function disableElementTree(elm, value) {
+	async function disableElementTree(elm, value) {
 
 		for (let i=0, len=elm.children.length; i<len; i++) {
 			disableElementTree(elm.children[i], value);
 		}
 
-		if (elm.disabled !== undefined) {
-			elm.disabled = value;
+		if (value === true) {
+			if(elm.tabIndex === 0) elm.tabIndex = -1;
+			elm.disabled = true;
+			elm.classList.add("disabled");
+		} else {
+			if(elm.tabIndex === -1) elm.tabIndex = 0;
+			elm.disabled = false;
+			elm.classList.remove("disabled");
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	async function disableElementTreeByTag(elm, value, tags) {
+
+		for (let i=0, len=elm.children.length; i<len; i++) {
+			const el = elm.children[i];
+			if(tags.includes(el.tagName)) disableElementTreeByTag(el, value, tags);
 		}
 
 		if (value === true) {
-			if(elm.getAttribute("tabindex") === "0") {
-				elm.setAttribute("tabindex", "-1");
-			}
-			elm.setAttribute("disabled", "");
+			if(elm.tabIndex === 0) elm.tabIndex = -1;
+			elm.disabled = true;
+			elm.classList.add("disabled");
 		} else {
-			if(elm.getAttribute("tabindex") === "-1") {
-				elm.setAttribute("tabindex", "0");
-			}
-			elm.removeAttribute("disabled");
+			if(elm.tabIndex === -1) elm.tabIndex = 0;
+			elm.disabled = false;
+			elm.classList.remove("disabled");
 		}
-		//elm.toggleAttribute("disabled", value);		// Firefox v63
-		elm.classList.toggle("disabled", value);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1829,6 +1840,7 @@ let slUtil = (function() {
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
+		disableElementTreeByTag: disableElementTreeByTag,
 		copyTextToClipboard: copyTextToClipboard,
 		addUrlToBrowserHistory: addUrlToBrowserHistory,
 		deleteUrlFromBrowserHistory: deleteUrlFromBrowserHistory,
