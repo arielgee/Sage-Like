@@ -364,7 +364,7 @@
 ---
 
 ## Next
-* slUtil.disableElementTree() is too slow; do I realy need to scan the entire tree?
+* slUtil.disableElementTree() is too slow (opening/closing discoveryView after filtering ">load"); do I realy need to scan the entire tree?
 * use properties tabIndex/disabled instaed of getAttribute()
 * wider --width-filter-text ? 130px ?
 * replace xxx.querySelectorAll() with xxx.children
