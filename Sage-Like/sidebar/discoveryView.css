@@ -59,9 +59,9 @@
 	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted);
 }
 
-#discoverPanel .button.disabled {
+#discoverPanel .button.disabled,
+#aggressiveDiscoveryContainer.disabled {
 	filter: grayscale(100%) opacity(40%);
-	pointer-events: none;
 }
 
 #discoverFeedsList {
@@ -132,11 +132,6 @@
 #aggressiveDiscoveryContainer {
 	display: flex;
 	margin: 0 auto auto 0;
-}
-
-#aggressiveDiscoveryContainer.disabled {
-	filter: grayscale(100%) opacity(40%);
-	pointer-events: none;
 }
 
 #chkAggressiveDiscovery {
