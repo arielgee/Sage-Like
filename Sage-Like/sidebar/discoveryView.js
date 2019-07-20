@@ -42,8 +42,8 @@ let discoveryView = (function() {
 
 			m_elmDiscoverPanel.classList.add("visible");
 			slUtil.disableElementTree(m_elmDiscoverPanel, false);
-			//slUtil.disableElementTree(m_elmMainPanel, true);
-			slUtil.disableElementTreeByTag(m_elmMainPanel, true, ["DIV", "UL", "LI"]);
+			slUtil.disableElementTree(m_elmMainPanel, true);
+			//slUtil.disableElementTreeByTag(m_elmMainPanel, true, ["DIV", "UL", "LI"]);
 
 			m_elmDiscoverPanel.focus()
 			runDiscoverFeeds();
@@ -61,8 +61,8 @@ let discoveryView = (function() {
 
 		m_elmDiscoverPanel.classList.remove("visible");
 		slUtil.disableElementTree(m_elmDiscoverPanel, true);
-		//slUtil.disableElementTree(m_elmMainPanel, false);
-		slUtil.disableElementTreeByTag(m_elmMainPanel, false, ["DIV", "UL", "LI"]);
+		slUtil.disableElementTree(m_elmMainPanel, false);
+		//slUtil.disableElementTreeByTag(m_elmMainPanel, false, ["DIV", "UL", "LI"]);
 		m_nRequestId = 0;
 		emptyDiscoverFeedsList();
 		setStatusbarMessage("", false);

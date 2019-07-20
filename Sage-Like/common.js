@@ -1273,13 +1273,23 @@ let slUtil = (function() {
 			disableElementTree(elm.children[i], value);
 		}
 
+		if(elm.slTabIndexOrgValue === undefined) {
+			elm.slTabIndexOrgValue = elm.tabIndex;
+		}
+
 		if (value === true) {
-			if(elm.tabIndex === 0) elm.tabIndex = -1;
-			elm.disabled = true;
+			if(!!elm.disabled) elm.disabled = true;
+			elm.tabIndex = -1;
+			elm.setAttribute("disabled", "");
 			elm.classList.add("disabled");
 		} else {
-			if(elm.tabIndex === -1) elm.tabIndex = 0;
-			elm.disabled = false;
+			if(!!elm.disabled) elm.disabled = false;
+			if(elm.slTabIndexOrgValue === -1) {
+				elm.removeAttribute("tabindex");
+			} else {
+				elm.tabIndex = elm.slTabIndexOrgValue;
+			}
+			elm.removeAttribute("disabled");
 			elm.classList.remove("disabled");
 		}
 	}
@@ -1292,13 +1302,23 @@ let slUtil = (function() {
 			if(tags.includes(el.tagName)) disableElementTreeByTag(el, value, tags);
 		}
 
+		if(elm.slTabIndexOrgValue === undefined) {
+			elm.slTabIndexOrgValue = elm.tabIndex;
+		}
+
 		if (value === true) {
-			if(elm.tabIndex === 0) elm.tabIndex = -1;
-			elm.disabled = true;
+			if(!!elm.disabled) elm.disabled = true;
+			elm.tabIndex = -1;
+			elm.setAttribute("disabled", "");
 			elm.classList.add("disabled");
 		} else {
-			if(elm.tabIndex === -1) elm.tabIndex = 0;
-			elm.disabled = false;
+			if(!!elm.disabled) elm.disabled = false;
+			if(elm.slTabIndexOrgValue === -1) {
+				elm.removeAttribute("tabindex");
+			} else {
+				elm.tabIndex = elm.slTabIndexOrgValue;
+			}
+			elm.removeAttribute("disabled");
 			elm.classList.remove("disabled");
 		}
 	}
