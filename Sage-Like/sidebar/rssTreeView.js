@@ -2100,7 +2100,7 @@ let rssTreeView = (function() {
 
 		notifyAppliedFilter(true);
 		m_elmfilterContainer.classList.remove("filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
-		m_elmTreeRoot.style.display = "none";
+		m_elmTreeRoot.classList.add("hidden");
 
 		if(txtValue !== "") {
 
@@ -2133,7 +2133,7 @@ let rssTreeView = (function() {
 			m_isFilterApplied = false;
 		}
 
-		m_elmTreeRoot.style.display = "";
+		m_elmTreeRoot.classList.remove("hidden");
 
 		internalPrefs.setFeedsFilter(txtValue);
 	}
@@ -2168,25 +2168,25 @@ let rssTreeView = (function() {
 		// hide the ones that do not match the filter
 		if(status === TreeItemStatus.ERROR) {
 			for(let i=0, len=elms.length; i<len; i++) {
-				elms[i].style.display = elms[i].classList.contains("error") ? "" : "none";
+				elms[i].classList.toggle("filtered", !elms[i].classList.contains("error"));
 			}
 		} else if(status === TreeItemStatus.VISITED) {
 			for(let i=0, len=elms.length; i<len; i++) {
 				const cList = elms[i].classList;
-				elms[i].style.display = !cList.contains("bold") && !cList.contains("error") && !cList.contains("loading") ? "" : "none";
+				elms[i].classList.toggle("filtered", cList.contains("bold") || cList.contains("error") || cList.contains("loading"));
 			}
 		} else if(status === TreeItemStatus.UNVISITED) {
 			for(let i=0, len=elms.length; i<len; i++) {
 				const cList = elms[i].classList;
-				elms[i].style.display = cList.contains("bold") && !cList.contains("error") ? "" : "none";
+				elms[i].classList.toggle("filtered", !cList.contains("bold") || cList.contains("error"));
 			}
 		} else if(status === TreeItemStatus.LOADING) {
 			for(let i=0, len=elms.length; i<len; i++) {
-				elms[i].style.display = elms[i].classList.contains("loading") ? "" : "none";
+				elms[i].classList.toggle("filtered", !elms[i].classList.contains("loading"));
 			}
 		} else if(status === TreeItemStatus.UNDEFINED) {
 			for(let i=0, len=elms.length; i<len; i++) {
-				elms[i].style.display = "none";
+				elms[i].classList.add("filtered");
 			}
 		}
 
@@ -2205,12 +2205,7 @@ let rssTreeView = (function() {
 
 			// hide the ones that do not match the filter
 			for(let i=0, len=elms.length; i<len; i++) {
-
-				if(elms[i].getAttribute("href").toLowerCase().includes(txtFilter)) {
-					elms[i].style.display = "";
-				} else {
-					elms[i].style.display = "none";
-				}
+				elms[i].classList.toggle("filtered", !(elms[i].getAttribute("href").toLowerCase().includes(txtFilter)));
 			}
 			return true;		// itemsFiltered
 		}
@@ -2251,12 +2246,7 @@ let rssTreeView = (function() {
 
 		// hide the ones that do not match the filter
 		for(let i=0, len=elms.length; i<len; i++) {
-
-			if(funcFilter(getTreeItemText(elms[i]), paramFilter)) {
-				elms[i].style.display = "";
-			} else {
-				elms[i].style.display = "none";
-			}
+			elms[i].classList.toggle("filtered", !funcFilter(getTreeItemText(elms[i]), paramFilter));
 		}
 
 		return true;		// itemsFiltered
@@ -2271,11 +2261,8 @@ let rssTreeView = (function() {
 		// hide the ones that all their children are hidden
 		for(let i=0, len=elms.length; i<len; i++) {
 
-			if(elms[i].querySelector("ul > ." + slGlobals.CLS_RTV_LI_TREE_FEED + ":not([style*='display: none'])") !== null) {
-				elms[i].style.display = "";
-			} else {
-				elms[i].style.display = "none";
-			}
+			let unFiltered = elms[i].querySelector("ul > ." + slGlobals.CLS_RTV_LI_TREE_FEED + ":not(.filtered)");
+			elms[i].classList.toggle("filtered", unFiltered === null);
 		}
 	}
 
@@ -2283,7 +2270,7 @@ let rssTreeView = (function() {
 	async function unfilterAllTreeItems() {
 
 		// show all that is hidden
-		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM + "[style*='display: none']");
+		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM + ".filtered");
 		let len = elms.length;
 
 
@@ -2297,16 +2284,16 @@ let rssTreeView = (function() {
 		do {
 			setTimeout(() => {
 				switch(startAt){
-					case 0: elms[i++].style.display = "";
-					case 9: elms[i++].style.display = "";
-					case 8: elms[i++].style.display = "";
-					case 7: elms[i++].style.display = "";
-					case 6: elms[i++].style.display = "";
-					case 5: elms[i++].style.display = "";
-					case 4: elms[i++].style.display = "";
-					case 3: elms[i++].style.display = "";
-					case 2: elms[i++].style.display = "";
-					case 1: elms[i++].style.display = "";
+					case 0: elms[i++].classList.remove("filtered");
+					case 9: elms[i++].classList.remove("filtered");
+					case 8: elms[i++].classList.remove("filtered");
+					case 7: elms[i++].classList.remove("filtered");
+					case 6: elms[i++].classList.remove("filtered");
+					case 5: elms[i++].classList.remove("filtered");
+					case 4: elms[i++].classList.remove("filtered");
+					case 3: elms[i++].classList.remove("filtered");
+					case 2: elms[i++].classList.remove("filtered");
+					case 1: elms[i++].classList.remove("filtered");
 				}
 				startAt = 0;
 			}, interval++ * 10 * zeroed);			// process in intervals of 10 ms

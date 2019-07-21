@@ -145,3 +145,8 @@
 	background-position-x: right;
 	padding-right: 20px;
 }
+
+.treeview.hidden,
+.treeview li.rtvTreeItem.filtered {
+	display: none;
+}
