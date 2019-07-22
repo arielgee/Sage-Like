@@ -95,7 +95,7 @@ let panel = (function() {
 		let browserFont = getComputedStyle(m_elmBody).getPropertyValue("font-family");
 		document.documentElement.style.setProperty("--font-default-fallback", browserFont);
 
-		disableSlideDownPanels();
+		disableOnLoadElements();
 
 		setPanelDensityFromPreferences();
 		setPanelFontNameFromPreferences();
@@ -120,11 +120,12 @@ let panel = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function disableSlideDownPanels() {
+	function disableOnLoadElements() {
 		setTimeout(() => {
 			slUtil.disableElementTree(document.getElementById("discoverPanel"), true);
 			slUtil.disableElementTree(document.getElementById("propertiesPanel"), true);
 			slUtil.disableElementTree(document.getElementById("messagePanel"), true);
+			slUtil.disableElementTree(document.getElementById("filterTextBoxContainer"), true);
 		}, 10);
 	}
 

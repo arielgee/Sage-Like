@@ -364,15 +364,15 @@
 * slUtil.disableElementTree() is too slow (opening/closing discoveryView after filtering ">load"); do I realy need to scan the entire tree?
 * check all calls to slUtil.disableElementTree(). Regression!!! (also all tabindex settings)
 * use properties tabIndex/disabled instaed of getAttribute()
+* disable the filter text when closed
 ---
 
 ## Next
-* diaeble the filter text when closed
+* toggle read/unread need to alert the reapply filter button
 * try to skip the 'filter: blur(1.5px);' when disableElementTree() a .slideDownPanel
 * (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)
 * no advantage in using a funcYes/funcNo in a loop over a simple if()
 * replace all 'xxx.style.display' with CSS rule ?
-* toggle read/unread need to alert the reapply filter button
 * Do filter '>unread' need to filter out loading feeds?
 * wider --width-filter-text ? 130px ?
 * replace xxx.querySelectorAll() with xxx.children

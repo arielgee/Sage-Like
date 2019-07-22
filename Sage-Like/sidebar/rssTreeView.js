@@ -1161,6 +1161,7 @@ let rssTreeView = (function() {
 		setTimeout(() => m_elmFilterTextBoxContainer.classList.add("visibleOverflow"), timeout);
 
 		m_elmfilterContainer.classList.add("switched");
+		slUtil.disableElementTree(m_elmFilterTextBoxContainer, false);
 
 		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
 			if(count > 0) {
@@ -2143,6 +2144,7 @@ let rssTreeView = (function() {
 
 		m_elmfilterContainer.classList.remove("switched", "filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
 		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
+		slUtil.disableElementTree(m_elmFilterTextBoxContainer, true);
 		m_elmTextFilter.value = "";
 		notifyAppliedFilter(true);
 		m_isFilterApplied = false;
