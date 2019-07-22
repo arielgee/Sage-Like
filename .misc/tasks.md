@@ -364,13 +364,13 @@
 * slUtil.disableElementTree() is too slow (opening/closing discoveryView after filtering ">load"); do I realy need to scan the entire tree?
 * check all calls to slUtil.disableElementTree(). Regression!!! (also all tabindex settings)
 * use properties tabIndex/disabled instaed of getAttribute()
+* try to skip the 'filter: blur(1.5px);' when disableElementTree() a .slideDownPanel
 * disable the filter text when closed
 * toggle read/unread need to alert the reapply filter button
 ---
 
 ## Next
-* replace all the slow for-of loops with simple for loops ?     for *\(let\b.*\bof\b
-* try to skip the 'filter: blur(1.5px);' when disableElementTree() a .slideDownPanel
+* CONSIDER replace all the slow for-of loops with simple for loops;     for *\(let\b.*\bof\b
 * (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)
 * no advantage in using a funcYes/funcNo in a loop over a simple if()
 * replace all 'xxx.style.display' with CSS rule ?
