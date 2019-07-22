@@ -368,6 +368,7 @@
 
 ## Next
 * diaeble the filter text when closed
+* try to skip the 'filter: blur(1.5px);' when disableElementTree() a .slideDownPanel
 * (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)
 * no advantage in using a funcYes/funcNo in a loop over a simple if()
 * replace all 'xxx.style.display' with CSS rule ?
