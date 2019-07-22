@@ -361,17 +361,18 @@
 * replace all the slow for-in/forEach loops with simple for loops
     * https://www.oreilly.com/library/view/high-performance-javascript/9781449382308/ch04.html
 * replace typeof() with .constructor.name ???   => NO
+* slUtil.disableElementTree() is too slow (opening/closing discoveryView after filtering ">load"); do I realy need to scan the entire tree?
+* check all calls to slUtil.disableElementTree(). Regression!!! (also all tabindex settings)
+* use properties tabIndex/disabled instaed of getAttribute()
 ---
 
 ## Next
+* diaeble the filter text when closed
 * (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)
 * no advantage in using a funcYes/funcNo in a loop over a simple if()
-* slUtil.disableElementTree() is too slow (opening/closing discoveryView after filtering ">load"); do I realy need to scan the entire tree?
-* check all calls to slUtil.disableElementTree(). Regression!!! (also all tabindex settings)
 * replace all 'xxx.style.display' with CSS rule ?
 * toggle read/unread need to alert the reapply filter button
 * Do filter '>unread' need to filter out loading feeds?
-* use properties tabIndex/disabled instaed of getAttribute()
 * wider --width-filter-text ? 130px ?
 * replace xxx.querySelectorAll() with xxx.children
 * toolbar buttons:
