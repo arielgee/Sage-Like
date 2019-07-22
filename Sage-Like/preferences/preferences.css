@@ -188,6 +188,10 @@ select.flash,
 }
 
 /* Disabled elements */
+.disabled {
+	outline: none;
+}
+
 label.disabled,
 input[type="radio"].disabled,
 input[type="checkbox"].disabled {

@@ -92,7 +92,7 @@
 
 #discoverFeedsList .dfChkBox {
 	margin: auto;
-	outline: 0;
+	outline: none;
 }
 
 #discoverFeedsList .dfLabel {
