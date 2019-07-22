@@ -229,7 +229,7 @@
 		elmCheckBox.id = "chkBox" + feed.index;
 		elmCheckBox.className = "feedChkBox";
 		elmCheckBox.type = "checkbox";
-		elmCheckBox.setAttribute("tabindex", "-1");	// only the elmListItem can get the focus
+		elmCheckBox.tabIndex = -1;						// only the elmListItem can get the focus
 
 		elmLabel.className = "feedLabel";
 		elmLabel.htmlFor = elmCheckBox.id;
@@ -239,7 +239,7 @@
 		elmFormat.textContent = feed.format;
 
 		elmListItem.className = "feedItem";
-		elmListItem.setAttribute("tabindex", "0");	// can get the focus
+		elmListItem.tabIndex = 0;						// can get the focus
 		elmListItem.setAttribute("name", elmLabel.textContent);
 		elmListItem.setAttribute("href", feed.url);
 

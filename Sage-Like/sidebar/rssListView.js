@@ -147,7 +147,7 @@ let rssListView = (function() {
 		elm.textContent = index + ". " + title;
 		elm.title = (m_bPrefShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
-		elm.setAttribute("tabindex", "0");
+		elm.tabIndex = 0;
 		elm.setAttribute("data-item-desc", m_bPrefShowFeedItemDesc ? desc : "");
 
 		m_elmList.appendChild(elm);

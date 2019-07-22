@@ -401,8 +401,8 @@ let rssTreeView = (function() {
 
 		elm.id = id;
 		elm.className = slGlobals.CLS_RTV_LI_TREE_ITEM + " " + className;
-		elm.setAttribute("draggable", "true");
-		elm.setAttribute("tabindex", "0");
+		elm.draggable = true;
+		elm.tabIndex = 0;
 		if (href !== null) {
 			elm.setAttribute("href", href);
 		}

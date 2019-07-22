@@ -257,7 +257,7 @@ let discoveryView = (function() {
 		elmCheckBox.id = "chkBox" + feed.index;
 		elmCheckBox.className = "dfChkBox";
 		elmCheckBox.type = "checkbox";
-		elmCheckBox.setAttribute("tabindex", "-1");	// only the elmListItem can get the focus
+		elmCheckBox.tabIndex = -1;						// only the elmListItem can get the focus
 
 		elmLabelCaption.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : slGlobals.STR_TITLE_EMPTY);
 		elmLabelCaption.className = "dfLabelCaption";
@@ -268,7 +268,7 @@ let discoveryView = (function() {
 		elmLabel.className = "dfLabel";
 
 		elmListItem.className = "dfItem";
-		elmListItem.setAttribute("tabindex", "0");	// can get the focus
+		elmListItem.tabIndex = 0;					// can get the focus
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
 		elmListItem.setAttribute("data-index", feed.index);
