@@ -262,6 +262,9 @@ html, body {
 
 .disabled {
 	pointer-events: none;
+}
+
+.disabledBlur {
 	filter: blur(1.5px);
 }
 

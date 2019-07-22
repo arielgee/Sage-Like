@@ -88,7 +88,7 @@ class PropertiesView {
 
 		this.m_elmPropertiesPanel.classList.remove("visible");
 		slUtil.disableElementTree(this.m_elmPropertiesPanel, true);
-		slUtil.disableElementTree(this.m_elmMainPanel, false, ["DIV", "LI", "INPUT"]);
+		slUtil.disableElementTree(this.m_elmMainPanel, false, false, ["DIV", "LI", "INPUT"]);
 
 		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
@@ -161,7 +161,7 @@ class PropertiesView {
 		// do it first so element will have dimentions (offsetWidth > 0)
 		this.m_elmPropertiesPanel.classList.add("visible");
 		slUtil.disableElementTree(this.m_elmPropertiesPanel, false);
-		slUtil.disableElementTree(this.m_elmMainPanel, true, ["DIV", "LI", "INPUT"]);
+		slUtil.disableElementTree(this.m_elmMainPanel, true, true, ["DIV", "LI", "INPUT"]);
 	}
 
 	///////////////////////////////////////////////////////////////

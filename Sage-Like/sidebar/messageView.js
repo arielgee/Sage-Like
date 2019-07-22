@@ -43,7 +43,7 @@ let messageView = (function () {
 
 			m_elmMessagePanel.classList.add("visible");
 			slUtil.disableElementTree(m_elmMessagePanel, false);
-			slUtil.disableElementTree(m_elmMainPanel, true, ["DIV", "LI", "INPUT"]);
+			slUtil.disableElementTree(m_elmMainPanel, true, true, ["DIV", "LI", "INPUT"]);
 
 			m_elmMessagePanel.focus();
 
@@ -82,7 +82,7 @@ let messageView = (function () {
 
 		m_elmMessagePanel.classList.remove("visible");
 		slUtil.disableElementTree(m_elmMessagePanel, true);
-		slUtil.disableElementTree(m_elmMainPanel, false, ["DIV", "LI", "INPUT"]);
+		slUtil.disableElementTree(m_elmMainPanel, false, false, ["DIV", "LI", "INPUT"]);
 
 		m_elmMessagePanel.removeEventListener("keydown", onKeyDownMessagePanel);
 		m_elmButtonOK.removeEventListener("click", onClickButtonOK);

@@ -42,7 +42,7 @@ let discoveryView = (function() {
 
 			m_elmDiscoverPanel.classList.add("visible");
 			slUtil.disableElementTree(m_elmDiscoverPanel, false);
-			slUtil.disableElementTree(m_elmMainPanel, true, ["DIV", "LI", "INPUT"]);
+			slUtil.disableElementTree(m_elmMainPanel, true, true, ["DIV", "LI", "INPUT"]);
 
 			m_elmDiscoverPanel.focus()
 			runDiscoverFeeds();
@@ -60,7 +60,7 @@ let discoveryView = (function() {
 
 		m_elmDiscoverPanel.classList.remove("visible");
 		slUtil.disableElementTree(m_elmDiscoverPanel, true);
-		slUtil.disableElementTree(m_elmMainPanel, false, ["DIV", "LI", "INPUT"]);
+		slUtil.disableElementTree(m_elmMainPanel, false, false, ["DIV", "LI", "INPUT"]);
 		m_nRequestId = 0;
 		emptyDiscoverFeedsList();
 		setStatusbarMessage("", false);
