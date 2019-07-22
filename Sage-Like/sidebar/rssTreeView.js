@@ -1542,6 +1542,7 @@ let rssTreeView = (function() {
 			} else if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
 				toggleFolderFeedsVisitedState(elmLI);
 			}
+			notifyAppliedFilter();
 		}
 	}
 
@@ -1603,6 +1604,7 @@ let rssTreeView = (function() {
 			}
 			m_objTreeFeedsData.setStorage();
 			updateAllTreeFoldersStats();
+			notifyAppliedFilter();
 		}
 	}
 
