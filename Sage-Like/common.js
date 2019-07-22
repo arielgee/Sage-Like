@@ -1275,7 +1275,8 @@ let slUtil = (function() {
 
 		if(tags === undefined || tags.includes(elm.tagName)) {
 
-			if(elm.slTabIndexOrgValue === undefined) {
+			if(elm.slHasAttributeTabIndex === undefined) {
+				elm.slHasAttributeTabIndex = elm.hasAttribute("tabindex");
 				elm.slTabIndexOrgValue = elm.tabIndex;
 			}
 
@@ -1286,10 +1287,11 @@ let slUtil = (function() {
 				elm.classList.add("disabled");
 			} else {
 				if(elm.disabled !== undefined) elm.disabled = false;
-				if(elm.slTabIndexOrgValue === -1) {
-					elm.removeAttribute("tabindex");
-				} else {
+
+				if(elm.slHasAttributeTabIndex) {
 					elm.tabIndex = elm.slTabIndexOrgValue;
+				} else {
+					elm.removeAttribute("tabindex");
 				}
 				elm.removeAttribute("disabled");
 				elm.classList.remove("disabled");
