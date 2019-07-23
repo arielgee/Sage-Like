@@ -1135,7 +1135,7 @@ let rssTreeView = (function() {
 		if(this.id === "expandall") {
 
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed");
-			for(let i=0, len=elms.length; i<len; i++) {
+			for(let i=elms.length-1; i>=0; i--) {
 				setFolderState(elms[i], true, false);
 				m_objOpenSubFolders.set(elms[i].id);
 			}
