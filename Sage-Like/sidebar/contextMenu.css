@@ -39,3 +39,16 @@
 .contextmenu hr {
 	border: 0.5px solid #e0e0e0;
 }
+
+.contextmenu > .treeitemcontext,
+.contextmenu > .listitemcontext {
+	display: none;
+}
+
+.contextmenu.treeitemfoldercontext > .treeitemfoldercontext,
+.contextmenu.treeitemcontext > .treeitemcontext,
+.contextmenu.listitemcontext > .listitemcontext,
+.contextmenu.treecontext > .treecontext,
+.contextmenu.listcontext > .listcontext {
+	display: flex;
+}

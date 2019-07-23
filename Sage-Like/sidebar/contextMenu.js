@@ -455,12 +455,8 @@ let contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function showMenuItemsByClassName(className) {
 
-		let elms = m_elmContextMenu.children;
-
-		// show className and hide the rest
-		for (let i=0, len=elms.length; i<len; i++) {
-			elms[i].style.display = elms[i].classList.contains(className) ? "flex" : "none";
-		}
+		m_elmContextMenu.classList.remove("treeitemfoldercontext", "treeitemcontext", "listitemcontext", "treecontext", "listcontext");
+		m_elmContextMenu.classList.add(className);
 	}
 
 	return {

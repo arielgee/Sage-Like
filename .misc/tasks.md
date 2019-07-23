@@ -370,10 +370,11 @@
 ---
 
 ## Next
+* replace all 'xxx.style.display' with CSS rule ?
+* replace all querySelectorAll with querySelector if I use only the first one [0]
 * CONSIDER replace all the slow for-of loops with simple for loops;     for *\(let\b.*\bof\b
 * (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)
 * no advantage in using a funcYes/funcNo in a loop over a simple if()
-* replace all 'xxx.style.display' with CSS rule ?
 * Do filter '>unread' need to filter out loading feeds?
 * wider --width-filter-text ? 130px ?
 * replace xxx.querySelectorAll() with xxx.children
