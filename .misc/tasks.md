@@ -367,10 +367,10 @@
 * try to skip the 'filter: blur(1.5px);' when disableElementTree() a .slideDownPanel
 * disable the filter text when closed
 * toggle read/unread need to alert the reapply filter button
+* replace all 'xxx.style.display' with CSS rule ? => NOT ALL. Just the ones which are inside loops and apply to multiple elements
 ---
 
 ## Next
-* replace all 'xxx.style.display' with CSS rule ?
 * replace all querySelectorAll with querySelector if I use only the first one [0]
 * CONSIDER replace all the slow for-of loops with simple for loops;     for *\(let\b.*\bof\b
 * (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)
