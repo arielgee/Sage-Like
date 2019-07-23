@@ -51,6 +51,10 @@
 	outline: 1px dotted gray;
 }
 
+.propertiesContainer.showFirstOnly .propContainer:not(:first-child) {
+	display: none;
+}
+
 .fpButtonContainer {
 	display: flex;
 	justify-content: right;

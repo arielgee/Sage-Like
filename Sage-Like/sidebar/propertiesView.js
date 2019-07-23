@@ -130,12 +130,8 @@ class PropertiesView {
 	_showNoneTitleProperties(show) {
 
 		// all none title properties
-		let selector = ".propContainer:not(:first-child)";
-		let props = this.m_elmPropertiesPanel.querySelectorAll(selector);
-
-		for (let i=0, len=props.length; i<len; i++) {
-			props[i].style.display = (show ? "" : "none");
-		}
+		let propsContainer = this.m_elmPropertiesPanel.querySelector(".propertiesContainer");
+		propsContainer.classList.toggle("showFirstOnly", !show)
 	}
 
 	///////////////////////////////////////////////////////////////
