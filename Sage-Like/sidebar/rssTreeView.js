@@ -971,8 +971,8 @@ let rssTreeView = (function() {
 			case "ArrowRight":
 				if(isFolder) {
 					if(isFolderOpen) {
-						elms = elmTargetLI.querySelectorAll("ul > li:first-child"); // first direct child
-						elms[0].focus();
+						elm = elmTargetLI.querySelector("ul > li:first-child"); // first direct child
+						if(!!elm) elm.focus();
 					} else {
 						setFolderState(elmTargetLI, true);
 					}
