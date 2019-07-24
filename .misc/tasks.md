@@ -369,10 +369,10 @@
 * toggle read/unread need to alert the reapply filter button
 * replace all 'xxx.style.display' with CSS rule ? => NOT ALL. Just the ones which are inside loops and apply to multiple elements
 * replace all querySelectorAll with querySelector if I use only the first one [0]
+* no advantage in using a funcYes/funcNo in a loop over a simple if()
 ---
 
 ## Next
-* no advantage in using a funcYes/funcNo in a loop over a simple if()
 * Do filter '>unread' need to filter out loading feeds?
 * CONSIDER replace all the slow for-of loops with simple for loops;     for *\(let\b.*\bof\b
 * (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)

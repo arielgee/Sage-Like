@@ -496,23 +496,18 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function markAllItemsAsVisitedState(isVisited) {
 
-		let funcAddToHistory = function (e) {
-			slUtil.addUrlToBrowserHistory(e.getAttribute("href"), e.textContent);
-		};
-
-		let funcDelFromHistory = function (e) {
-			slUtil.deleteUrlFromBrowserHistory(e.getAttribute("href"));
-		};
-
-		let funcHistory = isVisited ? funcAddToHistory : funcDelFromHistory;
-
 		let elms = m_elmList.getElementsByTagName("li");
 
 		if(elms[0] !== undefined && !(elms[0].classList.contains("errormsg"))) {
 
 			for(let elm of elms) {
-				funcHistory(elm);
-				elm.classList.toggle("bold", !isVisited);
+				if(isVisited) {
+					slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
+					elm.classList.remove("bold");
+				} else {
+					slUtil.deleteUrlFromBrowserHistory(elm.getAttribute("href"));
+					elm.classList.add("bold");
+				}
 			}
 			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
 		}
