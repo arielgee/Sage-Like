@@ -2182,7 +2182,7 @@ let rssTreeView = (function() {
 		} else if(status === TreeItemStatus.UNVISITED) {
 			for(let i=0, len=elms.length; i<len; i++) {
 				const cList = elms[i].classList;
-				elms[i].classList.toggle("filtered", !cList.contains("bold") || cList.contains("error"));
+				elms[i].classList.toggle("filtered", !cList.contains("bold") || cList.contains("error") || cList.contains("loading"));
 			}
 		} else if(status === TreeItemStatus.LOADING) {
 			for(let i=0, len=elms.length; i<len; i++) {
