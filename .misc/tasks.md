@@ -372,12 +372,13 @@
 * no advantage in using a funcYes/funcNo in a loop over a simple if()
 * replace xxx.querySelectorAll() with xxx.children => BULLSHIT no such cases
 * Do filter '>unread' need to filter out loading feeds? => Yes
+* (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)   => problematic only when x is numeric
+* CONSIDER replace all the slow for-of loops with simple for loops. regexp search: 'for *\(let\b.*\bof\b'   => Improvements is negligible
+* wider --width-filter-text ? 125px!
 ---
 
 ## Next
-* (!!!obj.x) is NOT the same as (obj.x === undefined)! If obj.x is defined and its value is zero it returns TRUE! check all (!!!)
-* CONSIDER replace all the slow for-of loops with simple for loops;     for *\(let\b.*\bof\b
-* wider --width-filter-text ? 130px ?
+* Remove the 'Options' caption in preferences for Fx vXX and up. Page layout was changed and the caption is redundent.
 * toolbar buttons:
   * quick access buttons to '>read', '>unread', '>error', '>load'
   * quick access buttons to '>read', '>unread' only

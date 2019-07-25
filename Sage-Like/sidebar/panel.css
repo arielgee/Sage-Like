@@ -115,7 +115,7 @@ html, body {
 
 #filterContainer {
 	--width-filter-image: 16px;
-	--width-filter-text: 120px;
+	--width-filter-text: 125px;
 	--width-filter-reapply: var(--toolbar-button-size);
 	--margin-right-filter-button: 4px;
 	--width-filter-clear: var(--toolbar-button-size);
