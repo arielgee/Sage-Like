@@ -24,6 +24,11 @@ body {
 	border-bottom: 1px solid lightgray;
 }
 
+body.noCaptionStyleV68 .caption,
+body.noCaptionStyleV68 .caption + .prefSeperator {
+	display: none;
+}
+
 .preference {
 	display: flex;
 	justify-content: space-between;

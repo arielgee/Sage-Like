@@ -96,6 +96,12 @@ let preferences = (function() {
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
 
+		slUtil.getBrowserVersion().then((version) => {
+			if(version >= "68.0") {
+				document.body.classList.add("noCaptionStyleV68");
+			}
+		});
+
 		m_elmCheckFeedsMethodInfo.title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
 
 		addEventListeners();
