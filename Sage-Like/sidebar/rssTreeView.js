@@ -455,7 +455,7 @@ let rssTreeView = (function() {
 			if(restoreData.feedsFilter !== "") {
 				setTimeout(() => {
 					m_elmTextFilter.value = restoreData.feedsFilter;
-					onClickFilter({});
+					switchOnFilter();
 					handleTreeFilter();
 				}, 400);
 			}
@@ -1153,24 +1153,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickFilter(event) {
-
-		// ugly way to apply 'overflow: visible' after the transition was completed
-		let propVal = getComputedStyle(m_elmfilterContainer).getPropertyValue("--trans-duration-filter-box");
-		let multiNumbers = propVal.replace(/[^\d\.\*]+/g, "").split("*");
-		let timeout = (!!multiNumbers && multiNumbers.length  === 2) ? multiNumbers[0] * multiNumbers[1] + 10 : 1000;
-		setTimeout(() => m_elmFilterTextBoxContainer.classList.add("visibleOverflow"), timeout);
-
-		m_elmfilterContainer.classList.add("switched");
-		slUtil.disableElementTree(m_elmFilterTextBoxContainer, false);
-
-		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
-			if(count > 0) {
-				slUtil.showInfoBar("Hover over the filter text box for vital information.", m_elmfilterContainer, m_elmTreeRoot.style.direction, false, 4000);
-				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
-			} else {
-				m_elmTextFilter.focus();
-			}
-		});
+		switchOnFilter();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2092,6 +2075,28 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function isRssTreeCreatedOK() {
 		return m_rssTreeCreatedOK;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function switchOnFilter() {
+
+		// ugly way to apply 'overflow: visible' after the transition was completed
+		let propVal = getComputedStyle(m_elmfilterContainer).getPropertyValue("--trans-duration-filter-box");
+		let multiNumbers = propVal.replace(/[^\d\.\*]+/g, "").split("*");
+		let timeout = (!!multiNumbers && multiNumbers.length  === 2) ? multiNumbers[0] * multiNumbers[1] + 10 : 1000;
+		setTimeout(() => m_elmFilterTextBoxContainer.classList.add("visibleOverflow"), timeout);
+
+		m_elmfilterContainer.classList.add("switched");
+		slUtil.disableElementTree(m_elmFilterTextBoxContainer, false);
+
+		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
+			if(count > 0) {
+				slUtil.showInfoBar("Hover over the filter text box for vital information.", m_elmfilterContainer, m_elmTreeRoot.style.direction, false, 4000);
+				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
+			} else {
+				m_elmTextFilter.focus();
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
