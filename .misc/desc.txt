@@ -1,0 +1,28 @@
+Filter the Displayed Feeds Using the Following Options: " +
+   Simple search in feed titles (case-insensitive). " +
+   Regular expression pattern enclosed between two slashes ('/'). " +
+      Flag 'i' (case-insensitive) is supported when placed after the second slash. " +
+   Search in feed URLs prefixed with a single percent sign ('%'). " +
+   Special commands prefixed with a single greater-than sign ('>'): " +
+      Use '>unread' for unvisited feeds. " +
+      Use '>read' for visited feeds. " +
+      Use '>error' for feeds that failed to update. " +
+      Use '>load' for feeds that are still loading. " +
+ Feeds may change their status after the filter was applied.";
+
+
+
+Feeds Filtering Options: " +
+
+Filter the Displayed Feeds Using the Following Options: " +
+   Title filtering using case-insensitive text. " +
+   Title filtering using Regular Expression pattern enclosed between two slashes ('/'). " +
+      Flag 'i' (case-insensitive) is supported when placed after the second slash. " +
+   URL filtering using text prefixed with a single percent sign ('%'). " +
+   Status filtering using special commands prefixed with a single greater-than sign ('>'): " +
+      Use '>unread' for unvisited feeds. " +
+      Use '>read' for visited feeds. " +
+      Use '>error' for feeds that failed to update. " +
+      Use '>load' for feeds that are still loading. " +
+ Feeds may change their status after the filter was applied.";
+
