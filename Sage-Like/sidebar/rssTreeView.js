@@ -44,17 +44,17 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const FILTER_TOOLTIP_TITLE = "Filter the Displayed Feeds Using the Following Options: \u000d" +
-									"  \u271a Simple search in feed title (case-insensitive). \u000d" +
-									"  \u271a Regular expression pattern enclosed between two slashes ('/'). \u000d" +
+	const FILTER_TOOLTIP_TITLE = "Feed Filtering Methods: \u000d" +
+									"  \u25cf Filtering using case-insensitive text. \u000d" +
+									"  \u25cf Filtering using Regular Expression pattern enclosed between two slashes ('/'). \u000d" +
 									"      Flag 'i' (case-insensitive) is supported when placed after the second slash. \u000d" +
-									"  \u271a Search in feed URL prefixed with a single percent sign ('%'). \u000d" +
-									"  \u271a Special commands prefixed with a single greater-than sign ('>'): \u000d" +
-									"     \u2726 Use '>unread' for unvisited feeds. \u000d" +
-									"     \u2726 Use '>read' for visited feeds. \u000d" +
-									"     \u2726 Use '>error' for feeds that failed to update. \u000d" +
-									"     \u2726 Use '>load' for feeds that are still loading. \u000d\u000d" +
-									"\u2731 Feeds may change their status after the filter was applied.";
+									"  \u25cf URL filtering using text prefixed with a single percent sign ('%'). \u000d" +
+									"  \u25cf Status filtering using special commands prefixed with a single greater-than sign ('>'): \u000d" +
+									"     \u2022 Use '>unread' for unvisited feeds. \u000d" +
+									"     \u2022 Use '>read' for visited feeds. \u000d" +
+									"     \u2022 Use '>error' for feeds that failed to update. \u000d" +
+									"     \u2022 Use '>load' for feeds that are still loading. \u000d\u000d" +
+									"\u2731 Feeds may change their title and/or status after the filter was applied.";
 
 	let TreeItemStatus = Object.freeze({
 		UNDEFINED: -1,
