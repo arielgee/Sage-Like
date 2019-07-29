@@ -376,13 +376,13 @@
 * CONSIDER replace all the slow for-of loops with simple for loops. regexp search: 'for *\(let\b.*\bof\b'   => Improvements is negligible
 * wider --width-filter-text ? 125px!
 * Remove the 'Options' caption in preferences for Fx v68 and up. Page layout was changed and the caption is redundent.
----
-
-## Next
-* toolbar buttons:
+* toolbar buttons:                                                              ===> NO
   * quick access buttons to '>read', '>unread', '>error', '>load'
   * quick access buttons to '>read', '>unread' only
   * single quick access button with 4 radio buttons dropdown for '>read', '>unread', '>error', '>load'
+---
+
+## Next
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
