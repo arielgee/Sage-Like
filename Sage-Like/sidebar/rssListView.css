@@ -30,6 +30,7 @@
 
 .listview li.selected {
 	background-color: var(--bk-color-active);
+	color: var(--bk-color-active-contrasted);
 }
 
 .listview li.selected:focus {

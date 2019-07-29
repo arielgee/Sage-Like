@@ -103,6 +103,7 @@
 
 .treeview li.selected > .rtvCaption {
 	background-color: var(--bk-color-active);
+	color: var(--bk-color-active-contrasted);
 }
 
 .treeview li.selected:focus > .rtvCaption {
