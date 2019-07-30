@@ -529,10 +529,11 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setListErrorMsg(textContent, title) {
+	function setListErrorMsg(textContent, title, url) {
 		let elm = document.createElement("li");
 		elm.classList.add("errormsg");
 		elm.textContent = textContent;
+		elm.title = "Failed URL: " + url;
 
 		disposeList();
 		m_elmList.appendChild(elm);

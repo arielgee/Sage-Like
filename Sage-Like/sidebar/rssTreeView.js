@@ -803,7 +803,7 @@ let rssTreeView = (function() {
 
 				// change the rssListView content only if this is the last user click.
 				if(thisFeedClickTime === m_lastClickedFeedTime) {
-					rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI));
+					rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI), url);
 				}
 			}).finally(() => {	// wait for Fx v58
 
