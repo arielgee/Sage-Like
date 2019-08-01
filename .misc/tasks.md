@@ -383,6 +383,9 @@
 ---
 
 ## Next
+* check if I can use those events to handle pre/post transition actions ("ugly way to apply 'overflow: visible' after the transition was completed")
+    * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Animation_events
+    * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Transition_events
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">

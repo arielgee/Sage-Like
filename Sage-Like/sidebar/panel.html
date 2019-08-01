@@ -94,9 +94,18 @@
 		<ul id="discoverFeedsList"></ul>
 
 		<div class="dfButtonContainer">
-			<div id="aggressiveDiscoveryContainer" title="When selected, discovery will also check each hyperlink in the page that its URL might suggest it links to an RSS feed.">
-				<input type="checkbox" id="chkAggressiveDiscovery" tabindex="0">
-				<label for="chkAggressiveDiscovery">Aggressive</label>
+			<div id="aggressiveDiscoveryContainer">
+				<div class="captionAggressiveLevel">Aggressive:</div>
+				<sl-tri-toggler id="triTglAggressiveLevel" tabindex="0">
+					<sl-tri-toggler-rail>
+						<sl-tri-toggler-marker></sl-tri-toggler-marker>
+					</sl-tri-toggler-rail>
+					<sl-tri-toggler-captions>
+						<sl-tri-toggler-caption id="triTogglerState0">None</sl-tri-toggler-caption>
+						<sl-tri-toggler-caption id="triTogglerState1">Some</sl-tri-toggler-caption>
+						<sl-tri-toggler-caption id="triTogglerState2">Very</sl-tri-toggler-caption>
+					</sl-tri-toggler-captions>
+				</sl-tri-toggler>
 			</div>
 			<button type="button" class="dlgButton" id="btnDiscoverFeedsAdd">Add</button>
 			<button type="button" class="dlgButton" id="btnDiscoverFeedsCancel">Close</button>

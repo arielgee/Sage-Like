@@ -15,6 +15,16 @@ class SyndicationError extends Error {
 
 let syndication = (function() {
 
+	const STANDARD_DISCOVERY_SELECTOR = "link[rel=\"alternate\" i][type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
+										"link[rel=\"alternate\" i][type=\"application/rdf+xml\" i]," +
+										"link[rel=\"alternate\" i][type=\"application/atom+xml\" i]," +
+										"link[rel=\"alternate\" i][type=\"application/json\" i]";
+
+	const NON_STANDARD_ANCHOR_DISCOVERY_SELECTOR =	"a[href*=\"rss\" i]," +					// non-standard publication of RSS links
+													"a[href*=\"feed\" i]," +
+													"a[href*=\"atom\" i]," +
+													"a[href*=\"syndicat\" i]";
+
 	let SyndicationStandard = Object.freeze({
 		invalid: "n/a",
 		RSS: "RSS",
@@ -60,24 +70,18 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, aggressive = false, reload) {
+	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, aggressiveLevel = 0, reload) {
 
 		return new Promise((resolve) => {
 
 			let doc = m_domParser.parseFromString(txtHTML, "text/html");
 
-			let selector =	"link[rel=\"alternate\" i][type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
-							"link[rel=\"alternate\" i][type=\"application/rdf+xml\" i]," +
-							"link[rel=\"alternate\" i][type=\"application/atom+xml\" i]," +
-							"link[rel=\"alternate\" i][type=\"application/json\" i]";
+			let selector = STANDARD_DISCOVERY_SELECTOR;								// standard publicized RSS for discovery
 
-			let anchorRssLinks = "a[href*=\"rss\" i]," +					// non-standard publication of RSS links
-								 "a[href*=\"feed\" i]," +
-								 "a[href*=\"atom\" i]," +
-								 "a[href*=\"syndicat\" i]";
-
-			if(aggressive) {
-				selector += "," + anchorRssLinks;
+			if(aggressiveLevel === 1) {
+				selector += "," + NON_STANDARD_ANCHOR_DISCOVERY_SELECTOR;			// non-standard publication of RSS links
+			} else if(aggressiveLevel === 2) {
+				selector += ",a[href]";												// all <a> anchors links
 			}
 
 			// array of just the url links (href) as strings for easy filtering of duplicates

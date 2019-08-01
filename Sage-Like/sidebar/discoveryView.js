@@ -6,6 +6,11 @@ let discoveryView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
+	const AGGRESSIVE_TOOLTIP_TITLE = "Aggressive Discovery: \u000d" +
+									"  \u25cf None: Check only for standardly discoverable RSS links. \u000d" +
+									"  \u25cf Some: Check each hyperlink in page that its URL might suggest it links to an RSS feed. \u000d" +
+                                    "  \u25cf Very: Check ALL hyperlinks in page (process may be lengthy).";
+
 	let m_elmMainPanel = null;
 	let m_elmDiscoverPanel = null;
 	let m_elmDiscoverFeedsList;
@@ -13,7 +18,7 @@ let discoveryView = (function() {
 	let m_elmButtonCheckmarkAll;
 	let m_elmButtonRediscover;
 	let m_elmAggressiveDiscoveryContainer;
-	let m_elmChkAggressiveDiscovery;
+	let m_elmTriTglAggressiveDiscoveryLevel;
 	let m_elmButtonAdd;
 	let m_elmButtonCancel;
 	let m_elmLabelInfobar;
@@ -34,11 +39,14 @@ let discoveryView = (function() {
 			m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
 			m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
 			m_elmDiscoverFeedsList.addEventListener("keydown", onKeyDownDiscoverFeedsList);
-			m_elmChkAggressiveDiscovery.addEventListener("change", onChangeAggressiveDiscovery);
+			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("keydown", onKeyDownTriToggler);
+			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("mousedown", onMouseDownTriToggler);
+			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("keyup", onChangeTriTglAggressiveDiscoveryLevel);
+			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("click", onChangeTriTglAggressiveDiscoveryLevel);
 			m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
 			m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
 
-			internalPrefs.getAggressiveDiscovery().then(checked => m_elmChkAggressiveDiscovery.checked = checked);
+			internalPrefs.getAggressiveDiscoveryLevel().then(level => m_elmTriTglAggressiveDiscoveryLevel.setAttribute("data-toggler-state", level));
 
 			m_elmDiscoverPanel.classList.add("visible");
 			slUtil.disableElementTree(m_elmDiscoverPanel, false);
@@ -72,7 +80,10 @@ let discoveryView = (function() {
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
 		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.removeEventListener("keydown", onKeyDownDiscoverFeedsList);
-		m_elmChkAggressiveDiscovery.removeEventListener("change", onChangeAggressiveDiscovery);
+		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("keydown", onKeyDownTriToggler);
+		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("mousedown", onMouseDownTriToggler);
+		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("keyup", onChangeTriTglAggressiveDiscoveryLevel);
+		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("click", onChangeTriTglAggressiveDiscoveryLevel);
 		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
 		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
 
@@ -94,10 +105,12 @@ let discoveryView = (function() {
 			m_elmButtonCheckmarkAll = document.getElementById("btnCheckmarkAll");
 			m_elmButtonRediscover = document.getElementById("btnRediscover");
 			m_elmAggressiveDiscoveryContainer = document.getElementById("aggressiveDiscoveryContainer");
-			m_elmChkAggressiveDiscovery = document.getElementById("chkAggressiveDiscovery");
+			m_elmTriTglAggressiveDiscoveryLevel = document.getElementById("triTglAggressiveLevel");
 			m_elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
 			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 			m_elmLabelInfobar = document.getElementById("lblInfobar");
+
+			m_elmAggressiveDiscoveryContainer.title = AGGRESSIVE_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 		}
 	}
 
@@ -185,7 +198,7 @@ let discoveryView = (function() {
 
 		let feedCount = -1, counter = 0;
 		let timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
-		let aggressiveDiscovery = await internalPrefs.getAggressiveDiscovery();
+		let aggressiveLevel = parseInt(await internalPrefs.getAggressiveDiscoveryLevel());
 
 		let funcHandleDiscoveredFeed = function(feed) {
 
@@ -216,7 +229,7 @@ let discoveryView = (function() {
 		setDiscoverLoadingState(true);
 		emptyDiscoverFeedsList();
 		setStatusbarMessage(domainName, false);
-		syndication.webPageFeedsDiscovery(txtHTML, timeout, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveDiscovery).then((result) => {
+		syndication.webPageFeedsDiscovery(txtHTML, timeout, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveLevel).then((result) => {
 
 			if((feedCount = result.length) === 0) {
 				setNoFeedsMsg("No feeds were discovered.");
@@ -298,7 +311,7 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.classList.toggle("loading", isLoading);
 		m_elmButtonCheckmarkAll.classList.toggle("disabled", isLoading);
 		m_elmButtonRediscover.classList.toggle("disabled", isLoading);
-		m_elmAggressiveDiscoveryContainer.classList.toggle("disabled", isLoading);
+		slUtil.disableElementTree(m_elmAggressiveDiscoveryContainer, isLoading);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -445,8 +458,43 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeAggressiveDiscovery(event) {
-		internalPrefs.setAggressiveDiscovery(m_elmChkAggressiveDiscovery.checked);
+	function onKeyDownTriToggler(event) {
+
+		let target = event.target;
+
+		let curState = parseInt(target.getAttribute("data-toggler-state"));
+
+		switch (event.code) {
+			case "ArrowLeft":	target.setAttribute("data-toggler-state", curState === 2 ? "1" : "0");	break;
+			case "ArrowRight":	target.setAttribute("data-toggler-state", curState === 0 ? "1" : "2");	break;
+			case "Home":		target.setAttribute("data-toggler-state", "0");							break;
+			case "End":			target.setAttribute("data-toggler-state", "2");							break;
+			default:			return;		// do not stop propagation
+		}
+
+		event.stopPropagation();
+		event.preventDefault();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseDownTriToggler(event) {
+
+        let toggleWidth = Math.floor(event.target.clientWidth / 3);
+
+        if (event.offsetX < toggleWidth) {
+            event.target.parentElement.setAttribute("data-toggler-state", "0");
+        } else if (event.offsetX < toggleWidth * 2) {
+            event.target.parentElement.setAttribute("data-toggler-state", "1");
+        } else {
+            event.target.parentElement.setAttribute("data-toggler-state", "2");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeTriTglAggressiveDiscoveryLevel(event) {
+		if(event.type === "click" || (event.type === "keyup" && ["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.code))) {
+			internalPrefs.setAggressiveDiscoveryLevel(m_elmTriTglAggressiveDiscoveryLevel.getAttribute("data-toggler-state"));
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
