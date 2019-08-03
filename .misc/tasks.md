@@ -380,12 +380,16 @@
   * quick access buttons to '>read', '>unread', '>error', '>load'
   * quick access buttons to '>read', '>unread' only
   * single quick access button with 4 radio buttons dropdown for '>read', '>unread', '>error', '>load'
+* check if I can use those events to handle pre/post transition actions ("ugly way to apply 'overflow: visible' after the transition was completed")
+    * check all setTimeout and setInterval
+    * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Animation_events
+    * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Transition_events
 ---
 
 ## Next
-* check if I can use those events to handle pre/post transition actions ("ugly way to apply 'overflow: visible' after the transition was completed")
-    * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Animation_events
-    * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Transition_events
+* check all funcXXX function are checked using 'typeof(funcXXX) === "function"' and not 'funcXXX === undefined'
+    * preference.js:753
+* consider combobox insted of thi-toggler
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">

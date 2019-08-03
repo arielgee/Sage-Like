@@ -193,6 +193,7 @@ let rssTreeView = (function() {
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmButtonFilter.addEventListener("click",onClickFilter);
+		m_elmFilterTextBoxContainer.addEventListener("transitionend",onTransitionEndFilterTextBoxContainer);
 		m_elmTextFilter.addEventListener("input", onInputChangeTextFilter);
 		m_elmTextFilter.addEventListener("keydown", onKeyDownTextFilter);
 		m_elmReapplyFilter.addEventListener("click", onClickReapplyFilter);
@@ -241,6 +242,7 @@ let rssTreeView = (function() {
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmButtonFilter.removeEventListener("click",onClickFilter);
+		m_elmFilterTextBoxContainer.removeEventListener("transitionend",onTransitionEndFilterTextBoxContainer);
 		m_elmTextFilter.removeEventListener("input", onInputChangeTextFilter);
 		m_elmTextFilter.removeEventListener("keydown", onKeyDownTextFilter);
 		m_elmReapplyFilter.removeEventListener("click", onClickReapplyFilter);
@@ -1154,6 +1156,16 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickFilter(event) {
 		switchOnFilter();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onTransitionEndFilterTextBoxContainer(event) {
+
+		// apply 'overflow: visible' after the transition was completed so that the
+		// inner filter buttons (apply & clear) will have the box-shadow affect when hovered
+		if(m_elmfilterContainer.classList.contains("switched")) {
+			m_elmFilterTextBoxContainer.classList.add("visibleOverflow");
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2079,12 +2091,6 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchOnFilter() {
-
-		// ugly way to apply 'overflow: visible' after the transition was completed
-		let propVal = getComputedStyle(m_elmfilterContainer).getPropertyValue("--trans-duration-filter-box");
-		let multiNumbers = propVal.replace(/[^\d\.\*]+/g, "").split("*");
-		let timeout = (!!multiNumbers && multiNumbers.length  === 2) ? multiNumbers[0] * multiNumbers[1] + 10 : 1000;
-		setTimeout(() => m_elmFilterTextBoxContainer.classList.add("visibleOverflow"), timeout);
 
 		m_elmfilterContainer.classList.add("switched");
 		slUtil.disableElementTree(m_elmFilterTextBoxContainer, false);
