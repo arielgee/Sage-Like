@@ -175,6 +175,7 @@ sl-tri-toggler {
 	border: var(--border-size) solid #7f7f7f;
 	border-radius: var(--border-radius);
 	background-color: #d3d3d3;
+	line-height: var(--height-content);
 	position: relative;
 }
 
@@ -218,7 +219,6 @@ sl-tri-toggler-caption {
 	font-weight: normal;
     font-size: var(--font-size-caption) !important;
 	text-align: center;
-	line-height: var(--height-content);
 	background-color: transparent;
 	color: #434343;
 }

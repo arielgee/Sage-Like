@@ -465,11 +465,32 @@ let discoveryView = (function() {
 		let curState = parseInt(target.getAttribute("data-toggler-state"));
 
 		switch (event.code) {
-			case "ArrowLeft":	target.setAttribute("data-toggler-state", curState === 2 ? "1" : "0");	break;
-			case "ArrowRight":	target.setAttribute("data-toggler-state", curState === 0 ? "1" : "2");	break;
-			case "Home":		target.setAttribute("data-toggler-state", "0");							break;
-			case "End":			target.setAttribute("data-toggler-state", "2");							break;
-			default:			return;		// do not stop propagation
+
+			case "ArrowLeft":
+			case "ArrowUp":
+				target.setAttribute("data-toggler-state", curState === 2 ? "1" : "0");
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowRight":
+			case "ArrowDown":
+				target.setAttribute("data-toggler-state", curState === 0 ? "1" : "2");
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Home":
+				target.setAttribute("data-toggler-state", "0");
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "End":
+				target.setAttribute("data-toggler-state", "2");
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			default:
+				return;		// do not stop propagation
+				/////////////////////////////////////////////////////////////////////////
 		}
 
 		event.stopPropagation();

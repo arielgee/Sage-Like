@@ -388,6 +388,7 @@
 ---
 
 ## Next
+* change 'Aggressive' to 'Aggressiveness'
 * consider combobox insted of thi-toggler
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
