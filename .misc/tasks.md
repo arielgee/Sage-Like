@@ -385,10 +385,10 @@
     * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Animation_events
     * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Transition_events
 * check all funcXXX function are checked using 'typeof(funcXXX) === "function"' and not 'funcXXX === undefined'
+* change 'Aggressive' to 'Aggressiveness'
 ---
 
 ## Next
-* change 'Aggressive' to 'Aggressiveness'
 * consider combobox insted of thi-toggler
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
