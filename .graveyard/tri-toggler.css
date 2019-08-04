@@ -1,5 +1,5 @@
 #triTglAggressiveLevel {
-	--size-factor: 3;
+	--size-factor: 1;
 
     --height-total: calc(14px * var(--size-factor));
     --width-total: calc(99px * var(--size-factor));
@@ -25,7 +25,12 @@ sl-tri-toggler {
 	border: var(--border-size) solid #7f7f7f;
 	border-radius: var(--border-radius);
 	background-color: #d3d3d3;
+	line-height: var(--height-content);
 	position: relative;
+}
+
+sl-tri-toggler:focus {
+	outline: 1px dotted gray;
 }
 
 sl-tri-toggler * {
@@ -64,7 +69,6 @@ sl-tri-toggler-caption {
 	font-weight: normal;
     font-size: var(--font-size-caption) !important;
 	text-align: center;
-	line-height: var(--height-content);
 	/* letter-spacing: -0.1px; */
 	background-color: transparent;
 	color: #434343;
@@ -82,4 +86,11 @@ sl-tri-toggler[data-toggler-state="0"] sl-tri-toggler-caption#triTogglerState0,
 sl-tri-toggler[data-toggler-state="1"] sl-tri-toggler-caption#triTogglerState1,
 sl-tri-toggler[data-toggler-state="2"] sl-tri-toggler-caption#triTogglerState2 {
     color: white;
+}
+
+
+
+#idAggr {
+	border: 1px solid #7f7f7f;
+	font-size: 11px !important;
 }

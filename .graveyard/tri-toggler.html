@@ -10,8 +10,9 @@
 <body>
     <div style="background-color:#b8b8b8; padding:50px;font-family: Tahoma; font-size: 11px;">
 
-        <div style="display: flex; align-items:center;">
-            <label style="padding-right: 4px;">Aggressive:</label>
+        <!-- <div style="display:flex; align-items:center;"> -->
+        <div style="display:flex; flex-direction:column;">
+            <label style="padding-right: 4px;">Aggressiveness:</label>
 
             <sl-tri-toggler id="triTglAggressiveLevel" data-toggler-state="0">
                 <sl-tri-toggler-rail>
@@ -23,8 +24,20 @@
                     <sl-tri-toggler-caption id="triTogglerState2">Very</sl-tri-toggler-caption>
                 </sl-tri-toggler-captions>
             </sl-tri-toggler>
-
         </div>
+
+
+        <!-- style="display:flex; flex-direction:column;" -->
+        <div style="display:flex; align-items:center;">
+            <label style="padding-right: 4px;">Aggressiveness:</label>
+
+            <select name="aggr" id="idAggr">
+                <option value="0">None</option>
+                <option value="1">Some</option>
+                <option value="2">Very</option>
+            </select>
+        </div>
+
 
     </div>
 </body>
