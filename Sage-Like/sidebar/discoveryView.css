@@ -228,8 +228,8 @@ sl-tri-toggler[data-toggler-state="1"] > sl-tri-toggler-rail { padding-left: var
 sl-tri-toggler[data-toggler-state="2"] > sl-tri-toggler-rail { padding-left: calc(var(--width-toggle) * 2); }
 
 sl-tri-toggler[data-toggler-state="0"] sl-tri-toggler-marker { background-color: #505050; }
-sl-tri-toggler[data-toggler-state="1"] sl-tri-toggler-marker { background-color: #ff4d4d; }
-sl-tri-toggler[data-toggler-state="2"] sl-tri-toggler-marker { background-color: #dd0000; }
+sl-tri-toggler[data-toggler-state="1"] sl-tri-toggler-marker { background-color: #a800a8; }
+sl-tri-toggler[data-toggler-state="2"] sl-tri-toggler-marker { background-color: #e80000; }
 
 sl-tri-toggler[data-toggler-state="0"] sl-tri-toggler-caption#triTogglerState0,
 sl-tri-toggler[data-toggler-state="1"] sl-tri-toggler-caption#triTogglerState1,
