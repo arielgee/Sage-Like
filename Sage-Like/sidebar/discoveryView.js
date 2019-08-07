@@ -166,8 +166,6 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function loadSingleDiscoverFeed(strUrl, domainName) {
 
-		m_nRequestId = Date.now();
-
 		let timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 
 		setDiscoverLoadingState(true);
