@@ -1,7 +1,7 @@
 
 + Product Page Description (About this extension)
 --------------------------------------------------------------
-Sage-Like is a simple, sidebar based feed reader (Atom, RSS and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I tried to keep it lightweight and fast.
+Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I tried to keep it lightweight and fast.
 
 <b>Features</b>
 <ul>
@@ -9,7 +9,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS and RDF). Like its a
   <li>Feed discovery from the sidebar and from the address bar.</li>
   <li>Integrated with the browser's native bookmarks.</li>
   <li>Fully customizable tree view. Add, edit & delete feeds and folders directly from the sidebar.</li>
-  <li>Diversified filtering capabilities to the tree feeds.</li>
+  <li>Diversified filtering capabilities to the tree feeds (filter by title, URL or status).</li>
   <li>Context menus for feeds and for feed-items (articles) offer more actions.</li>
   <li>Support for <i>Middle Click</i>, <i>Ctrl+Click</i> & <i>Shift+Click</i> in the feed-items list.</li>
   <li>Feed preview (via: feed → context menu → Open xxx).</li>
@@ -30,17 +30,12 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Workaround the unresolved: Fixed the issue with closing the sidebar using the toolbar button or the <i>Ctrl+Shift+F2</i> command.</li>
-  <li>Added background detection of feeds in web pages and a new button with a popup in the address bar to select and subscribe.</li>
-  <li>Added filtering capabilities to the feeds tree.</li>
-  <li>Added total number of unread feeds and feed-items to the feeds tree.</li>
-  <li>Added the ability to toggle the Read/Unread state of an entire folder.</li>
-  <li>The 'Open all in tabs' in the feed-items list's context menu is now 'Open all unread in tabs'.</li>
-  <li>Added option for 'Aggressive' in the discovery slide-down panel to also check each hyperlink in the page that its URL might suggest it links to an RSS feed.</li>
-  <li>Added support for middle click in the feeds tree to open a feed's preview in a new tab.</li>
-  <li>Redesigned all popups as slide-down panels.</li>
-  <li>UI improvements and modifications.</li>
-  <li>Reduce memory utilization.</li>
+  <li>Added support for JSON feeds.</li>
+  <li>Added support for URL filtering.</li>
+  <li>Added more aggressiveness to sidebar discovery. If selected, can check ALL hyperlinks in page.</li>
+  <li>The built-in feed's preview is now used regardless of the browser's version.</li>
+  <li>Added a message about Sage-Like not allowed to run in private windows.</li>
+  <li>Minor UI/Code improvements and modifications.</li>
   <li>Bugs fixed.</li>
 </ul>
 

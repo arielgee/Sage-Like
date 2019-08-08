@@ -390,6 +390,8 @@
 ---
 
 ## Next
+* use Map() for TreeFeedsData/OpenFolders instead of StoredKeyedItems
+* Is there a way to handle a jsonfeed in a tab (discovery & popup) ?
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
