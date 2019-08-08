@@ -1260,6 +1260,7 @@ let slUtil = (function() {
 	let m_savedScrollbarWidth = -1;
 	let m_mozExtensionOrigin = "";
 	let m_elmInfoBar = null;
+	let m_regExpDiscoveryUrlFilter = "";
 
 	//////////////////////////////////////////////////////////////////////
 	function random1to100() {
@@ -1833,6 +1834,16 @@ let slUtil = (function() {
 		return nativeError.toString();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function getRegExpDiscoveryUrlFilter() {
+
+		if(m_regExpDiscoveryUrlFilter === "") {
+			// also accept Sage-Like feed preview URL
+			m_regExpDiscoveryUrlFilter = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrl("").escapeRegExp());
+		}
+		return m_regExpDiscoveryUrlFilter;
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -1867,6 +1878,7 @@ let slUtil = (function() {
 		setLimitedInterval: setLimitedInterval,
 		validURL: validURL,
 		incognitoErrorMessage: incognitoErrorMessage,
+		getRegExpDiscoveryUrlFilter: getRegExpDiscoveryUrlFilter,
 	};
 
 })();

@@ -5,6 +5,7 @@
 	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
+	let m_regExpUrlFilter;
 
 	initilization();
 
@@ -23,6 +24,8 @@
 
 		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
+
+		m_regExpUrlFilter = slUtil.getRegExpDiscoveryUrlFilter();
 
 		// start the first bookmark feeds check after 2 seconds to allow the browser's
 		// initilization to terminate and possibly the sidebar to be displayed.
@@ -126,24 +129,20 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsUpdated(tabId, changeInfo, tab) {
-
-		// also accept Sage-Like feed preview URL
-		let reUrlFilter = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrl("").escapeRegExp());
-
 		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
 		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
-		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(reUrlFilter)) {
-
-			injectContentScripts(tabId).then((result) => {
-
-				browser.tabs.sendMessage(tabId, { id: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
-					if(response.feedCount > 0) {
-						browser.pageAction.show(tabId);
-					}
-				}).catch((error) => console.log("[Sage-Like]", "send message", error));
-
-			}).catch((error) => {console.log("[Sage-Like]", "inject content scripts", error);});
+		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(m_regExpUrlFilter)) {
+			handleTabChangedState(tabId);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onTabsAttached(tabId) {
+		browser.tabs.get(tabId).then((tab) => {
+			if (tab.url.match(m_regExpUrlFilter)) {
+				handleTabChangedState(tabId);
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -221,6 +220,20 @@
 	////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function handleTabChangedState(tabId) {
+
+		injectContentScripts(tabId).then((result) => {
+
+			browser.tabs.sendMessage(tabId, { id: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
+				if(response.feedCount > 0) {
+					browser.pageAction.show(tabId);
+				}
+			}).catch((error) => console.log("[Sage-Like]", "send message", error));
+
+		}).catch((error) => {console.log("[Sage-Like]", "inject content scripts", error);});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function injectContentScripts(tabId) {
 
 		return new Promise((resolve, reject) => {
@@ -245,12 +258,14 @@
 		if(detectFeedsInWebPage) {
 
 			browser.tabs.onUpdated.addListener(onTabsUpdated);		// Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
+			browser.tabs.onAttached.addListener(onTabsAttached);
 
 		} else if(browser.tabs.onUpdated.hasListener(onTabsUpdated)) {
 
 			// hasListener() will return false if handlePrefDetectFeedsInWebPage() was called from webExt loading.
 
 			browser.tabs.onUpdated.removeListener(onTabsUpdated);
+			browser.tabs.onAttached.removeListener(onTabsAttached);
 
 			let tabs = await browser.tabs.query({});
 

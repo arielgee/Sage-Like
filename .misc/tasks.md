@@ -387,6 +387,7 @@
 * check all funcXXX function are checked using 'typeof(funcXXX) === "function"' and not 'funcXXX === undefined'
 * change 'Aggressive' to 'Aggressiveness'
 * consider combobox insted of thi-toggler   => NO
+* check tab attach/deattach with FeedsDiscovery
 ---
 
 ## Next
