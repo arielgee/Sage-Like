@@ -170,6 +170,9 @@ class PageDataByInjection {
 															  "title: document.title," +
 															  "domainName: document.domain," +
 															  "origin: window.location.origin," +
+															  "isPlainText: document.body.children.length === 1 && " +
+																		   "document.body.firstElementChild.tagName === \"PRE\" && " +
+																		   "document.body.firstElementChild.children.length === 0," +
 															  "txtHTML: document.documentElement.outerHTML, } );";
 
 		this._funcPromiseResolve = null;
@@ -213,7 +216,14 @@ class PageDataByInjection {
 	_onRuntimeMessage(message) {
 
 		if(message.id === this._MSGID_GET_PAGE_DATA && (typeof(this._funcPromiseResolve) === "function")) {
-			this._funcPromiseResolve({ docElmId: message.docElmId, title: message.title, domainName: message.domainName, origin: message.origin, txtHTML: message.txtHTML });
+			this._funcPromiseResolve({
+				docElmId: message.docElmId,
+				title: message.title,
+				domainName: message.domainName,
+				origin: message.origin,
+				isPlainText: message.isPlainText,
+				txtHTML: message.txtHTML,
+			});
 			this._funcPromiseResolve = null;
 		}
 	}

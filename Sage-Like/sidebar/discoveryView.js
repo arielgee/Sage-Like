@@ -136,17 +136,17 @@ let discoveryView = (function() {
 
 					if(!!!pd.title) pd.title = slGlobals.STR_TITLE_EMPTY;
 
-					if(pd.docElmId === "feedHandler" && !!!pd.domainName) {
+					if( (pd.docElmId === "feedHandler" && !!!pd.domainName) || pd.isPlainText ) {
 
-						// Fx v63 build-in Feed Preview
+						// Fx v63 build-in Feed Preview OR browser's plaintext
 
-						loadSingleDiscoverFeed(tab.url.toString(), pd.title);
+						loadSingleDiscoverFeed(tab.url, (!!pd.domainName ? pd.domainName : pd.title));
 
 					} else if(pd.docElmId === "_sage-LikeFeedPreview") {
 
 						// Fx v64 Sage-Like Feed Preview
 
-						loadSingleDiscoverFeed(decodeURIComponent(tab.url.toString().substring(slUtil.getFeedPreviewUrl("").length)), pd.title);
+						loadSingleDiscoverFeed(decodeURIComponent(tab.url.substring(slUtil.getFeedPreviewUrl("").length)), pd.title);
 
 					} else {
 
@@ -156,7 +156,18 @@ let discoveryView = (function() {
 					}
 
 				}).catch((error) => {
-					setNoFeedsMsg("Unable to access current tab.");
+
+					if(tab.url.match(/^(about|view-source|chrome|resource):/)) {
+						setNoFeedsMsg("Unable to access current tab.");
+					} else {
+
+						// Code injection failure most likely is due to "Missing host permission for the tab".
+						// This usually happens with built-in browser pages like "about:" or "view-source:".
+						// Since this CAN happend with the browser's devtools.jsonview and that json CAN also
+						// be a feed (jsonfeed), try to acquire the feed from the URL without injection.
+						loadSingleDiscoverFeed(tab.url, tab.title, error);
+					}
+
 					//console.log("[Sage-Like]", error);
 				}).finally(() => pageData.dispose());
 			}
@@ -164,7 +175,7 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function loadSingleDiscoverFeed(strUrl, domainName) {
+	async function loadSingleDiscoverFeed(strUrl, domainName, injectErr = undefined) {
 
 		let timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 
@@ -178,7 +189,7 @@ let discoveryView = (function() {
 				m_elmDiscoverFeedsList.appendChild(createTagLI(feedData));
 				setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
 			} else if(feedData.status === "error") {
-				console.log("[Sage-Like]", feedData.url.toString(), feedData.message);
+				console.log("[Sage-Like]", feedData.url, feedData.message, ...(!!injectErr ? ["[ Inject error: ", injectErr, "]"] : []));
 			}
 
 			setDiscoverLoadingState(false);
