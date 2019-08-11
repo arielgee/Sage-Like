@@ -390,10 +390,10 @@
 * check tab attach/deattach with FeedsDiscovery
 * Is there a way to handle a jsonfeed in a tab (discovery & popup) => handle jsonfeed and any plain text pages only from discovery
 * use Map() for TreeFeedsData/OpenFolders instead of StoredKeyedItems   => NO.
+* popup min-width
 ---
 
 ## Next
-* popup min-width
 * button to abort the discovery
 * drag feed to tabs-bar
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.

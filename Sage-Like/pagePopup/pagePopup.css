@@ -10,7 +10,7 @@ body {
 	font-size: 110%;
 	background-color: var(--color-background);
 	color: var(--color-text);
-	min-width: 300px;
+	min-width: 400px;
 }
 
 #popupCaption {
