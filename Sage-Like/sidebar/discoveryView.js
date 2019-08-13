@@ -177,7 +177,7 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function loadSingleDiscoverFeed(strUrl, domainName, injectErr = undefined) {
 
-		let timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
+		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 
 		setDiscoverLoadingState(true);
 		emptyDiscoverFeedsList();
@@ -204,10 +204,10 @@ let discoveryView = (function() {
 	async function loadDiscoverFeedsList(txtHTML, domainName, origin) {
 
 		m_nRequestId = Date.now();
+		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
+		const aggressiveLevel = parseInt(await internalPrefs.getAggressiveDiscoveryLevel());
 
 		let feedCount = -1, counter = 0;
-		let timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
-		let aggressiveLevel = parseInt(await internalPrefs.getAggressiveDiscoveryLevel());
 
 		let funcHandleDiscoveredFeed = function(feed) {
 
