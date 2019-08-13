@@ -117,7 +117,8 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function runDiscoverFeeds() {
 
-		m_nRequestId = 0;
+		m_nRequestId = Date.now();
+
 		setDiscoverLoadingState(false);
 		emptyDiscoverFeedsList();
 		setStatusbarMessage("", false);
@@ -183,19 +184,23 @@ let discoveryView = (function() {
 		emptyDiscoverFeedsList();
 		setStatusbarMessage(domainName, false);
 
-		syndication.feedDiscovery(strUrl, timeout).then((feedData) => {
+		syndication.feedDiscovery(strUrl, timeout, m_nRequestId).then((feedData) => {
 
-			if(feedData.status === "OK") {
-				m_elmDiscoverFeedsList.appendChild(createTagLI(feedData));
-				setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
-			} else if(feedData.status === "error") {
-				console.log("[Sage-Like]", feedData.url, feedData.message, ...(!!injectErr ? ["[ Inject error: ", injectErr, "]"] : []));
-			}
+			// do not process stale requests
+			if(feedData.requestId === m_nRequestId) {
 
-			setDiscoverLoadingState(false);
-			// if no feed was added to the list
-			if(m_elmDiscoverFeedsList.children.length === 0) {
-				setNoFeedsMsg("No valid feeds were discovered.");
+				if(feedData.status === "OK") {
+					m_elmDiscoverFeedsList.appendChild(createTagLI(feedData));
+					setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
+				} else if(feedData.status === "error") {
+					console.log("[Sage-Like]", feedData.url, feedData.message, ...(!!injectErr ? ["[ Inject error: ", injectErr, "]"] : []));
+				}
+
+				setDiscoverLoadingState(false);
+				// if no feed was added to the list
+				if(m_elmDiscoverFeedsList.children.length === 0) {
+					setNoFeedsMsg("No valid feeds were discovered.");
+				}
 			}
 		});
 	}
@@ -203,7 +208,6 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function loadDiscoverFeedsList(txtHTML, domainName, origin) {
 
-		m_nRequestId = Date.now();
 		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 		const aggressiveLevel = parseInt(await internalPrefs.getAggressiveDiscoveryLevel());
 
