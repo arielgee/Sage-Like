@@ -36,13 +36,14 @@ let syndication = (function() {
 	let m_domParser = new DOMParser();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function feedDiscovery(url, timeout, reload) {
+	function feedDiscovery(url, timeout, requestId = 0, reload) {
 
 		return new Promise((resolve) => {
 
 			let discoveredFeed = {
 				status: "init",
 				url: url,
+				requestId: requestId,
 			};
 
 			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
