@@ -228,9 +228,9 @@
 				if(response.feedCount > 0) {
 					browser.pageAction.show(tabId);
 				}
-			}).catch((error) => console.log("[Sage-Like]", "send message", error));
+			}).catch(async (error) => console.log("[Sage-Like]", "send message at " + (await browser.tabs.get(tabId)).url, error));
 
-		}).catch((error) => {console.log("[Sage-Like]", "inject content scripts", error);});
+		}).catch(async (error) => {console.log("[Sage-Like]", "inject content scripts at " + (await browser.tabs.get(tabId)).url, error);});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
