@@ -41,6 +41,7 @@
 	height: 20px;
 	border-radius: 2px;
 	margin: auto 0 auto calc(var(--item-spacer) * 2);
+	cursor: default;
 }
 
 #discoverPanel #btnCheckmarkAll {
@@ -49,6 +50,10 @@
 
 #discoverPanel #btnRediscover {
 	background: transparent url("/icons/reload.png") no-repeat center center;
+}
+
+#discoverPanel.loading #btnRediscover {
+	background: transparent url("/icons/abort.png") no-repeat center center;
 }
 
 #discoverPanel .button:hover {

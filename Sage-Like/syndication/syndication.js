@@ -13,6 +13,18 @@ class SyndicationError extends Error {
 	}
 }
 
+class AbortDiscovery {
+	constructor() {
+		this._abort = false;
+	}
+	abort() {
+		this._abort = true;
+	}
+	get isAborted() {
+		return this._abort;
+	}
+}
+
 let syndication = (function() {
 
 	const STANDARD_DISCOVERY_SELECTOR = "link[rel=\"alternate\" i][type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
@@ -91,7 +103,9 @@ let syndication = (function() {
 			// filter out duplicates
 			linkFeeds = linkFeeds.filter((item, idx) => linkFeeds.indexOf(item) === idx);
 
-			resolve({ length: linkFeeds.length });
+			const objAbort = linkFeeds.length > 0 ? new AbortDiscovery() : null;
+
+			resolve({ length: linkFeeds.length, abortObject: objAbort });
 
 			for(let index=0, len=linkFeeds.length; index<len; index++) {
 
@@ -103,6 +117,9 @@ let syndication = (function() {
 				};
 
 				getFeedSourceText(url, reload, timeout).then((feedSrc) => {
+
+					// exit immediately if aborted
+					if(objAbort.isAborted) return;
 
 					let feedData = getFeedData(feedSrc.text, url);
 
@@ -121,7 +138,8 @@ let syndication = (function() {
 				}).catch((error) => {
 					discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: error.message});
 				}).finally(() => {
-					callback(discoveredFeed);
+					// Only if not aborted
+					if(!objAbort.isAborted) callback(discoveredFeed);
 				});
 			}
 		});

@@ -23,7 +23,9 @@ let discoveryView = (function() {
 	let m_elmButtonCancel;
 	let m_elmLabelInfobar;
 
+	let m_isLoading = false;
 	let m_nRequestId = 0;
+	let m_abortDiscovery = null;
 
 	let m_funcPromiseResolve = null;
 
@@ -110,6 +112,10 @@ let discoveryView = (function() {
 			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 			m_elmLabelInfobar = document.getElementById("lblInfobar");
 
+			if(m_elmButtonRediscover.slSavedTitle === undefined) {
+				m_elmButtonRediscover.slSavedTitle = m_elmButtonRediscover.title;
+			}
+
 			m_elmAggressiveDiscoveryContainer.title = AGGRESSIVE_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 		}
 	}
@@ -118,6 +124,7 @@ let discoveryView = (function() {
 	function runDiscoverFeeds() {
 
 		m_nRequestId = Date.now();
+		m_abortDiscovery = null;
 
 		setDiscoverLoadingState(false);
 		emptyDiscoverFeedsList();
@@ -176,6 +183,19 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function abortDiscoverFeeds() {
+
+		m_nRequestId = 0;
+		if(!!m_abortDiscovery) m_abortDiscovery.abort();
+
+		setDiscoverLoadingState(false);
+		sortDiscoverFeedsList();
+		setStatusbarMessage(" - Aborted!", true, true);
+
+		m_abortDiscovery = null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function loadSingleDiscoverFeed(strUrl, domainName, injectErr = undefined) {
 
 		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
@@ -186,7 +206,7 @@ let discoveryView = (function() {
 
 		syndication.feedDiscovery(strUrl, timeout, m_nRequestId).then((feedData) => {
 
-			// do not process stale requests
+			// do not process stale/aborted requests
 			if(feedData.requestId === m_nRequestId) {
 
 				if(feedData.status === "OK") {
@@ -215,7 +235,7 @@ let discoveryView = (function() {
 
 		let funcHandleDiscoveredFeed = function(feed) {
 
-			// do not process stale requests
+			// do not process stale/aborted requests
 			if(feed.requestId === m_nRequestId) {
 
 				if(feed.status === "OK") {
@@ -227,6 +247,7 @@ let discoveryView = (function() {
 
 				// if function was called for all founded feeds
 				if(feedCount === ++counter) {
+					m_abortDiscovery = null;
 					setDiscoverLoadingState(false);
 
 					// if none of the feeds was added to the list
@@ -248,6 +269,7 @@ let discoveryView = (function() {
 				setNoFeedsMsg("No feeds were discovered.");
 				setDiscoverLoadingState(false);
 			}
+			m_abortDiscovery = result.abortObject;
 		});
 	}
 
@@ -321,10 +343,13 @@ let discoveryView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setDiscoverLoadingState(isLoading) {
-		m_elmDiscoverPanel.classList.toggle("loading", isLoading);
-		m_elmButtonCheckmarkAll.classList.toggle("disabled", isLoading);
-		m_elmButtonRediscover.classList.toggle("disabled", isLoading);
-		slUtil.disableElementTree(m_elmAggressiveDiscoveryContainer, isLoading);
+
+		m_isLoading = isLoading;
+
+		m_elmDiscoverPanel.classList.toggle("loading", m_isLoading);
+		m_elmButtonCheckmarkAll.classList.toggle("disabled", m_isLoading);
+		m_elmButtonRediscover.title = m_isLoading ? "Abort!" : m_elmButtonRediscover.slSavedTitle;
+		slUtil.disableElementTree(m_elmAggressiveDiscoveryContainer, m_isLoading);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -354,8 +379,8 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setStatusbarMessage(text, isError) {
-		m_elmLabelInfobar.textContent = text;
+	function setStatusbarMessage(text, isError, concatToContent = false) {
+		m_elmLabelInfobar.textContent = (concatToContent ? m_elmLabelInfobar.textContent : "") + text;
 		m_elmLabelInfobar.classList.toggle("error", isError);
 	}
 
@@ -401,7 +426,11 @@ let discoveryView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonRediscover(event) {
-		runDiscoverFeeds();
+		if(m_isLoading) {
+			abortDiscoverFeeds();
+		} else {
+			runDiscoverFeeds();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
