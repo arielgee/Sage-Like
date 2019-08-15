@@ -9,8 +9,27 @@
             "request": "launch",
             "reAttach": true,
             "name": "Launch Sage-Like",
-            "addonType": "webExtension",
-            "addonPath": "${workspaceFolder}"
+            "addonPath": "${workspaceFolder}/Sage-Like"
+
+            // "firefoxExecutable": "C:/Program Files/Mozilla.Firefox/firefox.exe",
+            // "firefoxArgs": [
+            //     "-no-remote"
+            // ],
+            // "profile": "newVerClean",
+            // // "profileDir": " C:/Users/arielg/AppData/Roaming/Mozilla/Firefox/Profiles/eosumqfs.newVerClean",
+            // "keepProfileChanges": true,
+
+            // "log": {
+            //     "fileName": "${workspaceFolder}/vscode-firefox-debug.log",
+            //     "fileLevel": {
+            //         "PathConversion": "Debug",
+            //         "default": "Debug"
+            //     },
+            //     "consoleLevel": {
+            //         "PathConversion": "Debug",
+            //         "default": "Error"
+            //     }
+            // }
         }
     ]
 }
