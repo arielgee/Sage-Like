@@ -610,9 +610,16 @@ let rssTreeView = (function() {
 			}
 		});
 
-		event.dataTransfer.effectAllowed = "move";
-		event.dataTransfer.setData("text/html", m_elmCurrentlyDragged.outerHTML);
+		let transfer = event.dataTransfer;
 
+		transfer.effectAllowed = "move";
+		transfer.setData("text/wx-sl-treeitem-html", m_elmCurrentlyDragged.outerHTML);
+
+		if(m_elmCurrentlyDragged.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+			let url = slUtil.getFeedPreviewUrl(m_elmCurrentlyDragged.getAttribute("href"));
+			transfer.setData("text/x-moz-url", url);
+			transfer.setData("text/uri-list", url);
+		}
 		m_elmCurrentlyDragged.classList.add("dragged");
 	}
 
@@ -627,12 +634,14 @@ let rssTreeView = (function() {
 		event.preventDefault();
 
 		let target = event.target;
+		let transfer = event.dataTransfer;
+		let validMimes = ["text/wx-sl-treeitem-html", "text/uri-list", "text/x-moz-url"];
 
 		// + Drop only on LI element
 		// + Prevent element from been droped into itself.
-		// + Unless the dropped data is a URI
-		if((target.tagName !== "LI" || !!!m_elmCurrentlyDragged || m_elmCurrentlyDragged.contains(target)) && !event.dataTransfer.types.includes("text/uri-list")) {
-			event.dataTransfer.dropEffect = "none";
+		// + Unless the dropped data is a URI or an 'wx-sl-treeitem-html'
+		if((target.tagName !== "LI" || !!!m_elmCurrentlyDragged || m_elmCurrentlyDragged.contains(target)) && !transfer.types.includesSome(validMimes)) {
+			transfer.dropEffect = "none";
 			return false;
 		}
 
@@ -644,7 +653,7 @@ let rssTreeView = (function() {
 			// The result is that hovering on the left of the items in the folder (but not ON a folder item) marks
 			// the entire folder as a drop target. This makes sure that only hovers on the top of the elements are processed
 			if(!eventOccureInItemLineHeight(event, target)) {
-				event.dataTransfer.dropEffect = "none";
+				transfer.dropEffect = "none";
 				return false;
 			}
 
@@ -667,7 +676,7 @@ let rssTreeView = (function() {
 		}
 
 		target.classList.add("draggedOver");
-		event.dataTransfer.dropEffect = "move";
+		transfer.dropEffect = "move";
 		return false;
 	}
 
@@ -683,29 +692,34 @@ let rssTreeView = (function() {
 		m_elmCurrentlyDragged.classList.remove("dragged");
 		event.target.classList.remove("draggedOver", "dropInside");
 		m_objCurrentlyDraggedOver.init();
+		m_elmCurrentlyDragged = null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDropTreeItem(event) {
 
+		// The m_elmCurrentlyDragged member varaiable is nulled in the dragend() event but
+		// is still needed in the drop() event.
+		// According to the drag-and-drop processing model in current HTML specification (updated August 13, 2019),
+		// the drop() event must fire BEFORE the dragend() event. (https://html.spec.whatwg.org/multipage/dnd.html#drag-and-drop-processing-model)
+		// This dose not guarantee that m_elmCurrentlyDragged will remain valid the entire process of this function.
+		// Therefore m_elmCurrentlyDragged is immediately saved locally.
+		let elmCurrentlyDragged = m_elmCurrentlyDragged;
+
 		// prevent propagation from the perent (folder)
 		event.stopPropagation();
 
 		let elmDropTarget = event.target;
+		let transfer = event.dataTransfer;
 
 		// nothing to do if dropped in the same location OR in a folder
-		if(elmDropTarget === m_elmCurrentlyDragged) {
-			m_elmCurrentlyDragged.classList.remove("dragged");
+		if(elmDropTarget === elmCurrentlyDragged) {
+			elmCurrentlyDragged.classList.remove("dragged");
 		} else {
 
-			if(event.dataTransfer.types.includes("text/x-moz-url")){
-				let mozUrl = event.dataTransfer.getData("text/x-moz-url").split("\n");
-				createNewFeed(elmDropTarget, (mozUrl[1].length === 0 ? "New Feed" : mozUrl[1]), mozUrl[0], true, event.shiftKey);
-			} else if(event.dataTransfer.types.includes("text/uri-list")){
-				createNewFeed(elmDropTarget, "New Feed", event.dataTransfer.getData("URL"), true, event.shiftKey);
-			} else {
+			if (transfer.types.includes("text/wx-sl-treeitem-html")) {
 
-				let gettingDragged = browser.bookmarks.get(m_elmCurrentlyDragged.id);
+				let gettingDragged = browser.bookmarks.get(elmCurrentlyDragged.id);
 				let gettingDrop = browser.bookmarks.get(elmDropTarget.id);
 
 				gettingDragged.then((dragged) => {
@@ -728,13 +742,13 @@ let rssTreeView = (function() {
 						};
 
 						suspendBookmarksEventHandler(() => {
-							return browser.bookmarks.move(m_elmCurrentlyDragged.id, destination).then((moved) => {
+							return browser.bookmarks.move(elmCurrentlyDragged.id, destination).then((moved) => {
 
-								let elmDraggedFolderUL = m_elmCurrentlyDragged.parentElement;
-								elmDraggedFolderUL.removeChild(m_elmCurrentlyDragged);
+								let elmDraggedFolderUL = elmCurrentlyDragged.parentElement;
+								elmDraggedFolderUL.removeChild(elmCurrentlyDragged);
 
 								let elmDropped;
-								let dropHTML = event.dataTransfer.getData("text/html");
+								let dropHTML = transfer.getData("text/wx-sl-treeitem-html");
 
 								if(inFolder) {
 									let elmDropTargetFolderUL = elmDropTarget.lastElementChild;
@@ -757,6 +771,15 @@ let rssTreeView = (function() {
 						});
 					});
 				});
+
+			} else if (transfer.types.includes("text/x-moz-url")) {
+
+				let mozUrl = transfer.getData("text/x-moz-url").split("\n");
+				createNewFeed(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true, event.shiftKey);
+
+			} else if (transfer.types.includes("text/uri-list")) {
+
+				createNewFeed(elmDropTarget, "New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, event.shiftKey);
 			}
 		}
 		elmDropTarget.classList.remove("draggedOver", "dropInside");
@@ -2355,6 +2378,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemStats(elmLI, text) {
 		elmLI.firstElementChild.firstElementChild.nextElementSibling.textContent = text;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function stripFeedPreviewUrl(url) {
+		return decodeURIComponent(url.replace(slUtil.getFeedPreviewUrl(""), ""));
 	}
 
 	return {

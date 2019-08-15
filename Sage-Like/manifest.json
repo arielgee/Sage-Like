@@ -25,7 +25,8 @@
 		"48": "/icons/sageLike-48.png"
 	},
 	"web_accessible_resources": [
-		"/icons/sageLike-32.png"
+		"/icons/sageLike-32.png",
+		"/feedPreview/feedPreview.html"
 	],
 	"browser_action": {
 		"browser_style": true,

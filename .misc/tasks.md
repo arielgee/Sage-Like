@@ -394,10 +394,10 @@
 * button to abort the discovery
 * member boolean flag in discoveryView for loading/not-loading
 * support copy in drag & drop => NO
+* drop feeds in tabs-bar and in location-bar
 ---
 
 ## Next
-* drop feeds in tabs-bar and in location-bar
 * use my Array.prototype.includesAll() ; did I used, somewhere, some other trick to do this ?
 * replace indexOf with includes()
 * tri-toggler alternative: https://codepen.io/JiveDig/pen/jbdJXR/?editors=1100
