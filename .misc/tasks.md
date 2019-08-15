@@ -395,11 +395,11 @@
 * member boolean flag in discoveryView for loading/not-loading
 * support copy in drag & drop => NO
 * drop feeds in tabs-bar and in location-bar
+* replace indexOf with includes()
+* use my Array.prototype.includesAll() ; did I used, somewhere, some other trick to do this => NO
 ---
 
 ## Next
-* use my Array.prototype.includesAll() ; did I used, somewhere, some other trick to do this ?
-* replace indexOf with includes()
 * tri-toggler alternative: https://codepen.io/JiveDig/pen/jbdJXR/?editors=1100
     * box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(255, 255, 255, 0.1);
 * tri-toggler: change the word 'Very' to 'High' ?
