@@ -397,11 +397,11 @@
 * drop feeds in tabs-bar and in location-bar
 * replace indexOf with includes()
 * use my Array.prototype.includesAll() ; did I used, somewhere, some other trick to do this => NO
+* tri-toggler alternative: https://codepen.io/JiveDig/pen/jbdJXR/?editors=1100
+    * box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(255, 255, 255, 0.1);
 ---
 
 ## Next
-* tri-toggler alternative: https://codepen.io/JiveDig/pen/jbdJXR/?editors=1100
-    * box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(255, 255, 255, 0.1);
 * tri-toggler: change the word 'Very' to 'High' ?
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
