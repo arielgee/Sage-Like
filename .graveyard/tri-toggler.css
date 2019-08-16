@@ -1,22 +1,22 @@
 #triTglAggressiveLevel {
-	--size-factor: 2;
+	--size-factor: 6;
 
-    --height-total: calc(14px * var(--size-factor));
-    --width-total: calc(108px * var(--size-factor));
+	--height-total: calc(14px * var(--size-factor));
+	--width-total: calc(108px * var(--size-factor));
 
-    --font-size-caption: calc(9px * var(--size-factor));
-    --border-size: 1px;
-    --border-radius: 2px;
-    --margin-triTogglerRail: 0px;
+	--font-size-caption: calc(11px * var(--size-factor));
+	--border-size: 1px;
+	--border-radius: 2px;
+	--margin-triTogglerRail: 0px;
 
-    --height-content: calc(var(--height-total) - var(--margin-triTogglerRail)*2);
-    --width-content: calc(var(--width-total) - var(--margin-triTogglerRail)*2);
+	--height-content: calc(var(--height-total) - var(--margin-triTogglerRail)*2);
+	--width-content: calc(var(--width-total) - var(--margin-triTogglerRail)*2);
 
-    --width-toggle: calc(var(--width-content) / 3);
+	--width-toggle: calc(var(--width-content) / 3);
 }
 
 sl-tri-toggler {
-    display: block;
+	display: block;
 	box-sizing: content-box;
 	min-height: var(--height-total);
 	max-height: var(--height-total);
@@ -32,11 +32,12 @@ sl-tri-toggler {
 sl-tri-toggler:focus {
 	outline: 1px dotted gray;
 	outline-offset: 1px;
+	-moz-outline-radius: var(--border-radius);
 }
 
 sl-tri-toggler * {
-    box-sizing: inherit;
-    display: block;
+	box-sizing: inherit;
+	display: block;
 }
 
 sl-tri-toggler-rail {
@@ -68,7 +69,8 @@ sl-tri-toggler-caption {
 	flex-grow: 1;
 	font-family: Tahoma, Verdana, Segoe, sans-serif !important;;
 	font-weight: normal;
-    font-size: var(--font-size-caption) !important;
+	font-size: var(--font-size-caption) !important;
+	line-height: calc(var(--font-size-caption) + 1px);
 	text-align: center;
 	/* letter-spacing: -0.1px; */
 	background-color: transparent;
