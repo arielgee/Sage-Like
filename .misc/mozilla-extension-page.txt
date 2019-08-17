@@ -35,7 +35,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
   <li>Added more aggressiveness to sidebar discovery. If selected, can check ALL hyperlinks in page.</li>
   <li>The built-in feed's preview is now used regardless of the browser's version.</li>
   <li>Added a message about Sage-Like not allowed to run in private windows.</li>
-  <li>Minor UI/Code improvements and modifications.</li>
+  <li>Various UI/Code improvements and modifications.</li>
   <li>Bugs fixed.</li>
 </ul>
 

@@ -403,6 +403,7 @@
 ---
 
 ## Next
+* Use keyboard Delete keys to delete tree items and not keyD
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
