@@ -400,10 +400,10 @@
 * tri-toggler alternative: https://codepen.io/JiveDig/pen/jbdJXR/?editors=1100
     * box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(255, 255, 255, 0.1);
 * tri-toggler: change the word 'Very' to 'High' => Low High
+* Use keyboard Delete keys to delete tree items and not keyD => BOTH. delete is done with KeyD and Delete
 ---
 
 ## Next
-* Use keyboard Delete keys to delete tree items and not keyD
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">

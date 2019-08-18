@@ -900,6 +900,7 @@ let rssTreeView = (function() {
 		}
 
 		let count, elmCount, elm, elms;
+		let keyCode = event.code;
 		let elmTargetLI = event.target;
 		let isFolder = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 		let isFolderOpen;
@@ -908,7 +909,11 @@ let rssTreeView = (function() {
 			isFolderOpen = elmTargetLI.classList.contains("open");
 		}
 
-		switch (event.code) {
+		if(event.key === "Delete") {
+			keyCode = "KeyD";
+		}
+
+		switch (keyCode) {
 
 			case "Tab":
 				rssListView.setFocus();

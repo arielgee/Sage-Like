@@ -186,6 +186,10 @@ let contextMenu = (function() {
 			return;
 		}
 
+		if(event.key === "Delete") {
+			keyCode = "KeyD";
+		}
+
 		if(m_currentContext === "treeitemfoldercontext") {
 			switch (keyCode) {
 				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
