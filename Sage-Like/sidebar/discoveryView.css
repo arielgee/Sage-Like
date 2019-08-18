@@ -188,7 +188,7 @@ sl-tri-toggler {
 
 sl-tri-toggler:focus {
 	outline: 1px dotted gray;
-	outline-offset: 1px;
+	outline-offset: -2px;
 	-moz-outline-radius: var(--border-radius);
 }
 
