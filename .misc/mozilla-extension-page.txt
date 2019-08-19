@@ -18,7 +18,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 </ul>
 
 <b>Support & Feedback:</b>
-&emsp;&emsp;<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383</a>
+<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383</a>
 
 + Product Page Tags (20 tags)
 --------------------------------------------------------------
