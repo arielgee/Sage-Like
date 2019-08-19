@@ -149,7 +149,7 @@ body {
 #statusBar {
 	--text-height: 11px;
 	margin-top: 0px;
-	line-height: var(--text-height);
+	line-height: calc(var(--text-height) * 1.2);
 	font-family: Tahoma, Verdana, Segoe, sans-serif !important;
 	font-weight: normal;
 	font-size: var(--text-height) !important;
