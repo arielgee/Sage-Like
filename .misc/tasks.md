@@ -404,6 +404,18 @@
 ---
 
 ## Next
+* Link pagePopup & messageView with the Options page
+    * manifest.json: "content_security_policy": "script-src 'self' 'sha256-j/oP6Cbz4c8oT9pmAgPW2XZsO2udvTOKB7Ab1iAO/Ko='; object-src 'self'",
+    * messageView: In slUtil.incognitoErrorMessage() => return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' onclick='browser.runtime.openOptionsPage()'>Options page</a>.";
+    * pagePopup:
+        1. In onDOMContentLoaded() => updateStatusBar("Feeds folder not set in <a href='#' onclick='browser.runtime.openOptionsPage()'>Options page</a>.");
+        2. In updateStatusBar() => m_elmStatusBar.innerHTML = STATUS_BAR_MESSEGE_PREFIX + msg;
+    * References:
+        1. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/content_security_policy
+        2. https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
+        3. https://report-uri.com/home/hash
+        4. https://content-security-policy.com
+        5. https://caniuse.com/#feat=contentsecuritypolicy&search=csp
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">

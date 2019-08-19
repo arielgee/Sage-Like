@@ -8,7 +8,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
   <li>A sidebar based display.</li>
   <li>Feed discovery from the sidebar and from the address bar.</li>
   <li>Integrated with the browser's native bookmarks.</li>
-  <li>Fully customizable tree view. Add, edit & delete feeds and folders directly from the sidebar.</li>
+  <li>Fully customizable tree view. Add, edit, move & delete feeds and folders directly from the sidebar.</li>
   <li>Diversified filtering capabilities to the tree feeds (filter by title, URL or status).</li>
   <li>Context menus for feeds and for feed-items (articles) offer more actions.</li>
   <li>Support for <i>Middle Click</i>, <i>Ctrl+Click</i> & <i>Shift+Click</i> in the feed-items list.</li>
@@ -32,14 +32,16 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 <ul>
   <li>Added support for JSON feeds.</li>
   <li>Added support for URL filtering.</li>
-  <li>Added more aggressiveness to sidebar discovery. If selected, can check ALL hyperlinks in page.</li>
-  <li>The built-in feed's preview is now used regardless of the browser's version.</li>
+  <li>Added more aggressiveness to sidebar discovery. An option to check ALL hyperlinks in page.</li>
+  <li>The built-in feed preview is now used regardless of the browser's version.</li>
+  <li>Added the ability to abort the sidebar discovery process.</li>
+  <li>Improved Drag and drop capabilities of feeds with the browser.</li>
   <li>Added a message about Sage-Like not allowed to run in private windows.</li>
   <li>Various UI/Code improvements and modifications.</li>
-  <li>Bugs fixed.</li>
 </ul>
 
 + Version Notes for next time
 --------------------------------------------------------------
 Code improvements - tightening the bolts.
 Under the hoods Performance enhancements.
+Bugs fixed.
