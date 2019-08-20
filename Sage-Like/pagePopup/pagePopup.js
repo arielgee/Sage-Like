@@ -7,6 +7,7 @@
 	let m_elmPageFeedsList;
 	let m_elmButtonAddFeeds;
 	let m_elmStatusBar;
+	let m_elmOptionsHref;
 
 	let m_windowId = null;
 	let m_isSidebarOpen;
@@ -25,6 +26,7 @@
 		m_elmPageFeedsList = document.getElementById("pageFeedsList");
 		m_elmButtonAddFeeds = document.getElementById("btnAddFeeds");
 		m_elmStatusBar = document.getElementById("statusBar");
+		m_elmOptionsHref = null;
 
 		m_elmPageFeedsList.addEventListener("click", onClickPageFeedsList);
 		m_elmPageFeedsList.addEventListener("keydown", onKeyDownPageFeedsList);
@@ -41,7 +43,7 @@
 
 			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmPageFeedsList.style.display = "none";
-				updateStatusBar("Feeds folder not set in Options page.");
+				updateStatusBar("Feeds folder not set in <a href='#' id='pagePopupOptionsHref'>Options page</a>.");
 				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
 			} else {
 				createFeedList();
@@ -54,6 +56,9 @@
 		m_elmPageFeedsList.removeEventListener("click", onClickPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("keydown", onKeyDownPageFeedsList);
 		m_elmButtonAddFeeds.removeEventListener("click", onClickButtonAdd);
+		if(!!m_elmOptionsHref) {
+			m_elmOptionsHref.removeEventListener("click", onClickOptionsPage);
+		}
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -149,6 +154,11 @@
 		} else {
 			updateStatusBar("Nothing to add.");
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickOptionsPage() {
+		browser.runtime.openOptionsPage();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +294,13 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateStatusBar(msg) {
-		m_elmStatusBar.textContent = STATUS_BAR_MESSEGE_PREFIX + msg;
+
+		m_elmStatusBar.innerHTML = STATUS_BAR_MESSEGE_PREFIX + msg;
+
+		m_elmOptionsHref = document.getElementById("pagePopupOptionsHref");
+		if(!!m_elmOptionsHref) {
+			m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
+		}
 	}
 
 })();

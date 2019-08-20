@@ -401,14 +401,11 @@
     * box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(255, 255, 255, 0.1);
 * tri-toggler: change the word 'Very' to 'High' => Low High
 * Use keyboard Delete keys to delete tree items and not keyD => BOTH. delete is done with KeyD and Delete
----
-
-## Next
 * Link pagePopup & messageView with the Options page
-    * manifest.json: "content_security_policy": "script-src 'self' 'sha256-j/oP6Cbz4c8oT9pmAgPW2XZsO2udvTOKB7Ab1iAO/Ko='; object-src 'self'",
-    * messageView: In slUtil.incognitoErrorMessage() => return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' onclick='browser.runtime.openOptionsPage()'>Options page</a>.";
+    * manifest.json: "content_security_policy": "script-src 'self' 'sha256-VH2httsBzs0mSgiaWxj7JB7yRdSrmvTCu5iJ+QN7Gl4='; object-src 'self';",
+    * messageView: In slUtil.incognitoErrorMessage() => return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>.";
     * pagePopup:
-        1. In onDOMContentLoaded() => updateStatusBar("Feeds folder not set in <a href='#' onclick='browser.runtime.openOptionsPage()'>Options page</a>.");
+        1. In onDOMContentLoaded() => updateStatusBar("Feeds folder not set in <a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>.");
         2. In updateStatusBar() => m_elmStatusBar.innerHTML = STATUS_BAR_MESSEGE_PREFIX + msg;
     * References:
         1. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/content_security_policy
@@ -416,6 +413,9 @@
         3. https://report-uri.com/home/hash
         4. https://content-security-policy.com
         5. https://caniuse.com/#feat=contentsecuritypolicy&search=csp
+---
+
+## Next
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">

@@ -22,6 +22,7 @@ let messageView = (function () {
 	let m_elmButtonOK;
 	let m_elmButtonYes;
 	let m_elmButtonNo;
+	let m_elmOptionsHref;
 
 	let m_buttonSet;
 	let m_buttonCodeResult = ButtonCode.none;
@@ -40,6 +41,11 @@ let messageView = (function () {
 			m_elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
+
+			m_elmOptionsHref = document.getElementById("incognitoMsgOptionsHref");
+			if(!!m_elmOptionsHref) {
+				m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
+			}
 
 			m_elmMessagePanel.classList.add("visible");
 			slUtil.disableElementTree(m_elmMessagePanel, false);
@@ -64,6 +70,7 @@ let messageView = (function () {
 			m_elmButtonYes = document.getElementById("btnMsgYes");
 			m_elmButtonNo = document.getElementById("btnMsgNo");
 		}
+		m_elmOptionsHref = null;		// re-initialize in each display
 
 		m_elmMessagePanel.addEventListener("keydown", onKeyDownMessagePanel);
 		m_elmButtonOK.addEventListener("click", onClickButtonOK);
@@ -88,6 +95,9 @@ let messageView = (function () {
 		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
 		m_elmButtonYes.removeEventListener("click", onClickButtonYes);
 		m_elmButtonNo.removeEventListener("click", onClickButtonNo);
+		if(!!m_elmOptionsHref) {
+			m_elmOptionsHref.removeEventListener("click", onClickOptionsPage);
+		}
 
 		m_funcPromiseResolve(m_buttonCodeResult);
 		rssTreeView.setFocus();
@@ -140,6 +150,11 @@ let messageView = (function () {
 	function onClickButtonNo(event) {
 		m_buttonCodeResult = ButtonCode.No;
 		close();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickOptionsPage() {
+		browser.runtime.openOptionsPage();
 	}
 
 	return {

@@ -1857,7 +1857,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function incognitoErrorMessage(nativeError) {
 		if(!!(nativeError.toString().match(/\bpermission for incognito mode\b/))) {
-			return "Sage-Like extension is not allowed in private windows.<br>You can change that from the Options page.";
+			return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' id='incognitoMsgOptionsHref'>Options page</a>.";
 		}
 		return nativeError.toString();
 	}
