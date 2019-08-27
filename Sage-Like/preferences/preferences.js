@@ -662,7 +662,7 @@ let preferences = (function() {
 				m_elmRootFeedsFolder.removeChild(m_elmRootFeedsFolder.firstChild);
 			}
 
-			browser.bookmarks.getSubTree(slGlobals.BOOKMARKS_ROOT_MENU_GUID).then((bookmarks) => {
+			browser.bookmarks.getSubTree(slGlobals.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
 
 				let elmOption = createTagOption(slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
 				m_elmRootFeedsFolder.appendChild(elmOption);
