@@ -577,9 +577,16 @@ let rssTreeView = (function() {
 
 			} else if(event.button === 1) {					// middle click
 
-				browser.tabs.create({
-					url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")),
-				});
+				if(event.shiftKey) {
+					browser.windows.create({
+						url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")),
+						type: "normal",
+					});
+				} else {
+					browser.tabs.create({
+						url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")),
+					});
+				}
 			}
 		}
 	}
