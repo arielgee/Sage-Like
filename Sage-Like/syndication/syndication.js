@@ -330,7 +330,7 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedData(text, logUrl) {
 
-		if(text.match(/^\s*<\?xml\b/i)) {			// XML prolog for RSS/RDF/Atom
+		if(text.match(/^\s*<(\?xml|rss|rdf|feed)\b/i)) {			// XML prolog for RSS/RDF/Atom or xml without prolog
 
 			return getXMLFeedData(text, logUrl);
 
@@ -355,8 +355,8 @@ let syndication = (function() {
 
 		let feedData = {
 			standard: SyndicationStandard.invalid,
-			xmlVersion: "",
-			xmlEncoding: "",
+			xmlVersion: "1.0",
+			xmlEncoding: "UTF-8",
 			feeder: {},
 			title: "",
 			imageUrl: "",
