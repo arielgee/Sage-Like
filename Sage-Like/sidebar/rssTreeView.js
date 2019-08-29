@@ -573,19 +573,26 @@ let rssTreeView = (function() {
 
 			if(event.button === 0) {						// left click
 
+				// default action: load feed items in list
 				openTreeFeed(elmLI, event.shiftKey);
 
 			} else if(event.button === 1) {					// middle click
 
-				if(event.shiftKey) {
-					browser.windows.create({
-						url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")),
-						type: "normal",
-					});
+				if(event.ctrlKey && event.altKey && !event.shiftKey) {
+
+					// ++Dev Mode++: open link & link view-source in new tabs
+					browser.tabs.create({ url: elmLI.getAttribute("href") });
+					browser.tabs.create({ url: "view-source:" + elmLI.getAttribute("href") });
+
+				} else if(event.shiftKey) {
+
+					// open feed preview in new window
+					browser.windows.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")), type: "normal" });
+
 				} else {
-					browser.tabs.create({
-						url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")),
-					});
+
+					// open feed preview in new tab
+					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
 				}
 			}
 		}
