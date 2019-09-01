@@ -902,6 +902,7 @@ let rssTreeView = (function() {
 		if(event.button === 1 || event.target === m_elmTreeRoot) {
 			event.stopPropagation();
 			event.preventDefault();
+			setFeedSelectionState(event.target);
 			setFocus();
 		}
 	}
