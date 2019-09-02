@@ -2405,6 +2405,31 @@ let rssTreeView = (function() {
 		return decodeURIComponent(url.replace(slUtil.getFeedPreviewUrl(""), ""));
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function disable(value) {
+
+		if (value === true) {
+			m_elmTreeRoot.setAttribute("disabled", "");
+			m_elmTreeRoot.classList.add("disabled", "disabledBlur");
+
+			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM);
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].tabIndex = -1;
+				elms[i].setAttribute("disabled", "");
+			}
+
+		} else {
+			m_elmTreeRoot.removeAttribute("disabled");
+			m_elmTreeRoot.classList.remove("disabled", "disabledBlur");
+
+			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM);
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].tabIndex = 0;
+				elms[i].removeAttribute("disabled");
+			}
+		}
+	}
+
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
@@ -2420,6 +2445,7 @@ let rssTreeView = (function() {
 		isRssTreeCreatedOK: isRssTreeCreatedOK,
 		updateTreeItemStats: updateTreeItemStats,
 		getTreeItemText: getTreeItemText,
+		disable: disable,
 	};
 
 })();

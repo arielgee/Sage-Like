@@ -11,7 +11,6 @@ let discoveryView = (function() {
 									"  \u25cf Low: Check each hyperlink in page that its URL might suggest it links to an RSS feed. \u000d" +
 									"  \u25cf High: Check ALL hyperlinks in page (process may be lengthy).";
 
-	let m_elmMainPanel = null;
 	let m_elmDiscoverPanel = null;
 	let m_elmDiscoverFeedsList;
 
@@ -51,8 +50,8 @@ let discoveryView = (function() {
 			internalPrefs.getAggressiveDiscoveryLevel().then(level => m_elmTriTglAggressiveDiscoveryLevel.setAttribute("data-toggler-state", level));
 
 			m_elmDiscoverPanel.classList.add("visible");
-			slUtil.disableElementTree(m_elmDiscoverPanel, false);
-			slUtil.disableElementTree(m_elmMainPanel, true, true, ["DIV", "LI", "INPUT"]);
+			disable(false);
+			panel.disable(true);
 
 			m_elmDiscoverPanel.focus()
 			runDiscoverFeeds();
@@ -69,10 +68,11 @@ let discoveryView = (function() {
 		}
 
 		m_elmDiscoverPanel.classList.remove("visible");
-		slUtil.disableElementTree(m_elmDiscoverPanel, true);
-		slUtil.disableElementTree(m_elmMainPanel, false, false, ["DIV", "LI", "INPUT"]);
-		m_nRequestId = 0;
+		panel.disable(false);
 		emptyDiscoverFeedsList();
+		disable(true);
+
+		m_nRequestId = 0;
 		setStatusbarMessage("", false);
 
 		delete m_elmButtonCheckmarkAll["slCheckmarkAction"];
@@ -98,10 +98,15 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function disable(value) {
+		let panel = (!!m_elmDiscoverPanel ? m_elmDiscoverPanel : document.getElementById("discoverPanel"));
+		slUtil.disableElementTree(panel, value, false, ["SL-TRI-TOGGLER", "BUTTON"]);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function initMemberElements() {
 
-		if(m_elmMainPanel === null) {
-			m_elmMainPanel = document.getElementById("mainPanel");
+		if(m_elmDiscoverPanel === null) {
 			m_elmDiscoverPanel = document.getElementById("discoverPanel");
 			m_elmDiscoverFeedsList = document.getElementById("discoverFeedsList");
 			m_elmButtonCheckmarkAll = document.getElementById("btnCheckmarkAll");
@@ -349,7 +354,7 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.classList.toggle("loading", m_isLoading);
 		m_elmButtonCheckmarkAll.classList.toggle("disabled", m_isLoading);
 		m_elmButtonRediscover.title = m_isLoading ? "Abort!" : m_elmButtonRediscover.slSavedTitle;
-		slUtil.disableElementTree(m_elmAggressiveDiscoveryContainer, m_isLoading);
+		slUtil.disableElementTree(m_elmAggressiveDiscoveryContainer, m_isLoading, false, ["SL-TRI-TOGGLER"]);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -591,6 +596,7 @@ let discoveryView = (function() {
 		show: show,
 		close: close,
 		isOpen: isOpen,
+		disable: disable,
 	};
 
 })();

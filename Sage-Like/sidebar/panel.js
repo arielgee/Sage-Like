@@ -7,6 +7,7 @@ let panel = (function() {
 	//==================================================================================
 
 	let m_elmBody;
+	let m_elmMainPanel;
 	let m_elmTop;
 	let m_elmSplitter;
 	let m_elmBottom;
@@ -72,6 +73,7 @@ let panel = (function() {
 	function onDOMContentLoaded() {
 
 		m_elmBody = document.body;
+		m_elmMainPanel = document.getElementById("mainPanel");
 		m_elmTop = document.getElementById("top");
 		m_elmSplitter = document.getElementById("splitter");
 		m_elmBottom = document.getElementById("bottom");
@@ -122,9 +124,9 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function disableOnLoadElements() {
 		setTimeout(() => {
-			slUtil.disableElementTree(document.getElementById("discoverPanel"), true);
-			slUtil.disableElementTree(document.getElementById("propertiesPanel"), true);
-			slUtil.disableElementTree(document.getElementById("messagePanel"), true);
+			discoveryView.disable(true);
+			PropertiesView.disable(true);
+			messageView.disable(true);
 			slUtil.disableElementTree(document.getElementById("filterTextBoxContainer"), true);
 		}, 10);
 	}
@@ -324,9 +326,85 @@ let panel = (function() {
 		return m_windowId;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function disable(value) {
+
+		if (value === true) {
+
+			m_elmMainPanel.setAttribute("disabled", "");
+			m_elmMainPanel.classList.add("disabled", "disabledBlur");
+
+			m_elmTop.setAttribute("disabled", "");
+			m_elmTop.classList.add("disabled", "disabledBlur");
+			m_elmTop.tabIndex = -1;
+
+			m_elmBottom.setAttribute("disabled", "");
+			m_elmBottom.classList.add("disabled", "disabledBlur");
+			m_elmBottom.tabIndex = -1;
+
+			m_elmSplitter.setAttribute("disabled", "");
+			m_elmSplitter.classList.add("disabled", "disabledBlur");
+
+		} else {
+
+			m_elmMainPanel.removeAttribute("disabled", "");
+			m_elmMainPanel.classList.remove("disabled", "disabledBlur");
+
+			m_elmTop.removeAttribute("disabled", "");
+			m_elmTop.classList.remove("disabled", "disabledBlur");
+			m_elmTop.tabIndex = 0;
+
+			m_elmBottom.removeAttribute("disabled", "");
+			m_elmBottom.classList.remove("disabled", "disabledBlur");
+			m_elmBottom.tabIndex = 0;
+
+			m_elmSplitter.removeAttribute("disabled", "");
+			m_elmSplitter.classList.remove("disabled", "disabledBlur");
+		}
+		disableToolbar(value);
+		rssTreeView.disable(value);
+		rssListView.disable(value);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function disableToolbar(value) {
+
+		let elms = m_elmToolbar.querySelectorAll("#toolbar > .button, #filterContainer > .button");
+		let elmTextContainer = document.getElementById("filterTextBoxContainer");
+
+		// handle enable/disable state only if the container is "switched" (open)
+		if(!elmTextContainer.parentElement.classList.contains("switched")) {
+			elmTextContainer = null;
+		}
+
+		if (value === true) {
+
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].setAttribute("disabled", "");
+				elms[i].classList.add("disabled", "disabledBlur");
+			}
+
+			if(!!elmTextContainer) {
+				slUtil.disableElementTree(elmTextContainer, value, true);
+			}
+
+		} else {
+
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].removeAttribute("disabled", "");
+				elms[i].classList.remove("disabled", "disabledBlur");
+			}
+
+			if(!!elmTextContainer) {
+				slUtil.disableElementTree(elmTextContainer, value, true);
+			}
+		}
+	}
+
 	return {
 		getWindowId: getWindowId,
 		notifyViewContentLoaded: notifyViewContentLoaded,
+		disable: disable,
 	};
 
 })();

@@ -1312,10 +1312,12 @@ let slUtil = (function() {
 			disableElementTree(elm.children[i], value, blur, tags);
 		}
 
-		if(tags === undefined || tags.includes(elm.tagName)) {
+		let hasTabIndex = elm.hasAttribute("tabindex");
+
+		if(tags === undefined || tags.includes(elm.tagName) || hasTabIndex) {
 
 			if(elm.slHasAttributeTabIndex === undefined) {
-				elm.slHasAttributeTabIndex = elm.hasAttribute("tabindex");
+				elm.slHasAttributeTabIndex = hasTabIndex;
 				elm.slTabIndexOrgValue = elm.tabIndex;
 			}
 

@@ -635,6 +635,31 @@ let rssListView = (function() {
 		return m_elmListViewRssTitle.textContent;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function disable(value) {
+
+		if (value === true) {
+			m_elmList.setAttribute("disabled", "");
+			m_elmList.classList.add("disabled", "disabledBlur");
+
+			for(let i=0, len=m_elmList.children.length; i<len; i++) {
+				const elm = m_elmList.children[i];
+				elm.tabIndex = -1;
+				elm.setAttribute("disabled", "");
+			}
+
+		} else {
+			m_elmList.removeAttribute("disabled");
+			m_elmList.classList.remove("disabled", "disabledBlur");
+
+			for(let i=0, len=m_elmList.children.length; i<len; i++) {
+				const elm = m_elmList.children[i];
+				elm.tabIndex = 0;
+				elm.removeAttribute("disabled");
+			}
+		}
+	}
+
 	return {
 		URLOpenMethod: URLOpenMethod,
 
@@ -649,6 +674,7 @@ let rssListView = (function() {
 		openAllItemsInTabs: openAllItemsInTabs,
 		setFocus: setFocus,
 		getListViewTitle: getListViewTitle,
+		disable: disable,
 	};
 
 })();

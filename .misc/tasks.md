@@ -416,9 +416,15 @@
 * Enable user to place the feeds folder in "Other Bookmarks". Allow preferences to access the entire bookmarks tree
 * handle xml without XML prolog; https://www.buzzfeed.com/nsfw.xml
 * in title/description sidebar/preview replace common &#xx; like: <title>World&amp;#39;s First Extreme Cyclist?</title> => already DONE; added numeric Entities
+* remove not used members m_elmMainPanel
+* hide slideDown panels instead of disable using transition end (and not * disable content of slideDown panels with transitionend) => NOT GOOD ENOUGH
+* better handling of slUtil.disableElementTree(m_elmToolbar, value, true)   => IT'S OK
+* check all uses of disableElementTree() (slideDown panels) tabIndex
+    * the filter text container is not managed correctly
 ---
 
 ## Next
+* hide infoBar when not visible (after fadeOut, use event transition end)
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">

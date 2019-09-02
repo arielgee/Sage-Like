@@ -27,8 +27,6 @@ class PropertiesViewElements {
 
 	///////////////////////////////////////////////////////////////
 	_getViewElementIds() {
-		this.elmSidebarBody = document.body;
-		this.elmMainPanel = document.getElementById("mainPanel");
 		this.elmPropertiesPanel = document.getElementById("propertiesPanel");
 		this.elmTextTitle = document.getElementById("txtFpTitle");
 		this.elmTextLocation = document.getElementById("txtFpLocation");
@@ -87,8 +85,8 @@ class PropertiesView {
 		}
 
 		this.m_elmPropertiesPanel.classList.remove("visible");
-		slUtil.disableElementTree(this.m_elmPropertiesPanel, true);
-		slUtil.disableElementTree(this.m_elmMainPanel, false, false, ["DIV", "LI", "INPUT"]);
+		panel.disable(false);
+		PropertiesView.disable(true);
 
 		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
@@ -99,9 +97,12 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
+	static disable(value) {
+		slUtil.disableElementTree(document.getElementById("propertiesPanel"), value, false, ["LABEL", "INPUT", "BUTTON"]);
+	}
+
+	///////////////////////////////////////////////////////////////
 	_initMembers() {
-		this.m_elmSidebarBody = PropertiesViewElements.i.elmSidebarBody;
-		this.m_elmMainPanel = PropertiesViewElements.i.elmMainPanel;
 		this.m_elmPropertiesPanel = PropertiesViewElements.i.elmPropertiesPanel;
 		this.m_elmTextTitle = PropertiesViewElements.i.elmTextTitle;
 		this.m_elmTextLocation = PropertiesViewElements.i.elmTextLocation;
@@ -156,8 +157,8 @@ class PropertiesView {
 
 		// do it first so element will have dimentions (offsetWidth > 0)
 		this.m_elmPropertiesPanel.classList.add("visible");
-		slUtil.disableElementTree(this.m_elmPropertiesPanel, false);
-		slUtil.disableElementTree(this.m_elmMainPanel, true, true, ["DIV", "LI", "INPUT"]);
+		PropertiesView.disable(false);
+		panel.disable(true);
 	}
 
 	///////////////////////////////////////////////////////////////

@@ -14,7 +14,6 @@ let messageView = (function () {
 		No: 3,
 	};
 
-	let m_elmMainPanel = null;
 	let m_elmMessagePanel = null;
 	let m_elmMsgText;
 	let m_elmButtonSetOK;
@@ -48,8 +47,8 @@ let messageView = (function () {
 			}
 
 			m_elmMessagePanel.classList.add("visible");
-			slUtil.disableElementTree(m_elmMessagePanel, false);
-			slUtil.disableElementTree(m_elmMainPanel, true, true, ["DIV", "LI", "INPUT"]);
+			disable(false);
+			panel.disable(true);
 
 			m_elmMessagePanel.focus();
 
@@ -60,8 +59,7 @@ let messageView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialize() {
 
-		if(m_elmMainPanel === null) {
-			m_elmMainPanel = document.getElementById("mainPanel");
+		if(m_elmMessagePanel === null) {
 			m_elmMessagePanel = document.getElementById("messagePanel");
 			m_elmMsgText = document.getElementById("msgText");
 			m_elmButtonSetOK = document.getElementById("btnSetOK");
@@ -88,8 +86,8 @@ let messageView = (function () {
 		}
 
 		m_elmMessagePanel.classList.remove("visible");
-		slUtil.disableElementTree(m_elmMessagePanel, true);
-		slUtil.disableElementTree(m_elmMainPanel, false, false, ["DIV", "LI", "INPUT"]);
+		panel.disable(false);
+		disable(true);
 
 		m_elmMessagePanel.removeEventListener("keydown", onKeyDownMessagePanel);
 		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
@@ -106,6 +104,12 @@ let messageView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	function isOpen() {
 		return (m_elmMessagePanel !== null && m_elmMessagePanel.classList.contains("visible"));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function disable(value) {
+		let panel = (!!m_elmMessagePanel ? m_elmMessagePanel : document.getElementById("messagePanel"));
+		slUtil.disableElementTree(panel, value, false, ["BUTTON"]);
 	}
 
 	//==================================================================================
@@ -164,6 +168,7 @@ let messageView = (function () {
 		show: show,
 		close: close,
 		isOpen: isOpen,
+		disable: disable,
 	};
 
 })();
