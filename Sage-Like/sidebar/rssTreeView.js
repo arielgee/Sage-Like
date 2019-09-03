@@ -118,10 +118,10 @@ let rssTreeView = (function() {
 					message.details === slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER) {
 					messageView.close();
 					discoveryView.close();
-					NewFeedPropertiesView.i.close();
-					NewFolderPropertiesView.i.close();
-					EditFeedPropertiesView.i.close();
-					EditFolderPropertiesView.i.close();
+					NewFeedPropertiesView.close();
+					NewFolderPropertiesView.close();
+					EditFeedPropertiesView.close();
+					EditFolderPropertiesView.close();
 					rssListView.disposeList();
 					createRSSTree();
 				}

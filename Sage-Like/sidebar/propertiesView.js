@@ -78,22 +78,10 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	close() {
-
-		if (this.m_isOpen === false) {
-			return;
+	static close() {
+		if (this.m_instance !== undefined) {
+			this.m_instance._close();
 		}
-
-		this.m_elmPropertiesPanel.classList.remove("visible");
-		panel.disable(false);
-		PropertiesView.disable(true);
-
-		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
-		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
-		this.m_elmPropertiesPanel.removeEventListener("keydown", this._onKeyDownPropertiesPanel);
-
-		rssTreeView.setFocus();
-		this.m_isOpen = false;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -162,13 +150,32 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
+	_close() {
+
+		if (this.m_isOpen === false) {
+			return;
+		}
+
+		this.m_elmPropertiesPanel.classList.remove("visible");
+		panel.disable(false);
+		PropertiesView.disable(true);
+
+		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
+		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
+		this.m_elmPropertiesPanel.removeEventListener("keydown", this._onKeyDownPropertiesPanel);
+
+		rssTreeView.setFocus();
+		this.m_isOpen = false;
+	}
+
+	///////////////////////////////////////////////////////////////
 	_onClickButtonSave(event) {
 		this._saveAndClose();
 	}
 
 	///////////////////////////////////////////////////////////////
 	_onClickButtonCancel(event) {
-		this.close();
+		this._close();
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -180,7 +187,7 @@ class PropertiesView {
 				break;
 				//////////////////////////////
 			case "Escape":
-				this.close();
+				this._close();
 				break;
 				//////////////////////////////
 			default:
@@ -243,7 +250,7 @@ class NewFeedPropertiesView extends PropertiesView {
 		}
 
 		this.m_funcPromiseResolve(result);
-		this.close();
+		this._close();
 	}
 }
 
@@ -288,7 +295,7 @@ class NewFolderPropertiesView extends PropertiesView {
 		}
 
 		this.m_funcPromiseResolve(result);
-		this.close();
+		this._close();
 	}
 }
 
@@ -352,7 +359,7 @@ class EditFeedPropertiesView extends PropertiesView {
 		}
 
 		this.m_funcPromiseResolve(result);
-		this.close();
+		this._close();
 	}
 }
 
@@ -402,6 +409,6 @@ class EditFolderPropertiesView extends PropertiesView {
 		}
 
 		this.m_funcPromiseResolve(result);
-		this.close();
+		this._close();
 	}
 }
