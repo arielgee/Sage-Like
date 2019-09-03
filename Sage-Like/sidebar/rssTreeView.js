@@ -620,7 +620,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
 			if(count > 0) {
-				slUtil.showInfoBar("Press the Shift key to drop item <b>inside</b> folder.", undefined, m_elmTreeRoot.style.direction, false);
+				slUtil.showInfoBar("Press the Shift key to drop item <b>inside</b> folder.", undefined, "", false);
 				internalPrefs.setDropInsideFolderShowMsgCount(--count);
 			}
 		});
@@ -1948,7 +1948,7 @@ let rssTreeView = (function() {
 
 		if(isAlertOn) {
 			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\u000dShift+click to reload.";
-			slUtil.showInfoBar(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds, m_elmCheckTreeFeeds.style.direction);
+			slUtil.showInfoBar(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
 			slUtil.showInfoBar("");
@@ -2037,7 +2037,7 @@ let rssTreeView = (function() {
 
 						let foundNode = treeNodes.find((node) => { return node.type === "folder"; });
 
-						slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, m_elmCheckTreeFeeds.style.direction, false);
+						slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, "", false);
 						let rootId = (foundNode ? foundNode.id : await createOnInstallFeedsBookmarksFolder());
 						slUtil.showInfoBar("");
 
@@ -2151,7 +2151,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
 			if(count > 0) {
-				slUtil.showInfoBar("Hover over the filter text box for vital information.", m_elmfilterContainer, m_elmTreeRoot.style.direction, false, 4000);
+				slUtil.showInfoBar("Hover over the filter text box for vital information.", m_elmfilterContainer, "", false, 4000);
 				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
 			} else {
 				m_elmTextFilter.focus();
@@ -2395,7 +2395,7 @@ let rssTreeView = (function() {
 					m_elmReapplyFilter.title = "The status or title of one or more feeds has changed. Filter may require reapplying.";
 
 					if(!m_reapplyInfoBarMsgShownOnce) {
-						slUtil.showInfoBar(m_elmReapplyFilter.title, m_elmfilterContainer, m_elmTreeRoot.style.direction, true);
+						slUtil.showInfoBar(m_elmReapplyFilter.title, m_elmfilterContainer);
 						m_reapplyInfoBarMsgShownOnce = true;
 					}
 				}
