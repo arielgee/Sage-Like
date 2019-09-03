@@ -384,20 +384,16 @@ let panel = (function() {
 				elms[i].classList.add("disabled", "disabledBlur");
 			}
 
-			if(!!elmTextContainer) {
-				slUtil.disableElementTree(elmTextContainer, value, true);
-			}
-
 		} else {
 
 			for(let i=0, len=elms.length; i<len; i++) {
-				elms[i].removeAttribute("disabled", "");
+				elms[i].removeAttribute("disabled");
 				elms[i].classList.remove("disabled", "disabledBlur");
 			}
+		}
 
-			if(!!elmTextContainer) {
-				slUtil.disableElementTree(elmTextContainer, value, true);
-			}
+		if(!!elmTextContainer) {
+			slUtil.disableElementTree(elmTextContainer, value, true);
 		}
 	}
 
