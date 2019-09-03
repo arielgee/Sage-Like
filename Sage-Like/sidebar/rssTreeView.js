@@ -94,6 +94,7 @@ let rssTreeView = (function() {
 	let m_objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
 	let m_isFilterApplied = false;
+	let m_reapplyInfoBarMsgShownOnce = false;
 	let m_bPrefShowFeedStats = prefs.DEF_PREF_SHOW_FEED_STATS_VALUE;
 
 	let m_filterChangeDebouncer = null;
@@ -2214,6 +2215,7 @@ let rssTreeView = (function() {
 		m_elmTextFilter.value = "";
 		notifyAppliedFilter(true);
 		m_isFilterApplied = false;
+		m_reapplyInfoBarMsgShownOnce = false;
 
 		setTimeout(() => unfilterAllTreeItems(), 300);
 
@@ -2388,8 +2390,14 @@ let rssTreeView = (function() {
 				// Unlike feed title & feed status, a feed's URL is not modified by tree updates.
 
 				if(!m_elmfilterContainer.classList.contains("filterUrlOn")) {
+
 					m_elmReapplyFilter.classList.add("alert");
-					m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle + "\u000d\u000d\u2731 The status or title of one or more feeds has changed. Filter may require reapplying.";
+					m_elmReapplyFilter.title = "The status or title of one or more feeds has changed. Filter may require reapplying.";
+
+					if(!m_reapplyInfoBarMsgShownOnce) {
+						slUtil.showInfoBar(m_elmReapplyFilter.title, m_elmfilterContainer, m_elmTreeRoot.style.direction, true);
+						m_reapplyInfoBarMsgShownOnce = true;
+					}
 				}
 			}
 		}
