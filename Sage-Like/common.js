@@ -1698,6 +1698,9 @@ let slUtil = (function() {
 
 		let funcDismissInfobar = () => {
 			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+			m_elmInfoBar.setAttribute("disabled", "");
+			m_elmInfoBar.classList.add("disabled");
+			m_elmInfoBar.tabIndex = -1;
 			if(!!m_elmInfoBar.slRefElement) {
 				m_elmInfoBar.slRefElement.focus();
 			}
@@ -1736,6 +1739,9 @@ let slUtil = (function() {
 		m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl");
 		m_elmInfoBar.classList.toggle("generalBorder", IS_GENERAL_INFO);			/* .generalBorder overrides .rightToLeftBorder */
 		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
+		m_elmInfoBar.removeAttribute("disabled");
+		m_elmInfoBar.classList.remove("disabled");
+		m_elmInfoBar.tabIndex = 0;
 
 		const POS_OFFSET = (IS_GENERAL_INFO ? 2 : 12);
 

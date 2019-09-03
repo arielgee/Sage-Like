@@ -422,10 +422,10 @@
 * check all uses of disableElementTree() (slideDown panels) tabIndex
     * the filter text container is not managed correctly
 * check way the "big ass" folder is not remembered
+* hide infoBar when not visible (after fadeOut, use event transition end)   => NO! Just disable it
 ---
 
 ## Next
-* hide infoBar when not visible (after fadeOut, use event transition end)
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
