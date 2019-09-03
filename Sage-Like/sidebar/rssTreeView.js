@@ -2026,16 +2026,26 @@ let rssTreeView = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.bookmarks.search({ title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then(async (treeNodes) => {
+			// Even if the extension is installed, check the extension's prefs to see if the feed folder ID is
+			// set and can be obtained. This can happen if the extension's local storage was not removed
+			prefs.getRootFeedsFolderId().then((folderId) => {
 
-				let foundNode = treeNodes.find((node) => { return node.type === "folder"; });
+				if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 
-				slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, m_elmCheckTreeFeeds.style.direction, false);
-				let rootId = (foundNode ? foundNode.id : await createOnInstallFeedsBookmarksFolder());
-				slUtil.showInfoBar("");
+					browser.bookmarks.search({ title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then(async (treeNodes) => {
 
-				prefs.setRootFeedsFolderId(rootId);
-				resolve();
+						let foundNode = treeNodes.find((node) => { return node.type === "folder"; });
+
+						slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, m_elmCheckTreeFeeds.style.direction, false);
+						let rootId = (foundNode ? foundNode.id : await createOnInstallFeedsBookmarksFolder());
+						slUtil.showInfoBar("");
+
+						prefs.setRootFeedsFolderId(rootId);
+						resolve();
+					});
+				} else {
+					resolve();
+				}
 			});
 		});
 	}

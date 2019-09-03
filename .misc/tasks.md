@@ -421,6 +421,7 @@
 * better handling of slUtil.disableElementTree(m_elmToolbar, value, true)   => IT'S OK
 * check all uses of disableElementTree() (slideDown panels) tabIndex
     * the filter text container is not managed correctly
+* check way the "big ass" folder is not remembered
 ---
 
 ## Next
