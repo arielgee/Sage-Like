@@ -347,18 +347,18 @@ let panel = (function() {
 
 		} else {
 
-			m_elmMainPanel.removeAttribute("disabled", "");
+			m_elmMainPanel.removeAttribute("disabled");
 			m_elmMainPanel.classList.remove("disabled", "disabledBlur");
 
-			m_elmTop.removeAttribute("disabled", "");
+			m_elmTop.removeAttribute("disabled");
 			m_elmTop.classList.remove("disabled", "disabledBlur");
 			m_elmTop.tabIndex = 0;
 
-			m_elmBottom.removeAttribute("disabled", "");
+			m_elmBottom.removeAttribute("disabled");
 			m_elmBottom.classList.remove("disabled", "disabledBlur");
 			m_elmBottom.tabIndex = 0;
 
-			m_elmSplitter.removeAttribute("disabled", "");
+			m_elmSplitter.removeAttribute("disabled");
 			m_elmSplitter.classList.remove("disabled", "disabledBlur");
 		}
 		disableToolbar(value);
