@@ -424,10 +424,10 @@
 * check way the "big ass" folder is not remembered
 * hide infoBar when not visible (after fadeOut, use event transition end)   => NO! Just disable it
 * showInfoBar() the dirStyle parameter is not page direction!
+* debouncer on notifyAppliedFilter. may be called too match => NO NEED
 ---
 
 ## Next
-* debouncer on notifyAppliedFilter. may be called too match
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
