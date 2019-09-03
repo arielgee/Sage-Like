@@ -1698,18 +1698,15 @@ let slUtil = (function() {
 
 		let funcDismissInfobar = () => {
 			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
-			m_elmInfoBar.setAttribute("disabled", "");
-			m_elmInfoBar.classList.add("disabled");
-			m_elmInfoBar.tabIndex = -1;
 			if(!!m_elmInfoBar.slRefElement) {
 				m_elmInfoBar.slRefElement.focus();
+				delete m_elmInfoBar.slRefElement;
 			}
 		};
 
 		if(!!!m_elmInfoBar) {
 			m_elmInfoBar = document.getElementById("infoBar");
 			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => funcDismissInfobar();
-			m_elmInfoBar.onkeydown = (e) => { if(e.code === "Escape") funcDismissInfobar(); };
 		}
 
 		m_elmInfoBar.slRefElement = refElement;
@@ -1739,9 +1736,6 @@ let slUtil = (function() {
 		m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl");
 		m_elmInfoBar.classList.toggle("generalBorder", IS_GENERAL_INFO);			/* .generalBorder overrides .rightToLeftBorder */
 		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
-		m_elmInfoBar.removeAttribute("disabled");
-		m_elmInfoBar.classList.remove("disabled");
-		m_elmInfoBar.tabIndex = 0;
 
 		const POS_OFFSET = (IS_GENERAL_INFO ? 2 : 12);
 
@@ -1765,8 +1759,6 @@ let slUtil = (function() {
 				funcDismissInfobar();
 			}
 		}, showDuration);
-
-		m_elmInfoBar.focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

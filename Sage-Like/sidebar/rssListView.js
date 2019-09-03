@@ -267,9 +267,7 @@ let rssListView = (function() {
 
 		// only for list item elements
 		if(!!event.target && event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
-			clearTimeout(m_timeoutMouseOver);
-			m_timeoutMouseOver = null;
-			m_elmFeedItemDescPanel.style.display = "none";
+			hideFeedItemDescPanel();
 		}
 	}
 
@@ -400,13 +398,6 @@ let rssListView = (function() {
 					index = m_elmList.children.length-1;
 				}
 				m_elmList.children[index].focus();
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "Escape":
-				if(m_elmFeedItemDescPanel.style.visibility === "visible") {
-					onMouseOutFeedItem({ target: elmTargetLI });
-				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -546,6 +537,20 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function hideVisibleFeedItemDescPanel() {
+		if(m_elmFeedItemDescPanel.style.visibility === "visible") {
+			hideFeedItemDescPanel();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function hideFeedItemDescPanel() {
+		clearTimeout(m_timeoutMouseOver);
+		m_timeoutMouseOver = null;
+		m_elmFeedItemDescPanel.style.display = "none";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
 		if(m_elmList.parentElement.style.direction === "rtl") {
 			m_elmList.parentElement.style.direction = m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "ltr";
@@ -675,6 +680,7 @@ let rssListView = (function() {
 		setFocus: setFocus,
 		getListViewTitle: getListViewTitle,
 		disable: disable,
+		hideVisibleFeedItemDescPanel: hideVisibleFeedItemDescPanel,
 	};
 
 })();

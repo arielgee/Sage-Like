@@ -85,6 +85,7 @@ let panel = (function() {
 		m_elmTree = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
 		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
 
+		m_elmBody.addEventListener("keydown", onKeyDownBody);
 		m_elmTop.addEventListener("scroll", onScrollTop);
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
@@ -109,6 +110,7 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
+		m_elmBody.removeEventListener("keydown", onKeyDownBody);
 		m_elmTop.removeEventListener("scroll", onScrollTop);
 		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
@@ -234,6 +236,14 @@ let panel = (function() {
 
 		// set listview's CSS variable accordingly depending if has VScroll
 		document.documentElement.style.setProperty("--rlv-scrollbar-width", (slUtil.hasVScroll(m_elmList) ? sbWidth : 0) + "px");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownBody(event) {
+		if(event.code === "Escape") {
+			slUtil.showInfoBar("");
+			rssListView.hideVisibleFeedItemDescPanel();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
