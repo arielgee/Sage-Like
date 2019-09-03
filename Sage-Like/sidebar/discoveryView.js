@@ -100,7 +100,7 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function disable(value) {
 		let panel = (!!m_elmDiscoverPanel ? m_elmDiscoverPanel : document.getElementById("discoverPanel"));
-		slUtil.disableElementTree(panel, value, false, ["SL-TRI-TOGGLER", "BUTTON"]);
+		slUtil.disableElementTree(panel, value, false, ["SL-TRI-TOGGLER", "SL-TRI-TOGGLER-RAIL", "BUTTON"]);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -354,7 +354,7 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.classList.toggle("loading", m_isLoading);
 		m_elmButtonCheckmarkAll.classList.toggle("disabled", m_isLoading);
 		m_elmButtonRediscover.title = m_isLoading ? "Abort!" : m_elmButtonRediscover.slSavedTitle;
-		slUtil.disableElementTree(m_elmAggressiveDiscoveryContainer, m_isLoading, false, ["SL-TRI-TOGGLER"]);
+		slUtil.disableElementTree(m_elmAggressiveDiscoveryContainer, m_isLoading, false, ["DIV", "SL-TRI-TOGGLER", "SL-TRI-TOGGLER-RAIL"]);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
