@@ -1759,6 +1759,8 @@ let slUtil = (function() {
 				funcDismissInfobar();
 			}
 		}, showDuration);
+
+		m_elmInfoBar.focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

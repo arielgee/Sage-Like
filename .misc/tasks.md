@@ -436,8 +436,9 @@
 ---
 
 ## Next
-* hide infoBar on scroll
 * when sidebar is opend the tree is checked twice!!!
+* hide infoBar on scroll
+
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI
 
