@@ -433,10 +433,10 @@
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=106751
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=177394
     * Example: https://www.bathlizard.com/archives/2013/arik-einstein
+* when sidebar is opend the tree is checked twice!!!    => NO IT'S NOT. Duplicate feeds in tree
 ---
 
 ## Next
-* when sidebar is opend the tree is checked twice!!!
 * hide infoBar on scroll
 
 ### Unresolved
