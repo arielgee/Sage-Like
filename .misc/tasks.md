@@ -425,10 +425,7 @@
 * hide infoBar when not visible (after fadeOut, use event transition end)   => NO! Just disable it
 * showInfoBar() the dirStyle parameter is not page direction!
 * debouncer on notifyAppliedFilter. may be called too match => NO NEED
----
-
-## Next
-* fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.
+* fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.         =====>>>> IT IS DONE! answer is charset in the XMLHttpRequest's MimeType.
     > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
     > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
     > google this: javascript change encoding
@@ -436,7 +433,11 @@
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=106751
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=177394
     * Example: https://www.bathlizard.com/archives/2013/arik-einstein
+---
 
+## Next
+* hide infoBar on scroll
+* when sidebar is opend the tree is checked twice!!!
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI
 

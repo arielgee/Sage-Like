@@ -311,9 +311,19 @@ let syndication = (function() {
 
 					response.blob().then((blob) => {
 
-						getResponseTextFromBlob(blob).then((txt) => {
-							//console.log("[Sage-Like]", url, "\n" + txt.substr(0, 1024));
-							resolve( { text: txt } );
+						getResponseTextFromBlob(blob, "UTF-8").then((txt) => {
+
+							// If no encoding was found in the text (XML or not) or the found encoding is 'UTF-8' then all
+							// is good (getXMLNoneUTF8Charset() returns an empty string) resolve.
+							// If some other encoding was found by getXMLNoneUTF8Charset() then reacquire the text with
+							// the different encoding as the charset parameter.
+
+							let charset = getXMLNoneUTF8Charset(txt);
+							if(charset === "") {
+								resolve({ text: txt });
+							} else {
+								getResponseTextFromBlob(blob, charset).then((txt) => resolve({ text: txt }) );
+							}
 						});
 					}).catch((error) => {
 						reject(new SyndicationError("Failed to get response stream (blob).", error));
@@ -478,13 +488,13 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getResponseTextFromBlob(blob) {
+	function getResponseTextFromBlob(blob, charset) {
 
 		return new Promise((resolve) => {
 
 			let objUrl = URL.createObjectURL(blob);
 			let xhr = new XMLHttpRequest();
-			xhr.overrideMimeType("text/plain");
+			xhr.overrideMimeType("text/plain; charset=" + charset);
 			xhr.open("GET", objUrl);
 			xhr.onload = function() {
 				if(xhr.readyState === xhr.DONE && xhr.status === 200) {
@@ -712,6 +722,15 @@ let syndication = (function() {
 		}
 
 		return txtXML;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getXMLNoneUTF8Charset(txt) {
+		let test = txt.match(m_regexpXMLEncoding);
+		if(test && test[1] && test[1].toUpperCase() !== "UTF-8") {
+			return test[1];
+		}
+		return "";
 	}
 
 	//////////////////////////////////////////
