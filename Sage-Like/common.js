@@ -1709,8 +1709,6 @@ let slUtil = (function() {
 			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => funcDismissInfobar();
 		}
 
-		m_elmInfoBar.slRefElement = refElement;
-
 		const CALL_TIMESTAMP = Date.now();
 		const IS_GENERAL_INFO = (refElement === undefined);
 
@@ -1722,6 +1720,8 @@ let slUtil = (function() {
 
 		if(IS_GENERAL_INFO) {
 			refElement = document.body;
+		} else {
+			m_elmInfoBar.slRefElement = refElement;
 		}
 
 		// real inner size accounting for the scrollbars width if they exist
