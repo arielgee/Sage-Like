@@ -340,13 +340,12 @@ let syndication = (function() {
 
 		} else {
 
-			let errMsg = "Feed format is neither XML nor JSON.";
-
-			console.log("[Sage-Like]", "Parser Error at " + logUrl, "\n" + errMsg);
-			return {
+			let ret = {
 				standard: SyndicationStandard.invalid,
-				errorMsg: errMsg,
+				errorMsg: "Feed format is neither XML nor JSON.",
 			};
+			console.log("[Sage-Like]", "Parser Error at " + logUrl, "- " + ret.errorMsg);
+			return ret;
 		}
 	}
 
