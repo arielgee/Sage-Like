@@ -46,6 +46,8 @@ let syndication = (function() {
 	});
 
 	let m_domParser = new DOMParser();
+	let m_regexpXMLVersion = new RegExp("^\\s*<\\?xml\\b[^>]*\\bversion\\s*=\\s*[\"']([^\"']*)[\"'][^>]*?>", "i");
+	let m_regexpXMLEncoding = new RegExp("^\\s*<\\?xml\\b[^>]*\\bencoding\\s*=\\s*[\"']([^\"']*)[\"'][^>]*?>", "i");
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function feedDiscovery(url, timeout, requestId = 0, reload) {
@@ -366,13 +368,13 @@ let syndication = (function() {
 		};
 
 		// try to get XML version from the XML prolog
-		let test = txtXML.match(/^\s*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/);
+		let test = txtXML.match(m_regexpXMLVersion);
 		if(test && test[1]) {
 			feedData.xmlVersion = test[1];
 		}
 
 		// try to get XML encoding from the XML prolog
-		test = txtXML.match(/^\s*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/);
+		test = txtXML.match(m_regexpXMLEncoding);
 		if(test && test[1]) {
 			feedData.xmlEncoding = test[1];
 		}
