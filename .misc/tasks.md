@@ -436,10 +436,10 @@
 * when sidebar is opend the tree is checked twice!!!    => NO IT'S NOT. Duplicate feeds in tree
 * hide infoBar on tree scroll only when refElement is a tree item
 * Move infoBar to seperate object => new class in common.js
+* can toggle read/unread when feed is updating  => not a problem
 ---
 
 ## Next
-* can toggle read/unread when feed is updating  %https://actualic.co.il/feed/
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
