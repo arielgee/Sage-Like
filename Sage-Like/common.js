@@ -1701,7 +1701,6 @@ let slUtil = (function() {
 			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => dismissInfoBar();
 		}
 
-		const CALL_TIMESTAMP = Date.now();
 		const IS_GENERAL_INFO = (refElement === undefined);
 
 		if(IS_GENERAL_INFO) {
@@ -1710,12 +1709,6 @@ let slUtil = (function() {
 			m_elmInfoBar.slRefElement = refElement;
 		}
 
-		// real inner size accounting for the scrollbars width if they exist
-		const INNER_WIDTH = window.innerWidth - getVScrollWidth();
-		const INNER_HEIGHT = window.innerHeight - getHScrollWidth();
-
-		const RECT_REF_ELEMENT = getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
-
 		// to allow for words that are <b>
 		m_elmInfoBar.querySelector(".infoBarText").innerHTML = infoText;	// .replace(/\u000d/g, " ") when using textContent otherwise 2nd line starts after dot without space in between
 		m_elmInfoBar.classList.toggle("alertive", isAlertive);
@@ -1723,10 +1716,14 @@ let slUtil = (function() {
 		m_elmInfoBar.classList.toggle("generalBorder", IS_GENERAL_INFO);			/* .generalBorder overrides .rightToLeftBorder */
 		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
 
+		// real inner size accounting for the scrollbars width if they exist
+		const INNER_WIDTH = window.innerWidth - getVScrollWidth();
+		const INNER_HEIGHT = window.innerHeight - getHScrollWidth();
+		const RECT_REF_ELEMENT = getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
 		const POS_OFFSET = (IS_GENERAL_INFO ? 2 : 12);
+		const CALL_TIMESTAMP = Date.now();
 
-		let nLeft;
-		let nTop = RECT_REF_ELEMENT.top + POS_OFFSET;
+		let nLeft, nTop = RECT_REF_ELEMENT.top + POS_OFFSET;
 
 		if(IS_GENERAL_INFO) {
 			nLeft = (INNER_WIDTH - m_elmInfoBar.offsetWidth) / 2;
