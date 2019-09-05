@@ -139,7 +139,7 @@ class TreeFeedsData extends StoredKeyedItems {
 			let getting = this.getStorage();
 
 			collecting.then((bmFeeds) => {
-				getting.then((length) => {
+				getting.then(() => {
 
 					//console.log("[Sage-Like]", "purging");
 					for(let key in this._items) {
@@ -225,6 +225,96 @@ class PageDataByInjection {
 				txtHTML: message.txtHTML,
 			});
 			this._funcPromiseResolve = null;
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+class InfoBar {
+
+	//////////////////////////////////////////
+	static get i() {
+		if(this.m_instance === undefined) {
+			this.m_instance = new this();
+		}
+		return this.m_instance;
+	}
+
+	//////////////////////////////////////////
+	constructor() {
+		this.m_elmInfoBar = null;
+	}
+
+	//////////////////////////////////////////
+	show(infoText, refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500, dismissOnScroll = false) {
+
+		if(!!!this.m_elmInfoBar) {
+			this.m_elmInfoBar = document.getElementById("infoBar");
+			this.m_elmInfoBar.onclick = this.m_elmInfoBar.onblur = () => this.dismiss();
+		}
+
+		const IS_GENERAL_INFO = (refElement === undefined);
+
+		if(IS_GENERAL_INFO) {
+			refElement = document.body;
+			this.m_elmInfoBar.slDismissOnScroll = false;
+		} else {
+			this.m_elmInfoBar.slRefElement = refElement;
+			this.m_elmInfoBar.slDismissOnScroll = dismissOnScroll;
+		}
+
+		// to allow for words that are <b>
+		this.m_elmInfoBar.querySelector(".infoBarText").innerHTML = infoText;	// .replace(/\u000d/g, " ") when using textContent otherwise 2nd line starts after dot without space in between
+		this.m_elmInfoBar.classList.toggle("alertive", isAlertive);
+		this.m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl");
+		this.m_elmInfoBar.classList.toggle("generalBorder", IS_GENERAL_INFO);			/* .generalBorder overrides .rightToLeftBorder */
+		this.m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
+
+		// real inner size accounting for the scrollbars width if they exist
+		const INNER_WIDTH = window.innerWidth - slUtil.getVScrollWidth();
+		const INNER_HEIGHT = window.innerHeight - slUtil.getHScrollWidth();
+		const RECT_REF_ELEMENT = slUtil.getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
+		const POS_OFFSET = (IS_GENERAL_INFO ? 2 : 12);
+		const CALL_TIMESTAMP = Date.now();
+
+		let nLeft, nTop = RECT_REF_ELEMENT.top + POS_OFFSET;
+
+		if(IS_GENERAL_INFO) {
+			nLeft = (INNER_WIDTH - this.m_elmInfoBar.offsetWidth) / 2;
+		} else {
+			nLeft = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-this.m_elmInfoBar.offsetWidth-POS_OFFSET) : POS_OFFSET);
+		}
+
+		if (nLeft < 0) nLeft = 0;
+
+		this.m_elmInfoBar.style.left = nLeft + "px";
+		this.m_elmInfoBar.style.top = nTop + "px";
+		this.m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
+
+		setTimeout(() => {
+			if(this.m_elmInfoBar.slCallTimeStamp === CALL_TIMESTAMP) {		// fade out only if its for the last function call
+				this.dismiss();
+			}
+		}, showDuration);
+
+		this.m_elmInfoBar.focus();
+	}
+
+	//////////////////////////////////////////
+	dismiss(isScrolling = false) {
+
+		if(!!this.m_elmInfoBar) {
+
+			if(!isScrolling || (isScrolling && this.m_elmInfoBar.slDismissOnScroll)) {
+
+				this.m_elmInfoBar.slCallTimeStamp = Date.now();
+				this.m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+
+				if(!!this.m_elmInfoBar.slRefElement) {
+					this.m_elmInfoBar.slRefElement.focus();
+					delete this.m_elmInfoBar.slRefElement;
+				}
+			}
 		}
 	}
 };
@@ -1297,7 +1387,6 @@ let slUtil = (function() {
 
 	let m_savedScrollbarWidth = -1;
 	let m_mozExtensionOrigin = "";
-	let m_elmInfoBar = null;
 	let m_regExpDiscoveryUrlFilter = "";
 
 	//////////////////////////////////////////////////////////////////////
@@ -1694,79 +1783,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showInfoBar(infoText, refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500, dismissOnScroll = false) {
-
-		if(!!!m_elmInfoBar) {
-			m_elmInfoBar = document.getElementById("infoBar");
-			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => dismissInfoBar();
-		}
-
-		const IS_GENERAL_INFO = (refElement === undefined);
-
-		if(IS_GENERAL_INFO) {
-			refElement = document.body;
-			m_elmInfoBar.slDismissOnScroll = false;
-		} else {
-			m_elmInfoBar.slRefElement = refElement;
-			m_elmInfoBar.slDismissOnScroll = dismissOnScroll;
-		}
-
-		// to allow for words that are <b>
-		m_elmInfoBar.querySelector(".infoBarText").innerHTML = infoText;	// .replace(/\u000d/g, " ") when using textContent otherwise 2nd line starts after dot without space in between
-		m_elmInfoBar.classList.toggle("alertive", isAlertive);
-		m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl");
-		m_elmInfoBar.classList.toggle("generalBorder", IS_GENERAL_INFO);			/* .generalBorder overrides .rightToLeftBorder */
-		m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
-
-		// real inner size accounting for the scrollbars width if they exist
-		const INNER_WIDTH = window.innerWidth - getVScrollWidth();
-		const INNER_HEIGHT = window.innerHeight - getHScrollWidth();
-		const RECT_REF_ELEMENT = getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
-		const POS_OFFSET = (IS_GENERAL_INFO ? 2 : 12);
-		const CALL_TIMESTAMP = Date.now();
-
-		let nLeft, nTop = RECT_REF_ELEMENT.top + POS_OFFSET;
-
-		if(IS_GENERAL_INFO) {
-			nLeft = (INNER_WIDTH - m_elmInfoBar.offsetWidth) / 2;
-		} else {
-			nLeft = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-m_elmInfoBar.offsetWidth-POS_OFFSET) : POS_OFFSET);
-		}
-
-		if (nLeft < 0) nLeft = 0;
-
-		m_elmInfoBar.style.left = nLeft + "px";
-		m_elmInfoBar.style.top = nTop + "px";
-		m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
-
-		setTimeout(() => {
-			if(m_elmInfoBar.slCallTimeStamp === CALL_TIMESTAMP) {		// fade out only if its for the last function call
-				dismissInfoBar();
-			}
-		}, showDuration);
-
-		m_elmInfoBar.focus();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function dismissInfoBar(isScrolling = false) {
-
-		if(!!m_elmInfoBar) {
-
-			if(!isScrolling || (isScrolling && m_elmInfoBar.slDismissOnScroll)) {
-
-				m_elmInfoBar.slCallTimeStamp = Date.now();
-				m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
-
-				if(!!m_elmInfoBar.slRefElement) {
-					m_elmInfoBar.slRefElement.focus();
-					delete m_elmInfoBar.slRefElement;
-				}
-			}
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function getElementViewportRect(elm, innerWidth, innerHeight) {
 
 		const RECT = elm.getBoundingClientRect();
@@ -1912,8 +1928,6 @@ let slUtil = (function() {
 		replaceMozExtensionOriginURL: replaceMozExtensionOriginURL,
 		invertColor: invertColor,
 		contrastColor: contrastColor,
-		showInfoBar: showInfoBar,
-		dismissInfoBar: dismissInfoBar,
 		getQueryStringValue: getQueryStringValue,
 		getBrowserVersion: getBrowserVersion,
 		getFeedPreviewUrl: getFeedPreviewUrl,
@@ -1923,6 +1937,9 @@ let slUtil = (function() {
 		validURL: validURL,
 		incognitoErrorMessage: incognitoErrorMessage,
 		getRegExpDiscoveryUrlFilter: getRegExpDiscoveryUrlFilter,
+		getElementViewportRect: getElementViewportRect,
+		getHScrollWidth: getHScrollWidth,
+		getVScrollWidth: getVScrollWidth,
 	};
 
 })();

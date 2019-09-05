@@ -620,7 +620,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
 			if(count > 0) {
-				slUtil.showInfoBar("Press the Shift key to drop item <b>inside</b> folder.", undefined, false);
+				InfoBar.i.show("Press the Shift key to drop item <b>inside</b> folder.", undefined, false);
 				internalPrefs.setDropInsideFolderShowMsgCount(--count);
 			}
 		});
@@ -1589,7 +1589,7 @@ let rssTreeView = (function() {
 	function toggleFeedVisitedState(elmLI) {
 
 		if(elmLI.classList.contains("error")) {
-			slUtil.showInfoBar("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction, 3500, true);
+			InfoBar.i.show("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction, 3500, true);
 			return;
 		}
 
@@ -1948,10 +1948,10 @@ let rssTreeView = (function() {
 
 		if(isAlertOn) {
 			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\u000dShift+click to reload.";
-			slUtil.showInfoBar(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
+			InfoBar.i.show(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
-			slUtil.dismissInfoBar();
+			InfoBar.i.dismiss();
 		}
 	}
 
@@ -2040,9 +2040,9 @@ let rssTreeView = (function() {
 						if(!!foundNode) {
 							rootId = foundNode.id;
 						} else {
-							slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, false);
+							InfoBar.i.show("Creating default feeds folder...", m_elmCheckTreeFeeds, false);
 							rootId = await createOnInstallFeedsBookmarksFolder();
-							slUtil.dismissInfoBar();
+							InfoBar.i.dismiss();
 						}
 
 						prefs.setRootFeedsFolderId(rootId);
@@ -2155,7 +2155,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
 			if(count > 0) {
-				slUtil.showInfoBar("Hover over the filter text box for vital information.", m_elmfilterContainer, false, "", 4000);
+				InfoBar.i.show("Hover over the filter text box for vital information.", m_elmfilterContainer, false, "", 4000);
 				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
 			} else {
 				m_elmTextFilter.focus();
@@ -2399,7 +2399,7 @@ let rssTreeView = (function() {
 					m_elmReapplyFilter.title = "The status or title of one or more feeds has changed. Filter may require reapplying.";
 
 					if(!m_reapplyInfoBarMsgShownOnce) {
-						slUtil.showInfoBar(m_elmReapplyFilter.title, m_elmfilterContainer);
+						InfoBar.i.show(m_elmReapplyFilter.title, m_elmfilterContainer);
 						m_reapplyInfoBarMsgShownOnce = true;
 					}
 				}

@@ -241,7 +241,7 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownBody(event) {
 		if(event.code === "Escape") {
-			slUtil.dismissInfoBar();
+			InfoBar.i.dismiss();
 			rssListView.hideVisibleFeedItemDescPanel();
 		}
 	}
@@ -254,7 +254,7 @@ let panel = (function() {
 			window.requestAnimationFrame(() => {
 				internalPrefs.setTreeScrollTop(m_elmTop.scrollTop);
 				m_scrollTopThrottler = false;
-				slUtil.dismissInfoBar(true);
+				InfoBar.i.dismiss(true);
 			});
 		}
 	}
