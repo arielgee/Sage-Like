@@ -620,7 +620,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
 			if(count > 0) {
-				slUtil.showInfoBar("Press the Shift key to drop item <b>inside</b> folder.", undefined, "", false);
+				slUtil.showInfoBar("Press the Shift key to drop item <b>inside</b> folder.", undefined, false);
 				internalPrefs.setDropInsideFolderShowMsgCount(--count);
 			}
 		});
@@ -1589,7 +1589,7 @@ let rssTreeView = (function() {
 	function toggleFeedVisitedState(elmLI) {
 
 		if(elmLI.classList.contains("error")) {
-			slUtil.showInfoBar("Feed is erroneous.", elmLI, m_elmTreeRoot.style.direction);
+			slUtil.showInfoBar("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction);
 			return;
 		}
 
@@ -2035,11 +2035,15 @@ let rssTreeView = (function() {
 
 					browser.bookmarks.search({ title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then(async (treeNodes) => {
 
-						let foundNode = treeNodes.find((node) => { return node.type === "folder"; });
+						let rootId, foundNode = treeNodes.find((node) => { return node.type === "folder"; });
 
-						slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, "", false);
-						let rootId = (foundNode ? foundNode.id : await createOnInstallFeedsBookmarksFolder());
-						slUtil.showInfoBar("");
+						if(!!foundNode) {
+							rootId = foundNode.id;
+						} else {
+							slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, false);
+							rootId = await createOnInstallFeedsBookmarksFolder();
+							slUtil.showInfoBar("");
+						}
 
 						prefs.setRootFeedsFolderId(rootId);
 						resolve();
@@ -2151,7 +2155,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
 			if(count > 0) {
-				slUtil.showInfoBar("Hover over the filter text box for vital information.", m_elmfilterContainer, "", false, 4000);
+				slUtil.showInfoBar("Hover over the filter text box for vital information.", m_elmfilterContainer, false, "", 4000);
 				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
 			} else {
 				m_elmTextFilter.focus();

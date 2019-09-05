@@ -1694,7 +1694,7 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showInfoBar(infoText = "", refElement = undefined, dirStyle = "", isAlertive = true, showDuration = 3500) {
+	function showInfoBar(infoText = "", refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500) {
 
 		let funcDismissInfobar = () => {
 			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
