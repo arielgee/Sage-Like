@@ -1589,7 +1589,7 @@ let rssTreeView = (function() {
 	function toggleFeedVisitedState(elmLI) {
 
 		if(elmLI.classList.contains("error")) {
-			slUtil.showInfoBar("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction);
+			slUtil.showInfoBar("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction, 3500, true);
 			return;
 		}
 

@@ -434,10 +434,13 @@
     * Example: http://israblog.nana.co.il/blog_rss.asp?blog=177394
     * Example: https://www.bathlizard.com/archives/2013/arik-einstein
 * when sidebar is opend the tree is checked twice!!!    => NO IT'S NOT. Duplicate feeds in tree
+* hide infoBar on tree scroll only when refElement is a tree item
 ---
 
 ## Next
-* hide infoBar on scroll
+* Move infoBar to seperate object
+>`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
+
 
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI

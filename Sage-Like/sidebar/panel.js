@@ -254,6 +254,7 @@ let panel = (function() {
 			window.requestAnimationFrame(() => {
 				internalPrefs.setTreeScrollTop(m_elmTop.scrollTop);
 				m_scrollTopThrottler = false;
+				slUtil.dismissInfoBar(true);
 			});
 		}
 	}

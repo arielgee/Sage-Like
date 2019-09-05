@@ -1694,7 +1694,7 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showInfoBar(infoText, refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500) {
+	function showInfoBar(infoText, refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500, dismissOnScroll = false) {
 
 		if(!!!m_elmInfoBar) {
 			m_elmInfoBar = document.getElementById("infoBar");
@@ -1705,8 +1705,10 @@ let slUtil = (function() {
 
 		if(IS_GENERAL_INFO) {
 			refElement = document.body;
+			m_elmInfoBar.slDismissOnScroll = false;
 		} else {
 			m_elmInfoBar.slRefElement = refElement;
+			m_elmInfoBar.slDismissOnScroll = dismissOnScroll;
 		}
 
 		// to allow for words that are <b>
@@ -1747,16 +1749,19 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function dismissInfoBar() {
+	function dismissInfoBar(isScrolling = false) {
 
 		if(!!m_elmInfoBar) {
 
-			m_elmInfoBar.slCallTimeStamp = Date.now();
-			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+			if(!isScrolling || (isScrolling && m_elmInfoBar.slDismissOnScroll)) {
 
-			if(!!m_elmInfoBar.slRefElement) {
-				m_elmInfoBar.slRefElement.focus();
-				delete m_elmInfoBar.slRefElement;
+				m_elmInfoBar.slCallTimeStamp = Date.now();
+				m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+
+				if(!!m_elmInfoBar.slRefElement) {
+					m_elmInfoBar.slRefElement.focus();
+					delete m_elmInfoBar.slRefElement;
+				}
 			}
 		}
 	}
