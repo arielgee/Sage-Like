@@ -1694,29 +1694,15 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showInfoBar(infoText = "", refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500) {
-
-		let funcDismissInfobar = () => {
-			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
-			if(!!m_elmInfoBar.slRefElement) {
-				m_elmInfoBar.slRefElement.focus();
-				delete m_elmInfoBar.slRefElement;
-			}
-		};
+	function showInfoBar(infoText, refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500) {
 
 		if(!!!m_elmInfoBar) {
 			m_elmInfoBar = document.getElementById("infoBar");
-			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => funcDismissInfobar();
+			m_elmInfoBar.onclick = m_elmInfoBar.onblur = (e) => dismissInfoBar();
 		}
 
 		const CALL_TIMESTAMP = Date.now();
 		const IS_GENERAL_INFO = (refElement === undefined);
-
-		if(infoText === "") {
-			m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
-			funcDismissInfobar();
-			return;
-		}
 
 		if(IS_GENERAL_INFO) {
 			refElement = document.body;
@@ -1756,11 +1742,26 @@ let slUtil = (function() {
 
 		setTimeout(() => {
 			if(m_elmInfoBar.slCallTimeStamp === CALL_TIMESTAMP) {		// fade out only if its for the last function call
-				funcDismissInfobar();
+				dismissInfoBar();
 			}
 		}, showDuration);
 
 		m_elmInfoBar.focus();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function dismissInfoBar() {
+
+		if(!!m_elmInfoBar) {
+
+			m_elmInfoBar.slCallTimeStamp = Date.now();
+			m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+
+			if(!!m_elmInfoBar.slRefElement) {
+				m_elmInfoBar.slRefElement.focus();
+				delete m_elmInfoBar.slRefElement;
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1910,6 +1911,7 @@ let slUtil = (function() {
 		invertColor: invertColor,
 		contrastColor: contrastColor,
 		showInfoBar: showInfoBar,
+		dismissInfoBar: dismissInfoBar,
 		getQueryStringValue: getQueryStringValue,
 		getBrowserVersion: getBrowserVersion,
 		getFeedPreviewUrl: getFeedPreviewUrl,

@@ -241,7 +241,7 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownBody(event) {
 		if(event.code === "Escape") {
-			slUtil.showInfoBar("");
+			slUtil.dismissInfoBar();
 			rssListView.hideVisibleFeedItemDescPanel();
 		}
 	}

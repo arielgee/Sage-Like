@@ -1951,7 +1951,7 @@ let rssTreeView = (function() {
 			slUtil.showInfoBar(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
-			slUtil.showInfoBar("");
+			slUtil.dismissInfoBar();
 		}
 	}
 
@@ -2042,7 +2042,7 @@ let rssTreeView = (function() {
 						} else {
 							slUtil.showInfoBar("Creating default feeds folder...", m_elmCheckTreeFeeds, false);
 							rootId = await createOnInstallFeedsBookmarksFolder();
-							slUtil.showInfoBar("");
+							slUtil.dismissInfoBar();
 						}
 
 						prefs.setRootFeedsFolderId(rootId);
