@@ -313,10 +313,10 @@ let syndication = (function() {
 
 						getResponseTextFromBlob(blob, "UTF-8").then((txt) => {
 
-							// If no encoding was found in the text (XML or not) or the found encoding is 'UTF-8' then all
-							// is good (getXMLNoneUTF8Charset() returns an empty string) resolve.
-							// If some other encoding was found by getXMLNoneUTF8Charset() then reacquire the text with
-							// the different encoding as the charset parameter.
+							// If no encoding was found in the text (XML or not) or the found encoding is 'UTF-8',
+							// getXMLNoneUTF8Charset() returns an empty string, then all is good; resolve.
+							// Otherwise, if some other encoding was found by getXMLNoneUTF8Charset(), reacquire the
+							// text from the blob with the none 'UTF-8' encoding as the charset parameter.
 
 							let charset = getXMLNoneUTF8Charset(txt);
 							if(charset === "") {
