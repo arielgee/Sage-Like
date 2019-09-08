@@ -274,15 +274,16 @@ class InfoBar {
 		const INNER_WIDTH = window.innerWidth - slUtil.getVScrollWidth();
 		const INNER_HEIGHT = window.innerHeight - slUtil.getHScrollWidth();
 		const RECT_REF_ELEMENT = slUtil.getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
-		const POS_OFFSET = (IS_GENERAL_INFO ? 2 : 12);
+		const TOP_OFFSET = (IS_GENERAL_INFO ? 4 : RECT_REF_ELEMENT.height - 1);
+		const LEFT_OFFSET = 7;
 		const CALL_TIMESTAMP = Date.now();
 
-		let nLeft, nTop = RECT_REF_ELEMENT.top + POS_OFFSET;
+		let nLeft, nTop = RECT_REF_ELEMENT.top + TOP_OFFSET;
 
 		if(IS_GENERAL_INFO) {
 			nLeft = (INNER_WIDTH - this.m_elmInfoBar.offsetWidth) / 2;
 		} else {
-			nLeft = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-this.m_elmInfoBar.offsetWidth-POS_OFFSET) : POS_OFFSET);
+			nLeft = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-this.m_elmInfoBar.offsetWidth-LEFT_OFFSET) : LEFT_OFFSET);
 		}
 
 		if (nLeft < 0) nLeft = 0;
