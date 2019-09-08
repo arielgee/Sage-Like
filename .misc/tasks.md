@@ -437,6 +437,7 @@
 * hide infoBar on tree scroll only when refElement is a tree item
 * Move infoBar to seperate object => new class in common.js
 * can toggle read/unread when feed is updating  => not a problem
+* preference select feed folder: replace the diamond with a '❯' (&#x276F; - Heavy Right-Pointing Angle Quotation Mark Ornament).
 ---
 
 ## Next

@@ -681,7 +681,7 @@ let preferences = (function() {
 	function createSelectFeedsFolderElement(bookmarkItem, indent) {
 
 		if(bookmarkItem.type === "folder") {
-			let elmOption = createTagOption(bookmarkItem.id, "&emsp;".repeat(indent) + "◆ " + bookmarkItem.title);
+			let elmOption = createTagOption(bookmarkItem.id, "&emsp;".repeat(indent) + "&#x276F;&ensp;" + bookmarkItem.title);	/* ❯ */
 			m_elmRootFeedsFolder.appendChild(elmOption);
 			indent++;
 			for(let child of bookmarkItem.children) {
