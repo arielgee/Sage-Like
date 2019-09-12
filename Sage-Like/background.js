@@ -82,7 +82,7 @@
 				/////////////////////////////////////////////////////////////////////////
 
 			case slGlobals.MSG_ID_WAIT_AND_HIDE_POPUP:
-				setTimeout(() => browser.pageAction.hide(message.tabId), message.msWait);
+				setTimeout(() => hidePageAction(message.tabId), message.msWait);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -256,7 +256,9 @@
 
 			browser.tabs.sendMessage(tabId, { id: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
 				if(response.feedCount > 0) {
-					browser.pageAction.show(tabId);
+					showPageAction(tabId);
+				} else {
+					hidePageAction(tabId);
 				}
 			}).catch(async (error) => console.log("[Sage-Like]", "send message at " + (await browser.tabs.get(tabId)).url, error));
 
@@ -302,11 +304,37 @@
 			for (let i=0, len=tabs.length; i<len; i++) {
 				browser.pageAction.isShown({ tabId: tabs[i].id }).then((shown) => {
 					if(shown) {
-						browser.pageAction.hide(tabs[i].id);
+						hidePageAction(tabs[i].id);
 					}
 				});
 			}
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function showPageAction(tabId) {
+
+		browser.pageAction.setIcon({
+			tabId: tabId,
+			path: {
+				19: "/icons/pagePopup-19.png",
+				38: "/icons/pagePopup-38.png",
+			},
+		});
+		browser.pageAction.show(tabId);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function hidePageAction(tabId) {
+
+		browser.pageAction.setIcon({
+			tabId: tabId,
+			path: {
+				19: "/icons/pagePopup-gray-19.png",
+				38: "/icons/pagePopup-gray-38.png",
+			},
+		});
+		browser.pageAction.hide(tabId);
 	}
 
 })();

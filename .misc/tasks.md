@@ -440,9 +440,12 @@
 * preference select feed folder: replace the diamond with a '❯' (&#x276F; - Heavy Right-Pointing Angle Quotation Mark Ornament).
 * supprt standerd copy (ctrl+c, ctrl+insert) WITH 'C'
 * intercept onHeadersReceived
+* dimm pageAction icon when it's hidden
 ---
 
 ## Next
+* why the pageAction icon pop out and hide in https://rss.com/what-is-rss/ (just in fx v59.0.3)
+* the rss title in the discoveryView tooltip has newline in the string https://rss.com/what-is-rss/
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

@@ -52,8 +52,8 @@
 	"page_action": {
 		"browser_style": true,
 		"default_icon": {
-			"19": "/icons/pagePopup-19.png",
-			"38": "/icons/pagePopup-38.png"
+			"19": "/icons/pagePopup-gray-19.png",
+			"38": "/icons/pagePopup-gray-38.png"
 		},
 		"default_title": "Subscribe Using Sage-Like",
 		"default_popup": "/pagePopup/pagePopup.html"
