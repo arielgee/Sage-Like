@@ -927,6 +927,8 @@ let rssTreeView = (function() {
 
 		if(event.key === "Delete") {
 			keyCode = "KeyD";
+		} else if(event.ctrlKey && event.key === "Insert") {
+			keyCode = "KeyC";
 		}
 
 		switch (keyCode) {

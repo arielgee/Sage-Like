@@ -339,10 +339,15 @@ let rssListView = (function() {
 			return;
 		}
 
+		let keyCode = event.code;
 		let elm, elmsCount, index;
 		let elmTargetLI = event.target;
 
-		switch (event.code) {
+		if(event.ctrlKey && event.key === "Insert") {
+			keyCode = "KeyC";
+		}
+
+		switch (keyCode) {
 
 			case "Tab":
 				rssTreeView.setFocus();
