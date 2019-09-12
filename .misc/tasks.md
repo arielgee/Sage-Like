@@ -439,10 +439,10 @@
 * can toggle read/unread when feed is updating  => not a problem
 * preference select feed folder: replace the diamond with a '❯' (&#x276F; - Heavy Right-Pointing Angle Quotation Mark Ornament).
 * supprt standerd copy (ctrl+c, ctrl+insert) WITH 'C'
+* intercept onHeadersReceived
 ---
 
 ## Next
-* intercept onHeadersReceived
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

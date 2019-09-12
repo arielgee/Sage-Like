@@ -7,6 +7,8 @@
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpUrlFilter;
 
+	const REGEX_RSS_CONTENT_TYPES = new RegExp("(application/rss\\+xml)|(application/rdf\\+xml)|(application/atom\\+xml)", "i");
+
 	initilization();
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -19,6 +21,12 @@
 		browser.browserAction.onClicked.addListener(onBrowserActionClicked);	// Sage-Like Toolbar button - toggle sidebar
 		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
+
+		browser.webRequest.onHeadersReceived.addListener(
+			onWebRequestHeadersReceived,
+			{ urls: [ "<all_urls>" ] },
+			["blocking", "responseHeaders"]
+		);
 
 		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for pageAction
 
@@ -143,6 +151,28 @@
 				handleTabChangedState(tabId);
 			}
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onWebRequestHeadersReceived(details) {
+
+		if(details.statusCode === 200 && !!details.originUrl && !details.originUrl.startsWith(browser.extension.getURL(""))) {
+
+			const headers = details.responseHeaders;
+
+			if(!!headers) {
+
+				for(let i=0, len=headers.length; i<len; i++) {
+
+					if(headers[i].name === "Content-Type") {
+						if(headers[i].value.match(REGEX_RSS_CONTENT_TYPES)) {
+							return { redirectUrl: slUtil.getFeedPreviewUrl(details.url) };
+						}
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
