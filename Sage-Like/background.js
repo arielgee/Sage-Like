@@ -2,12 +2,13 @@
 
 (function() {
 
+	const EXT_URL_PREFIX = browser.extension.getURL("");
+	const REGEX_RSS_CONTENT_TYPES = new RegExp("(application/(rss\\+)?xml)|(application/(rdf\\+)?xml)|(application/(atom\\+)?xml)", "i");
+
 	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpUrlFilter;
-
-	const REGEX_RSS_CONTENT_TYPES = new RegExp("(application/rss\\+xml)|(application/rdf\\+xml)|(application/atom\\+xml)", "i");
 
 	initilization();
 
@@ -24,7 +25,8 @@
 
 		browser.webRequest.onHeadersReceived.addListener(
 			onWebRequestHeadersReceived,
-			{ urls: [ "<all_urls>" ] },
+			{ urls: [ "http://*/*", "https://*/*" ] },	// { urls: [ "<all_urls>" ] },
+			//{ types: [ "main_frame" ] },
 			["blocking", "responseHeaders"]
 		);
 
@@ -156,7 +158,30 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onWebRequestHeadersReceived(details) {
 
-		if(details.statusCode === 200 && !!details.originUrl && !details.originUrl.startsWith(browser.extension.getURL(""))) {
+		if(details.statusCode === 200) {
+			console.log("[Sage-Like] START:", details.requestId, "\n", details);
+		}
+
+		//if( details.statusCode === 200 && (details.originUrl === undefined || !details.originUrl.startsWith(EXT_URL_PREFIX)) ) {
+
+		/*
+			+ ... && (details.originUrl === undefined || !details.originUrl.startsWith(EXT_URL_PREFIX))
+				> This handle feeds that are typed into the url bar BUT fucks up the pagePopup.
+
+			+ ... && !!details.originUrl && !details.originUrl.startsWith(EXT_URL_PREFIX)
+				> This handle feeds pagePopup BUT fucks up feeds that are typed into the url bar
+
+			* Fetch from pagePopup has originUrl === undefined and should NOT be redirected.
+			  Need to look into details.type and into onHeadersReceived/webRequest.ResourceType. Maybe filter 'xmlhttprequest'
+
+			  click from page:								type="main_frame".
+			  type in urlbar:								type="main_frame".
+			  fetch from feed tree Ctrl+Alt+MiddleClick:	type="main_frame"
+			  fetch from feed tree:							type="xmlhttprequest"
+			  fetch from pagePopup:							type="xmlhttprequest"
+
+		*/
+		if( details.statusCode === 200 && !!details.originUrl && !details.originUrl.startsWith(EXT_URL_PREFIX) ) {
 
 			const headers = details.responseHeaders;
 
@@ -164,8 +189,9 @@
 
 				for(let i=0, len=headers.length; i<len; i++) {
 
-					if(headers[i].name === "Content-Type") {
+					if(headers[i].name.toLowerCase() === "content-type") {
 						if(headers[i].value.match(REGEX_RSS_CONTENT_TYPES)) {
+							console.log("[Sage-Like] END:", details.requestId, "\n", details);
 							return { redirectUrl: slUtil.getFeedPreviewUrl(details.url) };
 						}
 						break;

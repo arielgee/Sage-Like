@@ -444,7 +444,9 @@
 ---
 
 ## Next
-* why the pageAction icon pop out and hide in https://rss.com/what-is-rss/ (just in fx v59.0.3)
+* why "bummer" for https://rss.com
+* why the pageAction icon pop out and hide in https://rss.com/what-is-rss/ (just in fx v59.0.3) DEFENETLY NOT ME!!
+* testing XML file at syndication.getFeedData() need to consider XMLs that are not feeds
 * the rss title in the discoveryView tooltip has newline in the string https://rss.com/what-is-rss/
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
