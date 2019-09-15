@@ -342,6 +342,11 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedData(text, logUrl) {
 
+		/*
+			This wrapper function is just to determine the file type, XML or JSON. NOT to
+			check that the XML file if of RSS/RDF/Atom type or that the JSON file is a jsonfeed.
+		*/
+
 		if(text.match(/^\s*<(\?xml|rss|rdf|feed)\b/i)) {			// XML prolog for RSS/RDF/Atom or xml without prolog
 
 			return getXMLFeedData(text, logUrl);
