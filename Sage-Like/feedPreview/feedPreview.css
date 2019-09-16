@@ -82,6 +82,10 @@ body {
 	color: crimson;
 }
 
+#errorMessageLink {
+	white-space: pre-line;
+}
+
 #feedTitle {
 	display: flex;
 	align-items: flex-start;
