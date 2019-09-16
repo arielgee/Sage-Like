@@ -415,7 +415,7 @@ let syndication = (function() {
 			if(doc.documentElement.localName === "rss") {							// First lets try 'RSS'
 				feedData.standard = SyndicationStandard.RSS;							// https://validator.w3.org/feed/docs/rss2.html
 				feedData.feeder = doc.querySelector("rss");
-				feedData.title = getNodeTextContent(doc, "rss > channel > title");
+				feedData.title = getNodeTextContent(doc, "rss > channel > title").consolidateWhiteSpaces();
 				feedData.imageUrl = getNodeTextContent(doc, "rss > channel > image > url");
 				feedData.description = getNodeTextContent(doc, "rss > channel > description");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");
@@ -423,7 +423,7 @@ let syndication = (function() {
 			} else if(doc.documentElement.localName === "RDF") {					// Then let's try 'RDF (RSS) 1.0'
 				feedData.standard = SyndicationStandard.RDF;							// https://validator.w3.org/feed/docs/rss1.html; Examples: http://feeds.nature.com/nature/rss/current, https://f1-gate.com/
 				feedData.feeder = doc.querySelector("RDF");
-				feedData.title = getNodeTextContent(doc, "RDF > channel > title");
+				feedData.title = getNodeTextContent(doc, "RDF > channel > title").consolidateWhiteSpaces();
 				feedData.imageUrl = getNodeTextContent(doc, "RDF > image > url");
 				feedData.description = getNodeTextContent(doc, "RDF > channel > description");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "RDF > channel", "item");
@@ -431,7 +431,7 @@ let syndication = (function() {
 			} else if(doc.documentElement.localName === "feed") {					// FInally let's try 'Atom'
 				feedData.standard = SyndicationStandard.Atom;							// https://validator.w3.org/feed/docs/atom.html
 				feedData.feeder = doc.querySelector("feed");
-				feedData.title = getNodeTextContent(doc, "feed > title");
+				feedData.title = getNodeTextContent(doc, "feed > title").consolidateWhiteSpaces();
 				feedData.imageUrl = getNodeTextContent(doc, "feed > logo", "feed > icon");
 				feedData.description = getNodeTextContent(doc, "feed > subtitle");
 				feedData.lastUpdated = getFeedLastUpdate(doc, "feed", "entry");
@@ -478,7 +478,7 @@ let syndication = (function() {
 			feedData.standard = SyndicationStandard.JSON;					// https://daringfireball.net/feeds/json
 			feedData.jsonVersion = oJson.version.match(/[\d.]+$/)[0];
 			feedData.feeder = oJson.items;
-			feedData.title = (!!oJson.title ? oJson.title.stripHtmlTags() : "");
+			feedData.title = (!!oJson.title ? oJson.title.stripHtmlTags() : "").consolidateWhiteSpaces();
 			feedData.imageUrl = (!!oJson.icon ? oJson.icon : (!!oJson.favicon ? oJson.favicon : "")).stripHtmlTags();
 			feedData.description = (!!oJson.description ? oJson.description.stripHtmlTags() : "");
 			feedData.lastUpdated = getJSONFeedLastUpdate(oJson.items);

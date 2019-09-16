@@ -448,10 +448,10 @@
 * button in feed preview to open page nativly   => DONE! link and not button
 * menu text is wraping
 * menu; change "Open" to "Open in tab" or "Open in Current tab" => NO
+* the rss title in the discoveryView tooltip and pagePopup has newline in the string https://rss.com/what-is-rss/
 ---
 
 ## Next
-* the rss title in the discoveryView tooltip and pagePopup has newline in the string https://rss.com/what-is-rss/
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

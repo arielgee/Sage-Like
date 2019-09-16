@@ -505,6 +505,16 @@ let slPrototypes = (function() {
 		return (this.length > n) ? this.substr(0, n/2) + "\u2026" + this.substr(-((n-1)/2)) : this;
 	};
 
+	//////////////////////////////////////////////////////////////////////
+	String.prototype.consolidateWhiteSpaces = function() {
+		return this
+			.trim()
+			.replace(String.prototype.consolidateWhiteSpaces.regexMultipleWhiteSpaces, " ")
+			.replace(String.prototype.consolidateWhiteSpaces.regexWhiteSpace, " ");
+	};
+	String.prototype.consolidateWhiteSpaces.regexWhiteSpace = new RegExp("\\s", "g");
+	String.prototype.consolidateWhiteSpaces.regexMultipleWhiteSpaces = new RegExp("\\s{2,}", "g");
+
 	////////////////////////////////////////////////////////////////////////////////////
 	String.prototype.htmlEntityToLiteral = function() {
 		// this is NOT safe; may be used as an attack vector if result is displayed to user
