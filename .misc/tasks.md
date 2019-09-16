@@ -441,12 +441,16 @@
 * supprt standerd copy (ctrl+c, ctrl+insert) WITH 'C'
 * intercept onHeadersReceived
 * dimm pageAction icon when it's hidden
+* why "bummer" for https://rss.com => FIXED
+* why the pageAction icon pop out and hide in https://rss.com/what-is-rss/ (just in fx v59.0.3) DEFENETLY NOT ME!! => FIXED
+* testing XML file at syndication.getFeedData() need to consider XMLs that are not feeds    => NO; getFeedData() is wrpper for only determining the file type
+* testing JSONFEED with json version    => NO; same reason as above
 ---
 
 ## Next
-* why "bummer" for https://rss.com
-* why the pageAction icon pop out and hide in https://rss.com/what-is-rss/ (just in fx v59.0.3) DEFENETLY NOT ME!!
-* testing XML file at syndication.getFeedData() need to consider XMLs that are not feeds
+* button in feed preview to open page nativly   => DONE! link and not button
+* menu text is wraping
+* menu; change "Open" to "Open in tab" or "Open in Current tab"
 * the rss title in the discoveryView tooltip has newline in the string https://rss.com/what-is-rss/
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 

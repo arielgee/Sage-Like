@@ -2,8 +2,8 @@
 
 (function() {
 
-	const EXT_URL_PREFIX = browser.extension.getURL("");
-	const REGEX_RSS_CONTENT_TYPES = new RegExp("(application/(rss\\+)?xml)|(application/(rdf\\+)?xml)|(application/(atom\\+)?xml)", "i");
+	const REGEX_RSS_CONTENT_TYPES = new RegExp("(application/(rss\\+)?(xml|json))|(application/(rdf\\+)?xml)|(application/(atom\\+)?xml)", "i");
+	//const REGEX_RSS_CONTENT_TYPES = new RegExp("((application|text)/(rss\\+)?(xml|json))|((application|text)/(rdf\\+)?xml)|((application|text)/(atom\\+)?xml)", "i");
 
 	let m_windowIds = [];
 	let m_currentWindowId = null;
@@ -23,10 +23,9 @@
 		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
 
-		browser.webRequest.onHeadersReceived.addListener(
+		browser.webRequest.onHeadersReceived.addListener(						// redirect some URL feeds to feedPreview
 			onWebRequestHeadersReceived,
-			{ urls: [ "http://*/*", "https://*/*" ] },	// { urls: [ "<all_urls>" ] },
-			//{ types: [ "main_frame" ] },
+			{ urls: ["http://*/*", "https://*/*"], types: ["main_frame"] },		// filter: only HTTP web pages that are top-level documents loaded into a tab.
 			["blocking", "responseHeaders"]
 		);
 
@@ -158,47 +157,48 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onWebRequestHeadersReceived(details) {
 
-		if(details.statusCode === 200) {
-			console.log("[Sage-Like] START:", details.requestId, "\n", details);
-		}
+		/********************************************************************************************************************
+		+ Listener is called (filtered) for requests whose targets are "http:" or "https:"
+		  and for resources of type "main_frame".
+			> "moz-extension://" will not handled.
+			> Top-level documents loaded into a tab.
+			> details.documentUrl will allways be undefined for top-level documents.
 
-		//if( details.statusCode === 200 && (details.originUrl === undefined || !details.originUrl.startsWith(EXT_URL_PREFIX)) ) {
+		+ Table: Details properties (rows) for each web request origin (columns)
+					  ┌────────────────────┬────────────────┬──────────────────────╦╦═══════════════╦╦════════════════╗╗
+					  │ requests from tree │   pagePopup    │ tree Ctrl+Alt+MClick ║║ click in page ║║ type in urlbar ║║
+		┌─────────────┼────────────────────┼────────────────┼──────────────────────╣╠═══════════════╣╠════════════════╣║
+		│ documentUrl │   moz-extension    │   undefined    │      undefined       ║║   undefined   ║║   undefined    ║║
+		│   originUrl │   moz-extension    │   undefined    │      undefined       ║║      http     ║║   undefined    ║║
+		│        type │   xmlhttprequest   │ xmlhttprequest │     main_frame       ║║  main_frame   ║║   main_frame   ║║
+		│         url │       http         │      http      │         http         ║║     http      ║║      http      ║║
+		└─────────────┴────────────────────┴────────────────┴──────────────────────╩╩═══════════════╩╩════════════════╝╝
+																					└──── Those are handled here! ────┘
+		********************************************************************************************************************/
 
-		/*
-			+ ... && (details.originUrl === undefined || !details.originUrl.startsWith(EXT_URL_PREFIX))
-				> This handle feeds that are typed into the url bar BUT fucks up the pagePopup.
+		return new Promise((resolve) => {
 
-			+ ... && !!details.originUrl && !details.originUrl.startsWith(EXT_URL_PREFIX)
-				> This handle feeds pagePopup BUT fucks up feeds that are typed into the url bar
 
-			* Fetch from pagePopup has originUrl === undefined and should NOT be redirected.
-			  Need to look into details.type and into onHeadersReceived/webRequest.ResourceType. Maybe filter 'xmlhttprequest'
+			if(details.statusCode === 200 && !details.url.includes(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT)) {
 
-			  click from page:								type="main_frame".
-			  type in urlbar:								type="main_frame".
-			  fetch from feed tree Ctrl+Alt+MiddleClick:	type="main_frame"
-			  fetch from feed tree:							type="xmlhttprequest"
-			  fetch from pagePopup:							type="xmlhttprequest"
+				const headers = details.responseHeaders;
 
-		*/
-		if( details.statusCode === 200 && !!details.originUrl && !details.originUrl.startsWith(EXT_URL_PREFIX) ) {
+				if(!!headers) {
 
-			const headers = details.responseHeaders;
+					for(let i=0, len=headers.length; i<len; i++) {
 
-			if(!!headers) {
-
-				for(let i=0, len=headers.length; i<len; i++) {
-
-					if(headers[i].name.toLowerCase() === "content-type") {
-						if(headers[i].value.match(REGEX_RSS_CONTENT_TYPES)) {
-							console.log("[Sage-Like] END:", details.requestId, "\n", details);
-							return { redirectUrl: slUtil.getFeedPreviewUrl(details.url) };
+						if(headers[i].name.toLowerCase() === "content-type") {
+							if(headers[i].value.match(REGEX_RSS_CONTENT_TYPES)) {
+								resolve({ redirectUrl: slUtil.getFeedPreviewUrl(details.url) });
+								return;
+							}
+							break;
 						}
-						break;
 					}
 				}
 			}
-		}
+			resolve({});
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

@@ -581,9 +581,13 @@ let rssTreeView = (function() {
 
 				if(event.ctrlKey && event.altKey && !event.shiftKey) {
 
+					let url = new URL(elmLI.getAttribute("href"));
+					url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+					url = url.toString();
+
 					// ++Dev Mode++: open link & link view-source in new tabs
-					browser.tabs.create({ url: elmLI.getAttribute("href") });
-					browser.tabs.create({ url: "view-source:" + elmLI.getAttribute("href") });
+					browser.tabs.create({ url: url });
+					browser.tabs.create({ url: "view-source:" + url });
 
 				} else if(event.shiftKey) {
 
