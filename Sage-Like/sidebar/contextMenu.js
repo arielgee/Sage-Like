@@ -72,6 +72,13 @@ let contextMenu = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function close() {
+		if(isOpen()) {
+			closeContextMenu();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function isOpen() {
 		return m_isContextMenuOpen;
 	}
@@ -464,6 +471,7 @@ let contextMenu = (function() {
 	}
 
 	return {
+		close: close,
 		isOpen: isOpen,
 	};
 
