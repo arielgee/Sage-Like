@@ -18,6 +18,7 @@
 	padding: 2px 13px;
 	text-decoration: none;
 	justify-content: space-between;
+	white-space: nowrap;
 }
 
 .contextmenu .contextmenuitem:hover {

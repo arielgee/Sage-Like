@@ -446,10 +446,10 @@
 * testing XML file at syndication.getFeedData() need to consider XMLs that are not feeds    => NO; getFeedData() is wrpper for only determining the file type
 * testing JSONFEED with json version    => NO; same reason as above
 * button in feed preview to open page nativly   => DONE! link and not button
+* menu text is wraping
 ---
 
 ## Next
-* menu text is wraping
 * menu; change "Open" to "Open in tab" or "Open in Current tab"
 * the rss title in the discoveryView tooltip has newline in the string https://rss.com/what-is-rss/
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
