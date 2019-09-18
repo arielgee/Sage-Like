@@ -169,8 +169,8 @@
 					  │ requests from tree │   pagePopup    │ tree Ctrl+Alt+MClick ║║ click in page ║║ type in urlbar ║║
 		┌─────────────┼────────────────────┼────────────────┼──────────────────────╣╠═══════════════╣╠════════════════╣║
 		│ documentUrl │   moz-extension    │   undefined    │      undefined       ║║   undefined   ║║   undefined    ║║
-		│   originUrl │   moz-extension    │   undefined    │      undefined       ║║      http     ║║   undefined    ║║
-		│        type │   xmlhttprequest   │ xmlhttprequest │     main_frame       ║║  main_frame   ║║   main_frame   ║║
+		│   originUrl │   moz-extension    │   undefined    │      undefined       ║║     http      ║║   undefined    ║║
+		│        type │   xmlhttprequest   │ xmlhttprequest │      main_frame      ║║  main_frame   ║║   main_frame   ║║
 		│         url │       http         │      http      │         http         ║║     http      ║║      http      ║║
 		└─────────────┴────────────────────┴────────────────┴──────────────────────╩╩═══════════════╩╩════════════════╝╝
 																					└──── Those are handled here! ────┘

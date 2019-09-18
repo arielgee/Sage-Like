@@ -3,7 +3,7 @@
         "target": "es2016"
     },
     "include": [
-        "./Sage-Like/**/*.js",
+        "./Sage-Like/**/*.js"
     ],
     "exclude": [
         "./Sage-Like/icons"
