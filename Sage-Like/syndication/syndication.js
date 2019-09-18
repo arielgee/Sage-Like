@@ -30,7 +30,8 @@ let syndication = (function() {
 	const STANDARD_DISCOVERY_SELECTOR = "link[rel=\"alternate\" i][type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
 										"link[rel=\"alternate\" i][type=\"application/rdf+xml\" i]," +
 										"link[rel=\"alternate\" i][type=\"application/atom+xml\" i]," +
-										"link[rel=\"alternate\" i][type=\"application/json\" i]";
+										"link[rel=\"alternate\" i][type=\"application/rss+json\" i]," +
+										"link[rel=\"alternate\" i][type=\"application/feed+json\" i]";
 
 	const NON_STANDARD_ANCHOR_DISCOVERY_SELECTOR =	"a[href*=\"rss\" i]," +					// non-standard publication of RSS links
 													"a[href*=\"feed\" i]," +
