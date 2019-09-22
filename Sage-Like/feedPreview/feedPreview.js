@@ -69,7 +69,7 @@
 
 				url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
 				elmErrMsgLink.href = url.toString();
-				elmErrMsgLink.textContent = "\nOpen in browser";		// to show the newline it needs 'white-space: pre-line;'
+				elmErrMsgLink.textContent = "\nOpen with browser";		// to show the newline it needs 'white-space: pre-line;'
 
 				console.log("[Sage-Like]", "Fetch Error at " + urlFeed, error);
 

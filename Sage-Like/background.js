@@ -2,8 +2,11 @@
 
 (function() {
 
-	const REGEX_RSS_CONTENT_TYPES = new RegExp("(application/(rss\\+)?(xml|json))|(application/(rdf\\+)?xml)|(application/(atom\\+)?xml)", "i");
-	//const REGEX_RSS_CONTENT_TYPES = new RegExp("((application|text)/(rss\\+)?(xml|json))|((application|text)/(rdf\\+)?xml)|((application|text)/(atom\\+)?xml)", "i");
+	// Web requests that are top-level documents loaded into a tab will support MIMEs without semantics.
+	// Ergo, "Content-Type" that is "application/xml" will be handled just like "application/rss+xml". The
+	// semantics are restricting. That is what the 'Open with browser' link in feedPreview is for.
+	const REGEX_RSS_CONTENT_TYPES = new RegExp("application/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))", "i");		// semantics optional
+	//const REGEX_RSS_CONTENT_TYPES = new RegExp("application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))", "i");			// semantics NOT optional
 
 	let m_windowIds = [];
 	let m_currentWindowId = null;
@@ -173,11 +176,12 @@
 		│        type │   xmlhttprequest   │ xmlhttprequest │      main_frame      ║║  main_frame   ║║   main_frame   ║║
 		│         url │       http         │      http      │         http         ║║     http      ║║      http      ║║
 		└─────────────┴────────────────────┴────────────────┴──────────────────────╩╩═══════════════╩╩════════════════╝╝
-																					└──── Those are handled here! ────┘
+					  └──────────────────── Those are ignored. ────────────────────┘└──── Those are handled here! ────┘
 		********************************************************************************************************************/
 
 		return new Promise((resolve) => {
 
+			//if(details.statusCode === 200) console.log("[Sage-Like] START:", details.requestId, "\n", details);
 
 			if(details.statusCode === 200 && !details.url.includes(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT)) {
 
@@ -189,6 +193,7 @@
 
 						if(headers[i].name.toLowerCase() === "content-type") {
 							if(headers[i].value.match(REGEX_RSS_CONTENT_TYPES)) {
+								//console.log("[Sage-Like] END:", details.requestId, "\n", details);
 								resolve({ redirectUrl: slUtil.getFeedPreviewUrl(details.url) });
 								return;
 							}
