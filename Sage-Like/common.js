@@ -250,7 +250,7 @@ class InfoBar {
 
 		if(!!!this.m_elmInfoBar) {
 			this.m_elmInfoBar = document.getElementById("infoBar");
-			this.m_elmInfoBar.onclick = this.m_elmInfoBar.onblur = () => this.dismiss();
+			this.m_elmInfoBar.onclick = () => this.dismiss();
 		}
 
 		const IS_GENERAL_INFO = (refElement === undefined);
@@ -297,8 +297,6 @@ class InfoBar {
 				this.dismiss();
 			}
 		}, showDuration);
-
-		this.m_elmInfoBar.focus();
 	}
 
 	//////////////////////////////////////////
@@ -312,7 +310,6 @@ class InfoBar {
 				this.m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
 
 				if(!!this.m_elmInfoBar.slRefElement) {
-					this.m_elmInfoBar.slRefElement.focus();
 					delete this.m_elmInfoBar.slRefElement;
 				}
 			}

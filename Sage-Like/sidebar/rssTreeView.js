@@ -2163,9 +2163,8 @@ let rssTreeView = (function() {
 			if(count > 0) {
 				InfoBar.i.show("Hover over the filter text box for vital information.", m_elmfilterContainer, false, "", 4000);
 				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
-			} else {
-				m_elmTextFilter.focus();
 			}
+			m_elmTextFilter.focus();
 		});
 	}
 

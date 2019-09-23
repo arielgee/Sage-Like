@@ -449,10 +449,10 @@
 * menu text is wraping
 * menu; change "Open" to "Open in tab" or "Open in Current tab" => NO
 * the rss title in the discoveryView tooltip and pagePopup has newline in the string https://rss.com/what-is-rss/
+* Focus lost when infobar popup while user is typing or opening filter
 ---
 
 ## Next
-* Focus lost when infobar popup while user is typing or opening filter
 * contect menu to open link in Sage-Like feedPreview
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
