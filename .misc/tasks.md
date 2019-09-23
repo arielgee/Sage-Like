@@ -452,6 +452,8 @@
 ---
 
 ## Next
+* Focus lost when infobar popup while user is typing or opening filter
+* contect menu to open link in Sage-Like feedPreview
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
