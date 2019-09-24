@@ -30,13 +30,13 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added support for XML feeds (rss, atom, rdf) with none UTF-8 encoding.</li>
-  <li>Added link to Options page in pagePopup & slide-down message panel when needed.</li>
-  <li>Shift+Middle Click on a feed to open feed preview in new window.</li>
-  <li>Feeds folder option in Options page now displays the entire bookmarks tree. The user has more freedom where to place its feeds folder.</li>
-  <li>Fixed JSON feed regression. Fail to handle XML feeds (rss, atom, rdf) that are missing the XML Prolog.</li>
-  <li>Improvements in the way slide-down panels are handled.</li>
-  <li>Various UI/Code improvements and modifications.</li>
+  <li>Added ability to open links to feeds in pages, Bookmarks or location-bar with the Sage-Like Feed Preview.
+    <ul><li>The permissions <i>webRequest</i> & <i>webRequestBlocking</i> were needed.</li></ul>
+  </li>
+  <li>Added link in the feed preview to open the URL with the browser when an error occurs.</li>
+  <li>Added support for keyboard copy with Ctrl+Insert in feeds tree & feed-items list.</li>
+  <li>Fixed the 'Subscribe Using Sage-Like' icon. Change to gray (dimmed) when it's not available.</li>
+  <li>Minor improvements to the UI behavior.</li>
 </ul>
 
 + Version Notes for next time

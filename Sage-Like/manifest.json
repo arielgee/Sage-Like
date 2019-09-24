@@ -7,7 +7,7 @@
 		}
 	},
 	"name": "Sage-Like",
-	"version": "1.7",
+	"version": "1.8",
 	"description": "A basic RSS reader like the good ol' Sage add-on, may the gods avenge his untimely death.",
 	"author": "arielg",
 	"permissions": [
