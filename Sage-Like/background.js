@@ -2,11 +2,14 @@
 
 (function() {
 
-	// Web requests that are top-level documents loaded into a tab will support MIMEs without semantics.
-	// Ergo, "Content-Type" that is "application/xml" will be handled just like "application/rss+xml". The
-	// semantics are restricting. That is what the 'Open with browser' link in feedPreview is for.
-	const REGEX_RSS_CONTENT_TYPES = new RegExp("application/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))", "i");		// semantics optional
-	//const REGEX_RSS_CONTENT_TYPES = new RegExp("application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))", "i");			// semantics NOT optional
+	// Top-level documents loaded into a tab web requests for files with MIMEs that include semantics.
+	// For example, "Content-Type: application/xml" will be ignored and handled by the browser.
+	// Only web requests with "Content-Type: application/rss+xml" (or rdf, atom) will be handled
+	// by Sage-Like.
+	// This is in accordance with Firefox version 64.0 and above (RSS support was dropped) when it started
+	// to display the 'open with' dialog for files with "Content-Type: application/rss+xml" (or rdf, atom).
+	const REGEX_RSS_CONTENT_TYPES = new RegExp("application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))", "i");			// semantics NOT optional
+	//const REGEX_RSS_CONTENT_TYPES = new RegExp("application/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))", "i");	// semantics optional
 
 	let m_windowIds = [];
 	let m_currentWindowId = null;
