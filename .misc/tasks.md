@@ -454,6 +454,7 @@
 ---
 
 ## Next
+* hide read articles/feed items.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
