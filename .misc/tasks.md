@@ -454,7 +454,17 @@
 ---
 
 ## Next
-* hide read articles/feed items.
+* menu hotkeys must check that the ctrl/alt/shift are NOT pressed
+* the pref title 'Show total number of unread feeds and feed-items' need to change to just 'Show total number of unread feed-items'
+* support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links.
+    * https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/5
+    * https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml
+* a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
+    * The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS BAD (change?)
+    * Maybe need to use feed items Read/Unread state (alterative option?)
+    > (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
+    > (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
+* check at home is gmail's atom feed is processed without errors.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
