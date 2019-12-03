@@ -451,6 +451,7 @@
 * the rss title in the discoveryView tooltip and pagePopup has newline in the string https://rss.com/what-is-rss/
 * Focus lost when infobar popup while user is typing or opening filter
 * contect menu to open link in Sage-Like feedPreview    => NO too intrusive
+* when the feed is OK but has no feed-items and the pref 'show total unread count' is on, the feed state is set to error.
 ---
 
 ## Next

@@ -170,7 +170,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedItems(url, timeout, reload) {
+	function fetchFeedItems(url, timeout, reload, noItemsReject = true) {
 
 		return new Promise((resolve, reject) => {
 
@@ -178,7 +178,7 @@ let syndication = (function() {
 
 				let list = createFeedItemsList(result.feedData);
 
-				if(list.length > 0) {
+				if(list.length > 0 || !noItemsReject) {
 					resolve({ list: list, feedData: result.feedData});
 				} else {
 					reject(new SyndicationError("No RSS feed items identified in document."));

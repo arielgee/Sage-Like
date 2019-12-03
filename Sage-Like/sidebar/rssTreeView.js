@@ -534,7 +534,7 @@ let rssTreeView = (function() {
 
 			timeout *= 1000;	// to milliseconds
 
-			let fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout) : syndication.fetchFeedData(url, timeout);
+			let fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, undefined, false) : syndication.fetchFeedData(url, timeout);
 
 			fetching.then((fetchResult) => {
 
@@ -832,7 +832,6 @@ let rssTreeView = (function() {
 				setFeedVisitedState(elmLI, true);
 				updateFeedTitle(elmLI, result.feedData.title);
 				updateFeedStatsFromHistory(elmLI, result.list);
-				updateTreeBranchFoldersStats(elmLI);
 				setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toWebExtensionLocaleString());
 
 				// change the rssListView content only if this is the last user click.
@@ -858,6 +857,8 @@ let rssTreeView = (function() {
 
 				// even if there was an error the feed was visited
 				m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+
+				updateTreeBranchFoldersStats(elmLI);
 			});
 		});
 
@@ -1737,7 +1738,7 @@ let rssTreeView = (function() {
 			while(elmULFolder !== m_elmTreeRoot) {
 
 				totalCount = elmULFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
-				unreadCount = elmULFolder.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+				unreadCount = elmULFolder.querySelectorAll(":not(.error).bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
 
 				updateTreeItemStats(elmULFolder.parentElement, totalCount, unreadCount);
 
