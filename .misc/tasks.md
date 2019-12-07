@@ -455,6 +455,7 @@
 ---
 
 ## Next
+* in dark mode the options page looks bad
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * the pref title 'Show total number of unread feeds and feed-items' need to change to just 'Show total number of unread feed-items'
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links.
@@ -466,8 +467,9 @@
     > (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
     > (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
 * check at home is gmail's atom feed is processed without errors.
->`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
+
+>`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI
