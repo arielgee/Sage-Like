@@ -452,13 +452,13 @@
 * Focus lost when infobar popup while user is typing or opening filter
 * contect menu to open link in Sage-Like feedPreview    => NO too intrusive
 * when the feed is OK but has no feed-items and the pref 'show total unread count' is on, the feed state is set to error.
+* the pref title 'Show total number of unread feeds and feed-items' need to change to just 'Show total number of unread feed-items'   => IT'S OK
 ---
 
 ## Next
 * in dark mode the options page looks bad
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
-* the pref title 'Show total number of unread feeds and feed-items' need to change to just 'Show total number of unread feed-items'
-* support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links.
+* support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???
     * https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/5
     * https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
@@ -467,9 +467,10 @@
     > (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
     > (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
 * check at home is gmail's atom feed is processed without errors.
-
+* split SyndicationStandard to classes
 
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
+
 
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI
