@@ -66,6 +66,10 @@ let panel = (function() {
 				message.details === slGlobals.MSGD_PREF_CHANGE_IMAGES) {
 				setPanelImageSetFromPreferences();
 			}
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+				message.details === slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS) {
+				setFeedItemsDescColorsFromPreferences();
+			}
 		}
 	}
 
@@ -105,6 +109,7 @@ let panel = (function() {
 		setPanelFontSizePercentFromPreferences();
 		setPanelColorsFromPreferences();
 		setPanelImageSetFromPreferences();
+		setFeedItemsDescColorsFromPreferences();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -203,6 +208,15 @@ let panel = (function() {
 			style.setProperty("--url-img-tree-item-loading", imageSet.IMG_TREE_ITEM_LOADING);
 			style.setProperty("--url-img-tree-item-error", imageSet.IMG_TREE_ITEM_ERROR);
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setFeedItemsDescColorsFromPreferences() {
+
+		let style = document.documentElement.style;
+
+		prefs.getColorFeedItemDescBackground().then(color => { style.setProperty("--bk-color-feed-item-desc", color); });
+		prefs.getColorFeedItemDescText().then(color => { style.setProperty("--color-text-feed-item-desc", color); });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

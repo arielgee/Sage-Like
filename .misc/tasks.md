@@ -454,10 +454,10 @@
 * when the feed is OK but has no feed-items and the pref 'show total unread count' is on, the feed state is set to error.
 * the pref title 'Show total number of unread feeds and feed-items' need to change to just 'Show total number of unread feed-items'   => IT'S OK
 * reload list view when feed-item desc pref has changed
+* feed-item desc tooltips time and colors
 ---
 
 ## Next
-* feed-item desc tooltips time and colors
 * in dark mode the options page looks bad
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???

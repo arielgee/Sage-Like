@@ -25,6 +25,8 @@ let preferences = (function() {
 	let m_elmShowFeedStats;
 	let m_elmShowFeedItemDesc;
 	let m_elmFeedItemDescDelay;
+	let m_elmColorFeedItemDescBackground;
+	let m_elmColorFeedItemDescText;
 	let m_elmDetectFeedsInWebPage;
 	let m_elmUIDensity;
 	let m_elmFontName;
@@ -75,6 +77,8 @@ let preferences = (function() {
 		m_elmShowFeedStats = document.getElementById("showFeedStats");
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
 		m_elmFeedItemDescDelay = document.getElementById("feedItemDescDelay");
+		m_elmColorFeedItemDescBackground = document.getElementById("colorFeedItemDescBk");
+		m_elmColorFeedItemDescText = document.getElementById("colorFeedItemDescText");
 		m_elmDetectFeedsInWebPage = document.getElementById("detectFeedsInWebPage");
 		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmFontName = document.getElementById("fontName");
@@ -125,6 +129,8 @@ let preferences = (function() {
 		m_elmShowFeedStats.removeEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
 		m_elmFeedItemDescDelay.removeEventListener("change", onChangeFeedItemDescDelay);
+		m_elmColorFeedItemDescBackground.removeEventListener("change", onChangeColorFeedItemDescBackground);
+		m_elmColorFeedItemDescText.removeEventListener("change", onChangeColorFeedItemDescText);
 		m_elmDetectFeedsInWebPage.removeEventListener("change", onChangeDetectFeedsInWebPage);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
 		m_elmFontName.removeEventListener("change", onChangeFontName);
@@ -165,6 +171,8 @@ let preferences = (function() {
 		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
 		m_elmFeedItemDescDelay.addEventListener("change", onChangeFeedItemDescDelay);
+		m_elmColorFeedItemDescBackground.addEventListener("change", onChangeColorFeedItemDescBackground);
+		m_elmColorFeedItemDescText.addEventListener("change", onChangeColorFeedItemDescText);
 		m_elmDetectFeedsInWebPage.addEventListener("change", onChangeDetectFeedsInWebPage);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmFontName.addEventListener("change", onChangeFontName);
@@ -241,10 +249,21 @@ let preferences = (function() {
 		prefs.getShowFeedItemDesc().then((checked) => {
 			m_elmShowFeedItemDesc.checked = checked;
 			slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !checked);
+			slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !checked);
 		});
 
 		prefs.getFeedItemDescDelay().then((delayMillisec) => {
 			m_elmFeedItemDescDelay.value = delayMillisec;
+		});
+
+		prefs.getColorFeedItemDescBackground().then((color) => {
+			m_elmColorFeedItemDescBackground.value = color;
+			m_elmColorFeedItemDescBackground.title = colorInputTitle(color);
+		});
+
+		prefs.getColorFeedItemDescText().then((color) => {
+			m_elmColorFeedItemDescText.value = color;
+			m_elmColorFeedItemDescText.title = colorInputTitle(color);
 		});
 
 		prefs.getDetectFeedsInWebPage().then((checked) => {
@@ -395,6 +414,7 @@ let preferences = (function() {
 		prefs.setShowFeedItemDesc(m_elmShowFeedItemDesc.checked);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC);
 		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
+		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -407,6 +427,20 @@ let preferences = (function() {
 			prefs.setFeedItemDescDelay(m_elmFeedItemDescDelay.value);
 		}
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeColorFeedItemDescBackground(event) {
+		m_elmColorFeedItemDescBackground.title = colorInputTitle(m_elmColorFeedItemDescBackground.value);
+		prefs.setColorFeedItemDescBackground(m_elmColorFeedItemDescBackground.value);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeColorFeedItemDescText(event) {
+		m_elmColorFeedItemDescText.title = colorInputTitle(m_elmColorFeedItemDescText.value);
+		prefs.setColorFeedItemDescText(m_elmColorFeedItemDescText.value);
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -574,6 +608,7 @@ let preferences = (function() {
 
 		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, defPrefs.checkFeedsInterval === "0");
 		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !defPrefs.showFeedItemDesc);
+		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, defPrefs.rootFeedsFolderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
@@ -584,6 +619,8 @@ let preferences = (function() {
 		m_elmShowFeedStats.checked = defPrefs.showFeedStats;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
 		m_elmFeedItemDescDelay.value = defPrefs.feedItemDescDelay;
+		m_elmColorFeedItemDescBackground.value = defPrefs.colorFeedItemDescBackground;
+		m_elmColorFeedItemDescText.value = defPrefs.colorFeedItemDescText;
 		m_elmDetectFeedsInWebPage.checked = defPrefs.detectFeedsInWebPage;
 		m_elmUIDensity.value = defPrefs.UIDensity;
 		m_elmFontName.value = defPrefs.fontName;
