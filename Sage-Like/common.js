@@ -355,12 +355,13 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD				= 1005;
 	const MSGD_PREF_CHANGE_SHOW_FEED_STATS					= 1006;
 	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC				= 1007;
-	const MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE			= 1008;
-	const MSGD_PREF_CHANGE_UI_DENSITY						= 1009;
-	const MSGD_PREF_CHANGE_FONT_NAME						= 1010;
-	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT				= 1011;
-	const MSGD_PREF_CHANGE_COLORS							= 1012;
-	const MSGD_PREF_CHANGE_IMAGES							= 1013;
+	const MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY				= 1008;
+	const MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE			= 1009;
+	const MSGD_PREF_CHANGE_UI_DENSITY						= 1010;
+	const MSGD_PREF_CHANGE_FONT_NAME						= 1011;
+	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT				= 1012;
+	const MSGD_PREF_CHANGE_COLORS							= 1013;
+	const MSGD_PREF_CHANGE_IMAGES							= 1014;
 
 	const BOOKMARKS_ROOT_GUID = "root________";
 	const BOOKMARKS_ROOT_MENU_GUID = "menu________";
@@ -436,6 +437,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD: MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD,
 		MSGD_PREF_CHANGE_SHOW_FEED_STATS: MSGD_PREF_CHANGE_SHOW_FEED_STATS,
 		MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC: MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC,
+		MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY: MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY,
 		MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE: MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE,
 		MSGD_PREF_CHANGE_UI_DENSITY: MSGD_PREF_CHANGE_UI_DENSITY,
 		MSGD_PREF_CHANGE_FONT_NAME: MSGD_PREF_CHANGE_FONT_NAME,
@@ -968,6 +970,7 @@ let prefs = (function() {
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
 	const DEF_PREF_SHOW_FEED_STATS_VALUE = true;
 	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
+	const DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE = 800;
 	const DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE = true;
 	const DEF_PREF_UI_DENSITY_VALUE = "19;18";
 	const DEF_PREF_FONT_NAME_VALUE = "(Browser Default)";
@@ -985,6 +988,7 @@ let prefs = (function() {
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
 	const PREF_SHOW_FEED_STATS = "pref_showFeedStats";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
+	const PREF_FEED_ITEM_DESC_DELAY = "pref_feedItemDescDelay";
 	const PREF_DETECT_FEEDS_IN_WEB_PAGE = "pref_detectFeedsInWebPage";
 	const PREF_UI_DENSITY = "pref_UIDensity";
 	const PREF_FONT_NAME = "perf_fontName";
@@ -1125,6 +1129,25 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_SHOW_FEED_ITEM_DESC] = value;
+		browser.storage.local.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getFeedItemDescDelay() {
+
+		return new Promise((resolve) => {
+
+			browser.storage.local.get(PREF_FEED_ITEM_DESC_DELAY).then((result) => {
+				resolve(result[PREF_FEED_ITEM_DESC_DELAY] === undefined ? DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE : result[PREF_FEED_ITEM_DESC_DELAY]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setFeedItemDescDelay(value) {
+
+		let obj = {};
+		obj[PREF_FEED_ITEM_DESC_DELAY] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -1308,6 +1331,7 @@ let prefs = (function() {
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
 		this.setShowFeedStats(DEF_PREF_SHOW_FEED_STATS_VALUE);
 		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
+		this.setFeedItemDescDelay(DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE);
 		this.setDetectFeedsInWebPage(DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE);
 		this.setUIDensity(DEF_PREF_UI_DENSITY_VALUE);
 		this.setFontName(DEF_PREF_FONT_NAME_VALUE);
@@ -1326,6 +1350,7 @@ let prefs = (function() {
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
 			showFeedStats: DEF_PREF_SHOW_FEED_STATS_VALUE,
 			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
+			feedItemDescDelay: DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
 			detectFeedsInWebPage: DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE,
 			UIDensity: DEF_PREF_UI_DENSITY_VALUE,
 			fontName: DEF_PREF_FONT_NAME_VALUE,
@@ -1346,6 +1371,7 @@ let prefs = (function() {
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
 		DEF_PREF_SHOW_FEED_STATS_VALUE: DEF_PREF_SHOW_FEED_STATS_VALUE,
 		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
+		DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE: DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
 		DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE: DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE,
 		DEF_PREF_UI_DENSITY_VALUE: DEF_PREF_UI_DENSITY_VALUE,
 		DEF_PREF_FONT_NAME_VALUE: DEF_PREF_FONT_NAME_VALUE,
@@ -1370,6 +1396,8 @@ let prefs = (function() {
 		setShowFeedStats: setShowFeedStats,
 		getShowFeedItemDesc: getShowFeedItemDesc,
 		setShowFeedItemDesc: setShowFeedItemDesc,
+		getFeedItemDescDelay: getFeedItemDescDelay,
+		setFeedItemDescDelay: setFeedItemDescDelay,
 		getDetectFeedsInWebPage: getDetectFeedsInWebPage,
 		setDetectFeedsInWebPage: setDetectFeedsInWebPage,
 		getUIDensity: getUIDensity,

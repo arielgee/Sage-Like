@@ -17,6 +17,7 @@ let rssListView = (function() {
 	let m_observerElmLITreeFeed = null;
 
 	let m_bPrefShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
+	let m_msPrefFeedItemDescDelay = prefs.DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE;
 	let m_timeoutMouseOver = null;
 
 	let URLOpenMethod = Object.freeze({
@@ -52,6 +53,11 @@ let rssListView = (function() {
 			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 				message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC) {
 				setShowFeedItemDescFromPreferences();
+			}
+
+			// Pref for tooltip delay is already retrieved when: message.details === slGlobals.MSGD_PREF_CHANGE_ALL
+			if (message.details === slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY) {
+				setFeedItemDescDelayFromPreferences();
 			}
 		}
 	}
@@ -100,7 +106,18 @@ let rssListView = (function() {
 
 		prefs.getShowFeedItemDesc().then(showDesc => {
 			m_bPrefShowFeedItemDesc = showDesc;
+			if(m_bPrefShowFeedItemDesc) {
+				prefs.getFeedItemDescDelay().then(delayMillisec => m_msPrefFeedItemDescDelay = delayMillisec );
+			}
 			handleFeedItemDescEventListeners(m_bPrefShowFeedItemDesc);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setFeedItemDescDelayFromPreferences() {
+
+		prefs.getFeedItemDescDelay().then(delayMillisec => {
+			m_msPrefFeedItemDescDelay = delayMillisec;
 		});
 	}
 
@@ -259,7 +276,7 @@ let rssListView = (function() {
 			m_elmFeedItemDescPanel.style.left = x + "px";
 			m_elmFeedItemDescPanel.style.top = y + "px";
 
-		}, 800);
+		}, m_msPrefFeedItemDescDelay);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

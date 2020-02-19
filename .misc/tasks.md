@@ -457,7 +457,7 @@
 ---
 
 ## Next
-* feed-item desc toolips time and colors
+* feed-item desc tooltips time and colors
 * in dark mode the options page looks bad
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???

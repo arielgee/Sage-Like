@@ -24,6 +24,7 @@ let preferences = (function() {
 	let m_elmFetchTimeout;
 	let m_elmShowFeedStats;
 	let m_elmShowFeedItemDesc;
+	let m_elmFeedItemDescDelay;
 	let m_elmDetectFeedsInWebPage;
 	let m_elmUIDensity;
 	let m_elmFontName;
@@ -73,6 +74,7 @@ let preferences = (function() {
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
 		m_elmShowFeedStats = document.getElementById("showFeedStats");
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
+		m_elmFeedItemDescDelay = document.getElementById("feedItemDescDelay");
 		m_elmDetectFeedsInWebPage = document.getElementById("detectFeedsInWebPage");
 		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmFontName = document.getElementById("fontName");
@@ -122,6 +124,7 @@ let preferences = (function() {
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
 		m_elmShowFeedStats.removeEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
+		m_elmFeedItemDescDelay.removeEventListener("change", onChangeFeedItemDescDelay);
 		m_elmDetectFeedsInWebPage.removeEventListener("change", onChangeDetectFeedsInWebPage);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
 		m_elmFontName.removeEventListener("change", onChangeFontName);
@@ -161,6 +164,7 @@ let preferences = (function() {
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
 		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
+		m_elmFeedItemDescDelay.addEventListener("change", onChangeFeedItemDescDelay);
 		m_elmDetectFeedsInWebPage.addEventListener("change", onChangeDetectFeedsInWebPage);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmFontName.addEventListener("change", onChangeFontName);
@@ -236,6 +240,11 @@ let preferences = (function() {
 
 		prefs.getShowFeedItemDesc().then((checked) => {
 			m_elmShowFeedItemDesc.checked = checked;
+			slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !checked);
+		});
+
+		prefs.getFeedItemDescDelay().then((delayMillisec) => {
+			m_elmFeedItemDescDelay.value = delayMillisec;
 		});
 
 		prefs.getDetectFeedsInWebPage().then((checked) => {
@@ -385,6 +394,19 @@ let preferences = (function() {
 	function onChangeShowFeedItemDesc(event) {
 		prefs.setShowFeedItemDesc(m_elmShowFeedItemDesc.checked);
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC);
+		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeFeedItemDescDelay(event) {
+		if(m_elmFeedItemDescDelay.value.match(m_elmFeedItemDescDelay.pattern) === null) {
+			prefs.getFeedItemDescDelay().then((delayMillisec) => {
+				m_elmFeedItemDescDelay.value = delayMillisec;
+			});
+		} else {
+			prefs.setFeedItemDescDelay(m_elmFeedItemDescDelay.value);
+		}
+		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -551,6 +573,7 @@ let preferences = (function() {
 		let defPrefs = prefs.restoreDefaults();
 
 		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, defPrefs.checkFeedsInterval === "0");
+		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, defPrefs.rootFeedsFolderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
@@ -560,6 +583,7 @@ let preferences = (function() {
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
 		m_elmShowFeedStats.checked = defPrefs.showFeedStats;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
+		m_elmFeedItemDescDelay.value = defPrefs.feedItemDescDelay;
 		m_elmDetectFeedsInWebPage.checked = defPrefs.detectFeedsInWebPage;
 		m_elmUIDensity.value = defPrefs.UIDensity;
 		m_elmFontName.value = defPrefs.fontName;
