@@ -459,12 +459,23 @@
 
 ## Next
 * in dark mode the options page looks bad
+    * following CSS snippet may help; need to be checked on win10 dark
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: rgb(42, 42, 46);
+                color: rgb(249, 249, 250);
+            }
+        }
+    * related links:
+        > https://discourse.mozilla.org/t/how-to-detect-the-dark-theme-in-a-webextension/38604
+        > https://discourse.mozilla.org/t/detecting-dark-theme-for-options-pages-in-webextension/43151
+* find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???
     * https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/5
     * https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
-    * The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS BAD (change?)
+    * The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
     * Maybe need to use feed items Read/Unread state (alterative option?)
     > (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
     > (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
