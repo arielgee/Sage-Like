@@ -338,8 +338,8 @@ input[type="color"].disabled {
 	display: block;
 }
 
-/*** User font box ***/
-.userFontBox {
+/*** User font box and Time of day box***/
+.userInputBox {
 	display: none;
 	position: absolute;
 	border: 1px solid black;
@@ -351,27 +351,10 @@ input[type="color"].disabled {
 	white-space: nowrap;
 }
 
-.userFontBox #userFontName {
+.userInputBox > .preferenceControl > input {
 	pointer-events: initial;
 	border: 1px solid black;
 	padding: 2px;
 }
 
-/*** Time of day box ***/
-.timeOfDayBox {
-	display: none;
-	position: absolute;
-	border: 1px solid black;
-	border-radius: 8px;
-	padding: 12px;
-	background-color: #f5f5f5;
-	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-	z-index: 1;
-	white-space: nowrap;
-}
-
-.timeOfDayBox #inputTime {
-	pointer-events: initial;
-	border: 1px solid black;
-	padding: 2px;
 }
