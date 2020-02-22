@@ -357,4 +357,51 @@ input[type="color"].disabled {
 	padding: 2px;
 }
 
+@media (prefers-color-scheme: dark) {
+
+	:root {
+		--flash-color: rgb(255, 88, 88);
+	}
+
+	body {
+		background-color: #202023;
+		color: #f9f9fa;
+	}
+
+	select,
+	option,
+	input {
+		background-color: #2a2a2e;
+		color: #f9f9fa;
+	}
+
+	#checkFeedsInterval option[value="-1"],
+	#fontName option[value="-1"] {
+		background-color: #101010;
+	}
+
+	.controlButton,
+	.feedTransButton {
+		background-color: #f9f9fa26;
+		color: #f9f9fa;
+	}
+
+	.controlButton:hover,
+	.feedTransButton:hover {
+		background-color: #f9f9fa66;
+	}
+
+	.controlButton:active:hover,
+	.feedTransButton:active:hover {
+		background-color: #f9f9fa88;
+	}
+
+	.userInputBox {
+		background-color: #2a2a2e;
+		border-color: #808080;
+	}
+
+	.userInputBox > .preferenceControl > input {
+		border-color: #808080;
+	}
 }
