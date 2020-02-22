@@ -3,6 +3,7 @@
 :root {
 	--sage-like-preference-height: 40px;
 	--preferences-body-max-width: 700px;
+	--flash-color: rgb(255, 192, 192);
 }
 
 body {
@@ -176,7 +177,7 @@ input[type="color"]::-moz-focus-inner {
 select,
 .annotation,
 .controlButton {
-	background: linear-gradient(to left, transparent 50%, rgb(255, 192, 192) 50%);
+	background: linear-gradient(to left, transparent 50%, var(--flash-color) 50%);
 	background-size: 200% 100%;
 	background-position: right bottom;
 	transition: background-position 0.2s ease-in 0s;
