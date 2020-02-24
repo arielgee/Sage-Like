@@ -139,7 +139,9 @@ let rssTreeView = (function() {
 
 				// Entire tree is recreated when: message.details === slGlobals.MSGD_PREF_CHANGE_ALL
 				if (message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC) {
-					openTreeFeed(m_elmCurrentlySelected, false);
+					if (!!m_elmCurrentlySelected && m_elmCurrentlySelected.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+						openTreeFeed(m_elmCurrentlySelected, false);
+					}
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
