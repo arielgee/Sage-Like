@@ -778,7 +778,7 @@ let preferences = (function() {
 			let y = m_elmFontName.offsetTop;
 
 			m_elmUserFontBox.style.left = (x - 18) + "px";
-			m_elmUserFontBox.style.top = (y - 10) + "px";
+			m_elmUserFontBox.style.top = (y - 15) + "px";
 
 			m_elmUserFontName.focus();
 			m_elmUserFontName.select();
@@ -834,7 +834,7 @@ let preferences = (function() {
 			let y = m_elmCheckFeedsInterval.offsetTop;
 
 			m_elmTimeOfDayBox.style.left = (x - 18) + "px";
-			m_elmTimeOfDayBox.style.top = (y - 10) + "px";
+			m_elmTimeOfDayBox.style.top = (y - 15) + "px";
 
 			m_elmInputTime.focus();
 		});
