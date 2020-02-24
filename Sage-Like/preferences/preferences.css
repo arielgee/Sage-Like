@@ -123,8 +123,12 @@ input[type="color"]::-moz-focus-inner {
 	width: 50px;
 }
 
+.numericInput:focus {
+	box-shadow: 0 0 1.5px 2px rgb(10, 133, 255);
+}
+
 .numericInput:invalid {
-	box-shadow: 0 0 1.5px 1px rgb(255, 0, 0);
+	box-shadow: 0 0 1.5px 2px rgb(255, 0, 0);
 }
 
 .helpInfo {
@@ -363,7 +367,7 @@ input[type="color"].disabled {
 		--flash-color: rgb(255, 88, 88);
 
 		--dark-mode-primary-bk-color: rgb(32, 32, 35);
-		--dark-mode-secondary-bk-color: rgb(42, 42, 46);
+		--dark-mode-secondary-bk-color: rgb(50, 50, 54);
 		--dark-mode-fg-color: rgb(249, 249, 250);
 
 		--dm-bk-color-button: 249, 249, 250;
