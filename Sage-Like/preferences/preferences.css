@@ -339,7 +339,7 @@ input[type="color"].disabled {
 }
 
 /*** User font box and Time of day box***/
-.userInputBox {
+.popupBox {
 	display: none;
 	position: absolute;
 	border: 1px solid black;
@@ -351,7 +351,7 @@ input[type="color"].disabled {
 	white-space: nowrap;
 }
 
-.userInputBox > .preferenceControl > input {
+.popupBox > .preferenceControl > input {
 	pointer-events: initial;
 	border: 1px solid black;
 	padding: 2px;
@@ -361,47 +361,97 @@ input[type="color"].disabled {
 
 	:root {
 		--flash-color: rgb(255, 88, 88);
+
+		--dark-mode-primary-bk-color: rgb(32, 32, 35);
+		--dark-mode-secondary-bk-color: rgb(42, 42, 46);
+		--dark-mode-fg-color: rgb(249, 249, 250);
+
+		--dm-bk-color-button: 249, 249, 250;
+		--dm-bk-alpha-button: 0.1;
+		--dm-bk-alpha-hover-button: 0.15;
+		--dm-bk-alpha-hover-active-button: 0.2;
 	}
 
 	body {
-		background-color: #202023;
-		color: #f9f9fa;
+		background-color: var(--dark-mode-primary-bk-color);
+		color: var(--dark-mode-fg-color);
 	}
 
 	select,
 	option,
 	input {
-		background-color: #2a2a2e;
-		color: #f9f9fa;
+		background-color: var(--dark-mode-secondary-bk-color);
+		color: var(--dark-mode-fg-color);
+	}
+
+	select.disabled,
+	option.disabled,
+	input.disabled {
+		color: rgb(127, 127, 127);
 	}
 
 	#checkFeedsInterval option[value="-1"],
 	#fontName option[value="-1"] {
-		background-color: #101010;
+		background-color: rgb(16, 16, 16);
+	}
+
+	input[type="radio"]:checked,
+	input[type="checkbox"]:checked {
+		border: 5px solid #777;
+		background-color: var(--dark-mode-fg-color);
+	}
+
+	input[type="color"]::-moz-color-swatch {
+		box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.6);
 	}
 
 	.controlButton,
 	.feedTransButton {
-		background-color: #f9f9fa26;
-		color: #f9f9fa;
+		border-width: 0;
+		box-sizing: border-box;
+		color: var(--dark-mode-fg-color);
 	}
 
-	.controlButton:hover,
+	.controlButton {
+		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-button));
+	}
+
+	.controlButton:hover {
+		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-button));
+	}
+
+	.controlButton:hover:active {
+		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-active-button));
+	}
+
+	.feedTransButton {
+		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-button) + 0.1));
+	}
+
 	.feedTransButton:hover {
-		background-color: #f9f9fa66;
+		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-hover-button) + 0.1));
 	}
 
-	.controlButton:active:hover,
 	.feedTransButton:active:hover {
-		background-color: #f9f9fa88;
+		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-hover-active-button) + 0.1));
 	}
 
-	.userInputBox {
-		background-color: #2a2a2e;
-		border-color: #808080;
+	.popupBox {
+		background-color: inherit;
+		color: inherit;
+		border-color: rgb(128, 128, 128);
 	}
 
-	.userInputBox > .preferenceControl > input {
-		border-color: #808080;
+	.inputPopupBox {
+		border-color: rgb(128, 128, 128) !important;
+	}
+
+	.helpInfo {
+		background-color: rgb(92, 92, 92);
+		color: rgb(0, 0, 0);
+	}
+
+	.helpInfo:hover {
+		background-color: rgb(192, 192, 192);
 	}
 }
