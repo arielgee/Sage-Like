@@ -4,6 +4,8 @@
 	--sage-like-preference-height: 40px;
 	--preferences-body-max-width: 700px;
 	--color-flash: rgb(255, 192, 192);
+	--color-text-input-focused: rgb(10, 133, 255);
+	--color-text-input-invalid: rgb(255, 0, 0);
 }
 
 body {
@@ -124,11 +126,13 @@ input[type="color"]::-moz-focus-inner {
 }
 
 .numericInput:focus {
-	box-shadow: 0 0 1.5px 2px rgb(10, 133, 255);
+	border-color: var(--color-text-input-focused);
+	box-shadow: 0 0 2.5px 1px var(--color-text-input-focused);
 }
 
 .numericInput:invalid {
-	box-shadow: 0 0 1.5px 2px rgb(255, 0, 0);
+	border-color: var(--color-text-input-invalid);
+	box-shadow: 0 0 2.5px 1px var(--color-text-input-invalid);
 }
 
 .helpInfo {
