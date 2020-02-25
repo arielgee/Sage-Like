@@ -3,7 +3,7 @@
 :root {
 	--sage-like-preference-height: 40px;
 	--preferences-body-max-width: 700px;
-	--flash-color: rgb(255, 192, 192);
+	--color-flash: rgb(255, 192, 192);
 }
 
 body {
@@ -181,7 +181,7 @@ input[type="color"]::-moz-focus-inner {
 select,
 .annotation,
 .controlButton {
-	background: linear-gradient(to left, transparent 50%, var(--flash-color) 50%);
+	background: linear-gradient(to left, transparent 50%, var(--color-flash) 50%);
 	background-size: 200% 100%;
 	background-position: right bottom;
 	transition: background-position 0.2s ease-in 0s;
@@ -364,7 +364,7 @@ input[type="color"].disabled {
 @media (prefers-color-scheme: dark) {
 
 	:root {
-		--flash-color: rgb(255, 88, 88);
+		--color-flash: rgb(255, 88, 88);
 
 		--dark-mode-primary-bk-color: rgb(32, 32, 35);
 		--dark-mode-secondary-bk-color: rgb(50, 50, 54);
