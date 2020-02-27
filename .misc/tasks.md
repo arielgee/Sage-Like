@@ -455,9 +455,6 @@
 * the pref title 'Show total number of unread feeds and feed-items' need to change to just 'Show total number of unread feed-items'   => IT'S OK
 * reload list view when feed-item desc pref has changed
 * feed-item desc tooltips time and colors
----
-
-## Next
 * in dark mode the options page looks bad
     * following CSS snippet may help; need to be checked on win10 dark
         @media (prefers-color-scheme: dark) {
@@ -469,6 +466,26 @@
     * related links:
         > https://discourse.mozilla.org/t/how-to-detect-the-dark-theme-in-a-webextension/38604
         > https://discourse.mozilla.org/t/detecting-dark-theme-for-options-pages-in-webextension/43151
+---
+
+## Next
+* add numbring to the feed items in the feed preview
+* support RSS <enclosure> (media files) for all formats (?) look in the specifications
+    > https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
+    > https://www.w3schools.com/xml/rss_tag_enclosure.asp
+    > https://en.wikipedia.org/wiki/RSS_enclosure
+* read RSS <content:encoded> as a prefered alternative to description
+* redesign the feed preview
+    * Header:
+      ---------------------------------------------------------------------------------
+      |                                                 [icon] Sage-Like Feed Preview |             (small text)
+      | [feed_title_text]                                                             |             (big text)
+      | [feed_description_text]                                                       |             (medium text)
+      |                                                                               |
+      ---------------------------------------------------------------------------------
+* preference to open feed preview with left click
+* read json <content type="html"> as feed item content in preview
+* update feed tooltip when middle-clicking for feed preview
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???

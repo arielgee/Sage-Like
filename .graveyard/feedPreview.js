@@ -3,11 +3,15 @@
 (function () {
 
 	let m_URL;
+	let m_imgMissingImage;
 
 	initilization();
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initilization() {
+
+		m_imgMissingImage = new Image();
+		m_imgMissingImage.src = "/icons/sageLike-48.png";
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
@@ -49,21 +53,23 @@
 				elmFeedContent.id = "feedContent";
 
 				for(let idx=0, len=result.list.length; idx<len; idx++) {
-					elmFeedItem = createFeedItemElements(idx, result.list[idx]);
+					elmFeedItem = createFeedItemElements(result.list[idx]);
 					elmFeedContent.appendChild(elmFeedItem);
 				}
 
-				document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
+				elmFeedBody.appendChild(elmFeedTitle);
 				elmFeedBody.appendChild(elmFeedContent);
 
 			}).catch((error) => {
 
-				let url = new URL(urlFeed);
-				url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
-
-				document.getElementById("errorContainer").classList.add("withMessage");
 				document.getElementById("errorMessage").textContent = error.message;
-				document.getElementById("errorMessageLink").href = url.toString();
+
+				let url = new URL(urlFeed);
+				let elmErrMsgLink = document.getElementById("errorMessageLink");
+
+				url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+				elmErrMsgLink.href = url.toString();
+				elmErrMsgLink.textContent = "\nOpen with browser";		// to show the newline it needs 'white-space: pre-line;'
 
 				console.log("[Sage-Like]", "Fetch Error at " + urlFeed, error);
 
@@ -90,7 +96,7 @@
 		elmFeedDescText.textContent = feedData.description;
 		if(feedData.imageUrl.length > 0) {
 			elmFeedTitleImage.src = slUtil.replaceMozExtensionOriginURL(feedData.imageUrl, m_URL.origin);
-			elmFeedTitleImage.onerror = () => elmFeedTitleImage.removeAttribute("src");
+			elmFeedTitleImage.onerror = () => elmFeedTitleImage.src = createMissingImage();
 		}
 
 		elmFeedTitleTexts.appendChild(elmFeedTitleText);
@@ -102,10 +108,8 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createFeedItemElements(idx, feedItem) {
+	function createFeedItemElements(feedItem) {
 
-		let elmFeedItemContainer = document.createElement("div");
-		let elmFeedItemNumber = document.createElement("div");
 		let elmFeedItem = document.createElement("div");
 		let elmFeedItemTitle = document.createElement("div");
 		let elmFeedItemLink = document.createElement("a");
@@ -113,15 +117,12 @@
 		let elmFeedItemLastUpdatedText = document.createElement("div");
 		let elmFeedItemContent = document.createElement("div");
 
-		elmFeedItemContainer.className = "feedItemContainer";
-		elmFeedItemNumber.className = "feedItemNumber feedItemBigFont";
 		elmFeedItem.className = "feedItem";
 		elmFeedItemTitle.className = "feedItemTitle";
-		elmFeedItemTitleText.className = "feedItemTitleText feedItemBigFont";
+		elmFeedItemTitleText.className = "feedItemTitleText";
 		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
 		elmFeedItemContent.className = "feedItemContent";
 
-		elmFeedItemNumber.textContent = idx + 1 + ".";
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title;
 		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
@@ -129,15 +130,13 @@
 
 		handleAbnormalURLs(elmFeedItemContent);
 
-		elmFeedItemContainer.appendChild(elmFeedItemNumber);
-		elmFeedItemContainer.appendChild(elmFeedItem);
 		elmFeedItem.appendChild(elmFeedItemTitle);
 		elmFeedItem.appendChild(elmFeedItemContent);
 		elmFeedItemTitle.appendChild(elmFeedItemLink);
 		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
 
-		return elmFeedItemContainer;
+		return elmFeedItem;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -161,6 +160,40 @@
 				elmATags[idx].href = url;
 			}
 		};
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createMissingImage() {
+
+		const id = "slCanvasNoImage";
+		const bgColor = "#d8d8d8";
+		const fgColor = "#cc0000";
+
+		let canvasMissingImage = document.getElementById(id);
+
+		if(canvasMissingImage === null) {
+			canvasMissingImage = document.createElement("canvas");
+			canvasMissingImage.id = id;
+			canvasMissingImage.width = canvasMissingImage.height = 80;
+		}
+
+		const ctx = canvasMissingImage.getContext("2d");
+
+		// background
+		ctx.fillStyle = bgColor;
+		ctx.fillRect(0, 0, canvasMissingImage.width, canvasMissingImage.height);
+
+		// image
+		ctx.drawImage(m_imgMissingImage, 16, 8);
+
+		// text
+		ctx.fillStyle = fgColor;
+		ctx.font = "bold 16pt serif";
+		ctx.fillText("Oops...", 10, 35);
+		ctx.font = "10pt Segoe UI";
+		ctx.fillText("Missing!", 16, 70);
+
+		return canvasMissingImage.toDataURL();
 	}
 
 })();

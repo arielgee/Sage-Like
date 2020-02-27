@@ -2,9 +2,11 @@
 
 :root {
 	--background-color-page: #c8c8c8;
-	--background-color-header: #ffffe1;
-	--background-color-feed-body: #ededed;
-	--background-color-feed-item-content: #fdfdfd;
+	--background-color-header: #0F8528;
+	--background-color-feed-item: #ededed;
+
+	--color-header: #f0f0fa;
+
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
 	font-size: 12.8px;
@@ -15,48 +17,75 @@ html {
 }
 
 body {
+	margin-top: 0;
 	padding: 0 35px;
 	min-width: 550px;
 }
 
 #pageHeaderContainer {
+	color: var(--color-header);
 	background-color: var(--background-color-header);
-	border: 1px solid #7f7f7f;
-	border-radius: 0 0 20px 20px;
-	margin: -20px auto 0 auto;
-	padding: 26px 15px 15px 15px;
-	box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
+	margin: 0 auto;
+	padding: 10px 15px 15px 15px;
 }
 
 #pageHeaderContainerInner {
 	display: flex;
-	justify-content: center;
+	justify-content: right;
 	align-items: center;
-	margin: auto;
+	margin: auto auto 20px auto;
+	filter: drop-shadow(0 0 4px #000000);
+
 }
 
 #pageHeaderIcon {
-	width: 32px;
-	height: 32px;
-	background: transparent url("/icons/sageLike-32.png") no-repeat center/100%;
+	width: 16px;
+	height: 16px;
+	background: transparent url("/icons/sageLike-16.png") no-repeat center/100%;
 }
 
 #pageHeaderText {
-	font-size: 270%;
+	font-size: 86%;
 	font-weight: bold;
-	text-align: center;
-	line-height: 48px;
-	margin-left: 12px;
+	margin-left: 8px;
+}
+
+#feedTitle {
+	display: flex;
+	align-items: flex-start;
+}
+
+#feedTitleTexts {
+	flex: 1 1;
+}
+
+#feedTitleText {
+	font-size: 185%;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+#feedDescriptionText {
+	font-size: 125%;
+}
+
+#feedTitleImage {
+	justify-self: end;
+	align-self: center;
+	max-width: 320px;
+	max-height: 80px;
+	min-height: 40px;
+	margin-left: 10px;
+	border-radius: 4px;
+	/* box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.6); */
+}
+
+#feedTitleImage:not([src]) {
+	display: none;
 }
 
 #feedBody {
-	background-color: var(--background-color-feed-body);
-	border: 1px solid #7f7f7f;
-	padding: 35px;
 	margin: 24px auto;
-	padding-inline-start: 30px;
-	border-radius: 6px;
-	box-shadow: 8px 10px 4px 0 rgba(0, 0, 0, 0.6);
 }
 
 #busyAnimLoading {
@@ -76,86 +105,46 @@ body {
 	100% { transform: rotate(360deg); }
 }
 
+#errorContainer {
+	display: none;
+	color: crimson;
+	background-color: #ffffff;
+	padding: 13px 15px;
+}
+
+#errorContainer.withMessage {
+	display: block;
+}
+
 #errorMessage {
 	background: transparent url("/icons/errormsg.png") no-repeat left top;
 	padding-left: 20px;
-	color: crimson;
 }
 
-#errorMessageLink {
-	white-space: pre-line;
-}
-
-#feedTitle {
+.feedItemContainer {
 	display: flex;
 	align-items: flex-start;
-	padding-bottom: 8px;
-}
-
-#feedTitleTexts {
-	flex: 1 1;
-}
-
-#feedTitleImage {
-	justify-self: end;
-	align-self: center;
-	max-width: 320px;
-	max-height: 80px;
-	min-height: 40px;
-	margin-left: 10px;
-	border-radius: 4px;
-	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.6);
-}
-
-#feedTitleImage:not([src]) {
-	display: none;
-}
-
-#feedTitleText {
-	font-weight: bold;
-	font-size: 175%;
-	border-bottom: 2px solid #c0c0c0;
-	margin-bottom: 2px;
-}
-
-#feedDescriptionText {
-	font-size: 125%;
-	color: #707070;
-	margin-bottom: 18px;
-}
-
-.feedItem {
-	border-radius: 4px;
+	background-color: var(--background-color-feed-item);
 	margin-bottom: 20px;
-	padding: 3px 10px 12px 10px;
-	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.6);
-	transition: 150ms box-shadow ease;
+	padding: 13px 15px;
 }
 
-.feedItem:hover {
-	box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.8);
+.feedItemBigFont {
+	font-size: 110%;
+	font-weight: bold;
+}
+
+.feedItemNumber {
+	margin-right: 8px;
 }
 
 .feedItemTitle {
 	margin-bottom: 12.8px;
-	font-size: 110%;
-}
-
-.feedItemTitleText {
-	font-weight: bold;
 }
 
 .feedItemLastUpdatedText {
 	font-size: 90%;
 	color: #707070;
-}
-
-.feedItemContent {
-	margin-inline-start: 15px;
-	padding-inline-start: 5px;
-	padding-inline-end: 5px;
-	background-color: var(--background-color-feed-item-content);
-	border-radius: 4px;
 }
 
 .feedItemContent img {
