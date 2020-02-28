@@ -467,7 +467,7 @@ let syndication = (function() {
 			oJson = JSON.parse(txtJson);
 
 			if(!!!oJson.version) throw { message: "Invalid jsonfeed, top-level string 'version:' is undefined." };
-			if(!oJson.version.startsWith("https://jsonfeed.org/version/")) throw { message: "invalid jsonfeed, unexpected version value. '" +  oJson.version + "'"};
+			if(!oJson.version.startsWith("https://jsonfeed.org/version/")) throw { message: "invalid jsonfeed, unexpected version value. '" + oJson.version + "'"};
 
 		} catch (error) {
 			console.log("[Sage-Like]", "Parser Error at " + logUrl, "\n" + error.message);
