@@ -490,7 +490,7 @@ let syndication = (function() {
 		} catch (error) {
 			feedData.errorMsg = error.message;
 		}
-		return feedData
+		return feedData;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

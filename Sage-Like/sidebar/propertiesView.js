@@ -55,7 +55,7 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	constructor() {
 		if (new.target.name === "PropertiesView") {
-			throw new Error("Don't do that");
+			throw new Error(new.target.name + ": Don't do that");
 		}
 		this._initMembers();
 	}

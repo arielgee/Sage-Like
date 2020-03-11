@@ -469,6 +469,7 @@
 ---
 
 ## Next
+* Firefox has no support for XML 1.1
 * add numbring to the feed items in the feed preview
 * support RSS <enclosure> (media files) for all formats (?) look in the specifications
     > https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
