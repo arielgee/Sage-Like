@@ -11,31 +11,33 @@ let SyndicationStandard = Object.freeze({
 ////////////////////////////////////////////////////////////////////////////////////
 class FeedData {
 	constructor() {
-		this._standard = SyndicationStandard.invalid;
-		this._feeder = null;
-		this._title = "";
-		this._imageUrl = "";
-		this._description = "";
-		this._lastUpdated = 0;
-		this._itemCount = 0;
-		this._errorMsg = "";
+		this.standard = SyndicationStandard.invalid;
+		this.feeder = null;
+		this.title = "";
+		this.imageUrl = "";
+		this.description = "";
+		this.lastUpdated = 0;
+		this.itemCount = 0;
+		this.errorMsg = "";
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
 class XmlFeedData extends FeedData {
 	constructor() {
-		this._xmlVersion = "1.0";
-		this._xmlEncoding = "UTF-8";
-		super._feeder = {};
+		super();
+		this.xmlVersion = "1.0";
+		this.xmlEncoding = "UTF-8";
+		super.feeder = {};
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
 class JsonFeedData extends FeedData {
 	constructor() {
+		super();
 		this.jsonVersion = "";
-		super._feeder = [];
+		super.feeder = [];
 	}
 }
 

@@ -470,6 +470,7 @@
 
 ## Next
 * Firefox has no support for XML 1.1
+* drag&drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
 * add numbring to the feed items in the feed preview
 * support RSS <enclosure> (media files) for all formats (?) look in the specifications
     > https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)

@@ -32,7 +32,7 @@ class StoredKeyedItems {
 	//////////////////////////////////////////
 	constructor() {
 		if (new.target.name === "StoredKeyedItems") {
-			throw new Error(new.target.name + ": Don't do that");
+			throw new Error(new.target.name + ".constructor: Don't do that");
 		}
 		this.clear();
 	}
