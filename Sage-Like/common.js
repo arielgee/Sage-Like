@@ -38,16 +38,6 @@ class StoredKeyedItems {
 	}
 
 	//////////////////////////////////////////
-	getStorage() {
-		throw new Error("Don't do that");
-	}
-
-	//////////////////////////////////////////
-	setStorage() {
-		throw new Error("Don't do that");
-	}
-
-	//////////////////////////////////////////
 	set(key, value = undefined) {
 		this._items[key] = ( (value === undefined) || (value === null) ) ? "x" : value;
 		this.setStorage();

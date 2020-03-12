@@ -19,7 +19,7 @@ class PropertiesViewElements {
 	///////////////////////////////////////////////////////////////
 	constructor(instanceID) {
 		if (PropertiesViewElements.m_instanceID === undefined || PropertiesViewElements.m_instanceID !== instanceID){
-			throw new Error("Don't do that");
+			throw new Error(new.target.name + ": Don't do that");
 		}
 		PropertiesViewElements.m_instanceID = undefined;
 		this._getViewElementIds();
