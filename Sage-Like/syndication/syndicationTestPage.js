@@ -24,76 +24,119 @@ function onDOMContentLoaded() {
 
 
 	{
-		let objFeed;
-		let data;
-		let list;
+		// let objFeed;
+		// let data;
+		// let list;
 
-		objFeed = Feed.factoryCreateFeed(txtJson, url);
-		data = objFeed.getFeedData();
-		list = objFeed.getFeedItems(data);
-		objFeed.dispose();
-		console.log("[Sage-Like]", objFeed.className, objFeed instanceof JsonFeed, "\n", data, list);
-		output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
-		output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
+		// objFeed = Feed.factoryCreateBySrc(txtJson, url);
+		// data = objFeed.getFeedData();
+		// list = objFeed.getFeedItems(data);
+		// objFeed.dispose();
+		// console.log("[Sage-Like]", objFeed.className, objFeed instanceof JsonFeed, "\n", data, list);
+		// output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
+		// output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
 
-		objFeed = Feed.factoryCreateFeed(txtRss, url);
-		data = objFeed.getFeedData();
-		list = objFeed.getFeedItems(data);
-		objFeed.dispose();
-		console.log("[Sage-Like]", objFeed.className, objFeed instanceof RssFeed, "\n", data, list);
-		output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
-		output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
+		// objFeed = Feed.factoryCreateBySrc(txtRss, url);
+		// data = objFeed.getFeedData();
+		// list = objFeed.getFeedItems(data);
+		// objFeed.dispose();
+		// console.log("[Sage-Like]", objFeed.className, objFeed instanceof RssFeed, "\n", data, list);
+		// output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
+		// output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
 
-		objFeed = Feed.factoryCreateFeed(txtRdf, url);
-		data = objFeed.getFeedData();
-		list = objFeed.getFeedItems(data);
-		objFeed.dispose();
-		console.log("[Sage-Like]", objFeed.className, objFeed instanceof RdfFeed, "\n", data, list);
-		output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
-		output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
+		// objFeed = Feed.factoryCreateBySrc(txtRdf, url);
+		// data = objFeed.getFeedData();
+		// list = objFeed.getFeedItems(data);
+		// objFeed.dispose();
+		// console.log("[Sage-Like]", objFeed.className, objFeed instanceof RdfFeed, "\n", data, list);
+		// output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
+		// output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
 
-		objFeed = Feed.factoryCreateFeed(txtRssNoProlog, url);
-		data = objFeed.getFeedData();
-		list = objFeed.getFeedItems(data);
-		objFeed.dispose();
-		console.log("[Sage-Like]", objFeed.className, objFeed instanceof RssFeed, "\n", data, list);
-		output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
-		output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
+		// objFeed = Feed.factoryCreateBySrc(txtRssNoProlog, url);
+		// data = objFeed.getFeedData();
+		// list = objFeed.getFeedItems(data);
+		// objFeed.dispose();
+		// console.log("[Sage-Like]", objFeed.className, objFeed instanceof RssFeed, "\n", data, list);
+		// output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
+		// output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
 
-		objFeed = Feed.factoryCreateFeed(txtAtom, url);
-		data = objFeed.getFeedData();
-		list = objFeed.getFeedItems(data);
-		objFeed.dispose();
-		console.log("[Sage-Like]", objFeed.className, objFeed instanceof AtomFeed, "\n", data, list);
-		output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
-		output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
+		// objFeed = Feed.factoryCreateBySrc(txtAtom, url);
+		// data = objFeed.getFeedData();
+		// list = objFeed.getFeedItems(data);
+		// objFeed.dispose();
+		// console.log("[Sage-Like]", objFeed.className, objFeed instanceof AtomFeed, "\n", data, list);
+		// output += JSON.stringify(data, undefined, 2) + "\n\n-----------\n\n";
+		// output += JSON.stringify(list, undefined, 2) + "\n\n########################\n\n";
 
-		document.getElementById("testData").innerHTML = line + "START" + line + "\n\n" + output + line + "=END=" + line;
+		// document.getElementById("testData").innerHTML = line + "START" + line + "\n\n" + output + line + "=END=" + line;
 	}
 
-
-	// let urlJson = "https://www.iosicongallery.com/feed.json";
-	// let urlRSS = "https://developer.mozilla.org/devnews/index.php/feed/atom/";
-	// let urlAtom = "https://f1-gate.com/atom.xml";
-	// let urlRDF = "https://f1-gate.com/index.rdf";
-	// let urlNotJsonXml = "https://www.rapidtables.com/web/color/html-color-codes.html";
-	// let urlJunk = "http://www.asas.com";
-	// let urlNoFeedXML = "http://advs-crm3.dev.com:90/WS/WebsiteServices.svc?singleWsdl";
+	//let test = "fetchFeedItems";
+	let test = "feedDiscovery";
+	//let test = "webPageFeedsDiscovery";
 
 
-	// let testURL = urlJson;
+	let urlJson = "https://www.iosicongallery.com/feed.json";
+	let urlRSS = "https://developer.mozilla.org/devnews/index.php/feed/atom/";
+	let urlAtom = "https://f1-gate.com/atom.xml";
+	let urlRDF = "https://f1-gate.com/index.rdf";
+	let urlNotJsonXml = "https://www.rapidtables.com/web/color/html-color-codes.html";
+	let urlJunk = "http://asas";
+	let urlNoFeedXML = "http://producthelp.sdl.com/sdl%20trados%20studio/client_en/sample.xml";
 
-	// syndicationOO.fetchFeedData(testURL, 5000).then((fetchResult) => {
+	let testURL = urlRSS;
 
-	// 	output += JSON.stringify(fetchResult.feedData, undefined, 2) + "\n\n";
+	/*##############################################################################*/
+	/*##############################################################################*/
+	if(test === "fetchFeedItems") {
 
-	// }).catch((error) => {
-	// 	output += error + "\n\n";
-	// }).finally(() => {
-	// 	document.getElementById("testData").innerHTML = line + "START" + line + "\n\n" + output + line + "=END=" + line;
-	// });
+		output = ">".repeat(20) + " TEST: fetchFeedItems\n\n";
+
+		syndicationOO.fetchFeedItems(testURL, 5000, false).then((fetchResult) => {
+
+			output += "FEED-DATA\n" + JSON.stringify(fetchResult.feedData, undefined, 2) + "\n\n~~~~~~~~\n\n";
+			output += "LIST\n" + JSON.stringify(fetchResult.list, undefined, 2) + "\n\n~~~~~~~~\n\n";
+
+		}).catch((error) => {
+			output += error + "\n\n";
+		}).finally(() => {
+			document.getElementById("testData").innerHTML = line + "START" + line + "\n\n" + output + line + "=END=" + line;
+		});
 
 
+	/*##############################################################################*/
+	/*##############################################################################*/
+	} else if(test === "feedDiscovery") {
 
+		output = ">".repeat(20) + " TEST: feedDiscovery\n\n";
+
+		syndicationOO.feedDiscovery(testURL, 50000, 242).then((feedData) => {
+			output += "FEED-DISCOVERY\n" + JSON.stringify(feedData, undefined, 2) + "\n\n~~~~~~~~\n\n";
+		}).catch((error) => {
+			output += error + "\n\n";
+		}).finally(() => {
+			document.getElementById("testData").innerHTML = line + "START" + line + "\n\n" + output + line + "=END=" + line;
+		});
+
+
+	/*##############################################################################*/
+	/*##############################################################################*/
+	} else if(test === "webPageFeedsDiscovery") {
+
+		output = ">".repeat(20) + " TEST: webPageFeedsDiscovery\n\n";
+
+		let outerHTML= '<!DOCTYPE html> <html lang="en" dir="ltr"> <head prefix="og: http://ogp.me/ns#"> <meta charset="utf-8"> <link rel="alternate" type="application/rdf+xml" title="RSS" href="https://f1-gate.com/index.rdf" /><link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="https://f1-gate.com/rss2.xml" /><link rel="alternate" type="application/atom+xml" title="Atom" href="https://f1-gate.com/atom.xml" /><meta http-equiv="X-UA-Compatible" content="IE=Edge"> <title>&lt;url&gt; - CSS: Cascading Style Sheets | MDN</title> </head> <body> <p>The <strong><code>&lt;url&gt;</code></strong> <a href="/en-US/docs/Web/CSS">CSS</a> <a href="/en-US/docs/Web/CSS/CSS_Types">data type</a> denotes a pointer to a resource, such as an image or a font. URLs can be used in numerous CSS properties, such as <a href="/en-US/docs/Web/CSS/background-image" title="The background-image CSS property sets one or more background images on an element."><code>background-image</code></a>, <a href="/en-US/docs/Web/CSS/cursor" title="The cursor CSS property sets the type of cursor, if any, to show when the mouse pointer is over an element."><code>cursor</code></a>, and <a href="/en-US/docs/Web/CSS/list-style" title="The list-style CSS property is a shorthand to set list style properties list-style-type, list-style-image, and list-style-position."><code>list-style</code></a>.</p> <div class="note"> </div> <h2 id="Syntax">Syntax</h2> <p>The <code>&lt;url&gt;</code> data type is specified using the <code id="The_url()_functional_notation">url()</code> functional notation. It may be written without quotes, or surrounded by single or double quotes. Relative URLs are allowed, and are relative to the URL of the stylesheet (not to the URL of the web page).</p> <div class="note"> <p><strong>Note:</strong> Control characters above 0x7e are not allowed in unquoted URLs, starting with Firefox 15. See <a class="external" href="https://bugzilla.mozilla.org/show_bug.cgi?id=752230" rel="noopener">bug 752230</a> for more details.</p> </div> <h2 id="Examples">Examples</h2> <pre class="brush: css">.topbanner { background: url("topbanner.png") #00D no-repeat fixed; } </pre> <pre class="brush: css">ul { list-style: square url(http://www.example.com/redball.png); } </pre> <h2 id="Specifications" name="Specifications">Specifications</h2> <table class="standard-table"> <thead> <tr> <th scope="col">Specification</th> <th scope="col">Status</th> <th scope="col">Comment</th> </tr> </thead> <tbody> <tr> <td><a class="external" href="https://drafts.csswg.org/css-values-4/#urls" hreflang="en" lang="en" rel="noopener">CSS Values and Units Module Level 4<br><small lang="en-US">The definition of in that specification.</small></a></td> <td><span class="spec-ED">Editor"s Draft</span></td> <td></td> </tr> <tr> <td><a class="external" href="https://drafts.csswg.org/css-values-3/#urls" hreflang="en" lang="en" rel="noopener">CSS Values and Units Module Level 3<br><small lang="en-US">The definition of "&lt;url&gt;" in that specification.</small></a></td> <td><span class="spec-CR">Candidate Recommendation</span></td> <td>No significant change from CSS Level 2 (Revision 1).</td> </tr> <tr> <td><a class="external" href="https://www.w3.org/TR/CSS2/syndata.html#uri" hreflang="en" lang="en" rel="noopener">CSS Level 2 (Revision 1)<br><small lang="en-US">The definition of "&lt;uri&gt;" in that specification.</small></a></td> <td><span class="spec-REC">Recommendation</span></td> <td>No significant change from CSS Level 1.</td> </tr> <tr> <td><a class="external" href="https://www.w3.org/TR/CSS1/#url" hreflang="en" lang="en" rel="noopener">CSS Level 1<br><small lang="en-US">The definition of "&lt;url&gt;" in that specification.</small></a></td> <td><span class="spec-REC">Recommendation</span></td> <td>Initial definition.</td> </tr> </tbody> </table> <h2 id="Browser_compatibility">Browser compatibility</h2> <div class="hidden">The compatibility table on this page is generated from structured data. If you"d like to contribute to the data, please check out <a class="external" href="https://github.com/mdn/browser-compat-data" rel="noopener">https://github.com/mdn/browser-compat-data</a> and send us a pull request.</div> <div><div class="bc-data" id="bcd:css.types.url"><a class="bc-github-link external" href="https://github.com/mdn/browser-compat-data" rel="noopener">Update compatibility data on GitHub</a><table class="bc-table bc-table-web"><thead><tr class="bc-platforms"><td></td><th class="bc-platform-desktop" colspan="6"><span>Desktop</span></th><th class="bc-platform-mobile" colspan="6"><span>Mobile</span></th></tr><tr class="bc-browsers"><td></td><th class="bc-browser-chrome"><span class="bc-head-txt-label bc-head-icon-chrome">Chrome</span></th><th class="bc-browser-edge"><span class="bc-head-txt-label bc-head-icon-edge">Edge</span></th><th class="bc-browser-firefox"><span class="bc-head-txt-label bc-head-icon-firefox">Firefox</span></th><th class="bc-browser-ie"><span class="bc-head-txt-label bc-head-icon-ie">Internet Explorer</span></th><th class="bc-browser-opera"><span class="bc-head-txt-label bc-head-icon-opera">Opera</span></th><th class="bc-browser-safari"><span class="bc-head-txt-label bc-head-icon-safari">Safari</span></th><th class="bc-browser-webview_android"><span class="bc-head-txt-label bc-head-icon-webview_android">Android webview</span></th><th class="bc-browser-chrome_android"><span class="bc-head-txt-label bc-head-icon-chrome_android">Chrome for Android</span></th><th class="bc-browser-firefox_android"><span class="bc-head-txt-label bc-head-icon-firefox_android">Firefox for Android</span></th><th class="bc-browser-opera_android"><span class="bc-head-txt-label bc-head-icon-opera_android">Opera for Android</span></th><th class="bc-browser-safari_ios"><span class="bc-head-txt-label bc-head-icon-safari_ios">Safari on iOS</span></th><th class="bc-browser-samsunginternet_android"><span class="bc-head-txt-label bc-head-icon-samsunginternet_android">Samsung Internet</span></th></tr></thead><tbody><tr><th scope="row"><code>&lt;url&gt;</code></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Full support"> <span>Full support</span> </abbr> <h2 id="See_also">See also</h2> <ul> <li><a href="/en-US/docs/Web/CSS/url()" title="The documentation about this has not yet been written; please consider contributing!"><code>url()</code></a></li> <li><a href="/en-US/docs/Web/CSS/gradient" title="The &lt;gradient> CSS data type is a special type of &lt;image> that consists of a progressive transition between two or more colors."><code>&lt;gradient&gt;</code></a></li> <li><a href="/en-US/docs/Web/CSS/element()" title="REDIRECT element [en-US]"><code>element()</code></a></li> <li><a href="/en-US/docs/Web/CSS/_image" title="The documentation about this has not yet been written; please consider contributing!"><code>image()</code></a></li> <li><a href="/en-US/docs/Web/CSS/image-set" title="The documentation about this has not yet been written; please consider contributing!"><code>image-set()</code></a></li> <li><a href="/en-US/docs/Web/CSS/cross-fade" title="The CSS cross-fade() function can be used to blend two or more images at a defined transparency."><code>cross-fade()</code></a></li> </ul> <div id="auth-modal" class="modal hidden"> <section class="auth-providers" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-main-heading"> <header> <h2 id="modal-main-heading">Sign In</h2> </header> <p> Sign in to enjoy the benefits of an MDN account. If you haven’t already created an account, you will be prompted to do so after signing in. </p> <div class="auth-button-container"> <a href="/users/github/login/" class="github-auth" data-first-focusable="true"> Sign in with Github </a> <a href="/users/google/login/" class="google-auth"> Sign in with Google </a> </div> <button id="close-modal" class="close-modal" data-last-focusable="true"> <span>Close modal</span> </button> </section> </div> </body> </html>';
+		let fds = [];
+		syndicationOO.webPageFeedsDiscovery(outerHTML, 50000, "winLocation.origin", 0, (fd) => fds.push(fd)).then((result) => {
+			output += "FEED-COUNT\n" + result.length + "\n\n~~~~~~~~\n\n";
+		}).catch((error) => {
+			output += error + "\n\n";
+		}).finally(() => {
+			slUtil.sleep(3000).then(() => {
+				output += "FEED-DATAS\n" + JSON.stringify(fds, undefined, 2) + "\n\n~~~~~~~~\n\n";
+				document.getElementById("testData").innerHTML = line + "START" + line + "\n\n" + output + line + "=END=" + line;
+			});
+		});
+	}
 
 }

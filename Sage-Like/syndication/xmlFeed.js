@@ -22,10 +22,10 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_initFeedData(xmlVersion, xmlEncoding) {
+	_initFeedData() {
 		this._feedData = new XmlFeedData();
-		if(!!xmlVersion) this._feedData.xmlVersion = this._xmlVersion;
-		if(!!xmlEncoding) this._feedData.xmlEncoding = this._xmlEncoding;
+		if(!!this._xmlVersion) this._feedData.xmlVersion = this._xmlVersion;
+		if(!!this._xmlEncoding) this._feedData.xmlEncoding = this._xmlEncoding;
 	}
 
 	//////////////////////////////////////////
@@ -153,5 +153,4 @@ class XmlFeed extends Feed {
 											strUrl.stripHtmlTags(),
 											valLastUpdated);
 	}
-
 }

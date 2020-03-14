@@ -1,20 +1,35 @@
 "use strict";
 
-const g_domParser = new DOMParser();
+let g_feed = (function() {
 
-const g_regexpXMLFormat = /^\s*<(\?xml|rss|rdf|feed)\b/i;		// XML prolog for RSS/RDF/Atom or xml without prolog
-const g_regexpJSONFormat = /^\s*{/i;							// JSON bracket for jsonfeed
+	const domParser = new DOMParser();
 
-const g_regexpXMLVersion = /^\s*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/i;
-const g_regexpXMLEncoding = /^\s*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/i;
+	// Regular Expression Constants
+	const regexpXMLFormat = /^\s*<(\?xml|rss|rdf|feed)\b/i;		// XML prolog for RSS/RDF/Atom or xml without prolog
+	const regexpJSONFormat = /^\s*{/i;							// JSON bracket for jsonfeed
 
-const g_regexpXMLWhiteSpaceStart = /^\s+/;														// XML declaration (prolog) not at start of document
-const g_regexpJunkAfterXMLDocElement = /(<\/(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\S\s]+/;		// junk after document element
+	const regexpXMLVersion = /^\s*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/i;
+	const regexpXMLEncoding = /^\s*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/i;
 
-const g_regexpXMLParseError = /^(.*)[\s\S]*(line number \d+, column \d+):.*/i;			// the first line and the error location
+	const regexpXMLWhiteSpaceStart = /^\s+/;														// XML declaration (prolog) not at start of document
+	const regexpJunkAfterXMLDocElement = /(<\/(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\S\s]+/;		// junk after document element
 
+	const regexpXMLParseError = /^(.*)[\s\S]*(line number \d+, column \d+):.*/i;			// the first line and the error location
+
+	return {
+		domParser: domParser,
+		regexpXMLFormat: regexpXMLFormat,
+		regexpJSONFormat: regexpJSONFormat,
+		regexpXMLVersion: regexpXMLVersion,
+		regexpXMLEncoding: regexpXMLEncoding,
+		regexpXMLWhiteSpaceStart: regexpXMLWhiteSpaceStart,
+		regexpJunkAfterXMLDocElement: regexpJunkAfterXMLDocElement,
+		regexpXMLParseError: regexpXMLParseError,
+	}
+})();
 
 class Feed {
+	// publicClassField = 1;		// support starts at Firefox v69
 	constructor(feedUrl) {
 		if (new.target.name === "Feed") {
 			throw new Error(new.target.name + ".constructor: Don't do that");
@@ -32,13 +47,13 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	static factoryCreateFeed(feedText, logUrl) {
+	static factoryCreateBySrc(feedText, logUrl) {
 
-		if(feedText.match(g_regexpXMLFormat)) {
+		if(feedText.match(g_feed.regexpXMLFormat)) {
 
 			return this._factoryCreateXmlFeed(feedText, logUrl);
 
-		} else if(feedText.match(g_regexpJSONFormat)) {
+		} else if(feedText.match(g_feed.regexpJSONFormat)) {
 
 			return this._factoryCreateJsonFeed(feedText, logUrl);
 
@@ -51,19 +66,35 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
+	static factoryCreateByStd(feedStd) {
+
+		if(feedStd === SyndicationStandard.RSS) {
+			return new RssFeed();
+		} else if(feedStd === SyndicationStandard.RDF) {
+			return new RdfFeed();
+		} else if(feedStd === SyndicationStandard.Atom) {
+			return new AtomFeed();
+		} else if(feedStd === SyndicationStandard.JSON) {
+			return new JsonFeed();
+		} else {
+			return null;
+		}
+	}
+
+	//////////////////////////////////////////
 	static _factoryCreateXmlFeed(feedXmlText, logUrl) {
 
 		let xmlVersion = "";
 		let xmlEncoding = "";
 
 		// try to get XML version from the XML prolog
-		let test = feedXmlText.match(g_regexpXMLVersion);
+		let test = feedXmlText.match(g_feed.regexpXMLVersion);
 		if(test && test[1]) {
 			xmlVersion = test[1];
 		}
 
 		// try to get XML encoding from the XML prolog
-		test = feedXmlText.match(g_regexpXMLEncoding);
+		test = feedXmlText.match(g_feed.regexpXMLEncoding);
 		if(test && test[1]) {
 			xmlEncoding = test[1];
 		}
@@ -73,7 +104,7 @@ class Feed {
 		//	1.	This line is the one that throw to the console the log line 'XML Parsing Error: not well-formed' at
 		//		the location of: 'moz-extension://66135a72-02a1-4a68-a040-60511bfea6a2/sidebar/panel.html'.
 		//	2.	Firefox v73 has no support for XML 1.1.
-		let xmlDoc = g_domParser.parseFromString(feedXmlText, "text/xml");
+		let xmlDoc = g_feed.domParser.parseFromString(feedXmlText, "text/xml");
 
 		// return if XML not well-formed
 		if(xmlDoc.documentElement.nodeName === "parsererror") {
@@ -81,7 +112,7 @@ class Feed {
 			console.log("[Sage-Like]", "Parser Error at " + logUrl, "\n" + xmlDoc.documentElement.textContent);
 
 			// the first line and the error location
-			let found = xmlDoc.documentElement.textContent.match(g_regexpXMLParseError);
+			let found = xmlDoc.documentElement.textContent.match(g_feed.regexpXMLParseError);
 			throw new Error((found[1] ? found[1] + ". " : "") + (found[2] ? found[2] : ""));
 		}
 
@@ -125,8 +156,8 @@ class Feed {
 	static _removeXMLParsingErrors(xmlText, xmlVersion) {
 
 		// try to avoid stupid XML/RSS Parsing Errors
-		xmlText = xmlText.replace(g_regexpXMLWhiteSpaceStart, "");				// XML declaration (prolog) not at start of document
-		xmlText = xmlText.replace(g_regexpJunkAfterXMLDocElement, "$1");		// junk after document element
+		xmlText = xmlText.replace(g_feed.regexpXMLWhiteSpaceStart, "");				// XML declaration (prolog) not at start of document
+		xmlText = xmlText.replace(g_feed.regexpJunkAfterXMLDocElement, "$1");		// junk after document element
 
 		// remove invalid characters
 		if(xmlVersion === "1.0") {
