@@ -479,18 +479,24 @@
 * read RSS <content:encoded> as a prefered alternative to description		=> Done. added '*|encoded' for encoded with any namespace (rss&rdf)
 	* BUT! I don't know why 'content|encoded' is not working in querySelector() see:
 		> https://www.w3.org/TR/selectors-3/#typenmsp
+* remove links (<a>, not text content) in feed-item tooltip
 ---
 
 ## Next
-* Firefox has no support for XML 1.1
+* read json <content type="html"> as feed item content in preview
+* try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
+	> https://matthiasott.com/articles/feed.json
+* relative links to images are not showing the image in the feedPreview
+	> https://matthiasott.com/articles/feed.json
 * drag&drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
 * support RSS <enclosure> (media files) for all formats (?) look in the specifications
 	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
 	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
 	> https://en.wikipedia.org/wiki/RSS_enclosure
 * preference to open feed preview with left click
-* read json <content type="html"> as feed item content in preview
-* update feed tooltip when middle-clicking for feed preview
+* update feed tooltip when middle-clicking for feed preview; middle-clicking new feed
+* how to allow user to safly insert user-CSS's into feedPreview
+* Firefox has no support for XML 1.1
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???

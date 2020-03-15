@@ -65,7 +65,7 @@ class JsonFeed extends Feed {
 			}
 
 			feedItemList.push( this._createFeedItemObject(	this._getFeedItemTitle(item).stripHtmlTags(),
-															this._getFeedItemDesc(item).stripHtmlTags(),
+															this._getFeedItemDesc(item).stripUnsafeHtmlComponents(),
 															itemUrl.stripHtmlTags(),
 															this._getFeedItemLastUpdate(item)) );
 		}
@@ -131,9 +131,9 @@ class JsonFeed extends Feed {
 
 		let retVal;
 
-		if(!!item.summary) {
+		if(!!item.summary && item.summary.length > 0) {
 			retVal = item.summary;
-		} else if(!!item.content_text) {
+		} else if(!!item.content_text && item.content_text.length > 0) {
 			retVal = item.content_text;
 		} else if(!!item.content_html) {
 			retVal = item.content_html;
