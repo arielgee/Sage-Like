@@ -89,9 +89,9 @@ class XmlFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedItemLastUpdate(item) {
 
-		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
+		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued", "date" ];
 
-		let elmLastUpdated, txtLastUpdatedVal = "",  dateVal = NaN;
+		let elmLastUpdated, txtLastUpdatedVal = "", dateVal = NaN;
 
 		for (let selector of selectores) {
 
