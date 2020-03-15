@@ -304,16 +304,28 @@
 
 		return new Promise((resolve, reject) => {
 
-			browser.tabs.executeScript(tabId, { file: "/common.js", runAt: "document_end" }).then(() => {
-				browser.tabs.executeScript(tabId, { file: "/syndication/syndication.js", runAt: "document_end" }).then(() => {
-					browser.tabs.executeScript(tabId, { file: "/content.js", runAt: "document_end" }).then(() => {
+			browser.tabs.executeScript(tabId, { file: "/common.js", runAt: "document_end" })
+				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/feed.js", runAt: "document_end" })
+				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/xmlFeed.js", runAt: "document_end" })
+				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/jsonFeed.js", runAt: "document_end" })
+				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/rssFeed.js", runAt: "document_end" })
+				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/rdfFeed.js", runAt: "document_end" })
+				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/atomFeed.js", runAt: "document_end" })
+				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/syndication.js", runAt: "document_end" })
+				.then(() => { browser.tabs.executeScript(tabId, { file: "/content.js", runAt: "document_end" })
 
-						resolve({ errorCode: 0 });
+				.then(() => { resolve({ errorCode: 0 }); })
 
-					}).catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -3 }) : reject(err); } );
-				}).catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -2 }) : reject(err); } );
-			}).catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -1 }) : reject(err); } );
-		});
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -9 }) : reject(err); } ); })
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -8 }) : reject(err); } ); })
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -7 }) : reject(err); } ); })
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -6 }) : reject(err); } ); })
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -5 }) : reject(err); } ); })
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -4 }) : reject(err); } ); })
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -3 }) : reject(err); } ); })
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -2 }) : reject(err); } ); })
+				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -1 }) : reject(err); } );
+ 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

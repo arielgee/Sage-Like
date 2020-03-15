@@ -19,7 +19,7 @@ class PropertiesViewElements {
 	///////////////////////////////////////////////////////////////
 	constructor(instanceID) {
 		if (PropertiesViewElements.m_instanceID === undefined || PropertiesViewElements.m_instanceID !== instanceID){
-			throw new Error("Don't do that");
+			throw new Error(new.target.name + ".constructor: Don't do that");
 		}
 		PropertiesViewElements.m_instanceID = undefined;
 		this._getViewElementIds();
@@ -55,7 +55,7 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	constructor() {
 		if (new.target.name === "PropertiesView") {
-			throw new Error("Don't do that");
+			throw new Error(new.target.name + ".constructor: Don't do that");
 		}
 		this._initMembers();
 	}
