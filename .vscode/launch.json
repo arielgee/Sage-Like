@@ -1,35 +1,35 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "name": "Launch Sage-Like",
-            "addonPath": "${workspaceFolder}/Sage-Like"
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch Sage-Like",
+			"type": "firefox",
+			"request": "launch",
+			"reAttach": true,
+			"addonPath": "${workspaceFolder}/Sage-Like",
 
-            // "firefoxExecutable": "C:/Program Files/Mozilla.Firefox/firefox.exe",
-            // "firefoxArgs": [
-            //     "-no-remote"
-            // ],
-            // "profile": "newVerClean",
-            // // "profileDir": " C:/Users/arielg/AppData/Roaming/Mozilla/Firefox/Profiles/eosumqfs.newVerClean",
-            // "keepProfileChanges": true,
+			// "firefoxExecutable": "C:/Program Files/Mozilla Firefox/firefox.exe",
+			// "firefoxArgs": [
+			// 	"-no-remote"
+			// ],
+			// "profile": "newVerClean",
+			// // "profileDir": " C:/Users/arielg/AppData/Roaming/Mozilla/Firefox/Profiles/eosumqfs.newVerClean",
+			// "keepProfileChanges": true,
 
-            // "log": {
-            //     "fileName": "${workspaceFolder}/vscode-firefox-debug.log",
-            //     "fileLevel": {
-            //         "PathConversion": "Debug",
-            //         "default": "Debug"
-            //     },
-            //     "consoleLevel": {
-            //         "PathConversion": "Debug",
-            //         "default": "Error"
-            //     }
-            // }
-        }
-    ]
+			// "log": {
+			// 	"fileName": "${workspaceFolder}/vscode-firefox-debug.log",
+			// 	"fileLevel": {
+			// 		"PathConversion": "Debug",
+			// 		"default": "Debug"
+			// 	},
+			// 	"consoleLevel": {
+			// 		"PathConversion": "Debug",
+			// 		"default": "Error"
+			// 	}
+			// }
+		}
+	]
 }
