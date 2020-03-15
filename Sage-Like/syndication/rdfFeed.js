@@ -48,7 +48,7 @@ class RdfFeed extends XmlFeed {
 			if(elmLink) {
 				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
-															item.querySelector("description,content,summary,encoded"),
+															item.querySelector("description,content,summary,*|encoded"),
 															elmLink.textContent,
 															this._getFeedItemLastUpdate(item));
 				if (!!feedItem) feedItemList.push(feedItem);

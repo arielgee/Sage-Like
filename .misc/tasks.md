@@ -476,6 +476,9 @@
 	  ---------------------------------------------------------------------------------
 * add numbring to the feed items in the feed preview
 * show some title in feed preview when there is an error maybe the feed title from the tree-view?   => hostname in title when error
+* read RSS <content:encoded> as a prefered alternative to description		=> Done. added '*|encoded' for encoded with any namespace (rss&rdf)
+	* BUT! I don't know why 'content|encoded' is not working in querySelector() see:
+		> https://www.w3.org/TR/selectors-3/#typenmsp
 ---
 
 ## Next
@@ -485,7 +488,6 @@
 	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
 	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
 	> https://en.wikipedia.org/wiki/RSS_enclosure
-* read RSS <content:encoded> as a prefered alternative to description
 * preference to open feed preview with left click
 * read json <content type="html"> as feed item content in preview
 * update feed tooltip when middle-clicking for feed preview
