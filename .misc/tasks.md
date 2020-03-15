@@ -483,7 +483,9 @@
 ---
 
 ## Next
+* look for last user comment in mozilla [support] page
 * read json <content type="html"> as feed item content in preview
+* two types of feed-item descriptions? basic & extended. basic for tooltip and and extended for feedPreview ?
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
 * relative links to images are not showing the image in the feedPreview
