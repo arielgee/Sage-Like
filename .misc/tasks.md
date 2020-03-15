@@ -100,29 +100,29 @@
 * in list view replace '&quot;' with '"' and also: '&amp;', '&gt;', '&lt;', '&copy;', '&trade;', '&reg;'
 * when selecting a folder the tree scrolls the folder out of view => when the selected IL is higher then the viewport
 * By using Active color in the conext menu the UI is fucked when the selected Active color is dark (black) like the text.
-    => used bk color black and invert(100%) filter for menu item while been hoverd
+	=> used bk color black and invert(100%) filter for menu item while been hoverd
 * when selecting a feed with the right mouse key and then a folder (also with right mouse key) the prev selection is not cleared
-    => wronglly used rssListView.setFeedItemSelectionState() insted of rssTreeView.setFeedSelectionState() in onContextMenu()
+	=> wronglly used rssListView.setFeedItemSelectionState() insted of rssTreeView.setFeedSelectionState() in onContextMenu()
 * open properties for folder
 * create new feed inside folder when folder is selected
   * THE-FIX: in the private case where a folder is selected, the 'New Feed/Folder' actions (context menu) will create the
-    new Feed/Folder INSIDE the folder as the first item and not above it like in the case where a feed is selected.
+	new Feed/Folder INSIDE the folder as the first item and not above it like in the case where a feed is selected.
   * For now there is no simple way to create a new feed/folder above a selected folder. It will be created
-    as the first item in the selected folder and the user can always moved it (via drag&drop).
+	as the first item in the selected folder and the user can always moved it (via drag&drop).
 * slide down an info tip when feed folder is modified by another party
 * drag a feed into a folder
   * default behavior for drag&drop and create new feed/folder is to insert new item above the selected one.
   * for drag&drop the shift key while dragging over a folder enable the user to insert the dragged item into the folder (as first item). when
-    the shift key is pressed while dragging over a folder the drop marker highlights the entire folder element
+	the shift key is pressed while dragging over a folder the drop marker highlights the entire folder element
   * for new feed/folder the dialog provides a checkbox for 'Insert inside selected folder' when selected item is a folder
 * convert suspendBookmarksEventHandler() to a single call function
 * replace all classList.add\remove pairs with classList.toggle( String [, force] )
 * dingbats folder in preference feeds folder. a BLACK DIAMOND was the best I could find
-    * FILE FOLDER: 📁 - &#x1f4c1;           => ugly as fuck
-    * OPEN FILE FOLDER: 📂 - &#x1f4c2;      => ugly as fuck
-    * BLACK FOLDER: - &#x1f5bf;             => not supported
-    * OPEN FOLDER: - &#x1f5c1;              => not supported
-    * FOLDER:  - &#x1f5c0;                  => not supported
+	* FILE FOLDER: 📁 - &#x1f4c1;           => ugly as fuck
+	* OPEN FILE FOLDER: 📂 - &#x1f4c2;      => ugly as fuck
+	* BLACK FOLDER: - &#x1f5bf;             => not supported
+	* OPEN FOLDER: - &#x1f5c1;              => not supported
+	* FOLDER:  - &#x1f5c0;                  => not supported
 * preference -> sidebar colors: write the captions in the color input. NO
 * refine the infobar. + left-to-right support
 * mark feed as un-visited
@@ -143,22 +143,22 @@
 * in preferences, force the initializtion of the select feeds folder control when the bookmarks are modified.
 * feed-item description keeps showing bellow bottom edge. maybe when list has VScroll => NO, rewitten
 * SHIT SHIT SHIT !!! web feeds can be attack vectors. see: https://www.cgisecurity.com/papers/HackingFeeds.pdf
-    * remove TAGS (i)frame, script, object a, etc.
-    * htmlEntityToLiteral() is not safe - must check any data from xml before display (tree title, list title, description)
-    * any data from XML feed diaplayed in the sidebar need to be striped from any HTML tags AND HTML Entities
-        * [V] feed title
-        * [X] feed description - no need; not fatched
-        * [X] feed link - no need; parsed as URL
-        * [V] feed-item title
-        * [V] feed-item description
-        * [V] feed-item link
+	* remove TAGS (i)frame, script, object a, etc.
+	* htmlEntityToLiteral() is not safe - must check any data from xml before display (tree title, list title, description)
+	* any data from XML feed diaplayed in the sidebar need to be striped from any HTML tags AND HTML Entities
+		* [V] feed title
+		* [X] feed description - no need; not fatched
+		* [X] feed link - no need; parsed as URL
+		* [V] feed-item title
+		* [V] feed-item description
+		* [V] feed-item link
 * fetch feed description; in getFeedData()  rss > channel > description ; RDF > channel > description ; feed > subtitle ;
 * discovery view; set focus (outline) on label and not on checkboxs
 * redesign the discovery view
 * all over; set focus (outline) on label and not on checkboxs
 * syndication not working when it a local XML file. Duh?! Browser Security!!! Can't access user's local files unless selected by the user
 * disable (optional) Periodic feed check when sage-like sidebar is closed
-    * Do Background Feed Check When Sage-Like Sidebar is Closed
+	* Do Background Feed Check When Sage-Like Sidebar is Closed
 * add 'Lazy' option to 'Feed Check method' for one by one - 1.5 seconds between each one.
 * midTrunc long URLs in dicovery view title => NO
 * add ? to the 'Feeds Folder' preference explaining about the bookmarks; NO(?) => changed the title to 'Feeds Bookmarks Folder'
@@ -259,56 +259,56 @@
 * problem with reg exp /[^z]/.  should not get the feed named 'zzzzz' => feed title for http://megafon-news.co.il/ looks empty but has two '\u00' chars so 'zzz' is actually '\u00\u00zzz'
 * re-apply filtering when statuses of feeds has changed. Notify applied filter about feed status change.
 * in onDropTreeItem() event listeners are not removed from the m_elmCurrentlyDragged tree item before it's removed from the tree.
-    * before this line: m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
+	* before this line: m_elmCurrentlyDragged.parentElement.removeChild(m_elmCurrentlyDragged);
 * remember last filter
 * dropdown list for filter ">" commands   => NO only 4 commands, WTF?
 * use ONE SINGLE addEventListener() on entire treeview instead of many listeners on each tree item!!!!
-    * https://gomakethings.com/checking-event-target-selectors-with-event-bubbling-in-vanilla-javascript/
-    * https://gomakethings.com/why-event-delegation-is-a-better-way-to-listen-for-events-in-vanilla-js/
-        * about focus event: https://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
+	* https://gomakethings.com/checking-event-target-selectors-with-event-bubbling-in-vanilla-javascript/
+	* https://gomakethings.com/why-event-delegation-is-a-better-way-to-listen-for-events-in-vanilla-js/
+		* about focus event: https://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
 * use ONE SINGLE addEventListener() for listView
 * hide listView desc Tooltips when the escape key is pressed
 * replace all x !== null or x !== undefined with double-tap     ==> NO; 84 replacements in 10 files; HUGE regression, not worth it
 * regexp for HTML elements do not need to check for spaces between the '<' and the element tag name. /<\s*\bimg\b/
 * regexp for HTML elements do not need to check for spaces between the '<' and the '/'.
 * rephrase preference title and preference member    detectFeedsInWebPage
-    * CHANGED THIS: Show Subscribe button <img src="../icons/pagepopup-16.png"> in address bar when feeds are detected in web page
-    * TO THIS: Detect feeds in web pages and show subscribe button <img src="../icons/pagepopup-16.png"> in address bar.
-    * Detect feeds in web page and show <img src="../icons/pagepopup-16.png"> button in address bar.
-    * Detect feeds in web page. Subscribe button <img src="../icons/pagepopup-16.png"> will appear in address bar.
+	* CHANGED THIS: Show Subscribe button <img src="../icons/pagepopup-16.png"> in address bar when feeds are detected in web page
+	* TO THIS: Detect feeds in web pages and show subscribe button <img src="../icons/pagepopup-16.png"> in address bar.
+	* Detect feeds in web page and show <img src="../icons/pagepopup-16.png"> button in address bar.
+	* Detect feeds in web page. Subscribe button <img src="../icons/pagepopup-16.png"> will appear in address bar.
 * in onClickTreeItem()
-    1. restore default
-    2. set a valid feed folder
-    3. quickly select a feed
-    4. get the error 'm_objTreeFeedsData.value(...) is undefined' in catch() in onClickTreeItem()
-    ==> The m_objTreeFeedsData.value() cant find the ID. the m_objTreeFeedsData was still not initialized by getStorage()
+	1. restore default
+	2. set a valid feed folder
+	3. quickly select a feed
+	4. get the error 'm_objTreeFeedsData.value(...) is undefined' in catch() in onClickTreeItem()
+	==> The m_objTreeFeedsData.value() cant find the ID. the m_objTreeFeedsData was still not initialized by getStorage()
 * preference "Feed check method" => "Feed refresh method" => "refresh interval"     ==> NO
 * Lines are cut in listView desc Tooltips
-    * https://www.manmadediy.com/site_index.rss
+	* https://www.manmadediy.com/site_index.rss
 * use the rssListView.getListViewStats() function
 * update stats after adding new feed or folder
 * update stats after deleting new feed or folder
 * after pref "show feed stats numbers" is implemented consider the creation of the .rtvStats div element is pref is unchecked ==> NO
 * Renaming: subTree to folder (OpenSubTrees etc.)
 * situation:
-    1. feed selected in sidebar. Its 10 feed-items are displayed - stats are: ( 2 / 10 )
-    2. background monitoring handels that feed and return 10 completely new items.
-    ==> Should I update the listView/feedStats Just becouse it is displayed?    ==> NO the list is used by user and it can by very annoying
+	1. feed selected in sidebar. Its 10 feed-items are displayed - stats are: ( 2 / 10 )
+	2. background monitoring handels that feed and return 10 completely new items.
+	==> Should I update the listView/feedStats Just becouse it is displayed?    ==> NO the list is used by user and it can by very annoying
 * in list, handle keyboard event when list (UL) is selected but NO list item is selected. => Focus first item if any before focusing the parent list UL
 * consider opening feed item from a single place. list click event, list KB event, ContextMenu click event, ContextMenu KB event
 * include image in feedPreview  => will not get image link/title. Atom has no such thing
 * BIG-BUG: when pref 'Periodic background feed check' is 'no thanks' clicking on toolbar's 'check feeds' is not working
 * limit the actions of updateAllTreeFoldersStats() & updateTreeBranchFoldersStats() with m_bPrefShowFeedStats like updateFeedStatsFromHistory() & updateTreeItemStats()
 * rssListView.setFeedItems() gets feed title AND feed LI.
-    * feed LI contains the title.
-    * when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if title match rssListView.getListViewTitle(). TITLE CAN CHANGE. ==> Used MutationObserver to monitor LI caption
+	* feed LI contains the title.
+	* when rssTreeView deletes an item in deleteTreeItem, it rssListView.disposeList() if title match rssListView.getListViewTitle(). TITLE CAN CHANGE. ==> Used MutationObserver to monitor LI caption
 * common.js is getting very large. (expeselly when included in manifest's content_scripts). need to split it and include when needed.   ==> NO Need (yet)
 * toggle feed-item read/unread affects the folder stats?????     => NO
 * if 'mark all as read' is selected on folder it should relate to that folder only
 * in Fx v67.0.1 there is some sort of 'feed preview' for some urls  ==> "syndicated content powered by FeedBurner"
-    * for: http://feeds.nature.com/nature/rss/current       (RDF)
-    * but not for: https://blog.mozilla.org/press/feed/     (RSS)
-    * and but not for: https://ghisler.ch/board/app.php/feed/forum/3    (ATOM)
+	* for: http://feeds.nature.com/nature/rss/current       (RDF)
+	* but not for: https://blog.mozilla.org/press/feed/     (RSS)
+	* and but not for: https://ghisler.ch/board/app.php/feed/forum/3    (ATOM)
 * change 'Open all in tabs' to 'Open all unread in tabs'
 * discoveryView on 'http://megafon-news.co.il/asys/archives/299005' gets scroll bars. title (feedTitle) is too long
 * in discovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
@@ -319,7 +319,7 @@
 * for keyboard keydown I should use event.code and not event.key that can change its case
 * event delegating in the pagePopup list
 * use img in feedPreview; better when image is not found (google: better display when img src not fount or missing)
-    * like here: http://www.bundysoft.com/news/blogfeed.php
+	* like here: http://www.bundysoft.com/news/blogfeed.php
 * middle click in tree open feedPreview WITHOUT updating the feed state.
 * change stats UI to and elyptic div justified to the end withot '()'       ==> looks like SHIT
 * discoveryView is not working on feedPreview
@@ -335,19 +335,19 @@
 * expand all scroll tree to bottom to mach scrollIntoView() in setFolderState/toggleFolderState ?
 * Make sure all objXXX.slYYYYY members are initilized; search for regexp: '\w\.sl\w'    => DONE
 * use this when filter is first opened
-    * slUtil.showInfoBar("Hover the filter text box for vital information.", m_elmTextFilter, m_elmTreeRoot.style.direction, false, 5000);
+	* slUtil.showInfoBar("Hover the filter text box for vital information.", m_elmTextFilter, m_elmTreeRoot.style.direction, false, 5000);
 * add dotted line to tree view => NO NEED.  no one is doing it.
 * support bookmark seperators in treeView.          ==> NO
-    > let elmHr = document.createElement("hr");
-    > elmHr.id = bookmark.id;
-    > parentElement.appendChild(elmHr);
+	> let elmHr = document.createElement("hr");
+	> elmHr.id = bookmark.id;
+	> parentElement.appendChild(elmHr);
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()    => never seen again
 * Refactor syndication.js. Rename the functions including the term XML as preperation for JSON support
 * RND & support json feeds  JSON.parse(txtXML)
-    * discovery <link rel="alternate" type="application/json" title="JSON Feed" href="https://jsonfeed.org/feed.json" />
-    * https://indieweb.org/JSON_Feed
-    * https://adactio.com/journal/
-    * https://daringfireball.net/feeds/json
+	* discovery <link rel="alternate" type="application/json" title="JSON Feed" href="https://jsonfeed.org/feed.json" />
+	* https://indieweb.org/JSON_Feed
+	* https://adactio.com/journal/
+	* https://daringfireball.net/feeds/json
 * handle json as feedPreview
 * detect feed from feedPreview
 * add format to list items in the pagePopup
@@ -357,9 +357,9 @@
 * feed without title. why am I not using "<no title>"???    => I DO. It's that fucken feed with the invisible chars:   https://feeds.feedburner.com/co/bnZM
 * search in URLs with special prefix character %
 * add info about URL filtering in tooltip
-    * URL search prefixed with a single percent character ('%')
+	* URL search prefixed with a single percent character ('%')
 * replace all the slow for-in/forEach loops with simple for loops
-    * https://www.oreilly.com/library/view/high-performance-javascript/9781449382308/ch04.html
+	* https://www.oreilly.com/library/view/high-performance-javascript/9781449382308/ch04.html
 * replace typeof() with .constructor.name ???   => NO
 * slUtil.disableElementTree() is too slow (opening/closing discoveryView after filtering ">load"); do I realy need to scan the entire tree?
 * check all calls to slUtil.disableElementTree(). Regression!!! (also all tabindex settings)
@@ -381,9 +381,9 @@
   * quick access buttons to '>read', '>unread' only
   * single quick access button with 4 radio buttons dropdown for '>read', '>unread', '>error', '>load'
 * check if I can use those events to handle pre/post transition actions ("ugly way to apply 'overflow: visible' after the transition was completed")
-    * check all setTimeout and setInterval
-    * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Animation_events
-    * https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Transition_events
+	* check all setTimeout and setInterval
+	* https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Animation_events
+	* https://developer.mozilla.org/en-US/docs/Web/Events#CSS_Transition_events
 * check all funcXXX function are checked using 'typeof(funcXXX) === "function"' and not 'funcXXX === undefined'
 * change 'Aggressive' to 'Aggressiveness'
 * consider combobox insted of thi-toggler   => NO
@@ -398,21 +398,21 @@
 * replace indexOf with includes()
 * use my Array.prototype.includesAll() ; did I used, somewhere, some other trick to do this => NO
 * tri-toggler alternative: https://codepen.io/JiveDig/pen/jbdJXR/?editors=1100
-    * box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(255, 255, 255, 0.1);
+	* box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(255, 255, 255, 0.1);
 * tri-toggler: change the word 'Very' to 'High' => Low High
 * Use keyboard Delete keys to delete tree items and not keyD => BOTH. delete is done with KeyD and Delete
 * Link pagePopup & messageView with the Options page
-    * manifest.json: "content_security_policy": "script-src 'self' 'sha256-VH2httsBzs0mSgiaWxj7JB7yRdSrmvTCu5iJ+QN7Gl4='; object-src 'self';",
-    * messageView: In slUtil.incognitoErrorMessage() => return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>.";
-    * pagePopup:
-        1. In onDOMContentLoaded() => updateStatusBar("Feeds folder not set in <a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>.");
-        2. In updateStatusBar() => m_elmStatusBar.innerHTML = STATUS_BAR_MESSEGE_PREFIX + msg;
-    * References:
-        1. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/content_security_policy
-        2. https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
-        3. https://report-uri.com/home/hash
-        4. https://content-security-policy.com
-        5. https://caniuse.com/#feat=contentsecuritypolicy&search=csp
+	* manifest.json: "content_security_policy": "script-src 'self' 'sha256-VH2httsBzs0mSgiaWxj7JB7yRdSrmvTCu5iJ+QN7Gl4='; object-src 'self';",
+	* messageView: In slUtil.incognitoErrorMessage() => return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>.";
+	* pagePopup:
+		1. In onDOMContentLoaded() => updateStatusBar("Feeds folder not set in <a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>.");
+		2. In updateStatusBar() => m_elmStatusBar.innerHTML = STATUS_BAR_MESSEGE_PREFIX + msg;
+	* References:
+		1. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/content_security_policy
+		2. https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
+		3. https://report-uri.com/home/hash
+		4. https://content-security-policy.com
+		5. https://caniuse.com/#feat=contentsecuritypolicy&search=csp
 * Enable user to place the feeds folder in "Other Bookmarks". Allow preferences to access the entire bookmarks tree
 * handle xml without XML prolog; https://www.buzzfeed.com/nsfw.xml
 * in title/description sidebar/preview replace common &#xx; like: <title>World&amp;#39;s First Extreme Cyclist?</title> => already DONE; added numeric Entities
@@ -420,19 +420,19 @@
 * hide slideDown panels instead of disable using transition end (and not * disable content of slideDown panels with transitionend) => NOT GOOD ENOUGH
 * better handling of slUtil.disableElementTree(m_elmToolbar, value, true)   => IT'S OK
 * check all uses of disableElementTree() (slideDown panels) tabIndex
-    * the filter text container is not managed correctly
+	* the filter text container is not managed correctly
 * check way the "big ass" folder is not remembered
 * hide infoBar when not visible (after fadeOut, use event transition end)   => NO! Just disable it
 * showInfoBar() the dirStyle parameter is not page direction!
 * debouncer on notifyAppliedFilter. may be called too match => NO NEED
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.         =====>>>> IT IS DONE! answer is charset in the XMLHttpRequest's MimeType.
-    > Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
-    > what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
-    > google this: javascript change encoding
-    * Example: http://www.haayal.co.il/xml/rss
-    * Example: http://israblog.nana.co.il/blog_rss.asp?blog=106751
-    * Example: http://israblog.nana.co.il/blog_rss.asp?blog=177394
-    * Example: https://www.bathlizard.com/archives/2013/arik-einstein
+	> Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
+	> what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
+	> google this: javascript change encoding
+	* Example: http://www.haayal.co.il/xml/rss
+	* Example: http://israblog.nana.co.il/blog_rss.asp?blog=106751
+	* Example: http://israblog.nana.co.il/blog_rss.asp?blog=177394
+	* Example: https://www.bathlizard.com/archives/2013/arik-einstein
 * when sidebar is opend the tree is checked twice!!!    => NO IT'S NOT. Duplicate feeds in tree
 * hide infoBar on tree scroll only when refElement is a tree item
 * Move infoBar to seperate object => new class in common.js
@@ -456,49 +456,49 @@
 * reload list view when feed-item desc pref has changed
 * feed-item desc tooltips time and colors
 * in dark mode the options page looks bad
-    * following CSS snippet may help; need to be checked on win10 dark
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: rgb(42, 42, 46);
-                color: rgb(249, 249, 250);
-            }
-        }
-    * related links:
-        > https://discourse.mozilla.org/t/how-to-detect-the-dark-theme-in-a-webextension/38604
-        > https://discourse.mozilla.org/t/detecting-dark-theme-for-options-pages-in-webextension/43151
+	* following CSS snippet may help; need to be checked on win10 dark
+		@media (prefers-color-scheme: dark) {
+			body {
+				background-color: rgb(42, 42, 46);
+				color: rgb(249, 249, 250);
+			}
+		}
+	* related links:
+		> https://discourse.mozilla.org/t/how-to-detect-the-dark-theme-in-a-webextension/38604
+		> https://discourse.mozilla.org/t/detecting-dark-theme-for-options-pages-in-webextension/43151
+* redesign the feed preview
+	* Header:
+	  ---------------------------------------------------------------------------------
+	  |                                                 [icon] Sage-Like Feed Preview |             (small text)
+	  | [feed_title_text]                                                             |             (big text)
+	  | [feed_description_text]                                                       |             (medium text)
+	  |                                                                               |
+	  ---------------------------------------------------------------------------------
+* add numbring to the feed items in the feed preview
+* show some title in feed preview when there is an error maybe the feed title from the tree-view?   => hostname in title when error
 ---
 
 ## Next
-* show some title in feed preview when there is an error maybe the feed title from the tree-view?
 * Firefox has no support for XML 1.1
 * drag&drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
-* add numbring to the feed items in the feed preview
 * support RSS <enclosure> (media files) for all formats (?) look in the specifications
-    > https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
-    > https://www.w3schools.com/xml/rss_tag_enclosure.asp
-    > https://en.wikipedia.org/wiki/RSS_enclosure
+	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
+	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
+	> https://en.wikipedia.org/wiki/RSS_enclosure
 * read RSS <content:encoded> as a prefered alternative to description
-* redesign the feed preview
-    * Header:
-      ---------------------------------------------------------------------------------
-      |                                                 [icon] Sage-Like Feed Preview |             (small text)
-      | [feed_title_text]                                                             |             (big text)
-      | [feed_description_text]                                                       |             (medium text)
-      |                                                                               |
-      ---------------------------------------------------------------------------------
 * preference to open feed preview with left click
 * read json <content type="html"> as feed item content in preview
 * update feed tooltip when middle-clicking for feed preview
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???
-    * https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/5
-    * https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml
+	* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/5
+	* https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
-    * The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
-    * Maybe need to use feed items Read/Unread state (alterative option?)
-    > (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
-    > (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
+	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
+	* Maybe need to use feed items Read/Unread state (alterative option?)
+	> (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
+	> (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
 * check at home is gmail's atom feed is processed without errors.
 * split SyndicationStandard to classes
 
@@ -510,9 +510,9 @@
 
 ### low priority
 * Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on.
-    * second reload or closing & re-opening the sidebar fixes the issue.
+	* second reload or closing & re-opening the sidebar fixes the issue.
 * Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
-    * for now there is a bug workaround using *Connection-based messaging* mecanizem.   => VERY good solution
+	* for now there is a bug workaround using *Connection-based messaging* mecanizem.   => VERY good solution
 
 ### Links for PR work
 * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741

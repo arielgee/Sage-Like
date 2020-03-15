@@ -34,6 +34,7 @@
 
 		let elmFeedBody = document.getElementById("feedBody");
 		let elmLoadImg = document.getElementById("busyAnimLoading");
+		let elmFeedTitle;
 
 		prefs.getFetchTimeout().then((timeout) => {
 			syndication.fetchFeedItems(urlFeed, timeout * 1000).then((result) => {
@@ -41,22 +42,20 @@
 				elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
 
 				document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
-				let elmFeedTitle = createFeedTitleElements(result.feedData);
+				elmFeedTitle = createFeedTitleElements(result.feedData);
 
 				let elmFeedContent = document.createElement("div");
-				let elmFeedItem;
-
 				elmFeedContent.id = "feedContent";
 
 				for(let idx=0, len=result.list.length; idx<len; idx++) {
-					elmFeedItem = createFeedItemElements(idx, result.list[idx]);
-					elmFeedContent.appendChild(elmFeedItem);
+					elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
 				}
-
-				document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
 				elmFeedBody.appendChild(elmFeedContent);
 
 			}).catch((error) => {
+
+				document.title = m_URL.hostname;
+				elmFeedTitle = createFeedTitleElements({ description: "", imageUrl: "" });
 
 				let url = new URL(urlFeed);
 				url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
@@ -67,7 +66,10 @@
 
 				console.log("[Sage-Like]", "Fetch Error at " + urlFeed, error);
 
-			}).finally(() => elmFeedBody.removeChild(elmLoadImg) );
+			}).finally(() => {
+				elmFeedBody.removeChild(elmLoadImg);
+				document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
+			});
 		});
 	}
 
