@@ -90,13 +90,13 @@ class XmlFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedItemDescription(item) {
 
-		let desc = item.querySelector("description,content,summary");
+		let elmDesc = item.querySelector("description,content,summary");
 
 		// look for <content:encoded>
-		if(!!!desc || desc.textContent.length === 0) {
-			desc = (item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded"))[0];
+		if(!!!elmDesc || elmDesc.textContent.length === 0) {
+			elmDesc = (item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded"))[0];
 		}
-		return desc;
+		return elmDesc;
 	}
 
 	//////////////////////////////////////////
