@@ -37,7 +37,7 @@
 		let elmFeedTitle;
 
 		prefs.getFetchTimeout().then((timeout) => {
-			syndication.fetchFeedItems(urlFeed, timeout * 1000).then((result) => {
+			syndication.fetchFeedItems(urlFeed, timeout * 1000, false, false).then((result) => {
 
 				elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
 
@@ -47,23 +47,21 @@
 				let elmFeedContent = document.createElement("div");
 				elmFeedContent.id = "feedContent";
 
-				for(let idx=0, len=result.list.length; idx<len; idx++) {
-					elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
+				if(result.list.length > 0) {
+					for(let idx=0, len=result.list.length; idx<len; idx++) {
+						elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
+					}
+					elmFeedBody.appendChild(elmFeedContent);
+				} else {
+					createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedData(). SAD. */
 				}
-				elmFeedBody.appendChild(elmFeedContent);
 
 			}).catch((error) => {
 
 				document.title = m_URL.hostname;
-				elmFeedTitle = createFeedTitleElements({ description: "", imageUrl: "" });
+				elmFeedTitle = createFeedTitleElements({ description: m_URL.pathname, imageUrl: "" });
 
-				let url = new URL(urlFeed);
-				url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
-
-				document.getElementById("errorContainer").classList.add("withMessage");
-				document.getElementById("errorMessage").textContent = error.message;
-				document.getElementById("errorMessageLink").href = url.toString();
-
+				createErrorContent(error.message, (new URL(urlFeed)));
 				console.log("[Sage-Like]", "Fetch Error at " + urlFeed, error);
 
 			}).finally(() => {
@@ -163,6 +161,16 @@
 				elmATags[idx].href = url;
 			}
 		};
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createErrorContent(errorMessage, url) {
+
+		url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+
+		document.getElementById("errorContainer").classList.add("withMessage");
+		document.getElementById("errorMessage").textContent = errorMessage;
+		document.getElementById("errorMessageLink").href = url.toString();
 	}
 
 })();
