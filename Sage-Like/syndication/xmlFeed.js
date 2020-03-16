@@ -45,7 +45,7 @@ class XmlFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedLastUpdate(doc, selectorPrefix, fallbackSelector) {
 
-		// if date was not found in the standed XML tags (baseSelectorSuffixes) get the date from the first
+		// if date was not found in the standard XML tags (selectorSuffixes) get the date from the first
 		// feed item (fallbackSelector) in the XML.
 		// Example:
 		//		If fallbackSelector = "item"
@@ -54,11 +54,12 @@ class XmlFeed extends Feed {
 		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
 		const fallbackSelectorSuffixes = selectorSuffixes.map(s => " > " + fallbackSelector + s);
 
-		let elmLastUpdate, txtLastUpdateVal = "", dateVal = NaN;
+		let elmLastUpdate, txtLastUpdateVal = "";
+		let i, len, dateVal = NaN;
 
-		for (let selector of selectorSuffixes) {
+		for(i=0, len=selectorSuffixes.length; i<len; i++) {
 
-			elmLastUpdate = doc.querySelector(selectorPrefix + selector);
+			elmLastUpdate = doc.querySelector(selectorPrefix + selectorSuffixes[i]);
 
 			if(elmLastUpdate) {
 				txtLastUpdateVal = elmLastUpdate.textContent.replace(/\ Z$/, "");
@@ -68,9 +69,9 @@ class XmlFeed extends Feed {
 		}
 
 		if(isNaN(dateVal)) {
-			for (let selector of fallbackSelectorSuffixes) {
+			for(i=0, len=fallbackSelectorSuffixes.length; i<len; i++) {
 
-				elmLastUpdate = doc.querySelector(selectorPrefix + selector);
+				elmLastUpdate = doc.querySelector(selectorPrefix + fallbackSelectorSuffixes[i]);
 
 				if(elmLastUpdate) {
 					dateVal = (new Date(elmLastUpdate.textContent.replace(/\ Z$/, "")));
@@ -121,18 +122,18 @@ class XmlFeed extends Feed {
 	//////////////////////////////////////////
 	_sortFeederByDate(feeder) {
 
-		const selectores = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
+		const selectors = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
 
 		let ary = Array.prototype.slice.call(feeder, 0);
 
 		if(ary[0] !== undefined) {
 
-			for (let selector of selectores) {
-				if(ary[0].querySelector(selector) !== null) {
+			for(let i=0, len=selectors.length; i<len; i++) {
+				if(ary[0].querySelector(selectors[i]) !== null) {
 
 					ary.sort((a, b) => {
-						let aNode = a.querySelector(selector);
-						let bNode = b.querySelector(selector);
+						let aNode = a.querySelector(selectors[i]);
+						let bNode = b.querySelector(selectors[i]);
 						let d1 = aNode ? Date.parse(aNode.textContent) : 0;
 						let d2 = bNode ? Date.parse(bNode.textContent) : 0;
 						return d2 - d1;
