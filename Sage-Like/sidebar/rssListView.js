@@ -160,6 +160,7 @@ let rssListView = (function() {
 			.stripUnsafeHtmlComponents()
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexATag)
+			.stripHtmlTags(String.prototype.stripHtmlTags.regexAudioVideoTags)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>")
 			.escapeHtml();
 

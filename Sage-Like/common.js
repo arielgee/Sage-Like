@@ -526,6 +526,8 @@ let slPrototypes = (function() {
 
 	let m_sRxATag = "</?a\\b[^>]*>";
 	let m_sRxScriptTag = "<script\\b[^>]*>(([\\s\\S]*?)</\\s*\\bscript\\b\\s*>)?";
+	let m_sRxAudioTag = "<audio\\b[^>]*>(([\\s\\S]*?)</\\s*\\baudio\\b\\s*>)?";
+	let m_sRxVideoTag = "<video\\b[^>]*>(([\\s\\S]*?)</\\s*\\bvideo\\b\\s*>)?";
 	let m_sRxLinkTag = "</?link\\b[^>]*>";
 	let m_sRxFrameTag = "</?i?frame(set)?\\b[^>]*>";
 	let m_sRxEmbedTag = "</?embed\\b[^>]*>";
@@ -534,6 +536,7 @@ let slPrototypes = (function() {
 
 	let m_sRxUnsafeTags = m_sRxScriptTag + "|" + m_sRxLinkTag + "|" + m_sRxFrameTag + "|" + m_sRxEmbedTag + "|" + m_sRxAppletTag + "|" + m_sRxObjectTag;
 	let m_sRxContentTags = m_sRxATag + "|" + m_sRxUnsafeTags;
+	let m_sRxAudioVideoTags = m_sRxAudioTag + "|" + m_sRxVideoTag;
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function(args) {
@@ -647,6 +650,7 @@ let slPrototypes = (function() {
 	};
 	// I know, embed, link, cannot have any child nodes. Not taking any risks
 	String.prototype.stripHtmlTags.regexContentTags = new RegExp(m_sRxContentTags, "gim");
+	String.prototype.stripHtmlTags.regexAudioVideoTags = new RegExp(m_sRxAudioVideoTags, "gim");
 	String.prototype.stripHtmlTags.regexATag = new RegExp(m_sRxATag, "gim");
 	String.prototype.stripHtmlTags.regexScriptTag = new RegExp(m_sRxScriptTag, "gim");
 	String.prototype.stripHtmlTags.regexLinkTag = new RegExp(m_sRxLinkTag, "gim");
