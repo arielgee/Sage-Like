@@ -16,7 +16,7 @@ class AtomFeed extends XmlFeed {
 			this._feedData.title = this._getNodeTextContent(this._feedXmlDoc, "feed > title").consolidateWhiteSpaces();
 			this._feedData.imageUrl = this._getNodeTextContent(this._feedXmlDoc, "feed > logo", "feed > icon");
 			this._feedData.description = this._getNodeTextContent(this._feedXmlDoc, "feed > subtitle");
-			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "feed", "entry");
+			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "feed", "feed > entry");
 			this._feedData.itemCount = this._feedData.feeder.querySelectorAll("entry").length;
 		} catch (error) {
 			this._feedData.errorMsg = error.message;

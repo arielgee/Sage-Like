@@ -43,40 +43,28 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedLastUpdate(doc, selectorPrefix, fallbackSelector) {
+	_getFeedLastUpdate(doc, selectorPrefix, fallbackSelectorPrefix) {
 
-		// if date was not found in the standard XML tags (selectorSuffixes) get the date from the first
-		// feed item (fallbackSelector) in the XML.
-		// Example:
-		//		If fallbackSelector = "item"
-		// 		then selectorSuffixes[1] = " > modified"
-		//		and fallbackSelectorSuffixes[1] = " > item > modified"
 		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
-		const fallbackSelectorSuffixes = selectorSuffixes.map(s => " > " + fallbackSelector + s);
 
+		let dateVal = NaN;
 		let elmLastUpdate, txtLastUpdateVal = "";
-		let i, len, dateVal = NaN;
 
-		for(i=0, len=selectorSuffixes.length; i<len; i++) {
+		let feedSelectorString = selectorSuffixes.map(s => selectorPrefix + s).join(",");
+		elmLastUpdate = doc.querySelector(feedSelectorString);
 
-			elmLastUpdate = doc.querySelector(selectorPrefix + selectorSuffixes[i]);
-
-			if(elmLastUpdate) {
-				txtLastUpdateVal = elmLastUpdate.textContent.replace(/\ Z$/, "");
-				dateVal = (new Date(txtLastUpdateVal));
-				break;
-			}
+		if(!!elmLastUpdate) {
+			txtLastUpdateVal = elmLastUpdate.textContent.replace(/\ Z$/, "");
+			dateVal = (new Date(txtLastUpdateVal));
 		}
 
 		if(isNaN(dateVal)) {
-			for(i=0, len=fallbackSelectorSuffixes.length; i<len; i++) {
 
-				elmLastUpdate = doc.querySelector(selectorPrefix + fallbackSelectorSuffixes[i]);
+			let feedItemSelectorString = selectorSuffixes.map(s => fallbackSelectorPrefix + s).join(",");
+			elmLastUpdate = doc.querySelector(feedItemSelectorString);
 
-				if(elmLastUpdate) {
-					dateVal = (new Date(elmLastUpdate.textContent.replace(/\ Z$/, "")));
-					break;
-				}
+			if(!!elmLastUpdate) {
+				dateVal = (new Date(elmLastUpdate.textContent.replace(/\ Z$/, "")));
 			}
 		}
 

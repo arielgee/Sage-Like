@@ -16,7 +16,7 @@ class RdfFeed extends XmlFeed {
 			this._feedData.title = this._getNodeTextContent(this._feedXmlDoc, "RDF > channel > title").consolidateWhiteSpaces();
 			this._feedData.imageUrl = this._getNodeTextContent(this._feedXmlDoc, "RDF > image > url");
 			this._feedData.description = this._getNodeTextContent(this._feedXmlDoc, "RDF > channel > description");
-			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "RDF > channel", "item");
+			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "RDF > channel", "RDF > item");
 			this._feedData.itemCount = this._feedData.feeder.querySelectorAll("item").length;
 		} catch (error) {
 			this._feedData.errorMsg = error.message;

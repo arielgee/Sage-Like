@@ -499,6 +499,8 @@
 * update feed tooltip when middle-clicking for feed preview; middle-clicking new feed
 * how to allow user to safly insert user-CSS's into feedPreview
 * do something about the desigh of the the feed-item tooltip content. its ugly, get rid of the title?
+	_getFeedLastUpdate(doc, selectorPrefix, fallbackSelectorPrefix) {
+* the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
 * Firefox has no support for XML 1.1
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
