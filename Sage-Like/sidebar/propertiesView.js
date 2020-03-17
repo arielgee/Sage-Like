@@ -242,9 +242,7 @@ class NewFeedPropertiesView extends PropertiesView {
 		}
 
 		// URL validation
-		try {
-			new URL(result.url);
-		} catch (error) {
+		if(!!!slUtil.validURL(result.url)) {
 			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid."
 			return;
 		}
@@ -351,9 +349,7 @@ class EditFeedPropertiesView extends PropertiesView {
 		}
 
 		// URL validation
-		try {
-			new URL(result.url);
-		} catch (error) {
+		if(!!!slUtil.validURL(result.url)) {
 			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid."
 			return;
 		}

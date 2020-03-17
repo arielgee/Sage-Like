@@ -137,10 +137,9 @@ class XmlFeed extends Feed {
 	//////////////////////////////////////////
 	_createSingleListItemFeed(elmTitle, elmDesc, strUrl, valLastUpdated) {
 
-		try {
-			new URL(strUrl);
-		} catch (error) {
-			console.log("[Sage-Like]", "URL validation", error);
+		let oErr = {};
+		if(!!!slUtil.validURL(strUrl, oErr)) {
+			console.log("[Sage-Like]", "URL validation", oErr.error);
 			return null;
 		}
 

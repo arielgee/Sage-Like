@@ -485,16 +485,17 @@
 ---
 
 ## Next
+* when propertiesView is open for new feed set focus to url location and not to feed name
+* relative links to images are not showing the image in the feedPreview
+	> https://matthiasott.com/articles/feed.json
 * check at home is gmail's atom feed is processed without errors.
 * look for last user comment in mozilla [support] page
-* read json <content type="html"> as feed item content in preview
+* read json <content type="html"> as feed item content in preview	-> Don't know what I meant. content_html is processed if summery and content_text are missing
 * two types of feed-item descriptions? basic & extended. basic for tooltip and and extended for feedPreview ?
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
-* relative links to images are not showing the image in the feedPreview
-	> https://matthiasott.com/articles/feed.json
 * drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
-* support RSS <enclosure> (media files) for all formats (?) look in the specifications
+* support RSS/JSON <enclosure>/"attachments" (media files) for all formats (?) look in the specifications
 	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
 	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
 	> https://en.wikipedia.org/wiki/RSS_enclosure
