@@ -129,15 +129,15 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	_initData() {
+	_initData(elmFocused) {
 		this.m_elmTextTitle.value = this.m_initialProperties.title;
 		this.m_elmTextLocation.value = this.m_initialProperties.location;
 		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
 		this.m_elmChkInsertInsideFolder.checked = false;
 		this.m_elmLabelErrorMsgs.textContent = "";
 
-		this.m_elmTextTitle.focus();
-		this.m_elmTextTitle.setSelectionRange(0, -1); // select all
+		elmFocused.focus();
+		elmFocused.setSelectionRange(0, -1); // select all
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -220,7 +220,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.location = location;
 			this.m_initialProperties.updateTitle = true;
 
-			this._initData();
+			this._initData(this.m_elmTextLocation);
 		});
 	}
 
@@ -273,7 +273,7 @@ class NewFolderPropertiesView extends PropertiesView {
 
 			this.m_initialProperties.title = title;
 
-			this._initData();
+			this._initData(this.m_elmTextTitle);
 		});
 	}
 
@@ -320,7 +320,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
 			this.m_initialProperties.updateTitle = updateTitleValue;
 
-			this._initData();
+			this._initData(this.m_elmTextTitle);
 		});
 	}
 
@@ -380,7 +380,7 @@ class EditFolderPropertiesView extends PropertiesView {
 
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 
-			this._initData();
+			this._initData(this.m_elmTextTitle);
 		});
 	}
 

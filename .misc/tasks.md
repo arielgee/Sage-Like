@@ -484,11 +484,13 @@
 * split SyndicationStandard to classes		=> DONE!!!!!!! :)
 * relative links to images are not showing the image in the feedPreview
 	> https://matthiasott.com/articles/feed.json
+* when propertiesView is open for new feed set focus to url location and not to feed name
 ---
 
+
 ## Next
-* when propertiesView is open for new feed set focus to url location and not to feed name
 * check at home is gmail's atom feed is processed without errors.
+* Something red for attention slideDown panels
 * look for last user comment in mozilla [support] page
 * read json <content type="html"> as feed item content in preview	-> Don't know what I meant. content_html is processed if summery and content_text are missing
 * two types of feed-item descriptions? basic & extended. basic for tooltip and and extended for feedPreview ?
