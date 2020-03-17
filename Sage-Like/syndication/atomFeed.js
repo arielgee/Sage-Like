@@ -25,7 +25,7 @@ class AtomFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData) {
+	getFeedItems(feedData, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -38,9 +38,9 @@ class AtomFeed extends XmlFeed {
 
 		feedData.feeder = this._sortFeederByDate(feedData.feeder.querySelectorAll("entry"));
 
-		let i, len;
-		let item, elmLink, feedItem;
-		for(i=0, len=feedData.feeder.length; i<len; i++) {
+		let i, j, iLen, jLen;
+		let item, elmLink, feedItem, elmLinks, feedItemAtt;
+		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
 			elmLink = item.querySelector("link:not([rel])") || item.querySelector("link[rel=alternate]") || item.querySelector("link");
@@ -50,9 +50,39 @@ class AtomFeed extends XmlFeed {
 															this._getFeedItemDescription(item),
 															elmLink.getAttribute("href"),
 															this._getFeedItemLastUpdate(item));
-				if (!!feedItem) feedItemList.push(feedItem);
+				if (!!feedItem) {
+
+					if(true/*withAttachments*/) {
+
+						elmLinks = item.querySelectorAll("link[rel=\"enclosure\"],link[rel=\"related\"]");
+
+						for(j=0, jLen=elmLinks.length; j<jLen; j++) {
+							if( !!(feedItemAtt = this._getFeedItemLinkAsAttObject(elmLinks[j])) ) {
+								feedItem.attachments.push(feedItemAtt);
+							}
+						}
+					}
+					console.log("[Sage-Like ATOM feedItem ]", feedItem);
+					feedItemList.push(feedItem);
+				}
 			}
 		}
 		return feedItemList;
+	}
+
+	//////////////////////////////////////////
+	_getFeedItemLinkAsAttObject(elm) {
+
+		let url = slUtil.validURL(elm.getAttribute("href"));
+
+		if(!!url) {
+
+			let title = elm.getAttribute("title");
+			if(!!!title) {
+				title = url.pathname.split("/").pop();
+			}
+			return this._createFeedItemAttachmentObject(title, url, elm.getAttribute("type"), elm.getAttribute("length"));
+		}
+		return null;
 	}
 }

@@ -38,9 +38,9 @@ class RssFeed extends XmlFeed {
 
 		feedData.feeder = this._sortFeederByDate(feedData.feeder.querySelectorAll("item"));
 
-		let i, len;
-		let item, elmLink, feedItem, elmEnclosure, feedItemAtt;
-		for(i=0, len=feedData.feeder.length; i<len; i++) {
+		let i, j, iLen, jLen;
+		let item, elmLink, feedItem, elmEnclosures, feedItemAtt;
+		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
 			elmLink = item.querySelector("link");
@@ -56,14 +56,15 @@ class RssFeed extends XmlFeed {
 
 					if(true/*withAttachments*/) {
 
-						if( !!(elmEnclosure = item.querySelector("enclosure")) ) {
+						elmEnclosures = item.querySelectorAll("enclosure");
 
-							if( !!(feedItemAtt = this._getFeedItemEnclosureAsAttObject(elmEnclosure)) ) {
+						for(j=0, jLen=elmEnclosures.length; j<jLen; j++) {
+							if( !!(feedItemAtt = this._getFeedItemEnclosureAsAttObject(elmEnclosures[j])) ) {
 								feedItem.attachments.push(feedItemAtt);
 							}
 						}
 					}
-					console.log("[Sage-Like feedItem ]", feedItem);
+					console.log("[Sage-Like RSS feedItem ]", feedItem);
 					feedItemList.push(feedItem);
 				}
 			}

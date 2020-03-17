@@ -27,7 +27,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData) {
+	getFeedItems(feedData, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -40,34 +40,28 @@ class JsonFeed extends Feed {
 
 		feedData.feeder = this._sortFeederByDate(feedData.feeder);
 
-		let i, len;
-		let item, itemUrl;
-		for(i=0, len=feedData.feeder.length; i<len; i++) {
+		let i, j, iLen, jLen;
+		let item, feedItem, itemAtts;
+		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
+			feedItem = this._createSingleListItemFeed(item);
 
-			// first option.
-			// Ideally, the id is the full URL of the resource described by the item
-			itemUrl = item.id;
+			if(!!feedItem) {
 
-			if(!!!slUtil.validURL(itemUrl)) {
+				if(true/*withAttachments*/) {
 
-				// second options.
-				// ++ some feeds put the url in the external_url (WTF?) 			// https://matthiasott.com/links/feed.json
-				// ++ some feeds are for audio/video files as attachments (WTF?) 	// https://www.npr.org/feeds/510317/feed.json
-				itemUrl = (!!item.url ? item.url : (!!item.external_url ? item.external_url : item.attachments[0].url));
+					itemAtts = item.attachments || [];		// is attachments is missing then atts is empty array
 
-				let oErr = {};
-				if(!!!slUtil.validURL(itemUrl, oErr)) {
-					console.log("[Sage-Like]", "URL validation", oErr.error);
-					continue;		// skip and try next feed-item
+					for(j=0, jLen=itemAtts.length; j<jLen; j++) {
+						if( !!(feedItemAtt = this._getFeedItemAttachmentAsAttObject(itemAtts[j])) ) {
+							feedItem.attachments.push(feedItemAtt);
+						}
+					}
 				}
+				console.log("[Sage-Like JSON feedItem ]", feedItem);
+				feedItemList.push(feedItem);
 			}
-
-			feedItemList.push( this._createFeedItemObject(	this._getFeedItemTitle(item).stripHtmlTags(),
-															this._getFeedItemDesc(item).stripUnsafeHtmlComponents(),
-															itemUrl.stripHtmlTags(),
-															this._getFeedItemLastUpdate(item)) );
 		}
 		return feedItemList;
 	}
@@ -76,6 +70,33 @@ class JsonFeed extends Feed {
 	dispose() {
 		super.dispose();
 		this._feedJson = null;
+	}
+
+	//////////////////////////////////////////
+	_createSingleListItemFeed(item) {
+
+		// first attempt.
+		// Ideally, the id is the full URL of the resource described by the item
+		let itemUrl = item.id;
+
+		if(!!!slUtil.validURL(itemUrl)) {
+
+			// second attempts.
+			// ++ some feeds put the url in the external_url (WTF?) 			// https://matthiasott.com/links/feed.json
+			// ++ some feeds are for audio/video files as attachments (WTF?) 	// https://www.npr.org/feeds/510317/feed.json
+			itemUrl = (!!item.url ? item.url : (!!item.external_url ? item.external_url : item.attachments[0].url));
+
+			let oErr = {};
+			if(!!!slUtil.validURL(itemUrl, oErr)) {
+				console.log("[Sage-Like]", "URL validation", oErr.error);
+				return null;
+			}
+		}
+
+		return this._createFeedItemObject(	this._getFeedItemTitle(item).stripHtmlTags(),
+											this._getFeedItemDesc(item).stripUnsafeHtmlComponents(),
+											itemUrl.stripHtmlTags(),
+											this._getFeedItemLastUpdate(item));
 	}
 
 	//////////////////////////////////////////
@@ -156,5 +177,21 @@ class JsonFeed extends Feed {
 		} else {
 			return dateVal;
 		}
+	}
+
+	//////////////////////////////////////////
+	_getFeedItemAttachmentAsAttObject(att) {
+
+		let url = slUtil.validURL(att.url);
+
+		if(!!url) {
+
+			let title = att.title;
+			if(!!!title) {
+				title = url.pathname.split("/").pop();
+			}
+			return this._createFeedItemAttachmentObject(title, url, att.mime_type, att.size_in_bytes);
+		}
+		return null;
 	}
 }
