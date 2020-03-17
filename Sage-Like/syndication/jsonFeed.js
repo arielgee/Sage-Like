@@ -114,7 +114,7 @@ class JsonFeed extends Feed {
 
 		let retVal;
 
-		if(!!item.title) {
+		if(!!item.title && item.title.length > 0) {
 			retVal = item.title;
 		} else if(!!item.id) {
 			retVal = item.id;
