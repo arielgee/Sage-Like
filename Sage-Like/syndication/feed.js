@@ -177,6 +177,17 @@ class Feed {
 			desc: desc,
 			url: url,
 			lastUpdated: lastUpdated,
+			attachments: [],
+		};
+	}
+
+	//////////////////////////////////////////
+	_createFeedItemAttachmentObject(title, url, mimeType, byteSize) {
+		return {
+			title: title,
+			url: url,
+			mimeType: mimeType,
+			byteSize: byteSize,
 		};
 	}
 }

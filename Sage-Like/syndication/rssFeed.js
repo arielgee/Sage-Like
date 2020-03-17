@@ -25,7 +25,7 @@ class RssFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData) {
+	getFeedItems(feedData, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -39,7 +39,7 @@ class RssFeed extends XmlFeed {
 		feedData.feeder = this._sortFeederByDate(feedData.feeder.querySelectorAll("item"));
 
 		let i, len;
-		let item, elmLink, feedItem;
+		let item, elmLink, feedItem, elmEnclosure, feedItemAtt;
 		for(i=0, len=feedData.feeder.length; i<len; i++) {
 
 			item = feedData.feeder[i];
@@ -51,9 +51,39 @@ class RssFeed extends XmlFeed {
 															this._getFeedItemDescription(item),
 															elmLink.textContent,
 															this._getFeedItemLastUpdate(item));
-				if (!!feedItem) feedItemList.push(feedItem);
+
+				if (!!feedItem) {
+
+					if(true/*withAttachments*/) {
+
+						if( !!(elmEnclosure = item.querySelector("enclosure")) ) {
+
+							if( !!(feedItemAtt = this._getFeedItemEnclosureAsAttObject(elmEnclosure)) ) {
+								feedItem.attachments.push(feedItemAtt);
+							}
+						}
+					}
+					console.log("[Sage-Like feedItem ]", feedItem);
+					feedItemList.push(feedItem);
+				}
 			}
 		}
 		return feedItemList;
+	}
+
+	//////////////////////////////////////////
+	_getFeedItemEnclosureAsAttObject(elm) {
+
+		let url = slUtil.validURL(elm.getAttribute("url"));
+
+		if(!!url) {
+
+			let title = elm.getAttribute("title");
+			if(!!!title) {
+				title = url.pathname.split("/").pop();
+			}
+			return this._createFeedItemAttachmentObject(title, url, elm.getAttribute("type"), elm.getAttribute("length"));
+		}
+		return null;
 	}
 }

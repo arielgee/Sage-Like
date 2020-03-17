@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+	<head>
+		<title>Sage-Like Feeds Export</title>
+		<dateCreated>Tue, 17 Mar 2020 15:23:28 GMT</dateCreated>
+	</head>
+	<body>
+		<outline text="RSS Sage-Like Feeds">
+			<outline text="attachments">
+				<outline type="rss" text="Cloudbase Mayhem Podcast" title="Cloudbase Mayhem Podcast" xmlUrl="https://www.cloudbasemayhem.com/feed/podcast/"/>
+			</outline>
+			<outline text="Syndication Type Testing (rdf,rss,atom,json)">
+				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current"/>
+				<outline type="rss" text="יומן אבטחה" title="יומן אבטחה" xmlUrl="http://israblog.nana.co.il/blog_rss.asp?blog=177394"/>
+				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topics?sid=73c54e63355280ae7007ae5e47c44b56"/>
+				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json"/>
+			</outline>
+			<outline text="JSONS">
+				<outline type="rss" text="Matthias Ott – Articles" title="Matthias Ott – Articles" xmlUrl="https://matthiasott.com/articles/feed.json"/>
+				<outline type="rss" text="Matthias Ott – Links" title="Matthias Ott – Links" xmlUrl="https://matthiasott.com/links/feed.json"/>
+				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/feed.json"/>
+				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json"/>
+				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="https://adactio.com/notes/feed.json"/>
+				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="https://adactio.com/links/feed.json"/>
+				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/feed.json"/>
+				<outline type="rss" text="Colin Walker" title="Colin Walker" xmlUrl="https://colinwalker.blog/feed/json/"/>
+				<outline type="rss" text="Comments on: Today" title="Comments on: Today" xmlUrl="https://colinwalker.blog/today/feed/json/"/>
+				<outline type="rss" text="Manton Reece" title="Manton Reece" xmlUrl="https://manton.org/feed.json"/>
+				<outline type="rss" text="inessential" title="inessential" xmlUrl="https://inessential.com/feed.json"/>
+				<outline type="rss" text="JSON Feed" title="JSON Feed" xmlUrl="https://jsonfeed.org/feed.json"/>
+				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json"/>
+				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json"/>
+				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json"/>
+			</outline>
+			<outline text="Bad feeds">
+				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml"/>
+				<outline type="rss" text="indide" title="indide" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4542.xml"/>
+			</outline>
+			<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
+			<outline text="no shift">
+				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml"/>
+				<outline type="rss" text="ynet - זה לא שאלות חיות" title="ynet - זה לא שאלות חיות" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4926.xml"/>
+				<outline type="rss" text="ynet - ירוק" title="ynet - ירוק" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4872.xml"/>
+				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss"/>
+				<outline text="22223">
+				</outline>
+				<outline text="1">
+				</outline>
+			</outline>
+			<outline text="ariel out side">
+			</outline>
+			<outline text="ariel inside">
+				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
+				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/forum/3?sid=4194099d351c20aea106eb36e071f731"/>
+				<outline text="yes shift">
+				</outline>
+			</outline>
+			<outline type="rss" text="JJJ" title="JJJ" xmlUrl="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3443/"/>
+			<outline text="New Folder-1">
+				<outline text="dfsdfsdfsdfsdfsd">
+					<outline text="XFolder">
+						<outline text="asdasdasd">
+							<outline text="f3">
+								<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="http://www.ynet.co.il/Integration/StoryRss2142.xml"/>
+								<outline type="rss" text="Manifest URL" title="Manifest URL" xmlUrl="moz-extension://aff0b402-9a1a-4661-a761-cb0bd23993ca/manifest.json"/>
+								<outline text="f4">
+									<outline text="f5">
+										<outline text="New Folder">
+											<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
+										</outline>
+									</outline>
+								</outline>
+								<outline type="rss" text="Scripting News" title="Scripting News" xmlUrl="http://static.userland.com/gems/backend/rssTwoExample2.xml"/>
+								<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml"/>
+								<outline text="F99">
+									<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml"/>
+									<outline text="f97">
+										<outline text="f100">
+										</outline>
+									</outline>
+									<outline text="f98">
+									</outline>
+								</outline>
+							</outline>
+							<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml"/>
+							<outline text="f2">
+							</outline>
+						</outline>
+						<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml"/>
+						<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
+						<outline text="test target Folder">
+							<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
+						</outline>
+						<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
+					</outline>
+					<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/atom.xml"/>
+				</outline>
+				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf"/>
+			</outline>
+			<outline text="New Folder-2">
+				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/"/>
+				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
+				<outline type="rss" text="[Satisfaction]: All topics for Sage RSS - Recently Created" title="[Satisfaction]: All topics for Sage RSS - Recently Created" xmlUrl="https://getsatisfaction.com/sagerss/topics.rss?sort=recently_created"/>
+				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss"/>
+				<outline type="rss" text="New Feedגשדגשדגשד" title="New Feedגשדגשדגשד" xmlUrl="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3443/"/>
+			</outline>
+			<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf"/>
+			<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/smartfeed/feed?y=2"/>
+			<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="https://www.freefullrss.com/feed.php?url=http%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2142.xml&amp;max=5&amp;links=preserve&amp;exc=&amp;submit=Create+Full+Text+RSS"/>
+		</outline>
+	</body>
+</opml>

@@ -489,6 +489,21 @@
 
 
 ## Next
+* support for feed-item attachments and/or media files for all formats. see specifications.
+	* RDF - n/a
+	* RSS:
+		* <enclosure url="required" length="required" type="required">		<!-- type is MIME ("audio/mpeg") -->
+	* Atom:
+		* <link href="required" rel="optional"  type="optional" hreflang="optional" title="optional" length="optional">
+		* <link href="required" rel="enclosure" type="optional" hreflang="optional" title="optional" length="optional">			<!-- for media files -->
+		* <link href="required" rel="related"   type="optional" hreflang="optional" title="optional" length="optional">			<!-- for documents -->
+	* JSON:
+		* "attachments": [ url:"required", mime_type:"required", title:"optional", size_in_bytes:"optional", duration_in_seconds:"optional" ]
+	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
+	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
+	> https://en.wikipedia.org/wiki/RSS_enclosure
+* look for icons for MINE types
+* provide some kind of access to attachments from the listView (?)
 * check at home is gmail's atom feed is processed without errors.
 * Something red for attention slideDown panels
 * look for last user comment in mozilla [support] page
@@ -497,10 +512,6 @@
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
 * drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
-* support RSS/JSON <enclosure>/"attachments" (media files) for all formats (?) look in the specifications
-	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
-	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
-	> https://en.wikipedia.org/wiki/RSS_enclosure
 * preference to open feed preview with left click
 * update feed title/tooltip in treeView when middle-clicking for feed preview; reproduce: middle-clicking new feed
 * how to allow user to safly insert user-CSS's into feedPreview
