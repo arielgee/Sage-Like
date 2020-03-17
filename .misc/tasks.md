@@ -482,12 +482,12 @@
 * remove links (<a>, not text content) in feed-item tooltip
 * do something about the desigh of the the feed-item tooltip content. its ugly, get rid of the title?	=> DONE. removed underline and body indentation added item numbering
 * split SyndicationStandard to classes		=> DONE!!!!!!! :)
+* relative links to images are not showing the image in the feedPreview
+	> https://matthiasott.com/articles/feed.json
 ---
 
 ## Next
 * when propertiesView is open for new feed set focus to url location and not to feed name
-* relative links to images are not showing the image in the feedPreview
-	> https://matthiasott.com/articles/feed.json
 * check at home is gmail's atom feed is processed without errors.
 * look for last user comment in mozilla [support] page
 * read json <content type="html"> as feed item content in preview	-> Don't know what I meant. content_html is processed if summery and content_text are missing

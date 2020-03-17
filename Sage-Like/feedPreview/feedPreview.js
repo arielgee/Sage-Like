@@ -143,24 +143,42 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleAbnormalURLs(elm) {
 
+		/*
+			.getAttribute("href") - returns the attribute text value
+			.href - returns the full path URL;
+		*/
 		let url;
-		let elmATags = elm.getElementsByTagName("a");
+		let elmsWithUrl = elm.getElementsByTagName("a");
 
-		for(let idx=0, len=elmATags.length; idx<len; idx++) {
+		for(let idx=0, len=elmsWithUrl.length; idx<len; idx++) {
 
 			// Link to a fake anchor result in href pointing to this webExt top page - leave it
-			if(elmATags[idx].getAttribute("href") === "#") continue;
+			if(elmsWithUrl[idx].getAttribute("href") === "#") continue;
 
 			// modify relative URLs to absolute - for relative URLs .href is 'moz-extension://...'
-			url = slUtil.replaceMozExtensionOriginURL(elmATags[idx].href, m_URL.origin);
+			url = slUtil.replaceMozExtensionOriginURL(elmsWithUrl[idx].href, m_URL.origin);
 
 			// replaceMozExtensionOriginURL() returns a valid URL object or null is not valid - remove non-vaild
 			if(url === null) {
-				elmATags[idx].removeAttribute("href");
+				elmsWithUrl[idx].removeAttribute("href");
 			} else {
-				elmATags[idx].href = url;
+				elmsWithUrl[idx].href = url;
 			}
-		};
+		}
+
+		elmsWithUrl = elm.getElementsByTagName("img");
+
+		for(let idx=0, len=elmsWithUrl.length; idx<len; idx++) {
+
+			// modify relative URLs to absolute - for relative URLs .src is 'moz-extension://...'
+			url = slUtil.replaceMozExtensionOriginURL(elmsWithUrl[idx].src, m_URL.origin);
+
+			if(url === null) {
+				elmsWithUrl[idx].removeAttribute("src");
+			} else {
+				elmsWithUrl[idx].src = url;
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
