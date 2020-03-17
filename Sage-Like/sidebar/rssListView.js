@@ -248,7 +248,7 @@ let rssListView = (function() {
 		// if there is a title then do not display item description
 		if(elmLI.title.length > 0) return;
 
-		m_elmFeedItemDescPanel.querySelector(".descTitle").textContent = elmLI.textContent.replace(/^\d+\. /, "");
+		m_elmFeedItemDescPanel.querySelector(".descTitle").textContent = elmLI.textContent;			// Remove numbering from title: .replace(/^\d+\. /, "")
 		m_elmFeedItemDescPanel.querySelector(".descBody").innerHTML = elmLI.getAttribute("data-item-desc").unescapeHtml();
 
 		// hide it and place it as high as possible to prevent resizing of

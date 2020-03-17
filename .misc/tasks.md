@@ -37,7 +37,7 @@
 * rewrite isDescendantOfRoot, work from the modified id up to the parent => NO. was rewriten to handle array of ids.
 * need to handle seperartor bookmarks. tree is getting fucked
 * replace the key for the TreeFeedsData object from url to id of LI (also id of bookmark)
-* purge remove all becouse of async functions, executed too sone => rewriten and moved to the start on the view load
+* purge remove all because of async functions, executed too sone => rewriten and moved to the start on the view load
 * lastChecked is redundent in TreeFeedsData => used in purge
 * list not empty in discovery view or many 'still loading' rows /??? fixed? look out for it
 * check why list status bar is bold
@@ -293,7 +293,7 @@
 * situation:
 	1. feed selected in sidebar. Its 10 feed-items are displayed - stats are: ( 2 / 10 )
 	2. background monitoring handels that feed and return 10 completely new items.
-	==> Should I update the listView/feedStats Just becouse it is displayed?    ==> NO the list is used by user and it can by very annoying
+	==> Should I update the listView/feedStats Just because it is displayed?    ==> NO the list is used by user and it can by very annoying
 * in list, handle keyboard event when list (UL) is selected but NO list item is selected. => Focus first item if any before focusing the parent list UL
 * consider opening feed item from a single place. list click event, list KB event, ContextMenu click event, ContextMenu KB event
 * include image in feedPreview  => will not get image link/title. Atom has no such thing
@@ -311,7 +311,7 @@
 	* and but not for: https://ghisler.ch/board/app.php/feed/forum/3    (ATOM)
 * change 'Open all in tabs' to 'Open all unread in tabs'
 * discoveryView on 'http://megafon-news.co.il/asys/archives/299005' gets scroll bars. title (feedTitle) is too long
-* in discovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates becouse <a>'s href are same?
+* in discovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates because <a>'s href are same?
 * 'Aggressive Discovery' checkbox in the discoveryView to also look at <a> elements
 * discoveryView; small text in the bottom status bar is cutting the bottom part of the letters y & g
 * event delegating the discoveryView
@@ -480,9 +480,12 @@
 	* BUT! I don't know why 'content|encoded' is not working in querySelector() see:
 		> https://www.w3.org/TR/selectors-3/#typenmsp
 * remove links (<a>, not text content) in feed-item tooltip
+* do something about the desigh of the the feed-item tooltip content. its ugly, get rid of the title?	=> DONE. removed underline and body indentation added item numbering
+* split SyndicationStandard to classes		=> DONE!!!!!!! :)
 ---
 
 ## Next
+* check at home is gmail's atom feed is processed without errors.
 * look for last user comment in mozilla [support] page
 * read json <content type="html"> as feed item content in preview
 * two types of feed-item descriptions? basic & extended. basic for tooltip and and extended for feedPreview ?
@@ -490,18 +493,16 @@
 	> https://matthiasott.com/articles/feed.json
 * relative links to images are not showing the image in the feedPreview
 	> https://matthiasott.com/articles/feed.json
-* drag&drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
+* drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
 * support RSS <enclosure> (media files) for all formats (?) look in the specifications
 	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
 	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
 	> https://en.wikipedia.org/wiki/RSS_enclosure
 * preference to open feed preview with left click
-* update feed tooltip when middle-clicking for feed preview; middle-clicking new feed
+* update feed title/tooltip in treeView when middle-clicking for feed preview; reproduce: middle-clicking new feed
 * how to allow user to safly insert user-CSS's into feedPreview
-* do something about the desigh of the the feed-item tooltip content. its ugly, get rid of the title?
 	_getFeedLastUpdate(doc, selectorPrefix, fallbackSelectorPrefix) {
 * the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
-* Firefox has no support for XML 1.1
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???
@@ -512,9 +513,8 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
-* check at home is gmail's atom feed is processed without errors.
-* split SyndicationStandard to classes
-
+* tabs in preferences? It'll be a PAIN!
+* Firefox has no support for XML 1.1
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
