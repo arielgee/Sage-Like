@@ -485,10 +485,6 @@
 * relative links to images are not showing the image in the feedPreview
 	> https://matthiasott.com/articles/feed.json
 * when propertiesView is open for new feed set focus to url location and not to feed name
----
-
-
-## Next
 * support for feed-item attachments and/or media files for all formats. see specifications.
 	* RDF - n/a
 	* RSS:
@@ -502,25 +498,36 @@
 	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
 	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
 	> https://en.wikipedia.org/wiki/RSS_enclosure
+---
+
+
+## Next
+* show attachments in feedPreview
 * look for icons for MINE types
 * open feedPreview from pagePopup without adding the feed to sage!
 * add url to feed tooltip in the treeView ?
 * in the UI call the feed-item attachments 'Attached Resources' (media and http pages)
 * provide some kind of access to attachments from the listView (?)
-* menu item for treeview folder to open all feeds as feedPreview
 * indication in feed-item tooltip for attachments (MimeType icons)
+* menu item for treeview folder to open all feeds as feedPreview
 * check at home is gmail's atom feed is processed without errors.
-* Something red for attention slideDown panels
+* Warning red for attention slideDown panels
 * look for last user comment in mozilla [support] page
 * read json <content type="html"> as feed item content in preview	-> Don't know what I meant. content_html is processed if summery and content_text are missing
-* two types of feed-item descriptions? basic & extended. basic for tooltip and and extended for feedPreview ?
+* two types of feed-item descriptions - new properly 'content' in Feed._createFeedItemObject() as an additinal 'desc' properly
+	* MOTIVATION: file ./misc/1.xml has <description> and <content:encoded> but <content:encoded> is prefered for feedPreview
+	* for xml feed 'content' will be set by <content:encoded> using getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded")[0]
+	* for json feed 'content' will be set by content_text or content_html (preferably content_html since feedPreview is the main target for content)
+	* 'desc' is for feed-item tooltip only and 'content' is for feedPreview (appending 'content' to 'desc' for feedPreview may be bad if data is same and content is HTML)
+	* if 'desc' is missing in xml then use <content:encoded> instaed and 'content' remain empty
+	* if 'desc' is missing in json then use content_text or content_html instaed and 'content' remain empty (preferably content_text since tooltip is the main target for desc)
+	* PROBLEM: how to manage the desc/content settings ???
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
 * drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
 * preference to open feed preview with left click
 * update feed title/tooltip in treeView when middle-clicking for feed preview; reproduce: middle-clicking new feed
 * how to allow user to safly insert user-CSS's into feedPreview
-	_getFeedLastUpdate(doc, selectorPrefix, fallbackSelectorPrefix) {
 * the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
