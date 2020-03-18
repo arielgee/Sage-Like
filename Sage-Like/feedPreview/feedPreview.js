@@ -112,6 +112,8 @@
 		let elmFeedItemTitleText = document.createElement("span");
 		let elmFeedItemLastUpdatedText = document.createElement("div");
 		let elmFeedItemContent = document.createElement("div");
+		let elmFeedItemAttachmentsContainer = document.createElement("div");
+		let elmFeedItemAttachment;
 
 		elmFeedItemContainer.className = "feedItemContainer";
 		elmFeedItemNumber.className = "feedItemNumber feedItemBigFont";
@@ -120,6 +122,7 @@
 		elmFeedItemTitleText.className = "feedItemTitleText feedItemBigFont";
 		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
 		elmFeedItemContent.className = "feedItemContent";
+		elmFeedItemAttachmentsContainer.className = "feedItemAttachmentsContainer";
 
 		elmFeedItemNumber.textContent = idx + 1 + ".";
 		elmFeedItemLink.href = feedItem.url;
@@ -129,10 +132,20 @@
 
 		handleAbnormalURLs(elmFeedItemContent);
 
+		for(let i=0, len=feedItem.attachments.length; i<len; i++) {
+
+			elmFeedItemAttachment = document.createElement("div");
+			elmFeedItemAttachment.className = "feedItemAttachment att" + i;
+			elmFeedItemAttachment.textContent = "Attachment" + i;
+
+			elmFeedItemAttachmentsContainer.appendChild(elmFeedItemAttachment);
+		}
+
 		elmFeedItemContainer.appendChild(elmFeedItemNumber);
 		elmFeedItemContainer.appendChild(elmFeedItem);
 		elmFeedItem.appendChild(elmFeedItemTitle);
 		elmFeedItem.appendChild(elmFeedItemContent);
+		elmFeedItem.appendChild(elmFeedItemAttachmentsContainer);
 		elmFeedItemTitle.appendChild(elmFeedItemLink);
 		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
