@@ -131,15 +131,15 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedItems(url, timeout, reload, noItemsReject = true) {
+	function fetchFeedItems(url, timeout, reload, ifNoItemsReject = true, withAttachments = false) {
 
 		return new Promise((resolve, reject) => {
 
 			fetchFeedData(url, timeout, reload).then((result) => {
 
-				let list = Feed.factoryCreateByStd(result.feedData.standard).getFeedItems(result.feedData);
+				let list = Feed.factoryCreateByStd(result.feedData.standard).getFeedItems(result.feedData, withAttachments);
 
-				if(list.length > 0 || !noItemsReject) {
+				if(list.length > 0 || !ifNoItemsReject) {
 					resolve({ list: list, feedData: result.feedData});
 				} else {
 					reject(new SyndicationError("No RSS feed items identified in document."));

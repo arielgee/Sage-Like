@@ -54,7 +54,7 @@ class RssFeed extends XmlFeed {
 
 				if (!!feedItem) {
 
-					if(true/*withAttachments*/) {
+					if(withAttachments) {
 
 						elmEnclosures = item.querySelectorAll("enclosure");
 
@@ -64,7 +64,7 @@ class RssFeed extends XmlFeed {
 							}
 						}
 					}
-					console.log("[Sage-Like RSS feedItem ]", feedItem);
+					console.log("[Sage-Like RSS attachments]", feedItem.attachments);
 					feedItemList.push(feedItem);
 				}
 			}
@@ -83,7 +83,10 @@ class RssFeed extends XmlFeed {
 			if(!!!title) {
 				title = url.pathname.split("/").pop();
 			}
-			return this._createFeedItemAttachmentObject(title, url, elm.getAttribute("type"), elm.getAttribute("length"));
+			return this._createFeedItemAttachmentObject(title, url,
+														slUtil.asSafeTypeValue(elm.getAttribute("type")),
+														slUtil.asSafeTypeValue(elm.getAttribute("length"), true),
+														"enclosure");
 		}
 		return null;
 	}

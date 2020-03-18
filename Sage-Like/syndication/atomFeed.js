@@ -52,9 +52,9 @@ class AtomFeed extends XmlFeed {
 															this._getFeedItemLastUpdate(item));
 				if (!!feedItem) {
 
-					if(true/*withAttachments*/) {
+					if(withAttachments) {
 
-						elmLinks = item.querySelectorAll("link[rel=\"enclosure\"],link[rel=\"related\"]");
+						elmLinks = item.querySelectorAll("link[href][rel=enclosure],link[href][rel=related]");
 
 						for(j=0, jLen=elmLinks.length; j<jLen; j++) {
 							if( !!(feedItemAtt = this._getFeedItemLinkAsAttObject(elmLinks[j])) ) {
@@ -62,7 +62,7 @@ class AtomFeed extends XmlFeed {
 							}
 						}
 					}
-					console.log("[Sage-Like ATOM feedItem ]", feedItem);
+					console.log("[Sage-Like ATOM attachments]", feedItem.attachments);
 					feedItemList.push(feedItem);
 				}
 			}
@@ -81,7 +81,10 @@ class AtomFeed extends XmlFeed {
 			if(!!!title) {
 				title = url.pathname.split("/").pop();
 			}
-			return this._createFeedItemAttachmentObject(title, url, elm.getAttribute("type"), elm.getAttribute("length"));
+			return this._createFeedItemAttachmentObject(title, url,
+														slUtil.asSafeTypeValue(elm.getAttribute("type")),
+														slUtil.asSafeTypeValue(elm.getAttribute("length"), true),
+														elm.getAttribute("rel"));
 		}
 		return null;
 	}

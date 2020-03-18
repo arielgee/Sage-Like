@@ -41,7 +41,7 @@ class JsonFeed extends Feed {
 		feedData.feeder = this._sortFeederByDate(feedData.feeder);
 
 		let i, j, iLen, jLen;
-		let item, feedItem, itemAtts;
+		let item, feedItem, itemAtts, feedItemAtt;
 		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
@@ -49,9 +49,9 @@ class JsonFeed extends Feed {
 
 			if(!!feedItem) {
 
-				if(true/*withAttachments*/) {
+				if(withAttachments) {
 
-					itemAtts = item.attachments || [];		// is attachments is missing then atts is empty array
+					itemAtts = item.attachments || [];		// if attachments is missing then atts is empty array
 
 					for(j=0, jLen=itemAtts.length; j<jLen; j++) {
 						if( !!(feedItemAtt = this._getFeedItemAttachmentAsAttObject(itemAtts[j])) ) {
@@ -59,7 +59,7 @@ class JsonFeed extends Feed {
 						}
 					}
 				}
-				console.log("[Sage-Like JSON feedItem ]", feedItem);
+				console.log("[Sage-Like JSON attachments]", feedItem.attachments);
 				feedItemList.push(feedItem);
 			}
 		}
@@ -190,7 +190,10 @@ class JsonFeed extends Feed {
 			if(!!!title) {
 				title = url.pathname.split("/").pop();
 			}
-			return this._createFeedItemAttachmentObject(title, url, att.mime_type, att.size_in_bytes);
+			return this._createFeedItemAttachmentObject(title, url,
+														slUtil.asSafeTypeValue(att.mime_type),
+														slUtil.asSafeTypeValue(att.size_in_bytes, true),
+														"attachment");
 		}
 		return null;
 	}

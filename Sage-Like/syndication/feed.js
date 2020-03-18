@@ -182,12 +182,13 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	_createFeedItemAttachmentObject(title, url, mimeType, byteSize) {
+	_createFeedItemAttachmentObject(title, url, mimeType, byteSize, rel) {
 		return {
 			title: title,
 			url: url,
 			mimeType: mimeType,
 			byteSize: byteSize,
+			rel: rel,
 		};
 	}
 }

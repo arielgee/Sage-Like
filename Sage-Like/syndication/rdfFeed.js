@@ -25,7 +25,7 @@ class RdfFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData) {
+	getFeedItems(feedData, withAttachments = false) {
 
 		let feedItemList = [];
 

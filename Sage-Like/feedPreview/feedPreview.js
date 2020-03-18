@@ -37,7 +37,7 @@
 		let elmFeedTitle;
 
 		prefs.getFetchTimeout().then((timeout) => {
-			syndication.fetchFeedItems(urlFeed, timeout * 1000, false, false).then((result) => {
+			syndication.fetchFeedItems(urlFeed, timeout * 1000, false, false, true).then((result) => {
 
 				elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
 

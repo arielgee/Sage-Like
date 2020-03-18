@@ -2060,6 +2060,19 @@ let slUtil = (function() {
 		return m_regExpDiscoveryUrlFilter;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function asSafeTypeValue(entity, asNumeric = false) {
+
+		// if object then get first object property
+		let val = (!!entity && (typeof(entity) === "object")) ? entity[Object.keys(entity)[0]] : entity;
+
+		// only if it's valid
+		if(!!val) {
+			val = (asNumeric ? Number(val) : String(val));
+		}
+		return (val === null) ? undefined : val;		// null is undefined
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -2097,6 +2110,7 @@ let slUtil = (function() {
 		getElementViewportRect: getElementViewportRect,
 		getHScrollWidth: getHScrollWidth,
 		getVScrollWidth: getVScrollWidth,
+		asSafeTypeValue: asSafeTypeValue,
 	};
 
 })();
