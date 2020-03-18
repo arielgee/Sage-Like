@@ -503,7 +503,12 @@
 	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
 	> https://en.wikipedia.org/wiki/RSS_enclosure
 * look for icons for MINE types
+* open feedPreview from pagePopup without adding the feed to sage!
+* add url to feed tooltip in the treeView ?
+* in the UI call the feed-item attachments 'Attached Resources' (media and http pages)
 * provide some kind of access to attachments from the listView (?)
+* menu item for treeview folder to open all feeds as feedPreview
+* indication in feed-item tooltip for attachments (MimeType icons)
 * check at home is gmail's atom feed is processed without errors.
 * Something red for attention slideDown panels
 * look for last user comment in mozilla [support] page

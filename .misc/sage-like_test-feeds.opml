@@ -2,12 +2,16 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Tue, 17 Mar 2020 15:23:28 GMT</dateCreated>
+		<dateCreated>Wed, 18 Mar 2020 10:49:38 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="RSS Sage-Like Feeds">
-			<outline text="attachments">
+			<outline text="attachments (rss,atom,atom,json,json)">
 				<outline type="rss" text="Cloudbase Mayhem Podcast" title="Cloudbase Mayhem Podcast" xmlUrl="https://www.cloudbasemayhem.com/feed/podcast/"/>
+				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
+				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
+				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json"/>
+				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json"/>
 			</outline>
 			<outline text="Syndication Type Testing (rdf,rss,atom,json)">
 				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current"/>
@@ -28,9 +32,7 @@
 				<outline type="rss" text="Manton Reece" title="Manton Reece" xmlUrl="https://manton.org/feed.json"/>
 				<outline type="rss" text="inessential" title="inessential" xmlUrl="https://inessential.com/feed.json"/>
 				<outline type="rss" text="JSON Feed" title="JSON Feed" xmlUrl="https://jsonfeed.org/feed.json"/>
-				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json"/>
 				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json"/>
-				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json"/>
 			</outline>
 			<outline text="Bad feeds">
 				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml"/>
