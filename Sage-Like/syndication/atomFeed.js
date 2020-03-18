@@ -43,9 +43,9 @@ class AtomFeed extends XmlFeed {
 		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
-			elmLink = item.querySelector("link:not([rel])") || item.querySelector("link[rel=alternate]") || item.querySelector("link");
+			elmLink = item.querySelector("link[href]:not([rel])") || item.querySelector("link[href][rel=alternate]") || item.querySelector("link[href]");
 
-			if(elmLink) {
+			if(!!elmLink) {
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
 															this._getFeedItemDescription(item),
 															elmLink.getAttribute("href"),
