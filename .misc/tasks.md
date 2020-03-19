@@ -498,20 +498,21 @@
 	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
 	> https://www.w3schools.com/xml/rss_tag_enclosure.asp
 	> https://en.wikipedia.org/wiki/RSS_enclosure
+* show attachments in feedPreview			=> DONE
+* look for icons for MINE types
+* in the UI call the feed-item attachments 'Attached Resources' (media and http pages)	=> NO NEED
 ---
 
 
 ## Next
-* show attachments in feedPreview
-* look for icons for MINE types
+* consider adding some-sort of tooltip to feedPreview attachments on hover
 * open feedPreview from pagePopup without adding the feed to sage!
 * add url to feed tooltip in the treeView ?
-* in the UI call the feed-item attachments 'Attached Resources' (media and http pages)
 * provide some kind of access to attachments from the listView (?)
-* indication in feed-item tooltip for attachments (MimeType icons)
+	* indication in feed-item tooltip for attachments (MimeType icons)
 * menu item for treeview folder to open all feeds as feedPreview
 * check at home is gmail's atom feed is processed without errors.
-* Warning red for attention slideDown panels
+* Red warning for attention slideDown panels
 * look for last user comment in mozilla [support] page
 * read json <content type="html"> as feed item content in preview	-> Don't know what I meant. content_html is processed if summery and content_text are missing
 * two types of feed-item descriptions - new properly 'content' in Feed._createFeedItemObject() as an additinal 'desc' properly

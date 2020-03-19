@@ -62,7 +62,7 @@ class AtomFeed extends XmlFeed {
 							}
 						}
 					}
-					console.log("[Sage-Like ATOM attachments]", feedItem.attachments);
+					//console.log("[Sage-Like ATOM attachments]", feedItem.attachments);
 					feedItemList.push(feedItem);
 				}
 			}

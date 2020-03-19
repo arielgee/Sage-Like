@@ -64,7 +64,7 @@ class RssFeed extends XmlFeed {
 							}
 						}
 					}
-					console.log("[Sage-Like RSS attachments]", feedItem.attachments);
+					//console.log("[Sage-Like RSS attachments]", feedItem.attachments);
 					feedItemList.push(feedItem);
 				}
 			}

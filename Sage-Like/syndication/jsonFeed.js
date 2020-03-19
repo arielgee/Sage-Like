@@ -59,7 +59,7 @@ class JsonFeed extends Feed {
 						}
 					}
 				}
-				console.log("[Sage-Like JSON attachments]", feedItem.attachments);
+				//console.log("[Sage-Like JSON attachments]", feedItem.attachments);
 				feedItemList.push(feedItem);
 			}
 		}
