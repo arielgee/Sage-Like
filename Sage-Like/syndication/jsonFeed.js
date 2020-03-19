@@ -188,7 +188,7 @@ class JsonFeed extends Feed {
 
 			let title = att.title;
 			if(!!!title) {
-				title = url.pathname.split("/").pop();
+				title = url.pathname.replace(/(^.*)\/$/, "$1").split("/").pop();
 			}
 			return this._createFeedItemAttachmentObject(title, url,
 														slUtil.asSafeTypeValue(att.mime_type),
