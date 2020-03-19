@@ -573,6 +573,7 @@ let rssListView = (function() {
 		clearTimeout(m_timeoutMouseOver);
 		m_timeoutMouseOver = null;
 		m_elmFeedItemDescPanel.style.display = "none";
+		m_elmFeedItemDescPanel.style.visibility = "hidden";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
