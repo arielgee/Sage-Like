@@ -114,6 +114,9 @@
 		let elmFeedItemContent = document.createElement("div");
 		let elmFeedItemAttachmentsContainer = document.createElement("div");
 		let elmFeedItemAttachment;
+		let elmFeedItemAttachmentLink;
+		let elmFeedItemAttachmentImage;
+		let elmFeedItemAttachmentTitle;
 
 		elmFeedItemContainer.className = "feedItemContainer";
 		elmFeedItemNumber.className = "feedItemNumber feedItemBigFont";
@@ -132,12 +135,31 @@
 
 		handleAbnormalURLs(elmFeedItemContent);
 
+		let att;
+
 		for(let i=0, len=feedItem.attachments.length; i<len; i++) {
 
-			elmFeedItemAttachment = document.createElement("div");
-			elmFeedItemAttachment.className = "feedItemAttachment att" + i;
-			elmFeedItemAttachment.textContent = "Attachment" + i;
+			att = feedItem.attachments[i];
 
+			elmFeedItemAttachment = document.createElement("div");
+			elmFeedItemAttachment.className = "feedItemAttachment idx" + i;
+
+			elmFeedItemAttachmentLink = document.createElement("a");
+			elmFeedItemAttachmentLink.className = "feedItemAttachmentLink";
+			elmFeedItemAttachmentLink.href = att.url;
+			elmFeedItemAttachmentLink.title = getAttachmentTitle(att);
+
+			elmFeedItemAttachmentImage = document.createElement("img");
+			elmFeedItemAttachmentImage.className = "feedItemAttachmentImage";
+			elmFeedItemAttachmentImage.src = getMimeTypeIcon(att.mimeType);
+
+			elmFeedItemAttachmentTitle = document.createElement("div");
+			elmFeedItemAttachmentTitle.className = "feedItemAttachmentTitle";
+			elmFeedItemAttachmentTitle.textContent = att.title;
+
+			elmFeedItemAttachment.appendChild(elmFeedItemAttachmentLink);
+			elmFeedItemAttachmentLink.appendChild(elmFeedItemAttachmentImage);
+			elmFeedItemAttachmentLink.appendChild(elmFeedItemAttachmentTitle);
 			elmFeedItemAttachmentsContainer.appendChild(elmFeedItemAttachment);
 		}
 
@@ -145,7 +167,9 @@
 		elmFeedItemContainer.appendChild(elmFeedItem);
 		elmFeedItem.appendChild(elmFeedItemTitle);
 		elmFeedItem.appendChild(elmFeedItemContent);
-		elmFeedItem.appendChild(elmFeedItemAttachmentsContainer);
+		if(elmFeedItemAttachmentsContainer.children.length > 0) {
+			elmFeedItem.appendChild(elmFeedItemAttachmentsContainer);
+		}
 		elmFeedItemTitle.appendChild(elmFeedItemLink);
 		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
@@ -202,6 +226,67 @@
 		document.getElementById("errorContainer").classList.add("withMessage");
 		document.getElementById("errorMessage").textContent = errorMessage;
 		document.getElementById("errorMessageLink").href = url.toString();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getMimeTypeIcon(mimeType) {
+
+		let pathToIcons = "/icons/mimeType/";
+		let defaultIcon = pathToIcons + "file.svg";
+
+		if(!!!mimeType) return defaultIcon;
+
+		let mimeTypeIcons = [
+
+			// archive
+			{ mimeType: "application/gzip", icon: "file-archive.svg" },
+			{ mimeType: "application/zip", icon: "file-archive.svg" },
+
+			// doc
+			{ mimeType: "application/pdf", icon: "file-pdf.svg" },
+			{ mimeType: "application/msword", icon: "file-word.svg" },
+			{ mimeType: "application/vnd.ms-word", icon: "file-word.svg" },
+			{ mimeType: "application/vnd.oasis.opendocument.text", icon: "file-word.svg" },
+			{ mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml", icon: "file-word.svg" },
+			{ mimeType: "application/vnd.ms-excel", icon: "file-excel.svg" },
+			{ mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml", icon: "file-excel.svg" },
+			{ mimeType: "application/vnd.oasis.opendocument.spreadsheet", icon: "file-excel.svg" },
+			{ mimeType: "application/vnd.ms-powerpoint", icon: "file-powerpoint.svg" },
+			{ mimeType: "application/vnd.openxmlformats-officedocument.presentationml", icon: "file-powerpoint.svg" },
+			{ mimeType: "application/vnd.oasis.opendocument.presentation", icon: "file-powerpoint.svg" },
+			{ mimeType: "text/plain", icon: "file-text.svg" },
+			{ mimeType: "text/html", icon: "file-code.svg" },
+			{ mimeType: "application/json", icon: "file-code.svg" },
+
+			// media
+			{ mimeType: "image", icon: "file-image.svg" },
+			{ mimeType: "audio", icon: "file-audio.svg" },
+			{ mimeType: "video", icon: "file-video.svg" },
+		];
+
+		for(let i=0, len=mimeTypeIcons.length; i<len; i++) {
+			if(mimeType.startsWith(mimeTypeIcons[i].mimeType)) {
+				return (pathToIcons + mimeTypeIcons[i].icon);
+			}
+		}
+
+		return defaultIcon;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getAttachmentTitle(attachment) {
+
+		const FMT_ATTACHMENT_TITLE = "Title: {0} \u000dURL: {1}";
+		const FMT_ATTACHMENT_TITLE_WITH_SIZE = FMT_ATTACHMENT_TITLE + " \u000dSize: {2}";
+
+		let size = slUtil.asPrettyByteSize(attachment.byteSize || 0);
+
+		// no size is zero
+		if(!!!size || size.startsWith("0 ")) {
+			return FMT_ATTACHMENT_TITLE.format([attachment.title, attachment.url.toString()]);
+		} else {
+			return FMT_ATTACHMENT_TITLE_WITH_SIZE.format([attachment.title, attachment.url.toString(), size]);
+		}
 	}
 
 })();

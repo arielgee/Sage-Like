@@ -2073,6 +2073,18 @@ let slUtil = (function() {
 		return (val === null) ? undefined : val;		// null is undefined
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function asPrettyByteSize(byteSize) {
+
+		let notation = [' Bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'];
+
+		if(byteSize === 0) return (0 + notation[0]);
+
+		let idx = Math.floor(Math.log(byteSize) / Math.log(1024));
+
+		return (byteSize / Math.pow(1024, idx)).toFixed(2) * 1 + notation[idx];
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -2111,6 +2123,7 @@ let slUtil = (function() {
 		getHScrollWidth: getHScrollWidth,
 		getVScrollWidth: getVScrollWidth,
 		asSafeTypeValue: asSafeTypeValue,
+		asPrettyByteSize: asPrettyByteSize,
 	};
 
 })();
