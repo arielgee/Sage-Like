@@ -216,3 +216,27 @@ body {
 	font-size: 80%;
 	text-align: center;
 }
+
+#attachmentTooltip {
+	display: none;
+	position: absolute;
+	z-index: 1;
+	max-width: 550px;
+	max-height: 150px;
+	background-color: var(--background-color-page);
+	border: 1px solid black;
+	padding: 3px 4px;
+	overflow: hidden;
+	box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
+	word-wrap: normal;
+	white-space: pre-wrap;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-weight: normal;
+	font-size: 11px;
+}
+
+#attachmentTooltip > p {
+	margin: 0 0 3px 0;
+	padding-left: 1.8em;	/* indent from second line (ie. hanging indent) */
+	text-indent: -1.8em;
+}

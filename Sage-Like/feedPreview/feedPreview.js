@@ -3,6 +3,8 @@
 (function () {
 
 	let m_URL;
+	let m_elmAttachmentTooltip;
+	let m_timeoutMouseOver = null;
 
 	initilization();
 
@@ -19,6 +21,8 @@
 		let urlFeed = decodeURIComponent(slUtil.getQueryStringValue("urlFeed"));
 
 		m_URL = new URL(urlFeed);
+
+		m_elmAttachmentTooltip = document.getElementById("attachmentTooltip");
 
 		createFeedPreview(urlFeed);
 	}
@@ -40,6 +44,8 @@
 			syndication.fetchFeedItems(urlFeed, timeout * 1000, false, false, true).then((result) => {
 
 				elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
+				elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
+				elmFeedBody.addEventListener("mouseout", onMouseOutAttachment);
 
 				document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
 				elmFeedTitle = createFeedTitleElements(result.feedData);
@@ -112,11 +118,7 @@
 		let elmFeedItemTitleText = document.createElement("span");
 		let elmFeedItemLastUpdatedText = document.createElement("div");
 		let elmFeedItemContent = document.createElement("div");
-		let elmFeedItemAttachmentsContainer = document.createElement("div");
-		let elmFeedItemAttachment;
-		let elmFeedItemAttachmentLink;
-		let elmFeedItemAttachmentImage;
-		let elmFeedItemAttachmentTitle;
+		let elmFeedItemAttachmentsContainer;
 
 		elmFeedItemContainer.className = "feedItemContainer";
 		elmFeedItemNumber.className = "feedItemNumber feedItemBigFont";
@@ -125,7 +127,6 @@
 		elmFeedItemTitleText.className = "feedItemTitleText feedItemBigFont";
 		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
 		elmFeedItemContent.className = "feedItemContent";
-		elmFeedItemAttachmentsContainer.className = "feedItemAttachmentsContainer";
 
 		elmFeedItemNumber.textContent = idx + 1 + ".";
 		elmFeedItemLink.href = feedItem.url;
@@ -135,19 +136,45 @@
 
 		handleAbnormalURLs(elmFeedItemContent);
 
+		elmFeedItemAttachmentsContainer = createFeedItemAttachmentsElements(feedItem.attachments);
+
+		elmFeedItemContainer.appendChild(elmFeedItemNumber);
+		elmFeedItemContainer.appendChild(elmFeedItem);
+		elmFeedItem.appendChild(elmFeedItemTitle);
+		elmFeedItem.appendChild(elmFeedItemContent);
+		if(elmFeedItemAttachmentsContainer.children.length > 0) {
+			elmFeedItem.appendChild(elmFeedItemAttachmentsContainer);
+		}
+		elmFeedItemTitle.appendChild(elmFeedItemLink);
+		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
+		elmFeedItemLink.appendChild(elmFeedItemTitleText);
+
+		return elmFeedItemContainer;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createFeedItemAttachmentsElements(attachments) {
+
+		let elmFeedItemAttachment;
+		let elmFeedItemAttachmentLink;
+		let elmFeedItemAttachmentImage;
+		let elmFeedItemAttachmentTitle;
+		let elmFeedItemAttachmentsContainer = document.createElement("div");
 		let att;
 
-		for(let i=0, len=feedItem.attachments.length; i<len; i++) {
+		elmFeedItemAttachmentsContainer.className = "feedItemAttachmentsContainer";
 
-			att = feedItem.attachments[i];
+		for(let i=0, len=attachments.length; i<len; i++) {
+
+			att = attachments[i];
 
 			elmFeedItemAttachment = document.createElement("div");
 			elmFeedItemAttachment.className = "feedItemAttachment idx" + i;
+			elmFeedItemAttachment.setAttribute("data-title", getAttachmentTitle(att));
 
 			elmFeedItemAttachmentLink = document.createElement("a");
 			elmFeedItemAttachmentLink.className = "feedItemAttachmentLink";
 			elmFeedItemAttachmentLink.href = att.url;
-			elmFeedItemAttachmentLink.title = getAttachmentTitle(att);
 
 			elmFeedItemAttachmentImage = document.createElement("img");
 			elmFeedItemAttachmentImage.className = "feedItemAttachmentImage";
@@ -163,18 +190,7 @@
 			elmFeedItemAttachmentsContainer.appendChild(elmFeedItemAttachment);
 		}
 
-		elmFeedItemContainer.appendChild(elmFeedItemNumber);
-		elmFeedItemContainer.appendChild(elmFeedItem);
-		elmFeedItem.appendChild(elmFeedItemTitle);
-		elmFeedItem.appendChild(elmFeedItemContent);
-		if(elmFeedItemAttachmentsContainer.children.length > 0) {
-			elmFeedItem.appendChild(elmFeedItemAttachmentsContainer);
-		}
-		elmFeedItemTitle.appendChild(elmFeedItemLink);
-		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
-		elmFeedItemLink.appendChild(elmFeedItemTitleText);
-
-		return elmFeedItemContainer;
+		return elmFeedItemAttachmentsContainer;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -276,8 +292,8 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function getAttachmentTitle(attachment) {
 
-		const FMT_ATTACHMENT_TITLE = "Title: {0} \u000dURL: {1}";
-		const FMT_ATTACHMENT_TITLE_WITH_SIZE = FMT_ATTACHMENT_TITLE + " \u000dSize: {2}";
+		const FMT_ATTACHMENT_TITLE = "<p><b>Title:</b> {0}</p><p><b>URL:</b> {1}</p>";
+		const FMT_ATTACHMENT_TITLE_WITH_SIZE = FMT_ATTACHMENT_TITLE + "<p><b>Size:</b> {2}";
 
 		let size = slUtil.asPrettyByteSize(attachment.byteSize || 0);
 
@@ -289,4 +305,59 @@
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseOverAttachment(event) {
+
+		let elmAtt;
+
+		// only if it's an attachment
+		if(!!!event.target || !!!(elmAtt = event.target.closest(".feedItemAttachment"))) {
+			return;
+		}
+
+		event.stopPropagation();
+		clearTimeout(m_timeoutMouseOver);
+
+		m_elmAttachmentTooltip.innerHTML = elmAtt.getAttribute("data-title");
+
+		// hide it and place it as high as possible to prevent resizing of
+		// the container when html data is retrieved
+		m_elmAttachmentTooltip.style.visibility = "hidden";
+		m_elmAttachmentTooltip.style.left = m_elmAttachmentTooltip.style.top = "0";
+
+		// set display=block as soon as possible to retrieve any remote html data (images, etc) and
+		// panel element will have dimentions (offsetWidth > 0)
+		m_elmAttachmentTooltip.style.display = "block";
+
+		m_timeoutMouseOver = setTimeout(() => {
+
+			const POS_OFFSET = 8;
+			let x = elmAtt.offsetLeft + POS_OFFSET;
+			let y = elmAtt.offsetTop - m_elmAttachmentTooltip.offsetHeight - POS_OFFSET;
+
+			if (x < window.scrollX) {
+				x = elmAtt.offsetLeft + elmAtt.offsetWidth + POS_OFFSET;
+			}
+
+			if (y < window.scrollY) {
+				y = elmAtt.offsetTop + elmAtt.offsetHeight + POS_OFFSET;
+			}
+
+			m_elmAttachmentTooltip.style.visibility = "visible";
+			m_elmAttachmentTooltip.style.left = x + "px";
+			m_elmAttachmentTooltip.style.top = y + "px";
+
+		}, 100);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseOutAttachment(event) {
+
+		if(!!event.target && !!event.target.closest(".feedItemAttachment")) {
+			clearTimeout(m_timeoutMouseOver);
+			m_timeoutMouseOver = null;
+			m_elmAttachmentTooltip.style.display = "none";
+			m_elmAttachmentTooltip.style.visibility = "hidden";
+		}
+	}
 })();

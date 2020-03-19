@@ -501,11 +501,11 @@
 * show attachments in feedPreview			=> DONE
 * look for icons for MINE types
 * in the UI call the feed-item attachments 'Attached Resources' (media and http pages)	=> NO NEED
+* consider adding some-sort of tooltip to feedPreview attachments on hover
 ---
 
 
 ## Next
-* consider adding some-sort of tooltip to feedPreview attachments on hover
 * open feedPreview from pagePopup without adding the feed to sage!
 * add url to feed tooltip in the treeView ?
 * provide some kind of access to attachments from the listView (?)
