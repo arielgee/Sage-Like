@@ -171,10 +171,11 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	_createFeedItemObject(title, desc, url, lastUpdated) {
+	_createFeedItemObject(title, desc, content, url, lastUpdated) {
 		return {
 			title: title,
-			desc: desc,
+			description: desc,
+			htmlContent: content,
 			url: url,
 			lastUpdated: lastUpdated,
 			attachments: [],

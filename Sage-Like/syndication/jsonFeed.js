@@ -94,7 +94,8 @@ class JsonFeed extends Feed {
 		}
 
 		return this._createFeedItemObject(	this._getFeedItemTitle(item).stripHtmlTags(),
-											this._getFeedItemDesc(item).stripUnsafeHtmlComponents(),
+											this._getFeedItemDescription(item).stripUnsafeHtmlComponents(),
+											this._getFeedItemHtmlContent(item).stripUnsafeHtmlComponents(),
 											itemUrl.stripHtmlTags(),
 											this._getFeedItemLastUpdate(item));
 	}
@@ -148,22 +149,46 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemDesc(item) {
+	_getFeedItemDescription(item) {
 
-		let retVal;
+		let prop;
+		let itemAllDescProperties = [item.summary, item.content_text, item.content_html];
 
-		if(!!item.summary && item.summary.length > 0) {
-			retVal = item.summary;
-		} else if(!!item.content_text && item.content_text.length > 0) {
-			retVal = item.content_text;
-		} else if(!!item.content_html) {
-			retVal = item.content_html;
-		} else {
-			return "";
+		for(let i=0, len=itemAllDescProperties.length; i<len; i++) {
+
+			prop = itemAllDescProperties[i];
+
+			// some feed put an empty object in the summery (WTF?)			// https://matthiasott.com/articles/feed.json
+			if( !!prop && (typeof(prop) === "string") && (prop.length > 0) ) {
+				return prop;
+			}
 		}
+		return "";
+	}
 
-		// some feed put an empty object in the summery (WTF?)			// https://matthiasott.com/articles/feed.json
-		return (typeof(retVal) === "string" ? retVal : "");
+	//////////////////////////////////////////
+	_getFeedItemHtmlContent(item) {
+
+		let prop;
+		let acquired = null;
+		let propCount = 0;
+
+		let itemDescProperties = [item.content_html, item.content_text, item.summary];
+
+		// scan ALL the alternatives in reverse order, in contrast to _getFeedItemDesc().
+		// If the acquired property is the only one existing then assume _getFeedItemDesc() got it and return empty string
+		for(let i=0, len=itemDescProperties.length; i<len; i++) {
+
+			prop = itemDescProperties[i];
+
+			if( !!prop && (typeof(prop) === "string") && (prop.length > 0) ) {
+				if(!!!acquired) {
+					acquired = prop;
+				}
+				propCount++;
+			}
+		}
+		return (propCount > 1) ? acquired : "";
 	}
 
 	//////////////////////////////////////////

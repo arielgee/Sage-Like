@@ -132,7 +132,7 @@
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title;
 		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
-		elmFeedItemContent.innerHTML = feedItem.desc.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
+		elmFeedItemContent.innerHTML = feedItem.description.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
 
 		handleAbnormalURLs(elmFeedItemContent);
 

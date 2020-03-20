@@ -78,13 +78,26 @@ class XmlFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedItemDescription(item) {
 
-		let elmDesc = item.querySelector("description,content,summary");
+		let elmDesc = this._xmlFeed_getFeedItemDesc(item);
 
 		// look for <content:encoded>
 		if(!!!elmDesc || elmDesc.textContent.length === 0) {
-			elmDesc = (item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded"))[0];
+			elmDesc = this._xmlFeed_getFeedItemContentEncoded(item);
 		}
 		return elmDesc;
+	}
+
+	//////////////////////////////////////////
+	_getFeedItemHtmlContent(item) {
+
+		let elmDesc = this._xmlFeed_getFeedItemDesc(item);
+
+		// if there is NO description then _getFeedItemDescription() may have got the <content:encoded> so just return null
+		if(!!!elmDesc || elmDesc.textContent.length === 0) {
+			return null;
+		}
+		// if there IS a description then _getFeedItemDescription() got it so I'll take the <content:encoded>
+		return this._xmlFeed_getFeedItemContentEncoded(item);
 	}
 
 	//////////////////////////////////////////
@@ -135,7 +148,7 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_createSingleListItemFeed(elmTitle, elmDesc, strUrl, valLastUpdated) {
+	_createSingleListItemFeed(elmTitle, elmDesc, elmContent, strUrl, valLastUpdated) {
 
 		let oErr = {};
 		if(!!!slUtil.validURL(strUrl, oErr)) {
@@ -143,9 +156,20 @@ class XmlFeed extends Feed {
 			return null;
 		}
 
-		return this._createFeedItemObject(	elmTitle ? elmTitle.textContent.stripHtmlTags() : "",
-											elmDesc ? elmDesc.textContent.stripUnsafeHtmlComponents() : "",
+		return this._createFeedItemObject(	!!elmTitle ? elmTitle.textContent.stripHtmlTags() : "",
+											!!elmDesc ? elmDesc.textContent.stripUnsafeHtmlComponents() : "",
+											!!elmContent ? elmContent.textContent.stripUnsafeHtmlComponents() : "",
 											strUrl.stripHtmlTags(),
 											valLastUpdated);
+	}
+
+	//////////////////////////////////////////
+	_xmlFeed_getFeedItemDesc(item) {
+		return item.querySelector("description,content,summary");
+	}
+
+	//////////////////////////////////////////
+	_xmlFeed_getFeedItemContentEncoded(item) {
+		return (item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded"))[0];
 	}
 }

@@ -48,6 +48,7 @@ class AtomFeed extends XmlFeed {
 			if(!!elmLink) {
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
 															this._getFeedItemDescription(item),
+															this._getFeedItemHtmlContent(item),
 															elmLink.getAttribute("href"),
 															this._getFeedItemLastUpdate(item));
 				if (!!feedItem) {
