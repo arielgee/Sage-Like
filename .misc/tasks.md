@@ -502,10 +502,6 @@
 * look for icons for MINE types
 * in the UI call the feed-item attachments 'Attached Resources' (media and http pages)	=> NO NEED
 * consider adding some-sort of tooltip to feedPreview attachments on hover
----
-
-
-## Next
 * two types of feed-item descriptions - new properly 'content' in Feed._createFeedItemObject() as an additinal 'desc' properly
 	* MOTIVATION: file ./misc/1.xml has <description> and <content:encoded> but <content:encoded> is prefered for feedPreview
 	* for xml feed 'content' will be set by <content:encoded> using getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded")[0]
@@ -514,15 +510,24 @@
 	* if 'desc' is missing in xml then use <content:encoded> instaed and 'content' remain empty		=> DONE
 	* if 'desc' is missing in json then use content_text or content_html instaed and 'content' remain empty (preferably content_text since tooltip is the main target for desc)	=> DONE
 	* PROBLEM: how to manage the desc/content settings ???	=> DONE
+* read rss <content type="html"> as feed item content in preview	-> HERE: https://www.heise.de/rss/heise-atom.xml, IT'S ATOM => DONE
+* check at home is gmail's atom feed is processed without errors.		=> Got 'Critical security alert' from google => `¯\_(ツ)_/¯`
+---
+
+
+## Next
+* look for last user comment in mozilla [support] page
+* in feedPreview the error spinner has its own frame when it spin
+* found a 1x1 tracking image in: https://www.npr.org/feeds/510317/feed.json
+	* <img src="https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=812072352">
+		* 'tracking' ?
+		* 'pixel' ?
 * open feedPreview from pagePopup without adding the feed to sage!
 * add url to feed tooltip in the treeView ?
 * provide some kind of access to attachments from the listView (?)
 	* indication in feed-item tooltip for attachments (MimeType icons)
 * menu item for treeview folder to open all feeds as feedPreview
-* check at home is gmail's atom feed is processed without errors.
 * Red warning for attention slideDown panels
-* look for last user comment in mozilla [support] page
-* read json <content type="html"> as feed item content in preview	-> HERE: https://www.heise.de/rss/heise-atom.xml, IT'S ATOM
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
 * drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
