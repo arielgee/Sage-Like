@@ -78,26 +78,51 @@ class XmlFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedItemDescription(item) {
 
-		let elmDesc = this._xmlFeed_getFeedItemDesc(item);
+		let elmDesc;
+		let funcGet = [
+			this._xmlFeed_getFeedItemDescription,
+			this._xmlFeed_getFeedItemContentEncoded,		// look for <content:encoded>
+			this._xmlFeed_getFeedItemContentTypeHtml,		// look for <content type=html>
+		];
 
-		// look for <content:encoded>
-		if(!!!elmDesc || elmDesc.textContent.length === 0) {
-			elmDesc = this._xmlFeed_getFeedItemContentEncoded(item);
+		for(let i=0, len=funcGet.length; i<len; i++) {
+
+			elmDesc = funcGet[i](item);
+
+			if( !!elmDesc && elmDesc.textContent.length > 0) {
+				return elmDesc;
+			}
 		}
-		return elmDesc;
+		return null;
 	}
 
 	//////////////////////////////////////////
 	_getFeedItemHtmlContent(item) {
 
-		let elmDesc = this._xmlFeed_getFeedItemDesc(item);
+		let funcGet = [
+			this._xmlFeed_getFeedItemContentTypeHtml,		// look for <content type=html>
+			this._xmlFeed_getFeedItemContentEncoded,		// look for <content:encoded>
+			this._xmlFeed_getFeedItemDescription,
+		];
 
-		// if there is NO description then _getFeedItemDescription() may have got the <content:encoded> so just return null
-		if(!!!elmDesc || elmDesc.textContent.length === 0) {
-			return null;
+		let elmContent;
+		let elmAcquired = null;
+		let foundedElmCount = 0;
+
+		// scan ALL the alternatives in reverse order, in contrast to _getFeedItemDescription().
+		// If the acquired element is the only one existing then assume _getFeedItemDescription() got it and return empty null
+		for(let i=0, len=funcGet.length; i<len; i++) {
+
+			elmContent = funcGet[i](item);
+
+			if(!!elmContent && elmContent.textContent.length > 0) {
+				if(!!!elmAcquired) {
+					elmAcquired = elmContent;
+				}
+				foundedElmCount++;
+			}
 		}
-		// if there IS a description then _getFeedItemDescription() got it so I'll take the <content:encoded>
-		return this._xmlFeed_getFeedItemContentEncoded(item);
+		return (foundedElmCount > 1) ? elmAcquired : null;
 	}
 
 	//////////////////////////////////////////
@@ -164,12 +189,17 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_xmlFeed_getFeedItemDesc(item) {
-		return item.querySelector("description,content,summary");
+	_xmlFeed_getFeedItemDescription(item) {
+		return item.querySelector("description,content:not([type=html]),summary");
 	}
 
 	//////////////////////////////////////////
 	_xmlFeed_getFeedItemContentEncoded(item) {
 		return (item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded"))[0];
+	}
+
+	//////////////////////////////////////////
+	_xmlFeed_getFeedItemContentTypeHtml(item) {
+		return item.querySelector("content[type=html]");
 	}
 }
