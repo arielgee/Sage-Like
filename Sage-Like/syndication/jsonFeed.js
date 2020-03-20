@@ -172,11 +172,10 @@ class JsonFeed extends Feed {
 		let prop;
 		let acquired = null;
 		let propCount = 0;
-
 		let itemDescProperties = [item.content_html, item.content_text, item.summary];
 
-		// scan ALL the alternatives in reverse order, in contrast to _getFeedItemDesc().
-		// If the acquired property is the only one existing then assume _getFeedItemDesc() got it and return empty string
+		// scan ALL the alternatives in reverse order, in contrast to _getFeedItemDescription().
+		// If the acquired property is the only one existing then assume _getFeedItemDescription() got it and return empty string
 		for(let i=0, len=itemDescProperties.length; i<len; i++) {
 
 			prop = itemDescProperties[i];
