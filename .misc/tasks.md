@@ -517,20 +517,21 @@
 		* 'tracking' ?
 		* 'pixel' ?
 * look for last user comment in mozilla [support] page
+* in feedPreview the error spinner has its own frame when it spin	==> LEAVE IT IT'S OK
+* where the subscribe button image in the preferences page has gone in last Fx version?????		file name is case-sensitive
 ---
 
 
 ## Next
-* in feedPreview the error spinner has its own frame when it spin
+* add url to feed tooltip in the treeView ?
+	* add to setFeedTooltipState() and setFeedTooltipFullState() ' + "\u000d" + elmLI.getAttribute("href")' after getTreeItemText()
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
 	* preference to open feed preview with left click
 * add option to scan page for feeds from the location bar
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
-* where the subscribe button image in the preferences page has gone in last Fx version?????
 * open feedPreview from pagePopup without adding the feed to sage!
-* add url to feed tooltip in the treeView ?
 * pagePopup: indication that url already in bookmarks
 * provide some kind of access to attachments from the listView (?)
 	* indication in feed-item tooltip for attachments (MimeType icons)
