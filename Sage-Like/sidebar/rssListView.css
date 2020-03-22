@@ -93,6 +93,27 @@
 	margin: calc(var(--line-height) / 2) 0;
 }
 
+#feedItemDescPanel > .descAttachments {
+	display: none;
+	flex-wrap: wrap;
+	border-top: 1px solid var(--color-text-feed-item-desc);
+	margin-top: 3px;
+}
+
+#feedItemDescPanel > .descAttachments img {
+	--size-attachment: 18px;
+	--margin-attachment: 5px;
+	display: block;
+	width: var(--size-attachment);
+	height: var(--size-attachment);
+	margin-block-start: var(--margin-attachment);
+	margin-inline-end: var(--margin-attachment);
+}
+
+#feedItemDescPanel > .descAttachments.notEmpty {
+	display: flex;
+}
+
 #listViewStatusbar {
 	display: none;
 	position: fixed;

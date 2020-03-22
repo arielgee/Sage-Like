@@ -520,12 +520,12 @@
 * in feedPreview the error spinner has its own frame when it spin	==> LEAVE IT IT'S OK
 * where the subscribe button image in the preferences page has gone in last Fx version?????		file name is case-sensitive
 * add url to feed tooltip in the treeView
+* indication in feed-item tooltip for attachments (MimeType icons)
 ---
 
 
 ## Next
-* provide some kind of access to attachments from the listView (?)
-	* indication in feed-item tooltip for attachments (MimeType icons)
+* new preference whether to 'Show feed-item attached resources in tooltip'
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
 	* preference to open feed preview with left click

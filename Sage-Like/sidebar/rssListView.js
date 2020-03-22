@@ -9,6 +9,7 @@ let rssListView = (function() {
 	let m_elmSidebarBody;
 	let m_elmList;
 	let m_elmFeedItemDescPanel;
+	let m_elmFeedItemDescAttachments;
 	let m_elmListViewStatusbar;
 	let m_elmListViewRssTitle;
 
@@ -71,6 +72,8 @@ let rssListView = (function() {
 		m_elmListViewStatusbar = document.getElementById("listViewStatusbar");
 		m_elmListViewRssTitle = document.getElementById("listViewRssTitle");
 
+		m_elmFeedItemDescAttachments = m_elmFeedItemDescPanel.querySelector(".descAttachments");
+
 		m_elmList.addEventListener("mousedown", onMouseDownFeedList);
 		m_elmList.addEventListener("keydown", onKeyDownFeedList);
 		m_elmList.addEventListener("focus", onFocusFeedItem, true);
@@ -128,11 +131,12 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedItems(list, title, elmLITreeFeed) {
 
-		let index = 1;
+		let item;
 
 		disposeList();
 		for(let i=0, len=list.length; i<len; i++) {
-			appendTagIL(index++, list[i].title, list[i].description, list[i].url);
+			item = list[i];
+			appendTagIL(i+1, item.title, item.description, item.url, item.attachments);
 		}
 		m_elmLITreeFeed = elmLITreeFeed;
 		m_observerElmLITreeFeed.observe(m_elmLITreeFeed.firstElementChild.firstElementChild, { childList: true, subtree: false });
@@ -147,7 +151,7 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function appendTagIL(index, title, desc, url) {
+	function appendTagIL(index, title, desc, url, attachments) {
 
 		let elm = document.createElement("li");
 
@@ -156,19 +160,27 @@ let rssListView = (function() {
 
 		if(title.length === 0) title = slGlobals.STR_TITLE_EMPTY;
 		desc = desc
-			.trim()
 			.stripUnsafeHtmlComponents()
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexATag)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexAudioVideoTags)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>")
-			.escapeHtml();
+			.escapeHtml()
+			.trim();
 
 		elm.textContent = index + ". " + title;
 		elm.title = (m_bPrefShowFeedItemDesc && desc.length > 0) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.tabIndex = 0;
 		elm.setAttribute("data-item-desc", m_bPrefShowFeedItemDesc ? desc : "");
+
+		if(attachments.length > 0) {
+			let atts = "";
+			for(let i=0, len=attachments.length; i<len; i++) {
+				atts += (attachments[i].mimeType.length > 0 ? attachments[i].mimeType : "file") + ",";
+			}
+			elm.setAttribute("data-attach-mimetypes", atts.slice(0, -1));	// remove last ','
+		}
 
 		m_elmList.appendChild(elm);
 	}
@@ -250,6 +262,8 @@ let rssListView = (function() {
 
 		m_elmFeedItemDescPanel.querySelector(".descTitle").textContent = elmLI.textContent;			// Remove numbering from title: .replace(/^\d+\. /, "")
 		m_elmFeedItemDescPanel.querySelector(".descBody").innerHTML = elmLI.getAttribute("data-item-desc").unescapeHtml();
+
+		createFeedItemDescAttachments(elmLI);
 
 		// hide it and place it as high as possible to prevent resizing of
 		// the containing sidebar when html data is retrieved
@@ -562,6 +576,26 @@ let rssListView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function createFeedItemDescAttachments(elmLI) {
+
+		if(elmLI.hasAttribute("data-attach-mimetypes")) {
+
+			let mimeTypes = elmLI.getAttribute("data-attach-mimetypes").split(","); /* .filter(e => e.length > 0);*/
+
+			while(m_elmFeedItemDescAttachments.firstChild) {
+				m_elmFeedItemDescAttachments.removeChild(m_elmFeedItemDescAttachments.firstChild);
+			}
+
+			for(let i=0, len=mimeTypes.length; i<len; i++) {
+				(m_elmFeedItemDescAttachments.appendChild(document.createElement("img"))).src = slUtil.getMimeTypeIconPath(mimeTypes[i]);
+			}
+
+			m_elmFeedItemDescAttachments.style.borderColor = getComputedStyle(m_elmFeedItemDescAttachments).getPropertyValue("color").replace(/^(rgb)(\([0-9, ]+)(\))$/, "$1a$2, 0.5$3");
+			m_elmFeedItemDescAttachments.classList.add("notEmpty");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function hideVisibleFeedItemDescPanel() {
 		if(m_elmFeedItemDescPanel.style.visibility === "visible") {
 			hideFeedItemDescPanel();
@@ -574,6 +608,7 @@ let rssListView = (function() {
 		m_timeoutMouseOver = null;
 		m_elmFeedItemDescPanel.style.display = "none";
 		m_elmFeedItemDescPanel.style.visibility = "hidden";
+		m_elmFeedItemDescAttachments.classList.remove("notEmpty");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

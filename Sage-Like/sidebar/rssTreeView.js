@@ -832,7 +832,7 @@ let rssTreeView = (function() {
 		setOneConcurrentFeedLoadingState(elmLI, true);
 
 		prefs.getFetchTimeout().then((timeout) => {
-			syndication.fetchFeedItems(url, timeout*1000, reload).then((result) => {
+			syndication.fetchFeedItems(url, timeout*1000, reload, true, true).then((result) => {
 
 				let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
 
