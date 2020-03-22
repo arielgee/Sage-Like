@@ -185,7 +185,7 @@
 
 			elmFeedItemAttachmentImage = document.createElement("img");
 			elmFeedItemAttachmentImage.className = "feedItemAttachmentImage";
-			elmFeedItemAttachmentImage.src = getMimeTypeIcon(att.mimeType);
+			elmFeedItemAttachmentImage.src = slUtil.getMimeTypeIconPath(att.mimeType);
 
 			elmFeedItemAttachmentTitle = document.createElement("div");
 			elmFeedItemAttachmentTitle.className = "feedItemAttachmentTitle";
@@ -249,51 +249,6 @@
 		document.getElementById("errorContainer").classList.add("withMessage");
 		document.getElementById("errorMessage").textContent = errorMessage;
 		document.getElementById("errorMessageLink").href = url.toString();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function getMimeTypeIcon(mimeType) {
-
-		let pathToIcons = "/icons/mimeType/";
-		let defaultIcon = pathToIcons + "file.svg";
-
-		if(!!!mimeType) return defaultIcon;
-
-		let mimeTypeIcons = [
-
-			// archive
-			{ mimeType: "application/gzip", icon: "file-archive.svg" },
-			{ mimeType: "application/zip", icon: "file-archive.svg" },
-
-			// doc
-			{ mimeType: "application/pdf", icon: "file-pdf.svg" },
-			{ mimeType: "application/msword", icon: "file-word.svg" },
-			{ mimeType: "application/vnd.ms-word", icon: "file-word.svg" },
-			{ mimeType: "application/vnd.oasis.opendocument.text", icon: "file-word.svg" },
-			{ mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml", icon: "file-word.svg" },
-			{ mimeType: "application/vnd.ms-excel", icon: "file-excel.svg" },
-			{ mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml", icon: "file-excel.svg" },
-			{ mimeType: "application/vnd.oasis.opendocument.spreadsheet", icon: "file-excel.svg" },
-			{ mimeType: "application/vnd.ms-powerpoint", icon: "file-powerpoint.svg" },
-			{ mimeType: "application/vnd.openxmlformats-officedocument.presentationml", icon: "file-powerpoint.svg" },
-			{ mimeType: "application/vnd.oasis.opendocument.presentation", icon: "file-powerpoint.svg" },
-			{ mimeType: "text/plain", icon: "file-text.svg" },
-			{ mimeType: "text/html", icon: "file-code.svg" },
-			{ mimeType: "application/json", icon: "file-code.svg" },
-
-			// media
-			{ mimeType: "image", icon: "file-image.svg" },
-			{ mimeType: "audio", icon: "file-audio.svg" },
-			{ mimeType: "video", icon: "file-video.svg" },
-		];
-
-		for(let i=0, len=mimeTypeIcons.length; i<len; i++) {
-			if(mimeType.startsWith(mimeTypeIcons[i].mimeType)) {
-				return (pathToIcons + mimeTypeIcons[i].icon);
-			}
-		}
-
-		return defaultIcon;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
