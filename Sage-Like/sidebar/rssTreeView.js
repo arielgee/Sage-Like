@@ -1919,22 +1919,22 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedTooltipState(elmLI, secondLine = undefined, thirdLine = undefined) {
+	function setFeedTooltipState(elmLI, thirdLine = undefined, fourthLine = undefined) {
 
-		elmLI.title = getTreeItemText(elmLI);
+		elmLI.title = getTreeItemText(elmLI) + "\u000dURL: " + elmLI.getAttribute("href");
 
-		if(secondLine !== undefined) {
-			elmLI.title += "\u000d" + secondLine;
+		if(thirdLine !== undefined) {
+			elmLI.title += "\u000d" + thirdLine;
 
-			if(thirdLine !== undefined) {
-				elmLI.title += "\u000d\u000d" + thirdLine;
+			if(fourthLine !== undefined) {
+				elmLI.title += "\u000d\u000d" + fourthLine;
 			}
 
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedTooltipFullState(elmLI, firstLine, secondLine) {
+	function setFeedTooltipFullState(elmLI, firstLine, thirdLine) {
 
 		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
 
@@ -1944,7 +1944,7 @@ let rssTreeView = (function() {
 		} else {
 			elmLI.title = getTreeItemText(elmLI);
 		}
-		elmLI.title += "\u000d" + secondLine;
+		elmLI.title += "\u000dURL: " + elmLI.getAttribute("href") + "\u000d" + thirdLine;
 	}
 
 	//==================================================================================

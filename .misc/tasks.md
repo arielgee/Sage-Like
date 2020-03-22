@@ -519,12 +519,13 @@
 * look for last user comment in mozilla [support] page
 * in feedPreview the error spinner has its own frame when it spin	==> LEAVE IT IT'S OK
 * where the subscribe button image in the preferences page has gone in last Fx version?????		file name is case-sensitive
+* add url to feed tooltip in the treeView
 ---
 
 
 ## Next
-* add url to feed tooltip in the treeView ?
-	* add to setFeedTooltipState() and setFeedTooltipFullState() ' + "\u000d" + elmLI.getAttribute("href")' after getTreeItemText()
+* provide some kind of access to attachments from the listView (?)
+	* indication in feed-item tooltip for attachments (MimeType icons)
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
 	* preference to open feed preview with left click
@@ -533,8 +534,6 @@
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
 * open feedPreview from pagePopup without adding the feed to sage!
 * pagePopup: indication that url already in bookmarks
-* provide some kind of access to attachments from the listView (?)
-	* indication in feed-item tooltip for attachments (MimeType icons)
 * menu item for treeview folder to open all feeds as feedPreview
 * Red warning for attention slideDown panels
 * different behavior when i drag and drop icons from bookmarks library. (Fx v59.0.3)
