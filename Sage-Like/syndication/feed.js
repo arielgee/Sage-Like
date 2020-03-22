@@ -187,9 +187,9 @@ class Feed {
 		return {
 			title: title,
 			url: url,
-			mimeType: mimeType,
-			byteSize: byteSize,
-			rel: rel,
+			mimeType: !!mimeType ? mimeType : "",
+			byteSize: (!!byteSize && !isNaN(byteSize)) ? Number(byteSize) : 0,
+			rel: !!rel ? rel : "",
 		};
 	}
 }

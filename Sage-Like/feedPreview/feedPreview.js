@@ -257,7 +257,7 @@
 		const FMT_ATTACHMENT_TITLE = "<p><b>Title:</b> {0}</p><p><b>URL:</b> {1}</p>";
 		const FMT_ATTACHMENT_TITLE_WITH_SIZE = FMT_ATTACHMENT_TITLE + "<p><b>Size:</b> {2}";
 
-		let size = slUtil.asPrettyByteSize(attachment.byteSize || 0);
+		let size = slUtil.asPrettyByteSize(attachment.byteSize);
 
 		// no size is zero
 		if(!!!size || size.startsWith("0 ")) {
