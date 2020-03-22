@@ -2100,17 +2100,20 @@ let slUtil = (function() {
 	function getMimeTypeIconPath(mimeType) {
 
 		let pathToIcons = "/icons/mimeType/";
-		let defaultIcon = pathToIcons + "file.svg";
-
-		if(!!!mimeType) return defaultIcon;
 
 		let mimeTypeIcons = [
 
+			// default
+			{ mimeType: "file", icon: "file.svg" },
+
 			// archive
-			{ mimeType: "application/gzip", icon: "file-archive.svg" },
 			{ mimeType: "application/zip", icon: "file-archive.svg" },
+			{ mimeType: "application/gzip", icon: "file-archive.svg" },
 
 			// doc
+			{ mimeType: "text/plain", icon: "file-text.svg" },
+			{ mimeType: "text/html", icon: "file-code.svg" },
+			{ mimeType: "application/json", icon: "file-code.svg" },
 			{ mimeType: "application/pdf", icon: "file-pdf.svg" },
 			{ mimeType: "application/msword", icon: "file-word.svg" },
 			{ mimeType: "application/vnd.ms-word", icon: "file-word.svg" },
@@ -2122,9 +2125,6 @@ let slUtil = (function() {
 			{ mimeType: "application/vnd.ms-powerpoint", icon: "file-powerpoint.svg" },
 			{ mimeType: "application/vnd.openxmlformats-officedocument.presentationml", icon: "file-powerpoint.svg" },
 			{ mimeType: "application/vnd.oasis.opendocument.presentation", icon: "file-powerpoint.svg" },
-			{ mimeType: "text/plain", icon: "file-text.svg" },
-			{ mimeType: "text/html", icon: "file-code.svg" },
-			{ mimeType: "application/json", icon: "file-code.svg" },
 
 			// media
 			{ mimeType: "image", icon: "file-image.svg" },
@@ -2138,7 +2138,7 @@ let slUtil = (function() {
 			}
 		}
 
-		return defaultIcon;
+		return pathToIcons + mimeTypeIcons[0].icon;
 	}
 
 	return {
