@@ -521,10 +521,15 @@
 * where the subscribe button image in the preferences page has gone in last Fx version?????		file name is case-sensitive
 * add url to feed tooltip in the treeView
 * indication in feed-item tooltip for attachments (MimeType icons)
+* new preference whether to 'Show feed-item attached resources in tooltip'
+* look for error 'feedItems is undefined' in rssTreeView:1789  "let totalCount = feedItems.length;"
 ---
 
 
 ## Next
+* check --color-preference-hover at home with dark mode
+* executeScript() runAt: "document_end"; change to document_idle to avoide erroras frol slow loaded like 'https://rss.com/'
+	* try this: all logs to each executeScript(),  keep first 2 as document_end and the rest set to document_idle and see what is what
 * BUG: Feeds are not added to tree from pagePopup! OR are added to the top of the tree!!!
 	* condition: when sidebar is closed and all tree folders are closed and all feeds are in folders
 	* result: sidebar is opend but feed are not added OR are added to the top of the tree!!!
@@ -537,7 +542,6 @@
 	* result: sidebar is opend but feed are sometimes not added and sometime do get added
 * BUG: multiple and fast deleting of fedds (by keyboard) results in:
 	* error: [Sage-Like] Error: No bookmarks found for the provided GUID. function deleteTreeItem/</<()
-* new preference whether to 'Show feed-item attached resources in tooltip'
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
 	* preference to open feed preview with left click

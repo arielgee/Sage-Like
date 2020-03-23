@@ -1779,7 +1779,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function updateFeedStatsFromHistory(elmLI, feedItems) {
 
-		if(m_bPrefShowFeedStats) {
+		if(m_bPrefShowFeedStats && !!feedItems) {
 
 			let totalCount = feedItems.length;
 			let vItems, unreadCount = 0;
