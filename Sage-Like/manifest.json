@@ -69,6 +69,12 @@
 	"background": {
 		"scripts": [
 			"/common.js",
+			"/syndication/feed.js",
+			"/syndication/xmlFeed.js",
+			"/syndication/jsonFeed.js",
+			"/syndication/rssFeed.js",
+			"/syndication/rdfFeed.js",
+			"/syndication/atomFeed.js",
 			"/syndication/syndication.js",
 			"/background.js"
 		]

@@ -525,6 +525,18 @@
 
 
 ## Next
+* BUG: Feeds are not added to tree from pagePopup! OR are added to the top of the tree!!!
+	* condition: when sidebar is closed and all tree folders are closed and all feeds are in folders
+	* result: sidebar is opend but feed are not added OR are added to the top of the tree!!!
+	* Thoughts:
+		* sync issue. need to wait for tree to be fully loaded before adding or first add and the open tree
+		* tree has many feeds, longer to load.
+		* instead of MAX_WAIT_FOR_SIDEBAR in pagePopup.onClickButtonAdd(): broadcast tree created OK from rssTreeView.createRSSTree() and handle in pagePopup.
+* BUG: pagePopup do not alert about existing feeds
+	* condition: when sidebar is closed
+	* result: sidebar is opend but feed are sometimes not added and sometime do get added
+* BUG: multiple and fast deleting of fedds (by keyboard) results in:
+	* error: [Sage-Like] Error: No bookmarks found for the provided GUID. function deleteTreeItem/</<()
 * new preference whether to 'Show feed-item attached resources in tooltip'
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
