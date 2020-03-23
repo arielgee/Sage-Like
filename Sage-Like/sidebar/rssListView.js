@@ -110,7 +110,7 @@ let rssListView = (function() {
 		prefs.getShowFeedItemDesc().then(showDesc => {
 			m_bPrefShowFeedItemDesc = showDesc;
 			if(m_bPrefShowFeedItemDesc) {
-				prefs.getFeedItemDescDelay().then(delayMillisec => m_msPrefFeedItemDescDelay = delayMillisec );
+				setFeedItemDescDelayFromPreferences();
 			}
 			handleFeedItemDescEventListeners(m_bPrefShowFeedItemDesc);
 		});
