@@ -138,7 +138,9 @@ let rssTreeView = (function() {
 				}
 
 				// Entire tree is recreated when: message.details === slGlobals.MSGD_PREF_CHANGE_ALL
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC) {
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC ||
+						message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH) {
+
 					if (!!m_elmCurrentlySelected && m_elmCurrentlySelected.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
 						openTreeFeed(m_elmCurrentlySelected, false);
 					}
@@ -831,41 +833,47 @@ let rssTreeView = (function() {
 
 		setOneConcurrentFeedLoadingState(elmLI, true);
 
-		prefs.getFetchTimeout().then((timeout) => {
-			syndication.fetchFeedItems(url, timeout*1000, reload, true, true).then((result) => {
+		let gettingTimeout = prefs.getFetchTimeout();
+		let getttingShowAttach = prefs.getShowFeedItemDescAttach();
 
-				let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
+		gettingTimeout.then((timeout) => {
+			getttingShowAttach.then(showAttach => {
 
-				setFeedVisitedState(elmLI, true);
-				updateFeedTitle(elmLI, result.feedData.title);
-				updateFeedStatsFromHistory(elmLI, result.list);
-				setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toWebExtensionLocaleString());
+				syndication.fetchFeedItems(url, timeout*1000, reload, true, showAttach).then((result) => {
 
-				// change the rssListView content only if this is the last user click.
-				if(thisFeedClickTime === m_lastClickedFeedTime) {
-					rssListView.setFeedItems(result.list, getTreeItemText(elmLI), elmLI);
-				}
+					let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
 
-			}).catch((error) => {
+					setFeedVisitedState(elmLI, true);
+					updateFeedTitle(elmLI, result.feedData.title);
+					updateFeedStatsFromHistory(elmLI, result.list);
+					setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toWebExtensionLocaleString());
 
-				setFeedErrorState(elmLI, true, error.message);
-				updateTreeItemStats(elmLI, 0, 0);		// will remove the stats
+					// change the rssListView content only if this is the last user click.
+					if(thisFeedClickTime === m_lastClickedFeedTime) {
+						rssListView.setFeedItems(result.list, getTreeItemText(elmLI), elmLI);
+					}
 
-				// change the rssListView content only if this is the last user click.
-				if(thisFeedClickTime === m_lastClickedFeedTime) {
-					rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI), url);
-				}
-			}).finally(() => {	// wait for Fx v58
+				}).catch((error) => {
 
-				// change loading state only if this is the last user click.
-				if(thisFeedClickTime === m_lastClickedFeedTime) {
-					setOneConcurrentFeedLoadingState(elmLI, false);
-				}
+					setFeedErrorState(elmLI, true, error.message);
+					updateTreeItemStats(elmLI, 0, 0);		// will remove the stats
 
-				// even if there was an error the feed was visited
-				m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+					// change the rssListView content only if this is the last user click.
+					if(thisFeedClickTime === m_lastClickedFeedTime) {
+						rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI), url);
+					}
+				}).finally(() => {	// wait for Fx v58
 
-				updateTreeBranchFoldersStats(elmLI);
+					// change loading state only if this is the last user click.
+					if(thisFeedClickTime === m_lastClickedFeedTime) {
+						setOneConcurrentFeedLoadingState(elmLI, false);
+					}
+
+					// even if there was an error the feed was visited
+					m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+
+					updateTreeBranchFoldersStats(elmLI);
+				});
 			});
 		});
 
