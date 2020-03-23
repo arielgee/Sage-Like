@@ -268,7 +268,8 @@ let rssListView = (function() {
 		// hide it and place it as high as possible to prevent resizing of
 		// the containing sidebar when html data is retrieved
 		m_elmFeedItemDescPanel.style.visibility = "hidden";
-		m_elmFeedItemDescPanel.style.left = m_elmFeedItemDescPanel.style.top = "0";
+		m_elmFeedItemDescPanel.style.left = (m_elmList.parentElement.offsetLeft + 1) + "px";
+		m_elmFeedItemDescPanel.style.top = (m_elmList.parentElement.offsetTop + 1) + "px";
 
 		// set display=block as soon as possible to retrieve any remote html data (images, etc) and
 		// panel element will have dimentions (offsetWidth > 0)
