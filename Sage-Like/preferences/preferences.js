@@ -119,6 +119,8 @@ let preferences = (function() {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
 
+		document.documentElement.removeEventListener("click", onClickPreference);
+
 		m_elmRootFeedsFolder.removeEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsInterval.removeEventListener("change", onChangeCheckFeedsInterval);
 		m_elmCheckFeedsWhenSbClosed.removeEventListener("change", onChangeCheckFeedsWhenSbClosed);
@@ -159,6 +161,9 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function addEventListeners() {
+
+		// handle check boxs and text boxs
+		document.documentElement.addEventListener("click", onClickPreference);
 
 		// save preferences when changed
 		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
@@ -326,6 +331,27 @@ let preferences = (function() {
 	//==================================================================================
 	//=== Event Listeners
 	//==================================================================================
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickPreference(event) {
+
+		if( !!event.target && event.target.classList.contains("preference") ) {
+
+			let elmInputs = event.target.querySelectorAll("input[type=checkbox],input[type=text]");
+
+			if(elmInputs.length > 0) {
+				event.stopPropagation();
+
+				if(elmInputs[0].type === "checkbox") {
+					elmInputs[0].click();
+				} else if(elmInputs[0].type === "text") {
+					elmInputs[0].focus();
+					elmInputs[0].select();
+				}
+			}
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeRootFeedsFolder(event) {

@@ -6,6 +6,7 @@
 	--color-flash: rgb(255, 192, 192);
 	--color-text-input-focused: rgb(10, 133, 255);
 	--color-text-input-invalid: rgb(255, 0, 0);
+	--color-preference-hover: rgb(235, 235, 235);
 }
 
 body {
@@ -39,6 +40,10 @@ body.noCaptionStyleV68 .caption + .prefSeperator {
 	height: var(--sage-like-preference-height);
 	min-height: var(--sage-like-preference-height);
 	max-height: var(--sage-like-preference-height);
+}
+
+.preference:hover {
+	background-color: var(--color-preference-hover);
 }
 
 .preference.subPref {
@@ -369,6 +374,7 @@ input[type="color"].disabled {
 
 	:root {
 		--color-flash: rgb(255, 88, 88);
+		--color-preference-hover: rgb(52, 52, 55);
 
 		--dark-mode-primary-bk-color: rgb(32, 32, 35);
 		--dark-mode-secondary-bk-color: rgb(50, 50, 54);
