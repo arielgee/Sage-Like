@@ -536,12 +536,12 @@
 * BUG: pagePopup do not alert about existing feeds
 	* condition: when sidebar is closed
 	* result: sidebar is opend but feed are sometimes not added and sometime do get added
+* BUG: multiple and fast deleting of feeds with keyboard like a maniac results in:							==> DONT BE A MANIAC!
+	* error: [Sage-Like] Error: No bookmarks found for the provided GUID. function deleteTreeItem/</<()
 ---
 
 
 ## Next
-* BUG: multiple and fast deleting of fedds (by keyboard) results in:
-	* error: [Sage-Like] Error: No bookmarks found for the provided GUID. function deleteTreeItem/</<()
 * in following link pagePopup finds feed but discovery do not: http://israblog.nana10.co.il/blogread.asp?blog=177394&blogcode=11287921
 	* discovery processed 'http://israblog.nana10.co.il/sidebar/blog_rss.asp?blog=177394'. '/sidebar/'!?!?!?!?!?!? REALLY?
 	* in pathname is empty and file is not
