@@ -1585,6 +1585,7 @@ let slUtil = (function() {
 
 	let m_savedScrollbarWidth = -1;
 	let m_mozExtensionOrigin = "";
+	let	m_mozExtensionExecutionPath = "";
 	let m_regExpDiscoveryUrlFilter = "";
 
 	//////////////////////////////////////////////////////////////////////
@@ -1939,10 +1940,14 @@ let slUtil = (function() {
 
 		if(m_mozExtensionOrigin === "") {
 			m_mozExtensionOrigin = browser.extension.getURL("");
+			m_mozExtensionExecutionPath = (new URL((new URL(document.URL)).pathname, m_mozExtensionOrigin)).toString();
+			m_mozExtensionExecutionPath = m_mozExtensionExecutionPath.substring(0, m_mozExtensionExecutionPath.lastIndexOf("/")+1);
 		}
 
 		try {
-			if(url.startsWith(m_mozExtensionOrigin)) {
+			if(url.startsWith(m_mozExtensionExecutionPath)) {
+				return new URL(url.replace(m_mozExtensionExecutionPath, ""), base);
+			} else if(url.startsWith(m_mozExtensionOrigin)) {
 				return new URL(url.replace(m_mozExtensionOrigin, ""), base);
 			} else if(url.startsWith("moz-extension:")) {
 				return new URL(url.replace("moz-extension:", (new URL(base)).protocol));
