@@ -523,13 +523,17 @@
 * indication in feed-item tooltip for attachments (MimeType icons)
 * new preference whether to 'Show feed-item attached resources in tooltip'
 * look for error 'feedItems is undefined' in rssTreeView:1789  "let totalCount = feedItems.length;"
+* check --color-preference-hover at home with dark mode
+* executeScript() runAt: "document_end"; change to document_idle to avoide errors for slow loaded like 'https://rss.com/'		=> CHANGED TO "document_idle"
+	* try this: all logs to each executeScript(),  keep first 2 as document_end and the rest set to document_idle and see what is what
 ---
 
 
 ## Next
-* check --color-preference-hover at home with dark mode
-* executeScript() runAt: "document_end"; change to document_idle to avoide erroras frol slow loaded like 'https://rss.com/'
-	* try this: all logs to each executeScript(),  keep first 2 as document_end and the rest set to document_idle and see what is what
+* in following link pagePopup finds feed but discovery do not: http://israblog.nana10.co.il/blogread.asp?blog=177394&blogcode=11287921
+	* discovery processed 'http://israblog.nana10.co.il/sidebar/blog_rss.asp?blog=177394'. '/sidebar/'!?!?!?!?!?!? REALLY?
+	* in pathname is empty and file is not
+* consider '@media (prefers-color-scheme: dark)' for sidebar
 * BUG: Feeds are not added to tree from pagePopup! OR are added to the top of the tree!!!
 	* condition: when sidebar is closed and all tree folders are closed and all feeds are in folders
 	* result: sidebar is opend but feed are not added OR are added to the top of the tree!!!

@@ -304,15 +304,15 @@
 
 		return new Promise((resolve, reject) => {
 
-			browser.tabs.executeScript(tabId, { file: "/common.js", runAt: "document_end" })
-				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/feed.js", runAt: "document_end" })
-				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/xmlFeed.js", runAt: "document_end" })
-				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/jsonFeed.js", runAt: "document_end" })
-				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/rssFeed.js", runAt: "document_end" })
-				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/rdfFeed.js", runAt: "document_end" })
-				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/atomFeed.js", runAt: "document_end" })
-				.then(() => { browser.tabs.executeScript(tabId, { file: "/syndication/syndication.js", runAt: "document_end" })
-				.then(() => { browser.tabs.executeScript(tabId, { file: "/content.js", runAt: "document_end" })
+			browser.tabs.executeScript(tabId, 					{ runAt: "document_idle", file: "/common.js" })
+				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/feed.js" })
+				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/xmlFeed.js" })
+				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/jsonFeed.js" })
+				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/rssFeed.js" })
+				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/rdfFeed.js" })
+				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/atomFeed.js" })
+				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/syndication.js" })
+				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/content.js" })
 
 				.then(() => { resolve({ errorCode: 0 }); })
 
