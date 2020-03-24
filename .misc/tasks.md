@@ -544,10 +544,10 @@
 
 
 ## Next
-* consider '@media (prefers-color-scheme: dark)' for sidebar
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
-	* preference to open feed preview with left click
+	* preference to open feed preview with left click		'Primary mouse click ALSO opens Feed Preview in a new tab'
+* consider '@media (prefers-color-scheme: dark)' for sidebar
 * add option to scan page for feeds from the location bar
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
@@ -573,7 +573,7 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
-* tabs in preferences? It'll be a PAIN!
+* tabs in preferences? It'll be a PAIN! better to use '"open_in_tab": true' in manifest.options_ui.
 * Firefox has no support for XML 1.1
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
