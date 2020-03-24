@@ -526,14 +526,6 @@
 * check --color-preference-hover at home with dark mode
 * executeScript() runAt: "document_end"; change to document_idle to avoide errors for slow loaded like 'https://rss.com/'		=> CHANGED TO "document_idle"
 	* try this: all logs to each executeScript(),  keep first 2 as document_end and the rest set to document_idle and see what is what
----
-
-
-## Next
-* in following link pagePopup finds feed but discovery do not: http://israblog.nana10.co.il/blogread.asp?blog=177394&blogcode=11287921
-	* discovery processed 'http://israblog.nana10.co.il/sidebar/blog_rss.asp?blog=177394'. '/sidebar/'!?!?!?!?!?!? REALLY?
-	* in pathname is empty and file is not
-* consider '@media (prefers-color-scheme: dark)' for sidebar
 * BUG: Feeds are not added to tree from pagePopup! OR are added to the top of the tree!!!
 	* condition: when sidebar is closed and all tree folders are closed and all feeds are in folders
 	* result: sidebar is opend but feed are not added OR are added to the top of the tree!!!
@@ -544,8 +536,16 @@
 * BUG: pagePopup do not alert about existing feeds
 	* condition: when sidebar is closed
 	* result: sidebar is opend but feed are sometimes not added and sometime do get added
+---
+
+
+## Next
 * BUG: multiple and fast deleting of fedds (by keyboard) results in:
 	* error: [Sage-Like] Error: No bookmarks found for the provided GUID. function deleteTreeItem/</<()
+* in following link pagePopup finds feed but discovery do not: http://israblog.nana10.co.il/blogread.asp?blog=177394&blogcode=11287921
+	* discovery processed 'http://israblog.nana10.co.il/sidebar/blog_rss.asp?blog=177394'. '/sidebar/'!?!?!?!?!?!? REALLY?
+	* in pathname is empty and file is not
+* consider '@media (prefers-color-scheme: dark)' for sidebar
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
 	* preference to open feed preview with left click

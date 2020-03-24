@@ -346,6 +346,7 @@ let rssTreeView = (function() {
 				}
 				m_rssTreeCreatedOK = true;
 				restoreTreeViewState();
+				broadcastRssTreeCreatedOK();
 				monitorRSSTreeFeeds(true);
 
 			}).catch((error) => {
@@ -2471,6 +2472,13 @@ let rssTreeView = (function() {
 				elms[i].removeAttribute("disabled");
 			}
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function broadcastRssTreeCreatedOK() {
+		browser.runtime.sendMessage({
+			id: slGlobals.MSG_ID_RSS_TREE_CREATED_OK
+		});
 	}
 
 	return {

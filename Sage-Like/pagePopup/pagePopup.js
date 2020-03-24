@@ -8,6 +8,7 @@
 	let m_elmButtonAddFeeds;
 	let m_elmStatusBar;
 	let m_elmOptionsHref;
+	let m_newFeedsListWait4Sidebar = null;
 
 	let m_windowId = null;
 	let m_isSidebarOpen;
@@ -17,7 +18,24 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function initilization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
+		browser.runtime.onMessage.addListener(onRuntimeMessage);
 		window.addEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onRuntimeMessage(message) {
+
+		switch (message.id) {
+
+			case slGlobals.MSG_ID_RSS_TREE_CREATED_OK:
+
+				if(!!m_newFeedsListWait4Sidebar && m_newFeedsListWait4Sidebar.length > 0) {
+					dispatchNewDiscoveredFeeds(m_newFeedsListWait4Sidebar);
+				}
+				m_newFeedsListWait4Sidebar = null;
+				break;
+				/////////////////////////////////////////////////////////////////////////
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -134,22 +152,22 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onClickButtonAdd(event) {
 
-		const MAX_WAIT_FOR_SIDEBAR = 450;
-
 		let newFeedsList = collectSelectedFeeds();
 
 		if(newFeedsList.length > 0) {
 
 			if(!m_isSidebarOpen) {
 
-				// If sidebar is closed we need to open it AND wait for the sidebar to be loaded and for the message listener in the page content
-				// to be registered so that the message sent in dispatchNewDiscoveredFeeds() will be received in the content and responded to.
+				// Problem: If sidebar is closed we need to open it AND wait for the sidebar to be loaded AND for the message listener in the rssTreeView
+				//			to be registered so that the message sent in dispatchNewDiscoveredFeeds() will be received and responded to.
+				// Solution: The message MSG_ID_RSS_TREE_CREATED_OK is broadcast when the tree in the sidebar has loaded. It will be received
+				//			 in pagePopup.onRuntimeMessage() and only then the new feeds will be added.
 
+				m_newFeedsListWait4Sidebar = newFeedsList;
 				await browser.sidebarAction.open();
-				await slUtil.sleep(MAX_WAIT_FOR_SIDEBAR);
+			} else {
+				dispatchNewDiscoveredFeeds(newFeedsList);
 			}
-
-			dispatchNewDiscoveredFeeds(newFeedsList);
 
 		} else {
 			updateStatusBar("Nothing to add.");
