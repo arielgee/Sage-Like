@@ -93,7 +93,7 @@
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_SIDEBAR_OPEN_FOR_WINDOW:
+			case slGlobals.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:
 				return Promise.resolve(m_windowIds.includes(message.winId));
 				/////////////////////////////////////////////////////////////////////////
 		}

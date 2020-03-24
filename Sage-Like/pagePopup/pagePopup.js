@@ -34,7 +34,7 @@
 
 		browser.windows.getCurrent().then((winInfo) => {
 			m_windowId = winInfo.id
-			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SIDEBAR_OPEN_FOR_WINDOW, winId: m_windowId }).then((isOpen) => {
+			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW, winId: m_windowId }).then((isOpen) => {
 				m_isSidebarOpen = isOpen;
 			});
 		});
