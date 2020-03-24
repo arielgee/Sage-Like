@@ -34,7 +34,7 @@ let syndication = (function() {
 					discoveredFeed = Object.assign(discoveredFeed, {
 						status: "OK",
 						index: 0,		// there is only one
-						feedTitle: feedData.title,
+						feedTitle: feedData.title.length > 0 ? feedData.title : (new URL(url)).hostname,
 						lastUpdated: feedData.lastUpdated,
 						format: feedData.standard,
 						itemCount: feedData.itemCount,
@@ -95,7 +95,7 @@ let syndication = (function() {
 						discoveredFeed = Object.assign(discoveredFeed, {
 							status: "OK",
 							index: index,
-							feedTitle: feedData.title,
+							feedTitle: feedData.title.length > 0 ? feedData.title : url.hostname,
 							lastUpdated: feedData.lastUpdated,
 							format: feedData.standard,
 							itemCount: feedData.itemCount,
