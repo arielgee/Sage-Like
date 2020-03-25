@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Sat, 21 Mar 2020 07:25:43 GMT</dateCreated>
+		<dateCreated>Wed, 25 Mar 2020 07:30:02 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds">
@@ -13,8 +13,9 @@
 				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json"/>
 				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json"/>
 			</outline>
-			<outline text="Syndication Type Testing (rdf,rss,atom,json)">
+			<outline text="Syndication Type Testing (rdf,rss,rss,atom,json)">
 				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current"/>
+				<outline type="rss" text="יומן אבטחה" title="יומן אבטחה" xmlUrl="http://israblog.nana.co.il/blog_rss.asp?blog=177394"/>
 				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/rss2.xml"/>
 				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topics?sid=73c54e63355280ae7007ae5e47c44b56"/>
 				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json"/>
@@ -25,7 +26,6 @@
 				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
 			</outline>
 			<outline text="Atom">
-				<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
 				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
 				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
 				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/atom.xml"/>
@@ -55,28 +55,29 @@
 				<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="https://www.freefullrss.com/feed.php?url=http%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2142.xml&amp;max=5&amp;links=preserve&amp;exc=&amp;submit=Create+Full+Text+RSS"/>
 			</outline>
 			<outline text="JSONS">
-				<outline type="rss" text="Daring Fireball" title="Daring Fireball" xmlUrl="https://daringfireball.net/feeds/json"/>
-				<outline type="rss" text="Matthias Ott – Articles" title="Matthias Ott – Articles" xmlUrl="https://matthiasott.com/articles/feed.json"/>
-				<outline type="rss" text="Matthias Ott – Notes" title="Matthias Ott – Notes" xmlUrl="https://matthiasott.com/notes/feed.json"/>
-				<outline type="rss" text="Matthias Ott – Links" title="Matthias Ott – Links" xmlUrl="https://matthiasott.com/links/feed.json"/>
-				<outline type="rss" text="The JSON Feed for Jonny Barnes’s blog" title="The JSON Feed for Jonny Barnes’s blog" xmlUrl="https://jonnybarnes.uk/blog/feed.json"/>
-				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json"/>
-				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/feed.json"/>
 				<outline type="rss" text="adactio - links" title="adactio - links" xmlUrl="https://adactio.com/links/feed.json"/>
-				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/feed.json"/>
 				<outline type="rss" text="adactio - notes" title="adactio - notes" xmlUrl="https://adactio.com/notes/feed.json"/>
+				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/feed.json"/>
+				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/feed.json"/>
 				<outline type="rss" text="Colin Walker" title="Colin Walker" xmlUrl="https://colinwalker.blog/feed/json/"/>
 				<outline type="rss" text="Comments on: Keep on surviving" title="Comments on: Keep on surviving" xmlUrl="https://colinwalker.blog/keep-on-surviving/feed/json/"/>
-				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json"/>
-				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.json"/>
 				<outline type="rss" text="Comments on: Today" title="Comments on: Today" xmlUrl="https://colinwalker.blog/today/feed/json/"/>
-				<outline type="rss" text="Manton Reece" title="Manton Reece" xmlUrl="https://manton.org/feed.json"/>
-				<outline type="rss" text="inessential" title="inessential" xmlUrl="https://inessential.com/feed.json"/>
-				<outline type="rss" text="JSON Feed" title="JSON Feed" xmlUrl="https://jsonfeed.org/feed.json"/>
+				<outline type="rss" text="Daring Fireball" title="Daring Fireball" xmlUrl="https://daringfireball.net/feeds/json"/>
 				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json"/>
+				<outline type="rss" text="inessential" title="inessential" xmlUrl="https://inessential.com/feed.json"/>
 				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json"/>
+				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.json"/>
+				<outline type="rss" text="JSON Feed" title="JSON Feed" xmlUrl="https://jsonfeed.org/feed.json"/>
+				<outline type="rss" text="Manton Reece" title="Manton Reece" xmlUrl="https://manton.org/feed.json"/>
+				<outline type="rss" text="Matthias Ott – Articles" title="Matthias Ott – Articles" xmlUrl="https://matthiasott.com/articles/feed.json"/>
+				<outline type="rss" text="Matthias Ott – Links" title="Matthias Ott – Links" xmlUrl="https://matthiasott.com/links/feed.json"/>
+				<outline type="rss" text="Matthias Ott – Notes" title="Matthias Ott – Notes" xmlUrl="https://matthiasott.com/notes/feed.json"/>
+				<outline type="rss" text="The JSON Feed for Jonny Barnes’s blog" title="The JSON Feed for Jonny Barnes’s blog" xmlUrl="https://jonnybarnes.uk/blog/feed.json"/>
+				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json"/>
+				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json"/>
 			</outline>
 			<outline text="Bad feeds">
+				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml"/>
 				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml"/>
 				<outline type="rss" text="error" title="error" xmlUrl="https://indieweb.org/JSON_Feed"/>
 				<outline type="rss" text="indide" title="indide" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4542.xml"/>
@@ -109,7 +110,6 @@
 								<outline text="f4">
 									<outline text="f5">
 										<outline text="New Folder">
-											<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
 										</outline>
 									</outline>
 								</outline>
