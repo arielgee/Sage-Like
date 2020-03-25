@@ -9,6 +9,7 @@
 	--color-preference-hover: rgb(235, 235, 235);
 
 	--bottom-left-radius-last-sub-perf: 15px;
+	--color-border-sub-perf: 51, 51, 51;
 }
 
 body {
@@ -42,7 +43,7 @@ body {
 .preference.subPref {
 	margin-left: 3px;
 	padding-left: 16px;
-	border-left: 4px solid #333333;
+	border-left: 4px solid rgb(var(--color-border-sub-perf));
 }
 
 .preference.subPref.last{
@@ -222,7 +223,7 @@ select.flash,
 .disabled {
 	outline: none;
 	pointer-events: none;
-	border-color: gray !important;
+	border-color: rgba(var(--color-border-sub-perf), 0.5) !important;
 }
 
 label.disabled,
@@ -384,11 +385,15 @@ input[type="color"].disabled {
 	padding: 2px;
 }
 
+/******************************************************************/
+/*********************** COLOR-SCHEME: DARK ***********************/
+/******************************************************************/
 @media (prefers-color-scheme: dark) {
 
 	:root {
 		--color-flash: rgb(255, 88, 88);
 		--color-preference-hover: rgb(52, 52, 55);
+		--color-border-sub-perf: 221, 221, 221;
 
 		--dark-mode-primary-bk-color: rgb(32, 32, 35);
 		--dark-mode-secondary-bk-color: rgb(50, 50, 54);

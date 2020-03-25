@@ -542,18 +542,19 @@
 	* discovery processed 'http://israblog.nana10.co.il/sidebar/blog_rss.asp?blog=177394'. '/sidebar/'!?!?!?!?!?!? REALLY?  => replaceMozExtensionOriginURL()
 * From mozilla [support] page:
 	* preference to open feed preview with left click		'Primary mouse click ALSO opens Feed Preview in a new tab'
+* AT HOME: check subPreference design changes in dark mode
+* AT HOME: check switching mouse buttons
 ---
 
 
 ## Next
+* change preference to open feed preview with left click 'in current tab' 'in new tab'
 * mimimize CSS code
 * preferences.css Renaming
 	* feedTransButton to preferenceControlButton
 	* controlButton to extensionButton
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
-* AT HOME: check subPreference design changes in dark mode
-* AT HOME: check switching mouse buttons
 * in preferences
 	> Subscribe button <img> in address bar
 		> Feed detection in web pages (?)				[O] On page load		[X] On mouse click
