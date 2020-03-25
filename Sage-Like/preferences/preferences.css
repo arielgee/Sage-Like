@@ -35,14 +35,14 @@ body {
 	max-height: var(--height-preference);
 }
 
-.preference:hover {
+.preference:not(.extensionButtons):hover {
 	background-color: var(--color-preference-hover);
 }
 
 .preference.subPref {
 	margin-left: 3px;
 	padding-left: 16px;
-	border-left: 6px solid gray;
+	border-left: 6px solid #333333;
 }
 
 .preference.subPref.last{
@@ -222,6 +222,7 @@ select.flash,
 .disabled {
 	outline: none;
 	pointer-events: none;
+	border-color: gray !important;
 }
 
 label.disabled,
