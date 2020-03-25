@@ -544,15 +544,15 @@
 	* preference to open feed preview with left click		'Primary mouse click ALSO opens Feed Preview in a new tab'
 * AT HOME: check subPreference design changes in dark mode
 * AT HOME: check switching mouse buttons
+* preferences.css Renaming
+	* feedTransButton to preferenceControlButton
+	* controlButton to extensionButton
 ---
 
 
 ## Next
 * change preference to open feed preview with left click 'in current tab' 'in new tab'
 * mimimize CSS code
-* preferences.css Renaming
-	* feedTransButton to preferenceControlButton
-	* controlButton to extensionButton
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
 * in preferences

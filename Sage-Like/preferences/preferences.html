@@ -208,10 +208,10 @@
 
 	<div class="preference subPref last">
 		<div class="preferenceControl">
-			<label for="inputBrowseCustomCSS" class="feedTransButton" tabindex="0">Browse...</label>
-			<input type="file" id="inputBrowseCustomCSS" accept="text/css,.css"/>
+			<input type="file" id="inputFileCustomCSS" accept="text/css,.css"/>
+			<label for="inputFileCustomCSS" class="preferenceControlButton" tabindex="0">Browse...</label>
 		</div>
-		<label class="preferenceLabel">my-css-file.css</label>
+		<input id="labeFileCustomCSS" type="text" readonly/>
 	</div>
 	<div class="prefSeperator"></div>
 
@@ -219,8 +219,8 @@
 		<div class="preference">
 			<label class="preferenceLabel">Feeds transfer (OPML)</label>
 			<div class="preferenceControl">
-				<label for="inputImportOPML" class="feedTransButton" tabindex="0">Import...</label>
-				<button type="button" class="feedTransButton" id="btnExportOPML">Export...</button>
+				<label for="inputImportOPML" class="preferenceControlButton" tabindex="0">Import...</label>
+				<button type="button" class="preferenceControlButton" id="btnExportOPML">Export...</button>
 				<input type="file" id="inputImportOPML" accept="text/xml,.opml"/>
 			</div>
 		</div>
@@ -234,8 +234,8 @@
 	<div class="preference extensionButtons">
 		<label></label>
 		<div class="preferenceControl">
-			<button type="button" class="controlButton" id="btnReloadExtension">Reload Extension</button>
-			<button type="button" class="controlButton" id="btnRestoreDefaults">Restore Defaults</button>
+			<button type="button" class="preferenceExtButton" id="btnReloadExtension">Reload Extension</button>
+			<button type="button" class="preferenceExtButton" id="btnRestoreDefaults">Restore Defaults</button>
 		</div>
 	</div>
 	<br>

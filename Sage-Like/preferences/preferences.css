@@ -174,7 +174,7 @@ input[type="color"]::-moz-focus-inner {
 	background-color: #2a4364;
 }
 
-.controlButton {
+.preferenceExtButton {
 	padding: 1px 3px;
 	background-color: rgb(251, 251, 251);
 	border: 1px solid rgb(193, 193, 193);
@@ -185,11 +185,11 @@ input[type="color"]::-moz-focus-inner {
 	margin-left: 10px;
 }
 
-.controlButton:hover {
+.preferenceExtButton:hover {
 	background-color: rgb(235, 235, 235);
 }
 
-.controlButton:active:hover {
+.preferenceExtButton:active:hover {
 	background-color: rgb(218, 218, 218);
 }
 
@@ -202,7 +202,7 @@ input[type="color"]::-moz-focus-inner {
 /* Elements that will 'flash' */
 select,
 .annotation,
-.controlButton {
+.preferenceExtButton {
 	background: linear-gradient(to left, transparent 50%, var(--color-flash) 50%);
 	background-size: 200% 100%;
 	background-position: right bottom;
@@ -215,7 +215,7 @@ select,
 }
 
 select.flash,
-.controlButton.flash {
+.preferenceExtButton.flash {
 	background-position: left bottom;
 }
 
@@ -276,14 +276,26 @@ input[type="color"].disabled {
 	position: relative;
 }
 
-#inputBrowseCustomCSS,
+#inputFileCustomCSS,
 #inputImportOPML {
 	width: 0;
 	visibility: hidden;
 	opacity: 0;
 }
 
-.feedTransButton {
+#inputFileCustomCSS + .preferenceControlButton {
+	margin: 0;
+}
+
+#labeFileCustomCSS {
+	border-width: 1px;
+	padding: 0 6px;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 14px;
+	width: calc(100% - 120px);
+}
+
+.preferenceControlButton {
 	padding: 1px 3px 2px 3px;
 	background-color: rgb(235, 235, 235);
 	border: 1px solid rgb(193, 193, 193);
@@ -298,15 +310,15 @@ input[type="color"].disabled {
 	outline-offset: -3px;
 }
 
-.feedTransButton:hover {
+.preferenceControlButton:hover {
 	background-color: rgb(218, 218, 218);
 }
 
-.feedTransButton:active:hover {
+.preferenceControlButton:active:hover {
 	background-color: rgb(182, 182, 182);
 }
 
-.feedTransButton.disabled {
+.preferenceControlButton.disabled {
 	color: darkgray;
 	border-color: darkgray;
 	pointer-events: none;
@@ -438,34 +450,34 @@ input[type="color"].disabled {
 		box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.6);
 	}
 
-	.controlButton,
-	.feedTransButton {
+	.preferenceExtButton,
+	.preferenceControlButton {
 		border-width: 0;
 		box-sizing: border-box;
 		color: var(--dark-mode-fg-color);
 	}
 
-	.controlButton {
+	.preferenceExtButton {
 		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-button));
 	}
 
-	.controlButton:hover {
+	.preferenceExtButton:hover {
 		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-button));
 	}
 
-	.controlButton:hover:active {
+	.preferenceExtButton:hover:active {
 		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-active-button));
 	}
 
-	.feedTransButton {
+	.preferenceControlButton {
 		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-button) + 0.1));
 	}
 
-	.feedTransButton:hover {
+	.preferenceControlButton:hover {
 		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-hover-button) + 0.1));
 	}
 
-	.feedTransButton:active:hover {
+	.preferenceControlButton:active:hover {
 		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-hover-active-button) + 0.1));
 	}
 
