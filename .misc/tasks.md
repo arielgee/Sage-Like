@@ -546,6 +546,10 @@
 
 
 ## Next
+* mimimize CSS code
+* preferences.css Renaming
+	* feedTransButton to preferenceControlButton
+	* controlButton to extensionButton
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
 * AT HOME: check subPreference design changes in dark mode

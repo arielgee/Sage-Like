@@ -13,6 +13,8 @@
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
+
+		injectCustomCSSCode();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -321,5 +323,17 @@
 			m_elmAttachmentTooltip.style.display = "none";
 			m_elmAttachmentTooltip.style.visibility = "hidden";
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function injectCustomCSSCode() {
+
+		let sCSSCode = "#pageHeaderContainer { background-color: magenta;}";
+
+		browser.tabs.insertCSS({ code: sCSSCode, runAt: "document_start" }).then(() => {
+			console.log("[Sage-Like]", "Custom CSS code injected");
+		}).catch((err) => {
+			console.log("[Sage-Like]", "Custom CSS code injection generated an error", err);
+		});
 	}
 })();

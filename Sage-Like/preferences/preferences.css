@@ -275,6 +275,7 @@ input[type="color"].disabled {
 	position: relative;
 }
 
+#inputBrowseCustomCSS,
 #inputImportOPML {
 	width: 0;
 	visibility: hidden;
