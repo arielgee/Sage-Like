@@ -587,6 +587,11 @@ let rssTreeView = (function() {
 				// default action: load feed items in list
 				openTreeFeed(elmLI, event.shiftKey);
 
+				// open feed preview in new tab
+				prefs.getPrimeClickOpenFeedPreview().then((open) => {
+					if (open) browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+				});
+
 			} else if(event.button === 1) {					// middle click
 
 				if(event.ctrlKey && event.altKey && !event.shiftKey) {

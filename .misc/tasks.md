@@ -540,14 +540,20 @@
 	* error: [Sage-Like] Error: No bookmarks found for the provided GUID. function deleteTreeItem/</<()
 * in following link pagePopup finds feed but discovery do not: http://israblog.nana10.co.il/blogread.asp?blog=177394&blogcode=11287921
 	* discovery processed 'http://israblog.nana10.co.il/sidebar/blog_rss.asp?blog=177394'. '/sidebar/'!?!?!?!?!?!? REALLY?  => replaceMozExtensionOriginURL()
+* From mozilla [support] page:
+	* preference to open feed preview with left click		'Primary mouse click ALSO opens Feed Preview in a new tab'
 ---
 
 
 ## Next
-* check subPreference design changes in dark mode
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
-	* preference to open feed preview with left click		'Primary mouse click ALSO opens Feed Preview in a new tab'
+* AT HOME: check subPreference design changes in dark mode
+* AT HOME: check switching mouse buttons
+* in preferences
+	> Subscribe button <img> in address bar
+		> Feed detection in web pages (?)				[O] On page load		[X] On mouse click
+		> Detect Feeds in web pages on (?)				[O] Page load			[X] Mouse click
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * add option to scan page for feeds from the location bar
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
