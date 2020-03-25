@@ -42,7 +42,7 @@ body {
 .preference.subPref {
 	margin-left: 3px;
 	padding-left: 16px;
-	border-left: 6px solid #333333;
+	border-left: 4px solid #333333;
 }
 
 .preference.subPref.last{
