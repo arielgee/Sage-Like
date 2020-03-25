@@ -544,6 +544,7 @@
 
 
 ## Next
+* check subPreference design changes in dark mode
 * From mozilla [support] page:
 	* how to allow user to safly insert user-CSS's into feedPreview
 	* preference to open feed preview with left click		'Primary mouse click ALSO opens Feed Preview in a new tab'

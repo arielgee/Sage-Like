@@ -1,12 +1,14 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-	--sage-like-preference-height: 40px;
-	--preferences-body-max-width: 700px;
+	--height-preference: 40px;
+	--max-width-preferences-body: 700px;
 	--color-flash: rgb(255, 192, 192);
 	--color-text-input-focused: rgb(10, 133, 255);
 	--color-text-input-invalid: rgb(255, 0, 0);
 	--color-preference-hover: rgb(235, 235, 235);
+
+	--bottom-left-radius-last-sub-perf: 15px;
 }
 
 body {
@@ -14,7 +16,7 @@ body {
 	font-size: 1.273rem;
 	font-weight: normal;
 	min-width: auto;
-	max-width: var(--preferences-body-max-width);
+	max-width: var(--max-width-preferences-body);
 	line-height: 21px;
 	white-space: nowrap;
 }
@@ -24,22 +26,13 @@ body {
 	margin-bottom: 35px;
 }
 
-.prefSeperator {
-	border-bottom: 1px solid lightgray;
-}
-
-body.noCaptionStyleV68 .caption,
-body.noCaptionStyleV68 .caption + .prefSeperator {
-	display: none;
-}
-
 .preference {
 	display: flex;
 	justify-content: space-between;
 	padding: 9px 3px;
-	height: var(--sage-like-preference-height);
-	min-height: var(--sage-like-preference-height);
-	max-height: var(--sage-like-preference-height);
+	height: var(--height-preference);
+	min-height: var(--height-preference);
+	max-height: var(--height-preference);
 }
 
 .preference:hover {
@@ -47,7 +40,26 @@ body.noCaptionStyleV68 .caption + .prefSeperator {
 }
 
 .preference.subPref {
-	padding-left: 20px;
+	margin-left: 3px;
+	padding-left: 16px;
+	border-left: 6px solid gray;
+}
+
+.preference.subPref.last{
+	border-bottom-left-radius: var(--bottom-left-radius-last-sub-perf);
+}
+
+.prefSeperator {
+	border-bottom: 1px solid lightgray;
+}
+
+.preference.subPref + .prefSeperator {
+	margin-left: var(--bottom-left-radius-last-sub-perf);
+}
+
+body.noCaptionStyleV68 .caption,
+body.noCaptionStyleV68 .caption + .prefSeperator {
+	display: none;
 }
 
 .preferenceControl {
@@ -74,7 +86,7 @@ body.noCaptionStyleV68 .caption + .prefSeperator {
 }
 
 select {
-	max-width: calc(var(--preferences-body-max-width) * 0.4);
+	max-width: calc(var(--max-width-preferences-body) * 0.4);
 	border: 1px solid #7a7a7a;
 }
 
