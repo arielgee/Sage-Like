@@ -217,8 +217,8 @@ let opml = (function() {
 	})();
 
 	return {
-        importFeeds: importFeeds,
-        exportFeeds: exportFeeds,
+		importFeeds: importFeeds,
+		exportFeeds: exportFeeds,
 	};
 
 })();
