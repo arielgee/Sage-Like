@@ -58,11 +58,6 @@ body {
 	margin-left: var(--bottom-left-radius-last-sub-perf);
 }
 
-body.noCaptionStyleV68 .caption,
-body.noCaptionStyleV68 .caption + .prefSeperator {
-	display: none;
-}
-
 .preferenceControl {
 	display: flex;
 }
@@ -86,9 +81,24 @@ body.noCaptionStyleV68 .caption + .prefSeperator {
 	margin-left: 10px;
 }
 
+/******************************************************************/
+/**************************** CONTROLS ****************************/
+/******************************************************************/
 select {
 	max-width: calc(var(--max-width-preferences-body) * 0.4);
 	border: 1px solid #7a7a7a;
+}
+
+/*** User font and Time of day ***/
+select > option[value="-1"] {
+	background-color: #e0e0e0;
+}
+
+/*** input of file type will be hidden an customized ***/
+input[type="file"] {
+	width: 0;
+	visibility: hidden;
+	opacity: 0;
 }
 
 input[type="radio"],
@@ -154,6 +164,74 @@ input[type="color"]::-moz-focus-inner {
 	box-shadow: 0 0 2.5px 1px var(--color-text-input-invalid);
 }
 
+.preferenceButton {
+	padding: 1px 3px 2px 3px;
+	background-color: rgb(235, 235, 235);
+	border: 1px solid rgb(193, 193, 193);
+	border-radius: 2px;
+	height: 22px;
+	width: 90px;
+	text-align: center;
+	margin-left: 10px;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-size: 13.3333px;
+	line-height: 17px;
+	outline-offset: -3px;
+}
+
+.preferenceButton:hover {
+	background-color: rgb(218, 218, 218);
+}
+
+.preferenceButton:active:hover {
+	background-color: rgb(182, 182, 182);
+}
+
+.preferenceButton.disabled {
+	color: darkgray;
+	border-color: darkgray;
+	pointer-events: none;
+}
+
+.controlImage {
+	display: inline-block;
+	width: 24px;
+	height: 20px;
+	margin: auto 0 auto 0;
+	background: transparent no-repeat 4px top/20px 20px;
+}
+
+.controlImage:not(:last-child) {
+	margin-right: 18px;
+}
+
+#imageSet0 + .controlImage { background-image: url("/icons/open-0.png"); }
+#imageSet1 + .controlImage { background-image: url("/icons/open-1.png"); }
+#imageSet2 + .controlImage { background-image: url("/icons/open-2.png"); }
+#imageSet3 + .controlImage { background-image: url("/icons/open-3.png"); }
+#imageSet4 + .controlImage { background-image: url("/icons/open-4.png"); }
+#imageSet5 + .controlImage { background-image: url("/icons/open-5.png"); }
+#imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
+
+.extensionButton {
+	padding: 1px 3px;
+	background-color: rgb(251, 251, 251);
+	border: 1px solid rgb(193, 193, 193);
+	border-radius: 2px;
+	height: 30px;
+	width: 130px;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.extensionButton:hover {
+	background-color: rgb(235, 235, 235);
+}
+
+.extensionButton:active:hover {
+	background-color: rgb(218, 218, 218);
+}
+
 .helpInfo {
 	display: inline-block;
 	border-radius: 50%;
@@ -175,46 +253,48 @@ input[type="color"]::-moz-focus-inner {
 	background-color: #2a4364;
 }
 
-.preferenceExtButton {
-	padding: 1px 3px;
-	background-color: rgb(251, 251, 251);
-	border: 1px solid rgb(193, 193, 193);
-	border-radius: 2px;
-	height: 30px;
-	width: 130px;
-	text-align: center;
-	margin-left: 10px;
-}
-
-.preferenceExtButton:hover {
-	background-color: rgb(235, 235, 235);
-}
-
-.preferenceExtButton:active:hover {
-	background-color: rgb(218, 218, 218);
-}
-
 .annotation {
 	font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
 	font-size: 9pt;
 	color: gray;
 }
 
-/* Elements that will 'flash' */
+/*** User font box and Time of day box ***/
+.popupBox {
+	display: none;
+	position: absolute;
+	border: 1px solid black;
+	border-radius: 8px;
+	padding: 12px;
+	background-color: #f5f5f5;
+	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+	z-index: 1;
+	white-space: nowrap;
+}
+
+.popupBox > .preferenceControl > input {
+	pointer-events: initial;
+	border: 1px solid black;
+	padding: 2px;
+}
+
+/************************************************************************************/
+/**************************** Elements that will 'flash' ****************************/
+/************************************************************************************/
 #labelForInputCustomCSSFile {
 	--flashable-background-color: rgb(235, 235, 235);
 }
 
 select,
 .annotation,
-.preferenceExtButton {
+.extensionButton {
 	--flashable-background-color: transparent;
 }
 
 #labelForInputCustomCSSFile,
 select,
 .annotation,
-.preferenceExtButton {
+.extensionButton {
 	background: linear-gradient(to left, var(--flashable-background-color) 50%, var(--color-flash) 50%);
 	background-size: 200% 100%;
 	background-position: right bottom;
@@ -228,11 +308,13 @@ select,
 
 #labelForInputCustomCSSFile.flash,
 select.flash,
-.preferenceExtButton.flash {
+.extensionButton.flash {
 	background-position: left bottom;
 }
 
-/* Disabled elements */
+/***************************************************************************/
+/**************************** Disabled elements ****************************/
+/***************************************************************************/
 .disabled {
 	outline: none;
 	pointer-events: none;
@@ -260,43 +342,10 @@ input[type="color"].disabled {
 	filter: contrast(10%);
 }
 
-#checkFeedsInterval option[value="-1"],
-#fontName option[value="-1"] {
-	background-color: #e0e0e0;
-}
-
-.controlImage {
-	display: inline-block;
-	width: 24px;
-	height: 20px;
-	margin: auto 0 auto 0;
-	background: transparent no-repeat 4px top/20px 20px;
-}
-
-.controlImage:not(:last-child) {
-	margin-right: 18px;
-}
-
-#imageSet0 + .controlImage { background-image: url("/icons/open-0.png"); }
-#imageSet1 + .controlImage { background-image: url("/icons/open-1.png"); }
-#imageSet2 + .controlImage { background-image: url("/icons/open-2.png"); }
-#imageSet3 + .controlImage { background-image: url("/icons/open-3.png"); }
-#imageSet4 + .controlImage { background-image: url("/icons/open-4.png"); }
-#imageSet5 + .controlImage { background-image: url("/icons/open-5.png"); }
-#imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
-
-#prefContainerFeedTrans {
-	position: relative;
-}
-
-#inputCustomCSSFile,
-#inputImportOPML {
-	width: 0;
-	visibility: hidden;
-	opacity: 0;
-}
-
-#inputCustomCSSFile + .preferenceControlButton {
+/***************************************************************************/
+/**************************** Custom CSS Source ****************************/
+/***************************************************************************/
+#inputCustomCSSFile + .preferenceButton {
 	margin: 0;
 }
 
@@ -306,33 +355,12 @@ input[type="color"].disabled {
 	width: 40%;
 }
 
-.preferenceControlButton {
-	padding: 1px 3px 2px 3px;
-	background-color: rgb(235, 235, 235);
-	border: 1px solid rgb(193, 193, 193);
-	border-radius: 2px;
-	height: 22px;
-	width: 90px;
-	text-align: center;
-	margin-left: 10px;
-	font-family: Tahoma, Verdana, Segoe, sans-serif;
-	font-size: 13.3333px;
-	line-height: 17px;
-	outline-offset: -3px;
-}
 
-.preferenceControlButton:hover {
-	background-color: rgb(218, 218, 218);
-}
-
-.preferenceControlButton:active:hover {
-	background-color: rgb(182, 182, 182);
-}
-
-.preferenceControlButton.disabled {
-	color: darkgray;
-	border-color: darkgray;
-	pointer-events: none;
+/****************************************************************************/
+/**************************** OPML Feed Transfer ****************************/
+/****************************************************************************/
+#prefContainerFeedTrans {
+	position: relative;
 }
 
 #prefOverlayFeedTrans {
@@ -389,25 +417,6 @@ input[type="color"].disabled {
 	display: block;
 }
 
-/*** User font box and Time of day box***/
-.popupBox {
-	display: none;
-	position: absolute;
-	border: 1px solid black;
-	border-radius: 8px;
-	padding: 12px;
-	background-color: #f5f5f5;
-	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-	z-index: 1;
-	white-space: nowrap;
-}
-
-.popupBox > .preferenceControl > input {
-	pointer-events: initial;
-	border: 1px solid black;
-	padding: 2px;
-}
-
 /******************************************************************/
 /*********************** COLOR-SCHEME: DARK ***********************/
 /******************************************************************/
@@ -440,15 +449,15 @@ input[type="color"].disabled {
 		color: var(--dark-mode-fg-color);
 	}
 
+	/*** User font and Time of day ***/
+	select > option[value="-1"] {
+		background-color: rgb(16, 16, 16);
+	}
+
 	select.disabled,
 	option.disabled,
 	input.disabled {
 		color: rgb(127, 127, 127);
-	}
-
-	#checkFeedsInterval option[value="-1"],
-	#fontName option[value="-1"] {
-		background-color: rgb(16, 16, 16);
 	}
 
 	input[type="radio"]:checked,
@@ -461,35 +470,35 @@ input[type="color"].disabled {
 		box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.6);
 	}
 
-	.preferenceExtButton,
-	.preferenceControlButton {
-		border-width: 0;
-		box-sizing: border-box;
-		color: var(--dark-mode-fg-color);
-	}
-
-	.preferenceExtButton {
-		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-button));
-	}
-
-	.preferenceExtButton:hover {
-		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-button));
-	}
-
-	.preferenceExtButton:hover:active {
-		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-active-button));
-	}
-
-	.preferenceControlButton {
+	.preferenceButton {
 		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-button) + 0.1));
 	}
 
-	.preferenceControlButton:hover {
+	.preferenceButton:hover {
 		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-hover-button) + 0.1));
 	}
 
-	.preferenceControlButton:active:hover {
+	.preferenceButton:active:hover {
 		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-hover-active-button) + 0.1));
+	}
+
+	.extensionButton {
+		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-button));
+	}
+
+	.extensionButton:hover {
+		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-button));
+	}
+
+	.extensionButton:hover:active {
+		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-active-button));
+	}
+
+	.extensionButton,
+	.preferenceButton {
+		border-width: 0;
+		box-sizing: border-box;
+		color: var(--dark-mode-fg-color);
 	}
 
 	.popupBox {
@@ -510,4 +519,9 @@ input[type="color"].disabled {
 	.helpInfo:hover {
 		background-color: rgb(192, 192, 192);
 	}
+}
+
+body.noCaptionStyleV68 .caption,
+body.noCaptionStyleV68 .caption + .prefSeperator {
+	display: none;
 }
