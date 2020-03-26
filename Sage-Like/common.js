@@ -1064,9 +1064,8 @@ let prefs = (function() {
 	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
 	const DEF_PREF_COLOR_TEXT_VALUE = "#000000";
 	const DEF_PREF_IMAGE_SET_VALUE = 0;
-	const DEF_PREF_CUSTOM_CSS_FEED_PREVIEW_VALUE = false;
-	const DEF_PREF_CUSTOM_CSS_SOURCE_LABEL_VALUE = "";
-	const DEF_PREF_CUSTOM_CSS_SOURCE_VALUE = "";
+	const DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE = false;
+	const DEF_PREF_CUSTOM_CSS_VALUE = { LABEL: "", SOURCE: "" };
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
@@ -1089,9 +1088,8 @@ let prefs = (function() {
 	const PREF_COLOR_SELECT = "pref_colorSelect";
 	const PREF_COLOR_TEXT = "pref_colorText";
 	const PREF_IMAGE_SET = "pref_imageSet";
-	const PREF_CUSTOM_CSS_FEED_PREVIEW = "pref_customCSSFeedPreview";
-	const PREF_CUSTOM_CSS_SOURCE_LABEL = "pref_customCSSSourceLabel";
-	const PREF_CUSTOM_CSS_SOURCE = "pref_customCSSSource";
+	const PREF_USE_CUSTOM_CSS_FEED_PREVIEW = "pref_useCustomCSSFeedPreview";
+	const PREF_CUSTOM_CSS = "pref_customCSS";
 
 	//////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId() {
@@ -1493,59 +1491,40 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getCustomCSSFeedPreview() {
+	function getUseCustomCSSFeedPreview() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_CUSTOM_CSS_FEED_PREVIEW).then((result) => {
-				resolve(result[PREF_CUSTOM_CSS_FEED_PREVIEW] === undefined ? DEF_PREF_CUSTOM_CSS_FEED_PREVIEW_VALUE : result[PREF_CUSTOM_CSS_FEED_PREVIEW]);
+			browser.storage.local.get(PREF_USE_CUSTOM_CSS_FEED_PREVIEW).then((result) => {
+				resolve(result[PREF_USE_CUSTOM_CSS_FEED_PREVIEW] === undefined ? DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE : result[PREF_USE_CUSTOM_CSS_FEED_PREVIEW]);
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setCustomCSSFeedPreview(value) {
+	function setUseCustomCSSFeedPreview(value) {
 
 		let obj = {};
-		obj[PREF_CUSTOM_CSS_FEED_PREVIEW] = value;
+		obj[PREF_USE_CUSTOM_CSS_FEED_PREVIEW] = value;
 		browser.storage.local.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getCustomCSSSourceLabel() {
+	function getCustomCSS() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_CUSTOM_CSS_SOURCE_LABEL).then((result) => {
-				resolve(result[PREF_CUSTOM_CSS_SOURCE_LABEL] === undefined ? DEF_PREFCUSTOM_CSS_SOURCE_LABEL_VALUE : result[PREF_CUSTOM_CSS_SOURCE_LABEL]);
+			browser.storage.local.get(PREF_CUSTOM_CSS).then((result) => {
+				resolve(result[PREF_CUSTOM_CSS] === undefined ? DEF_PREF_CUSTOM_CSS_VALUE : result[PREF_CUSTOM_CSS]);
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setCustomCSSSourceLabel(value) {
+	function setCustomCSS(value) {
 
 		let obj = {};
-		obj[PREF_CUSTOM_CSS_SOURCE_LABEL] = value;
-		browser.storage.local.set(obj);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getCustomCSSSource() {
-
-		return new Promise((resolve) => {
-
-			browser.storage.local.get(PREF_CUSTOM_CSS_SOURCE).then((result) => {
-				resolve(result[PREF_CUSTOM_CSS_SOURCE] === undefined ? DEF_PREFCUSTOM_CSS_SOURCE_VALUE : result[PREF_CUSTOM_CSS_SOURCE]);
-			});
-		});
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setCustomCSSSource(value) {
-
-		let obj = {};
-		obj[PREF_CUSTOM_CSS_SOURCE] = value;
+		obj[PREF_CUSTOM_CSS] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -1572,9 +1551,8 @@ let prefs = (function() {
 		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
 		this.setColorText(DEF_PREF_COLOR_TEXT_VALUE);
 		this.setImageSet(DEF_PREF_IMAGE_SET_VALUE);
-		this.setCustomCSSFeedPreview(DEF_PREF_CUSTOM_CSS_FEED_PREVIEW_VALUE);
-		this.setCustomCSSSourceLabel(DEF_PREF_CUSTOM_CSS_SOURCE_LABEL_VALUE);
-		this.setCustomCSSSource(DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
+		this.setUseCustomCSSFeedPreview(DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE);
+		this.setCustomCSS(DEF_PREF_CUSTOM_CSS_VALUE);
 
 		return {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
@@ -1598,9 +1576,8 @@ let prefs = (function() {
 			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
 			colorText: DEF_PREF_COLOR_TEXT_VALUE,
 			imageSet: DEF_PREF_IMAGE_SET_VALUE,
-			customCSSFeedPreview: DEF_PREF_CUSTOM_CSS_FEED_PREVIEW_VALUE,
-			customCSSSourceLabel: DEF_PREF_CUSTOM_CSS_SOURCE_LABEL_VALUE,
-			customCSSSource: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
+			useCustomCSSFeedPreview: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
+			customCSS: DEF_PREF_CUSTOM_CSS_VALUE,
 		};
 	}
 
@@ -1626,9 +1603,8 @@ let prefs = (function() {
 		DEF_PREF_COLOR_SELECT_VALUE: DEF_PREF_COLOR_SELECT_VALUE,
 		DEF_PREF_COLOR_TEXT_VALUE: DEF_PREF_COLOR_TEXT_VALUE,
 		DEF_PREF_IMAGE_SET_VALUE: DEF_PREF_IMAGE_SET_VALUE,
-		DEF_PREF_CUSTOM_CSS_FEED_PREVIEW_VALUE: DEF_PREF_CUSTOM_CSS_FEED_PREVIEW_VALUE,
-		DEF_PREF_CUSTOM_CSS_SOURCE_LABEL_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_LABEL_VALUE,
-		DEF_PREF_CUSTOM_CSS_SOURCE_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
+		DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
+		DEF_PREF_CUSTOM_CSS_VALUE: DEF_PREF_CUSTOM_CSS_VALUE,
 
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
@@ -1672,12 +1648,10 @@ let prefs = (function() {
 		setColorText: setColorText,
 		getImageSet: getImageSet,
 		setImageSet: setImageSet,
-		getCustomCSSFeedPreview: getCustomCSSFeedPreview,
-		setCustomCSSFeedPreview: setCustomCSSFeedPreview,
-		getCustomCSSSourceLabel: getCustomCSSSourceLabel,
-		setCustomCSSSourceLabel: setCustomCSSSourceLabel,
-		getCustomCSSSource: getCustomCSSSource,
-		setCustomCSSSource: setCustomCSSSource,
+		getUseCustomCSSFeedPreview: getUseCustomCSSFeedPreview,
+		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
+		getCustomCSS: getCustomCSS,
+		setCustomCSS: setCustomCSS,
 
 		restoreDefaults: restoreDefaults,
 	}

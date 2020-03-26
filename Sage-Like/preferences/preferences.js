@@ -46,9 +46,10 @@ let preferences = (function() {
 	let m_elmRadioImageSet4;
 	let m_elmRadioImageSet5;
 	let m_elmRadioImageSet6;
-	let m_elmCustomCSSFeedPreview;
-	let m_elmInputFileCustomCSS;
-	let m_elmLabeFileCustomCSS;
+	let m_elmUseCustomCSSFeedPreview;
+	let m_elmInputCustomCSSFile;
+	let m_elmLabelForInputCustomCSSFile;
+	let m_elmLabeCustomCSSFile;
 	let m_elmImportOpml;
 	let m_elmExportOpml;
 
@@ -103,9 +104,10 @@ let preferences = (function() {
 		m_elmRadioImageSet4 = document.getElementById("imageSet4");
 		m_elmRadioImageSet5 = document.getElementById("imageSet5");
 		m_elmRadioImageSet6 = document.getElementById("imageSet6");
-		m_elmCustomCSSFeedPreview = document.getElementById("customCSSFeedPreview");
-		m_elmInputFileCustomCSS = document.getElementById("inputFileCustomCSS");
-		//m_elmLabeFileCustomCSS = document.getElementById("labeFileCustomCSS");
+		m_elmUseCustomCSSFeedPreview = document.getElementById("useCustomCSSFeedPreview");
+		m_elmInputCustomCSSFile = document.getElementById("inputCustomCSSFile");
+		m_elmLabelForInputCustomCSSFile = document.getElementById("labelForInputCustomCSSFile");
+		m_elmLabeCustomCSSFile = document.getElementById("labeCustomCSSFile");
 		m_elmImportOpml = document.getElementById("inputImportOPML");
 		m_elmExportOpml = document.getElementById("btnExportOPML");
 
@@ -162,8 +164,8 @@ let preferences = (function() {
 		m_elmRadioImageSet4.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet5.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
-		m_elmCustomCSSFeedPreview.removeEventListener("change", onChangeCustomCSSFeedPreview);
-		// m_elmInputFileCustomCSS.removeEventListener("change", onChangeInputFileCustomCSS);
+		m_elmUseCustomCSSFeedPreview.removeEventListener("change", onChangeUseCustomCSSFeedPreview);
+		m_elmInputCustomCSSFile.removeEventListener("change", onChangeInputCustomCSSFile);
 		m_elmImportOpml.removeEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.removeEventListener("click", onClickExportOpml);
 
@@ -211,8 +213,8 @@ let preferences = (function() {
 		m_elmRadioImageSet4.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
-		m_elmCustomCSSFeedPreview.addEventListener("change", onChangeCustomCSSFeedPreview);
-		// m_elmInputFileCustomCSS.addEventListener("change", onChangeInputFileCustomCSS);
+		m_elmUseCustomCSSFeedPreview.addEventListener("change", onChangeUseCustomCSSFeedPreview);
+		m_elmInputCustomCSSFile.addEventListener("change", onChangeInputCustomCSSFile);
 		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.addEventListener("click", onClickExportOpml);
 
@@ -354,14 +356,15 @@ let preferences = (function() {
 			}
 		});
 
-		prefs.getCustomCSSFeedPreview().then((checked) => {
-			m_elmCustomCSSFeedPreview.checked = checked;
+		prefs.getUseCustomCSSFeedPreview().then((checked) => {
+			m_elmUseCustomCSSFeedPreview.checked = checked;
+			slUtil.disableElementTree(m_elmInputCustomCSSFile.parentElement.parentElement, !checked);
 		});
 
-		prefs.getInputFileCustomCSS().then((checked) => {
-			m_elmCustomCSSFeedPreview.checked = checked;
+		prefs.getCustomCSS().then((custCSS) => {
+			m_elmLabeCustomCSSFile.value = custCSS.LABEL;
+			flashCustomCSSFileBrowseButton();
 		});
-
 	}
 
 	//==================================================================================
@@ -631,9 +634,24 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeCustomCSSFeedPreview(event) {
-		prefs.setCustomCSSFeedPreview(m_elmCustomCSSFeedPreview.checked);
-		slUtil.disableElementTree(m_elmInputFileCustomCSS.parentElement.parentElement, !m_elmCustomCSSFeedPreview.checked);
+	function onChangeUseCustomCSSFeedPreview(event) {
+		let checked = m_elmUseCustomCSSFeedPreview.checked;
+		prefs.setUseCustomCSSFeedPreview(checked);
+		slUtil.disableElementTree(m_elmInputCustomCSSFile.parentElement.parentElement, !checked);
+		flashCustomCSSFileBrowseButton();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeInputCustomCSSFile(event) {
+
+		// TBD
+		let src = "#pageHeaderContainer { background-color: magenta; color: black; }";
+		let lbl = event.target.files[0].name;
+		m_elmLabeCustomCSSFile.value = lbl;
+
+
+		prefs.setCustomCSS({LABEL: lbl, SOURCE: src});
+		flashCustomCSSFileBrowseButton();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -690,7 +708,7 @@ let preferences = (function() {
 		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !defPrefs.showFeedItemDescAttach);
 		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !defPrefs.showFeedItemDesc);
-		slUtil.disableElementTree(m_elmInputFileCustomCSS.parentElement.parentElement, !defPrefs.customCSSFeedPreview);
+		slUtil.disableElementTree(m_elmInputCustomCSSFile.parentElement.parentElement, !defPrefs.useCustomCSSFeedPreview);
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, defPrefs.rootFeedsFolderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
@@ -720,9 +738,11 @@ let preferences = (function() {
 				break;
 			}
 		}
-		m_elmCustomCSSFeedPreview.checked = defPrefs.customCSSFeedPreview;
+		m_elmUseCustomCSSFeedPreview.checked = defPrefs.useCustomCSSFeedPreview;
+		m_elmLabeCustomCSSFile.value = defPrefs.customCSS.LABEL;
 
 		flashRootFeedsFolderElement();
+		flashCustomCSSFileBrowseButton();
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ALL);
 	}
 
@@ -973,4 +993,8 @@ let preferences = (function() {
 	 	});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function flashCustomCSSFileBrowseButton() {
+		m_elmLabelForInputCustomCSSFile.classList.toggle("flash", (m_elmUseCustomCSSFeedPreview.checked && m_elmLabeCustomCSSFile.value === ""));
+	}
 })();

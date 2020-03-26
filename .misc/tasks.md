@@ -551,6 +551,12 @@
 
 
 ## Next
+* Import CSS Source...
+* check all uses of setTimeout() can thay be removed/replaced by sendMessage
+* clear custom CSS file/code
+* write css source to file?
+* broadcast that custom css file was consumed and reload all feedPreview?
+* rewrite all preferences.css variables (colors)
 * change preference to open feed preview with left click 'in current tab' 'in new tab'
 * mimimize CSS code
 * From mozilla [support] page:

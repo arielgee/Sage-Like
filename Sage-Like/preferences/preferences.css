@@ -136,6 +136,7 @@ input[type="color"]::-moz-focus-inner {
 	padding: 0;
 }
 
+.textualInput,
 .numericInput {
 	border: 1px solid #7a7a7a;
 	padding: 2px;
@@ -200,10 +201,21 @@ input[type="color"]::-moz-focus-inner {
 }
 
 /* Elements that will 'flash' */
+#labelForInputCustomCSSFile {
+	--flashable-background-color: rgb(235, 235, 235);
+}
+
 select,
 .annotation,
 .preferenceExtButton {
-	background: linear-gradient(to left, transparent 50%, var(--color-flash) 50%);
+	--flashable-background-color: transparent;
+}
+
+#labelForInputCustomCSSFile,
+select,
+.annotation,
+.preferenceExtButton {
+	background: linear-gradient(to left, var(--flashable-background-color) 50%, var(--color-flash) 50%);
 	background-size: 200% 100%;
 	background-position: right bottom;
 	transition: background-position 0.2s ease-in 0s;
@@ -214,6 +226,7 @@ select,
 	color: black;
 }
 
+#labelForInputCustomCSSFile.flash,
 select.flash,
 .preferenceExtButton.flash {
 	background-position: left bottom;
@@ -276,23 +289,21 @@ input[type="color"].disabled {
 	position: relative;
 }
 
-#inputFileCustomCSS,
+#inputCustomCSSFile,
 #inputImportOPML {
 	width: 0;
 	visibility: hidden;
 	opacity: 0;
 }
 
-#inputFileCustomCSS + .preferenceControlButton {
+#inputCustomCSSFile + .preferenceControlButton {
 	margin: 0;
 }
 
-#labeFileCustomCSS {
-	border-width: 1px;
-	padding: 0 6px;
+#labeCustomCSSFile {
 	font-family: 'Courier New', Courier, monospace;
 	font-size: 14px;
-	width: calc(100% - 120px);
+	width: 40%;
 }
 
 .preferenceControlButton {

@@ -14,7 +14,7 @@
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 
-		injectCustomCSSCode();
+		injectCustomCSSSource();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -326,14 +326,20 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function injectCustomCSSCode() {
+	function injectCustomCSSSource() {
 
-		let sCSSCode = "#pageHeaderContainer { background-color: magenta;}";
+		prefs.getUseCustomCSSFeedPreview().then((use) => {
 
-		browser.tabs.insertCSS({ code: sCSSCode, runAt: "document_start" }).then(() => {
-			console.log("[Sage-Like]", "Custom CSS code injected");
-		}).catch((err) => {
-			console.log("[Sage-Like]", "Custom CSS code injection generated an error", err);
+			if(use) {
+
+				prefs.getCustomCSS().then((custCSS) => {
+					browser.tabs.insertCSS({ code: custCSS.SOURCE, runAt: "document_start" }).then(() => {
+						console.log("[Sage-Like]", "Custom CSS source injected");
+					}).catch((err) => {
+						console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
+					});
+				});
+			}
 		});
 	}
 })();
