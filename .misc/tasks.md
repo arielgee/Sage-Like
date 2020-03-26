@@ -551,7 +551,12 @@
 
 
 ## Next
-* Import CSS Source...
+* !!!!! => cssDoc?
+		let reader = new FileReader();
+		reader.onload = (e) => {
+			console.log("[Sage-Like ttt]", reader.result);
+		};
+		reader.readAsText(file);
 * check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * clear custom CSS file/code
 * write css source to file?
