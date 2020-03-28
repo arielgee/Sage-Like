@@ -551,12 +551,10 @@
 
 
 ## Next
-* !!!!! => cssDoc?
-		let reader = new FileReader();
-		reader.onload = (e) => {
-			console.log("[Sage-Like ttt]", reader.result);
-		};
-		reader.readAsText(file);
+* must remove all !important from css files
+* in preferences.validatorCSSFile() do not match '@namespace url("http://www.w3.org/1999/xhtml")'
+* missing revokeObjectURL() in opml.js (anywhere)
+* save 'browser.storage.local' to m_localStorage.
 * check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * clear custom CSS file/code
 * write css source to file?

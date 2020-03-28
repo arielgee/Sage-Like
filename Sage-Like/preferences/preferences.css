@@ -3,13 +3,66 @@
 :root {
 	--height-preference: 40px;
 	--max-width-preferences-body: 700px;
-	--color-flash: rgb(255, 192, 192);
+	--bottom-left-radius-last-sub-perf: 15px;
+
 	--color-text-input-focused: rgb(10, 133, 255);
 	--color-text-input-invalid: rgb(255, 0, 0);
-	--color-preference-hover: rgb(235, 235, 235);
 
-	--bottom-left-radius-last-sub-perf: 15px;
-	--color-border-sub-perf: 51, 51, 51;
+
+	/*******************light theme colors*******************/
+	--foreground-color: rgb(0, 0, 0);
+	--background-color-body: transparent;
+	--background-color-select-control: transparent;
+	--background-color-option-user: rgb(224, 224, 224);		/* option[value="-1"] */
+	--border-color-input-checked: rgb(153, 153, 153);
+	--box-shadow-color-swatch: rgba(0, 0, 0, 0.6);
+	--foreground-color-help-info: rgb(255, 255, 255);
+	--background-color-help-info: rgb(187, 187, 187);
+	--background-color-hover-help-info: rgb(42, 67, 100);
+	--background-color-popup-box: rgb(245, 245, 245);
+	--border-color-popup-box: rgb(0, 0, 0);
+	--background-color-input-control: rgb(255, 255, 255);
+	--foreground-color-disabled-control: rgb(169, 169, 169);
+	--background-color-textarea-control: rgb(240, 240, 240);
+
+	--background-color-button: 6, 6, 5;
+	--background-alpha-button: 0.1;
+	--background-alpha-hover-button: 0.15;
+	--background-alpha-hover-active-button: 0.2;
+
+	--color-preference-hover: rgb(242, 242, 242);
+	--color-border-sub-perf: rgb(51, 51, 51);
+	--color-flash: rgb(255, 192, 192);
+}
+
+@media (prefers-color-scheme: dark) {
+
+	:root {
+		/********************dark theme colors*******************/
+		--foreground-color: rgb(249, 249, 250);
+		--background-color-body: rgb(32, 32, 35);
+		--background-color-select-control: rgb(50, 50, 54);
+		--background-color-option-user: rgb(16, 16, 16);		/* option[value="-1"] */
+		--border-color-input-checked: rgb(119, 119, 119);
+		--box-shadow-color-swatch: rgba(255, 255, 255, 0.6);
+		--foreground-color-help-info: rgb(0, 0, 0);
+		--background-color-help-info: rgb(92, 92, 92);
+		--background-color-hover-help-info: rgb(192, 192, 192);
+		--background-color-popup-box: var(--background-color-body);
+		--border-color-popup-box: rgb(128, 128, 128);
+		--background-color-input-control: var(--background-color-select-control);
+		--foreground-color-disabled-control: rgb(127, 127, 127);
+		--background-color-textarea-control: rgb(50, 50, 50);
+
+		--background-color-button: 249, 249, 250;
+		--background-alpha-button: 0.1;
+		--background-alpha-hover-button: 0.15;
+		--background-alpha-hover-active-button: 0.2;
+
+		--color-preference-hover: rgb(52, 52, 55);
+		--color-border-sub-perf: rgb(221, 221, 221);
+		--color-flash: rgb(255, 88, 88);
+	}
 }
 
 body {
@@ -20,6 +73,8 @@ body {
 	max-width: var(--max-width-preferences-body);
 	line-height: 21px;
 	white-space: nowrap;
+	color: var(--foreground-color);
+	background-color: var(--background-color-body);
 }
 
 .caption {
@@ -43,7 +98,7 @@ body {
 .preference.subPref {
 	margin-left: 3px;
 	padding-left: 16px;
-	border-left: 4px solid rgb(var(--color-border-sub-perf));
+	border-left: 4px solid var(--color-border-sub-perf);
 }
 
 .preference.subPref.last{
@@ -51,7 +106,7 @@ body {
 }
 
 .prefSeperator {
-	border-bottom: 1px solid lightgray;
+	border-bottom: 1px solid rgb(211, 211, 211);
 }
 
 .preference.subPref + .prefSeperator {
@@ -84,14 +139,21 @@ body {
 /******************************************************************/
 /**************************** CONTROLS ****************************/
 /******************************************************************/
+input {
+	color: var(--foreground-color);
+	background-color: var(--background-color-input-control);
+}
+
 select {
 	max-width: calc(var(--max-width-preferences-body) * 0.4);
 	border: 1px solid #7a7a7a;
+	color: var(--foreground-color);
+	background-color: var(--background-color-select-control);
 }
 
 /*** User font and Time of day ***/
 select > option[value="-1"] {
-	background-color: #e0e0e0;
+	background-color: var(--background-color-option-user);
 }
 
 /*** input of file type will be hidden an customized ***/
@@ -122,8 +184,8 @@ input[type="radio"] {
 
 input[type="radio"]:checked,
 input[type="checkbox"]:checked {
-	border: 5px solid #999;
-	background-color: black;
+	border: 5px solid var(--border-color-input-checked);
+	background-color: var(--foreground-color);
 }
 
 input[type="color"] {
@@ -139,14 +201,13 @@ input[type="color"] {
 input[type="color"]::-moz-color-swatch {
 	border: none;
 	border-radius: 50%;
-	box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.6);
+	box-shadow: 0 0 4px 2px var(--box-shadow-color-swatch);
 }
 
 input[type="color"]::-moz-focus-inner {
 	padding: 0;
 }
 
-.textualInput,
 .numericInput {
 	border: 1px solid #7a7a7a;
 	padding: 2px;
@@ -166,7 +227,8 @@ input[type="color"]::-moz-focus-inner {
 
 .preferenceButton {
 	padding: 1px 3px 2px 3px;
-	background-color: rgb(235, 235, 235);
+	color: var(--foreground-color);
+	background-color: rgba(var(--background-color-button), var(--background-alpha-button));
 	border: 1px solid rgb(193, 193, 193);
 	border-radius: 2px;
 	height: 22px;
@@ -180,17 +242,11 @@ input[type="color"]::-moz-focus-inner {
 }
 
 .preferenceButton:hover {
-	background-color: rgb(218, 218, 218);
+	background-color: rgba(var(--background-color-button), var(--background-alpha-hover-button));
 }
 
 .preferenceButton:active:hover {
-	background-color: rgb(182, 182, 182);
-}
-
-.preferenceButton.disabled {
-	color: darkgray;
-	border-color: darkgray;
-	pointer-events: none;
+	background-color: rgba(var(--background-color-button), var(--background-alpha-hover-active-button));
 }
 
 .controlImage {
@@ -213,23 +269,11 @@ input[type="color"]::-moz-focus-inner {
 #imageSet5 + .controlImage { background-image: url("/icons/open-5.png"); }
 #imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
 
-.extensionButton {
+.extensionButtons .preferenceButton {
 	padding: 1px 3px;
-	background-color: rgb(251, 251, 251);
-	border: 1px solid rgb(193, 193, 193);
-	border-radius: 2px;
 	height: 30px;
 	width: 130px;
-	text-align: center;
-	margin-left: 10px;
-}
-
-.extensionButton:hover {
-	background-color: rgb(235, 235, 235);
-}
-
-.extensionButton:active:hover {
-	background-color: rgb(218, 218, 218);
+	filter: invert(10%);
 }
 
 .helpInfo {
@@ -237,8 +281,8 @@ input[type="color"]::-moz-focus-inner {
 	border-radius: 50%;
 	height: 18px;
 	width: 18px;
-	background-color: #bbbbbb;
-	color: #ffffff;
+	background-color: var(--background-color-help-info);
+	color: var(--foreground-color-help-info);
 	font-family: "Open Sans", X-LocaleSpecific, sans-serif;
 	font-size: 14px;
 	font-weight: 700;
@@ -250,7 +294,7 @@ input[type="color"]::-moz-focus-inner {
 }
 
 .helpInfo:hover {
-	background-color: #2a4364;
+	background-color: var(--background-color-hover-help-info);
 }
 
 .annotation {
@@ -263,39 +307,53 @@ input[type="color"]::-moz-focus-inner {
 .popupBox {
 	display: none;
 	position: absolute;
-	border: 1px solid black;
+	border: 1px solid var(--border-color-popup-box);
 	border-radius: 8px;
 	padding: 12px;
-	background-color: #f5f5f5;
+	background-color: var(--background-color-popup-box);
+	color: inherit;
 	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
 	z-index: 1;
 	white-space: nowrap;
 }
 
-.popupBox > .preferenceControl > input {
+.inputPopupBox {
 	pointer-events: initial;
-	border: 1px solid black;
+	border: 1px solid var(--border-color-popup-box);
 	padding: 2px;
 }
 
+ #cssViewBox {
+	width: 98%;
+}
+
+#textCSSViewer {
+	width: 100%;
+	height: 450px;
+	resize: none;
+	overflow: scroll;
+	color: var(--foreground-color);
+	background-color: var(--background-color-textarea-control);
+	font-family: Consolas, 'Courier New', Courier, monospace;
+	font-size: 14px;
+	padding: 3px 6px;
+}
 /************************************************************************************/
 /**************************** Elements that will 'flash' ****************************/
 /************************************************************************************/
-#labelForInputCustomCSSFile {
-	--flashable-background-color: rgb(235, 235, 235);
+.preferenceButton {
+	--color1: rgba(var(--background-color-button), var(--background-alpha-button));
+	background: linear-gradient(to left, var(--color1) 50%, var(--color-flash) 50%);
+}
+
+select,
+.annotation {
+	background: linear-gradient(to left, transparent 50%, var(--color-flash) 50%);
 }
 
 select,
 .annotation,
-.extensionButton {
-	--flashable-background-color: transparent;
-}
-
-#labelForInputCustomCSSFile,
-select,
-.annotation,
-.extensionButton {
-	background: linear-gradient(to left, var(--flashable-background-color) 50%, var(--color-flash) 50%);
+.preferenceButton {
 	background-size: 200% 100%;
 	background-position: right bottom;
 	transition: background-position 0.2s ease-in 0s;
@@ -306,9 +364,8 @@ select,
 	color: black;
 }
 
-#labelForInputCustomCSSFile.flash,
 select.flash,
-.extensionButton.flash {
+.preferenceButton.flash {
 	background-position: left bottom;
 }
 
@@ -318,43 +375,31 @@ select.flash,
 .disabled {
 	outline: none;
 	pointer-events: none;
-	border-color: rgba(var(--color-border-sub-perf), 0.5) !important;
 }
 
 label.disabled,
 input[type="radio"].disabled,
-input[type="checkbox"].disabled {
-	color: darkgray;
-	border-color: darkgray;
+input[type="checkbox"].disabled,
+input[type="text"].disabled,
+.preferenceButton.disabled,
+.preference.subPref.disabled {
+	color: var(--foreground-color-disabled-control);
+	border-color: var(--foreground-color-disabled-control);
 }
 
 input[type="radio"].disabled:checked,
 input[type="checkbox"].disabled:checked {
-	background-color: #707070;
+	background-color: rgb(112, 112, 112);
 }
 
 input[type="radio"].disabled:not(:checked),
 input[type="checkbox"].disabled:not(:checked) {
-	background-color: #e9e9e9;
+	background-color: rgb(233, 233, 233);
 }
 
 input[type="color"].disabled {
 	filter: contrast(10%);
 }
-
-/***************************************************************************/
-/**************************** Custom CSS Source ****************************/
-/***************************************************************************/
-#inputCustomCSSFile + .preferenceButton {
-	margin: 0;
-}
-
-#labeCustomCSSFile {
-	font-family: 'Courier New', Courier, monospace;
-	font-size: 14px;
-	width: 40%;
-}
-
 
 /****************************************************************************/
 /**************************** OPML Feed Transfer ****************************/
@@ -415,110 +460,6 @@ input[type="color"].disabled {
 
 #prefOverlayFeedTrans.processing #feedTransProcessingMsg {
 	display: block;
-}
-
-/******************************************************************/
-/*********************** COLOR-SCHEME: DARK ***********************/
-/******************************************************************/
-@media (prefers-color-scheme: dark) {
-
-	:root {
-		--color-flash: rgb(255, 88, 88);
-		--color-preference-hover: rgb(52, 52, 55);
-		--color-border-sub-perf: 221, 221, 221;
-
-		--dark-mode-primary-bk-color: rgb(32, 32, 35);
-		--dark-mode-secondary-bk-color: rgb(50, 50, 54);
-		--dark-mode-fg-color: rgb(249, 249, 250);
-
-		--dm-bk-color-button: 249, 249, 250;
-		--dm-bk-alpha-button: 0.1;
-		--dm-bk-alpha-hover-button: 0.15;
-		--dm-bk-alpha-hover-active-button: 0.2;
-	}
-
-	body {
-		background-color: var(--dark-mode-primary-bk-color);
-		color: var(--dark-mode-fg-color);
-	}
-
-	select,
-	option,
-	input {
-		background-color: var(--dark-mode-secondary-bk-color);
-		color: var(--dark-mode-fg-color);
-	}
-
-	/*** User font and Time of day ***/
-	select > option[value="-1"] {
-		background-color: rgb(16, 16, 16);
-	}
-
-	select.disabled,
-	option.disabled,
-	input.disabled {
-		color: rgb(127, 127, 127);
-	}
-
-	input[type="radio"]:checked,
-	input[type="checkbox"]:checked {
-		border: 5px solid #777;
-		background-color: var(--dark-mode-fg-color);
-	}
-
-	input[type="color"]::-moz-color-swatch {
-		box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.6);
-	}
-
-	.preferenceButton {
-		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-button) + 0.1));
-	}
-
-	.preferenceButton:hover {
-		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-hover-button) + 0.1));
-	}
-
-	.preferenceButton:active:hover {
-		background-color: rgba(var(--dm-bk-color-button), calc(var(--dm-bk-alpha-hover-active-button) + 0.1));
-	}
-
-	.extensionButton {
-		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-button));
-	}
-
-	.extensionButton:hover {
-		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-button));
-	}
-
-	.extensionButton:hover:active {
-		background-color: rgba(var(--dm-bk-color-button), var(--dm-bk-alpha-hover-active-button));
-	}
-
-	.extensionButton,
-	.preferenceButton {
-		border-width: 0;
-		box-sizing: border-box;
-		color: var(--dark-mode-fg-color);
-	}
-
-	.popupBox {
-		background-color: inherit;
-		color: inherit;
-		border-color: rgb(128, 128, 128);
-	}
-
-	.inputPopupBox {
-		border-color: rgb(128, 128, 128) !important;
-	}
-
-	.helpInfo {
-		background-color: rgb(92, 92, 92);
-		color: rgb(0, 0, 0);
-	}
-
-	.helpInfo:hover {
-		background-color: rgb(192, 192, 192);
-	}
 }
 
 body.noCaptionStyleV68 .caption,

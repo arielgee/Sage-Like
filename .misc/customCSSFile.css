@@ -1,0 +1,8 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+#pageHeaderContainer {
+	/* background-color: red; */
+	/* background-image: url("http://www.evil.com/fuck-him-up.png"); */
+	background-image: url("https://media.prod.mdn.mozit.cloud/attachments/2012/07/09/3537/5829607fe34903307550554127337ec7/linear-gradient.png");
+	/* background-color: blue; */
+}

@@ -207,11 +207,14 @@
 	</div>
 
 	<div class="preference subPref last">
+		<label class="preferenceLabel">CSS source code</label>
+		<!-- &nbsp;<span class="helpInfo" title="Helpfull help.">?</span> -->
 		<div class="preferenceControl">
-			<input type="file" id="inputCustomCSSFile" accept="text/css,.css"/>
-			<label id="labelForInputCustomCSSFile" for="inputCustomCSSFile" class="preferenceButton" tabindex="0">Browse...</label>
+			<input type="file" id="importCustomCSSSource" accept="text/css,.css"/>
+			<label id="labelForImportCustomCSSSource" for="importCustomCSSSource" class="preferenceButton" tabindex="0">Import...</label>
+			<button type="button" id="btnViewCSSSource" class="preferenceButton">View</button>
+			<button type="button" id="btnClearCSSSource" class="preferenceButton">Clear!</button>
 		</div>
-		<input id="labeCustomCSSFile" class="textualInput" type="text" readonly/>
 	</div>
 	<div class="prefSeperator"></div>
 
@@ -234,8 +237,8 @@
 	<div class="preference extensionButtons">
 		<label></label>
 		<div class="preferenceControl">
-			<button type="button" class="extensionButton" id="btnReloadExtension">Reload Extension</button>
-			<button type="button" class="extensionButton" id="btnRestoreDefaults">Restore Defaults</button>
+			<button type="button" class="preferenceButton" id="btnReloadExtension">Reload Extension</button>
+			<button type="button" class="preferenceButton" id="btnRestoreDefaults">Restore Defaults</button>
 		</div>
 	</div>
 	<br>
@@ -252,6 +255,13 @@
 	<div id="timeOfDayBox" class="popupBox" tabindex="-1">
 		<div class="preferenceControl">
 			<label for="inputTime" class="controlLabel">Every Day at:</label><input type="time" class="inputPopupBox" id="inputTime">
+		</div>
+	</div>
+
+	<!-- ////////////////////////// CSS View Box ////////////////////////// -->
+	<div id="cssViewBox" class="popupBox" tabindex="-1">
+		<div class="preferenceControl">
+			<textarea id="textCSSViewer" wrap="off" spellcheck="false" placeholder="&lt;empty&gt;" readonly></textarea>
 		</div>
 	</div>
 

@@ -329,15 +329,13 @@
 	function injectCustomCSSSource() {
 
 		prefs.getUseCustomCSSFeedPreview().then((use) => {
-
 			if(use) {
-
-				prefs.getCustomCSS().then((custCSS) => {
-					browser.tabs.insertCSS({ code: custCSS.SOURCE, runAt: "document_start" }).then(() => {
-						console.log("[Sage-Like]", "Custom CSS source injected");
-					}).catch((err) => {
-						console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
-					});
+				prefs.getCustomCSSSource().then((source) => {
+					if(source.length > 0) {
+						browser.tabs.insertCSS({ code: source, runAt: "document_start" }).then(() => {}).catch((err) => {
+							console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
+						});
+					}
 				});
 			}
 		});

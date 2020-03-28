@@ -47,9 +47,11 @@ let preferences = (function() {
 	let m_elmRadioImageSet5;
 	let m_elmRadioImageSet6;
 	let m_elmUseCustomCSSFeedPreview;
-	let m_elmInputCustomCSSFile;
-	let m_elmLabelForInputCustomCSSFile;
-	let m_elmLabeCustomCSSFile;
+	let m_elmImportCustomCSSSource;
+	let m_elmBtnViewCSSSource;
+	let m_elmBtnClearCSSSource;
+	let m_elmCSSViewBox;
+	let m_elmTextCSSViewer;
 	let m_elmImportOpml;
 	let m_elmExportOpml;
 
@@ -105,9 +107,11 @@ let preferences = (function() {
 		m_elmRadioImageSet5 = document.getElementById("imageSet5");
 		m_elmRadioImageSet6 = document.getElementById("imageSet6");
 		m_elmUseCustomCSSFeedPreview = document.getElementById("useCustomCSSFeedPreview");
-		m_elmInputCustomCSSFile = document.getElementById("inputCustomCSSFile");
-		m_elmLabelForInputCustomCSSFile = document.getElementById("labelForInputCustomCSSFile");
-		m_elmLabeCustomCSSFile = document.getElementById("labeCustomCSSFile");
+		m_elmImportCustomCSSSource = document.getElementById("importCustomCSSSource");
+		m_elmBtnViewCSSSource = document.getElementById("btnViewCSSSource");
+		m_elmBtnClearCSSSource = document.getElementById("btnClearCSSSource");
+		m_elmCSSViewBox = document.getElementById("cssViewBox");
+		m_elmTextCSSViewer = document.getElementById("textCSSViewer");
 		m_elmImportOpml = document.getElementById("inputImportOPML");
 		m_elmExportOpml = document.getElementById("btnExportOPML");
 
@@ -165,7 +169,11 @@ let preferences = (function() {
 		m_elmRadioImageSet5.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
 		m_elmUseCustomCSSFeedPreview.removeEventListener("change", onChangeUseCustomCSSFeedPreview);
-		m_elmInputCustomCSSFile.removeEventListener("change", onChangeInputCustomCSSFile);
+		m_elmImportCustomCSSSource.removeEventListener("change", onChangeImportCustomCSSSource);
+		m_elmBtnViewCSSSource.removeEventListener("click", onClickBtnViewCSSSource);
+		m_elmBtnClearCSSSource.removeEventListener("click", onClickBtnClearCSSSource);
+		m_elmCSSViewBox.removeEventListener("keydown", onKeyDownCSSViewBox);
+		m_elmTextCSSViewer.removeEventListener("blur", onBlurTextCSSViewer);
 		m_elmImportOpml.removeEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.removeEventListener("click", onClickExportOpml);
 
@@ -214,7 +222,11 @@ let preferences = (function() {
 		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
 		m_elmUseCustomCSSFeedPreview.addEventListener("change", onChangeUseCustomCSSFeedPreview);
-		m_elmInputCustomCSSFile.addEventListener("change", onChangeInputCustomCSSFile);
+		m_elmImportCustomCSSSource.addEventListener("change", onChangeImportCustomCSSSource);
+		m_elmBtnViewCSSSource.addEventListener("click", onClickBtnViewCSSSource);
+		m_elmBtnClearCSSSource.addEventListener("click", onClickBtnClearCSSSource);
+		m_elmCSSViewBox.addEventListener("keydown", onKeyDownCSSViewBox);
+		m_elmTextCSSViewer.addEventListener("blur", onBlurTextCSSViewer);
 		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.addEventListener("click", onClickExportOpml);
 
@@ -358,19 +370,22 @@ let preferences = (function() {
 
 		prefs.getUseCustomCSSFeedPreview().then((checked) => {
 			m_elmUseCustomCSSFeedPreview.checked = checked;
-			slUtil.disableElementTree(m_elmInputCustomCSSFile.parentElement.parentElement, !checked);
-		});
-
-		prefs.getCustomCSS().then((custCSS) => {
-			m_elmLabeCustomCSSFile.value = custCSS.LABEL;
-			flashCustomCSSFileBrowseButton();
+			if(checked) {
+				prefs.getCustomCSSSource().then((source) => {
+					let isEmpty = (source.length === 0);
+					slUtil.disableElementTree(m_elmBtnViewCSSSource, isEmpty);
+					slUtil.disableElementTree(m_elmBtnClearCSSSource, isEmpty);
+					flashCustomCSSImportButton();
+				});
+			} else {
+				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
+			}
 		});
 	}
 
 	//==================================================================================
 	//=== Event Listeners
 	//==================================================================================
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickPreference(event) {
@@ -635,23 +650,58 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeUseCustomCSSFeedPreview(event) {
-		let checked = m_elmUseCustomCSSFeedPreview.checked;
-		prefs.setUseCustomCSSFeedPreview(checked);
-		slUtil.disableElementTree(m_elmInputCustomCSSFile.parentElement.parentElement, !checked);
-		flashCustomCSSFileBrowseButton();
+		prefs.setUseCustomCSSFeedPreview(m_elmUseCustomCSSFeedPreview.checked);
+
+		if(m_elmUseCustomCSSFeedPreview.checked) {
+			prefs.getCustomCSSSource().then((source) => {
+				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, false);
+				let isEmpty = (source.length === 0);
+				slUtil.disableElementTree(m_elmBtnViewCSSSource, isEmpty);
+				slUtil.disableElementTree(m_elmBtnClearCSSSource, isEmpty);
+				flashCustomCSSImportButton();
+			});
+		} else {
+			slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
+			flashCustomCSSImportButton();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeInputCustomCSSFile(event) {
+	function onChangeImportCustomCSSSource(event) {
 
-		// TBD
-		let src = "#pageHeaderContainer { background-color: magenta; color: black; }";
-		let lbl = event.target.files[0].name;
-		m_elmLabeCustomCSSFile.value = lbl;
+		validatorCSSFile(event.target.files[0]).then((result) => {
 
+			console.log("[Sage-Like]  result", result);
+			console.log("[Sage-Like]  note", result.note);
 
-		prefs.setCustomCSS({LABEL: lbl, SOURCE: src});
-		flashCustomCSSFileBrowseButton();
+			prefs.setCustomCSSSource(result.source);
+
+			slUtil.disableElementTree(m_elmBtnViewCSSSource, false);
+			slUtil.disableElementTree(m_elmBtnClearCSSSource, false);
+
+			flashCustomCSSImportButton();
+
+			if(!!result.note) {
+				setTimeout(() => alert("WARNING:\n\n" + result.note), 0);
+			}
+
+		}).catch((error) => {
+			setTimeout(() => alert("ERROR: " + error.message), 0);
+			console.log("[Sage-Like]", "CSS file validation error", error.message);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnViewCSSSource(event) {
+		showCSSViewBox();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnClearCSSSource(event) {
+		prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
+		slUtil.disableElementTree(m_elmBtnViewCSSSource, true);
+		slUtil.disableElementTree(m_elmBtnClearCSSSource, true);
+		flashCustomCSSImportButton();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -708,7 +758,7 @@ let preferences = (function() {
 		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !defPrefs.showFeedItemDesc);
-		slUtil.disableElementTree(m_elmInputCustomCSSFile.parentElement.parentElement, !defPrefs.useCustomCSSFeedPreview);
+		slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, !defPrefs.useCustomCSSFeedPreview);
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, defPrefs.rootFeedsFolderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
@@ -739,10 +789,9 @@ let preferences = (function() {
 			}
 		}
 		m_elmUseCustomCSSFeedPreview.checked = defPrefs.useCustomCSSFeedPreview;
-		m_elmLabeCustomCSSFile.value = defPrefs.customCSS.LABEL;
 
 		flashRootFeedsFolderElement();
-		flashCustomCSSFileBrowseButton();
+		flashCustomCSSImportButton();
 		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ALL);
 	}
 
@@ -977,6 +1026,41 @@ let preferences = (function() {
 	}
 
 	//==================================================================================
+	//=== CSS View Box functions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function showCSSViewBox() {
+
+		prefs.getCustomCSSSource().then((source) => {
+
+			m_elmTextCSSViewer.textContent = source;
+
+			m_elmCSSViewBox.style.display = "block";
+
+			let x = m_elmBtnViewCSSSource.parentElement.parentElement.offsetLeft;
+			let y = m_elmBtnViewCSSSource.offsetTop - m_elmCSSViewBox.offsetHeight;
+
+			m_elmCSSViewBox.style.left = x + "px";
+			m_elmCSSViewBox.style.top = y + "px";
+
+			m_elmTextCSSViewer.focus();
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownCSSViewBox(event) {
+		if(event.code === "Escape") {
+			m_elmCSSViewBox.style.display = "none";
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBlurTextCSSViewer(event) {
+		setTimeout(() => m_elmCSSViewBox.style.display = "none", 0);		// to avoid: "TypeError: Property 'handleEvent' is not callable."
+	}
+
+	//==================================================================================
 	//=== Misc. functions
 	//==================================================================================
 
@@ -994,7 +1078,53 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function flashCustomCSSFileBrowseButton() {
-		m_elmLabelForInputCustomCSSFile.classList.toggle("flash", (m_elmUseCustomCSSFeedPreview.checked && m_elmLabeCustomCSSFile.value === ""));
+	function flashCustomCSSImportButton() {
+		document.getElementById("labelForImportCustomCSSSource").classList.toggle("flash", (m_elmUseCustomCSSFeedPreview.checked && m_elmBtnViewCSSSource.disabled));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function validatorCSSFile(cssFile) {
+
+		const MIN_FILE_BYTE_SIZE = 0;
+		const MAX_FILE_BYTE_SIZE = 65536;	// 64bk
+
+		return new Promise((resolve, reject) => {
+
+			if( !(cssFile instanceof File) ) {
+				reject(new Error("Not a File object."));
+			} else if(cssFile.size === MIN_FILE_BYTE_SIZE) {
+				reject(new Error("File is empty."));
+			} else if(cssFile.size > MAX_FILE_BYTE_SIZE) {
+				reject(new Error("File too large. Maximum: " + slUtil.asPrettyByteSize(MAX_FILE_BYTE_SIZE)));
+			} else {
+
+				let reader = new FileReader();
+
+				reader.onerror = (event) => {
+					console.log("[Sage-Like]", "FileReader error", event);
+					reject(new Error("FileReader error."));
+				};
+
+				reader.onload = (event) => {
+
+					let source = event.target.result;
+
+					if(source.length === 0) {
+						reject(new Error("File has no text content."));
+					} else {
+
+						let resolveObj = { source: source };
+						let regexpRemoteURI = /\burl\s*\(\s*['"]?\s*(https?|ftp|file):(\/\/)?[^\s"']+/im;
+
+						if(source.match(regexpRemoteURI)) {
+							resolveObj["note"] = "The file has URLs to remote resources that may potentially be a security risk.\n\n" +
+												  "If you are not sure that those URLs are safe you should clear or replace this file.";
+						}
+						resolve(resolveObj);
+					}
+				};
+				reader.readAsText(cssFile);
+			}
+		});
 	}
 })();

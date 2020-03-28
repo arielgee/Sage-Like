@@ -1065,7 +1065,7 @@ let prefs = (function() {
 	const DEF_PREF_COLOR_TEXT_VALUE = "#000000";
 	const DEF_PREF_IMAGE_SET_VALUE = 0;
 	const DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE = false;
-	const DEF_PREF_CUSTOM_CSS_VALUE = { LABEL: "", SOURCE: "" };
+	const DEF_PREF_CUSTOM_CSS_SOURCE_VALUE = "";
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
@@ -1089,7 +1089,7 @@ let prefs = (function() {
 	const PREF_COLOR_TEXT = "pref_colorText";
 	const PREF_IMAGE_SET = "pref_imageSet";
 	const PREF_USE_CUSTOM_CSS_FEED_PREVIEW = "pref_useCustomCSSFeedPreview";
-	const PREF_CUSTOM_CSS = "pref_customCSS";
+	const PREF_CUSTOM_CSS_SOURCE = "pref_customCSSSource";
 
 	//////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId() {
@@ -1510,21 +1510,21 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getCustomCSS() {
+	function getCustomCSSSource() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_CUSTOM_CSS).then((result) => {
-				resolve(result[PREF_CUSTOM_CSS] === undefined ? DEF_PREF_CUSTOM_CSS_VALUE : result[PREF_CUSTOM_CSS]);
+			browser.storage.local.get(PREF_CUSTOM_CSS_SOURCE).then((result) => {
+				resolve(result[PREF_CUSTOM_CSS_SOURCE] === undefined ? DEF_PREF_CUSTOM_CSS_SOURCE_VALUE : result[PREF_CUSTOM_CSS_SOURCE]);
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setCustomCSS(value) {
+	function setCustomCSSSource(value) {
 
 		let obj = {};
-		obj[PREF_CUSTOM_CSS] = value;
+		obj[PREF_CUSTOM_CSS_SOURCE] = value;
 		browser.storage.local.set(obj);
 	}
 
@@ -1552,7 +1552,7 @@ let prefs = (function() {
 		this.setColorText(DEF_PREF_COLOR_TEXT_VALUE);
 		this.setImageSet(DEF_PREF_IMAGE_SET_VALUE);
 		this.setUseCustomCSSFeedPreview(DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE);
-		this.setCustomCSS(DEF_PREF_CUSTOM_CSS_VALUE);
+		this.setCustomCSSSource(DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
 
 		return {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
@@ -1577,7 +1577,7 @@ let prefs = (function() {
 			colorText: DEF_PREF_COLOR_TEXT_VALUE,
 			imageSet: DEF_PREF_IMAGE_SET_VALUE,
 			useCustomCSSFeedPreview: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
-			customCSS: DEF_PREF_CUSTOM_CSS_VALUE,
+			customCSSSource: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
 		};
 	}
 
@@ -1604,7 +1604,7 @@ let prefs = (function() {
 		DEF_PREF_COLOR_TEXT_VALUE: DEF_PREF_COLOR_TEXT_VALUE,
 		DEF_PREF_IMAGE_SET_VALUE: DEF_PREF_IMAGE_SET_VALUE,
 		DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
-		DEF_PREF_CUSTOM_CSS_VALUE: DEF_PREF_CUSTOM_CSS_VALUE,
+		DEF_PREF_CUSTOM_CSS_SOURCE_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
 
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
@@ -1650,8 +1650,8 @@ let prefs = (function() {
 		setImageSet: setImageSet,
 		getUseCustomCSSFeedPreview: getUseCustomCSSFeedPreview,
 		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
-		getCustomCSS: getCustomCSS,
-		setCustomCSS: setCustomCSS,
+		getCustomCSSSource: getCustomCSSSource,
+		setCustomCSSSource: setCustomCSSSource,
 
 		restoreDefaults: restoreDefaults,
 	}
