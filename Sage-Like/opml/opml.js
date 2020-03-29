@@ -25,6 +25,7 @@ let opml = (function() {
 				m_xhr.overrideMimeType("text/xml");
 				m_xhr.addEventListener("load", onLoad);
 				m_xhr.addEventListener("error", onError);
+				m_xhr.addEventListener("loadend", () => URL.revokeObjectURL(objUrl) );
 				m_xhr.send();
 			});
 		}
@@ -115,6 +116,7 @@ let opml = (function() {
 	//////////////////////////////////////////
 	let exportFeeds = (function() {
 
+		let m_objUrl = null;
 		let m_funcExportResolve;
 
 		////////////////////////////////////////////////////////////////////////////////////
@@ -135,13 +137,17 @@ let opml = (function() {
 
 					let blob = new Blob([opmlLines.join("\n")], { type: "text/xml", endings: "native" });
 
-					let objUrl = URL.createObjectURL(blob);
+					m_objUrl = URL.createObjectURL(blob);
 					browser.downloads.onChanged.addListener(onChangedDownload);
 					browser.downloads.download({
-						url: objUrl,
+						url: m_objUrl,
 						filename: "sage-like_" + dateExportStr + ".opml",
 						saveAs: true,
 					}).catch((error) => {
+
+						if(!!m_objUrl) URL.revokeObjectURL(m_objUrl);
+						m_objUrl = null;
+
 						if(error.message === "Download canceled by the user") {
 							m_funcExportResolve();
 						} else {
@@ -158,6 +164,10 @@ let opml = (function() {
 		////////////////////////////////////////////////////////////////////////////////////
 		function onChangedDownload(delta) {
 			if (delta.state && delta.state.current === "complete") {
+
+				if(!!m_objUrl) URL.revokeObjectURL(m_objUrl);
+				m_objUrl = null;
+
 				browser.downloads.onChanged.removeListener(onChangedDownload);
 				m_funcExportResolve();
 			}
