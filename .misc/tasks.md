@@ -551,20 +551,20 @@
 	* !important in feedPreview.css - check if rules from a custom css can overwrite those rules		==> THEY CAN
 * in preferences.validatorCSSFile() do not match '@namespace url("http://www.w3.org/1999/xhtml")'
 * missing revokeObjectURL() in opml.js (anywhere)
+* From mozilla [support] page:
+	* how to allow user to safly insert user-CSS's into feedPreview
 * write css source to file?		=> NO there is view
 * clear custom CSS file/code
+* mimimize CSS code		=> NO
 * save 'browser.storage.local' to m_localStorage.
+* rewrite all preferences.css variables (colors)
 ---
 
 
 ## Next
-* check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * broadcast that custom css file was consumed and reload all feedPreview?
-* rewrite all preferences.css variables (colors)
 * change preference to open feed preview with left click 'in current tab' 'in new tab'
-* mimimize CSS code
-* From mozilla [support] page:
-	* how to allow user to safly insert user-CSS's into feedPreview
+* check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * in preferences
 	> Subscribe button <img> in address bar
 		> Feed detection in web pages (?)				[O] On page load		[X] On mouse click
