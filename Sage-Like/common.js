@@ -770,12 +770,14 @@ let internalPrefs = (function() {
 	const PREF_AGGRESSIVE_DISCOVERY_LEVEL = "pref_aggressiveDiscoveryLevel";
 	const PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT = "pref_hoverFilterTextBoxShowMsgCount";
 
+	let m_localStorage = browser.storage.local;
+
 	//////////////////////////////////////////////////////////////////////
 	function getOpenFolders() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_OPEN_FOLDERS).then((result) => {
+			m_localStorage.get(PREF_OPEN_FOLDERS).then((result) => {
 				resolve(result[PREF_OPEN_FOLDERS] === undefined ? DEF_PREF_OPEN_FOLDERS_VALUE : result[PREF_OPEN_FOLDERS]);
 			});
 		});
@@ -786,7 +788,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_OPEN_FOLDERS] = objValue;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -794,7 +796,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_TREE_FEEDS_DATA).then((result) => {
+			m_localStorage.get(PREF_TREE_FEEDS_DATA).then((result) => {
 				resolve(result[PREF_TREE_FEEDS_DATA] === undefined ? DEF_PREF_TREE_FEEDS_DATA_VALUE : result[PREF_TREE_FEEDS_DATA]);
 			});
 		});
@@ -805,7 +807,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_TREE_FEEDS_DATA] = objValue;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -813,7 +815,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_IS_EXTENSION_INSTALLED).then((result) => {
+			m_localStorage.get(PREF_IS_EXTENSION_INSTALLED).then((result) => {
 				resolve(result[PREF_IS_EXTENSION_INSTALLED] === undefined ? DEF_PREF_IS_EXTENSION_INSTALLED_VALUE : result[PREF_IS_EXTENSION_INSTALLED]);
 			});
 		});
@@ -824,7 +826,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_IS_EXTENSION_INSTALLED] = objValue;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -832,7 +834,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_TREE_SELECTED_ITEM_ID).then((result) => {
+			m_localStorage.get(PREF_TREE_SELECTED_ITEM_ID).then((result) => {
 				resolve(result[PREF_TREE_SELECTED_ITEM_ID] === undefined ? DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE : result[PREF_TREE_SELECTED_ITEM_ID]);
 			});
 		});
@@ -843,7 +845,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_TREE_SELECTED_ITEM_ID] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -851,7 +853,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_TREE_SCROLL_TOP).then((result) => {
+			m_localStorage.get(PREF_TREE_SCROLL_TOP).then((result) => {
 				resolve(result[PREF_TREE_SCROLL_TOP] === undefined ? DEF_PREF_TREE_SCROLL_TOP_VALUE : result[PREF_TREE_SCROLL_TOP]);
 			});
 		});
@@ -862,7 +864,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_TREE_SCROLL_TOP] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -870,7 +872,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_SPLITTER_TOP).then((result) => {
+			m_localStorage.get(PREF_SPLITTER_TOP).then((result) => {
 				resolve(result[PREF_SPLITTER_TOP] === undefined ? DEF_PREF_SPLITTER_TOP_VALUE : result[PREF_SPLITTER_TOP]);
 			});
 		});
@@ -881,7 +883,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_SPLITTER_TOP] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -889,7 +891,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT).then((result) => {
+			m_localStorage.get(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT).then((result) => {
 				resolve(result[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT] === undefined ? DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE : result[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT]);
 			});
 		});
@@ -900,7 +902,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -908,7 +910,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_FEEDS_FILTER).then((result) => {
+			m_localStorage.get(PREF_FEEDS_FILTER).then((result) => {
 				resolve(result[PREF_FEEDS_FILTER] === undefined ? DEF_PREF_FEEDS_FILTER_VALUE : result[PREF_FEEDS_FILTER]);
 			});
 		});
@@ -919,7 +921,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_FEEDS_FILTER] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -927,7 +929,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_AGGRESSIVE_DISCOVERY_LEVEL).then((result) => {
+			m_localStorage.get(PREF_AGGRESSIVE_DISCOVERY_LEVEL).then((result) => {
 				resolve(result[PREF_AGGRESSIVE_DISCOVERY_LEVEL] === undefined ? DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE : result[PREF_AGGRESSIVE_DISCOVERY_LEVEL]);
 			});
 		});
@@ -938,7 +940,7 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_AGGRESSIVE_DISCOVERY_LEVEL] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -946,7 +948,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			let getting = browser.storage.local.get([
+			let getting = m_localStorage.get([
 				PREF_TREE_SCROLL_TOP,
 				PREF_TREE_SELECTED_ITEM_ID,
 				PREF_FEEDS_FILTER,
@@ -967,7 +969,7 @@ let internalPrefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT).then((result) => {
+			m_localStorage.get(PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT).then((result) => {
 				resolve(result[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT] === undefined ? DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE : result[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT]);
 			});
 		});
@@ -978,9 +980,8 @@ let internalPrefs = (function() {
 
 		let obj = {};
 		obj[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
-
 
 	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
@@ -1091,12 +1092,14 @@ let prefs = (function() {
 	const PREF_USE_CUSTOM_CSS_FEED_PREVIEW = "pref_useCustomCSSFeedPreview";
 	const PREF_CUSTOM_CSS_SOURCE = "pref_customCSSSource";
 
+	let m_localStorage = browser.storage.local;
+
 	//////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_ROOT_FEEDS_FOLDER_ID).then((result) => {
+			m_localStorage.get(PREF_ROOT_FEEDS_FOLDER_ID).then((result) => {
 				resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
 			});
 		});
@@ -1107,7 +1110,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_ROOT_FEEDS_FOLDER_ID] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1115,7 +1118,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_CHECK_FEEDS_INTERVAL).then((result) => {
+			m_localStorage.get(PREF_CHECK_FEEDS_INTERVAL).then((result) => {
 				resolve(result[PREF_CHECK_FEEDS_INTERVAL] === undefined ? DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE : result[PREF_CHECK_FEEDS_INTERVAL]);
 			});
 		});
@@ -1126,7 +1129,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_CHECK_FEEDS_INTERVAL] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1134,7 +1137,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_CHECK_FEEDS_WHEN_SB_CLOSED).then((result) => {
+			m_localStorage.get(PREF_CHECK_FEEDS_WHEN_SB_CLOSED).then((result) => {
 				resolve(result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED] === undefined ? DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE : result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED]);
 			});
 		});
@@ -1145,7 +1148,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_CHECK_FEEDS_WHEN_SB_CLOSED] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1153,7 +1156,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_CHECK_FEEDS_METHOD).then((result) => {
+			m_localStorage.get(PREF_CHECK_FEEDS_METHOD).then((result) => {
 				resolve(result[PREF_CHECK_FEEDS_METHOD] === undefined ? DEF_PREF_CHECK_FEEDS_METHOD_VALUE : result[PREF_CHECK_FEEDS_METHOD]);
 			});
 		});
@@ -1164,7 +1167,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_CHECK_FEEDS_METHOD] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1172,7 +1175,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_FETCH_TIMEOUT).then((result) => {
+			m_localStorage.get(PREF_FETCH_TIMEOUT).then((result) => {
 				resolve(result[PREF_FETCH_TIMEOUT] === undefined ? DEF_PREF_FETCH_TIMEOUT_VALUE : result[PREF_FETCH_TIMEOUT]);
 			});
 		});
@@ -1183,7 +1186,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_FETCH_TIMEOUT] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1191,7 +1194,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_PRIME_CLICK_OPEN_FEED_PREVIEW).then((result) => {
+			m_localStorage.get(PREF_PRIME_CLICK_OPEN_FEED_PREVIEW).then((result) => {
 				resolve(result[PREF_PRIME_CLICK_OPEN_FEED_PREVIEW] === undefined ? DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE : result[PREF_PRIME_CLICK_OPEN_FEED_PREVIEW]);
 			});
 		});
@@ -1202,7 +1205,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_PRIME_CLICK_OPEN_FEED_PREVIEW] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1210,7 +1213,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_SHOW_FEED_STATS).then((result) => {
+			m_localStorage.get(PREF_SHOW_FEED_STATS).then((result) => {
 				resolve(result[PREF_SHOW_FEED_STATS] === undefined ? DEF_PREF_SHOW_FEED_STATS_VALUE : result[PREF_SHOW_FEED_STATS]);
 			});
 		});
@@ -1221,7 +1224,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_SHOW_FEED_STATS] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1229,7 +1232,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_SHOW_FEED_ITEM_DESC).then((result) => {
+			m_localStorage.get(PREF_SHOW_FEED_ITEM_DESC).then((result) => {
 				resolve(result[PREF_SHOW_FEED_ITEM_DESC] === undefined ? DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE : result[PREF_SHOW_FEED_ITEM_DESC]);
 			});
 		});
@@ -1240,7 +1243,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_SHOW_FEED_ITEM_DESC] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1248,7 +1251,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_FEED_ITEM_DESC_DELAY).then((result) => {
+			m_localStorage.get(PREF_FEED_ITEM_DESC_DELAY).then((result) => {
 				resolve(result[PREF_FEED_ITEM_DESC_DELAY] === undefined ? DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE : result[PREF_FEED_ITEM_DESC_DELAY]);
 			});
 		});
@@ -1259,7 +1262,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_SHOW_FEED_ITEM_DESC_ATTACH).then((result) => {
+			m_localStorage.get(PREF_SHOW_FEED_ITEM_DESC_ATTACH).then((result) => {
 				resolve(result[PREF_SHOW_FEED_ITEM_DESC_ATTACH] === undefined ? DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE : result[PREF_SHOW_FEED_ITEM_DESC_ATTACH]);
 			});
 		});
@@ -1270,7 +1273,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_SHOW_FEED_ITEM_DESC_ATTACH] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1278,7 +1281,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_FEED_ITEM_DESC_DELAY] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1286,7 +1289,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND).then((result) => {
+			m_localStorage.get(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND).then((result) => {
 				resolve(result[PREF_COLOR_FEED_ITEM_DESC_BACKGROUND] === undefined ? DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE : result[PREF_COLOR_FEED_ITEM_DESC_BACKGROUND]);
 			});
 		});
@@ -1297,7 +1300,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_COLOR_FEED_ITEM_DESC_BACKGROUND] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1305,7 +1308,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_FEED_ITEM_DESC_TEXT).then((result) => {
+			m_localStorage.get(PREF_COLOR_FEED_ITEM_DESC_TEXT).then((result) => {
 				resolve(result[PREF_COLOR_FEED_ITEM_DESC_TEXT] === undefined ? DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE : result[PREF_COLOR_FEED_ITEM_DESC_TEXT]);
 			});
 		});
@@ -1316,7 +1319,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_COLOR_FEED_ITEM_DESC_TEXT] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1324,7 +1327,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_DETECT_FEEDS_IN_WEB_PAGE).then((result) => {
+			m_localStorage.get(PREF_DETECT_FEEDS_IN_WEB_PAGE).then((result) => {
 				resolve(result[PREF_DETECT_FEEDS_IN_WEB_PAGE] === undefined ? DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE : result[PREF_DETECT_FEEDS_IN_WEB_PAGE]);
 			});
 		});
@@ -1335,7 +1338,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_DETECT_FEEDS_IN_WEB_PAGE] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1343,7 +1346,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_UI_DENSITY).then((result) => {
+			m_localStorage.get(PREF_UI_DENSITY).then((result) => {
 				resolve(result[PREF_UI_DENSITY] === undefined ? DEF_PREF_UI_DENSITY_VALUE : result[PREF_UI_DENSITY]);
 			});
 		});
@@ -1354,7 +1357,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_UI_DENSITY] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1362,7 +1365,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_FONT_NAME).then((result) => {
+			m_localStorage.get(PREF_FONT_NAME).then((result) => {
 				resolve(result[PREF_FONT_NAME] === undefined ? DEF_PREF_FONT_NAME_VALUE : result[PREF_FONT_NAME]);
 			});
 		});
@@ -1373,7 +1376,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_FONT_NAME] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1381,7 +1384,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_FONT_SIZE_PERCENT).then((result) => {
+			m_localStorage.get(PREF_FONT_SIZE_PERCENT).then((result) => {
 				resolve(result[PREF_FONT_SIZE_PERCENT] === undefined ? DEF_PREF_FONT_SIZE_PERCENT_VALUE : result[PREF_FONT_SIZE_PERCENT]);
 			});
 		});
@@ -1392,7 +1395,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_FONT_SIZE_PERCENT] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1400,7 +1403,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_BACKGROUND).then((result) => {
+			m_localStorage.get(PREF_COLOR_BACKGROUND).then((result) => {
 				resolve(result[PREF_COLOR_BACKGROUND] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND]);
 			});
 		});
@@ -1411,7 +1414,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_COLOR_BACKGROUND] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1419,7 +1422,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_DIALOG_BACKGROUND).then((result) => {
+			m_localStorage.get(PREF_COLOR_DIALOG_BACKGROUND).then((result) => {
 				resolve(result[PREF_COLOR_DIALOG_BACKGROUND] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND]);
 			});
 		});
@@ -1430,7 +1433,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_COLOR_DIALOG_BACKGROUND] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1438,7 +1441,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_SELECT).then((result) => {
+			m_localStorage.get(PREF_COLOR_SELECT).then((result) => {
 				resolve(result[PREF_COLOR_SELECT] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT]);
 			});
 		});
@@ -1449,7 +1452,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_COLOR_SELECT] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1457,7 +1460,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_COLOR_TEXT).then((result) => {
+			m_localStorage.get(PREF_COLOR_TEXT).then((result) => {
 				resolve(result[PREF_COLOR_TEXT] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT]);
 			});
 		});
@@ -1468,7 +1471,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_COLOR_TEXT] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1476,7 +1479,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_IMAGE_SET).then((result) => {
+			m_localStorage.get(PREF_IMAGE_SET).then((result) => {
 				resolve(result[PREF_IMAGE_SET] === undefined ? DEF_PREF_IMAGE_SET_VALUE : result[PREF_IMAGE_SET]);
 			});
 		});
@@ -1487,7 +1490,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_IMAGE_SET] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1495,7 +1498,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_USE_CUSTOM_CSS_FEED_PREVIEW).then((result) => {
+			m_localStorage.get(PREF_USE_CUSTOM_CSS_FEED_PREVIEW).then((result) => {
 				resolve(result[PREF_USE_CUSTOM_CSS_FEED_PREVIEW] === undefined ? DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE : result[PREF_USE_CUSTOM_CSS_FEED_PREVIEW]);
 			});
 		});
@@ -1506,7 +1509,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_USE_CUSTOM_CSS_FEED_PREVIEW] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1514,7 +1517,7 @@ let prefs = (function() {
 
 		return new Promise((resolve) => {
 
-			browser.storage.local.get(PREF_CUSTOM_CSS_SOURCE).then((result) => {
+			m_localStorage.get(PREF_CUSTOM_CSS_SOURCE).then((result) => {
 				resolve(result[PREF_CUSTOM_CSS_SOURCE] === undefined ? DEF_PREF_CUSTOM_CSS_SOURCE_VALUE : result[PREF_CUSTOM_CSS_SOURCE]);
 			});
 		});
@@ -1525,7 +1528,7 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_CUSTOM_CSS_SOURCE] = value;
-		browser.storage.local.set(obj);
+		m_localStorage.set(obj);
 	}
 
 	//////////////////////////////////////////////////////////////////////
