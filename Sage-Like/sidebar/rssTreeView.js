@@ -1935,7 +1935,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedTooltipState(elmLI, thirdLine = undefined, fourthLine = undefined) {
 
-		elmLI.title = getTreeItemText(elmLI) + "\u000dURL: " + elmLI.getAttribute("href");
+		elmLI.title = getTreeItemText(elmLI) + (elmLI.hasAttribute("href") ? ("\u000dURL: " + elmLI.getAttribute("href")) : "");
 
 		if(thirdLine !== undefined) {
 			elmLI.title += "\u000d" + thirdLine;
@@ -1958,7 +1958,7 @@ let rssTreeView = (function() {
 		} else {
 			elmLI.title = getTreeItemText(elmLI);
 		}
-		elmLI.title += "\u000dURL: " + elmLI.getAttribute("href") + "\u000d" + thirdLine;
+		elmLI.title += (elmLI.hasAttribute("href") ? ("\u000dURL: " + elmLI.getAttribute("href")) : "") + "\u000d" + thirdLine;
 	}
 
 	//==================================================================================
