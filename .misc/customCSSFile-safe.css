@@ -1,0 +1,14 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+* {
+	font-family: monospace;
+	font-size: 25px;
+	line-height: 25px;
+}
+
+#pageHeaderContainer {
+	background-color: darkgreen;
+	border: 2px dashed greenyellow;
+	box-shadow: 0 0 2.5px 1px cornflowerblue;
+	background-image: url("chrome://browser/skin/bookmark-star-on-tray.svg");
+}

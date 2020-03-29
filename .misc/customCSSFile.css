@@ -1,8 +1,31 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
+#feedBody {
+	background-color: red !important;
+	background-image: url("http://www.evil.com/fuck-him-up.png");
+}
+
+.feedItemNumber {
+	background-color: violet !important;
+	background-image: url("https://www.evil.com/fuck-him-up.png");
+}
+
+.feedItemTitle {
+	background-color: orangered !important;
+	background-image: url("ftp://www.evil.com/fuck-him-up.png");
+}
+
+.feedItemContent {
+	background-color: darkred !important;
+	background-image: url("sftp://www.evil.com/fuck-him-up.png");
+}
+
+#attachmentTooltip {
+	background-color: deeppink !important;
+	background-image: url("file://www.evil.com/fuck-him-up.png");
+}
+
 #pageHeaderContainer {
-	/* background-color: red; */
-	/* background-image: url("http://www.evil.com/fuck-him-up.png"); */
-	background-image: url("https://media.prod.mdn.mozit.cloud/attachments/2012/07/09/3537/5829607fe34903307550554127337ec7/linear-gradient.png");
-	/* background-color: blue; */
+	background-color: crimson !important;
+	background-image: url("https://www.iconsdb.com/icons/download/black/skull-32-128.png");
 }

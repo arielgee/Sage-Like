@@ -669,10 +669,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeImportCustomCSSSource(event) {
 
-		validatorCSSFile(event.target.files[0]).then((result) => {
-
-			console.log("[Sage-Like]  result", result);
-			console.log("[Sage-Like]  note", result.note);
+		cssFileValidator(event.target.files[0]).then((result) => {
 
 			prefs.setCustomCSSSource(result.source);
 
@@ -1083,7 +1080,7 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function validatorCSSFile(cssFile) {
+	function cssFileValidator(cssFile) {
 
 		const MIN_FILE_BYTE_SIZE = 0;
 		const MAX_FILE_BYTE_SIZE = 65536;	// 64bk
@@ -1114,13 +1111,46 @@ let preferences = (function() {
 					} else {
 
 						let resolveObj = { source: source };
-						let regexpRemoteURI = /\burl\s*\(\s*['"]?\s*(https?|ftp|file):(\/\/)?[^\s"']+/im;
 
-						if(source.match(regexpRemoteURI)) {
-							resolveObj["note"] = "The file has URLs to remote resources that may potentially be a security risk.\n\n" +
-												  "If you are not sure that those URLs are safe you should clear or replace this file.";
+						// check for URLs to remote resources
+						let doc = document.implementation.createHTMLDocument();
+						let head = document.createElement("head");
+						let style = document.createElement("style");
+
+						style.type = "text/css";
+						style.innerHTML = source;
+
+						head.appendChild(style);
+						doc.body.appendChild(head);
+
+						let hasStyleRule = false;
+						let rules = style.sheet.cssRules;
+						let lenRules = rules.length;
+						let rxRemoteURI = /\b(https?|s?ftp|file):(\/\/)?[^\s]+/im;
+
+						if(lenRules > 0) {
+
+							for(let i=0; i<lenRules; i++) {
+								if( !(rules[i] instanceof CSSNamespaceRule) ) {
+									hasStyleRule = true;
+									if(rules[i].cssText.match(rxRemoteURI)) {
+										resolveObj["note"] = "URLs to remote resources were found in the file and that could potentially be a security risk.\n\n" +
+															 "If you are not sure that those URLs are safe you should replace or clear this file.";
+										break;
+									}
+								}
+							}
+							if(!hasStyleRule) resolveObj["note"] = "No style rules where found in file.";
+
+						} else {
+							resolveObj["note"] = "No rules where found in file.";
 						}
 						resolve(resolveObj);
+
+						// Redundent: But I would like to help the GC to get the point as soon as possible
+						head.removeChild(style);
+						doc.body.removeChild(head);
+						doc = head = style = rules = null;
 					}
 				};
 				reader.readAsText(cssFile);
