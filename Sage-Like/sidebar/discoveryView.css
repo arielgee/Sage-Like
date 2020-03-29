@@ -171,7 +171,7 @@
 
 /* triToggler - Tri-State Toggle Control */
 
-sl-tri-toggler {
+sl-tri-toggler#triTglAggressiveLevel {
 	display: block;
 	box-sizing: content-box;
 	min-height: var(--height-total);
@@ -181,7 +181,7 @@ sl-tri-toggler {
 	border: var(--border-size) solid #7f7f7f;
 	border-radius: var(--border-radius);
 	background-color: #d3d3d3;
-	line-height: var(--height-content) !important;
+	line-height: var(--height-content);
 	position: relative;
 	overflow: hidden;
 }
@@ -219,13 +219,13 @@ sl-tri-toggler-captions {
 	pointer-events: none;
 }
 
-sl-tri-toggler-caption {
+sl-tri-toggler-caption.triTgglerCaption {
 	height: var(--height-content);
 	width: var(--width-toggle);
 	flex-grow: 1;
-	font-family: Arial, Helvetica, sans-serif !important;
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight: normal;
-	font-size: var(--font-size-caption) !important;
+	font-size: var(--font-size-caption);
 	text-align: center;
 	background-color: transparent;
 	color: #434343;

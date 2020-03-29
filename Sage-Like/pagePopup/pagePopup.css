@@ -106,9 +106,9 @@ body {
 .feedItem .format {
 	--text-height: 10px;
 	line-height: calc(var(--text-height) * 1.2);
-	font-family: Tahoma, Verdana, Segoe, sans-serif !important;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
-	font-size: var(--text-height) !important;
+	font-size: var(--text-height);
 	max-width: 40px;
 	margin: auto 0 auto 5px;
 	color: #a0a0a0;
@@ -150,9 +150,9 @@ body {
 	--text-height: 11px;
 	margin-top: 0px;
 	line-height: calc(var(--text-height) * 1.2);
-	font-family: Tahoma, Verdana, Segoe, sans-serif !important;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
-	font-size: var(--text-height) !important;
+	font-size: var(--text-height);
 	color: lightpink;
 	white-space: nowrap;
 	margin: auto auto 0 0;

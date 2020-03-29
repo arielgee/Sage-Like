@@ -27,7 +27,6 @@
 }
 
 .contextmenu .contextmenuitem * {
-	display: inline !important;
 	pointer-events: none;
 }
 
