@@ -551,7 +551,8 @@
 
 
 ## Next
-* must remove all !important from css files
+* must remove all !important from css files (specificity)
+	* !important in feedPreview.css - check if rules from a custom css can overwrite those rules
 * in preferences.validatorCSSFile() do not match '@namespace url("http://www.w3.org/1999/xhtml")'
 * missing revokeObjectURL() in opml.js (anywhere)
 * save 'browser.storage.local' to m_localStorage.
