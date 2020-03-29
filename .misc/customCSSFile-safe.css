@@ -12,3 +12,12 @@
 	box-shadow: 0 0 2.5px 1px cornflowerblue;
 	background-image: url("chrome://browser/skin/bookmark-star-on-tray.svg");
 }
+
+.feedItemContent img {
+	max-width: 100px !important;
+	max-height: 500px !important;
+	width: 100px !important;
+	height: 500px !important;
+	margin: 0 !important;
+	border: 5px solid blueviolet;
+}
