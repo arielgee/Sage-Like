@@ -23,6 +23,7 @@
 	--border-color-popup-box: rgb(0, 0, 0);
 	--background-color-input-control: rgb(255, 255, 255);
 	--foreground-color-disabled-control: rgb(169, 169, 169);
+	--background-color-disabled-control: rgb(211, 211, 211);
 	--background-color-textarea-control: rgb(240, 240, 240);
 
 	--background-color-button: 6, 6, 5;
@@ -52,6 +53,7 @@
 		--border-color-popup-box: rgb(128, 128, 128);
 		--background-color-input-control: var(--background-color-select-control);
 		--foreground-color-disabled-control: rgb(127, 127, 127);
+		--background-color-disabled-control: rgb(72, 72, 72);
 		--background-color-textarea-control: rgb(50, 50, 50);
 
 		--background-color-button: 249, 249, 250;
@@ -387,14 +389,9 @@ input[type="text"].disabled,
 	border-color: var(--foreground-color-disabled-control);
 }
 
-input[type="radio"].disabled:checked,
-input[type="checkbox"].disabled:checked {
-	background-color: rgb(112, 112, 112);
-}
-
-input[type="radio"].disabled:not(:checked),
-input[type="checkbox"].disabled:not(:checked) {
-	background-color: rgb(233, 233, 233);
+input[type="radio"].disabled,
+input[type="checkbox"].disabled {
+	background-color: var(--background-color-disabled-control);
 }
 
 input[type="color"].disabled {
