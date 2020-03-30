@@ -371,10 +371,9 @@ let preferences = (function() {
 		prefs.getUseCustomCSSFeedPreview().then((checked) => {
 			m_elmUseCustomCSSFeedPreview.checked = checked;
 			if(checked) {
-				prefs.getCustomCSSSource().then((source) => {
-					let isEmpty = (source.length === 0);
-					slUtil.disableElementTree(m_elmBtnViewCSSSource, isEmpty);
-					slUtil.disableElementTree(m_elmBtnClearCSSSource, isEmpty);
+				prefs.getCustomCSSSourceFlag().then((hasSource) => {
+					slUtil.disableElementTree(m_elmBtnViewCSSSource, !hasSource);
+					slUtil.disableElementTree(m_elmBtnClearCSSSource, !hasSource);
 					flashCustomCSSImportButton();
 				});
 			} else {
@@ -652,18 +651,19 @@ let preferences = (function() {
 	function onChangeUseCustomCSSFeedPreview(event) {
 		prefs.setUseCustomCSSFeedPreview(m_elmUseCustomCSSFeedPreview.checked);
 
-		if(m_elmUseCustomCSSFeedPreview.checked) {
-			prefs.getCustomCSSSource().then((source) => {
+		prefs.getCustomCSSSourceFlag().then((hasSource) => {
+
+			if(m_elmUseCustomCSSFeedPreview.checked) {
 				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, false);
-				let isEmpty = (source.length === 0);
-				slUtil.disableElementTree(m_elmBtnViewCSSSource, isEmpty);
-				slUtil.disableElementTree(m_elmBtnClearCSSSource, isEmpty);
-				flashCustomCSSImportButton();
-			});
-		} else {
-			slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
+				slUtil.disableElementTree(m_elmBtnViewCSSSource, !hasSource);
+				slUtil.disableElementTree(m_elmBtnClearCSSSource, !hasSource);
+			} else {
+				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
+			}
+
 			flashCustomCSSImportButton();
-		}
+			if(hasSource) broadcastCustomCSSSourceChanged();
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -677,9 +677,10 @@ let preferences = (function() {
 			slUtil.disableElementTree(m_elmBtnClearCSSSource, false);
 
 			flashCustomCSSImportButton();
+			broadcastCustomCSSSourceChanged();
 
-			if(!!result.note) {
-				setTimeout(() => alert("WARNING:\n\n" + result.note), 0);
+			if(!!result.warning) {
+				setTimeout(() => alert("WARNING:\n\n" + result.warning), 0);
 			}
 
 		}).catch((error) => {
@@ -699,6 +700,7 @@ let preferences = (function() {
 		slUtil.disableElementTree(m_elmBtnViewCSSSource, true);
 		slUtil.disableElementTree(m_elmBtnClearCSSSource, true);
 		flashCustomCSSImportButton();
+		broadcastCustomCSSSourceChanged();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1126,7 +1128,7 @@ let preferences = (function() {
 						let hasStyleRule = false;
 						let rules = style.sheet.cssRules;
 						let lenRules = rules.length;
-						let rxRemoteURI = /\b(https?|s?ftp|file):(\/\/)?[^\s]+/im;
+						let rxRemoteURI = /\b(https?|ftp|file):\/*[^\s]+/im;
 
 						if(lenRules > 0) {
 
@@ -1134,16 +1136,16 @@ let preferences = (function() {
 								if( !(rules[i] instanceof CSSNamespaceRule) ) {
 									hasStyleRule = true;
 									if(rules[i].cssText.match(rxRemoteURI)) {
-										resolveObj["note"] = "URLs to remote resources were found in the file and that could potentially be a security risk.\n\n" +
+										resolveObj["warning"] = "URLs to remote resources were found in the file and that could potentially be a security risk.\n\n" +
 															 "If you are not sure that those URLs are safe you should replace or clear this file.";
 										break;
 									}
 								}
 							}
-							if(!hasStyleRule) resolveObj["note"] = "No style rules where found in file.";
+							if(!hasStyleRule) resolveObj["warning"] = "No style rules where found in file.";
 
 						} else {
-							resolveObj["note"] = "No rules where found in file.";
+							resolveObj["warning"] = "No rules where found in file.";
 						}
 						resolve(resolveObj);
 
@@ -1156,5 +1158,10 @@ let preferences = (function() {
 				reader.readAsText(cssFile);
 			}
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function broadcastCustomCSSSourceChanged() {
+		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_CUSTOM_CSS_SOURCE_CHANGED });
 	}
 })();

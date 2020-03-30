@@ -406,6 +406,7 @@ let slGlobals = (function() {
 	const MSG_ID_ADD_NEW_DISCOVERED_FEEDS				= 108;
 	const MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW			= 109;
 	const MSG_ID_RSS_TREE_CREATED_OK					= 110;
+	const MSG_ID_CUSTOM_CSS_SOURCE_CHANGED				= 111;
 
 	// Message Details IDs
 	const MSGD_PREF_CHANGE_ALL								= 1001;
@@ -492,6 +493,7 @@ let slGlobals = (function() {
 		MSG_ID_ADD_NEW_DISCOVERED_FEEDS: MSG_ID_ADD_NEW_DISCOVERED_FEEDS,
 		MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW: MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW,
 		MSG_ID_RSS_TREE_CREATED_OK: MSG_ID_RSS_TREE_CREATED_OK,
+		MSG_ID_CUSTOM_CSS_SOURCE_CHANGED: MSG_ID_CUSTOM_CSS_SOURCE_CHANGED,
 
 		MSGD_PREF_CHANGE_ALL: MSGD_PREF_CHANGE_ALL,
 		MSGD_PREF_CHANGE_ROOT_FOLDER: MSGD_PREF_CHANGE_ROOT_FOLDER,
@@ -1067,6 +1069,7 @@ let prefs = (function() {
 	const DEF_PREF_IMAGE_SET_VALUE = 0;
 	const DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE = false;
 	const DEF_PREF_CUSTOM_CSS_SOURCE_VALUE = "";
+	const DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE = false;
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
@@ -1091,6 +1094,7 @@ let prefs = (function() {
 	const PREF_IMAGE_SET = "pref_imageSet";
 	const PREF_USE_CUSTOM_CSS_FEED_PREVIEW = "pref_useCustomCSSFeedPreview";
 	const PREF_CUSTOM_CSS_SOURCE = "pref_customCSSSource";
+	const PREF_CUSTOM_CSS_SOURCE_FLAG = "pref_customCSSSourceFlag";
 
 	let m_localStorage = browser.storage.local;
 
@@ -1529,6 +1533,23 @@ let prefs = (function() {
 		let obj = {};
 		obj[PREF_CUSTOM_CSS_SOURCE] = value;
 		m_localStorage.set(obj);
+
+		// this flag is set only here and only if PREF_CUSTOM_CSS_SOURCE has content
+		obj = {};
+		obj[PREF_CUSTOM_CSS_SOURCE_FLAG] = (!!value && value.length > 0);
+		m_localStorage.set(obj);
+	}
+
+
+	//////////////////////////////////////////////////////////////////////
+	function getCustomCSSSourceFlag() {
+
+		return new Promise((resolve) => {
+
+			m_localStorage.get(PREF_CUSTOM_CSS_SOURCE_FLAG).then((result) => {
+				resolve(result[PREF_CUSTOM_CSS_SOURCE_FLAG] === undefined ? DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE : result[PREF_CUSTOM_CSS_SOURCE_FLAG]);
+			});
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1581,6 +1602,7 @@ let prefs = (function() {
 			imageSet: DEF_PREF_IMAGE_SET_VALUE,
 			useCustomCSSFeedPreview: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
 			customCSSSource: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
+			customCSSSourceFlag: DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE,
 		};
 	}
 
@@ -1608,6 +1630,7 @@ let prefs = (function() {
 		DEF_PREF_IMAGE_SET_VALUE: DEF_PREF_IMAGE_SET_VALUE,
 		DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
 		DEF_PREF_CUSTOM_CSS_SOURCE_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
+		DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE,
 
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
@@ -1655,6 +1678,7 @@ let prefs = (function() {
 		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
 		getCustomCSSSource: getCustomCSSSource,
 		setCustomCSSSource: setCustomCSSSource,
+		getCustomCSSSourceFlag: getCustomCSSSourceFlag,
 
 		restoreDefaults: restoreDefaults,
 	}

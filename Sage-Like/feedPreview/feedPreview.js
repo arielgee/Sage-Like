@@ -2,6 +2,7 @@
 
 (function () {
 
+	let m_customCSSSourceChanged = false;
 	let m_URL;
 	let m_elmAttachmentTooltip;
 	let m_timeoutMouseOver = null;
@@ -13,8 +14,22 @@
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
+		document.addEventListener("focus", onFocusDocument);
+		browser.runtime.onMessage.addListener(onRuntimeMessage);
 
 		injectCustomCSSSource();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onRuntimeMessage(message) {
+
+		switch (message.id) {
+
+			case slGlobals.MSG_ID_CUSTOM_CSS_SOURCE_CHANGED:
+				m_customCSSSourceChanged = true;
+				break;
+				/////////////////////////////////////////////////////////////////////////
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +48,15 @@
 	function onUnload(event) {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onFocusDocument(event) {
+
+		if(m_customCSSSourceChanged) {
+			browser.tabs.reload();
+		}
+		m_customCSSSourceChanged = false;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

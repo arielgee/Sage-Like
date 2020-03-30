@@ -558,6 +558,7 @@
 * mimimize CSS code		=> NO
 * save 'browser.storage.local' to m_localStorage.
 * rewrite all preferences.css variables (colors)
+* broadcast that custom css file was consumed and reload all feedPreview? = >reload done on tab focus
 ---
 
 
