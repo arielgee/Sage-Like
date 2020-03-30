@@ -564,12 +564,14 @@
 
 
 ## Next
+* 'Primary mouse click ALSO opens Feed Preview in' rewrite! no indication that we are talking about clicking on a tree feed
 * change preference to open feed preview with left click 'in current tab' 'in new tab'
-* check all uses of setTimeout() can thay be removed/replaced by sendMessage
+	> Click feed to ALSO open Feed Preview		[O] No		[O] current tab		[X] new tab
 * in preferences
 	> Subscribe button <img> in address bar
 		> Feed detection in web pages (?)				[O] On page load		[X] On mouse click
 		> Detect Feeds in web pages on (?)				[O] Page load			[X] Mouse click
+* check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * add option to scan page for feeds from the location bar
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
