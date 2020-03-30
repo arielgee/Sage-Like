@@ -71,7 +71,7 @@ body {
 	font-family: inherit;
 	font-size: 1.273rem;
 	font-weight: normal;
-	min-width: auto;
+	min-width: 600px;
 	max-width: var(--max-width-preferences-body);
 	line-height: 21px;
 	white-space: nowrap;
