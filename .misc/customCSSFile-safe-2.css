@@ -1,0 +1,20 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+* {
+	font-family: cursive;
+	font-size: 15px;
+	line-height: 15px;
+}
+
+#pageHeaderContainer {
+	background-color: darkblue;
+	border: 2px dashed royalblue;
+	box-shadow: 0 0 2.5px 1px goldenrod;
+	background-image: url("chrome://browser/skin/downloads/download-icons.svg#arrow");
+}
+
+.feedItemContent img {
+	filter: sepia(60%) invert(60%) !important;
+	margin: 0 !important;
+	border: 5px solid seagreen;
+}

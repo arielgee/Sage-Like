@@ -9,27 +9,29 @@ body {
 	background-image: url("https://www.iconsdb.com/icons/download/black/skull-32-128.png");
 }
 
-#feedBody * {
-	color: yellow !important;
+.feedItemContainer,
+.feedItemContainer * {
+	color: black !important;
 	background-color: crimson !important;
 }
 
 #feedBody {
-	background-image: url("http://www.evil.com/fuck-him-up.png");
+	background-image: url("http://www.evil-css-scripts.com/fuck-him-up.png");
 }
 
 .feedItemNumber {
-	background-image: url("https://www.evil.com/fuck-him-up.png");
+	background-image: url("https://www.evil-css-scripts.com/fuck-him-up.png");
 }
 
 .feedItemTitle {
-	background-image: url("ftp://www.evil.com/fuck-him-up.png");
+	background-image: url("ftp://www.evil-css-scripts.com/fuck-him-up.png");
 }
 
+/* sftp is not checked by cssFileValidator() */
 .feedItemContent {
-	background-image: url("sftp://www.evil.com/fuck-him-up.png");
+	background-image: url("sftp://www.evil-css-scripts.com/fuck-him-up.png");
 }
 
 #attachmentTooltip {
-	background-image: url("file://www.evil.com/fuck-him-up.png");
+	background-image: url("file:///C:/evil-css-scripts/fuck-him-up.png");
 }

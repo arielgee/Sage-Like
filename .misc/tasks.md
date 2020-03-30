@@ -563,6 +563,7 @@
 
 ## Next
 * broadcast that custom css file was consumed and reload all feedPreview?
+* parked.js is using 'tab.tabId' and not 'tab.id'
 * change preference to open feed preview with left click 'in current tab' 'in new tab'
 * check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * in preferences
