@@ -559,12 +559,11 @@
 * save 'browser.storage.local' to m_localStorage.
 * rewrite all preferences.css variables (colors)
 * broadcast that custom css file was consumed and reload all feedPreview? = >reload done on tab focus
+* parked.js is using 'tab.tabId' and not 'tab.id'
 ---
 
 
 ## Next
-* broadcast that custom css file was consumed and reload all feedPreview?
-* parked.js is using 'tab.tabId' and not 'tab.id'
 * change preference to open feed preview with left click 'in current tab' 'in new tab'
 * check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * in preferences

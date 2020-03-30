@@ -14,7 +14,7 @@
 	function onFocusDocument(event) {
 
 		browser.tabs.getCurrent().then((tab) => {
-			browser.tabs.update(tab.tabId, { url: decodeURIComponent(slUtil.getQueryStringValue("prkUrl")) });
+			browser.tabs.update(tab.id, { url: decodeURIComponent(slUtil.getQueryStringValue("prkUrl")) });
 			browser.history.deleteUrl( { url: window.location.href });		// delete parked url from history, keep it tidy
 		});
 		document.removeEventListener("focus", onFocusDocument);
