@@ -1100,455 +1100,240 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_ROOT_FEEDS_FOLDER_ID).then((result) => {
-				resolve(result[PREF_ROOT_FEEDS_FOLDER_ID] === undefined ? DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE : result[PREF_ROOT_FEEDS_FOLDER_ID]);
-			});
-		});
+		return getPreferenceValue(PREF_ROOT_FEEDS_FOLDER_ID, DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setRootFeedsFolderId(value) {
-
-		let obj = {};
-		obj[PREF_ROOT_FEEDS_FOLDER_ID] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_ROOT_FEEDS_FOLDER_ID, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getCheckFeedsInterval() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_CHECK_FEEDS_INTERVAL).then((result) => {
-				resolve(result[PREF_CHECK_FEEDS_INTERVAL] === undefined ? DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE : result[PREF_CHECK_FEEDS_INTERVAL]);
-			});
-		});
+		return getPreferenceValue(PREF_CHECK_FEEDS_INTERVAL, DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setCheckFeedsInterval(value) {
-
-		let obj = {};
-		obj[PREF_CHECK_FEEDS_INTERVAL] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_CHECK_FEEDS_INTERVAL, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getCheckFeedsWhenSbClosed() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_CHECK_FEEDS_WHEN_SB_CLOSED).then((result) => {
-				resolve(result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED] === undefined ? DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE : result[PREF_CHECK_FEEDS_WHEN_SB_CLOSED]);
-			});
-		});
+		return getPreferenceValue(PREF_CHECK_FEEDS_WHEN_SB_CLOSED, DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setCheckFeedsWhenSbClosed(value) {
-
-		let obj = {};
-		obj[PREF_CHECK_FEEDS_WHEN_SB_CLOSED] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_CHECK_FEEDS_WHEN_SB_CLOSED, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getCheckFeedsMethod() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_CHECK_FEEDS_METHOD).then((result) => {
-				resolve(result[PREF_CHECK_FEEDS_METHOD] === undefined ? DEF_PREF_CHECK_FEEDS_METHOD_VALUE : result[PREF_CHECK_FEEDS_METHOD]);
-			});
-		});
+		return getPreferenceValue(PREF_CHECK_FEEDS_METHOD, DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setCheckFeedsMethod(value) {
-
-		let obj = {};
-		obj[PREF_CHECK_FEEDS_METHOD] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_CHECK_FEEDS_METHOD, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getFetchTimeout() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_FETCH_TIMEOUT).then((result) => {
-				resolve(result[PREF_FETCH_TIMEOUT] === undefined ? DEF_PREF_FETCH_TIMEOUT_VALUE : result[PREF_FETCH_TIMEOUT]);
-			});
-		});
+		return getPreferenceValue(PREF_FETCH_TIMEOUT, DEF_PREF_FETCH_TIMEOUT_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setFetchTimeout(value) {
-
-		let obj = {};
-		obj[PREF_FETCH_TIMEOUT] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_FETCH_TIMEOUT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getPrimeClickOpenFeedPreview() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_PRIME_CLICK_OPEN_FEED_PREVIEW).then((result) => {
-				resolve(result[PREF_PRIME_CLICK_OPEN_FEED_PREVIEW] === undefined ? DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE : result[PREF_PRIME_CLICK_OPEN_FEED_PREVIEW]);
-			});
-		});
+		return getPreferenceValue(PREF_PRIME_CLICK_OPEN_FEED_PREVIEW, DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setPrimeClickOpenFeedPreview(value) {
-
-		let obj = {};
-		obj[PREF_PRIME_CLICK_OPEN_FEED_PREVIEW] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_PRIME_CLICK_OPEN_FEED_PREVIEW, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getShowFeedStats() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_SHOW_FEED_STATS).then((result) => {
-				resolve(result[PREF_SHOW_FEED_STATS] === undefined ? DEF_PREF_SHOW_FEED_STATS_VALUE : result[PREF_SHOW_FEED_STATS]);
-			});
-		});
+		return getPreferenceValue(PREF_SHOW_FEED_STATS, DEF_PREF_SHOW_FEED_STATS_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setShowFeedStats(value) {
-
-		let obj = {};
-		obj[PREF_SHOW_FEED_STATS] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_SHOW_FEED_STATS, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getShowFeedItemDesc() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_SHOW_FEED_ITEM_DESC).then((result) => {
-				resolve(result[PREF_SHOW_FEED_ITEM_DESC] === undefined ? DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE : result[PREF_SHOW_FEED_ITEM_DESC]);
-			});
-		});
+		return getPreferenceValue(PREF_SHOW_FEED_ITEM_DESC, DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setShowFeedItemDesc(value) {
-
-		let obj = {};
-		obj[PREF_SHOW_FEED_ITEM_DESC] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_SHOW_FEED_ITEM_DESC, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getFeedItemDescDelay() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_FEED_ITEM_DESC_DELAY).then((result) => {
-				resolve(result[PREF_FEED_ITEM_DESC_DELAY] === undefined ? DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE : result[PREF_FEED_ITEM_DESC_DELAY]);
-			});
-		});
+		return getPreferenceValue(PREF_FEED_ITEM_DESC_DELAY, DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setFeedItemDescDelay(value) {
-
-		let obj = {};
-		obj[PREF_FEED_ITEM_DESC_DELAY] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_FEED_ITEM_DESC_DELAY, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getShowFeedItemDescAttach() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_SHOW_FEED_ITEM_DESC_ATTACH).then((result) => {
-				resolve(result[PREF_SHOW_FEED_ITEM_DESC_ATTACH] === undefined ? DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE : result[PREF_SHOW_FEED_ITEM_DESC_ATTACH]);
-			});
-		});
+		return getPreferenceValue(PREF_SHOW_FEED_ITEM_DESC_ATTACH, DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setShowFeedItemDescAttach(value) {
-
-		let obj = {};
-		obj[PREF_SHOW_FEED_ITEM_DESC_ATTACH] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_SHOW_FEED_ITEM_DESC_ATTACH, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getColorFeedItemDescBackground() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND).then((result) => {
-				resolve(result[PREF_COLOR_FEED_ITEM_DESC_BACKGROUND] === undefined ? DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE : result[PREF_COLOR_FEED_ITEM_DESC_BACKGROUND]);
-			});
-		});
+		return getPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND, DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorFeedItemDescBackground(value) {
-
-		let obj = {};
-		obj[PREF_COLOR_FEED_ITEM_DESC_BACKGROUND] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getColorFeedItemDescText() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_COLOR_FEED_ITEM_DESC_TEXT).then((result) => {
-				resolve(result[PREF_COLOR_FEED_ITEM_DESC_TEXT] === undefined ? DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE : result[PREF_COLOR_FEED_ITEM_DESC_TEXT]);
-			});
-		});
+		return getPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_TEXT, DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorFeedItemDescText(value) {
-
-		let obj = {};
-		obj[PREF_COLOR_FEED_ITEM_DESC_TEXT] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_TEXT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getDetectFeedsInWebPage() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_DETECT_FEEDS_IN_WEB_PAGE).then((result) => {
-				resolve(result[PREF_DETECT_FEEDS_IN_WEB_PAGE] === undefined ? DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE : result[PREF_DETECT_FEEDS_IN_WEB_PAGE]);
-			});
-		});
+		return getPreferenceValue(PREF_DETECT_FEEDS_IN_WEB_PAGE, DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setDetectFeedsInWebPage(value) {
-
-		let obj = {};
-		obj[PREF_DETECT_FEEDS_IN_WEB_PAGE] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_DETECT_FEEDS_IN_WEB_PAGE, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getUIDensity() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_UI_DENSITY).then((result) => {
-				resolve(result[PREF_UI_DENSITY] === undefined ? DEF_PREF_UI_DENSITY_VALUE : result[PREF_UI_DENSITY]);
-			});
-		});
+		return getPreferenceValue(PREF_UI_DENSITY, DEF_PREF_UI_DENSITY_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setUIDensity(value) {
-
-		let obj = {};
-		obj[PREF_UI_DENSITY] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_UI_DENSITY, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getFontName() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_FONT_NAME).then((result) => {
-				resolve(result[PREF_FONT_NAME] === undefined ? DEF_PREF_FONT_NAME_VALUE : result[PREF_FONT_NAME]);
-			});
-		});
+		return getPreferenceValue(PREF_FONT_NAME, DEF_PREF_FONT_NAME_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setFontName(value) {
-
-		let obj = {};
-		obj[PREF_FONT_NAME] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_FONT_NAME, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getFontSizePercent() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_FONT_SIZE_PERCENT).then((result) => {
-				resolve(result[PREF_FONT_SIZE_PERCENT] === undefined ? DEF_PREF_FONT_SIZE_PERCENT_VALUE : result[PREF_FONT_SIZE_PERCENT]);
-			});
-		});
+		return getPreferenceValue(PREF_FONT_SIZE_PERCENT, DEF_PREF_FONT_SIZE_PERCENT_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setFontSizePercent(value) {
-
-		let obj = {};
-		obj[PREF_FONT_SIZE_PERCENT] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_FONT_SIZE_PERCENT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getColorBackground() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_COLOR_BACKGROUND).then((result) => {
-				resolve(result[PREF_COLOR_BACKGROUND] === undefined ? DEF_PREF_COLOR_BACKGROUND_VALUE : result[PREF_COLOR_BACKGROUND]);
-			});
-		});
+		return getPreferenceValue(PREF_COLOR_BACKGROUND, DEF_PREF_COLOR_BACKGROUND_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorBackground(value) {
-
-		let obj = {};
-		obj[PREF_COLOR_BACKGROUND] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_COLOR_BACKGROUND, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getColorDialogBackground() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_COLOR_DIALOG_BACKGROUND).then((result) => {
-				resolve(result[PREF_COLOR_DIALOG_BACKGROUND] === undefined ? DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE : result[PREF_COLOR_DIALOG_BACKGROUND]);
-			});
-		});
+		return getPreferenceValue(PREF_COLOR_DIALOG_BACKGROUND, DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorDialogBackground(value) {
-
-		let obj = {};
-		obj[PREF_COLOR_DIALOG_BACKGROUND] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_COLOR_DIALOG_BACKGROUND, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getColorSelect() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_COLOR_SELECT).then((result) => {
-				resolve(result[PREF_COLOR_SELECT] === undefined ? DEF_PREF_COLOR_SELECT_VALUE : result[PREF_COLOR_SELECT]);
-			});
-		});
+		return getPreferenceValue(PREF_COLOR_SELECT, DEF_PREF_COLOR_SELECT_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorSelect(value) {
-
-		let obj = {};
-		obj[PREF_COLOR_SELECT] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_COLOR_SELECT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getColorText() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_COLOR_TEXT).then((result) => {
-				resolve(result[PREF_COLOR_TEXT] === undefined ? DEF_PREF_COLOR_TEXT_VALUE : result[PREF_COLOR_TEXT]);
-			});
-		});
+		return getPreferenceValue(PREF_COLOR_TEXT, DEF_PREF_COLOR_TEXT_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorText(value) {
-
-		let obj = {};
-		obj[PREF_COLOR_TEXT] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_COLOR_TEXT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getImageSet() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_IMAGE_SET).then((result) => {
-				resolve(result[PREF_IMAGE_SET] === undefined ? DEF_PREF_IMAGE_SET_VALUE : result[PREF_IMAGE_SET]);
-			});
-		});
+		return getPreferenceValue(PREF_IMAGE_SET, DEF_PREF_IMAGE_SET_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setImageSet(value) {
-
-		let obj = {};
-		obj[PREF_IMAGE_SET] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_IMAGE_SET, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getUseCustomCSSFeedPreview() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_USE_CUSTOM_CSS_FEED_PREVIEW).then((result) => {
-				resolve(result[PREF_USE_CUSTOM_CSS_FEED_PREVIEW] === undefined ? DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE : result[PREF_USE_CUSTOM_CSS_FEED_PREVIEW]);
-			});
-		});
+		return getPreferenceValue(PREF_USE_CUSTOM_CSS_FEED_PREVIEW, DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setUseCustomCSSFeedPreview(value) {
-
-		let obj = {};
-		obj[PREF_USE_CUSTOM_CSS_FEED_PREVIEW] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_USE_CUSTOM_CSS_FEED_PREVIEW, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getCustomCSSSource() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_CUSTOM_CSS_SOURCE).then((result) => {
-				resolve(result[PREF_CUSTOM_CSS_SOURCE] === undefined ? DEF_PREF_CUSTOM_CSS_SOURCE_VALUE : result[PREF_CUSTOM_CSS_SOURCE]);
-			});
-		});
+		return getPreferenceValue(PREF_CUSTOM_CSS_SOURCE, DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setCustomCSSSource(value) {
-
-		let obj = {};
-		obj[PREF_CUSTOM_CSS_SOURCE] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_CUSTOM_CSS_SOURCE, value);
 
 		// this flag is set only here and only if PREF_CUSTOM_CSS_SOURCE has content
-		obj = {};
-		obj[PREF_CUSTOM_CSS_SOURCE_FLAG] = (!!value && value.length > 0);
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_FLAG, (!!value && value.length > 0));
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getCustomCSSSourceFlag() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_CUSTOM_CSS_SOURCE_FLAG).then((result) => {
-				resolve(result[PREF_CUSTOM_CSS_SOURCE_FLAG] === undefined ? DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE : result[PREF_CUSTOM_CSS_SOURCE_FLAG]);
-			});
-		});
+		return getPreferenceValue(PREF_CUSTOM_CSS_SOURCE_FLAG, DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1603,6 +1388,20 @@ let prefs = (function() {
 			customCSSSource: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
 			customCSSSourceFlag: DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE,
 		};
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getPreferenceValue(pref, defValue) {
+		return new Promise((resolve) => {
+			m_localStorage.get(pref).then((result) => {
+				resolve(result[pref] === undefined ? defValue : result[pref]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setPreferenceValue(pref, value) {
+		m_localStorage.set({ [pref]: value });
 	}
 
 	return {
