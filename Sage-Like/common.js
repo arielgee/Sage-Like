@@ -1262,6 +1262,14 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function setFeedItemDescDelay(value) {
+
+		let obj = {};
+		obj[PREF_FEED_ITEM_DESC_DELAY] = value;
+		m_localStorage.set(obj);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function getShowFeedItemDescAttach() {
 
 		return new Promise((resolve) => {
@@ -1277,14 +1285,6 @@ let prefs = (function() {
 
 		let obj = {};
 		obj[PREF_SHOW_FEED_ITEM_DESC_ATTACH] = value;
-		m_localStorage.set(obj);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setFeedItemDescDelay(value) {
-
-		let obj = {};
-		obj[PREF_FEED_ITEM_DESC_DELAY] = value;
 		m_localStorage.set(obj);
 	}
 
@@ -1539,7 +1539,6 @@ let prefs = (function() {
 		obj[PREF_CUSTOM_CSS_SOURCE_FLAG] = (!!value && value.length > 0);
 		m_localStorage.set(obj);
 	}
-
 
 	//////////////////////////////////////////////////////////////////////
 	function getCustomCSSSourceFlag() {
