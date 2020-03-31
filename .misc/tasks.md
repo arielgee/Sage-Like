@@ -560,22 +560,24 @@
 * rewrite all preferences.css variables (colors)
 * broadcast that custom css file was consumed and reload all feedPreview? = >reload done on tab focus
 * parked.js is using 'tab.tabId' and not 'tab.id'
+* 'Primary mouse click ALSO opens Feed Preview in' rewrite! no indication that we are talking about clicking on a tree feed
+* change preference to open feed preview with left click 'in current tab' 'in new tab'
+	> Click feed to ALSO open Feed Preview		[O] No		[O] current tab		[X] new tab
 ---
 
 
 ## Next
-* 'Primary mouse click ALSO opens Feed Preview in' rewrite! no indication that we are talking about clicking on a tree feed
-* change preference to open feed preview with left click 'in current tab' 'in new tab'
-	> Click feed to ALSO open Feed Preview		[O] No		[O] current tab		[X] new tab
+* when feed-item tooltip height is bigger the the height of the listview the sidebar fliker (both have v scrollbars)
+* checking and then unchecking the 'use custom CSS' unnecessarily reload the feedPreview
 * in preferences
 	> Subscribe button <img> in address bar
 		> Feed detection in web pages (?)				[O] On page load		[X] On mouse click
 		> Detect Feeds in web pages on (?)				[O] Page load			[X] Mouse click
-* check all uses of setTimeout() can thay be removed/replaced by sendMessage
-* consider '@media (prefers-color-scheme: dark)' for sidebar
 * add option to scan page for feeds from the location bar
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
+* check all uses of setTimeout() can thay be removed/replaced by sendMessage
+* consider '@media (prefers-color-scheme: dark)' for sidebar
 * open feedPreview from pagePopup without adding the feed to sage!
 * pagePopup: indication that url already in bookmarks
 * menu item for treeview folder to open all feeds as feedPreview

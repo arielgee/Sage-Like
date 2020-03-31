@@ -22,7 +22,9 @@ let preferences = (function() {
 	let m_elmCheckFeedsMethod;
 	let m_elmCheckFeedsMethodInfo;
 	let m_elmFetchTimeout;
-	let m_elmPrimeClickOpenFeedPreview;
+	let m_elmClickOpensFeedPreviewNo;
+	let m_elmClickOpensFeedPreviewTab;
+	let m_elmClickOpensFeedPreviewNewTab;
 	let m_elmShowFeedStats;
 	let m_elmShowFeedItemDesc;
 	let m_elmFeedItemDescDelay;
@@ -82,7 +84,9 @@ let preferences = (function() {
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
-		m_elmPrimeClickOpenFeedPreview = document.getElementById("primeClickOpenFeedPreview");
+		m_elmClickOpensFeedPreviewNo = document.getElementById("clickOpensFeedPreviewNo");
+		m_elmClickOpensFeedPreviewTab = document.getElementById("clickOpensFeedPreviewTab");
+		m_elmClickOpensFeedPreviewNewTab = document.getElementById("clickOpensFeedPreviewNewTab");
 		m_elmShowFeedStats = document.getElementById("showFeedStats");
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
 		m_elmFeedItemDescDelay = document.getElementById("feedItemDescDelay");
@@ -144,7 +148,9 @@ let preferences = (function() {
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
-		m_elmPrimeClickOpenFeedPreview.removeEventListener("change", onChangePrimeClickOpenFeedPreview);
+		m_elmClickOpensFeedPreviewNo.removeEventListener("change", onChangeClickOpensFeedPreview);
+		m_elmClickOpensFeedPreviewTab.removeEventListener("change", onChangeClickOpensFeedPreview);
+		m_elmClickOpensFeedPreviewNewTab.removeEventListener("change", onChangeClickOpensFeedPreview);
 		m_elmShowFeedStats.removeEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
 		m_elmFeedItemDescDelay.removeEventListener("change", onChangeFeedItemDescDelay);
@@ -197,7 +203,9 @@ let preferences = (function() {
 		m_elmInputTime.addEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
-		m_elmPrimeClickOpenFeedPreview.addEventListener("change", onChangePrimeClickOpenFeedPreview);
+		m_elmClickOpensFeedPreviewNo.addEventListener("change", onChangeClickOpensFeedPreview);
+		m_elmClickOpensFeedPreviewTab.addEventListener("change", onChangeClickOpensFeedPreview);
+		m_elmClickOpensFeedPreviewNewTab.addEventListener("change", onChangeClickOpensFeedPreview);
 		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
 		m_elmFeedItemDescDelay.addEventListener("change", onChangeFeedItemDescDelay);
@@ -279,8 +287,14 @@ let preferences = (function() {
 			m_elmFetchTimeout.value = timeoutSec;
 		});
 
-		prefs.getPrimeClickOpenFeedPreview().then((checked) => {
-			m_elmPrimeClickOpenFeedPreview.checked = checked;
+		prefs.getClickOpensFeedPreview().then((value) => {
+			if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openNewTab) {
+				m_elmClickOpensFeedPreviewNewTab.checked = true;
+			} else if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openTab) {
+				m_elmClickOpensFeedPreviewTab.checked = true;
+			} else {
+				m_elmClickOpensFeedPreviewNo.checked = true;
+			}
 		});
 
 		prefs.getShowFeedStats().then((checked) => {
@@ -483,8 +497,8 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onChangePrimeClickOpenFeedPreview(event) {
-		prefs.setPrimeClickOpenFeedPreview(m_elmPrimeClickOpenFeedPreview.checked);
+	function onChangeClickOpensFeedPreview(event) {
+		prefs.setClickOpensFeedPreview(parseInt(event.target.value));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -765,7 +779,9 @@ let preferences = (function() {
 		m_elmCheckFeedsWhenSbClosed.checked = defPrefs.checkFeedsWhenSbClosed;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
-		m_elmPrimeClickOpenFeedPreview.checked = defPrefs.primeClickOpenFeedPreview;
+		m_elmClickOpensFeedPreviewNo.checked = (defPrefs.clickOpensFeedPreview === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openNo);
+		m_elmClickOpensFeedPreviewTab.checked = (defPrefs.clickOpensFeedPreview === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openTab);
+		m_elmClickOpensFeedPreviewNewTab.checked = (defPrefs.clickOpensFeedPreview === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openNewTab);
 		m_elmShowFeedStats.checked = defPrefs.showFeedStats;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
 		m_elmFeedItemDescDelay.value = defPrefs.feedItemDescDelay;

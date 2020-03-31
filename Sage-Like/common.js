@@ -1046,12 +1046,18 @@ let prefs = (function() {
 
 	// user preferences
 
+	const CLICK_OPENS_FEED_PREVIEW_VALUES = {
+		openNo: 0,
+		openTab: 1,
+		openNewTab: 2,
+	}
+
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
 	const DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = true;
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
-	const DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE = false;
+	const DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE = CLICK_OPENS_FEED_PREVIEW_VALUES.openNo;
 	const DEF_PREF_SHOW_FEED_STATS_VALUE = true;
 	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
 	const DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE = 800;
@@ -1076,7 +1082,7 @@ let prefs = (function() {
 	const PREF_CHECK_FEEDS_WHEN_SB_CLOSED = "pref_checkFeedsWhenSbClosed";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
-	const PREF_PRIME_CLICK_OPEN_FEED_PREVIEW = "pref_primeClickOpenFeedPreview";
+	const PREF_CLICK_OPENS_FEED_PREVIEW = "pref_clickOpensFeedPreview";
 	const PREF_SHOW_FEED_STATS = "pref_showFeedStats";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
 	const PREF_FEED_ITEM_DESC_DELAY = "pref_feedItemDescDelay";
@@ -1149,13 +1155,13 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getPrimeClickOpenFeedPreview() {
-		return getPreferenceValue(PREF_PRIME_CLICK_OPEN_FEED_PREVIEW, DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE);
+	function getClickOpensFeedPreview() {
+		return getPreferenceValue(PREF_CLICK_OPENS_FEED_PREVIEW, DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setPrimeClickOpenFeedPreview(value) {
-		setPreferenceValue(PREF_PRIME_CLICK_OPEN_FEED_PREVIEW, value);
+	function setClickOpensFeedPreview(value) {
+		setPreferenceValue(PREF_CLICK_OPENS_FEED_PREVIEW, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1343,7 +1349,7 @@ let prefs = (function() {
 		this.setCheckFeedsWhenSbClosed(DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
-		this.setPrimeClickOpenFeedPreview(DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE);
+		this.setClickOpensFeedPreview(DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE);
 		this.setShowFeedStats(DEF_PREF_SHOW_FEED_STATS_VALUE);
 		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
 		this.setFeedItemDescDelay(DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE);
@@ -1368,7 +1374,7 @@ let prefs = (function() {
 			checkFeedsWhenSbClosed: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
-			primeClickOpenFeedPreview: DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE,
+			clickOpensFeedPreview: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
 			showFeedStats: DEF_PREF_SHOW_FEED_STATS_VALUE,
 			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 			feedItemDescDelay: DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
@@ -1405,12 +1411,14 @@ let prefs = (function() {
 	}
 
 	return {
+		CLICK_OPENS_FEED_PREVIEW_VALUES: CLICK_OPENS_FEED_PREVIEW_VALUES,
+
 		DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
 		DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
-		DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE: DEF_PREF_PRIME_CLICK_OPEN_FEED_PREVIEW_VALUE,
+		DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
 		DEF_PREF_SHOW_FEED_STATS_VALUE: DEF_PREF_SHOW_FEED_STATS_VALUE,
 		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 		DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE: DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
@@ -1440,8 +1448,8 @@ let prefs = (function() {
 		setCheckFeedsMethod: setCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,
 		setFetchTimeout: setFetchTimeout,
-		getPrimeClickOpenFeedPreview: getPrimeClickOpenFeedPreview,
-		setPrimeClickOpenFeedPreview: setPrimeClickOpenFeedPreview,
+		getClickOpensFeedPreview: getClickOpensFeedPreview,
+		setClickOpensFeedPreview: setClickOpensFeedPreview,
 		getShowFeedStats: getShowFeedStats,
 		setShowFeedStats: setShowFeedStats,
 		getShowFeedItemDesc: getShowFeedItemDesc,

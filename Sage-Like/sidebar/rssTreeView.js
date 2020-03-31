@@ -587,9 +587,13 @@ let rssTreeView = (function() {
 				// default action: load feed items in list
 				openTreeFeed(elmLI, event.shiftKey);
 
-				// open feed preview in new tab
-				prefs.getPrimeClickOpenFeedPreview().then((open) => {
-					if (open) browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+				// open feed preview
+				prefs.getClickOpensFeedPreview().then((value) => {
+					if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openNewTab) {
+						browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+					} else if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openTab) {
+						browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+					}
 				});
 
 			} else if(event.button === 1) {					// middle click
