@@ -2087,6 +2087,12 @@ let slUtil = (function() {
 		return pathToIcons + mimeTypeIcons[0].icon;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function nbAlert(msg) {
+		// Non blocking alert()
+		setTimeout(() => alert(msg), 0);
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -2127,6 +2133,7 @@ let slUtil = (function() {
 		asSafeTypeValue: asSafeTypeValue,
 		asPrettyByteSize: asPrettyByteSize,
 		getMimeTypeIconPath: getMimeTypeIconPath,
+		nbAlert: nbAlert,
 	};
 
 })();

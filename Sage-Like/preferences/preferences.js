@@ -694,11 +694,11 @@ let preferences = (function() {
 			broadcastCustomCSSSourceChanged();
 
 			if(!!result.warning) {
-				setTimeout(() => alert("WARNING:\n\n" + result.warning), 0);
+				slUtil.nbAlert("WARNING:\n\n" + result.warning);
 			}
 
 		}).catch((error) => {
-			setTimeout(() => alert("ERROR: " + error.message), 0);
+			slUtil.nbAlert("ERROR: " + error.message);
 			console.log("[Sage-Like]", "CSS file validation error", error.message);
 		});
 	}
@@ -733,7 +733,7 @@ let preferences = (function() {
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: newFolderId });
 			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
 		}).catch((error) => {
-			setTimeout(() => alert(error), 0);	// so the alert() will not block the finally()
+			slUtil.nbAlert(error);		// so the alert() will not block the finally()
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
@@ -1152,8 +1152,8 @@ let preferences = (function() {
 								if( !(rules[i] instanceof CSSNamespaceRule) ) {
 									hasStyleRule = true;
 									if(rules[i].cssText.match(rxRemoteURI)) {
-										resolveObj["warning"] = "URLs to remote resources were found in the file and that could potentially be a security risk.\n\n" +
-															 "If you are not sure that those URLs are safe you should replace or clear this file.";
+										resolveObj["warning"] = "URLs to remote resources were found in the file which could potentially be a security risk.\n\n" +
+															"If you are not sure that those URLs are safe you should replace or clear this file.";
 										break;
 									}
 								}

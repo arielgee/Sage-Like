@@ -563,6 +563,7 @@
 * 'Primary mouse click ALSO opens Feed Preview in' rewrite! no indication that we are talking about clicking on a tree feed
 * change preference to open feed preview with left click 'in current tab' 'in new tab'
 	> Click feed to ALSO open Feed Preview		[O] No		[O] current tab		[X] new tab
+* check all uses of setTimeout() can thay be removed/replaced by sendMessage
 ---
 
 
@@ -576,7 +577,6 @@
 * add option to scan page for feeds from the location bar
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
-* check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * open feedPreview from pagePopup without adding the feed to sage!
 * pagePopup: indication that url already in bookmarks
