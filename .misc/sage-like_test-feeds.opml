@@ -2,11 +2,14 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Wed, 01 Apr 2020 17:50:41 GMT</dateCreated>
+		<dateCreated>Wed, 01 Apr 2020 19:30:11 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds">
-			<outline text="attachments (rss,atom,atom,json,json)">
+			<outline text="attachments (rss,rss,rss,rss,atom,atom,json,json)">
+				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490"/>
+				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942"/>
+				<outline type="rss" text="editors dashboard" title="editors dashboard" xmlUrl="http://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589"/>
 				<outline type="rss" text="Cloudbase Mayhem Podcast" title="Cloudbase Mayhem Podcast" xmlUrl="https://www.cloudbasemayhem.com/feed/podcast/"/>
 				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
 				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
@@ -77,6 +80,10 @@
 				<outline type="rss" text="The JSON Feed for Jonny Barnes’s blog" title="The JSON Feed for Jonny Barnes’s blog" xmlUrl="https://jonnybarnes.uk/blog/feed.json"/>
 				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json"/>
 				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json"/>
+			</outline>
+			<outline text="discovery">
+				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss"/>
+				<outline type="rss" text="haaretz.co.il - RSS Feeds" title="haaretz.co.il - RSS Feeds" xmlUrl="http://www.haaretz.co.il/misc/rss"/>
 			</outline>
 			<outline text="Bad feeds">
 				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml"/>
