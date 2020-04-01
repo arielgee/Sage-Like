@@ -550,7 +550,7 @@ let rssTreeView = (function() {
 
 				let updateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
-				setFeedTooltipState(elmLI, "Updated: " + (new Date(updateTime)).toWebExtensionLocaleString());		// feedData.description not displayed as thirdLine in tooltip
+				setFeedTooltipState(elmLI, "Update:\u2003" + (new Date(updateTime)).toWebExtensionLocaleString());		// feedData.description not displayed as thirdLine in tooltip
 				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
@@ -856,7 +856,7 @@ let rssTreeView = (function() {
 					setFeedVisitedState(elmLI, true);
 					updateFeedTitle(elmLI, result.feedData.title);
 					updateFeedStatsFromHistory(elmLI, result.list);
-					setFeedTooltipFullState(elmLI, result.feedData.title, "Updated: " + fdDate.toWebExtensionLocaleString());
+					setFeedTooltipFullState(elmLI, result.feedData.title, "Update:\u2003" + fdDate.toWebExtensionLocaleString());
 
 					// change the rssListView content only if this is the last user click.
 					if(thisFeedClickTime === m_lastClickedFeedTime) {
@@ -1932,37 +1932,33 @@ let rssTreeView = (function() {
 	function setFeedErrorState(elm, isError, errorMsg) {
 
 		elm.classList.toggle("error", isError);
-		setFeedTooltipState(elm, isError ? "Error: " + errorMsg : undefined);
+		setFeedTooltipState(elm, isError ? "Error:\u2003" + errorMsg : undefined);
 		notifyAppliedFilter();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedTooltipState(elmLI, thirdLine = undefined, fourthLine = undefined) {
+	function setFeedTooltipState(elmLI, thirdLine) {
 
-		elmLI.title = getTreeItemText(elmLI) + (elmLI.hasAttribute("href") ? ("\u000dURL: " + elmLI.getAttribute("href")) : "");
-
-		if(thirdLine !== undefined) {
-			elmLI.title += "\u000d" + thirdLine;
-
-			if(fourthLine !== undefined) {
-				elmLI.title += "\u000d\u000d" + fourthLine;
-			}
-
-		}
+		elmLI.title =	getTreeItemText(elmLI) + "\u000d" +
+						(elmLI.hasAttribute("href") ? ("\u000dURL:\u2003" + elmLI.getAttribute("href")) : "") +
+						(!!thirdLine ? "\u000d" + thirdLine : "");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedTooltipFullState(elmLI, firstLine, thirdLine) {
 
-		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
+		let titleText, treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
 
 		// don't use channel title if user unchecked that option for this feed
-		if(!!treeFeedsData && treeFeedsData.updateTitle && firstLine) {
-			elmLI.title = firstLine;
+		if(!!treeFeedsData && treeFeedsData.updateTitle && !!firstLine) {
+			titleText = firstLine;
 		} else {
-			elmLI.title = getTreeItemText(elmLI);
+			titleText = getTreeItemText(elmLI);
 		}
-		elmLI.title += (elmLI.hasAttribute("href") ? ("\u000dURL: " + elmLI.getAttribute("href")) : "") + "\u000d" + thirdLine;
+		titleText +=	"\u000d" +
+						(elmLI.hasAttribute("href") ? ("\u000dURL:\u2003" + elmLI.getAttribute("href")) : "") +
+						"\u000d" + thirdLine;
+		elmLI.title = titleText;
 	}
 
 	//==================================================================================

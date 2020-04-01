@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Wed, 25 Mar 2020 07:30:02 GMT</dateCreated>
+		<dateCreated>Wed, 01 Apr 2020 17:50:41 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds">
@@ -36,6 +36,8 @@
 				<outline type="rss" text="BuzzFeed News" title="BuzzFeed News" xmlUrl="https://www.buzzfeed.com/world.xml"/>
 				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise-atom.xml"/>
 				<outline type="rss" text="World News" title="World News" xmlUrl="https://www.reddit.com/r/worldnews/.rss"/>
+				<outline type="rss" text="Regex to match string containing two names in any order - Stack Overflow" title="Regex to match string containing two names in any order - Stack Overflow" xmlUrl="https://stackoverflow.com/feeds/question/4389644"/>
+				<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
 			</outline>
 			<outline text="RSS">
 				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise.rdf"/>
@@ -56,9 +58,9 @@
 			</outline>
 			<outline text="JSONS">
 				<outline type="rss" text="adactio - links" title="adactio - links" xmlUrl="https://adactio.com/links/feed.json"/>
-				<outline type="rss" text="adactio - notes" title="adactio - notes" xmlUrl="https://adactio.com/notes/feed.json"/>
 				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/feed.json"/>
 				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/feed.json"/>
+				<outline type="rss" text="Adactio: Notes" title="Adactio: Notes" xmlUrl="https://adactio.com/notes/feed.json"/>
 				<outline type="rss" text="Colin Walker" title="Colin Walker" xmlUrl="https://colinwalker.blog/feed/json/"/>
 				<outline type="rss" text="Comments on: Keep on surviving" title="Comments on: Keep on surviving" xmlUrl="https://colinwalker.blog/keep-on-surviving/feed/json/"/>
 				<outline type="rss" text="Comments on: Today" title="Comments on: Today" xmlUrl="https://colinwalker.blog/today/feed/json/"/>
@@ -77,7 +79,6 @@
 				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json"/>
 			</outline>
 			<outline text="Bad feeds">
-				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml"/>
 				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml"/>
 				<outline type="rss" text="error" title="error" xmlUrl="https://indieweb.org/JSON_Feed"/>
 				<outline type="rss" text="indide" title="indide" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4542.xml"/>
@@ -110,6 +111,7 @@
 								<outline text="f4">
 									<outline text="f5">
 										<outline text="New Folder">
+											<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
 										</outline>
 									</outline>
 								</outline>
