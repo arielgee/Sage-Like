@@ -268,8 +268,7 @@ let rssListView = (function() {
 		// hide it and place it as high as possible to prevent resizing of
 		// the containing sidebar when html data is retrieved
 		m_elmFeedItemDescPanel.style.visibility = "hidden";
-		m_elmFeedItemDescPanel.style.left = (m_elmList.parentElement.offsetLeft + 1) + "px";
-		m_elmFeedItemDescPanel.style.top = (m_elmList.parentElement.offsetTop + 1) + "px";
+		m_elmFeedItemDescPanel.style.left = m_elmFeedItemDescPanel.style.top = "0";
 
 		// set display=block as soon as possible to retrieve any remote html data (images, etc) and
 		// panel element will have dimentions (offsetWidth > 0)
@@ -288,7 +287,11 @@ let rssListView = (function() {
 
 			if ((y + m_elmFeedItemDescPanel.offsetHeight) > m_elmSidebarBody.offsetHeight) {
 				y = m_elmFeedItemDescPanel.slLastClientY - m_elmFeedItemDescPanel.offsetHeight - POS_OFFSET;
+				if(y < 0) y = 0;		// may happend if the sidebar height is shorter then the height of the desc panel
 			}
+
+			// The desc panel will immediately be hidden by onMouseOutFeedItem() when the sidebar height is so short/narrow
+			// that the desc panel will appeare right bellow the cursor.
 
 			m_elmFeedItemDescPanel.style.visibility = "visible";
 			m_elmFeedItemDescPanel.style.left = x + "px";

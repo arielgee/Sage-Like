@@ -564,11 +564,11 @@
 * change preference to open feed preview with left click 'in current tab' 'in new tab'
 	> Click feed to ALSO open Feed Preview		[O] No		[O] current tab		[X] new tab
 * check all uses of setTimeout() can thay be removed/replaced by sendMessage
+* when feed-item tooltip height is bigger the the height of the listview the sidebar fliker (both have v scrollbars)
 ---
 
 
 ## Next
-* when feed-item tooltip height is bigger the the height of the listview the sidebar fliker (both have v scrollbars)
 * checking and then unchecking the 'use custom CSS' unnecessarily reload the feedPreview
 * in preferences
 	> Subscribe button <img> in address bar

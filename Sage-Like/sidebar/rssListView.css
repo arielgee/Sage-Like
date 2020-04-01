@@ -108,6 +108,7 @@
 	height: var(--size-attachment);
 	margin-block-start: var(--margin-attachment);
 	margin-inline-end: var(--margin-attachment);
+	filter: drop-shadow(0 0 0.75rem white);
 }
 
 #feedItemDescPanel > .descAttachments.notEmpty {
