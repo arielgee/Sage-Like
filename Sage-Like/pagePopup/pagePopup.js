@@ -47,6 +47,7 @@
 		m_elmOptionsHref = null;
 
 		m_elmPageFeedsList.addEventListener("click", onClickPageFeedsList);
+		m_elmPageFeedsList.addEventListener("auxclick", onClickPageFeedsList);
 		m_elmPageFeedsList.addEventListener("keydown", onKeyDownPageFeedsList);
 		m_elmButtonAddFeeds.addEventListener("click", onClickButtonAdd);
 
@@ -72,6 +73,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 		m_elmPageFeedsList.removeEventListener("click", onClickPageFeedsList);
+		m_elmPageFeedsList.removeEventListener("auxclick", onClickPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("keydown", onKeyDownPageFeedsList);
 		m_elmButtonAddFeeds.removeEventListener("click", onClickButtonAdd);
 		if(!!m_elmOptionsHref) {
@@ -87,7 +89,15 @@
 
 		let target = event.target;
 
-		if(!!target) {
+		if(!!!target) return;
+
+		if(event.button === 1) {		// middle click
+
+			target = target.closest(".feedItem");
+			if(!!target) browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")) });
+
+		} else {
+
 			if(target.classList.contains("feedChkBox")) {
 				target.parentElement.focus();				// checkbox is clicked and changed, focus the list item
 			} else if(target.classList.contains("feedItem")) {
@@ -271,11 +281,13 @@
 		elmListItem.setAttribute("name", elmLabel.textContent);
 		elmListItem.setAttribute("href", feed.url);
 
-		elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
-		elmListItem.title += feed.format ? "Format:\u2003" + feed.format + "\u000d" : "";
-		elmListItem.title += feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "";
-		elmListItem.title += feed.itemCount ? "Items:\u2003" + feed.itemCount + "\u000d" : "";
-		elmListItem.title += "URL:\u2003" + feed.url.toString();
+		let titleText = "Title:\u2003" + feed.feedTitle + "\u000d" +
+			(feed.format ? "Format:\u2003" + feed.format + "\u000d" : "") +
+			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "") +
+			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\u000d" : "") +
+			"URL:\u2003" + feed.url.toString() +
+			"\n\n\u2731 Use Middle-click to preview this feed.";
+		elmListItem.title = titleText;
 
 		elmListItem.appendChild(elmCheckBox);
 		elmListItem.appendChild(elmLabel);

@@ -565,10 +565,12 @@
 	> Click feed to ALSO open Feed Preview		[O] No		[O] current tab		[X] new tab
 * check all uses of setTimeout() can thay be removed/replaced by sendMessage
 * when feed-item tooltip height is bigger the the height of the listview the sidebar fliker (both have v scrollbars)
+* open feedPreview from pagePopup without adding the feed to sage!		== with middle-click
 ---
 
 
 ## Next
+* feed tooltip: add '\u2003' after line header (ex. URL:). add extra '\u000d' after feed title
 * checking and then unchecking the 'use custom CSS' unnecessarily reload the feedPreview
 * in preferences
 	> Subscribe button <img> in address bar
@@ -578,7 +580,6 @@
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
 * consider '@media (prefers-color-scheme: dark)' for sidebar
-* open feedPreview from pagePopup without adding the feed to sage!
 * pagePopup: indication that url already in bookmarks
 * menu item for treeview folder to open all feeds as feedPreview
 * Red warning for attention slideDown panels
