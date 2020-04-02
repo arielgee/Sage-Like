@@ -1943,6 +1943,11 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function getParkedTabUrl(url, title) {
+		return browser.extension.getURL("/parkedTab/parked.html?prkTitle=" + title + "&prkUrl=" + encodeURIComponent(url));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedPreviewUrl(url) {
 		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + encodeURIComponent(url));
 	}
@@ -2105,6 +2110,7 @@ let slUtil = (function() {
 		contrastColor: contrastColor,
 		getQueryStringValue: getQueryStringValue,
 		getBrowserVersion: getBrowserVersion,
+		getParkedTabUrl: getParkedTabUrl,
 		getFeedPreviewUrl: getFeedPreviewUrl,
 		getFeedPreviewUrlByBrowserVersion: getFeedPreviewUrlByBrowserVersion,
 		isRegExpValid: isRegExpValid,

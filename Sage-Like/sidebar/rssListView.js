@@ -648,13 +648,13 @@ let rssListView = (function() {
 
 		if(elms[0] !== undefined && !(elms[0].classList.contains("errormsg"))) {
 
-			let creatingTab, addingUrl;
+			let creatingTab, addingUrl, parkedTabUrl, elm;
 
-			for(let elm of elms) {
+			for(let i=0, len=elms.length; i<len; i++) {
 
-				let parkedTabUrl = browser.extension.getURL("/parkedTab/parked.html?prkTitle=" +
-					elm.textContent.replace(/^[0-9]+\. /, "") +
-					"&prkUrl=" + encodeURIComponent(elm.getAttribute("href")));
+				elm = elms[i];
+
+				parkedTabUrl = slUtil.getParkedTabUrl(elm.getAttribute("href"), elm.textContent.replace(/^[0-9]+\. /, ""));
 
 				creatingTab = browser.tabs.create({ active: false, url: parkedTabUrl });
 				addingUrl = slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);

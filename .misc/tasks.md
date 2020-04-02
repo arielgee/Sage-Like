@@ -568,20 +568,22 @@
 * open feedPreview from pagePopup without adding the feed to sage!		== with middle-click
 * feed tooltip: add '\u2003' after line header (ex. URL:). add extra '\u000d' after feed title
 * checking and then unchecking the 'use custom CSS' unnecessarily reload the feedPreview
+* pagePopup: indication that url already in bookmarks
 ---
 
 
 ## Next
+* menu item for treeview folder to open all feeds as feedPreview
 * in preferences
 	> Subscribe button <img> in address bar
-		> Feed detection in web pages (?)				[O] On page load		[X] On mouse click
-		> Detect Feeds in web pages on (?)				[O] Page load			[X] Mouse click
+		> Feed detection in web pages (?)			[O] On page load		[X] On mouse click
+		> Detect Feeds in web pages on (?)			[O] Page load			[X] Mouse click
+		> Feed detection in web pages				[O] No		[O] On page load		[X] On mouse click
 * add option to scan page for feeds from the location bar
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
 * consider '@media (prefers-color-scheme: dark)' for sidebar
-* pagePopup: indication that url already in bookmarks
-* menu item for treeview folder to open all feeds as feedPreview
+
 * Red warning for attention slideDown panels
 * different behavior when i drag and drop icons from bookmarks library. (Fx v59.0.3)
 	* when DnD 'https://www.technologyreview.com/topnews.rss' into a taw tab it loads feedPreview
