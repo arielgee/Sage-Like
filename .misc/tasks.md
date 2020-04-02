@@ -574,6 +574,14 @@
 
 ## Next
 * menu item for treeview folder to open all feeds as feedPreview
+{
+	let parkedTabUrl, elmFeeds = elmTargetLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED)
+
+	for(let i=0, len=elmFeeds.length; i<len; i++) {
+		parkedTabUrl = slUtil.getParkedTabUrl(slUtil.getFeedPreviewUrl(elmFeeds[i].getAttribute("href")), getTreeItemText(elmFeeds[i]));
+		browser.tabs.create({ active: false, url: parkedTabUrl });
+	}
+}
 * in preferences
 	> Subscribe button <img> in address bar
 		> Feed detection in web pages (?)			[O] On page load		[X] On mouse click

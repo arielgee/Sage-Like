@@ -14,8 +14,11 @@
 	function onFocusDocument(event) {
 
 		browser.tabs.getCurrent().then((tab) => {
-			browser.tabs.update(tab.id, { url: decodeURIComponent(slUtil.getQueryStringValue("prkUrl")) });
-			browser.history.deleteUrl( { url: window.location.href });		// delete parked url from history, keep it tidy
+			// delete parked url from history, keep it tidy;
+			// wait for Promise to be fulfilled before update() to avoid console error: https://bugzilla.mozilla.org/show_bug.cgi?id=1389734
+			browser.history.deleteUrl( { url: window.location.href }).then(() => {
+				browser.tabs.update(tab.id, { url: decodeURIComponent(slUtil.getQueryStringValue("prkUrl")) });
+			});
 		});
 		document.removeEventListener("focus", onFocusDocument);
 	};
