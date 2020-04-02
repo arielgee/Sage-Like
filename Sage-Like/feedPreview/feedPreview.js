@@ -2,10 +2,11 @@
 
 (function () {
 
-	let m_customCSSSourceChanged = false;
 	let m_URL;
 	let m_elmAttachmentTooltip;
 	let m_timeoutMouseOver = null;
+	let m_hashCustomCSSSource = "";
+	let m_customCSSSourceChanged = false;
 
 	initilization();
 
@@ -26,7 +27,13 @@
 		switch (message.id) {
 
 			case slGlobals.MSG_ID_CUSTOM_CSS_SOURCE_CHANGED:
-				m_customCSSSourceChanged = true;
+				prefs.getUseCustomCSSFeedPreview().then((use) => {
+					if(!use) {
+						m_customCSSSourceChanged = (m_hashCustomCSSSource.length > 0)
+					} else {
+						prefs.getCustomCSSSourceHash().then((hash) => m_customCSSSourceChanged = (hash !== m_hashCustomCSSSource) );
+					}
+				});
 				break;
 				/////////////////////////////////////////////////////////////////////////
 		}
@@ -356,6 +363,9 @@
 			if(use) {
 				prefs.getCustomCSSSource().then((source) => {
 					if(source.length > 0) {
+
+						prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
+
 						browser.tabs.insertCSS({ code: source, runAt: "document_start" }).then(() => {}).catch((err) => {
 							console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
 						});
@@ -364,4 +374,5 @@
 			}
 		});
 	}
+
 })();

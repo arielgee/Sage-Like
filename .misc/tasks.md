@@ -567,11 +567,11 @@
 * when feed-item tooltip height is bigger the the height of the listview the sidebar fliker (both have v scrollbars)
 * open feedPreview from pagePopup without adding the feed to sage!		== with middle-click
 * feed tooltip: add '\u2003' after line header (ex. URL:). add extra '\u000d' after feed title
+* checking and then unchecking the 'use custom CSS' unnecessarily reload the feedPreview
 ---
 
 
 ## Next
-* checking and then unchecking the 'use custom CSS' unnecessarily reload the feedPreview
 * in preferences
 	> Subscribe button <img> in address bar
 		> Feed detection in web pages (?)				[O] On page load		[X] On mouse click
