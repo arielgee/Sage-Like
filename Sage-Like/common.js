@@ -1075,7 +1075,7 @@ let prefs = (function() {
 	const DEF_PREF_IMAGE_SET_VALUE = 0;
 	const DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE = false;
 	const DEF_PREF_CUSTOM_CSS_SOURCE_VALUE = "";
-	const DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE = false;
+	const DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE = "";
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
@@ -1100,7 +1100,7 @@ let prefs = (function() {
 	const PREF_IMAGE_SET = "pref_imageSet";
 	const PREF_USE_CUSTOM_CSS_FEED_PREVIEW = "pref_useCustomCSSFeedPreview";
 	const PREF_CUSTOM_CSS_SOURCE = "pref_customCSSSource";
-	const PREF_CUSTOM_CSS_SOURCE_FLAG = "pref_customCSSSourceFlag";
+	const PREF_CUSTOM_CSS_SOURCE_HASH = "pref_customCSSSourceHash";
 
 	let m_localStorage = browser.storage.local;
 
@@ -1333,13 +1333,18 @@ let prefs = (function() {
 	function setCustomCSSSource(value) {
 		setPreferenceValue(PREF_CUSTOM_CSS_SOURCE, value);
 
-		// this flag is set only here and only if PREF_CUSTOM_CSS_SOURCE has content
-		setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_FLAG, (!!value && value.length > 0));
+		// This value is set only here and only if PREF_CUSTOM_CSS_SOURCE has content.
+		// This hash is also an indicator to the existence of a css source. Therefore when there is no source the hash will be empty.
+		if(!!value && value.length > 0) {
+			slUtil.hashCode(value).then((hash) => setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, hash) );
+		} else {
+			setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getCustomCSSSourceFlag() {
-		return getPreferenceValue(PREF_CUSTOM_CSS_SOURCE_FLAG, DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE);
+	function getCustomCSSSourceHash() {
+		return getPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1392,7 +1397,7 @@ let prefs = (function() {
 			imageSet: DEF_PREF_IMAGE_SET_VALUE,
 			useCustomCSSFeedPreview: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
 			customCSSSource: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
-			customCSSSourceFlag: DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE,
+			customCSSSourceHash: DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
 		};
 	}
 
@@ -1436,7 +1441,7 @@ let prefs = (function() {
 		DEF_PREF_IMAGE_SET_VALUE: DEF_PREF_IMAGE_SET_VALUE,
 		DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
 		DEF_PREF_CUSTOM_CSS_SOURCE_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
-		DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_FLAG_VALUE,
+		DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
 
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
@@ -1484,7 +1489,7 @@ let prefs = (function() {
 		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
 		getCustomCSSSource: getCustomCSSSource,
 		setCustomCSSSource: setCustomCSSSource,
-		getCustomCSSSourceFlag: getCustomCSSSourceFlag,
+		getCustomCSSSourceHash: getCustomCSSSourceHash,
 
 		restoreDefaults: restoreDefaults,
 	}

@@ -385,9 +385,9 @@ let preferences = (function() {
 		prefs.getUseCustomCSSFeedPreview().then((checked) => {
 			m_elmUseCustomCSSFeedPreview.checked = checked;
 			if(checked) {
-				prefs.getCustomCSSSourceFlag().then((hasSource) => {
-					slUtil.disableElementTree(m_elmBtnViewCSSSource, !hasSource);
-					slUtil.disableElementTree(m_elmBtnClearCSSSource, !hasSource);
+				prefs.getCustomCSSSourceHash().then((hash) => {
+					slUtil.disableElementTree(m_elmBtnViewCSSSource, (hash.length === 0));
+					slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
 					flashCustomCSSImportButton();
 				});
 			} else {
@@ -665,18 +665,18 @@ let preferences = (function() {
 	function onChangeUseCustomCSSFeedPreview(event) {
 		prefs.setUseCustomCSSFeedPreview(m_elmUseCustomCSSFeedPreview.checked);
 
-		prefs.getCustomCSSSourceFlag().then((hasSource) => {
+		prefs.getCustomCSSSourceHash().then((hash) => {
 
 			if(m_elmUseCustomCSSFeedPreview.checked) {
 				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, false);
-				slUtil.disableElementTree(m_elmBtnViewCSSSource, !hasSource);
-				slUtil.disableElementTree(m_elmBtnClearCSSSource, !hasSource);
+				slUtil.disableElementTree(m_elmBtnViewCSSSource, (hash.length === 0));
+				slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
 			} else {
 				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
 			}
 
 			flashCustomCSSImportButton();
-			if(hasSource) broadcastCustomCSSSourceChanged();
+			if(hash.length > 0) broadcastCustomCSSSourceChanged();
 		});
 	}
 
