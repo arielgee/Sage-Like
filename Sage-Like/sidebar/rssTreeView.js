@@ -1111,33 +1111,37 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyO":
-				browser.tabs.update({
-					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
-				});
+				if(!isFolder) {
+					browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")) });
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyT":
-				browser.tabs.create({
-					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
-				});
+				if(!isFolder) {
+					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")) });
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyW":
-				browser.windows.create({
-					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
-					type: "normal",
-				});
+				if(!isFolder) {
+					browser.windows.create({
+						url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
+						type: "normal",
+					});
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyV":
-				browser.windows.create({
-					url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
-					type: "normal",
-					incognito: true,
-				}).catch((error) => messageView.show(slUtil.incognitoErrorMessage(error)) );
+				if(!isFolder) {
+					browser.windows.create({
+						url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
+						type: "normal",
+						incognito: true,
+					}).catch((error) => messageView.show(slUtil.incognitoErrorMessage(error)) );
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
