@@ -7,26 +7,27 @@ let contextMenu = (function() {
 		treeOpenNewTab:			2,
 		treeOpenNewWin:			3,
 		treeOpenNewPrivateWin:	4,
-		treeToggleReadUnread:	5,
-		treeMarkAllRead:		6,
-		treeMarkAllUnread:		7,
-		treeNewFeed:			8,
-		treeNewFolder:			9,
-		treeCopyUrl:			10,
-		treeDeleteTreeItem:		11,
-		treeProperties:			12,
-		treeSwitchDirection:	13,
+		treeOpenAllInTabs:		5,
+		treeToggleReadUnread:	6,
+		treeMarkAllRead:		7,
+		treeMarkAllUnread:		8,
+		treeNewFeed:			9,
+		treeNewFolder:			10,
+		treeCopyUrl:			11,
+		treeDeleteTreeItem:		12,
+		treeProperties:			13,
+		treeSwitchDirection:	14,
 
-		listOpen:				14,
-		listOpenNewTab:			15,
-		listOpenNewWin:			16,
-		listOpenNewPrivateWin:	17,
-		listOpenAllInTabs:		18,
-		listToggleReadUnread:	19,
-		listMarkAllRead:		20,
-		listMarkAllUnread:		21,
-		listCopyUrl:			22,
-		listSwitchDirection:	23,
+		listOpen:				15,
+		listOpenNewTab:			16,
+		listOpenNewWin:			17,
+		listOpenNewPrivateWin:	18,
+		listOpenAllInTabs:		19,
+		listToggleReadUnread:	20,
+		listMarkAllRead:		21,
+		listMarkAllUnread:		22,
+		listCopyUrl:			23,
+		listSwitchDirection:	24,
 	});
 
 	//==================================================================================
@@ -201,6 +202,7 @@ let contextMenu = (function() {
 			switch (keyCode) {
 				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
+				case "KeyA":	handleTreeMenuActions(ContextAction.treeOpenAllInTabs);		break;
 				case "KeyG":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
 				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
 				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
@@ -263,6 +265,7 @@ let contextMenu = (function() {
 			case "mnuTreeOpenFeedNewTab":				handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
 			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 			case "mnuTreeOpenFeedNewPrivateWin":		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
+			case "mnuTreeOpenAllFeedsInNewTabs":		handleTreeMenuActions(ContextAction.treeOpenAllInTabs);		break;
 			case "mnuTreeToggleFeedReadUnread":			handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
 			case "mnuTreeMarkAllFeedsRead":				handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
 			case "mnuTreeMarkAllFeedsUnread":			handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
@@ -315,6 +318,7 @@ let contextMenu = (function() {
 			ContextAction.treeOpenNewTab,
 			ContextAction.treeOpenNewWin,
 			ContextAction.treeOpenNewPrivateWin,
+			ContextAction.treeOpenAllInTabs,
 		];
 
 		let actionData = { url: "" };
@@ -383,6 +387,11 @@ let contextMenu = (function() {
 
 			case ContextAction.listOpenNewPrivateWin:
 				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_PRIVATE_WIN);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeOpenAllInTabs:
+				rssTreeView.openAllFeedsInTabs(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 

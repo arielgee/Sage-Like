@@ -1145,6 +1145,13 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
+			case "KeyA":
+				if(isFolder) {
+					openAllFeedsInTabs(elmTargetLI);
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
 			case "KeyG":
 				toggleVisitedState(elmTargetLI);
 				break;
@@ -1606,6 +1613,21 @@ let rssTreeView = (function() {
 				});
 			}
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function openAllFeedsInTabs(elmLI, onlyUnread = true) {
+
+		if(!!!elmLI) return;
+
+		let parkedTabUrl;
+		let elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
+
+		for(let i=0, len=elms.length; i<len; i++) {
+			parkedTabUrl = slUtil.getParkedTabUrl(slUtil.getFeedPreviewUrl(elms[i].getAttribute("href")), getTreeItemText(elms[i]));
+			browser.tabs.create({ active: false, url: parkedTabUrl });
+			setFeedVisitedState(elms[i], true);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2512,6 +2534,7 @@ let rssTreeView = (function() {
 		openNewFeedProperties: openNewFeedProperties,
 		openNewFolderProperties: openNewFolderProperties,
 		deleteTreeItem: deleteTreeItem,
+		openAllFeedsInTabs: openAllFeedsInTabs,
 		toggleVisitedState: toggleVisitedState,
 		markAllFeedsAsVisitedState: markAllFeedsAsVisitedState,
 		openEditTreeItemProperties: openEditTreeItemProperties,
