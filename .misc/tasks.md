@@ -573,6 +573,7 @@
 
 
 ## Next
+* from multi parked feedPreview some tabs dont get the custom css
 * menu item for treeview folder to open all feeds as feedPreview
 {
 	let parkedTabUrl, elmFeeds = elmTargetLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED)
