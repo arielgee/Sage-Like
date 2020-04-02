@@ -278,8 +278,8 @@ let rssListView = (function() {
 		m_timeoutMouseOver = setTimeout(() => {
 
 			const POS_OFFSET = 8;
-			let x = m_elmFeedItemDescPanel.slLastClientX + POS_OFFSET;
-			let y = m_elmFeedItemDescPanel.slLastClientY + POS_OFFSET;
+			let x = (!!m_elmFeedItemDescPanel.slLastClientX ? m_elmFeedItemDescPanel.slLastClientX : event.clientX) + POS_OFFSET;
+			let y = (!!m_elmFeedItemDescPanel.slLastClientY ? m_elmFeedItemDescPanel.slLastClientY : event.clientY) + POS_OFFSET;
 
 			if ((x + m_elmFeedItemDescPanel.offsetWidth) > m_elmSidebarBody.offsetWidth) {
 				x = m_elmSidebarBody.offsetWidth - m_elmFeedItemDescPanel.offsetWidth-1;
