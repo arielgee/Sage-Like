@@ -1630,29 +1630,9 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function hashCode(str) {
-
 		return new Promise((resolve) => {
-
-			let buffer = new TextEncoder("utf-8").encode(str);
-
-			crypto.subtle.digest("SHA-256", buffer).then((buffer) => {
-
-				let padding = "00000000";
-				let value, stringValue, paddedValue;
-				let hexCodes = [];
-				let view = new DataView(buffer);
-
-				for (let i=0; i<view.byteLength; i+=4) {
-
-					value = view.getUint32(i);		// getUint32 reduces number of iterations needed; process 4 bytes each time
-					stringValue = value.toString(16);	// toString(16) returns the hex representation of the number without padding
-
-					paddedValue = (padding + stringValue).slice(-padding.length);
-					hexCodes.push(paddedValue);
-				}
-
-				// Join all the hex strings into one
-				resolve(hexCodes.join(""));
+			crypto.subtle.digest("SHA-256", (new TextEncoder()).encode(str)).then((hashBuffer) => {
+				resolve((Array.from(new Uint8Array(hashBuffer))).map(b => b.toString(16).padStart(2, '0')).join(''));
 			});
 		});
 	}
