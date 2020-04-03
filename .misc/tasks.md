@@ -583,12 +583,13 @@
 			> Feed detection in web pages (?)			[O] On page load		[X] On mouse click
 			> Detect Feeds in web pages on (?)			[O] Page load			[X] Mouse click
 			> Feed detection in web pages				[O] No		[O] On page load		[X] On mouse click
+* different behavior when i drag and drop icons from bookmarks library. (Fx v59.0.3)		Sage-Like supports strict Content-Types with semantics
+	* when DnD 'https://www.technologyreview.com/topnews.rss' into a taw tab it loads feedPreview	responseHeader.Content-Type = 'application/rss+xml; charset=utf-8'
+	* when DnD 'http://feeds.feedburner.com/TechCrunch' into a taw tab it loads old Fx feedHandler	responseHeader.Content-Type = '"text/xml; charset=UTF-8"'
 ---
 
 ## Now
-* different behavior when i drag and drop icons from bookmarks library. (Fx v59.0.3)
-	* when DnD 'https://www.technologyreview.com/topnews.rss' into a taw tab it loads feedPreview
-	* when DnD 'http://feeds.feedburner.com/TechCrunch' into a taw tab it loads old Fx feedHandler
+* drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
 ---
 
 ## Next
@@ -596,7 +597,6 @@
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
-* drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
 * open folder with one click?
 * the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
