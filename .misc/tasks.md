@@ -571,11 +571,11 @@
 * pagePopup: indication that url already in bookmarks
 * menu item for treeview folder to open all feeds as feedPreview	=> all UNREAD feeds
 * feedPreview tooltip flikers when moved inside attachment
+* selected tree item lost when clicking on blank/ no tree
 ---
 
 
 ## Next
-* selected tree item lost when clicking on blank/ no tree
 * from multi parked feedPreview some tabs dont get the custom css
 * in preferences
 	> Subscribe button <img> in address bar
