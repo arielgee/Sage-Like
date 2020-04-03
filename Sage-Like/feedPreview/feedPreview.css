@@ -209,6 +209,7 @@ body {
 	width: 32px;
 	height: 32px;
 	margin: auto auto 0 auto;
+	pointer-events: none;
 }
 
 .feedItemAttachmentTitle {
@@ -219,6 +220,7 @@ body {
 	overflow: hidden;
 	font-size: 80%;
 	text-align: center;
+	pointer-events: none;
 }
 
 #attachmentTooltip {

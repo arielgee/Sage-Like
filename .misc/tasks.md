@@ -570,11 +570,11 @@
 * checking and then unchecking the 'use custom CSS' unnecessarily reload the feedPreview
 * pagePopup: indication that url already in bookmarks
 * menu item for treeview folder to open all feeds as feedPreview	=> all UNREAD feeds
+* feedPreview tooltip flikers when moved inside attachment
 ---
 
 
 ## Next
-* feedPreview tooltip flikers when moved inside attachment
 * selected tree item lost when clicking on blank/ no tree
 * from multi parked feedPreview some tabs dont get the custom css
 * in preferences

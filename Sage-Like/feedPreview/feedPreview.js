@@ -3,6 +3,7 @@
 (function () {
 
 	let m_URL;
+	let m_elmFeedBody = null;
 	let m_elmAttachmentTooltip;
 	let m_timeoutMouseOver = null;
 	let m_hashCustomCSSSource = "";
@@ -55,6 +56,11 @@
 	function onUnload(event) {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+
+		if(!!m_elmFeedBody) {
+			m_elmFeedBody.removeEventListener("mouseover", onMouseOverAttachment);
+			m_elmFeedBody.removeEventListener("mouseout", onMouseOutAttachment);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -69,16 +75,16 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function createFeedPreview(urlFeed) {
 
-		let elmFeedBody = document.getElementById("feedBody");
+		m_elmFeedBody = document.getElementById("feedBody");
 		let elmLoadImg = document.getElementById("busyAnimLoading");
 		let elmFeedTitle;
 
 		prefs.getFetchTimeout().then((timeout) => {
 			syndication.fetchFeedItems(urlFeed, timeout * 1000, true, false, true).then((result) => {
 
-				elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
-				elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
-				elmFeedBody.addEventListener("mouseout", onMouseOutAttachment);
+				m_elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
+				m_elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
+				m_elmFeedBody.addEventListener("mouseout", onMouseOutAttachment);
 
 				document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
 				elmFeedTitle = createFeedTitleElements(result.feedData);
@@ -90,7 +96,7 @@
 					for(let idx=0, len=result.list.length; idx<len; idx++) {
 						elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
 					}
-					elmFeedBody.appendChild(elmFeedContent);
+					m_elmFeedBody.appendChild(elmFeedContent);
 				} else {
 					createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedData(). SAD. */
 				}
@@ -104,7 +110,7 @@
 				console.log("[Sage-Like]", "Fetch Error at " + urlFeed, error);
 
 			}).finally(() => {
-				elmFeedBody.removeChild(elmLoadImg);
+				m_elmFeedBody.removeChild(elmLoadImg);
 				document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
 			});
 		});
@@ -315,14 +321,16 @@
 
 		m_elmAttachmentTooltip.innerHTML = elmAtt.getAttribute("data-title");
 
+		let tooltipStyle = m_elmAttachmentTooltip.style;
+
 		// hide it and place it as high as possible to prevent resizing of
 		// the container when html data is retrieved
-		m_elmAttachmentTooltip.style.visibility = "hidden";
-		m_elmAttachmentTooltip.style.left = m_elmAttachmentTooltip.style.top = "0";
+		tooltipStyle.visibility = "hidden";
+		tooltipStyle.left = tooltipStyle.top = "0";
 
 		// set display=block as soon as possible to retrieve any remote html data (images, etc) and
 		// panel element will have dimentions (offsetWidth > 0)
-		m_elmAttachmentTooltip.style.display = "block";
+		tooltipStyle.display = "block";
 
 		m_timeoutMouseOver = setTimeout(() => {
 
@@ -338,9 +346,9 @@
 				y = elmAtt.offsetTop + elmAtt.offsetHeight + POS_OFFSET;
 			}
 
-			m_elmAttachmentTooltip.style.visibility = "visible";
-			m_elmAttachmentTooltip.style.left = x + "px";
-			m_elmAttachmentTooltip.style.top = y + "px";
+			tooltipStyle.visibility = "visible";
+			tooltipStyle.left = x + "px";
+			tooltipStyle.top = y + "px";
 
 		}, 100);
 	}
