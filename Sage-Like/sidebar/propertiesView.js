@@ -183,7 +183,11 @@ class PropertiesView {
 		switch (event.code) {
 			case "Enter":
 			case "NumpadEnter":
-				this._saveAndClose();
+				if(document.activeElement === this._onClickButtonCancel) {
+					this._close();
+				} else {
+					this._saveAndClose();
+				}
 				break;
 				//////////////////////////////
 			case "Escape":

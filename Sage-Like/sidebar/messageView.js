@@ -124,6 +124,8 @@ let messageView = (function () {
 			case "NumpadEnter":
 				if(m_buttonSet === ButtonSet.setOK) {
 					onClickButtonOK({});
+				} else if(m_buttonSet === ButtonSet.setYesNo && document.activeElement === m_elmButtonNo) {
+					onClickButtonNo({});
 				} else if(m_buttonSet === ButtonSet.setYesNo) {
 					onClickButtonYes({});
 				}

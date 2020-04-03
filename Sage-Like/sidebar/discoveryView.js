@@ -398,7 +398,11 @@ let discoveryView = (function() {
 		switch (event.code) {
 			case "Enter":
 			case "NumpadEnter":
-				onClickButtonAdd({});
+				if(document.activeElement === m_elmButtonCancel) {
+					close();
+				} else {
+					onClickButtonAdd({});
+				}
 				break;
 				//////////////////////////////
 			case "Escape":

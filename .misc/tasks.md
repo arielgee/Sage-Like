@@ -573,11 +573,11 @@
 * feedPreview tooltip flikers when moved inside attachment
 * selected tree item lost when clicking on blank/ no tree
 * Red warning for attention slideDown panels
+* messageView do not direct enter to focused button (all slideDown panels?)
 ---
 
 
 ## Next
-* messageView do not direct enter to focused button (all slideDown panels?)
 * from multi parked feedPreview some tabs dont get the custom css
 * in preferences
 	> Subscribe button <img> in address bar
