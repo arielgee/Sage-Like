@@ -574,26 +574,26 @@
 * selected tree item lost when clicking on blank/ no tree
 * Red warning for attention slideDown panels
 * messageView do not direct enter to focused button (all slideDown panels?)
+* update feed title/tooltip in treeView when middle-clicking for feed preview; reproduce: middle-clicking new feed =>NO! For that I need to fetchFeedItems()
+* add option to scan page for feeds from the location bar	===> NO NO NO! use discoveryView in sidebar
+	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
+	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
+	* in preferences
+		> Subscribe button <img> in address bar
+			> Feed detection in web pages (?)			[O] On page load		[X] On mouse click
+			> Detect Feeds in web pages on (?)			[O] Page load			[X] Mouse click
+			> Feed detection in web pages				[O] No		[O] On page load		[X] On mouse click
 ---
 
 ## Now
-* update feed title/tooltip in treeView when middle-clicking for feed preview; reproduce: middle-clicking new feed
+* different behavior when i drag and drop icons from bookmarks library. (Fx v59.0.3)
+	* when DnD 'https://www.technologyreview.com/topnews.rss' into a taw tab it loads feedPreview
+	* when DnD 'http://feeds.feedburner.com/TechCrunch' into a taw tab it loads old Fx feedHandler
 ---
 
 ## Next
 * from multi parked feedPreview some tabs dont get the custom css
-* in preferences
-	> Subscribe button <img> in address bar
-		> Feed detection in web pages (?)			[O] On page load		[X] On mouse click
-		> Detect Feeds in web pages on (?)			[O] Page load			[X] Mouse click
-		> Feed detection in web pages				[O] No		[O] On page load		[X] On mouse click
-* add option to scan page for feeds from the location bar
-	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
-	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
 * consider '@media (prefers-color-scheme: dark)' for sidebar
-* different behavior when i drag and drop icons from bookmarks library. (Fx v59.0.3)
-	* when DnD 'https://www.technologyreview.com/topnews.rss' into a taw tab it loads feedPreview
-	* when DnD 'http://feeds.feedburner.com/TechCrunch' into a taw tab it loads old Fx feedHandler
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
 * drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
