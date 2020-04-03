@@ -17,5 +17,11 @@
 .feedItemContent img {
 	filter: blur(5px) !important;
 	margin: 0 !important;
-	border: 5px solid blueviolet;
+	max-width: 80% !important;
+	width: 80% !important;
+	border: 5px solid blueviolet !important;
+}
+
+.feedItemContent svg {
+	filter: contrast(200%) !important;
 }
