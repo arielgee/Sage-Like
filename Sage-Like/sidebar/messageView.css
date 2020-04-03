@@ -5,6 +5,10 @@
 	overflow: hidden;
 }
 
+#messagePanel.alertive .captionImage {
+	background: transparent url("/icons/errormsg.png") no-repeat center center;
+}
+
 #messagePanel > .captionContainer {
 	display: flex;
 	justify-content: left;

@@ -572,10 +572,12 @@
 * menu item for treeview folder to open all feeds as feedPreview	=> all UNREAD feeds
 * feedPreview tooltip flikers when moved inside attachment
 * selected tree item lost when clicking on blank/ no tree
+* Red warning for attention slideDown panels
 ---
 
 
 ## Next
+* messageView do not direct enter to focused button (all slideDown panels?)
 * from multi parked feedPreview some tabs dont get the custom css
 * in preferences
 	> Subscribe button <img> in address bar
@@ -586,8 +588,6 @@
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
 * consider '@media (prefers-color-scheme: dark)' for sidebar
-
-* Red warning for attention slideDown panels
 * different behavior when i drag and drop icons from bookmarks library. (Fx v59.0.3)
 	* when DnD 'https://www.technologyreview.com/topnews.rss' into a taw tab it loads feedPreview
 	* when DnD 'http://feeds.feedburner.com/TechCrunch' into a taw tab it loads old Fx feedHandler

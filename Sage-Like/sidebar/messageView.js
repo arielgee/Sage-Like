@@ -28,7 +28,7 @@ let messageView = (function () {
 	let m_funcPromiseResolve = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function show(text, btnSet = messageView.ButtonSet.setOK, isTextLeftAlign = false) {
+	function show(text, btnSet = messageView.ButtonSet.setOK, isAlertive = true, isTextLeftAlign = false) {
 
 		return new Promise((resolve) => {
 
@@ -36,6 +36,7 @@ let messageView = (function () {
 
 			m_buttonSet = btnSet;
 
+			m_elmMessagePanel.classList.toggle("alertive", isAlertive);
 			m_elmMsgText.innerHTML = text;
 			m_elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
