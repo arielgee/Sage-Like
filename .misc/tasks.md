@@ -587,20 +587,19 @@
 	* when DnD 'https://www.technologyreview.com/topnews.rss' into a taw tab it loads feedPreview	responseHeader.Content-Type = 'application/rss+xml; charset=utf-8'
 	* when DnD 'http://feeds.feedburner.com/TechCrunch' into a taw tab it loads old Fx feedHandler	responseHeader.Content-Type = '"text/xml; charset=UTF-8"'
 * drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
----
-
-## Now
 * replace 'Attention' with 'Error'/'Delete'
 ---
 
-## Next
+## Now
+* the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
+---
 
+## Next
 * from multi parked feedPreview some tabs dont get the custom css
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
 * open folder with one click?
-* the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???

@@ -15,7 +15,6 @@ let messageView = (function () {
 	};
 
 	let m_elmMessagePanel = null;
-	let m_elmMsgText;
 	let m_elmButtonSetOK;
 	let m_elmButtonSetYesNo;
 	let m_elmButtonOK;
@@ -28,7 +27,7 @@ let messageView = (function () {
 	let m_funcPromiseResolve = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function show(text, btnSet = messageView.ButtonSet.setOK, isAlertive = true, isTextLeftAlign = false) {
+	function show(text, btnSet = messageView.ButtonSet.setOK, caption = "Attention!", isAlertive = true, isTextLeftAlign = false) {
 
 		return new Promise((resolve) => {
 
@@ -36,9 +35,12 @@ let messageView = (function () {
 
 			m_buttonSet = btnSet;
 
+			let elmMsgText = document.getElementById("msgText");
+
 			m_elmMessagePanel.classList.toggle("alertive", isAlertive);
-			m_elmMsgText.innerHTML = text;
-			m_elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
+			document.getElementById("msgCaption").textContent = caption;
+			elmMsgText.innerHTML = text;
+			elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
 
@@ -62,7 +64,6 @@ let messageView = (function () {
 
 		if(m_elmMessagePanel === null) {
 			m_elmMessagePanel = document.getElementById("messagePanel");
-			m_elmMsgText = document.getElementById("msgText");
 			m_elmButtonSetOK = document.getElementById("btnSetOK");
 			m_elmButtonSetYesNo = document.getElementById("btnSetYesNo");
 			m_elmButtonOK = document.getElementById("btnMsgOK");

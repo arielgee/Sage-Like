@@ -1591,7 +1591,7 @@ let rssTreeView = (function() {
 			text += "feed <b title=\"" + elmLI.getAttribute("href") + "\">'" + getTreeItemText(elmLI) + "'</b> from your bookmarks?"
 		}
 
-		messageView.show(text, messageView.ButtonSet.setYesNo).then((result) => {
+		messageView.show(text, messageView.ButtonSet.setYesNo, "Delete " + (isFolder ? "Folder" : "Feed")).then((result) => {
 
 			if(result === messageView.ButtonCode.Yes) {
 
