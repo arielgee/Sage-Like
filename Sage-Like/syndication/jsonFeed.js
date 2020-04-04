@@ -21,6 +21,7 @@ class JsonFeed extends Feed {
 			feedData.lastUpdated = this._getFeedLastUpdate(this._feedJson.items);
 			feedData.itemCount = this._feedJson.items.length;
 		} catch (error) {
+			console.log("[Sage-Like]", "getFeedData error", error);
 			feedData.errorMsg = error.message;
 		}
 		return feedData;

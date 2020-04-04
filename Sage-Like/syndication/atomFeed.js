@@ -19,6 +19,7 @@ class AtomFeed extends XmlFeed {
 			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "feed", "feed > entry");
 			this._feedData.itemCount = this._feedData.feeder.querySelectorAll("entry").length;
 		} catch (error) {
+			console.log("[Sage-Like]", "getFeedData error", error);
 			this._feedData.errorMsg = error.message;
 		}
 		return this._feedData;

@@ -60,7 +60,7 @@ class Feed {
 		} else {
 
 			let errMsg = "Feed format is neither XML nor JSON.";
-			console.log("[Sage-Like]", "Parser Error at " + logUrl, "- " + errMsg);
+			console.log("[Sage-Like]", "Parser error at " + logUrl, "- " + errMsg);
 			throw new Error(errMsg);
 		}
 	}
@@ -109,7 +109,7 @@ class Feed {
 		// return if XML not well-formed
 		if(xmlDoc.documentElement.nodeName === "parsererror") {
 
-			console.log("[Sage-Like]", "Parser Error at " + logUrl, "\n" + xmlDoc.documentElement.textContent);
+			console.log("[Sage-Like]", "Parser error at " + logUrl, "\n" + xmlDoc.documentElement.textContent);
 
 			// the first line and the error location
 			let found = xmlDoc.documentElement.textContent.match(g_feed.regexpXMLParseError);
@@ -147,7 +147,7 @@ class Feed {
 			return new JsonFeed(logUrl, oJson);
 
 		} catch (error) {
-			console.log("[Sage-Like]", "Parser Error at " + logUrl, "\n" + error.message);
+			console.log("[Sage-Like]", "Parser error at " + logUrl, "\n" + error.message);
 			throw new Error(error.message);
 		}
 	}

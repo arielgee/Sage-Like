@@ -107,7 +107,7 @@
 				elmFeedTitle = createFeedTitleElements({ description: m_URL.pathname, imageUrl: "" });
 
 				createErrorContent(error.message, (new URL(urlFeed)));
-				console.log("[Sage-Like]", "Fetch Error at " + urlFeed, error);
+				console.log("[Sage-Like]", "Fetch error at " + urlFeed, error);
 
 			}).finally(() => {
 				m_elmFeedBody.removeChild(elmLoadImg);
