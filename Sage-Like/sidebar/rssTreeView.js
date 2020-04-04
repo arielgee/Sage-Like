@@ -677,6 +677,12 @@ let rssTreeView = (function() {
 		let transfer = event.dataTransfer;
 		let validMimes = ["text/wx-sl-treeitem-html", "text/uri-list", "text/x-moz-url"];
 
+		// Will happend when dropping from another window
+		if(!!!m_elmCurrentlyDragged && transfer.types.includes(validMimes[0])) {
+			transfer.dropEffect = "none";
+			return false;
+		}
+
 		// + Drop only on LI element
 		// + Prevent element from been droped into itself.
 		// + Unless the dropped data is a URI or an 'wx-sl-treeitem-html'

@@ -586,13 +586,15 @@
 * different behavior when i drag and drop icons from bookmarks library. (Fx v59.0.3)		Sage-Like supports strict Content-Types with semantics
 	* when DnD 'https://www.technologyreview.com/topnews.rss' into a taw tab it loads feedPreview	responseHeader.Content-Type = 'application/rss+xml; charset=utf-8'
 	* when DnD 'http://feeds.feedburner.com/TechCrunch' into a taw tab it loads old Fx feedHandler	responseHeader.Content-Type = '"text/xml; charset=UTF-8"'
----
-
-## Now
 * drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
 ---
 
+## Now
+* replace 'Attention' with 'Error'/'Delete'
+---
+
 ## Next
+
 * from multi parked feedPreview some tabs dont get the custom css
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
