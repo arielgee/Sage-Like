@@ -588,10 +588,10 @@
 	* when DnD 'http://feeds.feedburner.com/TechCrunch' into a taw tab it loads old Fx feedHandler	responseHeader.Content-Type = '"text/xml; charset=UTF-8"'
 * drag and drop feed from one browser window to other is messing the UI. leaving the drop indicator visible after drop (that didn't work)
 * replace 'Attention' with 'Error'/'Delete'
+* the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
 ---
 
 ## Now
-* the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
 ---
 
 ## Next

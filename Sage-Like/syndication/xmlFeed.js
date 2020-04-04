@@ -61,10 +61,10 @@ class XmlFeed extends Feed {
 		if(isNaN(dateVal)) {
 
 			let feedItemSelectorString = selectorSuffixes.map(s => fallbackSelectorPrefix + s).join(",");
-			elmLastUpdate = doc.querySelector(feedItemSelectorString);
+			let dates = Array.from(doc.querySelectorAll(feedItemSelectorString)).map(x => new Date(x.textContent.replace(/\ Z$/, "")));
 
-			if(!!elmLastUpdate) {
-				dateVal = (new Date(elmLastUpdate.textContent.replace(/\ Z$/, "")));
+			if(dates.length > 0) {
+				dateVal = dates.reduce((prv, cur) => prv > cur ? prv : cur);
 			}
 		}
 
