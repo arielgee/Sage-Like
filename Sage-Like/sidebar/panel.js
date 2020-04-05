@@ -249,7 +249,7 @@ let panel = (function() {
 		}
 
 		// set listview's CSS variable accordingly depending if has VScroll
-		document.documentElement.style.setProperty("--rlv-scrollbar-width", (slUtil.hasVScroll(m_elmList) ? sbWidth : 0) + "px");
+		rssListView.updateLayoutWidth();
 
 		// side bar resizing escapes the contextMenu and the infoBar
 		contextMenu.close();

@@ -682,9 +682,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setStatusbarIcon(isVisible) {
 
-		let sbWidth = (slUtil.hasVScroll(m_elmList) ? slUtil.getScrollbarWidth() : 0) + "px";
-
-		document.documentElement.style.setProperty("--rlv-scrollbar-width", sbWidth);
+		updateLayoutWidth();
 		m_elmListViewStatusbar.classList.toggle("visible", isVisible);
 	}
 
@@ -730,6 +728,21 @@ let rssListView = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateLayoutWidth() {
+
+		// set listview's CSS variable accordingly depending if has VScroll
+		if(slUtil.hasVScroll(m_elmList)) {
+			if(m_elmList.parentElement.getBoundingClientRect().width > m_elmList.scrollWidth) {
+				document.documentElement.style.setProperty("--rlv-scrollbar-width", slUtil.getScrollbarWidth() + "px");
+			} else {
+				document.documentElement.style.setProperty("--rlv-scrollbar-width", "0px");
+			}
+		} else {
+			document.documentElement.style.setProperty("--rlv-scrollbar-width", "0px");
+		}
+	}
+
 	return {
 		URLOpenMethod: URLOpenMethod,
 
@@ -746,6 +759,7 @@ let rssListView = (function() {
 		getListViewTitle: getListViewTitle,
 		disable: disable,
 		hideVisibleFeedItemDescPanel: hideVisibleFeedItemDescPanel,
+		updateLayoutWidth: updateLayoutWidth,
 	};
 
 })();
