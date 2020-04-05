@@ -590,10 +590,10 @@
 * replace 'Attention' with 'Error'/'Delete'
 * the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
 * move the list Status bar icon to the right when the list is very short and the scrollbar is gone
+* open folder with one click?
 ---
 
 ## Now
-* open folder with one click?
 ---
 
 ## Next

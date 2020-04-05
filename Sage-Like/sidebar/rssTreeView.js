@@ -215,7 +215,6 @@ let rssTreeView = (function() {
 		m_elmTreeRoot.addEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
 		m_elmTreeRoot.addEventListener("click", onClickTreeItem);
 		m_elmTreeRoot.addEventListener("auxclick", onClickTreeItem);
-		m_elmTreeRoot.addEventListener("dblclick", onDoubleClickTreeItem);
 		m_elmTreeRoot.addEventListener("dragstart", onDragStartTreeItem);
 		m_elmTreeRoot.addEventListener("dragenter", onDragEnterTreeItem);
 		m_elmTreeRoot.addEventListener("dragover", onDragOverTreeItem);
@@ -264,7 +263,6 @@ let rssTreeView = (function() {
 		m_elmTreeRoot.removeEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
 		m_elmTreeRoot.removeEventListener("click", onClickTreeItem);
 		m_elmTreeRoot.removeEventListener("auxclick", onClickTreeItem);
-		m_elmTreeRoot.removeEventListener("dblclick", onDoubleClickTreeItem);
 		m_elmTreeRoot.removeEventListener("dragstart", onDragStartTreeItem);
 		m_elmTreeRoot.removeEventListener("dragenter", onDragEnterTreeItem);
 		m_elmTreeRoot.removeEventListener("dragover", onDragOverTreeItem);
@@ -577,8 +575,10 @@ let rssTreeView = (function() {
 
 		let elmLI = event.target;
 
+		if(!!!elmLI) return;
+
 		// event.detail: check the current click count to avoid the double-click's second click.
-		if(event.detail === 1 && !!elmLI && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+		if(event.detail === 1 && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
 
 			event.stopPropagation();
 
@@ -619,17 +619,8 @@ let rssTreeView = (function() {
 					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
 				}
 			}
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onDoubleClickTreeItem(event) {
-
-		event.stopPropagation();
-
-		let elmLI = event.target;
-
-		if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER) && eventOccureInItemLineHeight(event, elmLI)) {
+		} else if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER) && eventOccureInItemLineHeight(event, elmLI)) {
+			event.stopPropagation();
 			toggleFolderState(elmLI);
 		}
 	}
