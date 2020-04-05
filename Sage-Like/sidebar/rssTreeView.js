@@ -619,8 +619,6 @@ let rssTreeView = (function() {
 					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
 				}
 			}
-		} else {
-			setFeedSelectionState(m_elmCurrentlySelected);
 		}
 	}
 
@@ -941,8 +939,10 @@ let rssTreeView = (function() {
 		if(event.button === 1 || event.target === m_elmTreeRoot) {
 			event.stopPropagation();
 			event.preventDefault();
-			setFeedSelectionState(event.target);
-			setFocus();
+			if(event.target.tagName === "LI") {
+				setFeedSelectionState(event.target);
+				setFocus();
+			}
 		}
 	}
 

@@ -595,6 +595,7 @@
 ---
 
 ## Next
+* move the list Status bar icon to the right when the list is very short and the scrollbar is gone
 * from multi parked feedPreview some tabs dont get the custom css
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
