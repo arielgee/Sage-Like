@@ -160,7 +160,6 @@ let rssListView = (function() {
 
 		if(title.length === 0) title = slGlobals.STR_TITLE_EMPTY;
 		desc = desc
-			.stripUnsafeHtmlComponents()
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexATag)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexAudioVideoTags)
