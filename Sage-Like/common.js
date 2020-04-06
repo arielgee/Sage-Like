@@ -620,6 +620,36 @@ let slPrototypes = (function() {
 	};
 	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
 
+	////////////////////////////////////////////////////////////////////////////////////
+	String.prototype.htmlBadEntityInXMLToDecimal = function() {
+		// this is NOT safe; may be used as an attack vector if result is displayed to user
+		return this.replace(String.prototype.htmlBadEntityInXMLToDecimal.regex, (matched) => {
+			return String.prototype.htmlBadEntityInXMLToDecimal.entities[matched];
+		});
+	};
+	String.prototype.htmlBadEntityInXMLToDecimal.entities = {
+		"&nbsp;": "&#160;",
+		"&emsp;": "&#8195;",
+		"&reg;": "&#174;",
+		"&copy;": "&#169;",
+		"&trade;": "&#8482;",
+		"&cent;": "&#162;",
+		"&pound;": "&#163;",
+		"&yen;": "&#165;",
+		"&euro;": "&#8364;",
+		"&raquo;": "&#x187;",
+		"&laquo;": "&#171;",
+		"&bull;": "&#8226;",
+		"&mdash;": "&#8212;",
+		"&ndash;": "&#8211;",
+		"&thinsp;": "&#8201;",
+		"&hellip;": "&#8230;",
+		"&middot;": "&#183;",
+		"&zwnj;": "&#8204;",
+		"&zwj;": "&#8205;",
+	};
+	String.prototype.htmlBadEntityInXMLToDecimal.regex = new RegExp(Object.keys(String.prototype.htmlBadEntityInXMLToDecimal.entities).join("|"), "gim");
+
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeHtml = function() {
 		return this.replace(String.prototype.escapeHtml.regex, (match) => {

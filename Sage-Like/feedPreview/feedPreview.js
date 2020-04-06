@@ -159,7 +159,6 @@
 		let elmFeedItemLastUpdatedText = document.createElement("div");
 		let elmFeedItemContent = document.createElement("div");
 		let elmFeedItemAttachmentsContainer;
-		let itemContent;
 
 		elmFeedItemContainer.className = "feedItemContainer";
 		elmFeedItemNumber.className = "feedItemNumber feedItemBigFont";
@@ -169,11 +168,8 @@
 		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
 		elmFeedItemContent.className = "feedItemContent";
 
-		if( (itemContent = feedItem.htmlContent).length > 0) {
-			itemContent = itemContent.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
-		} else {
-			itemContent = feedItem.description.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
-		}
+		let itemContent = ((feedItem.htmlContent.length > 0) ? feedItem.htmlContent : feedItem.description);
+		itemContent.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
 
 		elmFeedItemNumber.textContent = idx + 1 + ".";
 		elmFeedItemLink.href = feedItem.url;

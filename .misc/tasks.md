@@ -594,32 +594,39 @@
 ---
 
 ## Now
+* support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???
+	* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/5
+	* 3ewnbuy1qdd8jfci1q6p@kill-the-newsletter.com
+		* https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml
+	* udnq204nxqcfai05q7vk@kill-the-newsletter.com
+		* https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml
+	* mvvbgk7ev4sfcfv2xanm@kill-the-newsletter.com
+		* https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml
 ---
 
 ## Next
-* from multi parked feedPreview some tabs dont get the custom css
+* remove '<style\>' and 'style="xxx"' from description and htmlContent ; THERE ARE bgcolor="#000000" IN THE TAGS
+* drag and drop plane text urls
 * consider '@media (prefers-color-scheme: dark)' for sidebar
+* from multi parked feedPreview some tabs dont get the custom css
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
+
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
-* support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???
-	* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/5
-	* https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
 	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
 	* Maybe need to use feed items Read/Unread state (alterative option?)
-	> (1) rssTreeView.js:863: "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
-	> (2) syndication.js:422: "feedData.lastUpdated = getFeedLastUpdate(doc, "rss > channel", "item");"
-* tabs in preferences? It'll be a PAIN! better to use '"open_in_tab": true' in manifest.options_ui.
-* Firefox has no support for XML 1.1
+	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
+	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
-
 
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI
+* Firefox has no support for XML 1.1
 
 ### low priority
+* tabs in preferences? It'll be a PAIN! better to use '"open_in_tab": true' in manifest.options_ui.
 * Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on.
 	* second reload or closing & re-opening the sidebar fixes the issue.
 * Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
