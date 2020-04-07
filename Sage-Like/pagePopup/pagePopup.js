@@ -94,7 +94,7 @@
 		if(event.button === 1) {		// middle click
 
 			target = target.closest(".feedItem");
-			if(!!target) browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")) });
+			if(!!target) browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")), active: false });
 
 		} else {
 
