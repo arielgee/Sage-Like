@@ -622,13 +622,13 @@ let slPrototypes = (function() {
 	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
 
 	////////////////////////////////////////////////////////////////////////////////////
-	String.prototype.htmlBadEntityInXMLToDecimal = function() {
-		// this is NOT safe; may be used as an attack vector if result is displayed to user
-		return this.replace(String.prototype.htmlBadEntityInXMLToDecimal.regex, (matched) => {
-			return String.prototype.htmlBadEntityInXMLToDecimal.entities[matched];
+	String.prototype.unknownNamedEntityInXMLToDecimal = function() {
+		// The only named entities known in XML are: '&amp;', '&quot;', '&lt;', '&gt;', '&apos;'.
+		return this.replace(String.prototype.unknownNamedEntityInXMLToDecimal.regex, (matched) => {
+			return String.prototype.unknownNamedEntityInXMLToDecimal.entities[matched];
 		});
 	};
-	String.prototype.htmlBadEntityInXMLToDecimal.entities = {
+	String.prototype.unknownNamedEntityInXMLToDecimal.entities = {
 		"&nbsp;": "&#160;",
 		"&emsp;": "&#8195;",
 		"&reg;": "&#174;",
@@ -648,8 +648,14 @@ let slPrototypes = (function() {
 		"&middot;": "&#183;",
 		"&zwnj;": "&#8204;",
 		"&zwj;": "&#8205;",
+		"&rsquo;": "&#8217;",
+		"&lsquo;": "&#8216;",
+		"&sbquo;": "&#8218;",
+		"&ldquo;": "&#8220;",
+		"&rdquo;": "&#8221;",
+		"&bdquo;": "&#8222;",
 	};
-	String.prototype.htmlBadEntityInXMLToDecimal.regex = new RegExp(Object.keys(String.prototype.htmlBadEntityInXMLToDecimal.entities).join("|"), "gim");
+	String.prototype.unknownNamedEntityInXMLToDecimal.regex = new RegExp(Object.keys(String.prototype.unknownNamedEntityInXMLToDecimal.entities).join("|"), "gim");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeHtml = function() {

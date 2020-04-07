@@ -158,7 +158,7 @@ class Feed {
 		// try to avoid stupid XML/RSS Parsing Errors
 		xmlText = xmlText.replace(g_feed.regexpXMLWhiteSpaceStart, "");				// XML declaration (prolog) not at start of document
 		xmlText = xmlText.replace(g_feed.regexpJunkAfterXMLDocElement, "$1");		// junk after document element
-		xmlText = xmlText.htmlBadEntityInXMLToDecimal();
+		xmlText = xmlText.unknownNamedEntityInXMLToDecimal();
 
 		// remove invalid characters
 		if(xmlVersion === "1.0") {
