@@ -605,6 +605,8 @@
 ---
 
 ## Next
+* stop calling it logUrl. its feedUrl
+* * <content type="xhtml"> in https://www.php.net/feed.atom
 * remove '<style\>' and 'style="xxx"' from description and htmlContent ; THERE ARE bgcolor="#000000" IN THE TAGS
 * drag and drop plane text urls
 * consider '@media (prefers-color-scheme: dark)' for sidebar

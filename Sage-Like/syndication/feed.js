@@ -66,16 +66,16 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	static factoryCreateByStd(feedStd) {
+	static factoryCreateByStd(feedStd, logUrl) {
 
 		if(feedStd === SyndicationStandard.RSS) {
-			return new RssFeed();
+			return new RssFeed(logUrl);
 		} else if(feedStd === SyndicationStandard.RDF) {
-			return new RdfFeed();
+			return new RdfFeed(logUrl);
 		} else if(feedStd === SyndicationStandard.Atom) {
-			return new AtomFeed();
+			return new AtomFeed(logUrl);
 		} else if(feedStd === SyndicationStandard.JSON) {
-			return new JsonFeed();
+			return new JsonFeed(logUrl);
 		} else {
 			return null;
 		}

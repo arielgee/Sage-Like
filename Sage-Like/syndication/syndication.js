@@ -137,7 +137,7 @@ let syndication = (function() {
 
 			fetchFeedData(url, timeout, reload).then((result) => {
 
-				let list = Feed.factoryCreateByStd(result.feedData.standard).getFeedItems(result.feedData, withAttachments);
+				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, withAttachments);
 
 				if(list.length > 0 || !ifNoItemsReject) {
 					resolve({ list: list, feedData: result.feedData});
