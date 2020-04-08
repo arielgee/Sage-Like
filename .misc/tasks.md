@@ -591,9 +591,6 @@
 * the feeder may need some sorting before a call to _getFeedLastUpdate(). the fallback to get date from an item may not return the most updated (bigger then)
 * move the list Status bar icon to the right when the list is very short and the scrollbar is gone
 * open folder with one click?
----
-
-## Now
 * support feed entries from https://www.kill-the-newsletter.com/ that provide HTML content Instead of links. WHERE IN THE BOOKMARK???
 	* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/5
 	* 3ewnbuy1qdd8jfci1q6p@kill-the-newsletter.com
@@ -604,13 +601,16 @@
 		* https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml
 ---
 
+## Now
+* stop calling it logUrl. its feedUrl
+---
+
 ## Next
-* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce
+* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * maybe the one-click open folder is not so good. consider: one click on folder's icon open and on folder caption just select. but then dblclick on caption for open. (preference??????? :( )
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
 * https://www.npr.org/feeds/510317/feed.json has an image enrty in the feed-item entry. show it in the feedPreview ?
 	* check all formats for an image entry
-* stop calling it logUrl. its feedUrl
 * * <content type="xhtml"> in https://www.php.net/feed.atom
 * remove '<style\>' and 'style="xxx"' from description and htmlContent ; THERE ARE bgcolor="#000000" IN THE TAGS
 * drag and drop plane text urls
