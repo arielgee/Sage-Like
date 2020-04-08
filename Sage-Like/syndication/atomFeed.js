@@ -44,13 +44,17 @@ class AtomFeed extends XmlFeed {
 		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
-			elmLink = item.querySelector("link[href]:not([rel])") || item.querySelector("link[href][rel=alternate]") || item.querySelector("link[href]");
+			elmLink = item.querySelector("link[href]:not([rel])") ||
+						item.querySelector("link[href][rel=alternate]") ||
+						item.querySelector("link[href]:not([rel=enclosure]):not([rel=related])") ||
+						item.querySelector("id") ||				// one more WTF that use the <id> for the permalink to the page instead of <link>
+						item.querySelector("link[href]");
 
 			if(!!elmLink) {
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
 															this._getFeedItemDescription(item),
 															this._getFeedItemHtmlContent(item),
-															elmLink.getAttribute("href"),
+															elmLink.hasAttribute("href") ? elmLink.getAttribute("href") : elmLink.textContent,	// when link comes from <id>
 															this._getFeedItemLastUpdate(item));
 				if (!!feedItem) {
 

@@ -605,6 +605,11 @@
 ---
 
 ## Next
+* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce
+* maybe the one-click open folder is not so good. consider: one click on folder's icon open and on folder caption just select. but then dblclick on caption for open. (preference??????? :( )
+* is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
+* https://www.npr.org/feeds/510317/feed.json has an image enrty in the feed-item entry. show it in the feedPreview ?
+	* check all formats for an image entry
 * stop calling it logUrl. its feedUrl
 * * <content type="xhtml"> in https://www.php.net/feed.atom
 * remove '<style\>' and 'style="xxx"' from description and htmlContent ; THERE ARE bgcolor="#000000" IN THE TAGS
