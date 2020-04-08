@@ -77,7 +77,7 @@ class RssFeed extends XmlFeed {
 	//////////////////////////////////////////
 	_getFeedItemEnclosureAsAttObject(elm) {
 
-		let url = slUtil.validURL(elm.getAttribute("url"));
+		let url = slUtil.validURL(new URL(elm.getAttribute("url"), this._feedUrl));
 
 		if(!!url) {
 

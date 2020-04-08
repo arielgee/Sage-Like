@@ -207,7 +207,7 @@ class JsonFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedItemAttachmentAsAttObject(att) {
 
-		let url = slUtil.validURL(att.url);
+		let url = slUtil.validURL(new URL(att.url, this._feedUrl));
 
 		if(!!url) {
 

@@ -75,7 +75,7 @@ class AtomFeed extends XmlFeed {
 	//////////////////////////////////////////
 	_getFeedItemLinkAsAttObject(elm) {
 
-		let url = slUtil.validURL(elm.getAttribute("href"));
+		let url = slUtil.validURL(new URL(elm.getAttribute("href"), this._feedUrl));
 
 		if(!!url) {
 
