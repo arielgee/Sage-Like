@@ -94,7 +94,22 @@
 		if(event.button === 1) {		// middle click
 
 			target = target.closest(".feedItem");
-			if(!!target) browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")), active: false });
+			if(!!target) {
+
+				if(event.ctrlKey && event.altKey && !event.shiftKey) {
+
+					let url = new URL(target.getAttribute("href"));
+					url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+					url = url.toString();
+
+					// ++Dev Mode++: open link & link view-source in new tabs
+					browser.tabs.create({ url: url, active: false });
+					browser.tabs.create({ url: "view-source:" + url, active: false });
+
+				} else {
+					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")), active: false });
+				}
+			}
 
 		} else {
 

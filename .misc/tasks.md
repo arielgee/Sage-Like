@@ -600,10 +600,11 @@
 	* mvvbgk7ev4sfcfv2xanm@kill-the-newsletter.com
 		* https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml
 * <content type="xhtml"> in https://www.php.net/feed.atom
+* Ctrl+Alt+MClick in pagePopup !
 ---
 
 ## Now
-* Ctrl+Alt+MClick in pagePopup ?
+* remove '<style\>' and 'style="xxx"' from description and htmlContent ; THERE ARE bgcolor="#000000" IN THE TAGS
 ---
 
 ## Next
@@ -614,7 +615,6 @@
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
 * https://www.npr.org/feeds/510317/feed.json has an image enrty in the feed-item entry. show it in the feedPreview ?
 	* check all formats for an image entry
-* remove '<style\>' and 'style="xxx"' from description and htmlContent ; THERE ARE bgcolor="#000000" IN THE TAGS
 * drag and drop plane text urls
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * from multi parked feedPreview some tabs dont get the custom css
