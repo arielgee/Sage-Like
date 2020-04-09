@@ -2,17 +2,18 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Wed, 01 Apr 2020 19:30:11 GMT</dateCreated>
+		<dateCreated>Thu, 09 Apr 2020 11:34:40 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds">
-			<outline text="attachments (rss,rss,rss,rss,atom,atom,json,json)">
+			<outline text="attachments (rss,rss,rss,rss,atom,atom,atom,json,json)">
 				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490"/>
 				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942"/>
 				<outline type="rss" text="editors dashboard" title="editors dashboard" xmlUrl="http://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589"/>
 				<outline type="rss" text="Cloudbase Mayhem Podcast" title="Cloudbase Mayhem Podcast" xmlUrl="https://www.cloudbasemayhem.com/feed/podcast/"/>
 				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
 				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
+				<outline type="rss" text="PHP.net releases" title="PHP.net releases" xmlUrl="https://www.php.net/releases/feed.php"/>
 				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json"/>
 				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json"/>
 			</outline>
@@ -27,20 +28,7 @@
 				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current"/>
 				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf"/>
 				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
-			</outline>
-			<outline text="Atom">
-				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
-				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
-				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/atom.xml"/>
-				<outline type="rss" text="explain xkcd - Recent changes [en]" title="explain xkcd - Recent changes [en]" xmlUrl="http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&amp;feed=atom"/>
-				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss"/>
-				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topic/49991"/>
-				<outline type="rss" text="Confessions Of A Dangerous Mind" title="Confessions Of A Dangerous Mind" xmlUrl="https://www.blogger.com/feeds/37877107/posts/default"/>
-				<outline type="rss" text="BuzzFeed News" title="BuzzFeed News" xmlUrl="https://www.buzzfeed.com/world.xml"/>
-				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise-atom.xml"/>
-				<outline type="rss" text="World News" title="World News" xmlUrl="https://www.reddit.com/r/worldnews/.rss"/>
-				<outline type="rss" text="Regex to match string containing two names in any order - Stack Overflow" title="Regex to match string containing two names in any order - Stack Overflow" xmlUrl="https://stackoverflow.com/feeds/question/4389644"/>
-				<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
+				<outline type="rss" text="W3C Blog" title="W3C Blog" xmlUrl="https://www.w3.org/QA/Overview.rss"/>
 			</outline>
 			<outline text="RSS">
 				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise.rdf"/>
@@ -55,9 +43,29 @@
 				<outline type="rss" text="Mozilla Press Center" title="Mozilla Press Center" xmlUrl="https://blog.mozilla.org/press/feed/"/>
 				<outline type="rss" text="BBC News - World" title="BBC News - World" xmlUrl="http://feeds.bbci.co.uk/news/world/rss.xml"/>
 				<outline type="rss" text="TechCrunch" title="TechCrunch" xmlUrl="http://feeds.feedburner.com/TechCrunch"/>
-				<outline type="rss" text="Top News - MIT Technology Review" title="Top News - MIT Technology Review" xmlUrl="https://www.technologyreview.com/topnews.rss"/>
+				<outline type="rss" text="MIT Technology Review" title="MIT Technology Review" xmlUrl="https://www.technologyreview.com/topnews.rss"/>
 				<outline type="rss" text="מגפון ניוז Megafon News" title="מגפון ניוז Megafon News" xmlUrl="http://megafon-news.co.il/asys/feed"/>
 				<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="https://www.freefullrss.com/feed.php?url=http%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2142.xml&amp;max=5&amp;links=preserve&amp;exc=&amp;submit=Create+Full+Text+RSS"/>
+				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/rss"/>
+				<outline type="rss" text="Adactio: Links" title="Adactio: Links" xmlUrl="https://adactio.com/links/rss"/>
+				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/rss"/>
+				<outline type="rss" text="Adactio: Notes" title="Adactio: Notes" xmlUrl="https://adactio.com/notes/rss"/>
+				<outline type="rss" text="Adactio" title="Adactio" xmlUrl="https://adactio.com/rss/"/>
+			</outline>
+			<outline text="Atom">
+				<outline type="rss" text="PHP.net news &amp; announcements" title="PHP.net news &amp; announcements" xmlUrl="https://www.php.net/feed.atom"/>
+				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
+				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
+				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/atom.xml"/>
+				<outline type="rss" text="explain xkcd - Recent changes [en]" title="explain xkcd - Recent changes [en]" xmlUrl="http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss"/>
+				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topic/49991"/>
+				<outline type="rss" text="Confessions Of A Dangerous Mind" title="Confessions Of A Dangerous Mind" xmlUrl="https://www.blogger.com/feeds/37877107/posts/default"/>
+				<outline type="rss" text="BuzzFeed News" title="BuzzFeed News" xmlUrl="https://www.buzzfeed.com/world.xml"/>
+				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise-atom.xml"/>
+				<outline type="rss" text="World News" title="World News" xmlUrl="https://www.reddit.com/r/worldnews/.rss"/>
+				<outline type="rss" text="Regex to match string containing two names in any order - Stack Overflow" title="Regex to match string containing two names in any order - Stack Overflow" xmlUrl="https://stackoverflow.com/feeds/question/4389644"/>
+				<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
 			</outline>
 			<outline text="JSONS">
 				<outline type="rss" text="adactio - links" title="adactio - links" xmlUrl="https://adactio.com/links/feed.json"/>
@@ -80,6 +88,11 @@
 				<outline type="rss" text="The JSON Feed for Jonny Barnes’s blog" title="The JSON Feed for Jonny Barnes’s blog" xmlUrl="https://jonnybarnes.uk/blog/feed.json"/>
 				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json"/>
 				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json"/>
+			</outline>
+			<outline text="Newsletter 2 Feed">
+				<outline type="rss" text="KillTheNewsletter-00" title="KillTheNewsletter-00" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml"/>
+				<outline type="rss" text="KillTheNewsletter-01" title="KillTheNewsletter-01" xmlUrl="https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml"/>
+				<outline type="rss" text="sage-like" title="sage-like" xmlUrl="https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml"/>
 			</outline>
 			<outline text="discovery">
 				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss"/>
@@ -149,9 +162,9 @@
 				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf"/>
 			</outline>
 			<outline text="New Folder-2">
+				<outline type="rss" text="New Feedגשדגשדגשד" title="New Feedגשדגשדגשד" xmlUrl="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3443/"/>
 				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/"/>
 				<outline type="rss" text="[Satisfaction]: All topics for Sage RSS - Recently Created" title="[Satisfaction]: All topics for Sage RSS - Recently Created" xmlUrl="https://getsatisfaction.com/sagerss/topics.rss?sort=recently_created"/>
-				<outline type="rss" text="New Feedגשדגשדגשד" title="New Feedגשדגשדגשד" xmlUrl="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3443/"/>
 			</outline>
 		</outline>
 	</body>
