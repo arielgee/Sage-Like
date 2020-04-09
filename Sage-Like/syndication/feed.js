@@ -47,42 +47,42 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	static factoryCreateBySrc(feedText, logUrl) {
+	static factoryCreateBySrc(feedText, feedUrl) {
 
 		if(feedText.match(g_feed.regexpXMLFormat)) {
 
-			return this._factoryCreateXmlFeed(feedText, logUrl);
+			return this._factoryCreateXmlFeed(feedText, feedUrl);
 
 		} else if(feedText.match(g_feed.regexpJSONFormat)) {
 
-			return this._factoryCreateJsonFeed(feedText, logUrl);
+			return this._factoryCreateJsonFeed(feedText, feedUrl);
 
 		} else {
 
 			let errMsg = "Feed format is neither XML nor JSON.";
-			console.log("[Sage-Like]", "Parser error at " + logUrl, "- " + errMsg);
+			console.log("[Sage-Like]", "Parser error at " + feedUrl, "- " + errMsg);
 			throw new Error(errMsg);
 		}
 	}
 
 	//////////////////////////////////////////
-	static factoryCreateByStd(feedStd, logUrl) {
+	static factoryCreateByStd(feedStd, feedUrl) {
 
 		if(feedStd === SyndicationStandard.RSS) {
-			return new RssFeed(logUrl);
+			return new RssFeed(feedUrl);
 		} else if(feedStd === SyndicationStandard.RDF) {
-			return new RdfFeed(logUrl);
+			return new RdfFeed(feedUrl);
 		} else if(feedStd === SyndicationStandard.Atom) {
-			return new AtomFeed(logUrl);
+			return new AtomFeed(feedUrl);
 		} else if(feedStd === SyndicationStandard.JSON) {
-			return new JsonFeed(logUrl);
+			return new JsonFeed(feedUrl);
 		} else {
 			return null;
 		}
 	}
 
 	//////////////////////////////////////////
-	static _factoryCreateXmlFeed(feedXmlText, logUrl) {
+	static _factoryCreateXmlFeed(feedXmlText, feedUrl) {
 
 		let xmlVersion = "";
 		let xmlEncoding = "";
@@ -109,7 +109,7 @@ class Feed {
 		// return if XML not well-formed
 		if(xmlDoc.documentElement.nodeName === "parsererror") {
 
-			console.log("[Sage-Like]", "Parser error at " + logUrl, "\n" + xmlDoc.documentElement.textContent);
+			console.log("[Sage-Like]", "Parser error at " + feedUrl, "\n" + xmlDoc.documentElement.textContent);
 
 			// the first line and the error location
 			let found = xmlDoc.documentElement.textContent.match(g_feed.regexpXMLParseError);
@@ -119,15 +119,15 @@ class Feed {
 
 		if(xmlDoc.documentElement.localName === "rss") {					// First lets try 'RSS'
 
-			return new RssFeed(logUrl, xmlDoc, xmlVersion, xmlEncoding);
+			return new RssFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
 
 		} else if(xmlDoc.documentElement.localName === "RDF") {				// Then let's try 'RDF (RSS) 1.0'
 
-			return new RdfFeed(logUrl, xmlDoc, xmlVersion, xmlEncoding);
+			return new RdfFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
 
 		} else if(xmlDoc.documentElement.localName === "feed") {			// FInally let's try 'Atom'
 
-			return new AtomFeed(logUrl, xmlDoc, xmlVersion, xmlEncoding);
+			return new AtomFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
 
 		} else {
 
@@ -136,7 +136,7 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	static _factoryCreateJsonFeed(feedJsonText, logUrl) {
+	static _factoryCreateJsonFeed(feedJsonText, feedUrl) {
 
 		try {
 			let oJson = JSON.parse(feedJsonText);
@@ -144,10 +144,10 @@ class Feed {
 			if(!!!oJson.version) throw new Error("Invalid jsonfeed, top-level string 'version:' is undefined.");
 			if(!oJson.version.startsWith("https://jsonfeed.org/version/")) throw new Error("invalid jsonfeed, unexpected version value. '" + oJson.version + "'");
 
-			return new JsonFeed(logUrl, oJson);
+			return new JsonFeed(feedUrl, oJson);
 
 		} catch (error) {
-			console.log("[Sage-Like]", "Parser error at " + logUrl, "\n" + error.message);
+			console.log("[Sage-Like]", "Parser error at " + feedUrl, "\n" + error.message);
 			throw new Error(error.message);
 		}
 	}
