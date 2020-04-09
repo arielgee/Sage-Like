@@ -602,16 +602,18 @@
 ---
 
 ## Now
-* stop calling it logUrl. its feedUrl
+* <content type="xhtml"> in https://www.php.net/feed.atom
 ---
 
 ## Next
+* Ctrl+Alt+MClick in pagePopup ?
+* why feedPreview is not opened when clicking on this feed link (rdf) or when its types into the address bar
+	* https://www.w3.org/QA/Overview.rss (in this page: https://www.w3.org/QA/2003/09/html-xhtml.html)
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * maybe the one-click open folder is not so good. consider: one click on folder's icon open and on folder caption just select. but then dblclick on caption for open. (preference??????? :( )
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
 * https://www.npr.org/feeds/510317/feed.json has an image enrty in the feed-item entry. show it in the feedPreview ?
 	* check all formats for an image entry
-* * <content type="xhtml"> in https://www.php.net/feed.atom
 * remove '<style\>' and 'style="xxx"' from description and htmlContent ; THERE ARE bgcolor="#000000" IN THE TAGS
 * drag and drop plane text urls
 * consider '@media (prefers-color-scheme: dark)' for sidebar
