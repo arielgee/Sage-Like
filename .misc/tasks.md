@@ -599,14 +599,14 @@
 		* https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml
 	* mvvbgk7ev4sfcfv2xanm@kill-the-newsletter.com
 		* https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml
----
-
-## Now
 * <content type="xhtml"> in https://www.php.net/feed.atom
 ---
 
-## Next
+## Now
 * Ctrl+Alt+MClick in pagePopup ?
+---
+
+## Next
 * why feedPreview is not opened when clicking on this feed link (rdf) or when its types into the address bar
 	* https://www.w3.org/QA/Overview.rss (in this page: https://www.w3.org/QA/2003/09/html-xhtml.html)
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/

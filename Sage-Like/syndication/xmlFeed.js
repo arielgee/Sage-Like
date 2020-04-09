@@ -190,7 +190,7 @@ class XmlFeed extends Feed {
 
 	//////////////////////////////////////////
 	_xmlFeed_getFeedItemDescription(item) {
-		return item.querySelector("description,content:not([type=html]),summary");
+		return item.querySelector("description,content:not([type=html]):not([type=xhtml]),summary");
 	}
 
 	//////////////////////////////////////////
@@ -200,6 +200,6 @@ class XmlFeed extends Feed {
 
 	//////////////////////////////////////////
 	_xmlFeed_getFeedItemContentTypeHtml(item) {
-		return item.querySelector("content[type=html]");
+		return item.querySelector("content[type=html],content[type=xhtml]");
 	}
 }
