@@ -1085,6 +1085,11 @@ let prefs = (function() {
 
 	// user preferences
 
+	const FOLDER_CLICK_ACTION_VALUES = {
+		singleClick: 0,
+		doubleClick: 1,
+	}
+
 	const CLICK_OPENS_FEED_PREVIEW_VALUES = {
 		openNo: 0,
 		openTab: 1,
@@ -1096,6 +1101,7 @@ let prefs = (function() {
 	const DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = true;
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
+	const DEF_PREF_FOLDER_CLICK_ACTION_VALUE = FOLDER_CLICK_ACTION_VALUES.doubleClick;
 	const DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE = CLICK_OPENS_FEED_PREVIEW_VALUES.openNo;
 	const DEF_PREF_SHOW_FEED_STATS_VALUE = true;
 	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
@@ -1121,6 +1127,7 @@ let prefs = (function() {
 	const PREF_CHECK_FEEDS_WHEN_SB_CLOSED = "pref_checkFeedsWhenSbClosed";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
+	const PREF_FOLDER_CLICK_ACTION = "pref_folderClickAction";
 	const PREF_CLICK_OPENS_FEED_PREVIEW = "pref_clickOpensFeedPreview";
 	const PREF_SHOW_FEED_STATS = "pref_showFeedStats";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
@@ -1191,6 +1198,16 @@ let prefs = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function setFetchTimeout(value) {
 		setPreferenceValue(PREF_FETCH_TIMEOUT, value);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getFolderClickAction() {
+		return getPreferenceValue(PREF_FOLDER_CLICK_ACTION, DEF_PREF_FOLDER_CLICK_ACTION_VALUE);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setFolderClickAction(value) {
+		setPreferenceValue(PREF_FOLDER_CLICK_ACTION, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1393,6 +1410,7 @@ let prefs = (function() {
 		this.setCheckFeedsWhenSbClosed(DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
+		this.setFolderClickAction(DEF_PREF_FOLDER_CLICK_ACTION_VALUE);
 		this.setClickOpensFeedPreview(DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE);
 		this.setShowFeedStats(DEF_PREF_SHOW_FEED_STATS_VALUE);
 		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
@@ -1418,6 +1436,7 @@ let prefs = (function() {
 			checkFeedsWhenSbClosed: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
+			folderClickAction: DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
 			clickOpensFeedPreview: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
 			showFeedStats: DEF_PREF_SHOW_FEED_STATS_VALUE,
 			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
@@ -1455,6 +1474,7 @@ let prefs = (function() {
 	}
 
 	return {
+		FOLDER_CLICK_ACTION_VALUES: FOLDER_CLICK_ACTION_VALUES,
 		CLICK_OPENS_FEED_PREVIEW_VALUES: CLICK_OPENS_FEED_PREVIEW_VALUES,
 
 		DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
@@ -1462,6 +1482,7 @@ let prefs = (function() {
 		DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
+		DEF_PREF_FOLDER_CLICK_ACTION_VALUE: DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
 		DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
 		DEF_PREF_SHOW_FEED_STATS_VALUE: DEF_PREF_SHOW_FEED_STATS_VALUE,
 		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
@@ -1492,6 +1513,8 @@ let prefs = (function() {
 		setCheckFeedsMethod: setCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,
 		setFetchTimeout: setFetchTimeout,
+		getFolderClickAction: getFolderClickAction,
+		setFolderClickAction: setFolderClickAction,
 		getClickOpensFeedPreview: getClickOpensFeedPreview,
 		setClickOpensFeedPreview: setClickOpensFeedPreview,
 		getShowFeedStats: getShowFeedStats,

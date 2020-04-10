@@ -84,7 +84,6 @@ let rssTreeView = (function() {
 
 	let m_prioritySelectedItemId = null;
 
-	let m_lineHeight = 21;
 	let m_lastClickedFeedTime = 0;
 	let m_timeoutIdMonitorRSSTreeFeeds = null;
 	let m_lockBookmarksEventHandler = new Locker();
@@ -227,8 +226,6 @@ let rssTreeView = (function() {
 		browser.bookmarks.onRemoved.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
-
-		m_lineHeight = parseInt(getComputedStyle(m_elmTreeRoot).getPropertyValue("line-height"));
 
 		m_bPrefShowFeedStats = await prefs.getShowFeedStats();
 
@@ -574,11 +571,12 @@ let rssTreeView = (function() {
 	function onClickTreeItem(event) {
 
 		let elmLI = event.target;
+		let clickCount = event.detail;
 
 		if(!!!elmLI) return;
 
 		// event.detail: check the current click count to avoid the double-click's second click.
-		if(event.detail === 1 && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+		if(clickCount === 1 && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
 
 			event.stopPropagation();
 
@@ -619,9 +617,18 @@ let rssTreeView = (function() {
 					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
 				}
 			}
-		} else if(elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER) && eventOccureInItemLineHeight(event, elmLI)) {
-			event.stopPropagation();
-			toggleFolderState(elmLI);
+
+		} else if(event.button === 0 && elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER) && eventOccureInItemLineHeight(event, elmLI)) {
+
+			prefs.getFolderClickAction().then((action) => {
+
+				if( (action === prefs.FOLDER_CLICK_ACTION_VALUES.singleClick) ||
+					(action === prefs.FOLDER_CLICK_ACTION_VALUES.doubleClick && (clickCount%2) === 0) ) {
+
+					event.stopPropagation();
+					toggleFolderState(elmLI);
+				}
+			});
 		}
 	}
 
@@ -2079,7 +2086,18 @@ let rssTreeView = (function() {
 	function eventOccureInItemLineHeight(evt, elm) {
 
 		// This function checks if the event has occured in the top part of the element
-		return ((evt.clientY - elm.getBoundingClientRect().top) <= m_lineHeight);
+		return ((evt.clientY - elm.getBoundingClientRect().top) <= panel.getDensity().lineHeight);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function eventOccureInItemLineHeightIcon(evt, elm) {
+
+		// This function checks if the event has occured in the top-left part of the element
+		if(eventOccureInItemLineHeight(evt, elm)) {
+			return ( ((evt.clientX - elm.getBoundingClientRect().left) <= panel.getDensity().treeIndent) );
+		} else {
+			return false;
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

@@ -604,24 +604,24 @@
 * remove '<style\>' and 'style="xxx"' from description and htmlContent ; color attributes in tags are overriden (bgcolor="#000000")
 * why feedPreview is not opened when clicking on this feed link (rdf) or when its types into the address bar	==> STRICT CONTENT-TYPES SEMANTICS AGAIN!!!!
 	* https://www.w3.org/QA/Overview.rss (in this page: https://www.w3.org/QA/2003/09/html-xhtml.html)
+* maybe the one-click open folder is not so good. consider: one click on folder's icon open and on folder caption just select. but then dblclick on caption for open. (preference??????? :( )
+	> Tree Folder action (Open/Close)			[X] one-click		[O] double-click
+	> Folder click action (open/close)			[X] Single-click		[O] Double-click
 ---
 
 ## Now
-* maybe the one-click open folder is not so good. consider: one click on folder's icon open and on folder caption just select. but then dblclick on caption for open. (preference??????? :( )
-	> Tree Folder action (Open/Close)			[X] one-click		[O] double-click
+* https://www.npr.org/feeds/510317/feed.json has an image enrty in the feed-item entry. show it in the feedPreview ?
+	* check all formats for an image entry
 ---
 
 ## Next
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
-* https://www.npr.org/feeds/510317/feed.json has an image enrty in the feed-item entry. show it in the feedPreview ?
-	* check all formats for an image entry
 * drag and drop plane text urls
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * from multi parked feedPreview some tabs dont get the custom css
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
-
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).

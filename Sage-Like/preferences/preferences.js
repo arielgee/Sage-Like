@@ -22,6 +22,8 @@ let preferences = (function() {
 	let m_elmCheckFeedsMethod;
 	let m_elmCheckFeedsMethodInfo;
 	let m_elmFetchTimeout;
+	let m_elmFolderClickActionSingle;
+	let m_elmFolderClickActionDouble;
 	let m_elmClickOpensFeedPreviewNo;
 	let m_elmClickOpensFeedPreviewTab;
 	let m_elmClickOpensFeedPreviewNewTab;
@@ -84,6 +86,8 @@ let preferences = (function() {
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
+		m_elmFolderClickActionSingle = document.getElementById("folderClickActionSingle");
+		m_elmFolderClickActionDouble = document.getElementById("folderClickActionDouble");
 		m_elmClickOpensFeedPreviewNo = document.getElementById("clickOpensFeedPreviewNo");
 		m_elmClickOpensFeedPreviewTab = document.getElementById("clickOpensFeedPreviewTab");
 		m_elmClickOpensFeedPreviewNewTab = document.getElementById("clickOpensFeedPreviewNewTab");
@@ -148,6 +152,8 @@ let preferences = (function() {
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
+		m_elmFolderClickActionSingle.removeEventListener("change", onChangeFolderClickAction);
+		m_elmFolderClickActionDouble.removeEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreviewNo.removeEventListener("change", onChangeClickOpensFeedPreview);
 		m_elmClickOpensFeedPreviewTab.removeEventListener("change", onChangeClickOpensFeedPreview);
 		m_elmClickOpensFeedPreviewNewTab.removeEventListener("change", onChangeClickOpensFeedPreview);
@@ -203,6 +209,8 @@ let preferences = (function() {
 		m_elmInputTime.addEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
+		m_elmFolderClickActionSingle.addEventListener("change", onChangeFolderClickAction);
+		m_elmFolderClickActionDouble.addEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreviewNo.addEventListener("change", onChangeClickOpensFeedPreview);
 		m_elmClickOpensFeedPreviewTab.addEventListener("change", onChangeClickOpensFeedPreview);
 		m_elmClickOpensFeedPreviewNewTab.addEventListener("change", onChangeClickOpensFeedPreview);
@@ -285,6 +293,14 @@ let preferences = (function() {
 
 		prefs.getFetchTimeout().then((timeoutSec) => {
 			m_elmFetchTimeout.value = timeoutSec;
+		});
+
+		prefs.getFolderClickAction().then((value) => {
+			if(value === prefs.FOLDER_CLICK_ACTION_VALUES.singleClick) {
+				m_elmFolderClickActionSingle.checked = true;
+			} else {
+				m_elmFolderClickActionDouble.checked = true;
+			}
 		});
 
 		prefs.getClickOpensFeedPreview().then((value) => {
@@ -494,6 +510,11 @@ let preferences = (function() {
 		} else {
 			prefs.setFetchTimeout(m_elmFetchTimeout.value);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeFolderClickAction(event) {
+		prefs.setFolderClickAction(parseInt(event.target.value));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -779,6 +800,8 @@ let preferences = (function() {
 		m_elmCheckFeedsWhenSbClosed.checked = defPrefs.checkFeedsWhenSbClosed;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
+		m_elmFolderClickActionSingle.checked = (defPrefs.folderClickAction === prefs.FOLDER_CLICK_ACTION_VALUES.singleClick);
+		m_elmFolderClickActionDouble.checked = (defPrefs.folderClickAction === prefs.FOLDER_CLICK_ACTION_VALUES.doubleClick);
 		m_elmClickOpensFeedPreviewNo.checked = (defPrefs.clickOpensFeedPreview === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openNo);
 		m_elmClickOpensFeedPreviewTab.checked = (defPrefs.clickOpensFeedPreview === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openTab);
 		m_elmClickOpensFeedPreviewNewTab.checked = (defPrefs.clickOpensFeedPreview === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openNewTab);
