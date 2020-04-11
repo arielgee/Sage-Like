@@ -175,11 +175,17 @@
 		let itemContent = ((feedItem.htmlContent.length > 0) ? feedItem.htmlContent : feedItem.description);
 		itemContent.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
 
+		// add feed-item image only if it's not included in the item content
+		let itemImage = "";
+		if( (feedItem.image.length > 0) && !itemContent.includes(feedItem.image) ) {
+			itemImage = "<img src=\"" + feedItem.image + "\" alt=\"" + feedItem.title + "\">";
+		}
+
 		elmFeedItemNumber.textContent = idx + 1 + ".";
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title;
 		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
-		elmFeedItemContent.innerHTML = itemContent;
+		elmFeedItemContent.innerHTML = itemImage + itemContent;
 
 		handleAbnormalURLs(elmFeedItemContent);
 

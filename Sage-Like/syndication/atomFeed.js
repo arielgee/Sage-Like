@@ -55,7 +55,9 @@ class AtomFeed extends XmlFeed {
 															this._getFeedItemDescription(item),
 															this._getFeedItemHtmlContent(item),
 															elmLink.hasAttribute("href") ? elmLink.getAttribute("href") : elmLink.textContent,	// when link comes from <id>
-															this._getFeedItemLastUpdate(item));
+															this._getFeedItemLastUpdate(item),
+															this._getFeedItemImage(item));
+
 				if (!!feedItem) {
 
 					if(withAttachments) {

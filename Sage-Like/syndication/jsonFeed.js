@@ -12,7 +12,7 @@ class JsonFeed extends Feed {
 		let feedData = new JsonFeedData();
 
 		try {
-			feedData.standard = SyndicationStandard.JSON;					// https://daringfireball.net/feeds/json
+			feedData.standard = SyndicationStandard.JSON;					// https://jsonfeed.org/version/1
 			feedData.jsonVersion = this._feedJson.version.match(/[\d.]+$/)[0];
 			feedData.feeder = this._feedJson.items;
 			feedData.title = (!!this._feedJson.title ? this._feedJson.title.stripHtmlTags() : "").consolidateWhiteSpaces();
@@ -98,7 +98,8 @@ class JsonFeed extends Feed {
 											this._getFeedItemDescription(item).stripUnsafeHtmlComponents(),
 											this._getFeedItemHtmlContent(item).stripUnsafeHtmlComponents(),
 											itemUrl.stripHtmlTags(),
-											this._getFeedItemLastUpdate(item));
+											this._getFeedItemLastUpdate(item),
+											(!!item.image && slUtil.validURL(item.image)) ? item.image : "");
 	}
 
 	//////////////////////////////////////////

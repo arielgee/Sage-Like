@@ -146,6 +146,12 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
+	_getFeedItemImage(item) {
+		let elmImage = item.querySelector("image");
+		return (!!elmImage && slUtil.validURL(elmImage.textContent)) ? elmImage : null;
+	}
+
+	//////////////////////////////////////////
 	_sortFeederByDate(feeder) {
 
 		const selectors = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
@@ -173,7 +179,7 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_createSingleListItemFeed(elmTitle, elmDesc, elmContent, strUrl, valLastUpdated) {
+	_createSingleListItemFeed(elmTitle, elmDesc, elmContent, strUrl, valLastUpdated, elmImage) {
 
 		let oErr = {};
 		if(!!!slUtil.validURL(strUrl, oErr)) {
@@ -185,7 +191,8 @@ class XmlFeed extends Feed {
 											!!elmDesc ? elmDesc.textContent.stripUnsafeHtmlComponents() : "",
 											!!elmContent ? elmContent.textContent.stripUnsafeHtmlComponents() : "",
 											strUrl.stripHtmlTags(),
-											valLastUpdated);
+											valLastUpdated,
+											!!elmImage ? elmImage.textContent.stripHtmlTags() : "");
 	}
 
 	//////////////////////////////////////////
