@@ -136,7 +136,11 @@ let rssListView = (function() {
 		disposeList();
 		for(let i=0, len=list.length; i<len; i++) {
 			item = list[i];
-			appendTagIL(i+1, item.title, item.description, item.url, item.attachments);
+			if(i<1000) {
+				appendTagIL(i+1, item.title, item.description, item.url, item.attachments);
+			} else {
+				setTimeout(() => appendTagIL(i+1, item.title, item.description, item.url, item.attachments), 10);
+			}
 		}
 		m_elmLITreeFeed = elmLITreeFeed;
 		m_observerElmLITreeFeed.observe(m_elmLITreeFeed.firstElementChild.firstElementChild, { childList: true, subtree: false });

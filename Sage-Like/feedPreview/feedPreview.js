@@ -94,7 +94,11 @@
 
 				if(result.list.length > 0) {
 					for(let idx=0, len=result.list.length; idx<len; idx++) {
-						elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
+						if(idx<100) {
+							elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
+						} else {
+							setTimeout(() => elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) ), 10);
+						}
 					}
 					m_elmFeedBody.appendChild(elmFeedContent);
 				} else {
