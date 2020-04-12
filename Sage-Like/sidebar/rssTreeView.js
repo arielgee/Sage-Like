@@ -671,7 +671,7 @@ let rssTreeView = (function() {
 
 		let target = event.target;
 		let transfer = event.dataTransfer;
-		let validMimes = ["text/wx-sl-treeitem-html", "text/uri-list", "text/x-moz-url"];
+		let validMimes = ["text/wx-sl-treeitem-html", "text/uri-list", "text/x-moz-url", "text/plain"];
 
 		// Will happend when dropping from another window
 		if(!!!m_elmCurrentlyDragged && transfer.types.includes(validMimes[0])) {
@@ -822,6 +822,16 @@ let rssTreeView = (function() {
 			} else if (transfer.types.includes("text/uri-list")) {
 
 				createNewFeed(elmDropTarget, "New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, event.shiftKey);
+
+			} else if (transfer.types.includes("text/plain")) {
+
+				let data = transfer.getData("text/plain");
+
+				if( !!slUtil.validURL(data) ) {
+					createNewFeed(elmDropTarget, "New Feed", data, true, event.shiftKey);
+				} else {
+					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
+				}
 			}
 		}
 		elmDropTarget.classList.remove("draggedOver", "dropInside");

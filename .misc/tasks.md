@@ -612,17 +612,17 @@
 * folowing link not showing pagePopup with Fx buildin feedHandler		==> addons.mozilla.org --> Missing host permission for the tab
 	* https://addons.mozilla.org/en-US/developers/feed?privaterss=7eedb0645da941f38c734e8e960875cd
 * show url in listview when title is empty ? https://www.jvt.me/feed.xml		==> NO
+* drag and drop plane text urls
 ---
 
 ## Now
+* title of feedPreview is url to site
 ---
 
 ## Next
-* title of feedPreview is url to site
 * for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
-* drag and drop plane text urls
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * from multi parked feedPreview some tabs dont get the custom css
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
