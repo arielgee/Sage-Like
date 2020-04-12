@@ -1636,13 +1636,14 @@ let rssTreeView = (function() {
 
 		if(!!!elmLI) return;
 
-		let parkedTabUrl;
+		let creatingTab, parkedTabUrl;
 		let elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
 
 		for(let i=0, len=elms.length; i<len; i++) {
 			parkedTabUrl = slUtil.getParkedTabUrl(slUtil.getFeedPreviewUrl(elms[i].getAttribute("href")), getTreeItemText(elms[i]));
-			browser.tabs.create({ active: false, url: parkedTabUrl });
-			setFeedVisitedState(elms[i], true);
+			browser.tabs.create({ active: false, url: parkedTabUrl }).then(() => {
+				setFeedVisitedState(elms[i], true);
+			});
 		}
 	}
 
