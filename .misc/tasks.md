@@ -609,15 +609,15 @@
 	> Folder click action (open/close)			[X] Single-click		[O] Double-click
 * https://www.npr.org/feeds/510317/feed.json has an image enrty in the feed-item entry. show it in the feedPreview ?
 	* check all formats for an image entry
+* folowing link not showing pagePopup with Fx buildin feedHandler		==> addons.mozilla.org --> Missing host permission for the tab
+	* https://addons.mozilla.org/en-US/developers/feed?privaterss=7eedb0645da941f38c734e8e960875cd
+* show url in listview when title is empty ? https://www.jvt.me/feed.xml		==> NO
 ---
 
 ## Now
-* folowing link not showing pagePopup with Fx buildin feedHandler
-	* https://addons.mozilla.org/en-US/developers/feed?privaterss=7eedb0645da941f38c734e8e960875cd
 ---
 
 ## Next
-* show url in listview when title is empty ? https://www.jvt.me/feed.xml
 * title of feedPreview is url to site
 * for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
