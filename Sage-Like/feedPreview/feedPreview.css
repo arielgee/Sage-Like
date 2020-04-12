@@ -65,6 +65,11 @@ body {
 	margin-bottom: 10px;
 }
 
+#feedTitleTextAnchor {
+	text-decoration: inherit;
+	color: inherit;
+}
+
 #feedDescriptionText {
 	font-size: 125%;
 }

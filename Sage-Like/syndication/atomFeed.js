@@ -18,6 +18,7 @@ class AtomFeed extends XmlFeed {
 			this._feedData.description = this._getNodeTextContent(this._feedXmlDoc, "feed > subtitle");
 			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "feed", "feed > entry");
 			this._feedData.itemCount = this._feedData.feeder.querySelectorAll("entry").length;
+			this._feedData.webPageUrl = this._getWebPageUrl(this._feedXmlDoc);
 		} catch (error) {
 			console.log("[Sage-Like]", "getFeedData error", error);
 			this._feedData.errorMsg = error.message;
@@ -76,6 +77,29 @@ class AtomFeed extends XmlFeed {
 			}
 		}
 		return feedItemList;
+	}
+
+	//////////////////////////////////////////
+	_getWebPageUrl(doc) {
+
+		let url = null;
+		let node = doc.querySelector("feed > link[href][rel=alternate]");
+
+		if(!!node) {
+			url = slUtil.validURL(node.getAttribute("href"));
+		}
+
+		if(!!!url) {
+			node = doc.querySelector("feed > link[href]:not([rel])");
+			if(!!node) url = slUtil.validURL(node.getAttribute("href"));
+		}
+
+		if(!!!url) {
+			node = doc.querySelector("feed > id");
+			if(!!node) url = slUtil.validURL(node.textContent);
+		}
+
+		return !!url ? url.toString() : "";
 	}
 
 	//////////////////////////////////////////

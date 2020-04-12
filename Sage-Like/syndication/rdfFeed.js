@@ -18,6 +18,7 @@ class RdfFeed extends XmlFeed {
 			this._feedData.description = this._getNodeTextContent(this._feedXmlDoc, "RDF > channel > description");
 			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "RDF > channel", "RDF > item");
 			this._feedData.itemCount = this._feedData.feeder.querySelectorAll("item").length;
+			this._feedData.webPageUrl = this._getNodeTextContent(this._feedXmlDoc, "RDF > channel > link:not([rel]):not([href])");
 		} catch (error) {
 			console.log("[Sage-Like]", "getFeedData error", error);
 			this._feedData.errorMsg = error.message;

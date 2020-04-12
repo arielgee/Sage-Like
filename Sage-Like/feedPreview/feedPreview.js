@@ -127,22 +127,30 @@
 		let elmFeedTitle = document.createElement("div");
 		let elmFeedTitleTexts = document.createElement("div");
 		let elmFeedTitleText = document.createElement("div");
+		let elmFeedTitleTextAnchor = document.createElement("a");
 		let elmFeedDescText = document.createElement("div");
 		let elmFeedTitleImage = document.createElement("img");
 
 		elmFeedTitle.id = "feedTitle";
 		elmFeedTitleTexts.id = "feedTitleTexts";
 		elmFeedTitleText.id = "feedTitleText";
+		elmFeedTitleTextAnchor.id = "feedTitleTextAnchor";
 		elmFeedDescText.id = "feedDescriptionText";
 		elmFeedTitleImage.id = "feedTitleImage";
 
-		elmFeedTitleText.textContent = document.title;
+		let url = slUtil.replaceMozExtensionOriginURL(feedData.webPageUrl, m_URL.origin);
+		if(!!url) {
+			elmFeedTitleTextAnchor.href = url.toString();
+		}
+
+		elmFeedTitleTextAnchor.textContent = document.title;
 		elmFeedDescText.textContent = feedData.description;
 		if(feedData.imageUrl.length > 0) {
 			elmFeedTitleImage.src = slUtil.replaceMozExtensionOriginURL(feedData.imageUrl, m_URL.origin);
 			elmFeedTitleImage.onerror = () => elmFeedTitleImage.removeAttribute("src");
 		}
 
+		elmFeedTitleText.appendChild(elmFeedTitleTextAnchor);
 		elmFeedTitleTexts.appendChild(elmFeedTitleText);
 		elmFeedTitleTexts.appendChild(elmFeedDescText);
 		elmFeedTitle.appendChild(elmFeedTitleTexts);

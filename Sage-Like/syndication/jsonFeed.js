@@ -20,6 +20,7 @@ class JsonFeed extends Feed {
 			feedData.description = (!!this._feedJson.description ? this._feedJson.description.stripHtmlTags() : "");
 			feedData.lastUpdated = this._getFeedLastUpdate(this._feedJson.items);
 			feedData.itemCount = this._feedJson.items.length;
+			feedData.webPageUrl = (!!this._feedJson.home_page_url ? this._feedJson.home_page_url.stripHtmlTags() : "");
 		} catch (error) {
 			console.log("[Sage-Like]", "getFeedData error", error);
 			feedData.errorMsg = error.message;

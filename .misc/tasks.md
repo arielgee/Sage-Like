@@ -613,13 +613,15 @@
 	* https://addons.mozilla.org/en-US/developers/feed?privaterss=7eedb0645da941f38c734e8e960875cd
 * show url in listview when title is empty ? https://www.jvt.me/feed.xml		==> NO
 * drag and drop plane text urls
----
-
-## Now
 * title of feedPreview is url to site
 ---
 
+## Now
+* 'urn:md5:e2c5927f3df44fc0bd421461cdd8e422' is a valid URL. check for http prefix?
+---
+
 ## Next
+
 * for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?

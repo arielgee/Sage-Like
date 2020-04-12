@@ -19,6 +19,7 @@ class FeedData {
 		this.description = "";
 		this.lastUpdated = 0;
 		this.itemCount = 0;
+		this.webPageUrl = "";
 		this.errorMsg = "";
 	}
 }
