@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Thu, 09 Apr 2020 11:34:40 GMT</dateCreated>
+		<dateCreated>Sun, 12 Apr 2020 17:50:24 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds">
@@ -31,6 +31,7 @@
 				<outline type="rss" text="W3C Blog" title="W3C Blog" xmlUrl="https://www.w3.org/QA/Overview.rss"/>
 			</outline>
 			<outline text="RSS">
+				<outline type="rss" text="Recent Changes for My Add-ons" title="Recent Changes for My Add-ons" xmlUrl="https://addons.mozilla.org/en-US/developers/feed?privaterss=7eedb0645da941f38c734e8e960875cd"/>
 				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise.rdf"/>
 				<outline type="rss" text="docs.microsoft.com Team Blog" title="docs.microsoft.com Team Blog" xmlUrl="https://docs.microsoft.com/en-us/teamblog/feed.xml"/>
 				<outline type="rss" text="Sysinternals Site Discussion" title="Sysinternals Site Discussion" xmlUrl="https://blogs.technet.microsoft.com/sysinternals/feed/"/>
@@ -51,10 +52,12 @@
 				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/rss"/>
 				<outline type="rss" text="Adactio: Notes" title="Adactio: Notes" xmlUrl="https://adactio.com/notes/rss"/>
 				<outline type="rss" text="Adactio" title="Adactio" xmlUrl="https://adactio.com/rss/"/>
+				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.xml"/>
 			</outline>
 			<outline text="Atom">
 				<outline type="rss" text="PHP.net news &amp; announcements" title="PHP.net news &amp; announcements" xmlUrl="https://www.php.net/feed.atom"/>
 				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
+				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://pleroma.soykaf.com/users/shp/feed.atom"/>
 				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
 				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/atom.xml"/>
 				<outline type="rss" text="explain xkcd - Recent changes [en]" title="explain xkcd - Recent changes [en]" xmlUrl="http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&amp;feed=atom"/>
@@ -165,6 +168,9 @@
 				<outline type="rss" text="New Feedגשדגשדגשד" title="New Feedגשדגשדגשד" xmlUrl="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3443/"/>
 				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/"/>
 				<outline type="rss" text="[Satisfaction]: All topics for Sage RSS - Recently Created" title="[Satisfaction]: All topics for Sage RSS - Recently Created" xmlUrl="https://getsatisfaction.com/sagerss/topics.rss?sort=recently_created"/>
+			</outline>
+			<outline text="links to checkes">
+				<outline type="rss" text="Full RSS - Full text rss feed generator 100% success &amp; free" title="Full RSS - Full text rss feed generator 100% success &amp; free" xmlUrl="https://www.freefullrss.com/"/>
 			</outline>
 		</outline>
 	</body>

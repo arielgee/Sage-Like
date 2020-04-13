@@ -626,6 +626,7 @@
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
 * consider '@media (prefers-color-scheme: dark)' for sidebar
+* consider '@media (prefers-color-scheme: dark)' for feedPreview
 * from multi parked feedPreview some tabs dont get the custom css
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json

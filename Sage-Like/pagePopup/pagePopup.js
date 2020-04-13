@@ -267,7 +267,16 @@
 					m_elmButtonAddFeeds.disabled = false;
 				}
 
-			}).catch((error) => console.log("[Sage-Like]", error));
+			}).catch((error) => {
+
+				let elmNoticeContainer = document.getElementById("noticeContainer");
+
+				elmNoticeContainer.firstElementChild.innerHTML = "Something Went Wrong!</br>Most likely it's a browser issue concerning page permissions."
+				elmNoticeContainer.style.display = "block";
+				elmBusyContainer.parentElement.removeChild(elmBusyContainer);
+
+				console.log("[Sage-Like]", error);
+			});
 		});
 	}
 
