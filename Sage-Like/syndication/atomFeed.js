@@ -83,22 +83,13 @@ class AtomFeed extends XmlFeed {
 	_getWebPageUrl(doc) {
 
 		let url = null;
-		let node = doc.querySelector("feed > link[href][rel=alternate]");
+		let node = doc.querySelector("feed > link[href][rel=alternate]") ||
+					doc.querySelector("feed > link[href]:not([rel])") ||
+					doc.querySelector("feed > id");
 
 		if(!!node) {
-			url = slUtil.validURL(node.getAttribute("href"));
+			url = slUtil.validURL(node.hasAttribute("href") ? node.getAttribute("href") : node.textContent);
 		}
-
-		if(!!!url) {
-			node = doc.querySelector("feed > link[href]:not([rel])");
-			if(!!node) url = slUtil.validURL(node.getAttribute("href"));
-		}
-
-		if(!!!url) {
-			node = doc.querySelector("feed > id");
-			if(!!node) url = slUtil.validURL(node.textContent);
-		}
-
 		return !!url ? url.toString() : "";
 	}
 
