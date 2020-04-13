@@ -614,14 +614,17 @@
 * show url in listview when title is empty ? https://www.jvt.me/feed.xml		==> NO
 * drag and drop plane text urls
 * title of feedPreview is url to site
----
-
-## Now
 * 'urn:md5:e2c5927f3df44fc0bd421461cdd8e422' is a valid URL. check for http prefix?
 ---
 
-## Next
+## Now
+* selected text from url bar is not dropped in tree
+---
 
+## Next
+* when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
+* link to self in feedPreview
+* middle-click in descovery to feedPreview
 * for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?

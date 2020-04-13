@@ -2045,7 +2045,9 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function validURL(url, objRetErr) {
 		try {
-			return new URL(url);
+			let oUrl = new URL(url);
+			if( !!(oUrl.protocol.match(/^(https?|ftp|file):$/i)) ) return oUrl;
+			throw new Error("Unsupported URL protocol");
 		} catch (error) {
 			if(typeof(objRetErr) === "object") objRetErr.error = error;
 			return null;
