@@ -830,6 +830,7 @@ let rssTreeView = (function() {
 				if( !!slUtil.validURL(data) ) {
 					createNewFeed(elmDropTarget, "New Feed", data, true, event.shiftKey);
 				} else {
+					InfoBar.i.show("The dropped text is not a valid URL.", undefined, true, m_elmTreeRoot.style.direction, 3500, true);
 					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
 				}
 			}
