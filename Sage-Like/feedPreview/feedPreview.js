@@ -47,6 +47,10 @@
 
 		m_URL = new URL(urlFeed);
 
+		// Enable creation of CSS rules by feed origin
+		document.documentElement.setAttribute("data-feedPreview-hostname", m_URL.hostname);
+		document.documentElement.setAttribute("data-feedPreview-pathname", m_URL.pathname);
+
 		m_elmAttachmentTooltip = document.getElementById("attachmentTooltip");
 
 		createFeedPreview(urlFeed);

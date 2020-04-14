@@ -25,3 +25,7 @@
 .feedItemContent svg {
 	filter: contrast(200%) !important;
 }
+
+html[data-feedpreview-hostname="www.ynet.co.il"] #pageHeaderContainer {
+	background-color: red;
+}
