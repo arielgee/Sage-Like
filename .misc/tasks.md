@@ -615,13 +615,16 @@
 * drag and drop plane text urls
 * title of feedPreview is url to site
 * 'urn:md5:e2c5927f3df44fc0bd421461cdd8e422' is a valid URL. check for http prefix?
----
-
-## Now
 * selected text from url bar is not dropped in tree
 ---
 
+## Now
+* add origin/hostname/feed-source to feedPreview html elemnt to provide option for different CSS customization for different feeds
+---
+
 ## Next
+* convert the infobar into a somesort of slideDown bar (sildeBar) without refElement
+* can't drop in empty root folder: Error: Bookmarks.jsm: fetch: Invalid value for property 'guid': "rssTreeView"
 * when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * link to self in feedPreview
 * middle-click in descovery to feedPreview

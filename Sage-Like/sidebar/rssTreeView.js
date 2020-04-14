@@ -718,7 +718,7 @@ let rssTreeView = (function() {
 		}
 
 		target.classList.add("draggedOver");
-		transfer.dropEffect = "move";
+		transfer.dropEffect = !!m_elmCurrentlyDragged ? "move" : "copy";
 		return false;
 	}
 
