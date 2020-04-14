@@ -329,9 +329,10 @@ let rssTreeView = (function() {
 			}
 
 			browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
-				if (bookmarks[0].children) {		// do this to skip displaying the parent folder
-					for (let child of bookmarks[0].children) {
-						createTreeItem(m_elmTreeRoot, child);
+				let folderChildren = bookmarks[0].children;
+				if (!!folderChildren) {		// do this to skip displaying the parent folder
+					for (let i=0, len=folderChildren.length; i<len; i++) {
+						createTreeItem(m_elmTreeRoot, folderChildren[i]);
 					}
 				}
 

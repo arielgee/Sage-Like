@@ -920,8 +920,9 @@ let preferences = (function() {
 				let elmOption = createTagOption(slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
 				m_elmRootFeedsFolder.appendChild(elmOption);
 
-				for(let child of bookmarks[0].children) {
-					createSelectFeedsFolderElement(child, 0);
+				let folderChildren = bookmarks[0].children;
+				for(let i=0, len=folderChildren.length; i<len; i++) {
+					createSelectFeedsFolderElement(folderChildren[i], 0);
 				}
 				m_elmRootFeedsFolder.style.display = "block";
 				resolve();
