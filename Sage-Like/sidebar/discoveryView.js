@@ -36,6 +36,7 @@ let discoveryView = (function() {
 			initMemberElements();
 
 			m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
+			m_elmDiscoverPanel.addEventListener("transitionend", onTransitionEndDiscoverPanel);
 			m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 			m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
 			m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
@@ -54,7 +55,6 @@ let discoveryView = (function() {
 			panel.disable(true);
 
 			m_elmDiscoverPanel.focus()
-			runDiscoverFeeds();
 
 			m_funcPromiseResolve = resolve;
 		});
@@ -78,6 +78,7 @@ let discoveryView = (function() {
 		delete m_elmButtonCheckmarkAll["slCheckmarkAction"];
 
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
+		m_elmDiscoverPanel.removeEventListener("transitionend", onTransitionEndDiscoverPanel);
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
 		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
@@ -412,6 +413,13 @@ let discoveryView = (function() {
 			default:
 				break;
 				//////////////////////////////
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onTransitionEndDiscoverPanel(event) {
+		if(event.target === m_elmDiscoverPanel && m_elmDiscoverPanel.classList.contains("visible")) {
+			runDiscoverFeeds();
 		}
 	}
 
