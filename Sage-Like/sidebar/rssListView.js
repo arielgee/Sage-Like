@@ -559,10 +559,12 @@ let rssListView = (function() {
 		}
 
 		// select only selectable list items
-		if (elm && elm.tagName === "LI") {
+		if (!!elm && elm.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 			m_elmCurrentlySelected = elm;
 			elm.classList.add("selected");
 			slUtil.scrollIntoViewIfNeeded(elm, m_elmList.parentElement);
+		} else {
+			m_elmCurrentlySelected = null;
 		}
 	}
 
@@ -676,7 +678,7 @@ let rssListView = (function() {
 	function setFocus() {
 		if(m_elmCurrentlySelected !== null) {
 			m_elmCurrentlySelected.focus();
-		} else if(!!m_elmList.firstElementChild && m_elmList.firstElementChild.tagName === "LI") {
+		} else if(!!m_elmList.firstElementChild && m_elmList.firstElementChild.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 			m_elmList.firstElementChild.focus();
 		} else {
 			m_elmList.parentElement.focus();

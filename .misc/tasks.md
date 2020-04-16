@@ -617,13 +617,24 @@
 * 'urn:md5:e2c5927f3df44fc0bd421461cdd8e422' is a valid URL. check for http prefix?
 * selected text from url bar is not dropped in tree
 * add origin/hostname/feed-source to feedPreview html elemnt to provide option for different CSS customization for different feeds
----
-
-## Now
 * can't drop in empty root folder: Error: Bookmarks.jsm: fetch: Invalid value for property 'guid': "rssTreeView"
 ---
 
+## Now
+* a big bold '∅' when tree view is empty
+---
+
 ## Next
+* how it looks in win7 supported? (https://graphemica.com/)
+	* 📁 📂 🖿 🗀 🗁 (compare with line 120)
+	* ∅
+* replace 'innerHTML' with textContent by using \uXXXX instead of &#XXXX;
+* firstChild / lastChild ==> firstElementChild / lastElementChild
+* support copy-paste in tree ?
+* think of that. any mouse click on feed item opens the feed (right-click that opens menu, middle-click that opens feedPreview)
+* new feed property; Always open in Feed Preview.
+	* This is good for services like kill-the-newsletter or any other xxx-2-RSS service that provide all content in feed-item.
+	* It will override the 'Feed click ALSO opens Feed Preview' preference
 * convert the infobar into a somesort of slideDown bar (sildeBar) without refElement
 * when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * link to self in feedPreview

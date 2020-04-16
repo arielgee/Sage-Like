@@ -674,16 +674,14 @@ let rssTreeView = (function() {
 		let transfer = event.dataTransfer;
 		let validMimes = ["text/wx-sl-treeitem-html", "text/uri-list", "text/x-moz-url", "text/plain"];
 
-		// Will happend when dropping from another window
-		if(!!!m_elmCurrentlyDragged && transfer.types.includes(validMimes[0])) {
-			transfer.dropEffect = "none";
-			return false;
-		}
+		// Prevent drop
+		if(	(!m_rssTreeCreatedOK) ||													// Tree is not set and valid
+			(!target.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM) &&				// Drop only on tree items (feed | folders)
+			 target.id !== slGlobals.ID_UL_RSS_TREE_VIEW) ||							// or tree root
+			(!!m_elmCurrentlyDragged && m_elmCurrentlyDragged.contains(target)) ||		// Prevent element from been droped into itself.
+			(!!!m_elmCurrentlyDragged && transfer.types.includes(validMimes[0])) ||		// Prevent drop of "text/wx-sl-treeitem-html" from another window
+			(!transfer.types.includesSome(validMimes)) ) {								// Prevent invalid mime types
 
-		// + Drop only on LI element
-		// + Prevent element from been droped into itself.
-		// + Unless the dropped data is a URI or an 'wx-sl-treeitem-html'
-		if((target.tagName !== "LI" || !!!m_elmCurrentlyDragged || m_elmCurrentlyDragged.contains(target)) && !transfer.types.includesSome(validMimes)) {
 			transfer.dropEffect = "none";
 			return false;
 		}
@@ -726,7 +724,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDragLeaveTreeItem(event) {
 		event.stopPropagation();
-		event.target.classList.remove("draggedOver", "dropInside");
+		let targetClassList = event.target.classList;
+		!!!targetClassList || targetClassList.remove("draggedOver", "dropInside");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -739,7 +738,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onDropTreeItem(event) {
+	async function onDropTreeItem(event) {
 
 		// The m_elmCurrentlyDragged member varaiable is nulled in the dragend() event but
 		// is still needed in the drop() event.
@@ -754,6 +753,7 @@ let rssTreeView = (function() {
 
 		let elmDropTarget = event.target;
 		let transfer = event.dataTransfer;
+		let dropInRootFolder = (elmDropTarget.id === slGlobals.ID_UL_RSS_TREE_VIEW);
 
 		// nothing to do if dropped in the same location OR in a folder
 		if(elmDropTarget === elmCurrentlyDragged) {
@@ -763,7 +763,7 @@ let rssTreeView = (function() {
 			if (transfer.types.includes("text/wx-sl-treeitem-html")) {
 
 				let gettingDragged = browser.bookmarks.get(elmCurrentlyDragged.id);
-				let gettingDrop = browser.bookmarks.get(elmDropTarget.id);
+				let gettingDrop = browser.bookmarks.get(dropInRootFolder ? (await prefs.getRootFeedsFolderId()) : elmDropTarget.id);
 
 				gettingDragged.then((dragged) => {
 					gettingDrop.then((drop) => {
@@ -777,11 +777,11 @@ let rssTreeView = (function() {
 						}
 
 						// if shiftKey is pressed then insert dargged item(s) into the the dropped folder
-						let inFolder = event.shiftKey && elmDropTarget.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
+						let inFolder = dropInRootFolder || (event.shiftKey && elmDropTarget.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
 
 						let destination = {
 							parentId: (inFolder ? drop[0].id : drop[0].parentId),
-							index: (inFolder ? 0 : newIndex),			// insert as first in folder
+							index: (dropInRootFolder ? undefined : (inFolder ? 0 : newIndex)),	// insert as first in folder or last if folder is the root folder
 						};
 
 						suspendBookmarksEventHandler(() => {
@@ -793,11 +793,14 @@ let rssTreeView = (function() {
 								let elmDropped;
 								let dropHTML = transfer.getData("text/wx-sl-treeitem-html");
 
-								if(inFolder) {
+								if(dropInRootFolder) {
+									m_elmTreeRoot.insertAdjacentHTML("beforeend", dropHTML);
+									elmDropped = m_elmTreeRoot.lastElementChild;
+								} else if(inFolder) {
 									let elmDropTargetFolderUL = elmDropTarget.lastElementChild;
 									setFolderState(elmDropTarget, true);		// open the folder if closed
 									elmDropTargetFolderUL.insertAdjacentHTML("afterbegin", dropHTML);
-									elmDropped = elmDropTargetFolderUL.firstChild;
+									elmDropped = elmDropTargetFolderUL.firstElementChild;
 
 									// don't display DropInsideFolder message any more. The user gets it.
 									internalPrefs.setDropInsideFolderShowMsgCount(0);
@@ -818,18 +821,33 @@ let rssTreeView = (function() {
 			} else if (transfer.types.includes("text/x-moz-url")) {
 
 				let mozUrl = transfer.getData("text/x-moz-url").split("\n");
-				createNewFeed(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true, event.shiftKey);
+
+				if(dropInRootFolder) {
+					createNewFeedInRootFolder((!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true);
+				} else {
+					createNewFeed(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true, event.shiftKey);
+				}
 
 			} else if (transfer.types.includes("text/uri-list")) {
 
-				createNewFeed(elmDropTarget, "New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, event.shiftKey);
+				if(dropInRootFolder) {
+					createNewFeedInRootFolder("New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true);
+				} else {
+					createNewFeed(elmDropTarget, "New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, event.shiftKey);
+				}
 
 			} else if (transfer.types.includes("text/plain")) {
 
-				let data = transfer.getData("text/plain");
+				let data = stripFeedPreviewUrl(transfer.getData("text/plain"));
 
 				if( !!slUtil.validURL(data) ) {
-					createNewFeed(elmDropTarget, "New Feed", data, true, event.shiftKey);
+
+					if(dropInRootFolder) {
+						createNewFeedInRootFolder("New Feed", data, true);
+					} else {
+						createNewFeed(elmDropTarget, "New Feed", data, true, event.shiftKey);
+					}
+
 				} else {
 					InfoBar.i.show("The dropped text is not a valid URL.", undefined, true, m_elmTreeRoot.style.direction, 3500, true);
 					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
@@ -839,6 +857,10 @@ let rssTreeView = (function() {
 		elmDropTarget.classList.remove("draggedOver", "dropInside");
 		return false;
 	}
+
+	//==================================================================================
+	//=== Open Tree Feed in List
+	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openTreeFeed(elmLI, reload) {
@@ -967,11 +989,7 @@ let rssTreeView = (function() {
 		let keyCode = event.code;
 		let elmTargetLI = event.target;
 		let isFolder = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
-		let isFolderOpen;
-
-		if(isFolder) {
-			isFolderOpen = elmTargetLI.classList.contains("open");
-		}
+		let isFolderOpen = isFolder ? elmTargetLI.classList.contains("open") : null;
 
 		if(event.key === "Delete") {
 			keyCode = "KeyD";
@@ -1958,11 +1976,13 @@ let rssTreeView = (function() {
 			}
 
 			// select only selectable tree items
-			if (elm && elm.tagName === "LI") {
+			if (elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
 				m_elmCurrentlySelected = elm;
 				elm.classList.add("selected");
 				slUtil.scrollIntoViewIfNeeded(elm.firstChild, m_elmTreeRoot.parentElement, "auto");
-				internalPrefs.setTreeSelectedItemId(m_elmCurrentlySelected.id);
+				internalPrefs.setTreeSelectedItemId(elm.id);
+			} else {
+				m_elmCurrentlySelected = null;
 			}
 		}
 	}

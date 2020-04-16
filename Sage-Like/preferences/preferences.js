@@ -935,7 +935,13 @@ let preferences = (function() {
 	function createSelectFeedsFolderElement(bookmarkItem, indent) {
 
 		if(bookmarkItem.type === "folder") {
-			let elmOption = createTagOption(bookmarkItem.id, "&emsp;".repeat(indent) + "&#x276F;&ensp;" + bookmarkItem.title);	/* ❯ */
+			let elmOption = createTagOption(bookmarkItem.id, "\u2003".repeat(indent) + "\u276F\u2002" + bookmarkItem.title);	/* &emsp; ❯ &ensp; */
+
+			if(bookmarkItem.children.length === 0) {
+				let elmNoItem = document.createElement("span");
+				elmNoItem.textContent = "\u2003\u2205";		/* &emsp; ∅ */
+				elmOption.appendChild(elmNoItem);
+			}
 			m_elmRootFeedsFolder.appendChild(elmOption);
 			indent++;
 			for(let child of bookmarkItem.children) {
@@ -949,7 +955,7 @@ let preferences = (function() {
 	function createTagOption(value, text) {
 		let elm = document.createElement("option");
 		elm.value = value;
-		elm.innerHTML = text;
+		elm.textContent = text;
 		return elm;
 	}
 
