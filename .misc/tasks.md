@@ -622,10 +622,11 @@
 * replace 'innerHTML' with textContent by using \uXXXX instead of &#XXXX;
 * firstChild / lastChild ==> firstElementChild / lastElementChild
 * middle-click in discovery to feedPreview
+* if there are attachments but no description use listViewDesc panel
 ---
 
 ## Now
-* if there are attachments but no description use listViewDesc panel
+* think of that. any mouse click on feed item opens the feed (right-click that opens menu, middle-click that opens feedPreview)
 ---
 
 ## Next
@@ -633,7 +634,6 @@
 	* 📁 📂 🖿 🗀 🗁 (compare with line 120)
 	* ∅
 * support copy-paste in tree ?
-* think of that. any mouse click on feed item opens the feed (right-click that opens menu, middle-click that opens feedPreview)
 * new feed property; Always open in Feed Preview.
 	* This is good for services like kill-the-newsletter or any other xxx-2-RSS service that provide all content in feed-item.
 	* It will override the 'Feed click ALSO opens Feed Preview' preference

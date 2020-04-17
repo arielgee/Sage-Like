@@ -173,7 +173,7 @@ let rssListView = (function() {
 			.trim();
 
 		elm.textContent = index + ". " + title;
-		elm.title = (m_bPrefShowFeedItemDesc && desc.length > 0) ? "" : title;
+		elm.title = (m_bPrefShowFeedItemDesc && (desc.length > 0 || attachments.length > 0)) ? "" : title;
 		elm.setAttribute("href", url);
 		elm.tabIndex = 0;
 		elm.setAttribute("data-item-desc", m_bPrefShowFeedItemDesc ? desc : "");
