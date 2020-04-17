@@ -621,14 +621,14 @@
 * a big bold '∅' when tree view is empty		==> NO
 * replace 'innerHTML' with textContent by using \uXXXX instead of &#XXXX;
 * firstChild / lastChild ==> firstElementChild / lastElementChild
+* middle-click in discovery to feedPreview
 ---
 
 ## Now
-* middle-click in descovery to feedPreview
+* if there are attachments but no description use listViewDesc panel
 ---
 
 ## Next
-* if there are attachments but no description use listViewDesc panel
 * how it looks in win7 supported? (https://graphemica.com/)
 	* 📁 📂 🖿 🗀 🗁 (compare with line 120)
 	* ∅

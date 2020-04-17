@@ -40,6 +40,7 @@ let discoveryView = (function() {
 			m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 			m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
 			m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
+			m_elmDiscoverFeedsList.addEventListener("auxclick", onClickDiscoverFeedsList);
 			m_elmDiscoverFeedsList.addEventListener("keydown", onKeyDownDiscoverFeedsList);
 			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("keydown", onKeyDownTriToggler);
 			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("mousedown", onMouseDownTriToggler);
@@ -82,6 +83,7 @@ let discoveryView = (function() {
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
 		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
+		m_elmDiscoverFeedsList.removeEventListener("auxclick", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.removeEventListener("keydown", onKeyDownDiscoverFeedsList);
 		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("keydown", onKeyDownTriToggler);
 		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("mousedown", onMouseDownTriToggler);
@@ -324,11 +326,14 @@ let discoveryView = (function() {
 		elmListItem.setAttribute("name", elmLabelCaption.textContent);
 		elmListItem.setAttribute("href", feed.url);
 		elmListItem.setAttribute("data-index", feed.index);
-		elmListItem.title += "Title:\u2003" + feed.feedTitle + "\u000d";
-		elmListItem.title += feed.format      ? "Format:\u2003" + feed.format + "\u000d" : "";
-		elmListItem.title += feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "";
-		elmListItem.title += feed.itemCount       ? "Items:\u2003" + feed.itemCount + "\u000d" : "";
-		elmListItem.title += "URL:\u2003" + feed.url.toString();
+
+		let titleText = "Title:\u2003" + feed.feedTitle + "\u000d" +
+			(feed.format ? "Format:\u2003" + feed.format + "\u000d" : "") +
+			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "") +
+			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\u000d" : "") +
+			"URL:\u2003" + feed.url.toString() +
+			"\n\n\u2731 Use Middle-click to preview this feed.";
+		elmListItem.title = titleText;
 
 		elmListItem.appendChild(elmCheckBox);
 		elmLabel.appendChild(elmLabelCaption);
@@ -455,7 +460,29 @@ let discoveryView = (function() {
 
 		let target = event.target;
 
-		if(!!target) {
+		if(!!!target) return;
+
+		if(event.button === 1) {			// middle click
+
+			target = target.closest(".dfItem");
+			if(!!target) {
+
+				if(event.ctrlKey && event.altKey && !event.shiftKey) {
+
+					let url = new URL(target.getAttribute("href"));
+					url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+					url = url.toString();
+
+					// ++Dev Mode++: open link & link view-source in new tabs
+					browser.tabs.create({ url: url, active: false });
+					browser.tabs.create({ url: "view-source:" + url, active: false });
+
+				} else {
+					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")), active: false });
+				}
+			}
+		} else {
+
 			if(target.classList.contains("dfChkBox")) {
 				target.parentElement.focus();				// checkbox is clicked and changed, focus the list item
 			} else if(target.classList.contains("dfItem") && !target.classList.contains("novalidfeeds")) {
