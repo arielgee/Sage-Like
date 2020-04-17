@@ -623,6 +623,7 @@
 * firstChild / lastChild ==> firstElementChild / lastElementChild
 * middle-click in discovery to feedPreview
 * if there are attachments but no description use listViewDesc panel
+* folder not getting focus when menu is visible
 ---
 
 ## Now

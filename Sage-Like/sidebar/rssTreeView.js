@@ -628,6 +628,7 @@ let rssTreeView = (function() {
 
 					event.stopPropagation();
 					toggleFolderState(elmLI);
+					elmLI.focus();
 				}
 			});
 		}
@@ -975,6 +976,10 @@ let rssTreeView = (function() {
 				setFeedSelectionState(event.target);
 				setFocus();
 			}
+		}
+
+		if(event.target === m_elmTreeRoot && contextMenu.isOpen()) {
+			contextMenu.close();
 		}
 	}
 
