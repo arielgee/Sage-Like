@@ -592,6 +592,8 @@ let rssTreeView = (function() {
 						browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
 					} else if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openTab) {
 						browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+					} else if(m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) {
+						browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
 					}
 				});
 
@@ -1439,22 +1441,22 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFeedProperties(elmLI) {
 		NewFeedPropertiesView.i.show(elmLI, "New Feed", "").then((result) => {
-			createNewFeedExtended(result.elmLI, result.title, result.url, result.updateTitle, result.inFolder);
+			createNewFeedExtended(result.elmLI, result.title, result.url, result.updateTitle, result.openInFeedPreview, result.inFolder);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeedExtended(elmItem, title, url, updateTitle, inFolder) {
+	function createNewFeedExtended(elmItem, title, url, updateTitle, openInFeedPreview, inFolder) {
 
 		if (elmItem.id === slGlobals.ID_UL_RSS_TREE_VIEW) {
-			createNewFeedInRootFolder(title, url, updateTitle);
+			createNewFeedInRootFolder(title, url, updateTitle, openInFeedPreview);
 		} else {
-			createNewFeed(elmItem, title, url, updateTitle, inFolder);
+			createNewFeed(elmItem, title, url, updateTitle, openInFeedPreview, inFolder);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeed(elmLI, title, url, updateTitle, inFolder) {
+	function createNewFeed(elmLI, title, url, updateTitle, openInFeedPreview, inFolder) {
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
@@ -1484,7 +1486,7 @@ let rssTreeView = (function() {
 
 					setFeedVisitedState(newElm, false);
 					updateTreeBranchFoldersStats(newElm);
-					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle });
+					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle, openInFeedPreview: openInFeedPreview });
 					newElm.focus();
 				});
 			});
@@ -1492,7 +1494,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeedInRootFolder(title, url, updateTitle) {
+	function createNewFeedInRootFolder(title, url, updateTitle, openInFeedPreview) {
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
@@ -1516,7 +1518,7 @@ let rssTreeView = (function() {
 					m_elmTreeRoot.appendChild(newElm);
 
 					setFeedVisitedState(newElm, false);
-					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle });
+					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle, openInFeedPreview: openInFeedPreview });
 					newElm.focus();
 				});
 			});
@@ -1760,14 +1762,15 @@ let rssTreeView = (function() {
 			});
 		} else {
 			m_objTreeFeedsData.setIfNotExist(elmLI.id);
-			EditFeedPropertiesView.i.show(elmLI, m_objTreeFeedsData.value(elmLI.id).updateTitle).then((result) => {
-				updateFeedProperties(result.elmLI, result.title, result.url, result.updateTitle);
+			let treeFeed = m_objTreeFeedsData.value(elmLI.id);
+			EditFeedPropertiesView.i.show(elmLI, treeFeed.updateTitle, treeFeed.openInFeedPreview).then((result) => {
+				updateFeedProperties(result.elmLI, result.title, result.url, result.updateTitle, result.openInFeedPreview);
 			});
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function updateFeedProperties(elmLI, newTitle, newUrl, newUpdateTitle) {
+	function updateFeedProperties(elmLI, newTitle, newUrl, newUpdateTitle, newOpenInFeedPreview) {
 
 		let changes = {
 			title: newTitle,
@@ -1787,7 +1790,7 @@ let rssTreeView = (function() {
 					setFeedVisitedState(elmLI, false);
 				}
 				setFeedTooltipState(elmLI);
-				m_objTreeFeedsData.set(updated.id, { updateTitle: newUpdateTitle });
+				m_objTreeFeedsData.set(updated.id, { updateTitle: newUpdateTitle, openInFeedPreview: newOpenInFeedPreview });
 			});
 		});
 	}

@@ -165,13 +165,14 @@ class TreeFeedsData extends StoredKeyedItems {
 
 	//////////////////////////////////////////
 	set(key, properties) {
-		let defProp = { lastChecked: Date.now(), lastVisited: 0, updateTitle: true };
+		let defProp = { lastChecked: Date.now(), lastVisited: 0, updateTitle: true, openInFeedPreview: false };
 		let valProp = Object.assign(defProp, this.value(key));
 		let newProp = Object.assign(valProp, properties);
 		super.set(key, {
 			lastChecked: valProp.lastChecked,		// the lastChecked propertey is protected and cannot be modified by set()
 			lastVisited: newProp.lastVisited,
 			updateTitle: newProp.updateTitle,
+			openInFeedPreview: newProp.openInFeedPreview,
 		});
 	}
 

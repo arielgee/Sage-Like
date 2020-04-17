@@ -624,10 +624,14 @@
 * middle-click in discovery to feedPreview
 * if there are attachments but no description use listViewDesc panel
 * folder not getting focus when menu is visible
+* think of that. any mouse click on feed item opens the feed (right-click that opens menu, middle-click that opens feedPreview) => NO
+* new feed property; Always open in Feed Preview.
+	* This is good for services like kill-the-newsletter or any other xxx-2-RSS service that provide all content in feed-item.
+	* It will override the 'Feed click ALSO opens Feed Preview' preference
 ---
 
 ## Now
-* think of that. any mouse click on feed item opens the feed (right-click that opens menu, middle-click that opens feedPreview)
+* convert the infobar into a somesort of slideDown bar (sildeBar) without refElement
 ---
 
 ## Next
@@ -635,10 +639,6 @@
 	* 📁 📂 🖿 🗀 🗁 (compare with line 120)
 	* ∅
 * support copy-paste in tree ?
-* new feed property; Always open in Feed Preview.
-	* This is good for services like kill-the-newsletter or any other xxx-2-RSS service that provide all content in feed-item.
-	* It will override the 'Feed click ALSO opens Feed Preview' preference
-* convert the infobar into a somesort of slideDown bar (sildeBar) without refElement
 * when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * link to self in feedPreview
 * for _createSingleListItemFeed(): pass strings instead of elements
