@@ -618,18 +618,20 @@
 * selected text from url bar is not dropped in tree
 * add origin/hostname/feed-source to feedPreview html elemnt to provide option for different CSS customization for different feeds
 * can't drop in empty root folder: Error: Bookmarks.jsm: fetch: Invalid value for property 'guid': "rssTreeView"
+* a big bold '∅' when tree view is empty		==> NO
+* replace 'innerHTML' with textContent by using \uXXXX instead of &#XXXX;
+* firstChild / lastChild ==> firstElementChild / lastElementChild
 ---
 
 ## Now
-* a big bold '∅' when tree view is empty
+* middle-click in descovery to feedPreview
 ---
 
 ## Next
+* if there are attachments but no description use listViewDesc panel
 * how it looks in win7 supported? (https://graphemica.com/)
 	* 📁 📂 🖿 🗀 🗁 (compare with line 120)
 	* ∅
-* replace 'innerHTML' with textContent by using \uXXXX instead of &#XXXX;
-* firstChild / lastChild ==> firstElementChild / lastElementChild
 * support copy-paste in tree ?
 * think of that. any mouse click on feed item opens the feed (right-click that opens menu, middle-click that opens feedPreview)
 * new feed property; Always open in Feed Preview.
@@ -638,7 +640,6 @@
 * convert the infobar into a somesort of slideDown bar (sildeBar) without refElement
 * when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * link to self in feedPreview
-* middle-click in descovery to feedPreview
 * for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?

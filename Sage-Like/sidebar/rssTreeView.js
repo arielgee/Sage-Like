@@ -1301,7 +1301,7 @@ let rssTreeView = (function() {
 
 			// selected item always in view if it's visible
 			if(!!m_elmCurrentlySelected && !!m_elmCurrentlySelected.offsetParent) {
-				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto"), 600);
+				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstElementChild, m_elmTreeRoot.parentElement, "auto"), 600);
 			}
 
 			m_filterChangeDebouncer = null;
@@ -1315,7 +1315,7 @@ let rssTreeView = (function() {
 
 			// selected item always in view
 			if(!!m_elmCurrentlySelected) {
-				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto"), 600);
+				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstElementChild, m_elmTreeRoot.parentElement, "auto"), 600);
 			}
 		}
 	}
@@ -1330,7 +1330,7 @@ let rssTreeView = (function() {
 
 			// selected item always in view if it's visible
 			if(!!m_elmCurrentlySelected && !!m_elmCurrentlySelected.offsetParent) {
-				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto"), 600);
+				setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstElementChild, m_elmTreeRoot.parentElement, "auto"), 600);
 			}
 
 			m_filterChangeDebouncer = null;
@@ -1344,7 +1344,7 @@ let rssTreeView = (function() {
 
 		// selected item always in view
 		if(!!m_elmCurrentlySelected) {
-			setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstChild, m_elmTreeRoot.parentElement, "auto"), 600);
+			setTimeout(() => slUtil.scrollIntoViewIfNeeded(m_elmCurrentlySelected.firstElementChild, m_elmTreeRoot.parentElement, "auto"), 600);
 		}
 	}
 
@@ -1472,7 +1472,7 @@ let rssTreeView = (function() {
 					if(inFolder) {
 						let elmFolderUL = elmLI.lastElementChild;
 						setFolderState(elmLI, true);		// open the folder if closed
-						elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
+						elmFolderUL.insertBefore(newElm, elmFolderUL.firstElementChild);
 					} else {
 						elmLI.parentElement.insertBefore(newElm, elmLI);
 					}
@@ -1563,7 +1563,7 @@ let rssTreeView = (function() {
 					if(inFolder) {
 						let elmFolderUL = elmLI.lastElementChild;
 						setFolderState(elmLI, true);
-						elmFolderUL.insertBefore(newElm, elmFolderUL.firstChild);
+						elmFolderUL.insertBefore(newElm, elmFolderUL.firstElementChild);
 					} else {
 						elmLI.parentElement.insertBefore(newElm, elmLI);
 					}
@@ -1632,6 +1632,8 @@ let rssTreeView = (function() {
 							elmLI.nextElementSibling.focus();
 						} else if(elmLI.previousElementSibling !== null) {
 							elmLI.previousElementSibling.focus();
+						} else if(elmLI.parentElement.parentElement.tagName === "LI") {
+							elmLI.parentElement.parentElement.focus();
 						} else {
 							m_elmCurrentlySelected = null;
 						}
@@ -1979,7 +1981,7 @@ let rssTreeView = (function() {
 			if (elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
 				m_elmCurrentlySelected = elm;
 				elm.classList.add("selected");
-				slUtil.scrollIntoViewIfNeeded(elm.firstChild, m_elmTreeRoot.parentElement, "auto");
+				slUtil.scrollIntoViewIfNeeded(elm.firstElementChild, m_elmTreeRoot.parentElement, "auto");
 				internalPrefs.setTreeSelectedItemId(elm.id);
 			} else {
 				m_elmCurrentlySelected = null;
@@ -2110,8 +2112,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function disposeTree() {
 
-		while (m_elmTreeRoot.firstChild) {
-			m_elmTreeRoot.removeChild(m_elmTreeRoot.firstChild);
+		while (m_elmTreeRoot.firstElementChild) {
+			m_elmTreeRoot.removeChild(m_elmTreeRoot.firstElementChild);
 		}
 	}
 

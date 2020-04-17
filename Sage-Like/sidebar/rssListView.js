@@ -592,8 +592,8 @@ let rssListView = (function() {
 
 			let mimeTypes = elmLI.getAttribute("data-attach-mimetypes").split(","); /* .filter(e => e.length > 0);*/
 
-			while(m_elmFeedItemDescAttachments.firstChild) {
-				m_elmFeedItemDescAttachments.removeChild(m_elmFeedItemDescAttachments.firstChild);
+			while(m_elmFeedItemDescAttachments.firstElementChild) {
+				m_elmFeedItemDescAttachments.removeChild(m_elmFeedItemDescAttachments.firstElementChild	);
 			}
 
 			for(let i=0, len=mimeTypes.length; i<len; i++) {
@@ -633,16 +633,14 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function disposeList() {
 
-		let el;
-
 		m_elmCurrentlySelected = null;
 
 		m_observerElmLITreeFeed.takeRecords();
 		m_observerElmLITreeFeed.disconnect();
 		m_elmLITreeFeed = null;
 
-		while (el = m_elmList.firstChild) {
-			m_elmList.removeChild(el);
+		while (m_elmList.firstElementChild) {
+			m_elmList.removeChild(m_elmList.firstElementChild);
 		}
 		setStatusbarIcon(false);
 	}

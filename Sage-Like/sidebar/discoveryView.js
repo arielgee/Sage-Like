@@ -292,8 +292,8 @@ let discoveryView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function emptyDiscoverFeedsList() {
-		while(m_elmDiscoverFeedsList.firstChild) {
-			m_elmDiscoverFeedsList.removeChild(m_elmDiscoverFeedsList.firstChild);
+		while(m_elmDiscoverFeedsList.firstElementChild) {
+			m_elmDiscoverFeedsList.removeChild(m_elmDiscoverFeedsList.firstElementChild);
 		}
 	}
 

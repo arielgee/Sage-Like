@@ -911,8 +911,8 @@ let preferences = (function() {
 			// hide element to reduce repaint/reflow
 			m_elmRootFeedsFolder.style.display = "none";
 
-			while(m_elmRootFeedsFolder.firstChild) {
-				m_elmRootFeedsFolder.removeChild(m_elmRootFeedsFolder.firstChild);
+			while(m_elmRootFeedsFolder.firstElementChild) {
+				m_elmRootFeedsFolder.removeChild(m_elmRootFeedsFolder.firstElementChild);
 			}
 
 			browser.bookmarks.getSubTree(slGlobals.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
