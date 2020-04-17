@@ -20,7 +20,7 @@ let discoveryView = (function() {
 	let m_elmTriTglAggressiveDiscoveryLevel;
 	let m_elmButtonAdd;
 	let m_elmButtonCancel;
-	let m_elmLabelInfobar;
+	let m_elmDiscoveryStatusBar;
 
 	let m_isLoading = false;
 	let m_nRequestId = 0;
@@ -118,7 +118,7 @@ let discoveryView = (function() {
 			m_elmTriTglAggressiveDiscoveryLevel = document.getElementById("triTglAggressiveLevel");
 			m_elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
 			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
-			m_elmLabelInfobar = document.getElementById("lblInfobar");
+			m_elmDiscoveryStatusBar = document.getElementById("discoveryStatusBar");
 
 			if(m_elmButtonRediscover.slSavedTitle === undefined) {
 				m_elmButtonRediscover.slSavedTitle = m_elmButtonRediscover.title;
@@ -391,8 +391,8 @@ let discoveryView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setStatusbarMessage(text, isError, concatToContent = false) {
-		m_elmLabelInfobar.textContent = (concatToContent ? m_elmLabelInfobar.textContent : "") + text;
-		m_elmLabelInfobar.classList.toggle("error", isError);
+		m_elmDiscoveryStatusBar.textContent = (concatToContent ? m_elmDiscoveryStatusBar.textContent : "") + text;
+		m_elmDiscoveryStatusBar.classList.toggle("error", isError);
 	}
 
 	//==================================================================================
