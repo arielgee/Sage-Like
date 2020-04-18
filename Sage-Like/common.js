@@ -291,7 +291,7 @@ class PageDataByInjection {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-class InfoBar {
+class InfoBubble {
 
 	//////////////////////////////////////////
 	static get i() {
@@ -303,58 +303,61 @@ class InfoBar {
 
 	//////////////////////////////////////////
 	constructor() {
-		this.m_elmInfoBar = null;
+		this.m_elmInfoBubble = null;
+		this.m_elmInfoBubbleText = null;
 	}
 
 	//////////////////////////////////////////
 	show(infoText, refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500, dismissOnScroll = false) {
 
-		if(!!!this.m_elmInfoBar) {
-			this.m_elmInfoBar = document.getElementById("infoBar");
-			this.m_elmInfoBar.onclick = () => this.dismiss();
+		if(!!!this.m_elmInfoBubble) {
+			this.m_elmInfoBubble = document.getElementById("infoBubble");
+			this.m_elmInfoBubbleText = document.getElementById("infoBubbleText");
+			this._addEventListenersToInfoBubble();
 		}
 
-		const IS_GENERAL_INFO = (refElement === undefined);
+		let isGeneral = (refElement === undefined);
 
-		if(IS_GENERAL_INFO) {
+		if(isGeneral) {
 			refElement = document.body;
-			this.m_elmInfoBar.slDismissOnScroll = false;
+			this.m_elmInfoBubble.slDismissOnScroll = false;
 		} else {
-			this.m_elmInfoBar.slRefElement = refElement;
-			this.m_elmInfoBar.slDismissOnScroll = dismissOnScroll;
+			this.m_elmInfoBubble.slRefElement = refElement;
+			this.m_elmInfoBubble.slDismissOnScroll = dismissOnScroll;
 		}
 
 		// to allow for words that are <b>
-		this.m_elmInfoBar.querySelector(".infoBarText").innerHTML = infoText;	// .replace(/\u000d/g, " ") when using textContent otherwise 2nd line starts after dot without space in between
-		this.m_elmInfoBar.classList.toggle("alertive", isAlertive);
-		this.m_elmInfoBar.classList.toggle("rightToLeftBorder", dirStyle === "rtl");
-		this.m_elmInfoBar.classList.toggle("generalBorder", IS_GENERAL_INFO);			/* .generalBorder overrides .rightToLeftBorder */
-		this.m_elmInfoBar.classList.replace("fadeOut", "fadeIn");
+		this.m_elmInfoBubbleText.innerHTML = infoText.replace(/\r/gm, "<br>");
+		this.m_elmInfoBubble.classList.toggle("alertive", isAlertive);
+		this.m_elmInfoBubble.classList.toggle("rightToLeft", dirStyle === "rtl");
+		this.m_elmInfoBubble.classList.toggle("generalInfo", isGeneral);
+		this.m_elmInfoBubble.style.display = "block";
 
 		// real inner size accounting for the scrollbars width if they exist
-		const INNER_WIDTH = window.innerWidth - slUtil.getVScrollWidth();
-		const INNER_HEIGHT = window.innerHeight - slUtil.getHScrollWidth();
-		const RECT_REF_ELEMENT = slUtil.getElementViewportRect(refElement, INNER_WIDTH, INNER_HEIGHT);
-		const TOP_OFFSET = (IS_GENERAL_INFO ? 4 : RECT_REF_ELEMENT.height - 1);
-		const LEFT_OFFSET = 7;
-		const CALL_TIMESTAMP = Date.now();
+		let innerWidth = window.innerWidth - slUtil.getVScrollWidth();
+		let innerHeight = window.innerHeight - slUtil.getHScrollWidth();
+		let rectRefElement = slUtil.getElementViewportRect(refElement, innerWidth, innerHeight);
+		let topOffset = (isGeneral ? 4 : rectRefElement.height);
+		let callTimestamp = Date.now();
 
-		let nLeft, nTop = RECT_REF_ELEMENT.top + TOP_OFFSET;
+		let nLeft, nTop = rectRefElement.top + topOffset;
 
-		if(IS_GENERAL_INFO) {
-			nLeft = (INNER_WIDTH - this.m_elmInfoBar.offsetWidth) / 2;
+		if(isGeneral) {
+			nLeft = (innerWidth - this.m_elmInfoBubble.offsetWidth) / 2;
 		} else {
-			nLeft = RECT_REF_ELEMENT.left + (dirStyle === "rtl" ? (RECT_REF_ELEMENT.width-this.m_elmInfoBar.offsetWidth-LEFT_OFFSET) : LEFT_OFFSET);
+			nLeft = rectRefElement.left + (dirStyle === "rtl" ? (rectRefElement.width-this.m_elmInfoBubble.offsetWidth) : 0);
 		}
 
 		if (nLeft < 0) nLeft = 0;
 
-		this.m_elmInfoBar.style.left = nLeft + "px";
-		this.m_elmInfoBar.style.top = nTop + "px";
-		this.m_elmInfoBar.slCallTimeStamp = CALL_TIMESTAMP;
+		this.m_elmInfoBubble.style.left = nLeft + "px";
+		this.m_elmInfoBubble.style.top = nTop + "px";
+		this.m_elmInfoBubble.slCallTimeStamp = callTimestamp;
+
+		this.m_elmInfoBubble.classList.replace("fadeOut", "fadeIn");
 
 		setTimeout(() => {
-			if(this.m_elmInfoBar.slCallTimeStamp === CALL_TIMESTAMP) {		// fade out only if its for the last function call
+			if(this.m_elmInfoBubble.slCallTimeStamp === callTimestamp) {		// dismiss only if its for the last function call
 				this.dismiss();
 			}
 		}, showDuration);
@@ -363,17 +366,39 @@ class InfoBar {
 	//////////////////////////////////////////
 	dismiss(isScrolling = false) {
 
-		if(!!this.m_elmInfoBar) {
+		if(!!this.m_elmInfoBubble) {
 
-			if(!isScrolling || (isScrolling && this.m_elmInfoBar.slDismissOnScroll)) {
+			if(!isScrolling || (isScrolling && this.m_elmInfoBubble.slDismissOnScroll)) {
 
-				this.m_elmInfoBar.slCallTimeStamp = Date.now();
-				this.m_elmInfoBar.classList.replace("fadeIn", "fadeOut");
+				this.m_elmInfoBubble.slCallTimeStamp = Date.now();
+				this.m_elmInfoBubble.classList.replace("fadeIn", "fadeOut");
 
-				if(!!this.m_elmInfoBar.slRefElement) {
-					delete this.m_elmInfoBar.slRefElement;
+				if(!!this.m_elmInfoBubble.slRefElement) {
+					delete this.m_elmInfoBubble.slRefElement;
 				}
 			}
+		}
+	}
+
+	//////////////////////////////////////////
+	_addEventListenersToInfoBubble() {
+
+		this._onClickInfoBubble = this._onClickInfoBubble.bind(this);
+		this._onTransitionEndInfoBubble = this._onTransitionEndInfoBubble.bind(this);
+
+		this.m_elmInfoBubble.addEventListener("click", this._onClickInfoBubble);
+		this.m_elmInfoBubble.addEventListener("transitionend", this._onTransitionEndInfoBubble);
+	}
+
+	//////////////////////////////////////////
+	_onClickInfoBubble(event) {
+		this.dismiss();
+	}
+
+	//////////////////////////////////////////
+	_onTransitionEndInfoBubble(event) {
+		if(event.target === this.m_elmInfoBubble && this.m_elmInfoBubble.classList.contains("fadeOut")) {
+			this.m_elmInfoBubble.style.display = "none";
 		}
 	}
 };

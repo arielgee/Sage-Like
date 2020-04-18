@@ -299,53 +299,84 @@ html, body {
 	background-color: rgb(218, 218, 218);
 }
 
-#infoBar {
+#infoBubble {
+	--width-pointer: 14px;
+	--height-pointer: calc(var(--width-pointer) * 2);
+	--border-radius-bubble: 6px;
+	--margin-inline-pointer: calc(var(--border-radius-bubble) + 2px);
+	--color-normal: #143cdc;
+	--color-alertive: crimson;
+
 	position: absolute;
 	max-width: 92%;
-	z-index: 1;
-	padding: 3px 9px;
-	background-color: var(--bk-color-info-window);
-	color: black;
-	border: 2px solid #143cdc;
-	border-radius: 0 12px 12px 12px;
-	box-shadow: 8px 8px 5px 0 rgba(0,0,0,0.75);
-	font-weight: normal;
-	top: -99999px;
+	background-color: transparent;
+	display: none;
+	pointer-events: none;
 }
 
-#infoBar.alertive {
-	border-color: crimson;
-}
-
-#infoBar.rightToLeftBorder {
-	border-radius: 12px 0 12px 12px;
-}
-
-/* .generalBorder overrides .rightToLeftBorder */
-#infoBar.generalBorder {
-	border-radius: 12px;
-}
-
-#infoBar.fadeIn {
+#infoBubble.fadeIn {
 	visibility: visible;
 	opacity: 1;
 	transition: visibility 0s linear 0s, opacity 500ms;
 }
 
-#infoBar.fadeOut {
+#infoBubble.fadeOut {
 	visibility: hidden;
 	opacity: 0;
 	transition: visibility 0s linear 500ms, opacity 500ms;
 }
 
-#infoBar .infoBarSymbol {
-	font-size: 150%;
-	font-weight: bolder;
-	color: #143cdc;
+#infoBubblePointer {
+	background-color: var(--color-normal);
+	width: var(--width-pointer);
+	height: var(--height-pointer);
+	margin: 0 var(--margin-inline-pointer);
+	clip-path: polygon(15% 0%, 0% 100%, 100% 100%);
+	pointer-events: auto;
 }
 
-#infoBar.alertive .infoBarSymbol {
-	color: crimson;
+#infoBubble.alertive #infoBubblePointer {
+	background-color: var(--color-alertive);
+}
+
+#infoBubble.rightToLeft #infoBubblePointer {
+	margin-left: calc(100% - (var(--width-pointer) + var(--margin-inline-pointer)));
+	clip-path: polygon(85% 0%, 0% 100%, 100% 100%);
+}
+
+#infoBubble.generalInfo #infoBubblePointer {
+	height: 0;
+}
+
+#infoBubbleBody {
+	padding: 8px 12px 8px 8px;
+	background-color: var(--bk-color-info-window);
+	color: black;
+	border: 2px solid var(--color-normal);
+	border-radius: var(--border-radius-bubble);
+	box-shadow: 8px 8px 5px 0 rgba(0,0,0,0.75);
+	font-weight: normal;
+	pointer-events: auto;
+	display: flex;
+	align-items: flex-start;
+}
+
+#infoBubble.alertive #infoBubbleBody {
+	border-color: var(--color-alertive);
+}
+
+#infoBubble .infoBubbleSymbol {
+	font-size: 170%;
+	color: var(--color-normal);
+	margin-inline-end: 4px;
+}
+
+#infoBubble.alertive .infoBubbleSymbol {
+	color: var(--color-alertive);
+}
+
+#infoBubbleText {
+	margin-top: 2px;
 }
 
 #busyAnimTreeLoading {

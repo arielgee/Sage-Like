@@ -93,7 +93,7 @@ let rssTreeView = (function() {
 	let m_objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
 	let m_isFilterApplied = false;
-	let m_reapplyInfoBarMsgShownOnce = false;
+	let m_reapplyInfoBubbleMsgShownOnce = false;
 	let m_bPrefShowFeedStats = prefs.DEF_PREF_SHOW_FEED_STATS_VALUE;
 
 	let m_filterChangeDebouncer = null;
@@ -645,7 +645,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
 			if(count > 0) {
-				InfoBar.i.show("Press the Shift key to drop item <b>inside</b> folder.", undefined, false);
+				InfoBubble.i.show("Press the Shift key to drop item <b>inside</b> folder.", undefined, false);
 				internalPrefs.setDropInsideFolderShowMsgCount(--count);
 			}
 		});
@@ -852,7 +852,7 @@ let rssTreeView = (function() {
 					}
 
 				} else {
-					InfoBar.i.show("The dropped text is not a valid URL.", undefined, true, m_elmTreeRoot.style.direction, 3500, true);
+					InfoBubble.i.show("The dropped text is not a valid URL.", undefined, true, m_elmTreeRoot.style.direction, 3500, true);
 					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
 				}
 			}
@@ -1693,7 +1693,7 @@ let rssTreeView = (function() {
 	function toggleFeedVisitedState(elmLI) {
 
 		if(elmLI.classList.contains("error")) {
-			InfoBar.i.show("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction, 3500, true);
+			InfoBubble.i.show("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction, 3500, true);
 			return;
 		}
 
@@ -2067,10 +2067,10 @@ let rssTreeView = (function() {
 
 		if(isAlertOn) {
 			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\u000dShift+click to reload.";
-			InfoBar.i.show(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
+			InfoBubble.i.show(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
-			InfoBar.i.dismiss();
+			InfoBubble.i.dismiss();
 		}
 	}
 
@@ -2170,9 +2170,9 @@ let rssTreeView = (function() {
 						if(!!foundNode) {
 							rootId = foundNode.id;
 						} else {
-							InfoBar.i.show("Creating default feeds folder...", m_elmCheckTreeFeeds, false);
+							InfoBubble.i.show("Creating default feeds folder. Please wait...", undefined, false);
 							rootId = await createOnInstallFeedsBookmarksFolder();
-							InfoBar.i.dismiss();
+							InfoBubble.i.dismiss();
 						}
 
 						prefs.setRootFeedsFolderId(rootId);
@@ -2285,7 +2285,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
 			if(count > 0) {
-				InfoBar.i.show("Hover over the filter text box for vital information.", m_elmfilterContainer, false, "", 4000);
+				InfoBubble.i.show("Hover over the filter text box for vital information.", m_elmfilterContainer, false, "", 4000);
 				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
 			}
 			m_elmTextFilter.focus();
@@ -2348,7 +2348,7 @@ let rssTreeView = (function() {
 		m_elmTextFilter.value = "";
 		notifyAppliedFilter(true);
 		m_isFilterApplied = false;
-		m_reapplyInfoBarMsgShownOnce = false;
+		m_reapplyInfoBubbleMsgShownOnce = false;
 
 		setTimeout(() => unfilterAllTreeItems(), 300);
 
@@ -2525,11 +2525,11 @@ let rssTreeView = (function() {
 				if(!m_elmfilterContainer.classList.contains("filterUrlOn")) {
 
 					m_elmReapplyFilter.classList.add("alert");
-					m_elmReapplyFilter.title = "The status or title of one or more feeds has changed. Filter may require reapplying.";
+					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\u000dFilter may require reapplying.";
 
-					if(!m_reapplyInfoBarMsgShownOnce) {
-						InfoBar.i.show(m_elmReapplyFilter.title, m_elmfilterContainer);
-						m_reapplyInfoBarMsgShownOnce = true;
+					if(!m_reapplyInfoBubbleMsgShownOnce) {
+						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmfilterContainer);
+						m_reapplyInfoBubbleMsgShownOnce = true;
 					}
 				}
 			}

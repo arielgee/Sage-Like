@@ -257,15 +257,15 @@ let panel = (function() {
 		// set listview's CSS variable accordingly depending if has VScroll
 		rssListView.updateLayoutWidth();
 
-		// side bar resizing escapes the contextMenu and the infoBar
+		// side bar resizing escapes the contextMenu and the infoBubble
 		contextMenu.close();
-		InfoBar.i.dismiss();
+		InfoBubble.i.dismiss();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownBody(event) {
 		if(event.code === "Escape") {
-			InfoBar.i.dismiss();
+			InfoBubble.i.dismiss();
 			rssListView.hideVisibleFeedItemDescPanel();
 		}
 	}
@@ -277,7 +277,7 @@ let panel = (function() {
 			m_scrollTopThrottler = true;
 			window.requestAnimationFrame(() => {
 				internalPrefs.setTreeScrollTop(m_elmTop.scrollTop);
-				InfoBar.i.dismiss(true);
+				InfoBubble.i.dismiss(true);
 				m_scrollTopThrottler = false;
 			});
 		}
