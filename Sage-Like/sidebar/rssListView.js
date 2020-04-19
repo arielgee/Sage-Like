@@ -372,6 +372,7 @@ let rssListView = (function() {
 			event.preventDefault();
 			setFocus();
 		}
+		InfoBubble.i.dismiss();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

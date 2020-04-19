@@ -313,7 +313,7 @@ class InfoBubble {
 		if(!!!this.m_elmInfoBubble) {
 			this.m_elmInfoBubble = document.getElementById("infoBubble");
 			this.m_elmInfoBubbleText = document.getElementById("infoBubbleText");
-			this._addEventListenersToInfoBubble();
+			this._addEventListeners();
 		}
 
 		let isGeneral = (refElement === undefined);
@@ -381,7 +381,7 @@ class InfoBubble {
 	}
 
 	//////////////////////////////////////////
-	_addEventListenersToInfoBubble() {
+	_addEventListeners() {
 
 		this._onClickInfoBubble = this._onClickInfoBubble.bind(this);
 		this._onTransitionEndInfoBubble = this._onTransitionEndInfoBubble.bind(this);

@@ -92,12 +92,11 @@ let panel = (function() {
 		m_elmTree = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
 		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
 
+		window.addEventListener("resize", onResize, false);
 		m_elmBody.addEventListener("keydown", onKeyDownBody);
 		m_elmTop.addEventListener("scroll", onScrollTop);
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		window.addEventListener("resize", onResize, false);
-
 		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.addEventListener("click", onClickPreferences);
 
@@ -118,12 +117,11 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
 
+		window.removeEventListener("resize", onResize, false);
 		m_elmBody.removeEventListener("keydown", onKeyDownBody);
 		m_elmTop.removeEventListener("scroll", onScrollTop);
 		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		window.removeEventListener("resize", onResize, false);
-
 		m_elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
 		m_elmPreferences.removeEventListener("click", onClickPreferences);
 

@@ -974,15 +974,10 @@ let rssTreeView = (function() {
 		if(event.button === 1 || event.target === m_elmTreeRoot) {
 			event.stopPropagation();
 			event.preventDefault();
-			if(event.target.tagName === "LI") {
-				setFeedSelectionState(event.target);
-				setFocus();
-			}
+			if(event.target.tagName === "LI") setFeedSelectionState(event.target);
+			setFocus();
 		}
-
-		if(event.target === m_elmTreeRoot && contextMenu.isOpen()) {
-			contextMenu.close();
-		}
+		InfoBubble.i.dismiss();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
