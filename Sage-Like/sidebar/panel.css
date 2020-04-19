@@ -366,17 +366,14 @@ html, body {
 }
 
 #infoBubble .infoBubbleSymbol {
-	font-size: 170%;
-	color: var(--color-normal);
-	margin-inline-end: 4px;
+	width: 16px;
+	height: 16px;
+	margin-inline-end: 6px;
+	background: transparent url("/icons/blueInfo.png") no-repeat center/100%;
 }
 
 #infoBubble.alertive .infoBubbleSymbol {
-	color: var(--color-alertive);
-}
-
-#infoBubbleText {
-	margin-top: 2px;
+	background-image: url("/icons/errormsg.png");
 }
 
 #busyAnimTreeLoading {
