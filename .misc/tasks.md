@@ -639,6 +639,9 @@
 ---
 
 ## Next
+* all onTransitionEnd need to check event.propertyName ?
+* convert discoveryView and messageView to classes and create base class for slideDown ???
+* the key press R, U N, F are not working when no tree item is selected
 * replace all \u000d (\r) with \u000a (\n)
 * support copy-paste in tree ?
 * when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works

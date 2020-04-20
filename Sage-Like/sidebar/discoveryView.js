@@ -29,30 +29,14 @@ let discoveryView = (function() {
 	let m_funcPromiseResolve = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function show() {
+	function open() {
 
 		return new Promise((resolve) => {
 
 			initMemberElements();
 
-			m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
-			m_elmDiscoverPanel.addEventListener("transitionend", onTransitionEndDiscoverPanel);
-			m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
-			m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
-			m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
-			m_elmDiscoverFeedsList.addEventListener("auxclick", onClickDiscoverFeedsList);
-			m_elmDiscoverFeedsList.addEventListener("keydown", onKeyDownDiscoverFeedsList);
-			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("keydown", onKeyDownTriToggler);
-			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("mousedown", onMouseDownTriToggler);
-			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("keyup", onChangeTriTglAggressiveDiscoveryLevel);
-			m_elmTriTglAggressiveDiscoveryLevel.addEventListener("click", onChangeTriTglAggressiveDiscoveryLevel);
-			m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
-			m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
-
-			internalPrefs.getAggressiveDiscoveryLevel().then(level => m_elmTriTglAggressiveDiscoveryLevel.setAttribute("data-toggler-state", level));
-
-			m_elmDiscoverPanel.classList.add("visible");
-			disable(false);
+			m_elmDiscoverPanel.style.display = "block";
+			setTimeout(() => m_elmDiscoverPanel.classList.add("visible"), 0);
 			panel.disable(true);
 
 			m_elmDiscoverPanel.focus()
@@ -70,27 +54,9 @@ let discoveryView = (function() {
 
 		m_elmDiscoverPanel.classList.remove("visible");
 		panel.disable(false);
-		emptyDiscoverFeedsList();
-		disable(true);
 
 		m_nRequestId = 0;
 		setStatusbarMessage("", false);
-
-		delete m_elmButtonCheckmarkAll["slCheckmarkAction"];
-
-		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
-		m_elmDiscoverPanel.removeEventListener("transitionend", onTransitionEndDiscoverPanel);
-		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
-		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
-		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
-		m_elmDiscoverFeedsList.removeEventListener("auxclick", onClickDiscoverFeedsList);
-		m_elmDiscoverFeedsList.removeEventListener("keydown", onKeyDownDiscoverFeedsList);
-		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("keydown", onKeyDownTriToggler);
-		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("mousedown", onMouseDownTriToggler);
-		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("keyup", onChangeTriTglAggressiveDiscoveryLevel);
-		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("click", onChangeTriTglAggressiveDiscoveryLevel);
-		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
-		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
 
 		rssTreeView.setFocus();
 	}
@@ -98,12 +64,6 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function isOpen() {
 		return (m_elmDiscoverPanel !== null && m_elmDiscoverPanel.classList.contains("visible"));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function disable(value) {
-		let panel = (!!m_elmDiscoverPanel ? m_elmDiscoverPanel : document.getElementById("discoverPanel"));
-		slUtil.disableElementTree(panel, value, false, ["SL-TRI-TOGGLER", "SL-TRI-TOGGLER-RAIL", "BUTTON"]);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -126,6 +86,10 @@ let discoveryView = (function() {
 
 			m_elmAggressiveDiscoveryContainer.title = AGGRESSIVE_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 		}
+
+		internalPrefs.getAggressiveDiscoveryLevel().then(level => m_elmTriTglAggressiveDiscoveryLevel.setAttribute("data-toggler-state", level));
+
+		addEventListeners();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -400,6 +364,40 @@ let discoveryView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function addEventListeners() {
+		m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
+		m_elmDiscoverPanel.addEventListener("transitionend", onTransitionEndDiscoverPanel);
+		m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
+		m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
+		m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
+		m_elmDiscoverFeedsList.addEventListener("auxclick", onClickDiscoverFeedsList);
+		m_elmDiscoverFeedsList.addEventListener("keydown", onKeyDownDiscoverFeedsList);
+		m_elmTriTglAggressiveDiscoveryLevel.addEventListener("keydown", onKeyDownTriToggler);
+		m_elmTriTglAggressiveDiscoveryLevel.addEventListener("mousedown", onMouseDownTriToggler);
+		m_elmTriTglAggressiveDiscoveryLevel.addEventListener("keyup", onChangeTriTglAggressiveDiscoveryLevel);
+		m_elmTriTglAggressiveDiscoveryLevel.addEventListener("click", onChangeTriTglAggressiveDiscoveryLevel);
+		m_elmButtonAdd.addEventListener("click", onClickButtonAdd);
+		m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function removeEventListeners() {
+		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
+		m_elmDiscoverPanel.removeEventListener("transitionend", onTransitionEndDiscoverPanel);
+		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
+		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
+		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
+		m_elmDiscoverFeedsList.removeEventListener("auxclick", onClickDiscoverFeedsList);
+		m_elmDiscoverFeedsList.removeEventListener("keydown", onKeyDownDiscoverFeedsList);
+		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("keydown", onKeyDownTriToggler);
+		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("mousedown", onMouseDownTriToggler);
+		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("keyup", onChangeTriTglAggressiveDiscoveryLevel);
+		m_elmTriTglAggressiveDiscoveryLevel.removeEventListener("click", onChangeTriTglAggressiveDiscoveryLevel);
+		m_elmButtonAdd.removeEventListener("click", onClickButtonAdd);
+		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownDiscoverPanel(event) {
 		switch (event.code) {
 			case "Enter":
@@ -423,8 +421,15 @@ let discoveryView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTransitionEndDiscoverPanel(event) {
-		if(event.target === m_elmDiscoverPanel && m_elmDiscoverPanel.classList.contains("visible")) {
-			runDiscoverFeeds();
+
+		if(event.target === m_elmDiscoverPanel) {
+			if(m_elmDiscoverPanel.classList.contains("visible")) {
+				runDiscoverFeeds();
+			} else {
+				m_elmDiscoverPanel.style.display = "none";
+				removeEventListeners();
+				emptyDiscoverFeedsList();
+			}
 		}
 	}
 
@@ -436,14 +441,13 @@ let discoveryView = (function() {
 			return;
 		}
 
-		if(m_elmButtonCheckmarkAll.slCheckmarkAction === undefined) {
-			m_elmButtonCheckmarkAll.slCheckmarkAction = true;
-		}
+		// use first item
+		let listItems = m_elmDiscoverFeedsList.children;
+		let checked = !!(listItems[0]) ? !(listItems[0].firstElementChild.checked) : false;
 
-		for (let item of m_elmDiscoverFeedsList.children) {
-			item.firstElementChild.checked = m_elmButtonCheckmarkAll.slCheckmarkAction;
+		for(let i=0, len=listItems.length; i<len; i++) {
+			listItems[i].firstElementChild.checked = checked;
 		}
-		m_elmButtonCheckmarkAll.slCheckmarkAction = !m_elmButtonCheckmarkAll.slCheckmarkAction;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -588,14 +592,14 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseDownTriToggler(event) {
 
-        let toggleWidth = Math.floor(event.target.clientWidth / 3);
+		let toggleWidth = Math.floor(event.target.clientWidth / 3);
 
-        if (event.offsetX < toggleWidth) {
-            event.target.parentElement.setAttribute("data-toggler-state", "0");
-        } else if (event.offsetX < toggleWidth * 2) {
-            event.target.parentElement.setAttribute("data-toggler-state", "1");
-        } else {
-            event.target.parentElement.setAttribute("data-toggler-state", "2");
+		if (event.offsetX < toggleWidth) {
+			event.target.parentElement.setAttribute("data-toggler-state", "0");
+		} else if (event.offsetX < toggleWidth * 2) {
+			event.target.parentElement.setAttribute("data-toggler-state", "1");
+		} else {
+			event.target.parentElement.setAttribute("data-toggler-state", "2");
 		}
 	}
 
@@ -632,10 +636,9 @@ let discoveryView = (function() {
 	}
 
 	return {
-		show: show,
+		open: open,
 		close: close,
 		isOpen: isOpen,
-		disable: disable,
 	};
 
 })();

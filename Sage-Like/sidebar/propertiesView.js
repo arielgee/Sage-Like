@@ -62,7 +62,7 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	show(elmLI, funcPromiseResolve) {
+	open(elmLI, funcPromiseResolve) {
 
 		// the element been clicked
 		this.m_elmTreeItemLI = elmLI;
@@ -70,9 +70,7 @@ class PropertiesView {
 		// the promise resolve function
 		this.m_funcPromiseResolve = funcPromiseResolve;
 
-		this.m_elmButtonSave.addEventListener("click", this._onClickButtonSave);
-		this.m_elmButtonCancel.addEventListener("click", this._onClickButtonCancel);
-		this.m_elmPropertiesPanel.addEventListener("keydown", this._onKeyDownPropertiesPanel);
+		this._addEventListeners();
 
 		this._showPanel();
 		this.m_isOpen = true;
@@ -83,11 +81,6 @@ class PropertiesView {
 		if (this.m_instance !== undefined) {
 			this.m_instance._close();
 		}
-	}
-
-	///////////////////////////////////////////////////////////////
-	static disable(value) {
-		slUtil.disableElementTree(document.getElementById("propertiesPanel"), value, false, ["LABEL", "INPUT", "BUTTON"]);
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -106,6 +99,7 @@ class PropertiesView {
 		this._onClickButtonSave = this._onClickButtonSave.bind(this);
 		this._onClickButtonCancel = this._onClickButtonCancel.bind(this);
 		this._onKeyDownPropertiesPanel = this._onKeyDownPropertiesPanel.bind(this);
+		this._onTransitionEndPropertiesPanel = this._onTransitionEndPropertiesPanel.bind(this);
 
 		this.m_initialProperties = {
 			title: "",
@@ -147,9 +141,8 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_showPanel() {
 
-		// do it first so element will have dimentions (offsetWidth > 0)
-		this.m_elmPropertiesPanel.classList.add("visible");
-		PropertiesView.disable(false);
+		this.m_elmPropertiesPanel.style.display = "block";
+		setTimeout(() => this.m_elmPropertiesPanel.classList.add("visible"), 0);
 		panel.disable(true);
 	}
 
@@ -162,14 +155,25 @@ class PropertiesView {
 
 		this.m_elmPropertiesPanel.classList.remove("visible");
 		panel.disable(false);
-		PropertiesView.disable(true);
-
-		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
-		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
-		this.m_elmPropertiesPanel.removeEventListener("keydown", this._onKeyDownPropertiesPanel);
 
 		rssTreeView.setFocus();
 		this.m_isOpen = false;
+	}
+
+	///////////////////////////////////////////////////////////////
+	_addEventListeners() {
+		this.m_elmButtonSave.addEventListener("click", this._onClickButtonSave);
+		this.m_elmButtonCancel.addEventListener("click", this._onClickButtonCancel);
+		this.m_elmPropertiesPanel.addEventListener("keydown", this._onKeyDownPropertiesPanel);
+		this.m_elmPropertiesPanel.addEventListener("transitionend", this._onTransitionEndPropertiesPanel);
+	}
+
+	///////////////////////////////////////////////////////////////
+	_removeEventListeners() {
+		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
+		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
+		this.m_elmPropertiesPanel.removeEventListener("keydown", this._onKeyDownPropertiesPanel);
+		this.m_elmPropertiesPanel.removeEventListener("transitionend", this._onTransitionEndPropertiesPanel);
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -203,6 +207,14 @@ class PropertiesView {
 				//////////////////////////////
 		}
 	}
+
+	///////////////////////////////////////////////////////////////
+	_onTransitionEndPropertiesPanel(event) {
+		if(event.target === this.m_elmPropertiesPanel && !this.m_elmPropertiesPanel.classList.contains("visible")) {
+			this.m_elmPropertiesPanel.style.display = "none";
+			this._removeEventListeners();
+		}
+	}
 }
 
 /*****************************************************************************************************************/
@@ -215,11 +227,11 @@ class NewFeedPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	show(elmLI, title, location) {
+	open(elmLI, title, location) {
 
 		return new Promise((resolve) => {
 
-			super.show(elmLI, resolve);
+			super.open(elmLI, resolve);
 
 			this._showNoneTitleProperties(true);
 			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
@@ -272,11 +284,11 @@ class NewFolderPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	show(elmLI, title) {
+	open(elmLI, title) {
 
 		return new Promise((resolve) => {
 
-			super.show(elmLI, resolve);
+			super.open(elmLI, resolve);
 
 			this._showNoneTitleProperties(false);
 			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
@@ -317,11 +329,11 @@ class EditFeedPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	show(elmLI, updateTitleValue, openInFeedPreviewValue) {
+	open(elmLI, updateTitleValue, openInFeedPreviewValue) {
 
 		return new Promise((resolve) => {
 
-			super.show(elmLI, resolve);
+			super.open(elmLI, resolve);
 
 			this._showNoneTitleProperties(true);
 			this._showOptionInsertInsideFolder(false);
@@ -382,11 +394,11 @@ class EditFolderPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	show(elmLI) {
+	open(elmLI) {
 
 		return new Promise((resolve) => {
 
-			super.show(elmLI, resolve);
+			super.open(elmLI, resolve);
 
 			this._showNoneTitleProperties(false);
 			this._showOptionInsertInsideFolder(false);

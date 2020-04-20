@@ -308,7 +308,7 @@ class InfoBubble {
 	}
 
 	//////////////////////////////////////////
-	show(infoText, refElement = undefined, isAlertive = true, dirStyle = "", showDuration = 3500, dismissOnScroll = false) {
+	show(infoText, refElement = undefined, isAlertive = true, rightPointerStyle = false, showDuration = 3500, dismissOnScroll = false) {
 
 		if(!!!this.m_elmInfoBubble) {
 			this.m_elmInfoBubble = document.getElementById("infoBubble");
@@ -326,10 +326,12 @@ class InfoBubble {
 			this.m_elmInfoBubble.slDismissOnScroll = dismissOnScroll;
 		}
 
-		// to allow for words that are <b>
-		this.m_elmInfoBubbleText.innerHTML = infoText.replace(/\r/gm, "<br>");
+		// by setting to most left the bubble currect offsetWidth is recalculated with less
+		// interferences from the window viewport with before setting display = "block"
+		this.m_elmInfoBubble.style.left = "0px";
+		this.m_elmInfoBubbleText.innerHTML = infoText.replace(/\r/gm, "<br>");		// to allow for words that are <b>
 		this.m_elmInfoBubble.classList.toggle("alertive", isAlertive);
-		this.m_elmInfoBubble.classList.toggle("rightToLeft", dirStyle === "rtl");
+		this.m_elmInfoBubble.classList.toggle("rightPointer", rightPointerStyle);
 		this.m_elmInfoBubble.classList.toggle("generalInfo", isGeneral);
 		this.m_elmInfoBubble.style.display = "block";
 
@@ -345,7 +347,7 @@ class InfoBubble {
 		if(isGeneral) {
 			nLeft = (innerWidth - this.m_elmInfoBubble.offsetWidth) / 2;
 		} else {
-			nLeft = rectRefElement.left + (dirStyle === "rtl" ? (rectRefElement.width-this.m_elmInfoBubble.offsetWidth) : 0);
+			nLeft = rectRefElement.left + (rightPointerStyle ? (rectRefElement.width-this.m_elmInfoBubble.offsetWidth) : 0);
 		}
 
 		if (nLeft < 0) nLeft = 0;
@@ -354,7 +356,7 @@ class InfoBubble {
 		this.m_elmInfoBubble.style.top = nTop + "px";
 		this.m_elmInfoBubble.slCallTimeStamp = callTimestamp;
 
-		this.m_elmInfoBubble.classList.replace("fadeOut", "fadeIn");
+		setTimeout(() => this.m_elmInfoBubble.classList.replace("fadeOut", "fadeIn"), 0);
 
 		setTimeout(() => {
 			if(this.m_elmInfoBubble.slCallTimeStamp === callTimestamp) {		// dismiss only if its for the last function call

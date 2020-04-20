@@ -104,8 +104,6 @@ let panel = (function() {
 		let browserFont = getComputedStyle(m_elmBody).getPropertyValue("font-family");
 		document.documentElement.style.setProperty("--font-default-fallback", browserFont);
 
-		disableOnLoadElements();
-
 		setPanelDensityFromPreferences();
 		setPanelFontNameFromPreferences();
 		setPanelFontSizePercentFromPreferences();
@@ -127,16 +125,6 @@ let panel = (function() {
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function disableOnLoadElements() {
-		setTimeout(() => {
-			discoveryView.disable(true);
-			PropertiesView.disable(true);
-			messageView.disable(true);
-			slUtil.disableElementTree(document.getElementById("filterTextBoxContainer"), true);
-		}, 10);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -333,7 +321,7 @@ let panel = (function() {
 	function onClickDiscoverFeed(event) {
 		event.stopPropagation();
 
-		discoveryView.show().then((newFeedsList) => {
+		discoveryView.open().then((newFeedsList) => {
 			rssTreeView.addNewFeeds(newFeedsList);
 		});
 	}
@@ -402,11 +390,11 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function disableToolbar(value) {
 
-		let elms = m_elmToolbar.querySelectorAll("#toolbar > .button, #filterContainer > .button");
+		let elms = m_elmToolbar.querySelectorAll("#toolbar > .button, #filterWidget > .button");
 		let elmTextContainer = document.getElementById("filterTextBoxContainer");
 
-		// handle enable/disable state only if the container is "switched" (open)
-		if(!elmTextContainer.parentElement.classList.contains("switched")) {
+		// handle enable/disable state only if the filter widget is open
+		if(!elmTextContainer.parentElement.classList.contains("opened")) {
 			elmTextContainer = null;
 		}
 

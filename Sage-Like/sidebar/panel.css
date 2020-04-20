@@ -117,7 +117,7 @@ html, body {
 	margin: auto;
 }
 
-#filterContainer {
+#filterWidget {
 	--width-filter-image: 16px;
 	--width-filter-text: 125px;
 	--width-filter-reapply: var(--toolbar-button-size);
@@ -134,7 +134,7 @@ html, body {
 	display: flex;
 }
 
-#filterContainer .button {
+#filterWidget .button {
 	margin-right: 0;
 }
 
@@ -144,7 +144,7 @@ html, body {
 }
 
 #filterTextBoxContainer {
-	display: flex;
+	display: none;
 	border: 0 solid #7f7f7f;
 	overflow: hidden;
 	width: 0;
@@ -181,37 +181,37 @@ html, body {
 	margin-right: var(--margin-right-filter-button)
 }
 
-#filterContainer.switched > #filter.button {
+#filterWidget.opened > #filter.button {
 	--trans-delay-filter-button: 0ms;
 	width: 0;
 	min-width: 0;
 	margin-right: 0;
 }
 
-#filterContainer.switched > #filterTextBoxContainer {
+#filterWidget.opened > #filterTextBoxContainer {
 	border-width: 1px;
 	width: var(--width-container);
 	min-width: var(--width-container);
 	pointer-events: auto;
 }
 
-#filterContainer.filterTextOn #imageFilter,
-#filterContainer.filterTextOn #textFilter {
+#filterWidget.filterTextOn #imageFilter,
+#filterWidget.filterTextOn #textFilter {
 	background-color: rgb(255, 220, 154);
 }
 
-#filterContainer.filterRegExpOn #imageFilter,
-#filterContainer.filterRegExpOn #textFilter {
+#filterWidget.filterRegExpOn #imageFilter,
+#filterWidget.filterRegExpOn #textFilter {
 	background-color: rgb(177, 227, 255);
 }
 
-#filterContainer.filterStatusOn #imageFilter,
-#filterContainer.filterStatusOn #textFilter {
+#filterWidget.filterStatusOn #imageFilter,
+#filterWidget.filterStatusOn #textFilter {
 	background-color: rgb(170, 255, 170);
 }
 
-#filterContainer.filterUrlOn #imageFilter,
-#filterContainer.filterUrlOn #textFilter {
+#filterWidget.filterUrlOn #imageFilter,
+#filterWidget.filterUrlOn #textFilter {
 	background-color: rgb(255, 190, 255);
 }
 
@@ -256,6 +256,7 @@ html, body {
 	border-radius: 0 0 6px 6px;
 	z-index: 1;
 	transition: top 0.35s cubic-bezier(0.7, 0, 0.2, 1.5) 0s;
+	display: none;
 }
 
 .slideDownPanel.visible {
@@ -339,7 +340,7 @@ html, body {
 	background-color: var(--color-alertive);
 }
 
-#infoBubble.rightToLeft #infoBubblePointer {
+#infoBubble.rightPointer #infoBubblePointer {
 	margin-left: calc(100% - (var(--width-pointer) + var(--margin-inline-pointer)));
 	clip-path: polygon(85% 0%, 0% 100%, 100% 100%);
 }

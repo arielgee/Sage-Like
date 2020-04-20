@@ -27,11 +27,11 @@ let messageView = (function () {
 	let m_funcPromiseResolve = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function show(text, btnSet = messageView.ButtonSet.setOK, caption = "Attention!", isAlertive = true, isTextLeftAlign = false) {
+	function open(text, btnSet = messageView.ButtonSet.setOK, caption = "Attention!", isAlertive = true, isTextLeftAlign = false) {
 
 		return new Promise((resolve) => {
 
-			initialize();
+			initMemberElements();
 
 			m_buttonSet = btnSet;
 
@@ -49,8 +49,8 @@ let messageView = (function () {
 				m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
 			}
 
-			m_elmMessagePanel.classList.add("visible");
-			disable(false);
+			m_elmMessagePanel.style.display = "block";
+			setTimeout(() => m_elmMessagePanel.classList.add("visible"), 0);
 			panel.disable(true);
 
 			m_elmMessagePanel.focus();
@@ -60,7 +60,7 @@ let messageView = (function () {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initialize() {
+	function initMemberElements() {
 
 		if(m_elmMessagePanel === null) {
 			m_elmMessagePanel = document.getElementById("messagePanel");
@@ -72,10 +72,7 @@ let messageView = (function () {
 		}
 		m_elmOptionsHref = null;		// re-initialize in each display
 
-		m_elmMessagePanel.addEventListener("keydown", onKeyDownMessagePanel);
-		m_elmButtonOK.addEventListener("click", onClickButtonOK);
-		m_elmButtonYes.addEventListener("click", onClickButtonYes);
-		m_elmButtonNo.addEventListener("click", onClickButtonNo);
+		addEventListeners();
 
 		m_buttonCodeResult = ButtonCode.none;
 	}
@@ -89,15 +86,6 @@ let messageView = (function () {
 
 		m_elmMessagePanel.classList.remove("visible");
 		panel.disable(false);
-		disable(true);
-
-		m_elmMessagePanel.removeEventListener("keydown", onKeyDownMessagePanel);
-		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
-		m_elmButtonYes.removeEventListener("click", onClickButtonYes);
-		m_elmButtonNo.removeEventListener("click", onClickButtonNo);
-		if(!!m_elmOptionsHref) {
-			m_elmOptionsHref.removeEventListener("click", onClickOptionsPage);
-		}
 
 		m_funcPromiseResolve(m_buttonCodeResult);
 		rssTreeView.setFocus();
@@ -108,15 +96,28 @@ let messageView = (function () {
 		return (m_elmMessagePanel !== null && m_elmMessagePanel.classList.contains("visible"));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function disable(value) {
-		let panel = (!!m_elmMessagePanel ? m_elmMessagePanel : document.getElementById("messagePanel"));
-		slUtil.disableElementTree(panel, value, false, ["BUTTON"]);
-	}
-
 	//==================================================================================
 	//=== Events
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function addEventListeners() {
+		m_elmMessagePanel.addEventListener("keydown", onKeyDownMessagePanel);
+		m_elmMessagePanel.addEventListener("transitionend", onTransitionEndMessagePanel);
+		m_elmButtonOK.addEventListener("click", onClickButtonOK);
+		m_elmButtonYes.addEventListener("click", onClickButtonYes);
+		m_elmButtonNo.addEventListener("click", onClickButtonNo);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function removeEventListeners() {
+		m_elmMessagePanel.removeEventListener("keydown", onKeyDownMessagePanel);
+		m_elmMessagePanel.removeEventListener("transitionend", onTransitionEndMessagePanel);
+		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
+		m_elmButtonYes.removeEventListener("click", onClickButtonYes);
+		m_elmButtonNo.removeEventListener("click", onClickButtonNo);
+		if(!!m_elmOptionsHref) m_elmOptionsHref.removeEventListener("click", onClickOptionsPage);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownMessagePanel(event) {
@@ -139,6 +140,14 @@ let messageView = (function () {
 			default:
 				break;
 				//////////////////////////////
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onTransitionEndMessagePanel(event) {
+		if(event.target === m_elmMessagePanel && !m_elmMessagePanel.classList.contains("visible")) {
+			m_elmMessagePanel.style.display = "none";
+			removeEventListeners();
 		}
 	}
 
@@ -169,10 +178,9 @@ let messageView = (function () {
 		ButtonSet: ButtonSet,
 		ButtonCode: ButtonCode,
 
-		show: show,
+		open: open,
 		close: close,
 		isOpen: isOpen,
-		disable: disable,
 	};
 
 })();

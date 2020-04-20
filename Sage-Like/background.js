@@ -54,12 +54,12 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onRuntimeConnect(port) {
 
-		// Handle connection opend from panel.js
+		// Handle connection opened from panel.js
 
 		// + NOTE: port.name is the window ID
 		if(port.sender.id === browser.runtime.id) {
 
-			// Connection is open from panel.js. Meaning sidebar is opend. Save ID of new window in array
+			// Connection is open from panel.js. Meaning sidebar is opened. Save ID of new window in array
 			m_windowIds.push(parseInt(port.name));
 
 			// Connection is closed. Meaning the sidebar was closed. Remove window ID from array

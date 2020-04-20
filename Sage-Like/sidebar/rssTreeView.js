@@ -68,7 +68,7 @@ let rssTreeView = (function() {
 	let m_elmCheckTreeFeeds;
 	let m_elmExpandAll;
 	let m_elmCollapseAll;
-	let m_elmfilterContainer;
+	let m_elmFilterWidget;
 	let m_elmButtonFilter;
 	let m_elmFilterTextBoxContainer;
 	let m_elmTextFilter;
@@ -181,7 +181,7 @@ let rssTreeView = (function() {
 
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
-		m_elmfilterContainer = document.getElementById("filterContainer");
+		m_elmFilterWidget = document.getElementById("filterWidget");
 		m_elmButtonFilter = document.getElementById("filter");
 		m_elmFilterTextBoxContainer = document.getElementById("filterTextBoxContainer");
 		m_elmTextFilter = document.getElementById("textFilter");
@@ -464,7 +464,7 @@ let rssTreeView = (function() {
 			if(restoreData.feedsFilter !== "") {
 				setTimeout(() => {
 					m_elmTextFilter.value = restoreData.feedsFilter;
-					switchOnFilter();
+					openFilterWidget();
 					handleTreeFilter();
 				}, 400);
 			}
@@ -852,7 +852,7 @@ let rssTreeView = (function() {
 					}
 
 				} else {
-					InfoBubble.i.show("The dropped text is not a valid URL.", undefined, true, m_elmTreeRoot.style.direction, 3500, true);
+					InfoBubble.i.show("The dropped text is not a valid URL.", undefined, true, false, 3500, true);
 					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
 				}
 			}
@@ -1178,7 +1178,7 @@ let rssTreeView = (function() {
 						url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
 						type: "normal",
 						incognito: true,
-					}).catch((error) => messageView.show(slUtil.incognitoErrorMessage(error)) );
+					}).catch((error) => messageView.open(slUtil.incognitoErrorMessage(error)) );
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -1280,16 +1280,23 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickFilter(event) {
-		switchOnFilter();
+		openFilterWidget();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTransitionEndFilterTextBoxContainer(event) {
 
-		// apply 'overflow: visible' after the transition was completed so that the
-		// inner filter buttons (apply & clear) will have the box-shadow affect when hovered
-		if(m_elmfilterContainer.classList.contains("switched")) {
-			m_elmFilterTextBoxContainer.classList.add("visibleOverflow");
+		if(event.target === m_elmFilterTextBoxContainer && event.propertyName === "width") {
+
+			// apply 'overflow: visible' after the transition was completed so that the
+			// inner filter buttons (apply & clear) will have the box-shadow affect when hovered
+			if(m_elmFilterWidget.classList.contains("opened")) {
+				m_elmFilterTextBoxContainer.classList.add("visibleOverflow");
+			} else {
+				m_elmFilterTextBoxContainer.style.display = "none";
+				InfoBubble.i.dismiss();
+				unfilterAllTreeItems();
+			}
 		}
 	}
 
@@ -1435,7 +1442,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFeedProperties(elmLI) {
-		NewFeedPropertiesView.i.show(elmLI, "New Feed", "").then((result) => {
+		NewFeedPropertiesView.i.open(elmLI, "New Feed", "").then((result) => {
 			createNewFeedExtended(result.elmLI, result.title, result.url, result.updateTitle, result.openInFeedPreview, result.inFolder);
 		});
 	}
@@ -1522,7 +1529,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFolderProperties(elmLI) {
-		NewFolderPropertiesView.i.show(elmLI, "New Folder").then((result) => {
+		NewFolderPropertiesView.i.open(elmLI, "New Folder").then((result) => {
 			createNewFolderExtended(result.elmLI, result.title, result.inFolder);
 		});
 	}
@@ -1621,7 +1628,7 @@ let rssTreeView = (function() {
 			text += "feed <b title=\"" + elmLI.getAttribute("href") + "\">'" + getTreeItemText(elmLI) + "'</b> from your bookmarks?"
 		}
 
-		messageView.show(text, messageView.ButtonSet.setYesNo, "Delete " + (isFolder ? "Folder" : "Feed")).then((result) => {
+		messageView.open(text, messageView.ButtonSet.setYesNo, "Delete " + (isFolder ? "Folder" : "Feed")).then((result) => {
 
 			if(result === messageView.ButtonCode.Yes) {
 
@@ -1688,7 +1695,7 @@ let rssTreeView = (function() {
 	function toggleFeedVisitedState(elmLI) {
 
 		if(elmLI.classList.contains("error")) {
-			InfoBubble.i.show("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction, 3500, true);
+			InfoBubble.i.show("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction === "rtl", 3500, true);
 			return;
 		}
 
@@ -1752,13 +1759,13 @@ let rssTreeView = (function() {
 		let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
 		if(isFolder) {
-			EditFolderPropertiesView.i.show(elmLI).then((result) => {
+			EditFolderPropertiesView.i.open(elmLI).then((result) => {
 				updateFolderProperties(result.elmLI, result.title);
 			});
 		} else {
 			m_objTreeFeedsData.setIfNotExist(elmLI.id);
 			let treeFeed = m_objTreeFeedsData.value(elmLI.id);
-			EditFeedPropertiesView.i.show(elmLI, treeFeed.updateTitle, treeFeed.openInFeedPreview).then((result) => {
+			EditFeedPropertiesView.i.open(elmLI, treeFeed.updateTitle, treeFeed.openInFeedPreview).then((result) => {
 				updateFeedProperties(result.elmLI, result.title, result.url, result.updateTitle, result.openInFeedPreview);
 			});
 		}
@@ -2273,17 +2280,18 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function switchOnFilter() {
+	function openFilterWidget() {
 
-		m_elmfilterContainer.classList.add("switched");
-		slUtil.disableElementTree(m_elmFilterTextBoxContainer, false);
+		m_elmFilterTextBoxContainer.style.display = "flex";
 
 		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
 			if(count > 0) {
-				InfoBubble.i.show("Hover over the filter text box for vital information.", m_elmfilterContainer, false, "", 4000);
+				InfoBubble.i.show("Hover over the filter text box for vital information.", m_elmFilterWidget, false, false, 4000);
 				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
 			}
 			m_elmTextFilter.focus();
+		}).finally(() => {
+			setTimeout(() => m_elmFilterWidget.classList.add("opened"), 0);
 		});
 	}
 
@@ -2295,7 +2303,7 @@ let rssTreeView = (function() {
 		let itemsFiltered = false;		// pessimistic
 
 		notifyAppliedFilter(true);
-		m_elmfilterContainer.classList.remove("filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
+		m_elmFilterWidget.classList.remove("filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
 		m_elmTreeRoot.classList.add("hidden");
 
 		if(txtValue !== "") {
@@ -2337,15 +2345,12 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeClearFilter() {
 
-		m_elmfilterContainer.classList.remove("switched", "filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
+		m_elmFilterWidget.classList.remove("opened", "filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
 		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
-		slUtil.disableElementTree(m_elmFilterTextBoxContainer, true);
 		m_elmTextFilter.value = "";
 		notifyAppliedFilter(true);
 		m_isFilterApplied = false;
 		m_reapplyInfoBubbleMsgShownOnce = false;
-
-		setTimeout(() => unfilterAllTreeItems(), 300);
 
 		internalPrefs.setFeedsFilter("");
 	}
@@ -2353,7 +2358,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function filterTreeItemStatus(status) {
 
-		m_elmfilterContainer.classList.add("filterStatusOn");
+		m_elmFilterWidget.classList.add("filterStatusOn");
 
 		// nothing to hide
 		if(status === TreeItemStatus.EMPTY) {
@@ -2394,7 +2399,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function filterTreeItemURL(txtFilter) {
 
-		m_elmfilterContainer.classList.add("filterUrlOn");
+		m_elmFilterWidget.classList.add("filterUrlOn");
 
 		if(txtFilter.length > 0) {
 
@@ -2423,13 +2428,13 @@ let rssTreeView = (function() {
 		// select which filter function to use
 		if( !!test && slUtil.isRegExpValid(...(txtFilter.split('/').filter(e => e.length > 0))) ) {
 
-			m_elmfilterContainer.classList.add("filterRegExpOn");
+			m_elmFilterWidget.classList.add("filterRegExpOn");
 			paramFilter = test[1] + (test[2].includes("i") ? "i" : "");							// remove all flags except for 'i'
 			paramFilter = new RegExp(...(paramFilter.split('/').filter((e, idx) => idx > 0)));	// convert to RegExp
 			funcFilter = funcRegExpFilter;
 		} else {
 
-			m_elmfilterContainer.classList.add("filterTextOn");
+			m_elmFilterWidget.classList.add("filterTextOn");
 			paramFilter = txtFilter.toLowerCase();						// case-insensitive
 			funcFilter = funcSimpleFilter;
 		}
@@ -2474,7 +2479,7 @@ let rssTreeView = (function() {
 
 		if(len === 0) return;
 
-		//  Duff’s Device: limiting loop iterations pattern
+		// Duff’s Device: limiting loop iterations pattern
 		let iterations = Math.ceil(len / 10);
 		let startAt = len % 10;
 		let i = 0, interval = 0, zeroed = 1;
@@ -2517,13 +2522,13 @@ let rssTreeView = (function() {
 				// Do NOT notify the filter about changes if the current filter is on feed URLs.
 				// Unlike feed title & feed status, a feed's URL is not modified by tree updates.
 
-				if(!m_elmfilterContainer.classList.contains("filterUrlOn")) {
+				if(!m_elmFilterWidget.classList.contains("filterUrlOn")) {
 
 					m_elmReapplyFilter.classList.add("alert");
 					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\u000dFilter may require reapplying.";
 
 					if(!m_reapplyInfoBubbleMsgShownOnce) {
-						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmfilterContainer);
+						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
 						m_reapplyInfoBubbleMsgShownOnce = true;
 					}
 				}
