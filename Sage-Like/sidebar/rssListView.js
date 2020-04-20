@@ -680,7 +680,7 @@ let rssListView = (function() {
 		} else if(!!m_elmList.firstElementChild && m_elmList.firstElementChild.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 			m_elmList.firstElementChild.focus();
 		} else {
-			m_elmList.parentElement.focus();
+			m_elmList.focus();
 		}
 	}
 

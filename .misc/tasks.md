@@ -629,19 +629,19 @@
 	* This is good for services like kill-the-newsletter or any other xxx-2-RSS service that provide all content in feed-item.
 	* It will override the 'Feed click ALSO opens Feed Preview' preference
 * convert the infobar into a somesort of slideDown bar (sildeBar) without refElement	=> NO but got many Improvements
----
-
-## Now
 * how it looks in win7 supported? (https://graphemica.com/)
 	* 📁 📂 🖿 🗀 🗁 (compare with line 120)
 	* ∅
 	* 🛈
+* the key press R, U N, F are not working when no tree item is selected
+---
+
+## Now
+* all onTransitionEnd need to check event.propertyName ?
 ---
 
 ## Next
-* all onTransitionEnd need to check event.propertyName ?
 * convert discoveryView and messageView to classes and create base class for slideDown ???
-* the key press R, U N, F are not working when no tree item is selected
 * replace all \u000d (\r) with \u000a (\n)
 * support copy-paste in tree ?
 * when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works

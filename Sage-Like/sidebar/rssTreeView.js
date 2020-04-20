@@ -2150,7 +2150,7 @@ let rssTreeView = (function() {
 		if(m_elmCurrentlySelected !== null) {
 			m_elmCurrentlySelected.focus();
 		} else {
-			m_elmTreeRoot.parentElement.focus();
+			m_elmTreeRoot.focus();
 		}
 	}
 
