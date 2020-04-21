@@ -983,21 +983,34 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTreeRoot(event) {
 
-		if(event.target.getAttribute("disabled") !== null) {
+		let elmTarget = event.target;
+
+		if(elmTarget.getAttribute("disabled") !== null) {
 			return;
 		}
 
-		let count, elmCount, elm, elms;
-		let keyCode = event.code;
-		let elmTargetLI = event.target;
-		let isFolder = elmTargetLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
-		let isFolderOpen = isFolder ? elmTargetLI.classList.contains("open") : null;
+		const TType = {
+			none: 0,
+			feed: 1,
+			folderClose: 2,
+			folderOpen: 3,
+		};
+		let targetType = TType.none;
 
+		if(elmTarget.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+			targetType = TType.feed;
+		} else if(elmTarget.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
+			targetType = elmTarget.classList.contains("open") ? TType.folderOpen : TType.folderClose;
+		}
+
+		let keyCode = event.code;
 		if(event.key === "Delete") {
 			keyCode = "KeyD";
 		} else if(event.ctrlKey && event.key === "Insert") {
 			keyCode = "KeyC";
 		}
+
+		let count, elmCount, elm, elms;
 
 		switch (keyCode) {
 
@@ -1008,21 +1021,28 @@ let rssTreeView = (function() {
 
 			case "Enter":
 			case "NumpadEnter":
-				if(isFolder) {
-					toggleFolderState(elmTargetLI);
+				if(targetType === TType.feed) {
+					openTreeFeed(elmTarget, event.shiftKey);
 				} else {
-					openTreeFeed(elmTargetLI, event.shiftKey);
+					toggleFolderState(elmTarget);
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "Home":
-				m_elmTreeRoot.firstElementChild.focus();
+				elms = m_elmTreeRoot.querySelectorAll("li");		// get all selectable elements
+
+				for(let i=0, len=elms.length; i<len; i++) {
+					if(elms[i].offsetParent !== null) {		// visible or not
+						elms[i].focus();
+						break;
+					}
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "End":
-				elms = m_elmTreeRoot.querySelectorAll("li:last-child");		// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("li");		// get all selectable elements
 
 				for(let i=elms.length-1; i>=0; i--) {
 					if(elms[i].offsetParent !== null) {		// visible or not
@@ -1034,13 +1054,13 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowUp":
-				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)");	// get all selectable elements
 
 				// find target element in list
 				for(let i=0, len=elms.length; i<len; i++) {
 
 					// find in list the immediate PREVIOUS visible element
-					if(elms[i].id === elmTargetLI.id && (i-1) >= 0) {
+					if(elms[i].id === elmTarget.id && (i-1) >= 0) {
 
 						for(let j=i-1; j>=0; j--) {
 							if(elms[j].offsetParent !== null) {		// visible or not
@@ -1055,12 +1075,12 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowDown":
-				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
+				elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)");	// get all selectable elements
 
 				for(let i=0, len=elms.length; i<len; i++) {
 
 					// find target element in list
-					if(elms[i].id === elmTargetLI.id && (i+1) < len) {
+					if(elms[i].id === elmTarget.id && (i+1) < len) {
 
 						// find in list the immediate NEXT visible element
 						for(let j=i+1; j<len; j++) {
@@ -1076,96 +1096,98 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowLeft":
-				if(isFolder && isFolderOpen) {
-					setFolderState(elmTargetLI, false);
-				} else if(elmTargetLI.parentElement.parentElement.tagName === "LI") {
-					elmTargetLI.parentElement.parentElement.focus();
+				if(targetType === TType.folderOpen) {
+					setFolderState(elmTarget, false);
+				} else if(elmTarget.parentElement.parentElement.tagName === "LI") {
+					elmTarget.parentElement.parentElement.focus();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowRight":
-				if(isFolder) {
-					if(isFolderOpen) {
-						elm = elmTargetLI.querySelector("ul > li:first-child"); // first direct child
-						if(!!elm) elm.focus();
-					} else {
-						setFolderState(elmTargetLI, true);
-					}
+				if(targetType === TType.folderOpen) {
+					elm = elmTarget.querySelector("ul > li:not(.filtered)"); // first visible child
+					if(!!elm) elm.focus();
+				} else if(targetType === TType.folderClose) {
+					setFolderState(elmTarget, true);
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "PageUp":
-				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
-				count = 1;
-				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
+				if( (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
 
-				// find target element in list
-				for(let i=0, len=elms.length; i<len; i++) {
+					count = 1;
+					elmCount = slUtil.numberOfVItemsInViewport(elms[0].firstElementChild, m_elmTreeRoot);	// use caption height
 
-					// find in list the current selected item
-					if(elms[i].id === elmTargetLI.id && (i-1) >= 0) {
+					// find target element in list
+					for(let i=0, len=elms.length; i<len; i++) {
 
-						for(let j=i-1; j>=0; j--) {
-							if(elms[j].offsetParent !== null) {		// only if visible
-								elm = elms[j];
-								if(++count === elmCount) {
-									break;
+						// find in list the current selected item
+						if(elms[i].id === elmTarget.id && (i-1) >= 0) {
+
+							for(let j=i-1; j>=0; j--) {
+								if(elms[j].offsetParent !== null) {		// only if visible
+									elm = elms[j];
+									if(++count === elmCount) {
+										break;
+									}
 								}
 							}
+							elm.focus();
+							break;
 						}
-						elm.focus();
-						break;
 					}
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "PageDown":
-				elms = m_elmTreeRoot.querySelectorAll("li");	// get all selectable elements
-				count = 1;
-				elmCount = slUtil.numberOfVItemsInViewport(elmTargetLI.firstElementChild, m_elmTreeRoot);	// use caption height
+				if( (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
 
-				// find target element in list
-				for(let i=0, len=elms.length; i<len; i++) {
+					count = 1;
+					elmCount = slUtil.numberOfVItemsInViewport(elms[0].firstElementChild, m_elmTreeRoot);	// use caption height
 
-					// find in list the current selected item
-					if(elms[i].id === elmTargetLI.id && (i+1) < len) {
+					// find target element in list
+					for(let i=0, len=elms.length; i<len; i++) {
 
-						for(let j=i+1; j<len; j++) {
-							if(elms[j].offsetParent !== null) {		// only if visible
-								elm = elms[j];
-								if(++count === elmCount) {
-									break;
+						// find in list the current selected item
+						if(elms[i].id === elmTarget.id && (i+1) < len) {
+
+							for(let j=i+1; j<len; j++) {
+								if(elms[j].offsetParent !== null) {		// only if visible
+									elm = elms[j];
+									if(++count === elmCount) {
+										break;
+									}
 								}
 							}
+							elm.focus();
+							break;
 						}
-						elm.focus();
-						break;
 					}
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyO":
-				if(!isFolder) {
-					browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")) });
+				if(targetType === TType.feed) {
+					browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")) });
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyT":
-				if(!isFolder) {
-					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")) });
+				if(targetType === TType.feed) {
+					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")) });
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyW":
-				if(!isFolder) {
+				if(targetType === TType.feed) {
 					browser.windows.create({
-						url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
+						url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")),
 						type: "normal",
 					});
 				}
@@ -1173,9 +1195,9 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyV":
-				if(!isFolder) {
+				if(targetType === TType.feed) {
 					browser.windows.create({
-						url: slUtil.getFeedPreviewUrl(elmTargetLI.getAttribute("href")),
+						url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")),
 						type: "normal",
 						incognito: true,
 					}).catch((error) => messageView.open(slUtil.incognitoErrorMessage(error)) );
@@ -1184,14 +1206,14 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyA":
-				if(isFolder) {
-					openAllFeedsInTabs(elmTargetLI);
+				if(targetType === TType.folderClose || targetType === TType.folderOpen) {
+					openAllFeedsInTabs(elmTarget);
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyG":
-				toggleVisitedState(elmTargetLI);
+				toggleVisitedState(elmTarget);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -1206,27 +1228,29 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyN":
-				openNewFeedProperties(elmTargetLI);
+				openNewFeedProperties(elmTarget);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyF":
-				openNewFolderProperties(elmTargetLI);
+				openNewFolderProperties(elmTarget);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyC":
-				slUtil.copyTextToClipboard(elmTargetLI.getAttribute("href"));
+				if(targetType === TType.feed) {
+					slUtil.copyTextToClipboard(elmTarget.getAttribute("href"));
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyD":
-				deleteTreeItem(elmTargetLI);
+				deleteTreeItem(elmTarget);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyP":
-				openEditTreeItemProperties(elmTargetLI);
+				openEditTreeItemProperties(elmTarget);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -1618,6 +1642,10 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function deleteTreeItem(elmLI) {
 
+		if(!!!elmLI || !elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+			return;
+		}
+
 		let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
 
 		let text = "Permanently delete the ";
@@ -1667,7 +1695,7 @@ let rssTreeView = (function() {
 
 		if(!!!elmLI) return;
 
-		let creatingTab, parkedTabUrl;
+		let parkedTabUrl;
 		let elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
 
 		for(let i=0, len=elms.length; i<len; i++) {
@@ -1743,9 +1771,9 @@ let rssTreeView = (function() {
 
 		if(elms.length > 0) {
 
-			for(let elm of elms) {
-				elm.classList.toggle("bold", !isVisited);
-				m_objTreeFeedsData.value(elm.id).lastVisited = isVisited ? slUtil.getCurrentLocaleDate().getTime() : 0;
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].classList.toggle("bold", !isVisited);
+				m_objTreeFeedsData.value(elms[i].id).lastVisited = isVisited ? slUtil.getCurrentLocaleDate().getTime() : 0;
 			}
 			m_objTreeFeedsData.setStorage();
 			updateAllTreeFoldersStats();
@@ -1756,13 +1784,14 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openEditTreeItemProperties(elmLI) {
 
-		let isFolder = elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER);
+		if (elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
 
-		if(isFolder) {
 			EditFolderPropertiesView.i.open(elmLI).then((result) => {
 				updateFolderProperties(result.elmLI, result.title);
 			});
-		} else {
+
+		} else if (elmLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+
 			m_objTreeFeedsData.setIfNotExist(elmLI.id);
 			let treeFeed = m_objTreeFeedsData.value(elmLI.id);
 			EditFeedPropertiesView.i.open(elmLI, treeFeed.updateTitle, treeFeed.openInFeedPreview).then((result) => {
@@ -1926,31 +1955,37 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function toggleFolderState(elmTreeItem) {
+	function toggleFolderState(elm) {
 
-		if (elmTreeItem.classList.contains("open")) {
-			setFolderVisibility(elmTreeItem, false);
-			m_objOpenSubFolders.remove(elmTreeItem.id);
-		} else {
-			setFolderVisibility(elmTreeItem, true);
-			m_objOpenSubFolders.set(elmTreeItem.id);
-			elmTreeItem.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+		if(elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
+
+			if (elm.classList.contains("open")) {
+				setFolderVisibility(elm, false);
+				m_objOpenSubFolders.remove(elm.id);
+			} else {
+				setFolderVisibility(elm, true);
+				m_objOpenSubFolders.set(elm.id);
+				elm.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+			}
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFolderState(elmTreeItem, open, scrollIntoView = true) {
+	function setFolderState(elm, open, scrollIntoView = true) {
 
-		if (open) {
-			setFolderVisibility(elmTreeItem, true);
-			m_objOpenSubFolders.set(elmTreeItem.id);
+		if(elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
 
-			if(scrollIntoView) {
-				elmTreeItem.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+			if (open) {
+				setFolderVisibility(elm, true);
+				m_objOpenSubFolders.set(elm.id);
+
+				if(scrollIntoView) {
+					elm.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+				}
+			} else {
+				setFolderVisibility(elm, false);
+				m_objOpenSubFolders.remove(elm.id);
 			}
-		} else {
-			setFolderVisibility(elmTreeItem, false);
-			m_objOpenSubFolders.remove(elmTreeItem.id);
 		}
 	}
 
