@@ -242,6 +242,8 @@ let contextMenu = (function() {
 			switch (keyCode) {
 				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
 				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
+				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
+				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "KeyS":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listcontext") {
