@@ -210,7 +210,10 @@ class PropertiesView {
 
 	///////////////////////////////////////////////////////////////
 	_onTransitionEndPropertiesPanel(event) {
-		if(event.target === this.m_elmPropertiesPanel && !this.m_elmPropertiesPanel.classList.contains("visible")) {
+		if(event.target === this.m_elmPropertiesPanel &&
+			event.propertyName === "top" &&
+			!this.m_elmPropertiesPanel.classList.contains("visible")) {
+
 			this.m_elmPropertiesPanel.style.display = "none";
 			this._removeEventListeners();
 		}

@@ -399,7 +399,10 @@ class InfoBubble {
 
 	//////////////////////////////////////////
 	_onTransitionEndInfoBubble(event) {
-		if(event.target === this.m_elmInfoBubble && this.m_elmInfoBubble.classList.contains("fadeOut")) {
+		if(event.target === this.m_elmInfoBubble &&
+			event.propertyName === "visibility" &&
+			this.m_elmInfoBubble.classList.contains("fadeOut")) {
+
 			this.m_elmInfoBubble.style.display = "none";
 		}
 	}

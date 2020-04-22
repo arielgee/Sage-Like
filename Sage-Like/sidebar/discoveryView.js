@@ -422,7 +422,8 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTransitionEndDiscoverPanel(event) {
 
-		if(event.target === m_elmDiscoverPanel) {
+		if(event.target === m_elmDiscoverPanel && event.propertyName === "top") {
+
 			if(m_elmDiscoverPanel.classList.contains("visible")) {
 				runDiscoverFeeds();
 			} else {

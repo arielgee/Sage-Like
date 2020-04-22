@@ -636,14 +636,14 @@
 * the key press R, U N, F are not working when no tree item is selected
 * m_objCurrentlyDraggedOver.lingered is not reset after => add 'm_objCurrentlyDraggedOver.init();' in function 'onDragLeaveTreeItem(event)'
 * selected tree item remain selected when collapse all => add this in function 'onClickExpandCollapseAll()'
----
-
-## Now
 * all onTransitionEnd need to check event.propertyName ?
 ---
 
-## Next
+## Now
 * feed title in tooltip not updated after refresh that coms from the preferences page
+---
+
+## Next
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)
 * support copy-paste in tree ?

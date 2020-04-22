@@ -145,7 +145,10 @@ let messageView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTransitionEndMessagePanel(event) {
-		if(event.target === m_elmMessagePanel && !m_elmMessagePanel.classList.contains("visible")) {
+		if(event.target === m_elmMessagePanel &&
+			event.propertyName === "top" &&
+			!m_elmMessagePanel.classList.contains("visible")) {
+
 			m_elmMessagePanel.style.display = "none";
 			removeEventListeners();
 		}
