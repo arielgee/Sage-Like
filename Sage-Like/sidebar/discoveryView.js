@@ -28,6 +28,8 @@ let discoveryView = (function() {
 
 	let m_funcPromiseResolve = null;
 
+	let m_slideDownPanel = null;
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function open() {
 
@@ -35,8 +37,7 @@ let discoveryView = (function() {
 
 			initMemberElements();
 
-			m_elmDiscoverPanel.style.display = "block";
-			setTimeout(() => m_elmDiscoverPanel.classList.add("visible"), 0);
+			m_slideDownPanel.show();
 			panel.disable(true);
 
 			m_elmDiscoverPanel.focus()
@@ -52,8 +53,10 @@ let discoveryView = (function() {
 			return;
 		}
 
-		m_elmDiscoverPanel.classList.remove("visible");
+		m_slideDownPanel.hide();
 		panel.disable(false);
+
+		removeEventListeners();
 
 		m_nRequestId = 0;
 		setStatusbarMessage("", false);
@@ -79,6 +82,8 @@ let discoveryView = (function() {
 			m_elmButtonAdd = document.getElementById("btnDiscoverFeedsAdd");
 			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 			m_elmDiscoveryStatusBar = document.getElementById("discoveryStatusBar");
+
+			m_slideDownPanel = new SlideDownPanel(m_elmDiscoverPanel, onShownSlideDownPanelCallback, onHiddenSlideDownPanelCallback);
 
 			if(m_elmButtonRediscover.slSavedTitle === undefined) {
 				m_elmButtonRediscover.slSavedTitle = m_elmButtonRediscover.title;
@@ -360,13 +365,26 @@ let discoveryView = (function() {
 	}
 
 	//==================================================================================
+	//=== Callbacks
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onShownSlideDownPanelCallback() {
+		runDiscoverFeeds();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onHiddenSlideDownPanelCallback() {
+		emptyDiscoverFeedsList();
+	}
+
+	//==================================================================================
 	//=== Events
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function addEventListeners() {
 		m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
-		m_elmDiscoverPanel.addEventListener("transitionend", onTransitionEndDiscoverPanel);
 		m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
 		m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
@@ -383,7 +401,6 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function removeEventListeners() {
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
-		m_elmDiscoverPanel.removeEventListener("transitionend", onTransitionEndDiscoverPanel);
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
 		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
@@ -416,21 +433,6 @@ let discoveryView = (function() {
 			default:
 				break;
 				//////////////////////////////
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onTransitionEndDiscoverPanel(event) {
-
-		if(event.target === m_elmDiscoverPanel && event.propertyName === "top") {
-
-			if(m_elmDiscoverPanel.classList.contains("visible")) {
-				runDiscoverFeeds();
-			} else {
-				m_elmDiscoverPanel.style.display = "none";
-				removeEventListeners();
-				emptyDiscoverFeedsList();
-			}
 		}
 	}
 

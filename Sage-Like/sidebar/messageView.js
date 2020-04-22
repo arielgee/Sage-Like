@@ -26,6 +26,8 @@ let messageView = (function () {
 	let m_buttonCodeResult = ButtonCode.none;
 	let m_funcPromiseResolve = null;
 
+	let m_slideDownPanel = null;
+
 	////////////////////////////////////////////////////////////////////////////////////
 	function open(text, btnSet = messageView.ButtonSet.setOK, caption = "Attention!", isAlertive = true, isTextLeftAlign = false) {
 
@@ -49,8 +51,7 @@ let messageView = (function () {
 				m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
 			}
 
-			m_elmMessagePanel.style.display = "block";
-			setTimeout(() => m_elmMessagePanel.classList.add("visible"), 0);
+			m_slideDownPanel.show();
 			panel.disable(true);
 
 			m_elmMessagePanel.focus();
@@ -69,6 +70,8 @@ let messageView = (function () {
 			m_elmButtonOK = document.getElementById("btnMsgOK");
 			m_elmButtonYes = document.getElementById("btnMsgYes");
 			m_elmButtonNo = document.getElementById("btnMsgNo");
+
+			m_slideDownPanel = new SlideDownPanel(m_elmMessagePanel);
 		}
 		m_elmOptionsHref = null;		// re-initialize in each display
 
@@ -84,8 +87,10 @@ let messageView = (function () {
 			return;
 		}
 
-		m_elmMessagePanel.classList.remove("visible");
+		m_slideDownPanel.hide();
 		panel.disable(false);
+
+		removeEventListeners();
 
 		m_funcPromiseResolve(m_buttonCodeResult);
 		rssTreeView.setFocus();
@@ -103,7 +108,6 @@ let messageView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	function addEventListeners() {
 		m_elmMessagePanel.addEventListener("keydown", onKeyDownMessagePanel);
-		m_elmMessagePanel.addEventListener("transitionend", onTransitionEndMessagePanel);
 		m_elmButtonOK.addEventListener("click", onClickButtonOK);
 		m_elmButtonYes.addEventListener("click", onClickButtonYes);
 		m_elmButtonNo.addEventListener("click", onClickButtonNo);
@@ -112,7 +116,6 @@ let messageView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	function removeEventListeners() {
 		m_elmMessagePanel.removeEventListener("keydown", onKeyDownMessagePanel);
-		m_elmMessagePanel.removeEventListener("transitionend", onTransitionEndMessagePanel);
 		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
 		m_elmButtonYes.removeEventListener("click", onClickButtonYes);
 		m_elmButtonNo.removeEventListener("click", onClickButtonNo);
@@ -140,17 +143,6 @@ let messageView = (function () {
 			default:
 				break;
 				//////////////////////////////
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onTransitionEndMessagePanel(event) {
-		if(event.target === m_elmMessagePanel &&
-			event.propertyName === "top" &&
-			!m_elmMessagePanel.classList.contains("visible")) {
-
-			m_elmMessagePanel.style.display = "none";
-			removeEventListeners();
 		}
 	}
 

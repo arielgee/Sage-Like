@@ -638,13 +638,16 @@
 * selected tree item remain selected when collapse all => add this in function 'onClickExpandCollapseAll()'
 * all onTransitionEnd need to check event.propertyName ?
 * feed title in tooltip not updated after refresh that coms from the preferences page
+* create class SlideDownPanel
 ---
 
 ## Now
-* when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
+* change function order in messageView open() close() initMemberElements()
 ---
 
 ## Next
+* escape on body keyDown closes all panels
+* NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * add to opml import/export additinal attributes for 'update title from feed' and 'open in feed preview'
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)

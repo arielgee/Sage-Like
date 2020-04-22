@@ -96,10 +96,11 @@ class PropertiesView {
 		this.m_elmButtonCancel = PropertiesViewElements.i.elmButtonCancel;
 		this.m_elmLabelErrorMsgs = PropertiesViewElements.i.elmLabelErrorMsgs;
 
+		this.m_slideDownPanel = new SlideDownPanel(this.m_elmPropertiesPanel);
+
 		this._onClickButtonSave = this._onClickButtonSave.bind(this);
 		this._onClickButtonCancel = this._onClickButtonCancel.bind(this);
 		this._onKeyDownPropertiesPanel = this._onKeyDownPropertiesPanel.bind(this);
-		this._onTransitionEndPropertiesPanel = this._onTransitionEndPropertiesPanel.bind(this);
 
 		this.m_initialProperties = {
 			title: "",
@@ -141,8 +142,7 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_showPanel() {
 
-		this.m_elmPropertiesPanel.style.display = "block";
-		setTimeout(() => this.m_elmPropertiesPanel.classList.add("visible"), 0);
+		this.m_slideDownPanel.show();
 		panel.disable(true);
 	}
 
@@ -153,8 +153,10 @@ class PropertiesView {
 			return;
 		}
 
-		this.m_elmPropertiesPanel.classList.remove("visible");
+		this.m_slideDownPanel.hide();
 		panel.disable(false);
+
+		this._removeEventListeners();
 
 		rssTreeView.setFocus();
 		this.m_isOpen = false;
@@ -165,7 +167,6 @@ class PropertiesView {
 		this.m_elmButtonSave.addEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.addEventListener("click", this._onClickButtonCancel);
 		this.m_elmPropertiesPanel.addEventListener("keydown", this._onKeyDownPropertiesPanel);
-		this.m_elmPropertiesPanel.addEventListener("transitionend", this._onTransitionEndPropertiesPanel);
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -173,7 +174,6 @@ class PropertiesView {
 		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
 		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
 		this.m_elmPropertiesPanel.removeEventListener("keydown", this._onKeyDownPropertiesPanel);
-		this.m_elmPropertiesPanel.removeEventListener("transitionend", this._onTransitionEndPropertiesPanel);
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -205,17 +205,6 @@ class PropertiesView {
 			default:
 				break;
 				//////////////////////////////
-		}
-	}
-
-	///////////////////////////////////////////////////////////////
-	_onTransitionEndPropertiesPanel(event) {
-		if(event.target === this.m_elmPropertiesPanel &&
-			event.propertyName === "top" &&
-			!this.m_elmPropertiesPanel.classList.contains("visible")) {
-
-			this.m_elmPropertiesPanel.style.display = "none";
-			this._removeEventListeners();
 		}
 	}
 }
