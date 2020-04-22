@@ -634,6 +634,7 @@
 	* ∅
 	* 🛈
 * the key press R, U N, F are not working when no tree item is selected
+* m_objCurrentlyDraggedOver.lingered is not reset after => add 'm_objCurrentlyDraggedOver.init();' in function 'onDragLeaveTreeItem(event)'
 ---
 
 ## Now
@@ -641,7 +642,6 @@
 ---
 
 ## Next
-* m_objCurrentlyDraggedOver.lingered is not reset after => add 'm_objCurrentlyDraggedOver.init();' in function 'onDragLeaveTreeItem(event)'
 * feed title in tooltip not updated after refresh that coms from the preferences page
 * selected tree item remain selected when collapse all
 	* => add this in function 'onClickExpandCollapseAll()'

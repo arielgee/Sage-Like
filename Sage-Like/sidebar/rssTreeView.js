@@ -722,8 +722,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDragLeaveTreeItem(event) {
 		event.stopPropagation();
-		let targetClassList = event.target.classList;
-		!!!targetClassList || targetClassList.remove("draggedOver", "dropInside");
+		if(!!event.target) event.target.classList.remove("draggedOver", "dropInside");
+		m_objCurrentlyDraggedOver.init();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
