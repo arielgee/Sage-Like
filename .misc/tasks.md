@@ -646,6 +646,7 @@
 ---
 
 ## Next
+* handle tab in listview move focus to current page
 * escape on body keyDown closes all panels
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * add to opml import/export additinal attributes for 'update title from feed' and 'open in feed preview'
