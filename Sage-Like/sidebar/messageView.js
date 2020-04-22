@@ -33,7 +33,7 @@ let messageView = (function () {
 
 		return new Promise((resolve) => {
 
-			initMemberElements();
+			initMembers();
 
 			m_buttonSet = btnSet;
 
@@ -61,26 +61,6 @@ let messageView = (function () {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initMemberElements() {
-
-		if(m_elmMessagePanel === null) {
-			m_elmMessagePanel = document.getElementById("messagePanel");
-			m_elmButtonSetOK = document.getElementById("btnSetOK");
-			m_elmButtonSetYesNo = document.getElementById("btnSetYesNo");
-			m_elmButtonOK = document.getElementById("btnMsgOK");
-			m_elmButtonYes = document.getElementById("btnMsgYes");
-			m_elmButtonNo = document.getElementById("btnMsgNo");
-
-			m_slideDownPanel = new SlideDownPanel(m_elmMessagePanel);
-		}
-		m_elmOptionsHref = null;		// re-initialize in each display
-
-		addEventListeners();
-
-		m_buttonCodeResult = ButtonCode.none;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function close() {
 
 		if (isOpen() === false) {
@@ -99,6 +79,26 @@ let messageView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	function isOpen() {
 		return (m_elmMessagePanel !== null && m_elmMessagePanel.classList.contains("visible"));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initMembers() {
+
+		if(m_elmMessagePanel === null) {
+			m_elmMessagePanel = document.getElementById("messagePanel");
+			m_elmButtonSetOK = document.getElementById("btnSetOK");
+			m_elmButtonSetYesNo = document.getElementById("btnSetYesNo");
+			m_elmButtonOK = document.getElementById("btnMsgOK");
+			m_elmButtonYes = document.getElementById("btnMsgYes");
+			m_elmButtonNo = document.getElementById("btnMsgNo");
+
+			m_slideDownPanel = new SlideDownPanel(m_elmMessagePanel);
+		}
+		m_elmOptionsHref = null;		// re-initialize in each display
+
+		addEventListeners();
+
+		m_buttonCodeResult = ButtonCode.none;
 	}
 
 	//==================================================================================

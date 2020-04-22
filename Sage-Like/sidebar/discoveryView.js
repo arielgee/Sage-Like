@@ -35,7 +35,7 @@ let discoveryView = (function() {
 
 		return new Promise((resolve) => {
 
-			initMemberElements();
+			initMembers();
 
 			m_slideDownPanel.show();
 			panel.disable(true);
@@ -70,7 +70,7 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initMemberElements() {
+	function initMembers() {
 
 		if(m_elmDiscoverPanel === null) {
 			m_elmDiscoverPanel = document.getElementById("discoverPanel");
