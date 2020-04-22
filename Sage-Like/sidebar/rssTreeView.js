@@ -122,6 +122,7 @@ let rssTreeView = (function() {
 					NewFolderPropertiesView.close();
 					EditFeedPropertiesView.close();
 					EditFolderPropertiesView.close();
+					InfoBubble.i.dismiss();
 					rssListView.disposeList();
 					createRSSTree();
 				}

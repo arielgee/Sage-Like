@@ -639,15 +639,15 @@
 * all onTransitionEnd need to check event.propertyName ?
 * feed title in tooltip not updated after refresh that coms from the preferences page
 * create class SlideDownPanel
+* change function order in messageView open() close() initMemberElements()
+* escape on body keyDown closes all panels
 ---
 
 ## Now
-* change function order in messageView open() close() initMemberElements()
+* handle tab in listview move focus to current page
 ---
 
 ## Next
-* handle tab in listview move focus to current page
-* escape on body keyDown closes all panels
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * add to opml import/export additinal attributes for 'update title from feed' and 'open in feed preview'
 * convert discoveryView and messageView to classes and create base class for slideDown ???

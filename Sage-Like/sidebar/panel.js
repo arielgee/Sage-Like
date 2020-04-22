@@ -251,6 +251,12 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownBody(event) {
 		if(event.code === "Escape") {
+			messageView.close();
+			discoveryView.close();
+			NewFeedPropertiesView.close();
+			NewFolderPropertiesView.close();
+			EditFeedPropertiesView.close();
+			EditFolderPropertiesView.close();
 			InfoBubble.i.dismiss();
 			rssListView.hideVisibleFeedItemDescPanel();
 		}
