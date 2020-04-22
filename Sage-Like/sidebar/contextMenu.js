@@ -118,19 +118,18 @@ let contextMenu = (function() {
 		m_elmEventTarget = event.target;
 
 		let showMenu = true;
-		let trgClsList = m_elmEventTarget.classList;
 
-		if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER)) {
+		if (TreeItemType.isFolder(m_elmEventTarget)) {
 
 			m_currentContext = "treeitemfoldercontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
-		} else if (trgClsList.contains(slGlobals.CLS_RTV_LI_TREE_FEED)) {
+		} else if (TreeItemType.isFeed(m_elmEventTarget)) {
 
 			m_currentContext = "treeitemcontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
-		} else if (trgClsList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		} else if (m_elmEventTarget.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
 
 			m_currentContext = "listitemcontext";
 			rssListView.setFeedItemSelectionState(m_elmEventTarget);

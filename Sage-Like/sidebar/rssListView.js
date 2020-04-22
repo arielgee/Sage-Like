@@ -40,7 +40,7 @@ let rssListView = (function() {
 
 		// observer for changes to the title of the to the tree feed
 		m_observerElmLITreeFeed = new MutationObserver(() => {
-			if(!!m_elmLITreeFeed && m_elmLITreeFeed.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM)) {
+			if(TreeItemType.isFeed(m_elmLITreeFeed)) {
 				m_elmListViewRssTitle.textContent = rssTreeView.getTreeItemText(m_elmLITreeFeed);
 			}
 		});

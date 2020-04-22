@@ -641,6 +641,21 @@
 ---
 
 ## Next
+* m_objCurrentlyDraggedOver.lingered is not reset after => add 'm_objCurrentlyDraggedOver.init();' in function 'onDragLeaveTreeItem(event)'
+* feed title in tooltip not updated after refresh that coms from the preferences page
+* selected tree item remain selected when collapse all
+	* => add this in function 'onClickExpandCollapseAll()'
+
+			// move selected item to top most visible parent folder
+			if(!!m_elmCurrentlySelected && !!!m_elmCurrentlySelected.offsetParent) {
+
+				let elm = m_elmCurrentlySelected;
+				while(!!!elm.offsetParent) {
+					elm = elm.parentElement;
+				}
+				setFeedSelectionState(elm);
+			}
+
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)
 * support copy-paste in tree ?
