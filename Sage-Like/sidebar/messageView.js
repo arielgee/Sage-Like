@@ -51,7 +51,7 @@ let messageView = (function () {
 				m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
 			}
 
-			m_slideDownPanel.show();
+			m_slideDownPanel.pull(true);
 			panel.disable(true);
 
 			m_elmMessagePanel.focus();
@@ -67,7 +67,7 @@ let messageView = (function () {
 			return;
 		}
 
-		m_slideDownPanel.hide();
+		m_slideDownPanel.pull(false);
 		panel.disable(false);
 
 		removeEventListeners();

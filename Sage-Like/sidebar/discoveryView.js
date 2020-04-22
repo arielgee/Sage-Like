@@ -37,7 +37,7 @@ let discoveryView = (function() {
 
 			initMembers();
 
-			m_slideDownPanel.show();
+			m_slideDownPanel.pull(true);
 			panel.disable(true);
 
 			m_elmDiscoverPanel.focus()
@@ -53,7 +53,7 @@ let discoveryView = (function() {
 			return;
 		}
 
-		m_slideDownPanel.hide();
+		m_slideDownPanel.pull(false);
 		panel.disable(false);
 
 		removeEventListeners();
@@ -83,7 +83,7 @@ let discoveryView = (function() {
 			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 			m_elmDiscoveryStatusBar = document.getElementById("discoveryStatusBar");
 
-			m_slideDownPanel = new SlideDownPanel(m_elmDiscoverPanel, onShownSlideDownPanelCallback, onHiddenSlideDownPanelCallback);
+			m_slideDownPanel = new SlideDownPanel(m_elmDiscoverPanel, onPullDownSlideDownPanel, onPullUpSlideDownPanel);
 
 			if(m_elmButtonRediscover.slSavedTitle === undefined) {
 				m_elmButtonRediscover.slSavedTitle = m_elmButtonRediscover.title;
@@ -369,12 +369,12 @@ let discoveryView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onShownSlideDownPanelCallback() {
+	function onPullDownSlideDownPanel() {
 		runDiscoverFeeds();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onHiddenSlideDownPanelCallback() {
+	function onPullUpSlideDownPanel() {
 		emptyDiscoverFeedsList();
 	}
 

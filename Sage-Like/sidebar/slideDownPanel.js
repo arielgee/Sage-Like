@@ -2,41 +2,31 @@
 
 class SlideDownPanel {
 	///////////////////////////////////////////////////////////////
-	constructor(elmPanel, onShownCallback, onHiddenCallback) {
-
+	constructor(elmPanel, onPullDownCallback, onPullUpCallback) {
 		if( !!!elmPanel || !(elmPanel instanceof Element) || !elmPanel.classList.contains("slideDownPanel")) {
 			throw new Error(new.target.name + ".constructor: Not a slide-down-panel element");
 		}
-
-		this.m_slideDownPanel = elmPanel;
-		this._initMembers(onShownCallback, onHiddenCallback);
+		this._initMembers(elmPanel, onPullDownCallback, onPullUpCallback);
 	}
 
 	///////////////////////////////////////////////////////////////
-	show() {
-		if(!this.m_isShown) {
+	pull(down) {
+		if(down && !this.m_isDown) {
 			this._addEventListeners();
-
 			this.m_slideDownPanel.style.display = "block";
 			setTimeout(() => this.m_slideDownPanel.classList.add("visible"), 0);
-		}
-	}
-
-	///////////////////////////////////////////////////////////////
-	hide() {
-		if(this.m_isShown) {
+		} else if(!down && this.m_isDown) {
 			this.m_slideDownPanel.classList.remove("visible");
 		}
 	}
 
 	///////////////////////////////////////////////////////////////
-	_initMembers(onShownCallback, onHiddenCallback) {
+	_initMembers(elmPanel, onPullDownCallback, onPullUpCallback) {
+		this.m_slideDownPanel = elmPanel;
+		this._onPullDownCallback = onPullDownCallback;
+		this._onPullUpCallback = onPullUpCallback;
 		this._onTransitionEndSlideDownPanel = this._onTransitionEndSlideDownPanel.bind(this);
-
-		this._onShownCallback = onShownCallback;
-		this._onHiddenCallback = onHiddenCallback;
-
-		this.m_isShown = false;
+		this.m_isDown = false;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -56,17 +46,16 @@ class SlideDownPanel {
 
 			if(this.m_slideDownPanel.classList.contains("visible")) {
 
-				this.m_isShown = true;
-
-				if(!!(this._onShownCallback)) (this._onShownCallback)();
+				this.m_isDown = true;
+				if(!!(this._onPullDownCallback)) (this._onPullDownCallback)();
 
 			} else {
 
 				this.m_slideDownPanel.style.display = "none";
 				this._removeEventListeners();
-				this.m_isShown = false;
 
-				if(!!(this._onHiddenCallback)) (this._onHiddenCallback)();
+				this.m_isDown = false;
+				if(!!(this._onPullUpCallback)) (this._onPullUpCallback)();
 			}
 		}
 	}

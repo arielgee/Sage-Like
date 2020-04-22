@@ -142,7 +142,7 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_showPanel() {
 
-		this.m_slideDownPanel.show();
+		this.m_slideDownPanel.pull(true);
 		panel.disable(true);
 	}
 
@@ -153,7 +153,7 @@ class PropertiesView {
 			return;
 		}
 
-		this.m_slideDownPanel.hide();
+		this.m_slideDownPanel.pull(false);
 		panel.disable(false);
 
 		this._removeEventListeners();
