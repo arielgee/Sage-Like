@@ -420,7 +420,7 @@ let rssTreeView = (function() {
 		elmCaption.appendChild(elmStats);
 		elm.appendChild(elmCaption);
 
-		setFeedTooltipState(elm);
+		setTreeItemTooltip(elm);
 
 		return elm;
 	}
@@ -517,8 +517,8 @@ let rssTreeView = (function() {
 			let batchSize = method[0] === 0 ? 1 : Math.ceil(elmLIs.length / method[0]);
 			let timeoutPause = method[1];
 
-			for(let elmLI of elmLIs) {
-				checkForNewFeedData(elmLI, elmLI.id, elmLI.getAttribute("href"));
+			for(let i=0, len=elmLIs.length; i<len; i++) {
+				checkForNewFeedData(elmLIs[i], elmLIs[i].id, elmLIs[i].getAttribute("href"));
 				if((++counter % batchSize) === 0) {
 					await slUtil.sleep(timeoutPause);
 				}
@@ -546,7 +546,7 @@ let rssTreeView = (function() {
 
 				let updateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
-				setFeedTooltipState(elmLI, "Update: " + (new Date(updateTime)).toWebExtensionLocaleString());		// feedData.description not displayed as thirdLine in tooltip
+				setTreeItemTooltip(elmLI, "Update: " + (new Date(updateTime)).toWebExtensionLocaleString());		// feedData.description not displayed as thirdLine in tooltip
 				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
@@ -892,7 +892,7 @@ let rssTreeView = (function() {
 					setFeedVisitedState(elmLI, true);
 					updateFeedTitle(elmLI, result.feedData.title);
 					updateFeedStatsFromHistory(elmLI, result.list);
-					setFeedTooltipFullState(elmLI, result.feedData.title, "Update: " + fdDate.toWebExtensionLocaleString());
+					setTreeItemTooltipFull(elmLI, result.feedData.title, "Update: " + fdDate.toWebExtensionLocaleString());
 
 					// change the rssListView content only if this is the last user click.
 					if(thisFeedClickTime === m_lastClickedFeedTime) {
@@ -1810,7 +1810,7 @@ let rssTreeView = (function() {
 					elmLI.setAttribute("href", updated.url);
 					setFeedVisitedState(elmLI, false);
 				}
-				setFeedTooltipState(elmLI);
+				setTreeItemTooltip(elmLI);
 				m_objTreeFeedsData.set(updated.id, { updateTitle: newUpdateTitle, openInFeedPreview: newOpenInFeedPreview });
 			});
 		});
@@ -1826,7 +1826,7 @@ let rssTreeView = (function() {
 		suspendBookmarksEventHandler(() => {
 			return browser.bookmarks.update(elmLI.id, changes).then((updated) => {
 				setTreeItemText(elmLI, updated.title);
-				setFeedTooltipState(elmLI);
+				setTreeItemTooltip(elmLI);
 			});
 		});
 	}
@@ -2034,12 +2034,12 @@ let rssTreeView = (function() {
 	function setFeedErrorState(elm, isError, errorMsg) {
 
 		elm.classList.toggle("error", isError);
-		setFeedTooltipState(elm, isError ? "Error: " + errorMsg : undefined);
+		setTreeItemTooltip(elm, isError ? "Error: " + errorMsg : undefined);
 		notifyAppliedFilter();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedTooltipState(elmLI, thirdLine) {
+	function setTreeItemTooltip(elmLI, thirdLine) {
 
 		let tooltipText;
 
@@ -2059,7 +2059,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedTooltipFullState(elmLI, titleLine, thirdLine) {
+	function setTreeItemTooltipFull(elmLI, titleLine, thirdLine) {
 
 		let tooltipText = "Title: ";
 		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);

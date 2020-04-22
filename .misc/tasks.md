@@ -644,6 +644,7 @@
 ---
 
 ## Next
+* add to opml import/export additinal attributes for 'update title from feed' and 'open in feed preview'
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)
 * support copy-paste in tree ?
