@@ -546,10 +546,10 @@ let rssTreeView = (function() {
 
 				let updateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
-				setTreeItemTooltip(elmLI, "Update: " + (new Date(updateTime)).toWebExtensionLocaleString());		// feedData.description not displayed as thirdLine in tooltip
 				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
+				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, "Update: " + (new Date(updateTime)).toWebExtensionLocaleString());
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
 				setFeedErrorState(elmLI, true, error.message);

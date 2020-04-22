@@ -637,10 +637,11 @@
 * m_objCurrentlyDraggedOver.lingered is not reset after => add 'm_objCurrentlyDraggedOver.init();' in function 'onDragLeaveTreeItem(event)'
 * selected tree item remain selected when collapse all => add this in function 'onClickExpandCollapseAll()'
 * all onTransitionEnd need to check event.propertyName ?
+* feed title in tooltip not updated after refresh that coms from the preferences page
 ---
 
 ## Now
-* feed title in tooltip not updated after refresh that coms from the preferences page
+* when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 ---
 
 ## Next
@@ -648,7 +649,6 @@
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)
 * support copy-paste in tree ?
-* when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * link to self in feedPreview
 * for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
