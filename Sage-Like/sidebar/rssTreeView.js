@@ -1281,6 +1281,16 @@ let rssTreeView = (function() {
 				setFolderState(elms[i], false);
 				m_objOpenSubFolders.remove(elms[i].id);
 			}
+
+			// move selected item to top most visible parent folder
+			if(!!m_elmCurrentlySelected && !!!m_elmCurrentlySelected.offsetParent) {
+
+				let elm = m_elmCurrentlySelected;
+				while(!!!elm.offsetParent) {
+					elm = elm.parentElement;
+				}
+				setFeedSelectionState(elm);
+			}
 		}
 		setFocus();
 	}
