@@ -2,6 +2,9 @@
 
 let opml = (function() {
 
+	let m_objOpenTreeFolders = null;
+	let m_objTreeFeedsData = null;
+
 	//////////////////////////////////////////
 	//////////////////////////////////////////
 	let importFeeds = (function() {
@@ -69,10 +72,27 @@ let opml = (function() {
 				let title = "Import - " + nodeTitle.textContent + (nodeCreated ? " (created: " + (new Date(nodeCreated.textContent)).toWebExtensionLocaleShortString() + ")": "");
 
 				browser.bookmarks.create({parentId: folderId, title: title, type: "folder"}).then(async (created) => {
+
+					m_objOpenTreeFolders = new OpenTreeFolders();
+					m_objTreeFeedsData = new TreeFeedsData();
+
+					await m_objOpenTreeFolders.getStorage();
+					await m_objTreeFeedsData.getStorage();
+
 					for (let i=0, len=nodeBody.children.length; i<len; i++) {
 						await processOutlines(nodeBody.children[i], created.id);
 					}
+
+					m_objOpenTreeFolders.setStorage();
+					m_objTreeFeedsData.setStorage();
+
 					m_funcImportResolve(created.id);
+
+				}).catch((error) => {
+					m_funcImportReject(error);
+				}).finally(() => {
+					m_objOpenTreeFolders = null;
+					m_objTreeFeedsData = null;
 				});
 
 			}).catch((error) => m_funcImportReject(error));
@@ -85,7 +105,9 @@ let opml = (function() {
 
 			let title = node.getAttribute("title") || node.getAttribute("text");
 			let isFeed = node.hasAttribute("type") && node.getAttribute("type") === "rss" && node.hasAttribute("xmlUrl");
+			let updateTitle, openInPreview;
 
+			let bmCreated;
 			let newBmItem = {
 				parentId: parentId,
 				title: title.stripHtmlTags(),
@@ -94,16 +116,25 @@ let opml = (function() {
 			if(node.children.length > 0 || !isFeed) {
 
 				newBmItem.type = "folder";
-				let fld = await browser.bookmarks.create(newBmItem);
+				bmCreated = await browser.bookmarks.create(newBmItem);
+
+				if(node.hasAttribute("data-wxsl-open") && node.getAttribute("data-wxsl-open") === "1") {
+					m_objOpenTreeFolders.set(bmCreated.id);
+				}
+
 				for (let i=0, len=node.children.length; i<len; i++) {
-					await processOutlines(node.children[i], fld.id);
+					await processOutlines(node.children[i], bmCreated.id);
 				}
 
 			} else {
 
 				newBmItem.type = "bookmark";
 				newBmItem.url = node.getAttribute("xmlUrl").stripHtmlTags();
-				await browser.bookmarks.create(newBmItem);
+				bmCreated = await browser.bookmarks.create(newBmItem);
+
+				updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
+				openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
+				m_objTreeFeedsData.set(bmCreated.id, { updateTitle: updateTitle, openInFeedPreview: openInPreview });
 			}
 		}
 
@@ -133,6 +164,9 @@ let opml = (function() {
 					dateExport.getHours().toLocaleString('en', {minimumIntegerDigits:2}) + "-" +
 					dateExport.getMinutes().toLocaleString('en', {minimumIntegerDigits:2});
 
+				m_objOpenTreeFolders = new OpenTreeFolders();
+				m_objTreeFeedsData = new TreeFeedsData();
+
 				getFeedsAsOpmlLines(dateExport).then((opmlLines) => {
 
 					let blob = new Blob([opmlLines.join("\n")], { type: "text/xml", endings: "native" });
@@ -157,8 +191,11 @@ let opml = (function() {
 
 				}).catch((error) => {
 					reject(error);
+				}).finally(() => {
+					m_objOpenTreeFolders = null;
+					m_objTreeFeedsData = null;
 				});
-			});
+		});
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
@@ -190,7 +227,9 @@ let opml = (function() {
 
 					if (bookmark.type === "folder") {
 
-						lines.push("\t".repeat(indent++) + "<outline text=\"" + bookmark.title + "\">");
+						lines.push("\t".repeat(indent++) +
+							"<outline text=\"" + bookmark.title + "\" " +
+							"data-wxsl-open=\"" + Number(m_objOpenTreeFolders.exist(bookmark.id)) + "\">");	// Number() converts true/false to 1/0
 
 						for (let child of bookmark.children) {
 							createOpmlData(lines, child, indent);
@@ -199,23 +238,40 @@ let opml = (function() {
 						lines.push("\t".repeat(--indent) + "</outline>");
 
 					} else if (bookmark.type === "bookmark") {
+
 						let title = bookmark.title.escapeHtml();
-						lines.push("\t".repeat(indent) + "<outline type=\"rss\" text=\"" + title + "\" title=\"" + title + "\" xmlUrl=\"" + bookmark.url.escapeHtml() + "\"/>");
+
+						lines.push("\t".repeat(indent) +
+							"<outline type=\"rss\" " +
+							"text=\"" + title + "\" " +
+							"title=\"" + title + "\" " +
+							"xmlUrl=\"" + bookmark.url.escapeHtml() + "\" " +
+							"data-wxsl-updateTitle=\"" + Number(m_objTreeFeedsData.value(bookmark.id).updateTitle) + "\" " +
+							"data-wxsl-openPreview=\"" + Number(m_objTreeFeedsData.value(bookmark.id).openInFeedPreview) + "\"/>");
 					}
 				};
 
-				prefs.getRootFeedsFolderId().then((folderId) => {
+				let gettingOSF = m_objOpenTreeFolders.getStorage();		// get folder's open/closed state from local storage
+				let gettingTFD = m_objTreeFeedsData.getStorage();		// get feed data from local storage
+				let gettingRFFI = prefs.getRootFeedsFolderId();
 
-					if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-						reject("Root feeds folder id not set (getFeedsAsOpmlText)");
-						return;
-					}
+				gettingOSF.then(() => {
+					gettingTFD.then(() => {
+						gettingRFFI.then((folderId) => {
 
-					browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
-						lines.push("\t<body>");
-						createOpmlData(lines, bookmarks[0], 2);
-						lines.push("\t</body>", "</opml>");
-						resolve(lines);
+							if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+								reject("Root feeds folder id not set (getFeedsAsOpmlText)");
+								return;
+							}
+
+							browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
+								lines.push("\t<body>");
+								createOpmlData(lines, bookmarks[0], 2);
+								lines.push("\t</body>", "</opml>");
+								resolve(lines);
+							}).catch((error) => reject(error));
+
+						}).catch((error) => reject(error));
 					}).catch((error) => reject(error));
 				}).catch((error) => reject(error));
 			});

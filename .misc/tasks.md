@@ -642,13 +642,16 @@
 * change function order in messageView open() close() initMemberElements()
 * escape on body keyDown closes all panels
 * handle tab in listview move focus to current page
----
-
-## Now
 * add to opml import/export additinal attributes for 'update title from feed' and 'open in feed preview'
 ---
 
+## Now
+* first folder in opml export (root folder) must be... what?
+* when nested promise, do the last first promise catch() handles throws (errors) from the internal promises? or do I need to catch() the internals too?
+---
+
 ## Next
+* are folders removed from internalPrefs when changing root folder?
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)

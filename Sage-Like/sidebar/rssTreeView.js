@@ -6,20 +6,6 @@ let rssTreeView = (function() {
 	//=== Class Declerations
 	//==================================================================================
 
-	class OpenFolders extends StoredKeyedItems {
-		getStorage() {
-			return new Promise((resolve) => {
-				internalPrefs.getOpenFolders().then((items) => {
-					this._items = items;
-					resolve(this.length);
-				});
-			});
-		}
-		setStorage() {
-			internalPrefs.setOpenSubFolders(this._items);
-		}
-	};
-
 	class CurrentlyDraggedOver {
 		constructor() {
 			this.init();
@@ -88,7 +74,7 @@ let rssTreeView = (function() {
 	let m_timeoutIdMonitorRSSTreeFeeds = null;
 	let m_lockBookmarksEventHandler = new Locker();
 
-	let m_objOpenSubFolders = new OpenFolders();
+	let m_objOpenTreeFolders = new OpenTreeFolders();
 	let m_objTreeFeedsData = new TreeFeedsData();
 	let m_objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
@@ -312,7 +298,7 @@ let rssTreeView = (function() {
 		showDelayedLoadingAnimation();
 
 		// get folder's open/closed statuses from local storage
-		await m_objOpenSubFolders.getStorage();
+		await m_objOpenTreeFolders.getStorage();
 
 		m_rssTreeCreatedOK = false;
 		m_elmCurrentlyLoading = null;
@@ -365,7 +351,7 @@ let rssTreeView = (function() {
 			let elmUL = createTagUL();
 			elmLI.appendChild(elmUL);
 
-			setFolderState(elmLI, m_objOpenSubFolders.exist(bookmark.id));
+			setFolderState(elmLI, m_objOpenTreeFolders.exist(bookmark.id));
 
 			for (let child of bookmark.children) {
 				createTreeItem(elmUL, child);
@@ -1276,7 +1262,7 @@ let rssTreeView = (function() {
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed");
 			for(let i=elms.length-1; i>=0; i--) {
 				setFolderState(elms[i], true, false);
-				m_objOpenSubFolders.set(elms[i].id);
+				m_objOpenTreeFolders.set(elms[i].id);
 			}
 
 		} else {
@@ -1284,7 +1270,7 @@ let rssTreeView = (function() {
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".open");
 			for(let i=0, len=elms.length; i<len; i++) {
 				setFolderState(elms[i], false);
-				m_objOpenSubFolders.remove(elms[i].id);
+				m_objOpenTreeFolders.remove(elms[i].id);
 			}
 
 			// move selected item to top most visible parent folder
@@ -1956,10 +1942,10 @@ let rssTreeView = (function() {
 
 			if (TreeItemType.isOpen(elm)) {
 				setFolderVisibility(elm, false);
-				m_objOpenSubFolders.remove(elm.id);
+				m_objOpenTreeFolders.remove(elm.id);
 			} else {
 				setFolderVisibility(elm, true);
-				m_objOpenSubFolders.set(elm.id);
+				m_objOpenTreeFolders.set(elm.id);
 				elm.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
 			}
 		}
@@ -1972,14 +1958,14 @@ let rssTreeView = (function() {
 
 			if (open) {
 				setFolderVisibility(elm, true);
-				m_objOpenSubFolders.set(elm.id);
+				m_objOpenTreeFolders.set(elm.id);
 
 				if(scrollIntoView) {
 					elm.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
 				}
 			} else {
 				setFolderVisibility(elm, false);
-				m_objOpenSubFolders.remove(elm.id);
+				m_objOpenTreeFolders.remove(elm.id);
 			}
 		}
 	}
@@ -2268,12 +2254,12 @@ let rssTreeView = (function() {
 			let createdRoot = await browser.bookmarks.create(folderRoot);
 			let createdFolder;
 
-			m_objOpenSubFolders.clear();
+			m_objOpenTreeFolders.clear();
 
 			for (let idx=0, len=folders.length; idx<len; idx++) {
 				folders[idx].details.parentId = createdRoot.id;
 				createdFolder = await createBookmarksFolder(folders[idx]);
-				m_objOpenSubFolders.set(createdFolder.id);
+				m_objOpenTreeFolders.set(createdFolder.id);
 			}
 
 			resolve(createdRoot.id);

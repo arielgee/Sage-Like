@@ -141,6 +141,21 @@ class StoredKeyedItems {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+class OpenTreeFolders extends StoredKeyedItems {
+	getStorage() {
+		return new Promise((resolve) => {
+			internalPrefs.getOpenTreeFolders().then((items) => {
+				this._items = items;
+				resolve(this.length);
+			});
+		});
+	}
+	setStorage() {
+		internalPrefs.setOpenTreeFolders(this._items);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 class TreeFeedsData extends StoredKeyedItems {
 
 	//////////////////////////////////////////
@@ -832,7 +847,7 @@ let internalPrefs = (function() {
 
 	// internal preferences
 
-	const DEF_PREF_OPEN_FOLDERS_VALUE = {};
+	const DEF_PREF_OPEN_TREE_FOLDERS_VALUE = {};
 	const DEF_PREF_TREE_FEEDS_DATA_VALUE = {};
 	const DEF_PREF_IS_EXTENSION_INSTALLED_VALUE = null;
 	const DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE = null;
@@ -843,7 +858,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE = "0";
 	const DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE = 3;
 
-	const PREF_OPEN_FOLDERS = "pref_openSubTrees";
+	const PREF_OPEN_TREE_FOLDERS = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
 	const PREF_IS_EXTENSION_INSTALLED = "pref_isExtensionInstalled";
 	const PREF_TREE_SELECTED_ITEM_ID = "pref_treeSelectedItemId";
@@ -857,21 +872,21 @@ let internalPrefs = (function() {
 	let m_localStorage = browser.storage.local;
 
 	//////////////////////////////////////////////////////////////////////
-	function getOpenFolders() {
+	function getOpenTreeFolders() {
 
 		return new Promise((resolve) => {
 
-			m_localStorage.get(PREF_OPEN_FOLDERS).then((result) => {
-				resolve(result[PREF_OPEN_FOLDERS] === undefined ? DEF_PREF_OPEN_FOLDERS_VALUE : result[PREF_OPEN_FOLDERS]);
+			m_localStorage.get(PREF_OPEN_TREE_FOLDERS).then((result) => {
+				resolve(result[PREF_OPEN_TREE_FOLDERS] === undefined ? DEF_PREF_OPEN_TREE_FOLDERS_VALUE : result[PREF_OPEN_TREE_FOLDERS]);
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setOpenSubFolders(objValue) {
+	function setOpenTreeFolders(objValue) {
 
 		let obj = {};
-		obj[PREF_OPEN_FOLDERS] = objValue;
+		obj[PREF_OPEN_TREE_FOLDERS] = objValue;
 		m_localStorage.set(obj);
 	}
 
@@ -1069,7 +1084,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
-		this.setOpenSubFolders(DEF_PREF_OPEN_FOLDERS_VALUE);
+		this.setOpenTreeFolders(DEF_PREF_OPEN_TREE_FOLDERS_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
 		this.setIsExtensionInstalled(DEF_PREF_IS_EXTENSION_INSTALLED_VALUE);
 		this.setTreeSelectedItemId(DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE);
@@ -1081,7 +1096,7 @@ let internalPrefs = (function() {
 		this.setHoverFilterTextBoxShowMsgCount(DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE);
 
 		return {
-			openSubFolders: DEF_PREF_OPEN_FOLDERS_VALUE,
+			openTreeFolders: DEF_PREF_OPEN_TREE_FOLDERS_VALUE,
 			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA_VALUE,
 			isExtensionInstalled: DEF_PREF_IS_EXTENSION_INSTALLED_VALUE,
 			treeSelectedItemId: DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE,
@@ -1095,8 +1110,8 @@ let internalPrefs = (function() {
 	}
 
 	return {
-		getOpenFolders: getOpenFolders,
-		setOpenSubFolders: setOpenSubFolders,
+		getOpenTreeFolders: getOpenTreeFolders,
+		setOpenTreeFolders: setOpenTreeFolders,
 		getTreeFeedsData: getTreeFeedsData,
 		setTreeFeedsData: setTreeFeedsData,
 		getIsExtensionInstalled: getIsExtensionInstalled,
