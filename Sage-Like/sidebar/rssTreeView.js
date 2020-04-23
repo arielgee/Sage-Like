@@ -997,7 +997,11 @@ let rssTreeView = (function() {
 		switch (keyCode) {
 
 			case "Tab":
-				rssListView.setFocus();
+				if(event.shiftKey) {
+					return;		// for shift+tab let the system handle it. exit w/o stop propagation
+				} else {
+					rssListView.setFocus();
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 

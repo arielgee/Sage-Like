@@ -641,15 +641,15 @@
 * create class SlideDownPanel
 * change function order in messageView open() close() initMemberElements()
 * escape on body keyDown closes all panels
+* handle tab in listview move focus to current page
 ---
 
 ## Now
-* handle tab in listview move focus to current page
+* add to opml import/export additinal attributes for 'update title from feed' and 'open in feed preview'
 ---
 
 ## Next
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
-* add to opml import/export additinal attributes for 'update title from feed' and 'open in feed preview'
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)
 * support copy-paste in tree ?
