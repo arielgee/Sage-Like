@@ -649,16 +649,16 @@
 * optimize internalPrefs like prefs
 * when deleting vary quickly (kb delete & enter) the delete-slide-down panel is not pulled-up. buttons have no events and only escape from body removes it
 	* event for enter is fired before transaction-end; m_isDown is the problem; it prevents the pull-up; need to be moved from transaction-end to pull()
+* abort webPageFeedsDiscovery if view is closed
 ---
 
 ## Now
-* abort webPageFeedsDiscovery if view is closed
+* are folders removed from internalPrefs when changing root folder?
 ---
 
 ## Next
 * display OPML import/export stats to user.
 * alert() messages in preferences are not centered.
-* are folders removed from internalPrefs when changing root folder?
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)

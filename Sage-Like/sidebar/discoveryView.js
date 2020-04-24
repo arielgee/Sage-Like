@@ -59,6 +59,8 @@ let discoveryView = (function() {
 		removeEventListeners();
 
 		m_nRequestId = 0;
+		if(!!m_abortDiscovery) m_abortDiscovery.abort();
+		m_abortDiscovery = null;
 		setStatusbarMessage("", false);
 
 		rssTreeView.setFocus();
