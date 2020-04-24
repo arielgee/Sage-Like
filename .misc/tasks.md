@@ -646,14 +646,17 @@
 * first folder in opml export (root folder) must be... open! as it is open since its content is visible in the treeView
 * when nested promise, do the last first promise catch() handles throws (errors) from the internal promises? or do I need to catch() the internals too?
 * add stats to OPML import/export.
+* optimize internalPrefs like prefs
 ---
 
 ## Now
-* optimize internalPrefs like prefs
+* when deleting vary quickly (kb delete & enter) the delete-slide-down panel is not pulled-up. buttons have no events and only escape from body removes it
+	* event for enter is fired before transaction-end; m_isDown is the problem; it prevents the pull-up; need to be moved from transaction-end to pull()
 ---
 
 ## Next
 * display OPML import/export stats to user.
+* alert() messages in preferences are not centered.
 * are folders removed from internalPrefs when changing root folder?
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???

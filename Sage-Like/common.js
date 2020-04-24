@@ -873,187 +873,102 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function getOpenTreeFolders() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_OPEN_TREE_FOLDERS).then((result) => {
-				resolve(result[PREF_OPEN_TREE_FOLDERS] === undefined ? DEF_PREF_OPEN_TREE_FOLDERS_VALUE : result[PREF_OPEN_TREE_FOLDERS]);
-			});
-		});
+		return getPreferenceValue(PREF_OPEN_TREE_FOLDERS, DEF_PREF_OPEN_TREE_FOLDERS_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setOpenTreeFolders(objValue) {
-
-		let obj = {};
-		obj[PREF_OPEN_TREE_FOLDERS] = objValue;
-		m_localStorage.set(obj);
+	function setOpenTreeFolders(value) {
+		setPreferenceValue(PREF_OPEN_TREE_FOLDERS, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeFeedsData() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_TREE_FEEDS_DATA).then((result) => {
-				resolve(result[PREF_TREE_FEEDS_DATA] === undefined ? DEF_PREF_TREE_FEEDS_DATA_VALUE : result[PREF_TREE_FEEDS_DATA]);
-			});
-		});
+		return getPreferenceValue(PREF_TREE_FEEDS_DATA, DEF_PREF_TREE_FEEDS_DATA_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setTreeFeedsData(objValue) {
-
-		let obj = {};
-		obj[PREF_TREE_FEEDS_DATA] = objValue;
-		m_localStorage.set(obj);
+	function setTreeFeedsData(value) {
+		setPreferenceValue(PREF_TREE_FEEDS_DATA, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getIsExtensionInstalled() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_IS_EXTENSION_INSTALLED).then((result) => {
-				resolve(result[PREF_IS_EXTENSION_INSTALLED] === undefined ? DEF_PREF_IS_EXTENSION_INSTALLED_VALUE : result[PREF_IS_EXTENSION_INSTALLED]);
-			});
-		});
+		return getPreferenceValue(PREF_IS_EXTENSION_INSTALLED, DEF_PREF_IS_EXTENSION_INSTALLED_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setIsExtensionInstalled(objValue) {
-
-		let obj = {};
-		obj[PREF_IS_EXTENSION_INSTALLED] = objValue;
-		m_localStorage.set(obj);
+	function setIsExtensionInstalled(value) {
+		setPreferenceValue(PREF_IS_EXTENSION_INSTALLED, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeSelectedItemId() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_TREE_SELECTED_ITEM_ID).then((result) => {
-				resolve(result[PREF_TREE_SELECTED_ITEM_ID] === undefined ? DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE : result[PREF_TREE_SELECTED_ITEM_ID]);
-			});
-		});
+		return getPreferenceValue(PREF_TREE_SELECTED_ITEM_ID, DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setTreeSelectedItemId(value) {
-
-		let obj = {};
-		obj[PREF_TREE_SELECTED_ITEM_ID] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_TREE_SELECTED_ITEM_ID, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeScrollTop() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_TREE_SCROLL_TOP).then((result) => {
-				resolve(result[PREF_TREE_SCROLL_TOP] === undefined ? DEF_PREF_TREE_SCROLL_TOP_VALUE : result[PREF_TREE_SCROLL_TOP]);
-			});
-		});
+		return getPreferenceValue(PREF_TREE_SCROLL_TOP, DEF_PREF_TREE_SCROLL_TOP_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setTreeScrollTop(value) {
-
-		let obj = {};
-		obj[PREF_TREE_SCROLL_TOP] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_TREE_SCROLL_TOP, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getSplitterTop() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_SPLITTER_TOP).then((result) => {
-				resolve(result[PREF_SPLITTER_TOP] === undefined ? DEF_PREF_SPLITTER_TOP_VALUE : result[PREF_SPLITTER_TOP]);
-			});
-		});
+		return getPreferenceValue(PREF_SPLITTER_TOP, DEF_PREF_SPLITTER_TOP_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setSplitterTop(value) {
-
-		let obj = {};
-		obj[PREF_SPLITTER_TOP] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_SPLITTER_TOP, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getDropInsideFolderShowMsgCount() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT).then((result) => {
-				resolve(result[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT] === undefined ? DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE : result[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT]);
-			});
-		});
+		return getPreferenceValue(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT, DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setDropInsideFolderShowMsgCount(value) {
-
-		let obj = {};
-		obj[PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getFeedsFilter() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_FEEDS_FILTER).then((result) => {
-				resolve(result[PREF_FEEDS_FILTER] === undefined ? DEF_PREF_FEEDS_FILTER_VALUE : result[PREF_FEEDS_FILTER]);
-			});
-		});
+		return getPreferenceValue(PREF_FEEDS_FILTER, DEF_PREF_FEEDS_FILTER_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setFeedsFilter(value) {
-
-		let obj = {};
-		obj[PREF_FEEDS_FILTER] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_FEEDS_FILTER, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getAggressiveDiscoveryLevel() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_AGGRESSIVE_DISCOVERY_LEVEL).then((result) => {
-				resolve(result[PREF_AGGRESSIVE_DISCOVERY_LEVEL] === undefined ? DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE : result[PREF_AGGRESSIVE_DISCOVERY_LEVEL]);
-			});
-		});
+		return getPreferenceValue(PREF_AGGRESSIVE_DISCOVERY_LEVEL, DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setAggressiveDiscoveryLevel(value) {
-
-		let obj = {};
-		obj[PREF_AGGRESSIVE_DISCOVERY_LEVEL] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_AGGRESSIVE_DISCOVERY_LEVEL, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
-
 		return new Promise((resolve) => {
-
-			let getting = m_localStorage.get([
+			m_localStorage.get([
 				PREF_TREE_SCROLL_TOP,
 				PREF_TREE_SELECTED_ITEM_ID,
 				PREF_FEEDS_FILTER,
-			]);
-
-			getting.then((result) => {
+			]).then((result) => {
 				resolve({
 					treeScrollTop: result[PREF_TREE_SCROLL_TOP] === undefined ? DEF_PREF_TREE_SCROLL_TOP_VALUE : result[PREF_TREE_SCROLL_TOP],
 					treeSelectedItemId: result[PREF_TREE_SELECTED_ITEM_ID] === undefined ? DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE : result[PREF_TREE_SELECTED_ITEM_ID],
@@ -1065,21 +980,12 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function getHoverFilterTextBoxShowMsgCount() {
-
-		return new Promise((resolve) => {
-
-			m_localStorage.get(PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT).then((result) => {
-				resolve(result[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT] === undefined ? DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE : result[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT]);
-			});
-		});
+		return getPreferenceValue(PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT, DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	function setHoverFilterTextBoxShowMsgCount(value) {
-
-		let obj = {};
-		obj[PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT] = value;
-		m_localStorage.set(obj);
+		setPreferenceValue(PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1107,6 +1013,20 @@ let internalPrefs = (function() {
 			aggressiveDiscoveryLevel: DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE,
 			hoverFilterTextBoxShowMsgCount: DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE,
 		};
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getPreferenceValue(pref, defValue) {
+		return new Promise((resolve) => {
+			m_localStorage.get(pref).then((result) => {
+				resolve(result[pref] === undefined ? defValue : result[pref]);
+			});
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setPreferenceValue(pref, value) {
+		m_localStorage.set({ [pref]: value });
 	}
 
 	return {
