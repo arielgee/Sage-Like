@@ -643,14 +643,16 @@
 * escape on body keyDown closes all panels
 * handle tab in listview move focus to current page
 * add to opml import/export additinal attributes for 'update title from feed' and 'open in feed preview'
----
-
-## Now
-* first folder in opml export (root folder) must be... what?
+* first folder in opml export (root folder) must be... open! as it is open since its content is visible in the treeView
 * when nested promise, do the last first promise catch() handles throws (errors) from the internal promises? or do I need to catch() the internals too?
 ---
 
+## Now
+* optimize internalPrefs like prefs
+---
+
 ## Next
+* add stats to OPML import/export and display to user.
 * are folders removed from internalPrefs when changing root folder?
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???
@@ -679,6 +681,7 @@
 * Firefox has no support for XML 1.1
 
 ### low priority
+* user bookmarks.description to hold 'updateTitle:1; openInFeedPreview:0;' or 'open:1;' instead of internalPrefs setOpenTreeFolders()/setTreeFeedsData()
 * tabs in preferences? It'll be a PAIN! better to use '"open_in_tab": true' in manifest.options_ui.
 * Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on.
 	* second reload or closing & re-opening the sidebar fixes the issue.

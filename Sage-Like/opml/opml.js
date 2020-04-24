@@ -2,16 +2,16 @@
 
 let opml = (function() {
 
-	let m_objOpenTreeFolders = null;
-	let m_objTreeFeedsData = null;
-
 	//////////////////////////////////////////
 	//////////////////////////////////////////
 	let importFeeds = (function() {
 
 		let m_xhr;
+		let m_objUrl = null;
 		let m_funcImportResolve;
 		let m_funcImportReject;
+		let m_objOpenTreeFolders = null;
+		let m_objTreeFeedsData = null;
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function run(file) {
@@ -21,29 +21,38 @@ let opml = (function() {
 				m_funcImportResolve = resolve;
 				m_funcImportReject = reject;
 
-				let objUrl = URL.createObjectURL(file);
+				m_objUrl = URL.createObjectURL(file);
 
 				m_xhr = new XMLHttpRequest();
-				m_xhr.open("GET", objUrl);
+				m_xhr.open("GET", m_objUrl);
 				m_xhr.overrideMimeType("text/xml");
 				m_xhr.addEventListener("load", onLoad);
 				m_xhr.addEventListener("error", onError);
-				m_xhr.addEventListener("loadend", () => URL.revokeObjectURL(objUrl) );
+				m_xhr.addEventListener("loadend", onLoadEnd);
 				m_xhr.send();
 			});
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function onLoad() {
-			m_xhr.removeEventListener("load", onLoad);
 			processOpmlDocument(m_xhr.responseXML);
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function onError(event) {
 			console.log("[Sage-Like]", event);
-			m_xhr.removeEventListener("error", onError);
 			m_funcImportReject(event);
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function onLoadEnd() {
+			m_xhr.removeEventListener("load", onLoad);
+			m_xhr.removeEventListener("error", onError);
+			m_xhr.removeEventListener("error", onLoadEnd);
+
+			if(!!m_objUrl) URL.revokeObjectURL(m_objUrl);
+			m_objUrl = null;
+			m_xhr = null;
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +114,6 @@ let opml = (function() {
 
 			let title = node.getAttribute("title") || node.getAttribute("text");
 			let isFeed = node.hasAttribute("type") && node.getAttribute("type") === "rss" && node.hasAttribute("xmlUrl");
-			let updateTitle, openInPreview;
 
 			let bmCreated;
 			let newBmItem = {
@@ -132,8 +140,8 @@ let opml = (function() {
 				newBmItem.url = node.getAttribute("xmlUrl").stripHtmlTags();
 				bmCreated = await browser.bookmarks.create(newBmItem);
 
-				updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
-				openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
+				let updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
+				let openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
 				m_objTreeFeedsData.set(bmCreated.id, { updateTitle: updateTitle, openInFeedPreview: openInPreview });
 			}
 		}
@@ -149,6 +157,8 @@ let opml = (function() {
 
 		let m_objUrl = null;
 		let m_funcExportResolve;
+		let m_objOpenTreeFolders = null;
+		let m_objTreeFeedsData = null;
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function run() {
@@ -158,11 +168,12 @@ let opml = (function() {
 				m_funcExportResolve = resolve;
 
 				let dateExport = new Date();
-				let dateExportStr = dateExport.getFullYear() + "-" +
-					dateExport.getMonth().toLocaleString('en', {minimumIntegerDigits:2}) + "-" +
-					dateExport.getDate().toLocaleString('en', {minimumIntegerDigits:2}) + "_" +
-					dateExport.getHours().toLocaleString('en', {minimumIntegerDigits:2}) + "-" +
-					dateExport.getMinutes().toLocaleString('en', {minimumIntegerDigits:2});
+				let dateExportStr = dateExport.getFullYear() +
+					(dateExport.getMonth()+1).toLocaleString('en', {minimumIntegerDigits:2}) +
+					dateExport.getDate().toLocaleString('en', {minimumIntegerDigits:2}) + "-" +
+					dateExport.getHours().toLocaleString('en', {minimumIntegerDigits:2}) +
+					dateExport.getMinutes().toLocaleString('en', {minimumIntegerDigits:2}) +
+					dateExport.getSeconds().toLocaleString('en', {minimumIntegerDigits:2});
 
 				m_objOpenTreeFolders = new OpenTreeFolders();
 				m_objTreeFeedsData = new TreeFeedsData();
@@ -175,7 +186,7 @@ let opml = (function() {
 					browser.downloads.onChanged.addListener(onChangedDownload);
 					browser.downloads.download({
 						url: m_objUrl,
-						filename: "sage-like_" + dateExportStr + ".opml",
+						filename: "sage-like-feeds-" + dateExportStr + ".opml",
 						saveAs: true,
 					}).catch((error) => {
 
@@ -223,13 +234,13 @@ let opml = (function() {
 					"\t</head>",
 				];
 
-				let createOpmlData = function (lines, bookmark, indent) {
+				let createOpmlData = function (lines, bookmark, indent, openFolder = false) {
 
 					if (bookmark.type === "folder") {
 
 						lines.push("\t".repeat(indent++) +
 							"<outline text=\"" + bookmark.title + "\" " +
-							"data-wxsl-open=\"" + Number(m_objOpenTreeFolders.exist(bookmark.id)) + "\">");	// Number() converts true/false to 1/0
+							"data-wxsl-open=\"" + Number(m_objOpenTreeFolders.exist(bookmark.id) || openFolder) + "\">");	// Number() converts true/false to 1/0
 
 						for (let child of bookmark.children) {
 							createOpmlData(lines, child, indent);
@@ -266,7 +277,7 @@ let opml = (function() {
 
 							browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
 								lines.push("\t<body>");
-								createOpmlData(lines, bookmarks[0], 2);
+								createOpmlData(lines, bookmarks[0], 2, true);
 								lines.push("\t</body>", "</opml>");
 								resolve(lines);
 							}).catch((error) => reject(error));

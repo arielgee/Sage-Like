@@ -2,175 +2,183 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Sun, 12 Apr 2020 17:50:24 GMT</dateCreated>
+		<dateCreated>Fri, 24 Apr 2020 06:45:32 GMT</dateCreated>
 	</head>
 	<body>
-		<outline text="Sage-Like TEST-Feeds">
-			<outline text="attachments (rss,rss,rss,rss,atom,atom,atom,json,json)">
-				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490"/>
-				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942"/>
-				<outline type="rss" text="editors dashboard" title="editors dashboard" xmlUrl="http://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589"/>
-				<outline type="rss" text="Cloudbase Mayhem Podcast" title="Cloudbase Mayhem Podcast" xmlUrl="https://www.cloudbasemayhem.com/feed/podcast/"/>
-				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
-				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
-				<outline type="rss" text="PHP.net releases" title="PHP.net releases" xmlUrl="https://www.php.net/releases/feed.php"/>
-				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json"/>
-				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json"/>
+		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
+			<outline text="attachments (rss,rss,rss,rss,atom,atom,atom,json,json)" data-wxsl-open="0">
+				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="editors dashboard" title="editors dashboard" xmlUrl="http://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Cloudbase Mayhem Podcast" title="Cloudbase Mayhem Podcast" xmlUrl="https://www.cloudbasemayhem.com/feed/podcast/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="PHP.net releases" title="PHP.net releases" xmlUrl="https://www.php.net/releases/feed.php" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="Syndication Type Testing (rdf,rss,rss,atom,json)">
-				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current"/>
-				<outline type="rss" text="יומן אבטחה" title="יומן אבטחה" xmlUrl="http://israblog.nana.co.il/blog_rss.asp?blog=177394"/>
-				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/rss2.xml"/>
-				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topics?sid=73c54e63355280ae7007ae5e47c44b56"/>
-				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json"/>
+			<outline text="Syndication Type Testing (rdf,rss,rss,atom,json)" data-wxsl-open="0">
+				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="יומן אבטחה" title="יומן אבטחה" xmlUrl="http://israblog.nana.co.il/blog_rss.asp?blog=177394" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/rss2.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topics?sid=73c54e63355280ae7007ae5e47c44b56" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="RDF">
-				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current"/>
-				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf"/>
-				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
-				<outline type="rss" text="W3C Blog" title="W3C Blog" xmlUrl="https://www.w3.org/QA/Overview.rss"/>
+			<outline text="RDF" data-wxsl-open="1">
+				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="W3C Blog" title="W3C Blog" xmlUrl="https://www.w3.org/QA/Overview.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="RSS">
-				<outline type="rss" text="Recent Changes for My Add-ons" title="Recent Changes for My Add-ons" xmlUrl="https://addons.mozilla.org/en-US/developers/feed?privaterss=7eedb0645da941f38c734e8e960875cd"/>
-				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise.rdf"/>
-				<outline type="rss" text="docs.microsoft.com Team Blog" title="docs.microsoft.com Team Blog" xmlUrl="https://docs.microsoft.com/en-us/teamblog/feed.xml"/>
-				<outline type="rss" text="Sysinternals Site Discussion" title="Sysinternals Site Discussion" xmlUrl="https://blogs.technet.microsoft.com/sysinternals/feed/"/>
-				<outline type="rss" text="אינטרנט ישראל" title="אינטרנט ישראל" xmlUrl="https://internet-israel.com/feed/"/>
-				<outline type="rss" text="מידה" title="מידה" xmlUrl="https://feeds.feedburner.com/midaorg"/>
-				<outline type="rss" text="כלכליסט - ערוץ 24/7" title="כלכליסט - ערוץ 24/7" xmlUrl="https://www.calcalist.co.il/GeneralRSS/0,16335,L-3674,00.xml"/>
-				<outline type="rss" text="אלכסון" title="אלכסון" xmlUrl="https://feeds.feedburner.com/alaxon"/>
-				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml"/>
-				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/"/>
-				<outline type="rss" text="Mozilla Press Center" title="Mozilla Press Center" xmlUrl="https://blog.mozilla.org/press/feed/"/>
-				<outline type="rss" text="BBC News - World" title="BBC News - World" xmlUrl="http://feeds.bbci.co.uk/news/world/rss.xml"/>
-				<outline type="rss" text="TechCrunch" title="TechCrunch" xmlUrl="http://feeds.feedburner.com/TechCrunch"/>
-				<outline type="rss" text="MIT Technology Review" title="MIT Technology Review" xmlUrl="https://www.technologyreview.com/topnews.rss"/>
-				<outline type="rss" text="מגפון ניוז Megafon News" title="מגפון ניוז Megafon News" xmlUrl="http://megafon-news.co.il/asys/feed"/>
-				<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="https://www.freefullrss.com/feed.php?url=http%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2142.xml&amp;max=5&amp;links=preserve&amp;exc=&amp;submit=Create+Full+Text+RSS"/>
-				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/rss"/>
-				<outline type="rss" text="Adactio: Links" title="Adactio: Links" xmlUrl="https://adactio.com/links/rss"/>
-				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/rss"/>
-				<outline type="rss" text="Adactio: Notes" title="Adactio: Notes" xmlUrl="https://adactio.com/notes/rss"/>
-				<outline type="rss" text="Adactio" title="Adactio" xmlUrl="https://adactio.com/rss/"/>
-				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.xml"/>
+			<outline text="RSS" data-wxsl-open="0">
+				<outline type="rss" text="Explain xkcd" title="Explain xkcd" xmlUrl="https://explainxkcd.com/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Recent Changes for My Add-ons" title="Recent Changes for My Add-ons" xmlUrl="https://addons.mozilla.org/en-US/developers/feed?privaterss=7eedb0645da941f38c734e8e960875cd" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="docs.microsoft.com Team Blog" title="docs.microsoft.com Team Blog" xmlUrl="https://docs.microsoft.com/en-us/teamblog/feed.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Sysinternals Site Discussion" title="Sysinternals Site Discussion" xmlUrl="https://blogs.technet.microsoft.com/sysinternals/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="אינטרנט ישראל" title="אינטרנט ישראל" xmlUrl="https://internet-israel.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="מידה" title="מידה" xmlUrl="https://feeds.feedburner.com/midaorg" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="כלכליסט - ערוץ 24/7" title="כלכליסט - ערוץ 24/7" xmlUrl="https://www.calcalist.co.il/GeneralRSS/0,16335,L-3674,00.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="אלכסון" title="אלכסון" xmlUrl="https://feeds.feedburner.com/alaxon" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Mozilla Press Center" title="Mozilla Press Center" xmlUrl="https://blog.mozilla.org/press/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="BBC News - World" title="BBC News - World" xmlUrl="http://feeds.bbci.co.uk/news/world/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="TechCrunch" title="TechCrunch" xmlUrl="http://feeds.feedburner.com/TechCrunch" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="MIT Technology Review" title="MIT Technology Review" xmlUrl="https://www.technologyreview.com/topnews.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="מגפון ניוז Megafon News" title="מגפון ניוז Megafon News" xmlUrl="http://megafon-news.co.il/asys/feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="https://www.freefullrss.com/feed.php?url=http%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2142.xml&amp;max=5&amp;links=preserve&amp;exc=&amp;submit=Create+Full+Text+RSS" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio: Links" title="Adactio: Links" xmlUrl="https://adactio.com/links/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio: Notes" title="Adactio: Notes" xmlUrl="https://adactio.com/notes/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio" title="Adactio" xmlUrl="https://adactio.com/rss/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="Atom">
-				<outline type="rss" text="PHP.net news &amp; announcements" title="PHP.net news &amp; announcements" xmlUrl="https://www.php.net/feed.atom"/>
-				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed"/>
-				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://pleroma.soykaf.com/users/shp/feed.atom"/>
-				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed"/>
-				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/atom.xml"/>
-				<outline type="rss" text="explain xkcd - Recent changes [en]" title="explain xkcd - Recent changes [en]" xmlUrl="http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&amp;feed=atom"/>
-				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss"/>
-				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topic/49991"/>
-				<outline type="rss" text="Confessions Of A Dangerous Mind" title="Confessions Of A Dangerous Mind" xmlUrl="https://www.blogger.com/feeds/37877107/posts/default"/>
-				<outline type="rss" text="BuzzFeed News" title="BuzzFeed News" xmlUrl="https://www.buzzfeed.com/world.xml"/>
-				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise-atom.xml"/>
-				<outline type="rss" text="World News" title="World News" xmlUrl="https://www.reddit.com/r/worldnews/.rss"/>
-				<outline type="rss" text="Regex to match string containing two names in any order - Stack Overflow" title="Regex to match string containing two names in any order - Stack Overflow" xmlUrl="https://stackoverflow.com/feeds/question/4389644"/>
-				<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
+			<outline text="Atom" data-wxsl-open="0">
+				<outline type="rss" text="PHP.net news &amp; announcements" title="PHP.net news &amp; announcements" xmlUrl="https://www.php.net/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://pleroma.soykaf.com/users/shp/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/atom.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="explain xkcd - Recent changes [en]" title="explain xkcd - Recent changes [en]" xmlUrl="http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&amp;feed=atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topic/49991" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Confessions Of A Dangerous Mind" title="Confessions Of A Dangerous Mind" xmlUrl="https://www.blogger.com/feeds/37877107/posts/default" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="BuzzFeed News" title="BuzzFeed News" xmlUrl="https://www.buzzfeed.com/world.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="heise online News" title="heise online News" xmlUrl="https://www.heise.de/rss/heise-atom.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="World News" title="World News" xmlUrl="https://www.reddit.com/r/worldnews/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Regex to match string containing two names in any order - Stack Overflow" title="Regex to match string containing two names in any order - Stack Overflow" xmlUrl="https://stackoverflow.com/feeds/question/4389644" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="JSONS">
-				<outline type="rss" text="adactio - links" title="adactio - links" xmlUrl="https://adactio.com/links/feed.json"/>
-				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/feed.json"/>
-				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/feed.json"/>
-				<outline type="rss" text="Adactio: Notes" title="Adactio: Notes" xmlUrl="https://adactio.com/notes/feed.json"/>
-				<outline type="rss" text="Colin Walker" title="Colin Walker" xmlUrl="https://colinwalker.blog/feed/json/"/>
-				<outline type="rss" text="Comments on: Keep on surviving" title="Comments on: Keep on surviving" xmlUrl="https://colinwalker.blog/keep-on-surviving/feed/json/"/>
-				<outline type="rss" text="Comments on: Today" title="Comments on: Today" xmlUrl="https://colinwalker.blog/today/feed/json/"/>
-				<outline type="rss" text="Daring Fireball" title="Daring Fireball" xmlUrl="https://daringfireball.net/feeds/json"/>
-				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json"/>
-				<outline type="rss" text="inessential" title="inessential" xmlUrl="https://inessential.com/feed.json"/>
-				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json"/>
-				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.json"/>
-				<outline type="rss" text="JSON Feed" title="JSON Feed" xmlUrl="https://jsonfeed.org/feed.json"/>
-				<outline type="rss" text="Manton Reece" title="Manton Reece" xmlUrl="https://manton.org/feed.json"/>
-				<outline type="rss" text="Matthias Ott – Articles" title="Matthias Ott – Articles" xmlUrl="https://matthiasott.com/articles/feed.json"/>
-				<outline type="rss" text="Matthias Ott – Links" title="Matthias Ott – Links" xmlUrl="https://matthiasott.com/links/feed.json"/>
-				<outline type="rss" text="Matthias Ott – Notes" title="Matthias Ott – Notes" xmlUrl="https://matthiasott.com/notes/feed.json"/>
-				<outline type="rss" text="The JSON Feed for Jonny Barnes’s blog" title="The JSON Feed for Jonny Barnes’s blog" xmlUrl="https://jonnybarnes.uk/blog/feed.json"/>
-				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json"/>
-				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json"/>
+			<outline text="JSONS" data-wxsl-open="0">
+				<outline type="rss" text="adactio - links" title="adactio - links" xmlUrl="https://adactio.com/links/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio: Notes" title="Adactio: Notes" xmlUrl="https://adactio.com/notes/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Colin Walker" title="Colin Walker" xmlUrl="https://colinwalker.blog/feed/json/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Comments on: Keep on surviving" title="Comments on: Keep on surviving" xmlUrl="https://colinwalker.blog/keep-on-surviving/feed/json/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Comments on: Today" title="Comments on: Today" xmlUrl="https://colinwalker.blog/today/feed/json/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Daring Fireball" title="Daring Fireball" xmlUrl="https://daringfireball.net/feeds/json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="inessential" title="inessential" xmlUrl="https://inessential.com/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="JSON Feed" title="JSON Feed" xmlUrl="https://jsonfeed.org/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Manton Reece" title="Manton Reece" xmlUrl="https://manton.org/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Matthias Ott – Articles" title="Matthias Ott – Articles" xmlUrl="https://matthiasott.com/articles/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Matthias Ott – Links" title="Matthias Ott – Links" xmlUrl="https://matthiasott.com/links/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Matthias Ott – Notes" title="Matthias Ott – Notes" xmlUrl="https://matthiasott.com/notes/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="The JSON Feed for Jonny Barnes’s blog" title="The JSON Feed for Jonny Barnes’s blog" xmlUrl="https://jonnybarnes.uk/blog/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="Newsletter 2 Feed">
-				<outline type="rss" text="KillTheNewsletter-00" title="KillTheNewsletter-00" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml"/>
-				<outline type="rss" text="KillTheNewsletter-01" title="KillTheNewsletter-01" xmlUrl="https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml"/>
-				<outline type="rss" text="sage-like" title="sage-like" xmlUrl="https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml"/>
+			<outline text="Newsletter 2 Feed" data-wxsl-open="0">
+				<outline type="rss" text="adidas" title="adidas" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
+				<outline type="rss" text="KillTheNewsletter-01" title="KillTheNewsletter-01" xmlUrl="https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
+				<outline type="rss" text="sage-like" title="sage-like" xmlUrl="https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
 			</outline>
-			<outline text="discovery">
-				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss"/>
-				<outline type="rss" text="haaretz.co.il - RSS Feeds" title="haaretz.co.il - RSS Feeds" xmlUrl="http://www.haaretz.co.il/misc/rss"/>
+			<outline text="discovery" data-wxsl-open="0">
+				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="haaretz.co.il - RSS Feeds" title="haaretz.co.il - RSS Feeds" xmlUrl="http://www.haaretz.co.il/misc/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="Bad feeds">
-				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml"/>
-				<outline type="rss" text="error" title="error" xmlUrl="https://indieweb.org/JSON_Feed"/>
-				<outline type="rss" text="indide" title="indide" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4542.xml"/>
+			<outline text="Bad feeds" data-wxsl-open="0">
+				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="error" title="error" xmlUrl="https://indieweb.org/JSON_Feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="indide" title="indide" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4542.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="no shift">
-				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml"/>
-				<outline type="rss" text="ynet - זה לא שאלות חיות" title="ynet - זה לא שאלות חיות" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4926.xml"/>
-				<outline type="rss" text="ynet - ירוק" title="ynet - ירוק" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4872.xml"/>
-				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss"/>
-				<outline text="22223">
+			<outline text="no shift" data-wxsl-open="0">
+				<outline type="rss" text="AAAAAAAAAAAAAAAAAAAAAAAAAAA" title="AAAAAAAAAAAAAAAAAAAAAAAAAAA" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4872.xml" data-wxsl-updateTitle="0" data-wxsl-openPreview="1"/>
+				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Array - JavaScript | MDN" title="Array - JavaScript | MDN" xmlUrl="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Array - JavaScript | MDN" title="Array - JavaScript | MDN" xmlUrl="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline text="222233" data-wxsl-open="0">
+					<outline type="rss" text="New Feed11" title="New Feed11" xmlUrl="https://www.kaill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="adidas" title="adidas" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				</outline>
-				<outline text="1">
+				<outline text="1" data-wxsl-open="0">
+					<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="Get name as String from a Javascript function reference? - Stack Overflow" title="Get name as String from a Javascript function reference? - Stack Overflow" xmlUrl="https://stackoverflow.com/questions/10624057/get-name-as-string-from-a-javascript-function-reference" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				</outline>
+				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
+			<outline text="ariel out side" data-wxsl-open="0">
+			</outline>
+			<outline text="ariel inside" data-wxsl-open="0">
+				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/forum/3?sid=4194099d351c20aea106eb36e071f731" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline text="yes shift" data-wxsl-open="0">
 				</outline>
 			</outline>
-			<outline text="ariel out side">
-			</outline>
-			<outline text="ariel inside">
-				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
-				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/forum/3?sid=4194099d351c20aea106eb36e071f731"/>
-				<outline text="yes shift">
-				</outline>
-			</outline>
-			<outline text="New Folder-1">
-				<outline text="dfsdfsdfsdfsdfsd">
-					<outline text="XFolder">
-						<outline text="asdasdasd">
-							<outline text="f3">
-								<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="http://www.ynet.co.il/Integration/StoryRss2142.xml"/>
-								<outline type="rss" text="Manifest URL" title="Manifest URL" xmlUrl="moz-extension://aff0b402-9a1a-4661-a761-cb0bd23993ca/manifest.json"/>
-								<outline text="f4">
-									<outline text="f5">
-										<outline text="New Folder">
-											<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2"/>
+			<outline text="New Folder-1" data-wxsl-open="0">
+				<outline text="dfsdfsdfsdfsdfsd" data-wxsl-open="0">
+					<outline text="XFolder" data-wxsl-open="0">
+						<outline text="asdasdasd" data-wxsl-open="0">
+							<outline text="f3" data-wxsl-open="0">
+								<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="http://www.ynet.co.il/Integration/StoryRss2142.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline type="rss" text="Manifest URL" title="Manifest URL" xmlUrl="moz-extension://aff0b402-9a1a-4661-a761-cb0bd23993ca/manifest.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline text="f4" data-wxsl-open="0">
+									<outline text="f5" data-wxsl-open="0">
+										<outline text="New Folder" data-wxsl-open="0">
+											<outline type="rss" text="L3DT Users&#039; Community" title="L3DT Users&#039; Community" xmlUrl="http://www.bundysoft.com/phpBB2/feed.php?f=2" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 										</outline>
 									</outline>
 								</outline>
-								<outline type="rss" text="Scripting News" title="Scripting News" xmlUrl="http://static.userland.com/gems/backend/rssTwoExample2.xml"/>
-								<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml"/>
-								<outline text="F99">
-									<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml"/>
-									<outline text="f97">
-										<outline text="f100">
+								<outline type="rss" text="Scripting News" title="Scripting News" xmlUrl="http://static.userland.com/gems/backend/rssTwoExample2.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline text="F99" data-wxsl-open="0">
+									<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+									<outline text="f97" data-wxsl-open="0">
+										<outline text="f100" data-wxsl-open="0">
 										</outline>
 									</outline>
-									<outline text="f98">
+									<outline text="f98" data-wxsl-open="0">
 									</outline>
 								</outline>
 							</outline>
-							<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml"/>
-							<outline text="f2">
+							<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+							<outline text="f2" data-wxsl-open="0">
 							</outline>
 						</outline>
-						<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml"/>
-						<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
-						<outline text="test target Folder">
-							<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
+						<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+						<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+						<outline text="test target Folder" data-wxsl-open="0">
+							<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 						</outline>
-						<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf"/>
+						<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 					</outline>
 				</outline>
-				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf"/>
+				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="New Folder-2">
-				<outline type="rss" text="New Feedגשדגשדגשד" title="New Feedגשדגשדגשד" xmlUrl="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3443/"/>
-				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/"/>
-				<outline type="rss" text="[Satisfaction]: All topics for Sage RSS - Recently Created" title="[Satisfaction]: All topics for Sage RSS - Recently Created" xmlUrl="https://getsatisfaction.com/sagerss/topics.rss?sort=recently_created"/>
+			<outline text="New Folder-2" data-wxsl-open="0">
+				<outline type="rss" text="New Feedגשדגשדגשד" title="New Feedגשדגשדגשד" xmlUrl="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3443/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="[Satisfaction]: All topics for Sage RSS - Recently Created" title="[Satisfaction]: All topics for Sage RSS - Recently Created" xmlUrl="https://getsatisfaction.com/sagerss/topics.rss?sort=recently_created" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="links to checkes">
-				<outline type="rss" text="Full RSS - Full text rss feed generator 100% success &amp; free" title="Full RSS - Full text rss feed generator 100% success &amp; free" xmlUrl="https://www.freefullrss.com/"/>
+			<outline text="links to checkes" data-wxsl-open="0">
+				<outline type="rss" text="Full RSS - Full text rss feed generator 100% success &amp; free" title="Full RSS - Full text rss feed generator 100% success &amp; free" xmlUrl="https://www.freefullrss.com/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 		</outline>
 	</body>
