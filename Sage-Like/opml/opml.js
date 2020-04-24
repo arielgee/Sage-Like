@@ -12,6 +12,9 @@ let opml = (function() {
 		let m_funcImportReject;
 		let m_objOpenTreeFolders = null;
 		let m_objTreeFeedsData = null;
+		let m_feedCount;
+		let m_folderCount;
+		let m_outlineCount;
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function run(file) {
@@ -88,6 +91,8 @@ let opml = (function() {
 					await m_objOpenTreeFolders.getStorage();
 					await m_objTreeFeedsData.getStorage();
 
+					m_feedCount = m_folderCount = m_outlineCount = 0;
+
 					for (let i=0, len=nodeBody.children.length; i<len; i++) {
 						await processOutlines(nodeBody.children[i], created.id);
 					}
@@ -95,7 +100,14 @@ let opml = (function() {
 					m_objOpenTreeFolders.setStorage();
 					m_objTreeFeedsData.setStorage();
 
-					m_funcImportResolve(created.id);
+					m_funcImportResolve({
+						newFolderId: created.id,
+						stats: {
+							feedCount: m_feedCount,
+							folderCount: m_folderCount,
+							outlineCount: m_outlineCount,
+						}
+					});
 
 				}).catch((error) => {
 					m_funcImportReject(error);
@@ -112,6 +124,8 @@ let opml = (function() {
 
 			if(node.nodeName !== "outline") return;
 
+			m_outlineCount++;
+
 			let title = node.getAttribute("title") || node.getAttribute("text");
 			let isFeed = node.hasAttribute("type") && node.getAttribute("type") === "rss" && node.hasAttribute("xmlUrl");
 
@@ -126,6 +140,8 @@ let opml = (function() {
 				newBmItem.type = "folder";
 				bmCreated = await browser.bookmarks.create(newBmItem);
 
+				m_folderCount++;
+
 				if(node.hasAttribute("data-wxsl-open") && node.getAttribute("data-wxsl-open") === "1") {
 					m_objOpenTreeFolders.set(bmCreated.id);
 				}
@@ -139,6 +155,8 @@ let opml = (function() {
 				newBmItem.type = "bookmark";
 				newBmItem.url = node.getAttribute("xmlUrl").stripHtmlTags();
 				bmCreated = await browser.bookmarks.create(newBmItem);
+
+				m_feedCount++;
 
 				let updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
 				let openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
@@ -159,6 +177,9 @@ let opml = (function() {
 		let m_funcExportResolve;
 		let m_objOpenTreeFolders = null;
 		let m_objTreeFeedsData = null;
+		let m_feedCount;
+		let m_folderCount;
+		let m_outlineCount;
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function run() {
@@ -194,7 +215,10 @@ let opml = (function() {
 						m_objUrl = null;
 
 						if(error.message === "Download canceled by the user") {
-							m_funcExportResolve();
+							m_funcExportResolve({
+								feedCount: 0,
+								folderCount: 0,
+							});
 						} else {
 							reject(error);
 						}
@@ -217,7 +241,10 @@ let opml = (function() {
 				m_objUrl = null;
 
 				browser.downloads.onChanged.removeListener(onChangedDownload);
-				m_funcExportResolve();
+				m_funcExportResolve({
+					feedCount: m_feedCount,
+					folderCount: m_folderCount,
+				});
 			}
 		}
 
@@ -242,6 +269,8 @@ let opml = (function() {
 							"<outline text=\"" + bookmark.title + "\" " +
 							"data-wxsl-open=\"" + Number(m_objOpenTreeFolders.exist(bookmark.id) || openFolder) + "\">");	// Number() converts true/false to 1/0
 
+						m_folderCount++;
+
 						for (let child of bookmark.children) {
 							createOpmlData(lines, child, indent);
 						}
@@ -259,8 +288,12 @@ let opml = (function() {
 							"xmlUrl=\"" + bookmark.url.escapeHtml() + "\" " +
 							"data-wxsl-updateTitle=\"" + Number(m_objTreeFeedsData.value(bookmark.id).updateTitle) + "\" " +
 							"data-wxsl-openPreview=\"" + Number(m_objTreeFeedsData.value(bookmark.id).openInFeedPreview) + "\"/>");
+
+						m_feedCount++;
 					}
 				};
+
+				m_feedCount = m_folderCount = 0;
 
 				let gettingOSF = m_objOpenTreeFolders.getStorage();		// get folder's open/closed state from local storage
 				let gettingTFD = m_objTreeFeedsData.getStorage();		// get feed data from local storage

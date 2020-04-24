@@ -749,9 +749,10 @@ let preferences = (function() {
 		elmPrefOverlayFeedTrans.classList.add("processing");
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, true);
 
-		opml.importFeeds.run(event.target.files[0]).then((newFolderId) => {
+		opml.importFeeds.run(event.target.files[0]).then((result) => {
 			initializeSelectFeedsFolder();
-			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: newFolderId });
+			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: result.newFolderId });
+			console.log("[Sage-Like]", "OPML-Imported", result.stats.toSource());
 			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
 		}).catch((error) => {
 			slUtil.nbAlert(error);		// so the alert() will not block the finally()
@@ -770,7 +771,9 @@ let preferences = (function() {
 
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, true);
 
-		opml.exportFeeds.run().catch((error) => {
+		opml.exportFeeds.run().then((stats) => {
+			console.log("[Sage-Like]", "OPML-Exported", stats.toSource());
+		}).catch((error) => {
 			alert(error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
