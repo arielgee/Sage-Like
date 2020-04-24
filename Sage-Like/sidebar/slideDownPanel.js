@@ -11,11 +11,11 @@ class SlideDownPanel {
 
 	///////////////////////////////////////////////////////////////
 	pull(down) {
-		if(down && !this.m_isDown) {
+		if(down) {
 			this._addEventListeners();
 			this.m_slideDownPanel.style.display = "block";
 			setTimeout(() => this.m_slideDownPanel.classList.add("visible"), 0);
-		} else if(!down && this.m_isDown) {
+		} else {
 			this.m_slideDownPanel.classList.remove("visible");
 		}
 	}
@@ -26,7 +26,6 @@ class SlideDownPanel {
 		this._onPullDownCallback = onPullDownCallback;
 		this._onPullUpCallback = onPullUpCallback;
 		this._onTransitionEndSlideDownPanel = this._onTransitionEndSlideDownPanel.bind(this);
-		this.m_isDown = false;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -46,16 +45,13 @@ class SlideDownPanel {
 
 			if(this.m_slideDownPanel.classList.contains("visible")) {
 
-				this.m_isDown = true;
-				if(!!(this._onPullDownCallback)) (this._onPullDownCallback)();
+				if(!!(this._onPullDownCallback)) this._onPullDownCallback();
 
 			} else {
 
 				this.m_slideDownPanel.style.display = "none";
 				this._removeEventListeners();
-
-				this.m_isDown = false;
-				if(!!(this._onPullUpCallback)) (this._onPullUpCallback)();
+				if(!!(this._onPullUpCallback)) this._onPullUpCallback();
 			}
 		}
 	}

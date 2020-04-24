@@ -647,11 +647,12 @@
 * when nested promise, do the last first promise catch() handles throws (errors) from the internal promises? or do I need to catch() the internals too?
 * add stats to OPML import/export.
 * optimize internalPrefs like prefs
+* when deleting vary quickly (kb delete & enter) the delete-slide-down panel is not pulled-up. buttons have no events and only escape from body removes it
+	* event for enter is fired before transaction-end; m_isDown is the problem; it prevents the pull-up; need to be moved from transaction-end to pull()
 ---
 
 ## Now
-* when deleting vary quickly (kb delete & enter) the delete-slide-down panel is not pulled-up. buttons have no events and only escape from body removes it
-	* event for enter is fired before transaction-end; m_isDown is the problem; it prevents the pull-up; need to be moved from transaction-end to pull()
+* abort webPageFeedsDiscovery if view is closed
 ---
 
 ## Next
