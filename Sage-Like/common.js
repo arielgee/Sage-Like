@@ -22,7 +22,7 @@ class FeedData {
 		this.webPageUrl = "";
 		this.errorMsg = "";
 	}
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class XmlFeedData extends FeedData {
@@ -32,7 +32,7 @@ class XmlFeedData extends FeedData {
 		this.xmlEncoding = "UTF-8";
 		super.feeder = {};
 	}
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class JsonFeedData extends FeedData {
@@ -41,7 +41,7 @@ class JsonFeedData extends FeedData {
 		this.jsonVersion = "";
 		super.feeder = [];
 	}
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class SyndicationError extends Error {
@@ -55,7 +55,7 @@ class SyndicationError extends Error {
 		}
 		super(message);
 	}
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class AbortDiscovery {
@@ -68,7 +68,7 @@ class AbortDiscovery {
 	get isAborted() {
 		return this._abort;
 	}
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class Locker {
@@ -108,15 +108,15 @@ class StoredKeyedItems {
 	}
 
 	//////////////////////////////////////////
-	set(key, value = undefined) {
+	set(key, value = undefined, saveToStorage = true) {
 		this._items[key] = ( (value === undefined) || (value === null) ) ? "x" : value;
-		this.setStorage();
+		if(saveToStorage) this.setStorage();
 	}
 
 	//////////////////////////////////////////
-	remove(key) {
+	remove(key, saveToStorage = true) {
 		delete this._items[key];
-		this.setStorage();
+		if(saveToStorage) this.setStorage();
 	}
 
 	//////////////////////////////////////////
@@ -142,6 +142,7 @@ class StoredKeyedItems {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class OpenTreeFolders extends StoredKeyedItems {
+	//////////////////////////////////////////
 	getStorage() {
 		return new Promise((resolve) => {
 			internalPrefs.getOpenTreeFolders().then((items) => {
@@ -150,18 +151,51 @@ class OpenTreeFolders extends StoredKeyedItems {
 			});
 		});
 	}
+
+	//////////////////////////////////////////
 	setStorage() {
 		internalPrefs.setOpenTreeFolders(this._items);
+	}
+
+	//////////////////////////////////////////
+	set(key, saveToStorage = true) {
+		super.set(key, { lastChecked: Date.now() }, saveToStorage);
+	}
+
+	//////////////////////////////////////////
+	purge() {
+		return new Promise((resolve) => {
+
+			let collecting = slUtil.bookmarksFoldersAsCollection();
+			let getting = this.getStorage();
+
+			collecting.then((bmFolders) => {
+				getting.then(() => {
+
+					//console.log("[Sage-Like]", "open folders purging");
+					for(let key in this._items) {
+
+						// lastChecked is new for OpenTreeFolders; set it if it's missing
+						if( !!!(this._items[key].lastChecked) ) {
+							this.set(key, false);
+						}
+
+						// remove from object if its not in the folders collection and is older then 24 hours
+						if( !!!bmFolders[key] && (this._items[key].lastChecked < (Date.now() - 86400000)) ) {
+							//console.log("[Sage-Like]", "open folder purged", key, this._items[key]);
+							super.remove(key, false);
+						}
+					}
+					this.setStorage();
+					resolve();
+				}).catch(() => {});
+			}).catch(() => {});
+		});
 	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeFeedsData extends StoredKeyedItems {
-
-	//////////////////////////////////////////
-	constructor() {
-		super();
-	}
 
 	//////////////////////////////////////////
 	getStorage() {
@@ -179,7 +213,7 @@ class TreeFeedsData extends StoredKeyedItems {
 	}
 
 	//////////////////////////////////////////
-	set(key, properties) {
+	set(key, properties, saveToStorage = true) {
 		let defProp = { lastChecked: Date.now(), lastVisited: 0, updateTitle: true, openInFeedPreview: false };
 		let valProp = Object.assign(defProp, this.value(key));
 		let newProp = Object.assign(valProp, properties);
@@ -188,7 +222,8 @@ class TreeFeedsData extends StoredKeyedItems {
 			lastVisited: newProp.lastVisited,
 			updateTitle: newProp.updateTitle,
 			openInFeedPreview: newProp.openInFeedPreview,
-		});
+		},
+		saveToStorage);
 	}
 
 	//////////////////////////////////////////
@@ -217,15 +252,16 @@ class TreeFeedsData extends StoredKeyedItems {
 			collecting.then((bmFeeds) => {
 				getting.then(() => {
 
-					//console.log("[Sage-Like]", "purging");
+					//console.log("[Sage-Like]", "feed data purging");
 					for(let key in this._items) {
 
 						// remove from object if its not in the feeds collection and is older then 24 hours
-						if( (bmFeeds[key] === undefined) && (this._items[key].lastChecked < (Date.now() - 86400000)  ) ) {
-							//console.log("[Sage-Like]", "purged", key, this._items[key]);
-							super.remove(key);
+						if( !!!bmFeeds[key] && (this._items[key].lastChecked < (Date.now() - 86400000)) ) {
+							//console.log("[Sage-Like]", "feed data purged", key, this._items[key]);
+							super.remove(key, false);
 						}
 					}
+					this.setStorage();
 					resolve();
 				}).catch(() => {});
 			}).catch(() => {});
@@ -423,6 +459,7 @@ class InfoBubble {
 	}
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////////
 class TreeItemType {
 	static isTree(elm)			{ return !!elm && elm.id === slGlobals.ID_UL_RSS_TREE_VIEW; }
 	static isTreeItem(elm)		{ return !!elm && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM); }
@@ -1789,6 +1826,36 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function bookmarksFoldersAsCollection() {
+
+		return new Promise((resolve, reject) => {
+
+			let bmFolders = {};
+			let collectFolders = function (bmFolders, bookmark) {
+				if (bookmark.type === "folder") {
+					bmFolders[bookmark.id] = { id: bookmark.id, title: bookmark.title };
+					for(let i=0, len=bookmark.children.length; i<len; i++) {
+						collectFolders(bmFolders, bookmark.children[i]);
+					}
+				}
+			};
+
+			prefs.getRootFeedsFolderId().then((folderId) => {
+
+				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+					reject("Root feeds folder id not set (bookmarksFoldersAsCollection)");
+					return;
+				}
+
+				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
+					collectFolders(bmFolders, bookmarks[0]);
+					resolve(bmFolders);
+				}).catch((error) => reject(error));
+			}).catch((error) => reject(error));
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function bookmarksFeedsAsCollection(asArray) {
 
 		return new Promise((resolve, reject) => {
@@ -1796,8 +1863,8 @@ let slUtil = (function() {
 			let bmFeeds = asArray ? [] : {};
 			let collectFeeds = function (bmFeeds, bookmark) {
 				if (bookmark.type === "folder") {
-					for (let child of bookmark.children) {
-						collectFeeds(bmFeeds, child);
+					for(let i=0, len=bookmark.children.length; i<len; i++) {
+						collectFeeds(bmFeeds, bookmark.children[i]);
 					}
 				} else if (bookmark.type === "bookmark") {
 					if(asArray) {
@@ -2144,6 +2211,7 @@ let slUtil = (function() {
 		isElementInViewport: isElementInViewport,
 		scrollIntoViewIfNeeded: scrollIntoViewIfNeeded,
 		numberOfVItemsInViewport: numberOfVItemsInViewport,
+		bookmarksFoldersAsCollection: bookmarksFoldersAsCollection,
 		bookmarksFeedsAsCollection: bookmarksFeedsAsCollection,
 		isDescendantOfRoot: isDescendantOfRoot,
 		reloadSageLikeWebExtensionAndTab: reloadSageLikeWebExtensionAndTab,

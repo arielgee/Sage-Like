@@ -650,10 +650,12 @@
 * when deleting vary quickly (kb delete & enter) the delete-slide-down panel is not pulled-up. buttons have no events and only escape from body removes it
 	* event for enter is fired before transaction-end; m_isDown is the problem; it prevents the pull-up; need to be moved from transaction-end to pull()
 * abort webPageFeedsDiscovery if view is closed
+* are folders removed from internalPrefs when changing root folder?
+* StoredKeyedItems.purge() need a remove() w/o this.setStorage() for faster action; .purge() will call this.setStorage() at the end
 ---
 
 ## Now
-* are folders removed from internalPrefs when changing root folder?
+* the openInFeedPreview in TreeFeedsData is not there for users updating to new version. need to check on that/
 ---
 
 ## Next

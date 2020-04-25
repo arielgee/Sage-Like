@@ -88,6 +88,10 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initilization() {
+
+		m_objOpenTreeFolders.purge();
+		m_objTreeFeedsData.purge();
+
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 
@@ -176,8 +180,6 @@ let rssTreeView = (function() {
 		m_elmClearFilter = document.getElementById("clearFilter");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
 		m_elmTreeRoot = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
-
-		m_objTreeFeedsData.purge();
 
 		if(await internalPrefs.getIsExtensionInstalled()) {
 			internalPrefs.setIsExtensionInstalled(false);
