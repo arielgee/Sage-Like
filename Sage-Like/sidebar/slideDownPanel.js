@@ -45,13 +45,13 @@ class SlideDownPanel {
 
 			if(this.m_slideDownPanel.classList.contains("visible")) {
 
-				if(!!(this._onPullDownCallback)) this._onPullDownCallback();
+				if(typeof(this._onPullDownCallback) === "function") this._onPullDownCallback();
 
 			} else {
 
 				this.m_slideDownPanel.style.display = "none";
 				this._removeEventListeners();
-				if(!!(this._onPullUpCallback)) this._onPullUpCallback();
+				if(typeof(this._onPullUpCallback) === "function") this._onPullUpCallback();
 			}
 		}
 	}
