@@ -655,10 +655,23 @@
 ---
 
 ## Now
-* the openInFeedPreview in TreeFeedsData is not there for users updating to new version. need to check on that/
+* the openInFeedPreview in TreeFeedsData is not there for users updating to new version. need to check on that
+* PROBLEM: changes from old version when reading data from local storage. openInFeedPreview and lastChecked are new and missing when getting storage for internalPrefs
+	* replace purge() with maintenance() that will handle all version upgrades. Do not forget about uses of internalPrefs from preferences. call maintenance() before all. background.js?
+	* in TreeFeedsData
+	//////////////////////////////////////////
+	value(key) {
+		if( !!!(this._items[key].openInFeedPreview) ) {				// openInFeedPreview is new for TreeFeedsData; set it if it's missing
+			this.set(key, { openInFeedPreview: false });
+		}
+		return super.value(key);
+	}
+
+
 ---
 
 ## Next
+* m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) in onClickTreeItem was not preceded with a .getStorage()
 * display OPML import/export stats to user.
 * alert() messages in preferences are not centered.
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
