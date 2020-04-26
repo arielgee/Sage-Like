@@ -98,7 +98,6 @@ class Locker {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class StoredKeyedItems {
-
 	//////////////////////////////////////////
 	constructor() {
 		if (new.target.name === "StoredKeyedItems") {
@@ -109,7 +108,7 @@ class StoredKeyedItems {
 
 	//////////////////////////////////////////
 	set(key, value = undefined, saveToStorage = true) {
-		this._items[key] = ( (value === undefined) || (value === null) ) ? "x" : value;
+		this._items[key] = !!value ? value : {};
 		if(saveToStorage) this.setStorage();
 	}
 
@@ -138,6 +137,21 @@ class StoredKeyedItems {
 	clear() {
 		this._items = {}; //Object.create(null);
 	}
+
+	//////////////////////////////////////////
+	maintenance() {
+		return new Promise((resolve) => {
+			this.getStorage().then(() => {
+
+				// for version upgrade need to update values; add/remove modified properties
+				for(let key in this._items) {
+					this.set(key, {}, false);
+				}
+				this.setStorage();
+				resolve();
+			})
+		});
+	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +172,7 @@ class OpenTreeFolders extends StoredKeyedItems {
 	}
 
 	//////////////////////////////////////////
-	set(key, saveToStorage = true) {
+	set(key, _, saveToStorage = true) {
 		super.set(key, { lastChecked: Date.now() }, saveToStorage);
 	}
 
@@ -172,17 +186,10 @@ class OpenTreeFolders extends StoredKeyedItems {
 			collecting.then((bmFolders) => {
 				getting.then(() => {
 
-					//console.log("[Sage-Like]", "open folders purging");
 					for(let key in this._items) {
-
-						// lastChecked is new for OpenTreeFolders; set it if it's missing
-						if( !!!(this._items[key].lastChecked) ) {
-							this.set(key, false);
-						}
 
 						// remove from object if its not in the folders collection and is older then 24 hours
 						if( !!!bmFolders[key] && (this._items[key].lastChecked < (Date.now() - 86400000)) ) {
-							//console.log("[Sage-Like]", "open folder purged", key, this._items[key]);
 							super.remove(key, false);
 						}
 					}
@@ -196,7 +203,6 @@ class OpenTreeFolders extends StoredKeyedItems {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeFeedsData extends StoredKeyedItems {
-
 	//////////////////////////////////////////
 	getStorage() {
 		return new Promise((resolve) => {
@@ -213,7 +219,7 @@ class TreeFeedsData extends StoredKeyedItems {
 	}
 
 	//////////////////////////////////////////
-	set(key, properties, saveToStorage = true) {
+	set(key, properties = {}, saveToStorage = true) {
 		let defProp = { lastChecked: Date.now(), lastVisited: 0, updateTitle: true, openInFeedPreview: false };
 		let valProp = Object.assign(defProp, this.value(key));
 		let newProp = Object.assign(valProp, properties);
@@ -252,12 +258,10 @@ class TreeFeedsData extends StoredKeyedItems {
 			collecting.then((bmFeeds) => {
 				getting.then(() => {
 
-					//console.log("[Sage-Like]", "feed data purging");
 					for(let key in this._items) {
 
 						// remove from object if its not in the feeds collection and is older then 24 hours
 						if( !!!bmFeeds[key] && (this._items[key].lastChecked < (Date.now() - 86400000)) ) {
-							//console.log("[Sage-Like]", "feed data purged", key, this._items[key]);
 							super.remove(key, false);
 						}
 					}

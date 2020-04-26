@@ -102,6 +102,12 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onRuntimeInstalled(details) {
 		internalPrefs.setIsExtensionInstalled(details.reason === "install");
+
+		// version 1.9 added openInFeedPreview to TreeFeedsData and lastChecked to OpenTreeFolders
+		if(details.reason === "update" && details.previousVersion < "1.9") {
+			(new OpenTreeFolders()).maintenance();
+			(new TreeFeedsData()).maintenance();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

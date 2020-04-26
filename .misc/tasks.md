@@ -652,9 +652,6 @@
 * abort webPageFeedsDiscovery if view is closed
 * are folders removed from internalPrefs when changing root folder?
 * StoredKeyedItems.purge() need a remove() w/o this.setStorage() for faster action; .purge() will call this.setStorage() at the end
----
-
-## Now
 * the openInFeedPreview in TreeFeedsData is not there for users updating to new version. need to check on that
 * PROBLEM: changes from old version when reading data from local storage. openInFeedPreview and lastChecked are new and missing when getting storage for internalPrefs
 	* replace purge() with maintenance() that will handle all version upgrades. Do not forget about uses of internalPrefs from preferences. call maintenance() before all. background.js?
@@ -666,12 +663,15 @@
 		}
 		return super.value(key);
 	}
+* StoredKeyedItems default set() should be {} and not "x"
+---
 
-
+## Now
+* m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) in onClickTreeItem was not preceded with a .getStorage() => one .getStorage() for all treeview, .setStorage() only if needed
+* m_objTreeFeedsData.setLastChecked() is not setStorage()
 ---
 
 ## Next
-* m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) in onClickTreeItem was not preceded with a .getStorage()
 * display OPML import/export stats to user.
 * alert() messages in preferences are not centered.
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
