@@ -103,11 +103,11 @@ class StoredKeyedItems {
 		if (new.target.name === "StoredKeyedItems") {
 			throw new Error(new.target.name + ".constructor: Don't do that");
 		}
-		this.clear();
+		this._items = {};
 	}
 
 	//////////////////////////////////////////
-	set(key, value = undefined, saveToStorage = true) {
+	set(key, value, saveToStorage = true) {
 		this._items[key] = !!value ? value : {};
 		if(saveToStorage) this.setStorage();
 	}
@@ -130,12 +130,14 @@ class StoredKeyedItems {
 
 	//////////////////////////////////////////
 	value(key) {
-		return this._items.hasOwnProperty(key) ? this._items[key] : undefined;
+		// return a cloned item to prevent modifications to items  in _items w/o using set()
+		return this._items.hasOwnProperty(key) ? Object.assign({}, this._items[key]) : undefined;
 	}
 
 	//////////////////////////////////////////
-	clear() {
-		this._items = {}; //Object.create(null);
+	clear(saveToStorage = true) {
+		this._items = {};
+		if(saveToStorage) this.setStorage();
 	}
 
 	//////////////////////////////////////////
@@ -190,7 +192,7 @@ class OpenTreeFolders extends StoredKeyedItems {
 
 						// remove from object if its not in the folders collection and is older then 24 hours
 						if( !!!bmFolders[key] && (this._items[key].lastChecked < (Date.now() - 86400000)) ) {
-							super.remove(key, false);
+							this.remove(key, false);
 						}
 					}
 					this.setStorage();
@@ -234,15 +236,8 @@ class TreeFeedsData extends StoredKeyedItems {
 
 	//////////////////////////////////////////
 	setIfNotExist(key) {
-		if(!super.exist(key)) {
+		if(!this.exist(key)) {
 			this.set(key);
-		}
-	}
-
-	//////////////////////////////////////////
-	setLastChecked(key) {
-		if(super.exist(key)) {
-			this._items[key].lastChecked = Date.now();
 		}
 	}
 
@@ -262,7 +257,7 @@ class TreeFeedsData extends StoredKeyedItems {
 
 						// remove from object if its not in the feeds collection and is older then 24 hours
 						if( !!!bmFeeds[key] && (this._items[key].lastChecked < (Date.now() - 86400000)) ) {
-							super.remove(key, false);
+							this.remove(key, false);
 						}
 					}
 					this.setStorage();
@@ -2196,6 +2191,12 @@ let slUtil = (function() {
 		setTimeout(() => alert(msg), 0);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function debug_listStoredKeys() {
+		internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] folders", Object.keys(obj).length, obj));
+		internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] Feeds", Object.keys(obj).length, obj));
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -2239,6 +2240,7 @@ let slUtil = (function() {
 		asPrettyByteSize: asPrettyByteSize,
 		getMimeTypeIconPath: getMimeTypeIconPath,
 		nbAlert: nbAlert,
+		debug_listStoredKeys: debug_listStoredKeys,
 	};
 
 })();

@@ -669,6 +669,15 @@
 ## Now
 * m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) in onClickTreeItem was not preceded with a .getStorage() => one .getStorage() for all treeview, .setStorage() only if needed
 * m_objTreeFeedsData.setLastChecked() is not setStorage()
+
+1. checkForNewFeedData
+	replace this:
+		m_objTreeFeedsData.setIfNotExist(id);
+		m_objTreeFeedsData.setLastChecked(id);
+	with this
+		m_objTreeFeedsData.set(id);
+2. Do not do this: 'm_objTreeFeedsData.value(elmLI.id).lastVisited = 0;' Do that: 'm_objTreeFeedsData.set(elmLI.id, { lastVisited: 0 });'
+
 ---
 
 ## Next

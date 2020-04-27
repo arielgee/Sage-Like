@@ -97,9 +97,6 @@ let opml = (function() {
 						await processOutlines(nodeBody.children[i], created.id);
 					}
 
-					m_objOpenTreeFolders.setStorage();
-					m_objTreeFeedsData.setStorage();
-
 					m_funcImportResolve({
 						newFolderId: created.id,
 						stats: {

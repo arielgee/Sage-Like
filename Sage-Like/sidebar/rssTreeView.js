@@ -522,8 +522,8 @@ let rssTreeView = (function() {
 		setFeedErrorState(elmLI, false);
 		setFeedLoadingState(elmLI, true);
 
-		m_objTreeFeedsData.setIfNotExist(id);
-		m_objTreeFeedsData.setLastChecked(id);
+		// add if not already exists and update the lastChecked
+		m_objTreeFeedsData.set(id);
 
 		prefs.getFetchTimeout().then((timeout) => {
 
@@ -1264,7 +1264,6 @@ let rssTreeView = (function() {
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed");
 			for(let i=elms.length-1; i>=0; i--) {
 				setFolderState(elms[i], true, false);
-				m_objOpenTreeFolders.set(elms[i].id);
 			}
 
 		} else {
@@ -1272,7 +1271,6 @@ let rssTreeView = (function() {
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".open");
 			for(let i=0, len=elms.length; i<len; i++) {
 				setFolderState(elms[i], false);
-				m_objOpenTreeFolders.remove(elms[i].id);
 			}
 
 			// move selected item to top most visible parent folder
@@ -1712,12 +1710,11 @@ let rssTreeView = (function() {
 
 		if(elmLI.classList.toggle("bold")) {
 			// turned to not visited
-			m_objTreeFeedsData.value(elmLI.id).lastVisited = 0;
+			m_objTreeFeedsData.set(elmLI.id, { lastVisited: 0 });
 		} else {
 			// turned to visited
-			m_objTreeFeedsData.value(elmLI.id).lastVisited = slUtil.getCurrentLocaleDate().getTime();
+			m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
 		}
-		m_objTreeFeedsData.setStorage();
 		updateTreeBranchFoldersStats(elmLI);
 	}
 
@@ -1736,7 +1733,7 @@ let rssTreeView = (function() {
 				elm = elms[i];
 
 				elm.classList.toggle("bold", !visitedState);
-				m_objTreeFeedsData.value(elm.id).lastVisited = visitedState ? slUtil.getCurrentLocaleDate().getTime() : 0;
+				m_objTreeFeedsData.set(elm.id, { lastVisited: (visitedState ? slUtil.getCurrentLocaleDate().getTime() : 0) }, false);
 
 				// only once per folder
 				if(!!!elm.nextElementSibling) {
@@ -1756,7 +1753,7 @@ let rssTreeView = (function() {
 
 			for(let i=0, len=elms.length; i<len; i++) {
 				elms[i].classList.toggle("bold", !isVisited);
-				m_objTreeFeedsData.value(elms[i].id).lastVisited = isVisited ? slUtil.getCurrentLocaleDate().getTime() : 0;
+				m_objTreeFeedsData.set(elms[i].id, { lastVisited: (isVisited ? slUtil.getCurrentLocaleDate().getTime() : 0) }, false);
 			}
 			m_objTreeFeedsData.setStorage();
 			updateAllTreeFoldersStats();
@@ -2256,7 +2253,7 @@ let rssTreeView = (function() {
 			let createdRoot = await browser.bookmarks.create(folderRoot);
 			let createdFolder;
 
-			m_objOpenTreeFolders.clear();
+			m_objOpenTreeFolders.clear(false);
 
 			for (let idx=0, len=folders.length; idx<len; idx++) {
 				folders[idx].details.parentId = createdRoot.id;
