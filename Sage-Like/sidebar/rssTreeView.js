@@ -1372,25 +1372,23 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function addNewFeeds(newFeedsList) {
+	function addNewFeeds(newFeedsList) {
 
-		let bookmarksList = [];
-		let parentId = await prefs.getRootFeedsFolderId();
+		prefs.getRootFeedsFolderId().then((parentId) => {
 
-		for(let feed of newFeedsList) {
-
-			bookmarksList.push( {
-				parentId: parentId,
-				title: feed.title,
-				url: feed.url,
-			} );
-		}
-
-		createBookmarksSequentially(bookmarksList);
+			let bookmarksList = newFeedsList.map((feed) => {
+				return {
+					parentId: parentId,
+					title: feed.title,
+					url: feed.url,
+				};
+			});
+			createBookmarksSequentially(bookmarksList);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function createBookmarksSequentially(bookmarksList) {
+	function createBookmarksSequentially(bookmarksList) {
 
 		/*
 			Because bookmarks.create() is an asynchronous function the creation of multiple bookmarks
@@ -1403,9 +1401,9 @@ let rssTreeView = (function() {
 			return new Promise(async (resolve, reject) => {
 
 				let created, elmLI;
-				for(let bookmark of bookmarksList) {
+				for(let i=0, len=bookmarksList.length; i<len; i++) {
 
-					created = await browser.bookmarks.create(bookmark);
+					created = await browser.bookmarks.create(bookmarksList[i]);
 
 					elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FEED, created.url);
 					elmLI.classList.add("blinkNew");
