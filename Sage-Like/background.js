@@ -103,10 +103,16 @@
 	function onRuntimeInstalled(details) {
 		internalPrefs.setIsExtensionInstalled(details.reason === "install");
 
-		// version 1.9 added openInFeedPreview to TreeFeedsData and lastChecked to OpenTreeFolders
-		if(details.reason === "update" && details.previousVersion < "1.9") {
-			(new OpenTreeFolders()).maintenance();
-			(new TreeFeedsData()).maintenance();
+		if(details.reason === "update") {
+
+			let major = parseInt(details.previousVersion);
+			let minor = parseInt(details.previousVersion.substring(String(major).length+1));
+
+			// version 1.9 added openInFeedPreview to TreeFeedsData and lastChecked to OpenTreeFolders
+			if(major < 1 || (major === 1 && minor < 9) ) {
+				(new OpenTreeFolders()).maintenance();
+				(new TreeFeedsData()).maintenance();
+			}
 		}
 	}
 
