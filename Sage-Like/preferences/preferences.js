@@ -752,7 +752,7 @@ let preferences = (function() {
 		opml.importFeeds.run(event.target.files[0]).then((result) => {
 			initializeSelectFeedsFolder();
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: result.newFolderId });
-			console.log("[Sage-Like]", "OPML-Imported", result.stats.toSource());
+			console.log("[Sage-Like]", "OPML-Imported", result.stats);
 			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
 		}).catch((error) => {
 			slUtil.nbAlert(error);		// so the alert() will not block the finally()
@@ -772,7 +772,7 @@ let preferences = (function() {
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, true);
 
 		opml.exportFeeds.run().then((stats) => {
-			console.log("[Sage-Like]", "OPML-Exported", stats.toSource());
+			console.log("[Sage-Like]", "OPML-Exported", stats);
 		}).catch((error) => {
 			alert(error);
 			console.log("[Sage-Like]", error);
