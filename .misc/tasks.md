@@ -679,11 +679,11 @@
 ---
 
 ## Now
+* return the Promise from all set preference functions in prefs and internalPrefs
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 ---
 
 ## Next
-* return the Promise from all set preference functions in prefs and internalPrefs
 * display OPML import/export stats to user.
 * alert() messages in preferences are not centered.
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
