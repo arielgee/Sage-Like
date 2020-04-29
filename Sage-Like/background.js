@@ -105,8 +105,9 @@
 
 		if(details.reason === "update") {
 
-			let major = parseInt(details.previousVersion);
-			let minor = parseInt(details.previousVersion.substring(String(major).length+1));
+			let parts = details.previousVersion.split(".").map((x) => parseInt(x)).filter((x) => !isNaN(x));
+			let major = parts[0] || 0;
+			let minor = parts[1] || 0;
 
 			// version 1.9 added openInFeedPreview to TreeFeedsData and lastChecked to OpenTreeFolders
 			if(major < 1 || (major === 1 && minor < 9) ) {
