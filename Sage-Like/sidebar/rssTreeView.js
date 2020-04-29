@@ -505,9 +505,11 @@ let rssTreeView = (function() {
 			let method = value.split(";").map(x => parseInt(x));
 			let batchSize = method[0] === 0 ? 1 : Math.ceil(elmLIs.length / method[0]);
 			let timeoutPause = method[1];
+			let elm;
 
 			for(let i=0, len=elmLIs.length; i<len; i++) {
-				checkForNewFeedData(elmLIs[i], elmLIs[i].id, elmLIs[i].getAttribute("href"));
+				elm = elmLIs[i];
+				checkForNewFeedData(elm, elm.id, elm.getAttribute("href"));
 				if((++counter % batchSize) === 0) {
 					await slUtil.sleep(timeoutPause);
 				}
