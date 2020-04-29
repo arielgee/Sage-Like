@@ -676,15 +676,16 @@
 * is setIfNotExist() REALLY needed in openEditTreeItemProperties() ? at all?	=> leave it
 * filter tree, delete item, reapply filter must be on	==> NO it's not
 * add 'Easy' to 'Feed check method' pref. 10 batches with 4 seconds pause
+* return the Promise from all set preference functions in prefs and internalPrefs
 ---
 
 ## Now
-* return the Promise from all set preference functions in prefs and internalPrefs
+* display OPML import/export stats to user.
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 ---
 
 ## Next
-* display OPML import/export stats to user.
+* detect right-to-left languages and set direction
 * alert() messages in preferences are not centered.
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???
@@ -692,6 +693,7 @@
 * support copy-paste in tree ?
 * link to self in feedPreview
 * a better word for 'Easy' in 'Feed check method' pref.
+* using the returned Promise fromthe set preference functions in prefs and internalPrefs
 * for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?

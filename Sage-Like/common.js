@@ -930,7 +930,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setOpenTreeFolders(value) {
-		setPreferenceValue(PREF_OPEN_TREE_FOLDERS, value);
+		return setPreferenceValue(PREF_OPEN_TREE_FOLDERS, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -940,7 +940,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setTreeFeedsData(value) {
-		setPreferenceValue(PREF_TREE_FEEDS_DATA, value);
+		return setPreferenceValue(PREF_TREE_FEEDS_DATA, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -950,7 +950,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setIsExtensionInstalled(value) {
-		setPreferenceValue(PREF_IS_EXTENSION_INSTALLED, value);
+		return setPreferenceValue(PREF_IS_EXTENSION_INSTALLED, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -960,7 +960,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setTreeSelectedItemId(value) {
-		setPreferenceValue(PREF_TREE_SELECTED_ITEM_ID, value);
+		return setPreferenceValue(PREF_TREE_SELECTED_ITEM_ID, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -970,7 +970,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setTreeScrollTop(value) {
-		setPreferenceValue(PREF_TREE_SCROLL_TOP, value);
+		return setPreferenceValue(PREF_TREE_SCROLL_TOP, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -980,7 +980,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setSplitterTop(value) {
-		setPreferenceValue(PREF_SPLITTER_TOP, value);
+		return setPreferenceValue(PREF_SPLITTER_TOP, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -990,7 +990,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setDropInsideFolderShowMsgCount(value) {
-		setPreferenceValue(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT, value);
+		return setPreferenceValue(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1000,7 +1000,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setFeedsFilter(value) {
-		setPreferenceValue(PREF_FEEDS_FILTER, value);
+		return setPreferenceValue(PREF_FEEDS_FILTER, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1010,7 +1010,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setAggressiveDiscoveryLevel(value) {
-		setPreferenceValue(PREF_AGGRESSIVE_DISCOVERY_LEVEL, value);
+		return setPreferenceValue(PREF_AGGRESSIVE_DISCOVERY_LEVEL, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1037,7 +1037,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setHoverFilterTextBoxShowMsgCount(value) {
-		setPreferenceValue(PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT, value);
+		return setPreferenceValue(PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1078,7 +1078,7 @@ let internalPrefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setPreferenceValue(pref, value) {
-		m_localStorage.set({ [pref]: value });
+		return m_localStorage.set({ [pref]: value });
 	}
 
 	return {
@@ -1187,7 +1187,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setRootFeedsFolderId(value) {
-		setPreferenceValue(PREF_ROOT_FEEDS_FOLDER_ID, value);
+		return setPreferenceValue(PREF_ROOT_FEEDS_FOLDER_ID, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1197,7 +1197,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setCheckFeedsInterval(value) {
-		setPreferenceValue(PREF_CHECK_FEEDS_INTERVAL, value);
+		return setPreferenceValue(PREF_CHECK_FEEDS_INTERVAL, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1207,7 +1207,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setCheckFeedsWhenSbClosed(value) {
-		setPreferenceValue(PREF_CHECK_FEEDS_WHEN_SB_CLOSED, value);
+		return setPreferenceValue(PREF_CHECK_FEEDS_WHEN_SB_CLOSED, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1217,7 +1217,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setCheckFeedsMethod(value) {
-		setPreferenceValue(PREF_CHECK_FEEDS_METHOD, value);
+		return setPreferenceValue(PREF_CHECK_FEEDS_METHOD, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1227,7 +1227,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setFetchTimeout(value) {
-		setPreferenceValue(PREF_FETCH_TIMEOUT, value);
+		return setPreferenceValue(PREF_FETCH_TIMEOUT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1237,7 +1237,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setFolderClickAction(value) {
-		setPreferenceValue(PREF_FOLDER_CLICK_ACTION, value);
+		return setPreferenceValue(PREF_FOLDER_CLICK_ACTION, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1247,7 +1247,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setClickOpensFeedPreview(value) {
-		setPreferenceValue(PREF_CLICK_OPENS_FEED_PREVIEW, value);
+		return setPreferenceValue(PREF_CLICK_OPENS_FEED_PREVIEW, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1257,7 +1257,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setShowFeedStats(value) {
-		setPreferenceValue(PREF_SHOW_FEED_STATS, value);
+		return setPreferenceValue(PREF_SHOW_FEED_STATS, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1267,7 +1267,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setShowFeedItemDesc(value) {
-		setPreferenceValue(PREF_SHOW_FEED_ITEM_DESC, value);
+		return setPreferenceValue(PREF_SHOW_FEED_ITEM_DESC, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1277,7 +1277,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setFeedItemDescDelay(value) {
-		setPreferenceValue(PREF_FEED_ITEM_DESC_DELAY, value);
+		return setPreferenceValue(PREF_FEED_ITEM_DESC_DELAY, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1287,7 +1287,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setShowFeedItemDescAttach(value) {
-		setPreferenceValue(PREF_SHOW_FEED_ITEM_DESC_ATTACH, value);
+		return setPreferenceValue(PREF_SHOW_FEED_ITEM_DESC_ATTACH, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1297,7 +1297,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorFeedItemDescBackground(value) {
-		setPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND, value);
+		return setPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1307,7 +1307,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorFeedItemDescText(value) {
-		setPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_TEXT, value);
+		return setPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_TEXT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1317,7 +1317,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setDetectFeedsInWebPage(value) {
-		setPreferenceValue(PREF_DETECT_FEEDS_IN_WEB_PAGE, value);
+		return setPreferenceValue(PREF_DETECT_FEEDS_IN_WEB_PAGE, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1327,7 +1327,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setUIDensity(value) {
-		setPreferenceValue(PREF_UI_DENSITY, value);
+		return setPreferenceValue(PREF_UI_DENSITY, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1337,7 +1337,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setFontName(value) {
-		setPreferenceValue(PREF_FONT_NAME, value);
+		return setPreferenceValue(PREF_FONT_NAME, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1347,7 +1347,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setFontSizePercent(value) {
-		setPreferenceValue(PREF_FONT_SIZE_PERCENT, value);
+		return setPreferenceValue(PREF_FONT_SIZE_PERCENT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1357,7 +1357,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorBackground(value) {
-		setPreferenceValue(PREF_COLOR_BACKGROUND, value);
+		return setPreferenceValue(PREF_COLOR_BACKGROUND, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1367,7 +1367,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorDialogBackground(value) {
-		setPreferenceValue(PREF_COLOR_DIALOG_BACKGROUND, value);
+		return setPreferenceValue(PREF_COLOR_DIALOG_BACKGROUND, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1377,7 +1377,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorSelect(value) {
-		setPreferenceValue(PREF_COLOR_SELECT, value);
+		return setPreferenceValue(PREF_COLOR_SELECT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1387,7 +1387,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setColorText(value) {
-		setPreferenceValue(PREF_COLOR_TEXT, value);
+		return setPreferenceValue(PREF_COLOR_TEXT, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1397,7 +1397,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setImageSet(value) {
-		setPreferenceValue(PREF_IMAGE_SET, value);
+		return setPreferenceValue(PREF_IMAGE_SET, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1407,7 +1407,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setUseCustomCSSFeedPreview(value) {
-		setPreferenceValue(PREF_USE_CUSTOM_CSS_FEED_PREVIEW, value);
+		return setPreferenceValue(PREF_USE_CUSTOM_CSS_FEED_PREVIEW, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1417,15 +1417,20 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setCustomCSSSource(value) {
-		setPreferenceValue(PREF_CUSTOM_CSS_SOURCE, value);
+		return new Promise(async (resolve) => {
 
-		// This value is set only here and only if PREF_CUSTOM_CSS_SOURCE has content.
-		// This hash is also an indicator to the existence of a css source. Therefore when there is no source the hash will be empty.
-		if(!!value && value.length > 0) {
-			slUtil.hashCode(value).then((hash) => setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, hash) );
-		} else {
-			setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE);
-		}
+			await setPreferenceValue(PREF_CUSTOM_CSS_SOURCE, value);
+
+			// This value is set only here and only if PREF_CUSTOM_CSS_SOURCE has content.
+			// This hash is also an indicator to the existence of a css source. Therefore when there is no source the hash will be empty.
+			if(!!value && value.length > 0) {
+				let hash = await slUtil.hashCode(value);
+				await setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, hash);
+			} else {
+				await setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE);
+			}
+			resolve();
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1500,7 +1505,7 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function setPreferenceValue(pref, value) {
-		m_localStorage.set({ [pref]: value });
+		return m_localStorage.set({ [pref]: value });
 	}
 
 	return {
