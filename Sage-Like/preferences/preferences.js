@@ -12,6 +12,7 @@ let preferences = (function() {
 											"  \u25cf Strenuous – All feeds are fetched at once in one batch. \u000d" +
 											"  \u25cf Moderate – Feeds are fetched in 3 batches with a 2 seconds pause between each one. \u000d" +
 											"  \u25cf Relaxed – Feeds are fetched in 5 batches with a 3 seconds pause between each one. \u000d" +
+											"  \u25cf Easy – Feeds are fetched in 10 batches with a 4 seconds pause between each one. \u000d" +
 											"  \u25cf Lazy – Feeds are fetched one by one with a 1.5 seconds pause between each one. \u000d";
 
 	let m_elmRootFeedsFolder;

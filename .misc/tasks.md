@@ -674,14 +674,15 @@
 		m_objTreeFeedsData.set(id);
   Do not do this: 'm_objTreeFeedsData.value(elmLI.id).lastVisited = 0;' Do that: 'm_objTreeFeedsData.set(elmLI.id, { lastVisited: 0 });'
 * is setIfNotExist() REALLY needed in openEditTreeItemProperties() ? at all?	=> leave it
+* filter tree, delete item, reapply filter must be on	==> NO it's not
+* add 'Easy' to 'Feed check method' pref. 10 batches with 4 seconds pause
 ---
 
 ## Now
-* filter tree, delete item, reapply filter must be on
+* fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 ---
 
 ## Next
-* fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 * return the Promise from all set preference functions in prefs and internalPrefs
 * display OPML import/export stats to user.
 * alert() messages in preferences are not centered.
@@ -690,6 +691,7 @@
 * replace all \u000d (\r) with \u000a (\n)
 * support copy-paste in tree ?
 * link to self in feedPreview
+* a better word for 'Easy' in 'Feed check method' pref.
 * for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
