@@ -103,11 +103,11 @@ class StoredKeyedItems {
 		if (new.target.name === "StoredKeyedItems") {
 			throw new Error(new.target.name + ".constructor: Don't do that");
 		}
-		this.clear();
+		this._items = {};
 	}
 
 	//////////////////////////////////////////
-	set(key, value = undefined, saveToStorage = true) {
+	set(key, value, saveToStorage = true) {
 		this._items[key] = !!value ? value : {};
 		if(saveToStorage) this.setStorage();
 	}
@@ -130,12 +130,14 @@ class StoredKeyedItems {
 
 	//////////////////////////////////////////
 	value(key) {
-		return this._items.hasOwnProperty(key) ? this._items[key] : undefined;
+		// return a cloned item to prevent modifications to items in _items w/o using set()
+		return this._items.hasOwnProperty(key) ? Object.assign({}, this._items[key]) : undefined;
 	}
 
 	//////////////////////////////////////////
-	clear() {
-		this._items = {}; //Object.create(null);
+	clear(saveToStorage = true) {
+		this._items = {};
+		if(saveToStorage) this.setStorage();
 	}
 
 	//////////////////////////////////////////
@@ -177,7 +179,7 @@ class OpenTreeFolders extends StoredKeyedItems {
 	}
 
 	//////////////////////////////////////////
-	purge() {
+	purge(millisecOlderThen = 86400000) {	// 24 hours in milliseconds
 		return new Promise((resolve) => {
 
 			let collecting = slUtil.bookmarksFoldersAsCollection();
@@ -188,9 +190,9 @@ class OpenTreeFolders extends StoredKeyedItems {
 
 					for(let key in this._items) {
 
-						// remove from object if its not in the folders collection and is older then 24 hours
-						if( !!!bmFolders[key] && (this._items[key].lastChecked < (Date.now() - 86400000)) ) {
-							super.remove(key, false);
+						// remove from object if its not in the folders collection and is older then millisecOlderThen
+						if( !!!bmFolders[key] && (this._items[key].lastChecked < (Date.now() - millisecOlderThen)) ) {
+							this.remove(key, false);
 						}
 					}
 					this.setStorage();
@@ -203,6 +205,17 @@ class OpenTreeFolders extends StoredKeyedItems {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeFeedsData extends StoredKeyedItems {
+	//////////////////////////////////////////
+	constructor() {
+		super();
+		this._defaultObject = Object.freeze({
+			lastChecked: 0,
+			lastVisited: 0,
+			updateTitle: true,
+			openInFeedPreview: false,
+		});
+	}
+
 	//////////////////////////////////////////
 	getStorage() {
 		return new Promise((resolve) => {
@@ -220,34 +233,32 @@ class TreeFeedsData extends StoredKeyedItems {
 
 	//////////////////////////////////////////
 	set(key, properties = {}, saveToStorage = true) {
-		let defProp = { lastChecked: Date.now(), lastVisited: 0, updateTitle: true, openInFeedPreview: false };
-		let valProp = Object.assign(defProp, this.value(key));
-		let newProp = Object.assign(valProp, properties);
-		super.set(key, {
-			lastChecked: valProp.lastChecked,		// the lastChecked propertey is protected and cannot be modified by set()
-			lastVisited: newProp.lastVisited,
-			updateTitle: newProp.updateTitle,
-			openInFeedPreview: newProp.openInFeedPreview,
-		},
-		saveToStorage);
+		// this._items[key] may not exist (undefined) and it's OK
+		// lastChecked is protected, modifiable only by set() or update()
+		let obj = Object.assign({}, this._defaultObject, this._items[key], properties, { lastChecked: Date.now() });
+		super.set(key, obj, saveToStorage);
 	}
 
 	//////////////////////////////////////////
-	setIfNotExist(key) {
-		if(!super.exist(key)) {
+	update(key) {
+		// only update() and set() can change lastChecked.
+		if(this.exist(key)) {
+			this._items[key].lastChecked = Date.now();
+			this.setStorage();
+		} else {
 			this.set(key);
 		}
 	}
 
 	//////////////////////////////////////////
-	setLastChecked(key) {
-		if(super.exist(key)) {
-			this._items[key].lastChecked = Date.now();
+	setIfNotExist(key) {
+		if(!this.exist(key)) {
+			this.set(key);
 		}
 	}
 
 	//////////////////////////////////////////
-	purge() {
+	purge(millisecOlderThen = 86400000) {	// 24 hours in milliseconds
 		// test case: Moved/Reused bookmark id value; bookmark moved or deleted and a new one created with same id value.
 
 		return new Promise((resolve) => {
@@ -260,9 +271,9 @@ class TreeFeedsData extends StoredKeyedItems {
 
 					for(let key in this._items) {
 
-						// remove from object if its not in the feeds collection and is older then 24 hours
-						if( !!!bmFeeds[key] && (this._items[key].lastChecked < (Date.now() - 86400000)) ) {
-							super.remove(key, false);
+						// remove from object if its not in the feeds collection and is older then millisecOlderThen
+						if( !!!bmFeeds[key] && (this._items[key].lastChecked < (Date.now() - millisecOlderThen)) ) {
+							this.remove(key, false);
 						}
 					}
 					this.setStorage();
@@ -2196,6 +2207,18 @@ let slUtil = (function() {
 		setTimeout(() => alert(msg), 0);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function debug_storedKeys_list(n=3) {
+		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
+		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function debug_storedKeys_purge(n=3, millisecOld=1) {
+		if(n & 1) (new OpenTreeFolders()).purge(millisecOld);
+		if(n & 2) (new TreeFeedsData()).purge(millisecOld);
+	}
+
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
@@ -2239,6 +2262,8 @@ let slUtil = (function() {
 		asPrettyByteSize: asPrettyByteSize,
 		getMimeTypeIconPath: getMimeTypeIconPath,
 		nbAlert: nbAlert,
+		debug_storedKeys_list: debug_storedKeys_list,
+		debug_storedKeys_purge: debug_storedKeys_purge,
 	};
 
 })();

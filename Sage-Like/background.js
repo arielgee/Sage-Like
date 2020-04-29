@@ -270,8 +270,8 @@
 			let showNewBadge = false;
 			for (let feed of bmFeeds) {
 
-				objTreeFeedsData.setIfNotExist(feed.id);
-				objTreeFeedsData.setLastChecked(feed.id);
+				// add if not already exists or just update the lastChecked
+				objTreeFeedsData.update(feed.id);
 
 				try {
 					let result = await syndication.fetchFeedData(feed.url, 10000, false);		// minimal timeout

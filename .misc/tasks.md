@@ -664,14 +664,25 @@
 		return super.value(key);
 	}
 * StoredKeyedItems default set() should be {} and not "x"
+* m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) in onClickTreeItem was not preceded with a .getStorage() => one .getStorage() for all treeview, .setStorage() only if needed
+* m_objTreeFeedsData.setLastChecked() is not setStorage()
+  checkForNewFeedData
+	replace this:
+		m_objTreeFeedsData.setIfNotExist(id);
+		m_objTreeFeedsData.setLastChecked(id);
+	with this
+		m_objTreeFeedsData.set(id);
+  Do not do this: 'm_objTreeFeedsData.value(elmLI.id).lastVisited = 0;' Do that: 'm_objTreeFeedsData.set(elmLI.id, { lastVisited: 0 });'
+* is setIfNotExist() REALLY needed in openEditTreeItemProperties() ? at all?	=> leave it
 ---
 
 ## Now
-* m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) in onClickTreeItem was not preceded with a .getStorage() => one .getStorage() for all treeview, .setStorage() only if needed
-* m_objTreeFeedsData.setLastChecked() is not setStorage()
+* filter tree, delete item, reapply filter must be on
 ---
 
 ## Next
+* fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
+* return the Promise from all set preference functions in prefs and internalPrefs
 * display OPML import/export stats to user.
 * alert() messages in preferences are not centered.
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
