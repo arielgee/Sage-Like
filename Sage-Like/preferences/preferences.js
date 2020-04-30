@@ -60,6 +60,10 @@ let preferences = (function() {
 	let m_elmImportOpml;
 	let m_elmExportOpml;
 
+	let m_elmPageOverlay;
+	let m_elmMessageBox;
+	let m_elmBtnMessageBoxOK;
+
 	let m_elmBtnReloadExtension;
 	let m_elmBtnRestoreDefaults;
 
@@ -123,6 +127,10 @@ let preferences = (function() {
 		m_elmTextCSSViewer = document.getElementById("textCSSViewer");
 		m_elmImportOpml = document.getElementById("inputImportOPML");
 		m_elmExportOpml = document.getElementById("btnExportOPML");
+
+		m_elmPageOverlay = document.getElementById("pageOverlay");
+		m_elmMessageBox = document.getElementById("messageBox");
+		m_elmBtnMessageBoxOK = document.getElementById("btnMessageBoxOK");
 
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
@@ -190,6 +198,9 @@ let preferences = (function() {
 		m_elmImportOpml.removeEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.removeEventListener("click", onClickExportOpml);
 
+		m_elmMessageBox.removeEventListener("keydown", onKeyDownMessageBox);
+		m_elmBtnMessageBoxOK.removeEventListener("click", onClickBtnMessageBoxOK);
+
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
 
@@ -246,6 +257,9 @@ let preferences = (function() {
 		m_elmTextCSSViewer.addEventListener("blur", onBlurTextCSSViewer);
 		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.addEventListener("click", onClickExportOpml);
+
+		m_elmMessageBox.addEventListener("keydown", onKeyDownMessageBox);
+		m_elmBtnMessageBoxOK.addEventListener("click", onClickBtnMessageBoxOK);
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
@@ -716,11 +730,11 @@ let preferences = (function() {
 			broadcastCustomCSSSourceChanged();
 
 			if(!!result.warning) {
-				slUtil.nbAlert("WARNING:\n\n" + result.warning);
+				showMessageBox("Warning", result.warning, m_elmImportCustomCSSSource.parentElement.parentElement);
 			}
 
 		}).catch((error) => {
-			slUtil.nbAlert("ERROR: " + error.message);
+			showMessageBox("Error", error.message, m_elmImportCustomCSSSource.parentElement.parentElement);
 			console.log("[Sage-Like]", "CSS file validation error", error.message);
 		});
 	}
@@ -746,39 +760,47 @@ let preferences = (function() {
 		m_lockBookmarksEventHandler.lock();
 
 		let elmPrefOverlayFeedTrans = document.getElementById("prefOverlayFeedTrans");
+		let elmPref = m_elmImportOpml.parentElement.parentElement;
 
 		elmPrefOverlayFeedTrans.classList.add("processing");
-		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, true);
+		slUtil.disableElementTree(elmPref, true);
 
 		opml.importFeeds.run(event.target.files[0]).then((result) => {
+
 			initializeSelectFeedsFolder();
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: result.newFolderId });
-			console.log("[Sage-Like]", "OPML-Imported", result.stats);
 			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
+
+			let msg = result.stats.feedCount + " feeds and " + result.stats.folderCount + " folders were successfully imported.";
+			showMessageBox("Import", msg, elmPref);
+
 		}).catch((error) => {
-			slUtil.nbAlert(error);		// so the alert() will not block the finally()
+			showMessageBox("Error", error, elmPref);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
 			m_lockBookmarksEventHandler.unlock();
 
 			elmPrefOverlayFeedTrans.classList.remove("processing");
-			slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, false);
+			slUtil.disableElementTree(elmPref, false);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickExportOpml(event) {
 
-		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, true);
+		let elmPref = m_elmImportOpml.parentElement.parentElement;
+		slUtil.disableElementTree(elmPref, true);
 
-		opml.exportFeeds.run().then((stats) => {
-			console.log("[Sage-Like]", "OPML-Exported", stats);
+		opml.exportFeeds.run().then((result) => {
+			let msg = result.stats.feedCount + " feeds and " + result.stats.folderCount + " folders were successfully exported.\n\nFile: " + result.fileName;
+			showMessageBox("Export", msg, elmPref);
+
 		}).catch((error) => {
-			alert(error);
+			showMessageBox("Error", error, elmPref);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
-			slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, false);
+			slUtil.disableElementTree(elmPref, false);
 		});
 	}
 
@@ -1107,6 +1129,49 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurTextCSSViewer(event) {
 		setTimeout(() => m_elmCSSViewBox.style.display = "none", 0);		// to avoid: "TypeError: Property 'handleEvent' is not callable."
+	}
+
+	//==================================================================================
+	//=== Message Box functions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function showMessageBox(msgCaption, msgText, elmPreferenceReference) {
+
+		document.getElementById("messageBoxCaption").textContent = msgCaption;
+		document.getElementById("messageBoxText").textContent = msgText;
+
+		m_elmPageOverlay.style.display = "block";
+		m_elmMessageBox.style.display = "block";
+
+		let rect = slUtil.getElementViewportRect(elmPreferenceReference, window.innerWidth, window.innerHeight);
+
+		const OFFSET = 8;
+		let x = (rect.width - m_elmMessageBox.offsetWidth) / 2;
+		let y = rect.top - m_elmMessageBox.offsetHeight - 80;
+
+		m_elmMessageBox.style.left = (x<1 ? OFFSET : x) + "px";
+		m_elmMessageBox.style.top = (y<OFFSET ? OFFSET : y) + "px";
+
+		m_elmBtnMessageBoxOK.focus();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function hideMessageBox() {
+		m_elmPageOverlay.style.display = "none";
+		m_elmMessageBox.style.display = "none";
+}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownMessageBox(event) {
+		if(["Escape","Enter","NumpadEnter","Space"].includes(event.code)) {
+			hideMessageBox();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnMessageBoxOK(event) {
+		hideMessageBox();
 	}
 
 	//==================================================================================

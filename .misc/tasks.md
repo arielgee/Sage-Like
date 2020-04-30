@@ -677,16 +677,20 @@
 * filter tree, delete item, reapply filter must be on	==> NO it's not
 * add 'Easy' to 'Feed check method' pref. 10 batches with 4 seconds pause
 * return the Promise from all set preference functions in prefs and internalPrefs
+* display OPML import/export stats to user.
+* alert() messages in preferences are not centered.
 ---
 
 ## Now
-* display OPML import/export stats to user.
-* fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
+* in title (tooltip) there are uses on \u000d and also \n. make up your mind!
+	* white-space: pre-wrap; to use \n in textContent
+	* scann all innerHTML uses AGAIN!
 ---
 
 ## Next
+* messageBox in dark mode
+* fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 * detect right-to-left languages and set direction
-* alert() messages in preferences are not centered.
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * replace all \u000d (\r) with \u000a (\n)

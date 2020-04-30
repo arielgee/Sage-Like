@@ -176,7 +176,7 @@ let opml = (function() {
 		let m_objTreeFeedsData = null;
 		let m_feedCount;
 		let m_folderCount;
-		let m_outlineCount;
+		let m_fileName;
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function run() {
@@ -193,6 +193,8 @@ let opml = (function() {
 					dateExport.getMinutes().toLocaleString('en', {minimumIntegerDigits:2}) +
 					dateExport.getSeconds().toLocaleString('en', {minimumIntegerDigits:2});
 
+				m_fileName = "sage-like-feeds-" + dateExportStr + ".opml"
+
 				m_objOpenTreeFolders = new OpenTreeFolders();
 				m_objTreeFeedsData = new TreeFeedsData();
 
@@ -204,7 +206,7 @@ let opml = (function() {
 					browser.downloads.onChanged.addListener(onChangedDownload);
 					browser.downloads.download({
 						url: m_objUrl,
-						filename: "sage-like-feeds-" + dateExportStr + ".opml",
+						filename: m_fileName,
 						saveAs: true,
 					}).catch((error) => {
 
@@ -213,8 +215,11 @@ let opml = (function() {
 
 						if(error.message === "Download canceled by the user") {
 							m_funcExportResolve({
-								feedCount: 0,
-								folderCount: 0,
+								fileName: m_fileName,
+								stats: {
+									feedCount: 0,
+									folderCount: 0,
+								}
 							});
 						} else {
 							reject(error);
@@ -239,8 +244,11 @@ let opml = (function() {
 
 				browser.downloads.onChanged.removeListener(onChangedDownload);
 				m_funcExportResolve({
-					feedCount: m_feedCount,
-					folderCount: m_folderCount,
+					fileName: m_fileName,
+					stats: {
+						feedCount: m_feedCount,
+						folderCount: m_folderCount,
+					}
 				});
 			}
 		}

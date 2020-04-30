@@ -315,7 +315,7 @@ input[type="color"]::-moz-focus-inner {
 	background-color: var(--background-color-popup-box);
 	color: inherit;
 	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
-	z-index: 1;
+	z-index: 2;
 	white-space: nowrap;
 }
 
@@ -340,6 +340,29 @@ input[type="color"]::-moz-focus-inner {
 	font-size: 14px;
 	padding: 3px 6px;
 }
+
+#messageBoxCaption,
+#messageBoxText,
+#messageBoxButtons {
+	margin: 6px 8px;
+}
+
+#messageBoxCaption {
+	font-weight: bold;
+}
+
+#messageBoxText {
+	padding: 10px 0 15px;
+	max-width: 400px;
+	word-wrap: normal;
+	white-space: pre-wrap;
+}
+
+#messageBoxButtons {
+	display: flex;
+	justify-content: end;
+}
+
 /************************************************************************************/
 /**************************** Elements that will 'flash' ****************************/
 /************************************************************************************/
@@ -462,4 +485,15 @@ input[type="color"].disabled {
 body.noCaptionStyleV68 .caption,
 body.noCaptionStyleV68 .caption + .prefSeperator {
 	display: none;
+}
+
+#pageOverlay {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: var(--max-width-preferences-body);
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
 }
