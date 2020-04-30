@@ -8,12 +8,12 @@ let preferences = (function() {
 	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";
 	const TXT_OPTION_EVERY_DAY_AT = "Every day at ";
 
-	const TXT_HELP_INFO_CHECK_FEED_METHOD = "How the RSS feeds are fetched:\u000d" +
-											"  \u25cf Strenuous – All feeds are fetched at once in one batch. \u000d" +
-											"  \u25cf Moderate – Feeds are fetched in 3 batches with a 2 seconds pause between each one. \u000d" +
-											"  \u25cf Relaxed – Feeds are fetched in 5 batches with a 3 seconds pause between each one. \u000d" +
-											"  \u25cf Easy – Feeds are fetched in 10 batches with a 4 seconds pause between each one. \u000d" +
-											"  \u25cf Lazy – Feeds are fetched one by one with a 1.5 seconds pause between each one. \u000d";
+	const TXT_HELP_INFO_CHECK_FEED_METHOD = "How the RSS feeds are fetched:\n" +
+											"  \u25cf Strenuous – All feeds are fetched at once in one batch. \n" +
+											"  \u25cf Moderate – Feeds are fetched in 3 batches with a 2 seconds pause between each one. \n" +
+											"  \u25cf Relaxed – Feeds are fetched in 5 batches with a 3 seconds pause between each one. \n" +
+											"  \u25cf Easy – Feeds are fetched in 10 batches with a 4 seconds pause between each one. \n" +
+											"  \u25cf Lazy – Feeds are fetched one by one with a 1.5 seconds pause between each one. \n";
 
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsInterval;

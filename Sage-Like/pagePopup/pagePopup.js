@@ -305,10 +305,10 @@
 		elmListItem.setAttribute("name", elmLabel.textContent);
 		elmListItem.setAttribute("href", feed.url);
 
-		let titleText = "Title:\u2003" + feed.feedTitle + "\u000d" +
-			(feed.format ? "Format:\u2003" + feed.format + "\u000d" : "") +
-			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "") +
-			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\u000d" : "") +
+		let titleText = "Title:\u2003" + feed.feedTitle + "\n" +
+			(feed.format ? "Format:\u2003" + feed.format + "\n" : "") +
+			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\n" : "") +
+			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
 			"URL:\u2003" + feed.url.toString() +
 			"\n\n\u2731 Use Middle-click to preview this feed.";
 		elmListItem.title = titleText;

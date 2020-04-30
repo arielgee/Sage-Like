@@ -395,7 +395,7 @@ class InfoBubble {
 		// by setting to most left the bubble currect offsetWidth is recalculated with less
 		// interferences from the window viewport with before setting display = "block"
 		this.m_elmInfoBubble.style.left = "0px";
-		this.m_elmInfoBubbleText.innerHTML = infoText.replace(/\r/gm, "<br>");		// to allow for words that are <b>
+		this.m_elmInfoBubbleText.innerHTML = infoText.replace(/\n/gm, "<br>");		// to allow for words that are <b>
 		this.m_elmInfoBubble.classList.toggle("alertive", isAlertive);
 		this.m_elmInfoBubble.classList.toggle("rightPointer", rightPointerStyle);
 		this.m_elmInfoBubble.classList.toggle("generalInfo", isGeneral);

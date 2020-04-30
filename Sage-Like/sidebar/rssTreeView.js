@@ -30,16 +30,16 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const FILTER_TOOLTIP_TITLE = "Feed Filtering Methods: \u000d" +
-									"  \u25cf Filtering using case-insensitive text. \u000d" +
-									"  \u25cf Filtering using Regular Expression pattern enclosed between two slashes ('/'). \u000d" +
-									"      Flag 'i' (case-insensitive) is supported when placed after the second slash. \u000d" +
-									"  \u25cf URL filtering using text prefixed with a single percent sign ('%'). \u000d" +
-									"  \u25cf Status filtering using special commands prefixed with a single greater-than sign ('>'): \u000d" +
-									"     \u2022 Use '>unread' for unvisited feeds. \u000d" +
-									"     \u2022 Use '>read' for visited feeds. \u000d" +
-									"     \u2022 Use '>error' for feeds that failed to update. \u000d" +
-									"     \u2022 Use '>load' for feeds that are still loading. \u000d\u000d" +
+	const FILTER_TOOLTIP_TITLE = "Feed Filtering Methods: \n" +
+									"  \u25cf Filtering using case-insensitive text. \n" +
+									"  \u25cf Filtering using Regular Expression pattern enclosed between two slashes ('/'). \n" +
+									"      Flag 'i' (case-insensitive) is supported when placed after the second slash. \n" +
+									"  \u25cf URL filtering using text prefixed with a single percent sign ('%'). \n" +
+									"  \u25cf Status filtering using special commands prefixed with a single greater-than sign ('>'): \n" +
+									"     \u2022 Use '>unread' for unvisited feeds. \n" +
+									"     \u2022 Use '>read' for visited feeds. \n" +
+									"     \u2022 Use '>error' for feeds that failed to update. \n" +
+									"     \u2022 Use '>load' for feeds that are still loading. \n\n" +
 									"\u2731 Feeds may change their title and/or status after the filter was applied.";
 
 	let TreeItemStatus = Object.freeze({
@@ -2037,8 +2037,8 @@ let rssTreeView = (function() {
 
 			tooltipText =
 				"Title: " + getTreeItemText(elmLI) +
-				"\u000dURL: " + elmLI.getAttribute("href") +
-				(!!thirdLine ? "\u000d" + thirdLine : "");
+				"\nURL: " + elmLI.getAttribute("href") +
+				(!!thirdLine ? "\n" + thirdLine : "");
 
 			tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error'
 
@@ -2062,8 +2062,8 @@ let rssTreeView = (function() {
 		}
 
 		tooltipText +=
-			(elmLI.hasAttribute("href") ? ("\u000dURL: " + elmLI.getAttribute("href")) : "") +
-			"\u000d" + thirdLine;
+			(elmLI.hasAttribute("href") ? ("\nURL: " + elmLI.getAttribute("href")) : "") +
+			"\n" + thirdLine;
 
 		tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error'
 		elmLI.title = tooltipText;
@@ -2083,7 +2083,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.classList.toggle("alert", isAlertOn);
 
 		if(isAlertOn) {
-			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\u000dShift+click to reload.";
+			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\nShift+click to reload.";
 			InfoBubble.i.show(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
@@ -2540,7 +2540,7 @@ let rssTreeView = (function() {
 				if(!m_elmFilterWidget.classList.contains("filterUrlOn")) {
 
 					m_elmReapplyFilter.classList.add("alert");
-					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\u000dFilter may require reapplying.";
+					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\nFilter may require reapplying.";
 
 					if(!m_reapplyInfoBubbleMsgShownOnce) {
 						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);

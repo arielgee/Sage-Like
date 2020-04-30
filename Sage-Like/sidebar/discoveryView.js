@@ -6,9 +6,9 @@ let discoveryView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const AGGRESSIVE_TOOLTIP_TITLE = "Aggressive Discovery: \u000d" +
-									"  \u25cf None: Check only for standardly discoverable RSS links. \u000d" +
-									"  \u25cf Low: Check each hyperlink in page that its URL might suggest it links to an RSS feed. \u000d" +
+	const AGGRESSIVE_TOOLTIP_TITLE = "Aggressive Discovery: \n" +
+									"  \u25cf None: Check only for standardly discoverable RSS links. \n" +
+									"  \u25cf Low: Check each hyperlink in page that its URL might suggest it links to an RSS feed. \n" +
 									"  \u25cf High: Check ALL hyperlinks in page (process may be lengthy).";
 
 	let m_elmDiscoverPanel = null;
@@ -298,10 +298,10 @@ let discoveryView = (function() {
 		elmListItem.setAttribute("href", feed.url);
 		elmListItem.setAttribute("data-index", feed.index);
 
-		let titleText = "Title:\u2003" + feed.feedTitle + "\u000d" +
-			(feed.format ? "Format:\u2003" + feed.format + "\u000d" : "") +
-			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\u000d" : "") +
-			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\u000d" : "") +
+		let titleText = "Title:\u2003" + feed.feedTitle + "\n" +
+			(feed.format ? "Format:\u2003" + feed.format + "\n" : "") +
+			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\n" : "") +
+			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
 			"URL:\u2003" + feed.url.toString() +
 			"\n\n\u2731 Use Middle-click to preview this feed.";
 		elmListItem.title = titleText;
