@@ -360,6 +360,7 @@ html, body {
 	pointer-events: auto;
 	display: flex;
 	align-items: flex-start;
+	white-space: pre-wrap;
 }
 
 #infoBubble.alertive #infoBubbleBody {

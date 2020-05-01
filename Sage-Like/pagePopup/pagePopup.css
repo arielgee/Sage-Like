@@ -60,6 +60,7 @@ body {
 	width: 100%;
 	color: wheat;
 	line-height: 180%;
+	white-space: pre-wrap;
 }
 
 #noticeContainer {

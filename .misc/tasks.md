@@ -680,15 +680,15 @@
 * display OPML import/export stats to user.
 * alert() messages in preferences are not centered.
 * in title (tooltip) there are uses on \u000d and also \n. make up your mind!
----
-
-## Now
 * white-space: pre-wrap; to use \n in textContent;  scan all innerHTML uses AGAIN!
 ---
 
-## Next
+## Now
 * middle-click from pagePopup creates following error in console. also the feedPreview opend is w/o custom CSS:
 	> [Exception... "Component returned failure code: 0x80070057 (NS_ERROR_ILLEGAL_VALUE) [nsIDOMWindowUtils.addSheet]"  nsresult: "0x80070057 (NS_ERROR_ILLEGAL_VALUE)"  location: "JS frame :: resource://gre/modules/ExtensionUtils.jsm :: runSafeSyncWithoutClone :: line 70"  data: no]
+---
+
+## Next
 * messageBox in dark mode
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 * detect right-to-left languages and set direction

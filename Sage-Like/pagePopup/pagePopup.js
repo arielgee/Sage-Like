@@ -271,7 +271,7 @@
 
 				let elmNoticeContainer = document.getElementById("noticeContainer");
 
-				elmNoticeContainer.firstElementChild.innerHTML = "Something Went Wrong!</br>Most likely it's a browser issue concerning page permissions."
+				elmNoticeContainer.firstElementChild.textContent = "Something Went Wrong!\nMost likely it's a browser issue concerning page permissions."
 				elmNoticeContainer.style.display = "block";
 				elmBusyContainer.parentElement.removeChild(elmBusyContainer);
 

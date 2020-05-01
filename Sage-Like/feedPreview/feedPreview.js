@@ -185,7 +185,7 @@
 		elmFeedItemContent.className = "feedItemContent";
 
 		let itemContent = ((feedItem.htmlContent.length > 0) ? feedItem.htmlContent : feedItem.description);
-		itemContent.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
+		itemContent = itemContent.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
 
 		// add feed-item image only if it's not included in the item content
 		let itemImage = "";
@@ -319,9 +319,9 @@
 
 		// no size is zero
 		if(!!!size || size.startsWith("0 ")) {
-			return FMT_ATTACHMENT_TITLE.format([attachment.title, attachment.url.toString()]);
+			return FMT_ATTACHMENT_TITLE.format([attachment.title, attachment.url.toString()]).escapeHtml();
 		} else {
-			return FMT_ATTACHMENT_TITLE_WITH_SIZE.format([attachment.title, attachment.url.toString(), size]);
+			return FMT_ATTACHMENT_TITLE_WITH_SIZE.format([attachment.title, attachment.url.toString(), size]).escapeHtml();
 		}
 	}
 
@@ -338,7 +338,7 @@
 		event.stopPropagation();
 		clearTimeout(m_timeoutMouseOver);
 
-		m_elmAttachmentTooltip.innerHTML = elmAtt.getAttribute("data-title");
+		m_elmAttachmentTooltip.innerHTML = elmAtt.getAttribute("data-title").unescapeHtml();
 
 		let tooltipStyle = m_elmAttachmentTooltip.style;
 
