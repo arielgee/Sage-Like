@@ -34,4 +34,6 @@ body {
 
 #attachmentTooltip {
 	background-image: url("file:///C:/evil-css-scripts/fuck-him-up.png");
+	color: crimson !important;
+	background-color: yellow !important;
 }

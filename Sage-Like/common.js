@@ -395,7 +395,7 @@ class InfoBubble {
 		// by setting to most left the bubble currect offsetWidth is recalculated with less
 		// interferences from the window viewport with before setting display = "block"
 		this.m_elmInfoBubble.style.left = "0px";
-		this.m_elmInfoBubbleText.innerHTML = infoText.replace(/\n/gm, "<br>");		// to allow for words that are <b>
+		this._setTextHTML(this.m_elmInfoBubbleText, infoText);
 		this.m_elmInfoBubble.classList.toggle("alertive", isAlertive);
 		this.m_elmInfoBubble.classList.toggle("rightPointer", rightPointerStyle);
 		this.m_elmInfoBubble.classList.toggle("generalInfo", isGeneral);
@@ -470,6 +470,39 @@ class InfoBubble {
 			this.m_elmInfoBubble.classList.contains("fadeOut")) {
 
 			this.m_elmInfoBubble.style.display = "none";
+		}
+	}
+
+	//////////////////////////////////////////
+	_setTextHTML(elm, infoText) {
+
+		// support for words that are <b>
+		let matches;
+		let infoTextTagNodesB = [];
+		let indexStart = 0;
+		let reTagB = /<b>.+?<\/b>/gim;
+
+		while( (matches = reTagB.exec(infoText)) !== null ) {
+			infoTextTagNodesB.push(infoText.substring(indexStart, matches.index));
+			infoTextTagNodesB.push(matches[0]);
+			indexStart = reTagB.lastIndex;
+		}
+		infoTextTagNodesB.push(infoText.substring(indexStart));
+
+		// remove empties
+		infoTextTagNodesB = infoTextTagNodesB.filter((x) => x.length > 0);
+
+		let node;
+		let reOnlyTagB = new RegExp("^(" + reTagB.source + ")$", "im");
+
+		for(let i=0, len=infoTextTagNodesB.length; i<len; i++) {
+			if(reOnlyTagB.test(infoTextTagNodesB[i])) {
+				node = document.createElement("b");
+				node.textContent = infoTextTagNodesB[i].replace(/<\/?b>/g, "");
+			} else {
+				node = document.createTextNode(infoTextTagNodesB[i]);
+			}
+			elm.appendChild(node);
 		}
 	}
 };
