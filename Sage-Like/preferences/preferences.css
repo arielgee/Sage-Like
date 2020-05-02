@@ -368,18 +368,18 @@ input[type="color"]::-moz-focus-inner {
 /************************************************************************************/
 .preferenceButton {
 	--color1: rgba(var(--background-color-button), var(--background-alpha-button));
-	background: linear-gradient(to left, var(--color1) 50%, var(--color-flash) 50%);
+	background: linear-gradient(to left, var(--color1) 52%, var(--color-flash) 50%);
 }
 
 select,
 .annotation {
-	background: linear-gradient(to left, transparent 50%, var(--color-flash) 50%);
+	background: linear-gradient(to left, var(--background-color-select-control) 52%, var(--color-flash) 50%);
 }
 
 select,
 .annotation,
 .preferenceButton {
-	background-size: 200% 100%;
+	background-size: 220% 100%;
 	background-position: right bottom;
 	transition: background-position 0.2s ease-in 0s;
 }
@@ -492,7 +492,8 @@ body.noCaptionStyleV68 .caption + .prefSeperator {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: var(--max-width-preferences-body);
+	max-width: var(--max-width-preferences-body);
+	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.7);
 	z-index: 1;

@@ -683,10 +683,12 @@
 * white-space: pre-wrap; to use \n in textContent;  scan all innerHTML uses AGAIN!
 * middle-click from pagePopup creates following error in console. also the feedPreview opend is w/o custom CSS:		=> happends when created tab is not active
 	> [Exception... "Component returned failure code: 0x80070057 (NS_ERROR_ILLEGAL_VALUE) [nsIDOMWindowUtils.addSheet]"  nsresult: "0x80070057 (NS_ERROR_ILLEGAL_VALUE)"  location: "JS frame :: resource://gre/modules/ExtensionUtils.jsm :: runSafeSyncWithoutClone :: line 70"  data: no]
+* messageBox in dark mode
+* replace all \u000d (\r) with \u000a (\n)
 ---
 
 ## Now
-* messageBox in dark mode
+* support copy-paste in tree ?
 ---
 
 ## Next
@@ -694,8 +696,6 @@
 * detect right-to-left languages and set direction
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???
-* replace all \u000d (\r) with \u000a (\n)
-* support copy-paste in tree ?
 * link to self in feedPreview
 * a better word for 'Easy' in 'Feed check method' pref.
 * using the returned Promise fromthe set preference functions in prefs and internalPrefs
