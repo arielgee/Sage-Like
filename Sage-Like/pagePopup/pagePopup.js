@@ -107,7 +107,7 @@
 					browser.tabs.create({ url: "view-source:" + url, active: false });
 
 				} else {
-					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")), active: false });
+					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")), active: true });
 				}
 			}
 

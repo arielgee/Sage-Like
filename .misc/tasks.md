@@ -681,15 +681,15 @@
 * alert() messages in preferences are not centered.
 * in title (tooltip) there are uses on \u000d and also \n. make up your mind!
 * white-space: pre-wrap; to use \n in textContent;  scan all innerHTML uses AGAIN!
----
-
-## Now
-* middle-click from pagePopup creates following error in console. also the feedPreview opend is w/o custom CSS:
+* middle-click from pagePopup creates following error in console. also the feedPreview opend is w/o custom CSS:		=> happends when created tab is not active
 	> [Exception... "Component returned failure code: 0x80070057 (NS_ERROR_ILLEGAL_VALUE) [nsIDOMWindowUtils.addSheet]"  nsresult: "0x80070057 (NS_ERROR_ILLEGAL_VALUE)"  location: "JS frame :: resource://gre/modules/ExtensionUtils.jsm :: runSafeSyncWithoutClone :: line 70"  data: no]
 ---
 
-## Next
+## Now
 * messageBox in dark mode
+---
+
+## Next
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 * detect right-to-left languages and set direction
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
