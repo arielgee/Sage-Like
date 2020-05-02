@@ -539,17 +539,17 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function markAllItemsAsVisitedState(isVisited) {
 
-		let elms = m_elmList.getElementsByTagName("li");
+		let elms = m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM);
 
-		if(elms[0] !== undefined && !(elms[0].classList.contains("errormsg"))) {
+		if(elms.length > 0) {
 
-			for(let elm of elms) {
+			for(let i=0, len=elms.length; i<len; i++) {
 				if(isVisited) {
-					slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
-					elm.classList.remove("bold");
+					slUtil.addUrlToBrowserHistory(elms[i].getAttribute("href"), elms[i].textContent);
+					elms[i].classList.remove("bold");
 				} else {
-					slUtil.deleteUrlFromBrowserHistory(elm.getAttribute("href"));
-					elm.classList.add("bold");
+					slUtil.deleteUrlFromBrowserHistory(elms[i].getAttribute("href"));
+					elms[i].classList.add("bold");
 				}
 			}
 			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
@@ -653,28 +653,25 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openAllItemsInTabs(onlyUnread = true) {
 
-		let elms = m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM + (onlyUnread ? ".bold" : ""));
+		let elm, elms = m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM + (onlyUnread ? ".bold" : ""));
 
-		if(elms[0] !== undefined && !(elms[0].classList.contains("errormsg"))) {
-
-			let creatingTab, addingUrl, parkedTabUrl, elm;
-
-			for(let i=0, len=elms.length; i<len; i++) {
-
-				elm = elms[i];
-
-				parkedTabUrl = slUtil.getParkedTabUrl(elm.getAttribute("href"), elm.textContent.replace(/^[0-9]+\. /, ""));
-
-				creatingTab = browser.tabs.create({ active: false, url: parkedTabUrl });
-				addingUrl = slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
-
-				creatingTab.then((tab) => {
-					addingUrl.then(() => {
-						setItemRealVisitedState(elm, elm.getAttribute("href"));
-					});
-				});
-			}
+		for(let i=0, len=elms.length; i<len; i++) {
+			openItemInParkedTab((elm = elms[i]), elm.getAttribute("href"), elm.textContent);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function openItemInParkedTab(elm, url, title) {
+
+		let parkedTabUrl = slUtil.getParkedTabUrl(url, title.replace(/^[0-9]+\. /, ""));
+		let creatingTab = browser.tabs.create({ active: false, url: parkedTabUrl });
+		let addingUrl = slUtil.addUrlToBrowserHistory(url, title);
+
+		creatingTab.then((tab) => {
+			addingUrl.then(() => {
+				setItemRealVisitedState(elm, url);
+			});
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
