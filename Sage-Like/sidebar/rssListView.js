@@ -494,7 +494,7 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyC":
-				slUtil.copyTextToClipboard(elmTargetLI.getAttribute("href"));
+				slUtil.writeTextToClipboard(elmTargetLI.getAttribute("href"));
 				break;
 				/////////////////////////////////////////////////////////////////////////
 

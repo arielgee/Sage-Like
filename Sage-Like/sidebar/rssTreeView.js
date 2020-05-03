@@ -1217,7 +1217,7 @@ let rssTreeView = (function() {
 
 			case "KeyC":
 				if(TreeItemType.isFeed(elmTarget)) {
-					slUtil.copyTextToClipboard(elmTarget.getAttribute("href"));
+					slUtil.writeTextToClipboard(elmTarget.getAttribute("href"));
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////

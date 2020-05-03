@@ -423,7 +423,7 @@ let contextMenu = (function() {
 
 			case ContextAction.treeCopyUrl:
 			case ContextAction.listCopyUrl:
-				slUtil.copyTextToClipboard(actionData.url);
+				slUtil.writeTextToClipboard(actionData.url);
 				break;
 				///////////////////////////////////////////
 

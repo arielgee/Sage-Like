@@ -15,6 +15,7 @@
 		"history",
 		"<all_urls>",
 		"tabs",
+		"clipboardRead",
 		"clipboardWrite",
 		"storage",
 		"downloads",

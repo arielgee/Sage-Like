@@ -1675,7 +1675,7 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function copyTextToClipboard(text) {
+	function writeTextToClipboard(text) {
 
 		getBrowserVersion().then(async (version) => {
 
@@ -1701,6 +1701,32 @@ let slUtil = (function() {
 			document.execCommand("copy");
 			document.body.removeChild(input);
 			restoreFocus.focus();
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function readTextFromClipboard() {
+
+		return new Promise((resolve, reject) => {
+
+			getBrowserVersion().then((version) => {
+
+				if(parseInt(version) >= 63) {
+
+					navigator.clipboard.readText().then((text) => {
+						resolve(text);
+					}).catch((error) => {
+						console.log("[Sage-Like]", error);
+						reject(new Error("Failed to read text from clipboard"))
+					});
+
+				} else {
+
+					let err = "Reading text from clipboard is not supported in '" + version + "'";
+					console.log("[Sage-Like]", err);
+					reject(new Error(err));
+				}
+			});
 		});
 	}
 
@@ -2276,7 +2302,8 @@ let slUtil = (function() {
 	return {
 		random1to100: random1to100,
 		disableElementTree: disableElementTree,
-		copyTextToClipboard: copyTextToClipboard,
+		writeTextToClipboard: writeTextToClipboard,
+		readTextFromClipboard: readTextFromClipboard,
 		addUrlToBrowserHistory: addUrlToBrowserHistory,
 		deleteUrlFromBrowserHistory: deleteUrlFromBrowserHistory,
 		getScrollbarWidth: getScrollbarWidth,
