@@ -689,6 +689,8 @@
 
 ## Now
 * support copy-paste in tree ?
+	* https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
+	* https://keycode.info/
 ---
 
 ## Next
