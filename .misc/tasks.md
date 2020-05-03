@@ -685,6 +685,7 @@
 	> [Exception... "Component returned failure code: 0x80070057 (NS_ERROR_ILLEGAL_VALUE) [nsIDOMWindowUtils.addSheet]"  nsresult: "0x80070057 (NS_ERROR_ILLEGAL_VALUE)"  location: "JS frame :: resource://gre/modules/ExtensionUtils.jsm :: runSafeSyncWithoutClone :: line 70"  data: no]
 * messageBox in dark mode
 * replace all \u000d (\r) with \u000a (\n)
+* check all references to createNewFeed|createNewFeedInRootFolder|createNewFeedExtended
 ---
 
 ## Now

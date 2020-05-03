@@ -1103,17 +1103,17 @@ let rssTreeView = (function() {
 				let mozUrl = transfer.getData("text/x-moz-url").split("\n");
 
 				if(dropInRootFolder) {
-					createNewFeedInRootFolder((!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true);
+					createNewFeedInRootFolder((!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true, false);
 				} else {
-					createNewFeed(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true, event.shiftKey);
+					createNewFeed(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true, false, event.shiftKey);
 				}
 
 			} else if (transfer.types.includes("text/uri-list")) {
 
 				if(dropInRootFolder) {
-					createNewFeedInRootFolder("New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true);
+					createNewFeedInRootFolder("New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, false);
 				} else {
-					createNewFeed(elmDropTarget, "New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, event.shiftKey);
+					createNewFeed(elmDropTarget, "New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, false, event.shiftKey);
 				}
 
 			} else if (transfer.types.includes("text/plain")) {
@@ -1123,9 +1123,9 @@ let rssTreeView = (function() {
 				if( !!slUtil.validURL(data) ) {
 
 					if(dropInRootFolder) {
-						createNewFeedInRootFolder("New Feed", data, true);
+						createNewFeedInRootFolder("New Feed", data, true, false);
 					} else {
-						createNewFeed(elmDropTarget, "New Feed", data, true, event.shiftKey);
+						createNewFeed(elmDropTarget, "New Feed", data, true, false, event.shiftKey);
 					}
 
 				} else {
