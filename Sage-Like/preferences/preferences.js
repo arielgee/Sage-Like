@@ -136,7 +136,7 @@ let preferences = (function() {
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
 
 		slUtil.getBrowserVersion().then((version) => {
-			if(version >= "68.0") {
+			if(parseInt(version) >= 68) {
 				document.body.classList.add("noCaptionStyleV68");
 			}
 		});

@@ -1676,16 +1676,32 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function copyTextToClipboard(text) {
-		let restoreFocus = document.activeElement;
-		let input = document.createElement("textarea");
-		let style = input.style;
-		style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
-		input.value = text;
-		document.body.appendChild(input);
-		input.select();
-		document.execCommand("copy");
-		document.body.removeChild(input);
-		restoreFocus.focus();
+
+		getBrowserVersion().then(async (version) => {
+
+			if(parseInt(version) >= 63) {
+
+				try {
+
+					await navigator.clipboard.writeText(text);
+					return;
+
+				} catch (error) {
+					console.log("[Sage-Like]", error);
+				}
+			}
+
+			let restoreFocus = document.activeElement;
+			let input = document.createElement("textarea");
+			let style = input.style;
+			style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
+			input.value = text;
+			document.body.appendChild(input);
+			input.select();
+			document.execCommand("copy");
+			document.body.removeChild(input);
+			restoreFocus.focus();
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
