@@ -476,6 +476,11 @@ class InfoBubble {
 	//////////////////////////////////////////
 	_setTextHTML(elm, infoText) {
 
+		// empty
+		while(elm.firstChild) {
+			elm.removeChild(elm.firstChild);
+		}
+
 		// support for words that are <b>
 		let matches;
 		let infoTextTagNodesB = [];
