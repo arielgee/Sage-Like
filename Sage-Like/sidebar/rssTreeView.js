@@ -555,6 +555,297 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseDownTreeRoot(event) {
+
+		// The default behaviour of Fx is to call "mousedown" when
+		// clicking with the middle button (scroll).
+		// Next event, for middle button, will be 'auxclick'
+
+		if(event.button === 1 || event.target === m_elmTreeRoot) {
+			event.stopPropagation();
+			event.preventDefault();
+			if(event.target.tagName === "LI") setFeedSelectionState(event.target);
+			setFocus();
+		}
+		InfoBubble.i.dismiss();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownTreeRoot(event) {
+
+		let elmTarget = event.target;
+
+		if(elmTarget.getAttribute("disabled") !== null) {
+			return;
+		}
+
+		let count, elmCount, elm, elms;
+		let keyCode = event.code;
+
+		if(event.key === "Delete") {
+			keyCode = "KeyD";
+		} else if(event.ctrlKey && event.key === "Insert") {
+			keyCode = "KeyC";
+		}
+
+		switch (keyCode) {
+
+			case "Tab":
+				if(event.shiftKey) {
+					return;		// for shift+tab let the system handle it. exit w/o stop propagation
+				} else {
+					rssListView.setFocus();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Enter":
+			case "NumpadEnter":
+				if(TreeItemType.isFeed(elmTarget)) {
+					openTreeFeed(elmTarget, event.shiftKey);
+				} else {
+					toggleFolderState(elmTarget);
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Home":
+				elms = m_elmTreeRoot.querySelectorAll("li");		// get all selectable elements
+
+				for(let i=0, len=elms.length; i<len; i++) {
+					if(elms[i].offsetParent !== null) {		// visible or not
+						elms[i].focus();
+						break;
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "End":
+				elms = m_elmTreeRoot.querySelectorAll("li");		// get all selectable elements
+
+				for(let i=elms.length-1; i>=0; i--) {
+					if(elms[i].offsetParent !== null) {		// visible or not
+						elms[i].focus();
+						break;
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowUp":
+				elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)");	// get all selectable elements
+
+				// find target element in list
+				for(let i=0, len=elms.length; i<len; i++) {
+
+					// find in list the immediate PREVIOUS visible element
+					if(elms[i].id === elmTarget.id && (i-1) >= 0) {
+
+						for(let j=i-1; j>=0; j--) {
+							if(elms[j].offsetParent !== null) {		// visible or not
+								elms[j].focus();
+								break;
+							}
+						}
+						break;
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowDown":
+				elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)");	// get all selectable elements
+
+				for(let i=0, len=elms.length; i<len; i++) {
+
+					// find target element in list
+					if(elms[i].id === elmTarget.id && (i+1) < len) {
+
+						// find in list the immediate NEXT visible element
+						for(let j=i+1; j<len; j++) {
+							if(elms[j].offsetParent !== null) {		// visible or not
+								elms[j].focus();
+								break;
+							}
+						}
+						break;
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowLeft":
+				if(TreeItemType.isFolderOpen(elmTarget)) {
+					setFolderState(elmTarget, false);
+				} else if(elmTarget.parentElement.parentElement.tagName === "LI") {
+					elmTarget.parentElement.parentElement.focus();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowRight":
+				if(TreeItemType.isFolder(elmTarget)) {
+					if(TreeItemType.isOpen(elmTarget)) {
+						elm = elmTarget.querySelector("ul > li:not(.filtered)"); // first visible child
+						if(!!elm) elm.focus();
+					} else {
+						setFolderState(elmTarget, true);
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "PageUp":
+				if( (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
+
+					count = 1;
+					elmCount = slUtil.numberOfVItemsInViewport(elms[0].firstElementChild, m_elmTreeRoot);	// use caption height
+
+					// find target element in list
+					for(let i=0, len=elms.length; i<len; i++) {
+
+						// find in list the current selected item
+						if(elms[i].id === elmTarget.id && (i-1) >= 0) {
+
+							for(let j=i-1; j>=0; j--) {
+								if(elms[j].offsetParent !== null) {		// only if visible
+									elm = elms[j];
+									if(++count === elmCount) {
+										break;
+									}
+								}
+							}
+							elm.focus();
+							break;
+						}
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "PageDown":
+				if( (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
+
+					count = 1;
+					elmCount = slUtil.numberOfVItemsInViewport(elms[0].firstElementChild, m_elmTreeRoot);	// use caption height
+
+					// find target element in list
+					for(let i=0, len=elms.length; i<len; i++) {
+
+						// find in list the current selected item
+						if(elms[i].id === elmTarget.id && (i+1) < len) {
+
+							for(let j=i+1; j<len; j++) {
+								if(elms[j].offsetParent !== null) {		// only if visible
+									elm = elms[j];
+									if(++count === elmCount) {
+										break;
+									}
+								}
+							}
+							elm.focus();
+							break;
+						}
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyO":
+				if(TreeItemType.isFeed(elmTarget)) {
+					browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")) });
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyT":
+				if(TreeItemType.isFeed(elmTarget)) {
+					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")) });
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyW":
+				if(TreeItemType.isFeed(elmTarget)) {
+					browser.windows.create({
+						url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")),
+						type: "normal",
+					});
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyV":
+				if(TreeItemType.isFeed(elmTarget)) {
+					browser.windows.create({
+						url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")),
+						type: "normal",
+						incognito: true,
+					}).catch((error) => messageView.open(slUtil.incognitoErrorMessage(error)) );
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyA":
+				if(TreeItemType.isFolder(elmTarget)) {
+					openAllFeedsInTabs(elmTarget);
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyG":
+				toggleVisitedState(elmTarget);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyR":
+				markAllFeedsAsVisitedState(true);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyU":
+				markAllFeedsAsVisitedState(false);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyN":
+				openNewFeedProperties(elmTarget);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyF":
+				openNewFolderProperties(elmTarget);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyC":
+				if(TreeItemType.isFeed(elmTarget)) {
+					slUtil.writeTextToClipboard(elmTarget.getAttribute("href"));
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyD":
+				deleteTreeItem(elmTarget);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyP":
+				openEditTreeItemProperties(elmTarget);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			default:
+				return;		// do not stop propagation
+				/////////////////////////////////////////////////////////////////////////
+		}
+
+		event.stopPropagation();
+		event.preventDefault();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onFocusTreeItem(event) {
 		setFeedSelectionState(event.target);
 	}
@@ -944,301 +1235,6 @@ let rssTreeView = (function() {
 				}
 			});
 		}
-	}
-
-	//==================================================================================
-	//=== Tree Event Listeners
-	//==================================================================================
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onMouseDownTreeRoot(event) {
-
-		// The default behaviour of Fx is to call "mousedown" when
-		// clicking with the middle button (scroll).
-		// Next event, for middle button, will be 'auxclick'
-
-		if(event.button === 1 || event.target === m_elmTreeRoot) {
-			event.stopPropagation();
-			event.preventDefault();
-			if(event.target.tagName === "LI") setFeedSelectionState(event.target);
-			setFocus();
-		}
-		InfoBubble.i.dismiss();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onKeyDownTreeRoot(event) {
-
-		let elmTarget = event.target;
-
-		if(elmTarget.getAttribute("disabled") !== null) {
-			return;
-		}
-
-		let count, elmCount, elm, elms;
-		let keyCode = event.code;
-
-		if(event.key === "Delete") {
-			keyCode = "KeyD";
-		} else if(event.ctrlKey && event.key === "Insert") {
-			keyCode = "KeyC";
-		}
-
-		switch (keyCode) {
-
-			case "Tab":
-				if(event.shiftKey) {
-					return;		// for shift+tab let the system handle it. exit w/o stop propagation
-				} else {
-					rssListView.setFocus();
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "Enter":
-			case "NumpadEnter":
-				if(TreeItemType.isFeed(elmTarget)) {
-					openTreeFeed(elmTarget, event.shiftKey);
-				} else {
-					toggleFolderState(elmTarget);
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "Home":
-				elms = m_elmTreeRoot.querySelectorAll("li");		// get all selectable elements
-
-				for(let i=0, len=elms.length; i<len; i++) {
-					if(elms[i].offsetParent !== null) {		// visible or not
-						elms[i].focus();
-						break;
-					}
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "End":
-				elms = m_elmTreeRoot.querySelectorAll("li");		// get all selectable elements
-
-				for(let i=elms.length-1; i>=0; i--) {
-					if(elms[i].offsetParent !== null) {		// visible or not
-						elms[i].focus();
-						break;
-					}
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "ArrowUp":
-				elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)");	// get all selectable elements
-
-				// find target element in list
-				for(let i=0, len=elms.length; i<len; i++) {
-
-					// find in list the immediate PREVIOUS visible element
-					if(elms[i].id === elmTarget.id && (i-1) >= 0) {
-
-						for(let j=i-1; j>=0; j--) {
-							if(elms[j].offsetParent !== null) {		// visible or not
-								elms[j].focus();
-								break;
-							}
-						}
-						break;
-					}
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "ArrowDown":
-				elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)");	// get all selectable elements
-
-				for(let i=0, len=elms.length; i<len; i++) {
-
-					// find target element in list
-					if(elms[i].id === elmTarget.id && (i+1) < len) {
-
-						// find in list the immediate NEXT visible element
-						for(let j=i+1; j<len; j++) {
-							if(elms[j].offsetParent !== null) {		// visible or not
-								elms[j].focus();
-								break;
-							}
-						}
-						break;
-					}
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "ArrowLeft":
-				if(TreeItemType.isFolderOpen(elmTarget)) {
-					setFolderState(elmTarget, false);
-				} else if(elmTarget.parentElement.parentElement.tagName === "LI") {
-					elmTarget.parentElement.parentElement.focus();
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "ArrowRight":
-				if(TreeItemType.isFolder(elmTarget)) {
-					if(TreeItemType.isOpen(elmTarget)) {
-						elm = elmTarget.querySelector("ul > li:not(.filtered)"); // first visible child
-						if(!!elm) elm.focus();
-					} else {
-						setFolderState(elmTarget, true);
-					}
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "PageUp":
-				if( (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
-
-					count = 1;
-					elmCount = slUtil.numberOfVItemsInViewport(elms[0].firstElementChild, m_elmTreeRoot);	// use caption height
-
-					// find target element in list
-					for(let i=0, len=elms.length; i<len; i++) {
-
-						// find in list the current selected item
-						if(elms[i].id === elmTarget.id && (i-1) >= 0) {
-
-							for(let j=i-1; j>=0; j--) {
-								if(elms[j].offsetParent !== null) {		// only if visible
-									elm = elms[j];
-									if(++count === elmCount) {
-										break;
-									}
-								}
-							}
-							elm.focus();
-							break;
-						}
-					}
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "PageDown":
-				if( (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
-
-					count = 1;
-					elmCount = slUtil.numberOfVItemsInViewport(elms[0].firstElementChild, m_elmTreeRoot);	// use caption height
-
-					// find target element in list
-					for(let i=0, len=elms.length; i<len; i++) {
-
-						// find in list the current selected item
-						if(elms[i].id === elmTarget.id && (i+1) < len) {
-
-							for(let j=i+1; j<len; j++) {
-								if(elms[j].offsetParent !== null) {		// only if visible
-									elm = elms[j];
-									if(++count === elmCount) {
-										break;
-									}
-								}
-							}
-							elm.focus();
-							break;
-						}
-					}
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyO":
-				if(TreeItemType.isFeed(elmTarget)) {
-					browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")) });
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyT":
-				if(TreeItemType.isFeed(elmTarget)) {
-					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")) });
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyW":
-				if(TreeItemType.isFeed(elmTarget)) {
-					browser.windows.create({
-						url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")),
-						type: "normal",
-					});
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyV":
-				if(TreeItemType.isFeed(elmTarget)) {
-					browser.windows.create({
-						url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")),
-						type: "normal",
-						incognito: true,
-					}).catch((error) => messageView.open(slUtil.incognitoErrorMessage(error)) );
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyA":
-				if(TreeItemType.isFolder(elmTarget)) {
-					openAllFeedsInTabs(elmTarget);
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyG":
-				toggleVisitedState(elmTarget);
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyR":
-				markAllFeedsAsVisitedState(true);
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyU":
-				markAllFeedsAsVisitedState(false);
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyN":
-				openNewFeedProperties(elmTarget);
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyF":
-				openNewFolderProperties(elmTarget);
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyC":
-				if(TreeItemType.isFeed(elmTarget)) {
-					slUtil.writeTextToClipboard(elmTarget.getAttribute("href"));
-				}
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyD":
-				deleteTreeItem(elmTarget);
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			case "KeyP":
-				openEditTreeItemProperties(elmTarget);
-				break;
-				/////////////////////////////////////////////////////////////////////////
-
-			default:
-				return;		// do not stop propagation
-				/////////////////////////////////////////////////////////////////////////
-		}
-
-		event.stopPropagation();
-		event.preventDefault();
 	}
 
 	//==================================================================================
