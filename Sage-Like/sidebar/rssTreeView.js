@@ -586,6 +586,8 @@ let rssTreeView = (function() {
 			keyCode = "KeyD";
 		} else if(event.ctrlKey && event.key === "Insert") {
 			keyCode = "KeyC";
+		} else if( (event.shiftKey && event.key === "Insert") || (event.ctrlKey && keyCode === "KeyV") ) {
+			keyCode = "Paste";
 		}
 
 		switch (keyCode) {
@@ -823,6 +825,19 @@ let rssTreeView = (function() {
 				if(TreeItemType.isFeed(elmTarget)) {
 					slUtil.writeTextToClipboard(elmTarget.getAttribute("href"));
 				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Paste":
+				slUtil.readTextFromClipboard().then((text) => {
+					if( !!slUtil.validURL(text) ) {
+						setFolderState(elmTarget, true);		// will do nothing if it's a feed
+						createNewFeedExtended(elmTarget, "New Feed", text, true, false, true);
+					} else {
+						InfoBubble.i.show("The pasted text is not a valid URL.", undefined, true, false, 3500, true);
+						console.log("[Sage-Like]", "Pasted text invalid URL error", "'" + text + "'");
+					}
+				}).catch((error) => InfoBubble.i.show(error.message, undefined, true, false, 3500, true) );
 				break;
 				/////////////////////////////////////////////////////////////////////////
 

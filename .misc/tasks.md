@@ -686,23 +686,24 @@
 * messageBox in dark mode
 * replace all \u000d (\r) with \u000a (\n)
 * check all references to createNewFeed|createNewFeedInRootFolder|createNewFeedExtended
----
-
-## Now
 * support copy-paste in tree ?
 	* https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
 	* https://keycode.info/
+* link to self in feedPreview => NO
+* for _createSingleListItemFeed(): pass strings instead of elements => NO
+---
+
+## Now
+* context menu paste
 ---
 
 ## Next
+* using the returned Promise from the set preference functions in prefs and internalPrefs
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 * detect right-to-left languages and set direction
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???
-* link to self in feedPreview
 * a better word for 'Easy' in 'Feed check method' pref.
-* using the returned Promise fromthe set preference functions in prefs and internalPrefs
-* for _createSingleListItemFeed(): pass strings instead of elements
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
 * consider '@media (prefers-color-scheme: dark)' for sidebar
