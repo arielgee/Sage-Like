@@ -692,13 +692,15 @@
 * link to self in feedPreview => NO
 * for _createSingleListItemFeed(): pass strings instead of elements => NO
 * context menu paste
----
-
-## Now
 * using the returned Promise from the set preference functions in prefs and internalPrefs
 ---
 
+## Now
+* join broadcastCustomCSSSourceChanged() with broadcastPreferencesUpdated()
+---
+
 ## Next
+
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
 * detect right-to-left languages and set direction
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works

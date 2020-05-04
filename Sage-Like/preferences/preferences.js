@@ -453,10 +453,11 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeRootFeedsFolder(event) {
-		prefs.setRootFeedsFolderId(m_elmRootFeedsFolder.value);
+		prefs.setRootFeedsFolderId(m_elmRootFeedsFolder.value).then(()=> {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
+		});
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 		flashRootFeedsFolderElement();
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -494,14 +495,16 @@ let preferences = (function() {
 					}
 					m_elmCheckFeedsInterval.value = timeValue;
 
-					prefs.setCheckFeedsInterval(timeValue);
-					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
+					prefs.setCheckFeedsInterval(timeValue).then(() => {
+						broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
+					});
 				}
 			});
 
 		} else {
-			prefs.setCheckFeedsInterval(m_elmCheckFeedsInterval.value);
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
+			prefs.setCheckFeedsInterval(m_elmCheckFeedsInterval.value).then(() => {
+				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
+			});
 		}
 		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, m_elmCheckFeedsInterval.value === "0");
 	}
@@ -539,14 +542,16 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeShowFeedStats(event) {
-		prefs.setShowFeedStats(m_elmShowFeedStats.checked);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_STATS);
+		prefs.setShowFeedStats(m_elmShowFeedStats.checked).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_STATS);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeShowFeedItemDesc(event) {
-		prefs.setShowFeedItemDesc(m_elmShowFeedItemDesc.checked);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC);
+		prefs.setShowFeedItemDesc(m_elmShowFeedItemDesc.checked).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC);
+		});
 		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
 		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
 		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
@@ -559,41 +564,47 @@ let preferences = (function() {
 				m_elmFeedItemDescDelay.value = delayMillisec;
 			});
 		} else {
-			prefs.setFeedItemDescDelay(m_elmFeedItemDescDelay.value);
+			prefs.setFeedItemDescDelay(m_elmFeedItemDescDelay.value).then(() => {
+				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY);
+			});
 		}
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeShowFeedItemDescAttach(event) {
-		prefs.setShowFeedItemDescAttach(m_elmShowFeedItemDescAttach.checked);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH);
+		prefs.setShowFeedItemDescAttach(m_elmShowFeedItemDescAttach.checked).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorFeedItemDescBackground(event) {
 		m_elmColorFeedItemDescBackground.title = colorInputTitle(m_elmColorFeedItemDescBackground.value);
-		prefs.setColorFeedItemDescBackground(m_elmColorFeedItemDescBackground.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
+		prefs.setColorFeedItemDescBackground(m_elmColorFeedItemDescBackground.value).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorFeedItemDescText(event) {
 		m_elmColorFeedItemDescText.title = colorInputTitle(m_elmColorFeedItemDescText.value);
-		prefs.setColorFeedItemDescText(m_elmColorFeedItemDescText.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
+		prefs.setColorFeedItemDescText(m_elmColorFeedItemDescText.value).then(() =>{
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeDetectFeedsInWebPage(event) {
-		prefs.setDetectFeedsInWebPage(m_elmDetectFeedsInWebPage.checked);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
+		prefs.setDetectFeedsInWebPage(m_elmDetectFeedsInWebPage.checked).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeUIDensity(event) {
-		prefs.setUIDensity(m_elmUIDensity.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_UI_DENSITY);
+		prefs.setUIDensity(m_elmUIDensity.value).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_UI_DENSITY);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -646,73 +657,81 @@ let preferences = (function() {
 					}
 					m_elmFontName.value = userFontName;
 
-					prefs.setFontName(m_elmFontName.value);
-					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+					prefs.setFontName(m_elmFontName.value).then(() => {
+						broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+					});
 				}
 			});
 
 		} else {
-			prefs.setFontName(m_elmFontName.value);
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+			prefs.setFontName(m_elmFontName.value).then(() => {
+				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+			});
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeFontSizePercent(event) {
-		prefs.setFontSizePercent(m_elmFontSizePercent.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT);
+		prefs.setFontSizePercent(m_elmFontSizePercent.value).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorBackground(event) {
 		m_elmColorBackground.title = colorInputTitle(m_elmColorBackground.value);
-		prefs.setColorBackground(m_elmColorBackground.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+		prefs.setColorBackground(m_elmColorBackground.value).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorDialogBackground(event) {
 		m_elmColorDialogBackground.title = colorInputTitle(m_elmColorDialogBackground.value);
-		prefs.setColorDialogBackground(m_elmColorDialogBackground.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+		prefs.setColorDialogBackground(m_elmColorDialogBackground.value).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorSelect(event) {
 		m_elmColorSelect.title = colorInputTitle(m_elmColorSelect.value);
-		prefs.setColorSelect(m_elmColorSelect.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+		prefs.setColorSelect(m_elmColorSelect.value).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeColorText(event) {
 		m_elmColorText.title = colorInputTitle(m_elmColorText.value);
-		prefs.setColorText(m_elmColorText.value);
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+		prefs.setColorText(m_elmColorText.value).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickRadioImageSet(event) {
-		prefs.setImageSet(parseInt(event.target.value));
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_IMAGES);
+		prefs.setImageSet(parseInt(event.target.value)).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_IMAGES);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeUseCustomCSSFeedPreview(event) {
-		prefs.setUseCustomCSSFeedPreview(m_elmUseCustomCSSFeedPreview.checked);
+		prefs.setUseCustomCSSFeedPreview(m_elmUseCustomCSSFeedPreview.checked).then(() => {
+			prefs.getCustomCSSSourceHash().then((hash) => {
 
-		prefs.getCustomCSSSourceHash().then((hash) => {
+				if(m_elmUseCustomCSSFeedPreview.checked) {
+					slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, false);
+					slUtil.disableElementTree(m_elmBtnViewCSSSource, (hash.length === 0));
+					slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
+				} else {
+					slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
+				}
 
-			if(m_elmUseCustomCSSFeedPreview.checked) {
-				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, false);
-				slUtil.disableElementTree(m_elmBtnViewCSSSource, (hash.length === 0));
-				slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
-			} else {
-				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
-			}
-
-			flashCustomCSSImportButton();
-			if(hash.length > 0) broadcastCustomCSSSourceChanged();
+				flashCustomCSSImportButton();
+				if(hash.length > 0) broadcastCustomCSSSourceChanged();
+			});
 		});
 	}
 
@@ -721,13 +740,14 @@ let preferences = (function() {
 
 		cssFileValidator(event.target.files[0]).then((result) => {
 
-			prefs.setCustomCSSSource(result.source);
+			prefs.setCustomCSSSource(result.source).then(() => {
+				broadcastCustomCSSSourceChanged();
+			});
 
 			slUtil.disableElementTree(m_elmBtnViewCSSSource, false);
 			slUtil.disableElementTree(m_elmBtnClearCSSSource, false);
 
 			flashCustomCSSImportButton();
-			broadcastCustomCSSSourceChanged();
 
 			if(!!result.warning) {
 				showMessageBox("Warning", result.warning, m_elmImportCustomCSSSource.parentElement.parentElement);
@@ -746,11 +766,12 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnClearCSSSource(event) {
-		prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
+		prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE).then(() => {
+			broadcastCustomCSSSourceChanged();
+		});
 		slUtil.disableElementTree(m_elmBtnViewCSSSource, true);
 		slUtil.disableElementTree(m_elmBtnClearCSSSource, true);
 		flashCustomCSSImportButton();
-		broadcastCustomCSSSourceChanged();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

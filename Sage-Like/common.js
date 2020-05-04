@@ -170,7 +170,7 @@ class OpenTreeFolders extends StoredKeyedItems {
 
 	//////////////////////////////////////////
 	setStorage() {
-		internalPrefs.setOpenTreeFolders(this._items);
+		return internalPrefs.setOpenTreeFolders(this._items);
 	}
 
 	//////////////////////////////////////////
@@ -228,7 +228,7 @@ class TreeFeedsData extends StoredKeyedItems {
 
 	//////////////////////////////////////////
 	setStorage() {
-		internalPrefs.setTreeFeedsData(this._items);
+		return internalPrefs.setTreeFeedsData(this._items);
 	}
 
 	//////////////////////////////////////////
