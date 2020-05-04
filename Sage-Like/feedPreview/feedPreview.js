@@ -27,14 +27,16 @@
 
 		switch (message.id) {
 
-			case slGlobals.MSG_ID_CUSTOM_CSS_SOURCE_CHANGED:
-				prefs.getUseCustomCSSFeedPreview().then((use) => {
-					if(!use) {
-						m_customCSSSourceChanged = (m_hashCustomCSSSource.length > 0)
-					} else {
-						prefs.getCustomCSSSourceHash().then((hash) => m_customCSSSourceChanged = (hash !== m_hashCustomCSSSource) );
-					}
-				});
+			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
+				if(message.details === slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE) {
+					prefs.getUseCustomCSSFeedPreview().then((use) => {
+						if(!use) {
+							m_customCSSSourceChanged = (m_hashCustomCSSSource.length > 0)
+						} else {
+							prefs.getCustomCSSSourceHash().then((hash) => m_customCSSSourceChanged = (hash !== m_hashCustomCSSSource) );
+						}
+					});
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 		}

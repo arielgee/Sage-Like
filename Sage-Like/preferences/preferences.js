@@ -730,7 +730,7 @@ let preferences = (function() {
 				}
 
 				flashCustomCSSImportButton();
-				if(hash.length > 0) broadcastCustomCSSSourceChanged();
+				if(hash.length > 0) broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE);
 			});
 		});
 	}
@@ -741,7 +741,7 @@ let preferences = (function() {
 		cssFileValidator(event.target.files[0]).then((result) => {
 
 			prefs.setCustomCSSSource(result.source).then(() => {
-				broadcastCustomCSSSourceChanged();
+				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE);
 			});
 
 			slUtil.disableElementTree(m_elmBtnViewCSSSource, false);
@@ -767,7 +767,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnClearCSSSource(event) {
 		prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE).then(() => {
-			broadcastCustomCSSSourceChanged();
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE);
 		});
 		slUtil.disableElementTree(m_elmBtnViewCSSSource, true);
 		slUtil.disableElementTree(m_elmBtnClearCSSSource, true);
@@ -1294,10 +1294,5 @@ let preferences = (function() {
 				reader.readAsText(cssFile);
 			}
 		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function broadcastCustomCSSSourceChanged() {
-		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_CUSTOM_CSS_SOURCE_CHANGED });
 	}
 })();
