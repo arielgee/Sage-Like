@@ -587,7 +587,7 @@ let rssTreeView = (function() {
 		} else if(event.ctrlKey && event.key === "Insert") {
 			keyCode = "KeyC";
 		} else if( (event.shiftKey && event.key === "Insert") || (event.ctrlKey && keyCode === "KeyV") ) {
-			keyCode = "Paste";
+			keyCode = "KeyS";
 		}
 
 		switch (keyCode) {
@@ -828,16 +828,8 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case "Paste":
-				slUtil.readTextFromClipboard().then((text) => {
-					if( !!slUtil.validURL(text) ) {
-						setFolderState(elmTarget, true);		// will do nothing if it's a feed
-						createNewFeedExtended(elmTarget, "New Feed", text, true, false, true);
-					} else {
-						InfoBubble.i.show("The pasted text is not a valid URL.", undefined, true, false, 3500, true);
-						console.log("[Sage-Like]", "Pasted text invalid URL error", "'" + text + "'");
-					}
-				}).catch((error) => InfoBubble.i.show(error.message, undefined, true, false, 3500, true) );
+			case "KeyS":
+				pasteFeedUrlFromClipboard(elmTarget);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -1632,6 +1624,19 @@ let rssTreeView = (function() {
 				});
 			});
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function pasteFeedUrlFromClipboard(elmLI) {
+		slUtil.readTextFromClipboard().then((text) => {
+			if( !!slUtil.validURL(text) ) {
+				setFolderState(elmLI, true);		// will do nothing if it's a feed
+				createNewFeedExtended(elmLI, "New Feed", text, true, false, true);
+			} else {
+				InfoBubble.i.show("The pasted text is not a valid URL.", undefined, true, false, 3500, true);
+				console.log("[Sage-Like]", "Pasted text invalid URL error", "'" + text + "'");
+			}
+		}).catch((error) => InfoBubble.i.show(error.message, undefined, true, false, 3500, true) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2619,6 +2624,7 @@ let rssTreeView = (function() {
 		addNewFeeds: addNewFeeds,
 		openNewFeedProperties: openNewFeedProperties,
 		openNewFolderProperties: openNewFolderProperties,
+		pasteFeedUrlFromClipboard: pasteFeedUrlFromClipboard,
 		deleteTreeItem: deleteTreeItem,
 		openAllFeedsInTabs: openAllFeedsInTabs,
 		toggleVisitedState: toggleVisitedState,

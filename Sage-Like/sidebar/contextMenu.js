@@ -14,20 +14,21 @@ let contextMenu = (function() {
 		treeNewFeed:			9,
 		treeNewFolder:			10,
 		treeCopyUrl:			11,
-		treeDeleteTreeItem:		12,
-		treeProperties:			13,
-		treeSwitchDirection:	14,
+		treePasteUrl:			12,
+		treeDeleteTreeItem:		13,
+		treeProperties:			14,
+		treeSwitchDirection:	15,
 
-		listOpen:				15,
-		listOpenNewTab:			16,
-		listOpenNewWin:			17,
-		listOpenNewPrivateWin:	18,
-		listOpenAllInTabs:		19,
-		listToggleReadUnread:	20,
-		listMarkAllRead:		21,
-		listMarkAllUnread:		22,
-		listCopyUrl:			23,
-		listSwitchDirection:	24,
+		listOpen:				16,
+		listOpenNewTab:			17,
+		listOpenNewWin:			18,
+		listOpenNewPrivateWin:	19,
+		listOpenAllInTabs:		20,
+		listToggleReadUnread:	21,
+		listMarkAllRead:		22,
+		listMarkAllUnread:		23,
+		listCopyUrl:			24,
+		listSwitchDirection:	25,
 	});
 
 	//==================================================================================
@@ -193,21 +194,18 @@ let contextMenu = (function() {
 			return;
 		}
 
-		if(event.key === "Delete") {
-			keyCode = "KeyD";
-		}
-
 		if(m_currentContext === "treeitemfoldercontext") {
 			switch (keyCode) {
 				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
+				case "KeyS":	handleTreeMenuActions(ContextAction.treePasteUrl);			break;
 				case "KeyA":	handleTreeMenuActions(ContextAction.treeOpenAllInTabs);		break;
 				case "KeyG":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
 				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
 				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
 				case "KeyD":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 				case "KeyP":	handleTreeMenuActions(ContextAction.treeProperties);		break;
-				case "KeyS":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "treeitemcontext") {
 			switch (keyCode) {
@@ -221,9 +219,10 @@ let contextMenu = (function() {
 				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "KeyC":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
+				case "KeyS":	handleTreeMenuActions(ContextAction.treePasteUrl);			break;
 				case "KeyD":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 				case "KeyP":	handleTreeMenuActions(ContextAction.treeProperties);		break;
-				case "KeyS":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listitemcontext") {
 			switch (keyCode) {
@@ -236,7 +235,7 @@ let contextMenu = (function() {
 				case "KeyR":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "KeyU":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
 				case "KeyC":	handleListMenuActions(ContextAction.listCopyUrl);			break;
-				case "KeyS":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
+				case "KeyI":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "treecontext") {
 			switch (keyCode) {
@@ -244,14 +243,15 @@ let contextMenu = (function() {
 				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
 				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
-				case "KeyS":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+				case "KeyS":	handleTreeMenuActions(ContextAction.treePasteUrl);			break;
+				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listcontext") {
 			switch (keyCode) {
 				case "KeyA":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
 				case "KeyR":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
 				case "KeyU":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
-				case "KeyS":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
+				case "KeyI":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
 			}
 		}
 	}
@@ -273,6 +273,7 @@ let contextMenu = (function() {
 			case "mnuTreeNewFeed":						handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 			case "mnuTreeNewFolder":					handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
+			case "mnuTreePasteFeedUrl":					handleTreeMenuActions(ContextAction.treePasteUrl);			break;
 			case "mnuTreeDeleteTreeItem":				handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 			case "mnuTreeProperties":					handleTreeMenuActions(ContextAction.treeProperties);		break;
 			case "mnuTreeSwitchDirection":				handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
@@ -424,6 +425,11 @@ let contextMenu = (function() {
 			case ContextAction.treeCopyUrl:
 			case ContextAction.listCopyUrl:
 				slUtil.writeTextToClipboard(actionData.url);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treePasteUrl:
+				rssTreeView.pasteFeedUrlFromClipboard(m_elmEventTarget);
 				break;
 				///////////////////////////////////////////
 
