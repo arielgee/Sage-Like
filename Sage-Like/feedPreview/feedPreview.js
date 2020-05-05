@@ -395,8 +395,10 @@
 
 						prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
 
-						browser.tabs.insertCSS({ code: source, runAt: "document_start" }).then(() => {}).catch((err) => {
-							console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
+						browser.tabs.getCurrent().then((tab) => {
+							browser.tabs.insertCSS(tab.id, { code: source, runAt: "document_start" }).catch((err) => {
+								console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
+							});
 						});
 					}
 				});
