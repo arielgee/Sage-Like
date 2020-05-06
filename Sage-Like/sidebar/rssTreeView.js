@@ -1629,7 +1629,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function pasteFeedUrlFromClipboard(elmLI) {
 		slUtil.readTextFromClipboard().then((text) => {
-			if( !!slUtil.validURL(text) ) {
+			if( !!slUtil.validURL( (text = stripFeedPreviewUrl(text)) ) ) {
 				setFolderState(elmLI, true);		// will do nothing if it's a feed
 				createNewFeedExtended(elmLI, "New Feed", text, true, false, true);
 			} else {
