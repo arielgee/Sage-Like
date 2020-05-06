@@ -792,7 +792,11 @@ let preferences = (function() {
 			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: result.newFolderId });
 			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
 
-			let msg = result.stats.feedCount + " feeds and " + result.stats.folderCount + " folders were successfully imported.";
+			let skipped = result.stats.outlineCount - (result.stats.feedCount + result.stats.folderCount);
+			let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully imported.";
+			if(skipped > 0) {
+				msg += "\n\n" + skipped +" file " + (skipped>1 ? "entries were" : "entry was") + " skipped.";
+			}
 			showMessageBox("Import", msg, elmPref);
 
 		}).catch((error) => {

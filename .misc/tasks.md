@@ -700,7 +700,7 @@
 ---
 
 ## Now
-
+* is strUrl.stripHtmlTags() neccesery? what if I use URL() for all urls with base and for the feeData object?
 ---
 
 ## Next
@@ -716,7 +716,6 @@
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * a better word for 'Easy' in 'Feed check method' pref.
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
-* is strUrl.stripHtmlTags() neccesery? what if I use URL() for all urls with base and for the feeData object?
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.

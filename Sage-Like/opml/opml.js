@@ -149,15 +149,18 @@ let opml = (function() {
 
 			} else {
 
-				newBmItem.type = "bookmark";
 				newBmItem.url = node.getAttribute("xmlUrl").stripHtmlTags();
-				bmCreated = await browser.bookmarks.create(newBmItem);
+				if( !!slUtil.validURL(newBmItem.url) ) {
 
-				m_feedCount++;
+					newBmItem.type = "bookmark";
+					bmCreated = await browser.bookmarks.create(newBmItem);
 
-				let updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
-				let openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
-				m_objTreeFeedsData.set(bmCreated.id, { updateTitle: updateTitle, openInFeedPreview: openInPreview });
+					m_feedCount++;
+
+					let updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
+					let openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
+					m_objTreeFeedsData.set(bmCreated.id, { updateTitle: updateTitle, openInFeedPreview: openInPreview });
+				}
 			}
 		}
 
