@@ -31,23 +31,17 @@ body {
 
 #pageHeaderContainerInner {
 	display: flex;
-	justify-content: right;
+	justify-content: end;
 	align-items: center;
 	margin: auto auto 20px auto;
 	filter: drop-shadow(0 0 4px #000000);
-
-}
-
-#pageHeaderIcon {
-	width: 16px;
-	height: 16px;
-	background: transparent url("/icons/sageLike-16.png") no-repeat center/100%;
 }
 
 #pageHeaderText {
+	background: transparent url("/icons/sageLike-16.png") no-repeat left center;
+	padding-left: 24px;
 	font-size: 86%;
 	font-weight: bold;
-	margin-left: 8px;
 }
 
 #feedTitle {
@@ -80,9 +74,8 @@ body {
 	max-width: 320px;
 	max-height: 80px;
 	min-height: 40px;
-	margin-left: 10px;
+	margin-inline-start: 10px;
 	border-radius: 4px;
-	/* box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.6); */
 }
 
 #feedTitleImage:not([src]) {
@@ -140,7 +133,7 @@ body {
 }
 
 .feedItemNumber {
-	margin-right: 8px;
+	margin-inline-end: 8px;
 }
 
 .feedItem {

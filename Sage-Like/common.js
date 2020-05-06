@@ -2247,7 +2247,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function asPrettyByteSize(byteSize) {
 
-		let notation = [' Bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'];
+		let notation = [" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB"];
 
 		if(byteSize === 0) return (0 + notation[0]);
 
@@ -2308,6 +2308,19 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function isLanguageRTL(str){
+
+		let reRTL = /[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/gm;
+		let reLTR = /[A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF]/gm;
+
+		// if not found then convert the null to empty array
+		let countRTL = (str.match(reRTL) || []).length;
+		let countLTR = (str.match(reLTR) || []).length;
+
+		return countRTL > countLTR;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=3) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -2363,6 +2376,7 @@ let slUtil = (function() {
 		asPrettyByteSize: asPrettyByteSize,
 		getMimeTypeIconPath: getMimeTypeIconPath,
 		nbAlert: nbAlert,
+		isLanguageRTL: isLanguageRTL,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};

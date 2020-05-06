@@ -696,23 +696,29 @@
 * join broadcastCustomCSSSourceChanged() with broadcastPreferencesUpdated()
 * feedPreview bottom margin with body
 * from multi parked feedPreview some tabs dont get the custom css
+* detect right-to-left languages and set direction
 ---
 
 ## Now
+
 ---
 
 ## Next
+* fix hang when sidebar is loaded
+* offsetLeft - clientLeft
+	* offsetLeft = position left+margin from the first positioned parent left edge.
+	* clientLeft = left border + left scrollbar width (if present). (block level elements -only!)
+	* https://stackoverflow.com/questions/27199247/what-is-the-difference-between-offsetleft-and-clientleft-in-javascript
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
-* detect right-to-left languages and set direction
+* try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
+	> https://matthiasott.com/articles/feed.json
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * a better word for 'Easy' in 'Feed check method' pref.
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
-* is strUrl.stripHtmlTags() neccesery? what it I use URL() for all urls with base and for the feeData object?
+* is strUrl.stripHtmlTags() neccesery? what if I use URL() for all urls with base and for the feeData object?
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
-* try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
-	> https://matthiasott.com/articles/feed.json
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).

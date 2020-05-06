@@ -120,6 +120,9 @@
 				console.log("[Sage-Like]", "Fetch error at " + urlFeed, error);
 
 			}).finally(() => {
+				if(elmFeedTitle.style.direction === "rtl") {
+					document.getElementById("pageHeaderContainer").style.direction = "rtl";
+				}
 				m_elmFeedBody.removeChild(elmLoadImg);
 				document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
 				brutallyReinforceSvgStyle();
@@ -161,6 +164,10 @@
 		elmFeedTitleTexts.appendChild(elmFeedDescText);
 		elmFeedTitle.appendChild(elmFeedTitleTexts);
 		elmFeedTitle.appendChild(elmFeedTitleImage);
+
+		if(slUtil.isLanguageRTL(elmFeedTitleText.textContent)) {
+			elmFeedTitle.style.direction = "rtl";
+		}
 
 		return elmFeedTitle;
 	}
@@ -215,6 +222,10 @@
 		elmFeedItemTitle.appendChild(elmFeedItemLink);
 		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
+
+		if(slUtil.isLanguageRTL(elmFeedItemTitleText.textContent)) {
+			elmFeedItemContainer.style.direction = "rtl";
+		}
 
 		return elmFeedItemContainer;
 	}
@@ -361,6 +372,10 @@
 
 			if (x < window.scrollX) {
 				x = elmAtt.offsetLeft + elmAtt.offsetWidth + POS_OFFSET;
+			}
+
+			if ((x + m_elmAttachmentTooltip.offsetWidth) > window.innerWidth) {
+				x = window.innerWidth - m_elmAttachmentTooltip.offsetWidth - POS_OFFSET - slUtil.getScrollbarWidth();
 			}
 
 			if (y < window.scrollY) {
