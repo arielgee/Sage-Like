@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Thu, 07 May 2020 11:54:23 GMT</dateCreated>
+		<dateCreated>Thu, 07 May 2020 14:27:29 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
@@ -75,7 +75,6 @@
 				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="Atom" data-wxsl-open="0">
-				<outline type="rss" text="PHP.net news &amp; announcements" title="PHP.net news &amp; announcements" xmlUrl="https://www.php.net/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://pleroma.soykaf.com/users/shp/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -129,7 +128,7 @@
 			<outline text="no shift" data-wxsl-open="0">
 				<outline type="rss" text="ynet - ירוק" title="ynet - ירוק" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4872.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline text="2222333" data-wxsl-open="0">
-					<outline text="OPML-Test" data-wxsl-open="1">
+					<outline text="OPML-Test" data-wxsl-open="0">
 						<outline type="rss" text="The Verge - All Posts" title="The Verge - All Posts" xmlUrl="https://www.theverge.com/rss/index.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 						<outline type="rss" text="רשימות מן התיבה הלבנה" title="רשימות מן התיבה הלבנה" xmlUrl="http://benhateva.wordpress.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 						<outline type="rss" text="Geektime גיקטיים" title="Geektime גיקטיים" xmlUrl="https://feeds2.feedburner.com/newsgeekfeed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -184,8 +183,8 @@
 				</outline>
 			</outline>
 			<outline text="New Folder-1" data-wxsl-open="0">
-				<outline text="dfsdfsdfsdfsdfsd" data-wxsl-open="1">
-					<outline text="XFolder" data-wxsl-open="1">
+				<outline text="dfsdfsdfsdfsdfsd" data-wxsl-open="0">
+					<outline text="XFolder" data-wxsl-open="0">
 						<outline text="f2" data-wxsl-open="0">
 						</outline>
 						<outline text="asdasdasd" data-wxsl-open="0">
@@ -230,6 +229,9 @@
 			</outline>
 			<outline text="links to checkes" data-wxsl-open="0">
 				<outline type="rss" text="Full RSS - Full text rss feed generator 100% success &amp; free" title="Full RSS - Full text rss feed generator 100% success &amp; free" xmlUrl="https://www.freefullrss.com/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
+			<outline text="Hang Feeds" data-wxsl-open="0">
+				<outline type="rss" text="change url &#039;mmm&#039; to &#039;www&#039;" title="change url &#039;mmm&#039; to &#039;www&#039;" xmlUrl="https://mmm.php.net/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 		</outline>
 	</body>

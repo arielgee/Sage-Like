@@ -703,7 +703,7 @@
 ---
 
 ## Now
-* fix hang when sidebar is loaded
+* fix hang when loading https://www.php.net/feed.atom in Fx v59.0.3
 ---
 
 ## Next
