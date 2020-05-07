@@ -818,8 +818,12 @@ let preferences = (function() {
 		slUtil.disableElementTree(elmPref, true);
 
 		opml.exportFeeds.run().then((result) => {
-			let msg = result.stats.feedCount + " feeds and " + result.stats.folderCount + " folders were successfully exported.\n\nFile: " + result.fileName;
-			showMessageBox("Export", msg, elmPref);
+
+			// fileName is missing when download was canceled by user
+			if(!!result.fileName) {
+				let msg = result.stats.feedCount + " feeds and " + result.stats.folderCount + " folders were successfully exported.\n\nFile: " + result.fileName;
+				showMessageBox("Export", msg, elmPref);
+			}
 
 		}).catch((error) => {
 			showMessageBox("Error", error, elmPref);

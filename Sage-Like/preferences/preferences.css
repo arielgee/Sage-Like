@@ -356,6 +356,8 @@ input[type="color"]::-moz-focus-inner {
 	max-width: 400px;
 	word-wrap: normal;
 	white-space: pre-wrap;
+	-moz-user-select: text;
+	user-select: text;
 }
 
 #messageBoxButtons {

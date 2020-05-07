@@ -206,6 +206,7 @@ let opml = (function() {
 					let blob = new Blob([opmlLines.join("\n")], { type: "text/xml", endings: "native" });
 
 					m_objUrl = URL.createObjectURL(blob);
+					browser.downloads.onCreated.addListener(onCreatedDownload);
 					browser.downloads.onChanged.addListener(onChangedDownload);
 					browser.downloads.download({
 						url: m_objUrl,
@@ -218,7 +219,6 @@ let opml = (function() {
 
 						if(error.message === "Download canceled by the user") {
 							m_funcExportResolve({
-								fileName: m_fileName,
 								stats: {
 									feedCount: 0,
 									folderCount: 0,
@@ -236,6 +236,12 @@ let opml = (function() {
 					m_objTreeFeedsData = null;
 				});
 		});
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function onCreatedDownload(downloadItem) {
+			m_fileName = downloadItem.filename;
+			browser.downloads.onCreated.removeListener(onCreatedDownload);
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
