@@ -821,7 +821,7 @@ let preferences = (function() {
 
 			// fileName is missing when download was canceled by user
 			if(!!result.fileName) {
-				let msg = result.stats.feedCount + " feeds and " + result.stats.folderCount + " folders were successfully exported.\n\nFile: " + result.fileName;
+				let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully exported.\n\nFile: " + result.fileName;
 				showMessageBox("Export", msg, elmPref);
 			}
 
