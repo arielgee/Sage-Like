@@ -2,12 +2,31 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Wed, 29 Apr 2020 08:47:27 GMT</dateCreated>
+		<dateCreated>Thu, 07 May 2020 11:54:23 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
+			<outline text="escape & strip" data-wxsl-open="0">
+				<outline type="rss" text="&lt;/span&gt;&lt;h1&gt;HTML, &lt;a href=&quot;https://www.888.com&quot;&gt;Inject!&lt;/a&gt;&lt;/h1&gt;" title="&lt;/span&gt;&lt;h1&gt;HTML, &lt;a href=&quot;https://www.888.com&quot;&gt;Inject!&lt;/a&gt;&lt;/h1&gt;" xmlUrl="http://x/" data-wxsl-updateTitle="0" data-wxsl-openPreview="0"/>
+			</outline>
+			<outline text="RTL Languages" data-wxsl-open="0">
+				<outline type="rss" text="מידה" title="מידה" xmlUrl="https://feeds.feedburner.com/midaorg" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="editors dashboard" title="editors dashboard" xmlUrl="http://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="אינטרנט ישראל" title="אינטרנט ישראל" xmlUrl="https://internet-israel.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="الهند اون لاين – Al-Hind Online" title="الهند اون لاين – Al-Hind Online" xmlUrl="http://www.al-hindonline.com/?feed=rss2" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="عرب 48" title="عرب 48" xmlUrl="https://www.arab48.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="وكالة صوت الحق الإخبارية" title="وكالة صوت الحق الإخبارية" xmlUrl="http://www.sawtalhaq.com/?feed=rss2" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="أخبار اليوم | سكاي نيوز عربية" title="أخبار اليوم | سكاي نيوز عربية" xmlUrl="https://www.skynewsarabia.com/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="أخبار العالم | أخبار سكاي نيوز عربية" title="أخبار العالم | أخبار سكاي نيوز عربية" xmlUrl="https://www.skynewsarabia.com/web/rss/world.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="كووورة: الموقع العربي الرياضي الأول" title="كووورة: الموقع العربي الرياضي الأول" xmlUrl="https://feeds.feedburner.com/kooora/Wnpe" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="الجزيرة نت" title="الجزيرة نت" xmlUrl="https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="ہم نیوز" title="ہم نیوز" xmlUrl="https://www.humnews.pk/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Baaghi TV کے لیے تبصرے" title="Baaghi TV کے لیے تبصرے" xmlUrl="https://baaghitv.com/comments/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
 			<outline text="attachments (rss,rss,rss,rss,atom,atom,atom,json,json)" data-wxsl-open="0">
-				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="0" data-wxsl-openPreview="1"/>
+				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="editors dashboard" title="editors dashboard" xmlUrl="http://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Cloudbase Mayhem Podcast" title="Cloudbase Mayhem Podcast" xmlUrl="https://www.cloudbasemayhem.com/feed/podcast/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -93,7 +112,7 @@
 				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="Newsletter 2 Feed" data-wxsl-open="1">
+			<outline text="Newsletter 2 Feed" data-wxsl-open="0">
 				<outline type="rss" text="adidas" title="adidas" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="KillTheNewsletter-01" title="KillTheNewsletter-01" xmlUrl="https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="sage-like" title="sage-like" xmlUrl="https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -109,19 +128,52 @@
 			</outline>
 			<outline text="no shift" data-wxsl-open="0">
 				<outline type="rss" text="ynet - ירוק" title="ynet - ירוק" xmlUrl="http://www.ynet.co.il/Integration/StoryRss4872.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline text="222233" data-wxsl-open="1">
-					<outline type="rss" text="adidas" title="adidas" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-					<outline text="a Folder" data-wxsl-open="0">
-						<outline type="rss" text="Colin Walker" title="Colin Walker" xmlUrl="https://colinwalker.blog/feed/json/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline text="2222333" data-wxsl-open="0">
+					<outline text="OPML-Test" data-wxsl-open="1">
+						<outline type="rss" text="The Verge - All Posts" title="The Verge - All Posts" xmlUrl="https://www.theverge.com/rss/index.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+						<outline type="rss" text="רשימות מן התיבה הלבנה" title="רשימות מן התיבה הלבנה" xmlUrl="http://benhateva.wordpress.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+						<outline type="rss" text="Geektime גיקטיים" title="Geektime גיקטיים" xmlUrl="https://feeds2.feedburner.com/newsgeekfeed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+						<outline text="F1" data-wxsl-open="0">
+							<outline text="F2" data-wxsl-open="0">
+								<outline type="rss" text="Telegram Geeks" title="Telegram Geeks" xmlUrl="http://telegramgeeks.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline type="rss" text="המגירה הסודית" title="המגירה הסודית" xmlUrl="https://megirasodit.wordpress.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+							</outline>
+							<outline type="rss" text="9to5Google" title="9to5Google" xmlUrl="https://9to5google.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+							<outline type="rss" text="לולאת האל" title="לולאת האל" xmlUrl="https://tomerpersico.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+							<outline type="rss" text="הידען" title="הידען" xmlUrl="https://www.hayadan.org.il/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+						</outline>
+						<outline type="rss" text="Sysinternals Site Discussion" title="Sysinternals Site Discussion" xmlUrl="https://blogs.technet.microsoft.com/sysinternals/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+						<outline text="F3-empty" data-wxsl-open="0">
+						</outline>
+						<outline type="rss" text="כלכליסט - ערוץ 24/7" title="כלכליסט - ערוץ 24/7" xmlUrl="https://www.calcalist.co.il/GeneralRSS/0,16335,L-3674,00.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					</outline>
+					<outline text="Import - Sage-Like Feeds Export (created: 4/23/2020, 17:28)" data-wxsl-open="0">
+						<outline text="2222333" data-wxsl-open="0">
+							<outline text="OPML-Test" data-wxsl-open="0">
+								<outline type="rss" text="The Verge - All Posts" title="The Verge - All Posts" xmlUrl="https://www.theverge.com/rss/index.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline type="rss" text="רשימות מן התיבה הלבנה" title="רשימות מן התיבה הלבנה" xmlUrl="http://benhateva.wordpress.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline type="rss" text="Geektime גיקטיים" title="Geektime גיקטיים" xmlUrl="https://feeds2.feedburner.com/newsgeekfeed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline text="F1" data-wxsl-open="0">
+									<outline text="F2" data-wxsl-open="0">
+										<outline type="rss" text="Telegram Geeks" title="Telegram Geeks" xmlUrl="http://telegramgeeks.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+										<outline type="rss" text="המגירה הסודית" title="המגירה הסודית" xmlUrl="https://megirasodit.wordpress.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+									</outline>
+									<outline type="rss" text="9to5Google" title="9to5Google" xmlUrl="https://9to5google.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+									<outline type="rss" text="לולאת האל" title="לולאת האל" xmlUrl="https://tomerpersico.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+									<outline type="rss" text="הידען" title="הידען" xmlUrl="https://www.hayadan.org.il/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								</outline>
+								<outline type="rss" text="Sysinternals Site Discussion" title="Sysinternals Site Discussion" xmlUrl="https://blogs.technet.microsoft.com/sysinternals/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline text="F3-empty" data-wxsl-open="0">
+								</outline>
+								<outline type="rss" text="כלכליסט - ערוץ 24/7" title="כלכליסט - ערוץ 24/7" xmlUrl="https://www.calcalist.co.il/GeneralRSS/0,16335,L-3674,00.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+							</outline>
+						</outline>
 					</outline>
 				</outline>
 				<outline text="1" data-wxsl-open="0">
-					<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-					<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-					<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				</outline>
-				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="ariel out side" data-wxsl-open="0">
 			</outline>
@@ -132,9 +184,13 @@
 				</outline>
 			</outline>
 			<outline text="New Folder-1" data-wxsl-open="0">
-				<outline text="dfsdfsdfsdfsdfsd" data-wxsl-open="0">
-					<outline text="XFolder" data-wxsl-open="0">
+				<outline text="dfsdfsdfsdfsdfsd" data-wxsl-open="1">
+					<outline text="XFolder" data-wxsl-open="1">
+						<outline text="f2" data-wxsl-open="0">
+						</outline>
 						<outline text="asdasdasd" data-wxsl-open="0">
+						</outline>
+						<outline text="test target Folder" data-wxsl-open="0">
 							<outline text="f3" data-wxsl-open="0">
 								<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="http://www.ynet.co.il/Integration/StoryRss2142.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 								<outline type="rss" text="Manifest URL" title="Manifest URL" xmlUrl="moz-extension://aff0b402-9a1a-4661-a761-cb0bd23993ca/manifest.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -145,26 +201,22 @@
 										</outline>
 									</outline>
 								</outline>
-								<outline type="rss" text="Scripting News" title="Scripting News" xmlUrl="http://static.userland.com/gems/backend/rssTwoExample2.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 								<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+								<outline type="rss" text="Scripting News" title="Scripting News" xmlUrl="http://static.userland.com/gems/backend/rssTwoExample2.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 								<outline text="F99" data-wxsl-open="0">
 									<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 									<outline text="f97" data-wxsl-open="0">
+										<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+										<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 										<outline text="f100" data-wxsl-open="0">
+											<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+											<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 										</outline>
 									</outline>
 									<outline text="f98" data-wxsl-open="0">
 									</outline>
 								</outline>
 							</outline>
-							<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-							<outline text="f2" data-wxsl-open="0">
-							</outline>
-						</outline>
-						<outline type="rss" text="ynet - אוכל" title="ynet - אוכל" xmlUrl="http://www.ynet.co.il/Integration/StoryRss975.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-						<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-						<outline text="test target Folder" data-wxsl-open="0">
-							<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 						</outline>
 						<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 					</outline>

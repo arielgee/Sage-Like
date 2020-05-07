@@ -697,14 +697,16 @@
 * feedPreview bottom margin with body
 * from multi parked feedPreview some tabs dont get the custom css
 * detect right-to-left languages and set direction
+* is strUrl.stripHtmlTags() neccesery? what if I use URL() for all urls with base and for the feeData object?
+* wrote (1) in feed title and then I tried to delete it !!!!!!! DAM! that innerHTML !!!		=> getTreeItemText(elmLI).escapeHtml()
+	* (1) '</span><h1>Hello, <a href="https://www.888.com">World!</a></h1><span>'
 ---
 
 ## Now
-* is strUrl.stripHtmlTags() neccesery? what if I use URL() for all urls with base and for the feeData object?
+* fix hang when sidebar is loaded
 ---
 
 ## Next
-* fix hang when sidebar is loaded
 * offsetLeft - clientLeft
 	* offsetLeft = position left+margin from the first positioned parent left edge.
 	* clientLeft = left border + left scrollbar width (if present). (block level elements -only!)
