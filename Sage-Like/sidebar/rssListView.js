@@ -169,7 +169,7 @@ let rssListView = (function() {
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexAudioVideoTags)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>")
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexStyleAttr)
-			.escapeHtml()
+			.escapeMarkup()
 			.trim();
 
 		elm.textContent = index + ". " + title;
@@ -265,7 +265,7 @@ let rssListView = (function() {
 		if(elmLI.title.length > 0) return;
 
 		m_elmFeedItemDescPanel.querySelector(".descTitle").textContent = elmLI.textContent;			// Remove numbering from title: .replace(/^\d+\. /, "")
-		m_elmFeedItemDescPanel.querySelector(".descBody").innerHTML = elmLI.getAttribute("data-item-desc").unescapeHtml();
+		m_elmFeedItemDescPanel.querySelector(".descBody").innerHTML = elmLI.getAttribute("data-item-desc").unescapeMarkup();
 
 		createFeedItemDescAttachments(elmLI);
 

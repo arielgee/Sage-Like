@@ -702,10 +702,10 @@
 	* (1) '</span><h1>Hello, <a href="https://www.888.com">World!</a></h1><span>'
 * opml export: inserted an '&' from a folder title to an XML file. escape XML resereved chars; way not use XMLDoc?
 * opml import: skipped a non valid URL (moz-extension://) where did it came from? no validURL() when dragANDdrop-ing?
+* rename escapeHtml() to escapeMarkup
 ---
 
 ## Now
-* rename escapeHtml() to escapeMarkup
 * fix hang when loading https://www.php.net/feed.atom in Fx v59.0.3
 ---
 

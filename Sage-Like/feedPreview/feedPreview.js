@@ -332,9 +332,9 @@
 
 		// no size is zero
 		if(!!!size || size.startsWith("0 ")) {
-			return FMT_ATTACHMENT_TITLE.format([attachment.title, attachment.url.toString()]).escapeHtml();
+			return FMT_ATTACHMENT_TITLE.format([attachment.title, attachment.url.toString()]).escapeMarkup();
 		} else {
-			return FMT_ATTACHMENT_TITLE_WITH_SIZE.format([attachment.title, attachment.url.toString(), size]).escapeHtml();
+			return FMT_ATTACHMENT_TITLE_WITH_SIZE.format([attachment.title, attachment.url.toString(), size]).escapeMarkup();
 		}
 	}
 
@@ -351,7 +351,7 @@
 		event.stopPropagation();
 		clearTimeout(m_timeoutMouseOver);
 
-		m_elmAttachmentTooltip.innerHTML = elmAtt.getAttribute("data-title").unescapeHtml();
+		m_elmAttachmentTooltip.innerHTML = elmAtt.getAttribute("data-title").unescapeMarkup();
 
 		let tooltipStyle = m_elmAttachmentTooltip.style;
 

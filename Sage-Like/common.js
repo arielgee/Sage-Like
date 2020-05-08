@@ -806,27 +806,27 @@ let slPrototypes = (function() {
 	String.prototype.unknownNamedEntityInXMLToDecimal.regex = new RegExp(Object.keys(String.prototype.unknownNamedEntityInXMLToDecimal.entities).join("|"), "gim");
 
 	//////////////////////////////////////////////////////////////////////
-	String.prototype.escapeHtml = function() {
-		return this.replace(String.prototype.escapeHtml.regex, (match) => {
-			return String.prototype.escapeHtml.htmlReservedCharacters[match];
+	String.prototype.escapeMarkup = function() {
+		return this.replace(String.prototype.escapeMarkup.regex, (match) => {
+			return String.prototype.escapeMarkup.markupReservedCharacters[match];
 		});
 	};
-	String.prototype.escapeHtml.htmlReservedCharacters = {
+	String.prototype.escapeMarkup.markupReservedCharacters = {
 		"&": "&amp;",
 		"<": "&lt;",
 		">": "&gt;",
 		"\"": "&quot;",
 		"'": "&#039;",
 	};
-	String.prototype.escapeHtml.regex = new RegExp("[" + Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).join("") + "]", "gm");
+	String.prototype.escapeMarkup.regex = new RegExp("[" + Object.keys(String.prototype.escapeMarkup.markupReservedCharacters).join("") + "]", "gm");
 
 	//////////////////////////////////////////////////////////////////////
-	String.prototype.unescapeHtml = function() {
-		return this.replace(String.prototype.unescapeHtml.regex, (match) => {
-			return Object.keys(String.prototype.escapeHtml.htmlReservedCharacters).find((key) => String.prototype.escapeHtml.htmlReservedCharacters[key] === match);
+	String.prototype.unescapeMarkup = function() {
+		return this.replace(String.prototype.unescapeMarkup.regex, (match) => {
+			return Object.keys(String.prototype.escapeMarkup.markupReservedCharacters).find((key) => String.prototype.escapeMarkup.markupReservedCharacters[key] === match);
 		});
 	};
-	String.prototype.unescapeHtml.regex = new RegExp(Object.values(String.prototype.escapeHtml.htmlReservedCharacters).join("|"), "gm");
+	String.prototype.unescapeMarkup.regex = new RegExp(Object.values(String.prototype.escapeMarkup.markupReservedCharacters).join("|"), "gm");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.stripHtmlTags = function(regex = null, substitution = "") {
@@ -2218,7 +2218,7 @@ let slUtil = (function() {
 		if(!!(nativeError.toString().match(/\bpermission for incognito mode\b/))) {
 			return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' id='incognitoMsgOptionsHref'>Options page</a>.";
 		}
-		return nativeError.toString().escapeHtml();
+		return nativeError.toString().escapeMarkup();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

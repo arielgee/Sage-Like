@@ -1647,9 +1647,9 @@ let rssTreeView = (function() {
 		let text = "Permanently delete the ";
 
 		if(isFolder) {
-			text += "folder <b>'" + getTreeItemText(elmLI).escapeHtml() + "'</b> <u>and all of its contents</u> from your bookmarks?"
+			text += "folder <b>'" + getTreeItemText(elmLI).escapeMarkup() + "'</b> <u>and all of its contents</u> from your bookmarks?"
 		} else {
-			text += "feed <b title=\"" + elmLI.getAttribute("href") + "\">'" + getTreeItemText(elmLI).escapeHtml() + "'</b> from your bookmarks?"
+			text += "feed <b title=\"" + elmLI.getAttribute("href") + "\">'" + getTreeItemText(elmLI).escapeMarkup() + "'</b> from your bookmarks?"
 		}
 
 		messageView.open(text, messageView.ButtonSet.setYesNo, "Delete " + (isFolder ? "Folder" : "Feed")).then((result) => {
