@@ -280,7 +280,7 @@ let opml = (function() {
 					if (bookmark.type === "folder") {
 
 						lines.push("\t".repeat(indent++) +
-							"<outline text=\"" + bookmark.title + "\" " +
+							"<outline text=\"" + bookmark.title.escapeHtml() + "\" " +
 							"data-wxsl-open=\"" + Number(m_objOpenTreeFolders.exist(bookmark.id) || openFolder) + "\">");	// Number() converts true/false to 1/0
 
 						m_folderCount++;
