@@ -700,13 +700,16 @@
 * is strUrl.stripHtmlTags() neccesery? what if I use URL() for all urls with base and for the feeData object?
 * wrote (1) in feed title and then I tried to delete it !!!!!!! DAM! that innerHTML !!!		=> getTreeItemText(elmLI).escapeHtml()
 	* (1) '</span><h1>Hello, <a href="https://www.888.com">World!</a></h1><span>'
+* opml export: inserted an '&' from a folder title to an XML file. escape XML resereved chars; way not use XMLDoc?
 ---
 
 ## Now
+* opml import: skipped a non valid URL (moz-extension://) where did it came from? no validURL() when dragANDdrop-ing?
 * fix hang when loading https://www.php.net/feed.atom in Fx v59.0.3
 ---
 
 ## Next
+* rename escapeHtml() to escapeMarkup
 * offsetLeft - clientLeft
 	* offsetLeft = position left+margin from the first positioned parent left edge.
 	* clientLeft = left border + left scrollbar width (if present). (block level elements -only!)

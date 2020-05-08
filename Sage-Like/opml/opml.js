@@ -160,6 +160,8 @@ let opml = (function() {
 					let updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
 					let openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
 					m_objTreeFeedsData.set(bmCreated.id, { updateTitle: updateTitle, openInFeedPreview: openInPreview });
+				} else {
+					console.log("[Sage-Like]", "Failed to import invalid URL: ", newBmItem.title, ",", newBmItem.url);
 				}
 			}
 		}

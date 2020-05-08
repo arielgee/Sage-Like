@@ -2,11 +2,11 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Thu, 07 May 2020 14:27:29 GMT</dateCreated>
+		<dateCreated>Fri, 08 May 2020 07:28:20 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
-			<outline text="escape & strip" data-wxsl-open="0">
+			<outline text="escape &amp; strip" data-wxsl-open="1">
 				<outline type="rss" text="&lt;/span&gt;&lt;h1&gt;HTML, &lt;a href=&quot;https://www.888.com&quot;&gt;Inject!&lt;/a&gt;&lt;/h1&gt;" title="&lt;/span&gt;&lt;h1&gt;HTML, &lt;a href=&quot;https://www.888.com&quot;&gt;Inject!&lt;/a&gt;&lt;/h1&gt;" xmlUrl="http://x/" data-wxsl-updateTitle="0" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="RTL Languages" data-wxsl-open="0">
