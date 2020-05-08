@@ -1040,7 +1040,6 @@ let rssTreeView = (function() {
 
 		let elmDropTarget = event.target;
 		let transfer = event.dataTransfer;
-		let dropInRootFolder = TreeItemType.isTree(elmDropTarget);
 
 		// nothing to do if dropped in the same location OR in a folder
 		if(elmDropTarget === elmCurrentlyDragged) {
@@ -1049,6 +1048,7 @@ let rssTreeView = (function() {
 
 			if (transfer.types.includes("text/wx-sl-treeitem-html")) {
 
+				let dropInRootFolder = TreeItemType.isTree(elmDropTarget);
 				let gettingDragged = browser.bookmarks.get(elmCurrentlyDragged.id);
 				let gettingDrop = browser.bookmarks.get(dropInRootFolder ? (await prefs.getRootFeedsFolderId()) : elmDropTarget.id);
 
@@ -1108,19 +1108,24 @@ let rssTreeView = (function() {
 			} else if (transfer.types.includes("text/x-moz-url")) {
 
 				let mozUrl = transfer.getData("text/x-moz-url").split("\n");
+				let url = stripFeedPreviewUrl(mozUrl[0]);
 
-				if(dropInRootFolder) {
-					createNewFeedInRootFolder((!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true, false);
+				if( !!slUtil.validURL(url) ) {
+					createNewFeedExtended(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), url, true, false, event.shiftKey);
 				} else {
-					createNewFeed(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), stripFeedPreviewUrl(mozUrl[0]), true, false, event.shiftKey);
+					InfoBubble.i.show("The dropped url is not valid.", undefined, true, false, 3500, true);
+					console.log("[Sage-Like]", "Drop text/x-moz-url invalid URL error", "'" + url + "'");
 				}
 
 			} else if (transfer.types.includes("text/uri-list")) {
 
-				if(dropInRootFolder) {
-					createNewFeedInRootFolder("New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, false);
+				let url = stripFeedPreviewUrl(transfer.getData("URL"));
+
+				if( !!slUtil.validURL(url) ) {
+					createNewFeedExtended(elmDropTarget, "New Feed", url, true, false, event.shiftKey);
 				} else {
-					createNewFeed(elmDropTarget, "New Feed", stripFeedPreviewUrl(transfer.getData("URL")), true, false, event.shiftKey);
+					InfoBubble.i.show("The dropped url is not valid.", undefined, true, false, 3500, true);
+					console.log("[Sage-Like]", "Drop text/uri-list invalid URL error", "'" + url + "'");
 				}
 
 			} else if (transfer.types.includes("text/plain")) {
@@ -1128,13 +1133,7 @@ let rssTreeView = (function() {
 				let data = stripFeedPreviewUrl(transfer.getData("text/plain"));
 
 				if( !!slUtil.validURL(data) ) {
-
-					if(dropInRootFolder) {
-						createNewFeedInRootFolder("New Feed", data, true, false);
-					} else {
-						createNewFeed(elmDropTarget, "New Feed", data, true, false, event.shiftKey);
-					}
-
+					createNewFeedExtended(elmDropTarget, "New Feed", data, true, false, event.shiftKey);
 				} else {
 					InfoBubble.i.show("The dropped text is not a valid URL.", undefined, true, false, 3500, true);
 					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
