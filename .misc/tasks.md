@@ -703,10 +703,12 @@
 * opml export: inserted an '&' from a folder title to an XML file. escape XML resereved chars; way not use XMLDoc?
 * opml import: skipped a non valid URL (moz-extension://) where did it came from? no validURL() when dragANDdrop-ing?
 * rename escapeHtml() to escapeMarkup
+* fix hang when loading https://www.php.net/feed.atom in Fx v59.0.3		=====> only in Fx v59.0.3 and only with https://www.php.net/feed.atom
 ---
 
 ## Now
-* fix hang when loading https://www.php.net/feed.atom in Fx v59.0.3
+* Do NOT get drops from another window ONLY if its "text/wx-sl-treeitem-html"
+	* (!!!m_elmCurrentlyDragged && transfer.types.includes(validMimes[0])) ||		// Prevent drop of "text/wx-sl-treeitem-html" from another window
 ---
 
 ## Next
