@@ -964,16 +964,16 @@ let rssTreeView = (function() {
 
 		let target = event.target;
 		let transfer = event.dataTransfer;
-		let validMimes = ["text/wx-sl-treeitem-html", "text/uri-list", "text/x-moz-url", "text/plain"];
+		let validMimes = ["text/wx-sl-treeitem-html", "text/x-moz-url", "text/uri-list", "text/plain"];
 
 		// Prevent drop
-		if(	(!m_rssTreeCreatedOK) ||													// Tree is not set and valid
-			(!TreeItemType.isTreeItem(target) && !TreeItemType.isTree(target)) ||		// Drop only on tree items (feed | folders) or tree root
-			(!!m_elmCurrentlyDragged && m_elmCurrentlyDragged.contains(target)) ||		// Prevent element from been droped into itself.
-			(!!!m_elmCurrentlyDragged && transfer.types.includes(validMimes[0])) ||		// Prevent drop of "text/wx-sl-treeitem-html" from another window
-			(!transfer.types.includesSome(validMimes)) ) {								// Prevent invalid mime types
+		if(	(!m_rssTreeCreatedOK) ||														// Tree is not set and valid
+			(!TreeItemType.isTreeItem(target) && !TreeItemType.isTree(target)) ||			// Drop only on tree items (feed | folders) or tree root
+			(!!m_elmCurrentlyDragged && m_elmCurrentlyDragged.contains(target)) ||			// Prevent element from been droped into itself.
+			(!!!m_elmCurrentlyDragged && transfer.types.every(i => i === validMimes[0])) ||	// Prevent drop of "text/wx-sl-treeitem-html" from another window
+			(!transfer.types.includesSome(validMimes)) ) {									// Prevent invalid mime types
 
-			transfer.dropEffect = "none";
+			transfer.effectAllowed = transfer.dropEffect = "none";
 			return false;
 		}
 
@@ -983,7 +983,7 @@ let rssTreeView = (function() {
 			// The result is that hovering on the left of the items in the folder (but not ON a folder item) marks
 			// the entire folder as a drop target. This makes sure that only hovers on the top of the elements are processed
 			if(!eventOccureInItemLineHeight(event, target)) {
-				transfer.dropEffect = "none";
+				transfer.effectAllowed = transfer.dropEffect = "none";
 				return false;
 			}
 
@@ -1004,7 +1004,7 @@ let rssTreeView = (function() {
 		}
 
 		target.classList.add("draggedOver");
-		transfer.dropEffect = !!m_elmCurrentlyDragged ? "move" : "copy";
+		transfer.effectAllowed = transfer.dropEffect = (!!m_elmCurrentlyDragged ? "move" : "copy");
 		return false;
 	}
 
@@ -1046,7 +1046,7 @@ let rssTreeView = (function() {
 			elmCurrentlyDragged.classList.remove("dragged");
 		} else {
 
-			if (transfer.types.includes("text/wx-sl-treeitem-html")) {
+			if ( !!elmCurrentlyDragged && transfer.types.includes("text/wx-sl-treeitem-html") ) {
 
 				let dropInRootFolder = TreeItemType.isTree(elmDropTarget);
 				let gettingDragged = browser.bookmarks.get(elmCurrentlyDragged.id);
