@@ -987,17 +987,19 @@ let rssTreeView = (function() {
 				return false;
 			}
 
-			// it's a folder - lingering
-			if(target.id === m_objCurrentlyDraggedOver.id) {
+			if(TreeItemType.isClosed(target)) {
 
-				if(TreeItemType.isClosed(target) && m_objCurrentlyDraggedOver.lingered) {
-					// mouse has lingered enough, open the closed folder
-					setFolderState(target, true);
+				// it's a folder - lingering
+				if(target.id === m_objCurrentlyDraggedOver.id) {
+
+					if(m_objCurrentlyDraggedOver.lingered) {
+						// mouse has lingered enough, open the closed folder
+						setFolderState(target, true);
+					}
+				} else {
+					// it's a folder - just in
+					m_objCurrentlyDraggedOver.set(target.id);
 				}
-
-			} else {
-				// it's a folder - just in
-				m_objCurrentlyDraggedOver.set(target.id);
 			}
 
 			target.classList.toggle("dropInside", event.shiftKey);
