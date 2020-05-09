@@ -1011,7 +1011,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDragLeaveTreeItem(event) {
 		event.stopPropagation();
-		if(!!event.target) event.target.classList.remove("draggedOver", "dropInside");
+		if(TreeItemType.isTreeItem(event.target)) event.target.classList.remove("draggedOver", "dropInside");
 		m_objCurrentlyDraggedOver.init();
 	}
 
