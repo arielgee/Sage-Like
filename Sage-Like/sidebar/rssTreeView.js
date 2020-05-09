@@ -910,7 +910,7 @@ let rssTreeView = (function() {
 				}
 			}
 
-		} else if(event.button === 0 && TreeItemType.isFolder(elmLI) && eventOccureInItemLineHeight(event, elmLI)) {
+		} else if(event.button === 0 && TreeItemType.isFolder(elmLI) && eventOccureInItemCaptionHeight(event, elmLI)) {
 
 			prefs.getFolderClickAction().then((action) => {
 
@@ -982,7 +982,7 @@ let rssTreeView = (function() {
 			// when a folder is open the height of the LI is as the Height of the entier folder.
 			// The result is that hovering on the left of the items in the folder (but not ON a folder item) marks
 			// the entire folder as a drop target. This makes sure that only hovers on the top of the elements are processed
-			if(!eventOccureInItemLineHeight(event, target)) {
+			if(!eventOccureInItemCaptionHeight(event, target)) {
 				transfer.effectAllowed = transfer.dropEffect = "none";
 				return false;
 			}
@@ -2166,17 +2166,17 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function eventOccureInItemLineHeight(evt, elm) {
+	function eventOccureInItemCaptionHeight(evt, elm) {
 
 		// This function checks if the event has occured in the top part of the element
-		return ((evt.clientY - elm.getBoundingClientRect().top) <= panel.getDensity().lineHeight);
+		return ((evt.clientY - elm.getBoundingClientRect().top) <= elm.firstElementChild.getBoundingClientRect().height);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function eventOccureInItemLineHeightIcon(evt, elm) {
+	function eventOccureInItemIcon(evt, elm) {
 
 		// This function checks if the event has occured in the top-left part of the element
-		if(eventOccureInItemLineHeight(evt, elm)) {
+		if(eventOccureInItemCaptionHeight(evt, elm)) {
 			return ( ((evt.clientX - elm.getBoundingClientRect().left) <= panel.getDensity().treeIndent) );
 		} else {
 			return false;
