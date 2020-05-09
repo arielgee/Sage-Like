@@ -946,7 +946,7 @@ let rssTreeView = (function() {
 
 		if(TreeItemType.isFeed(m_elmCurrentlyDragged)) {
 			let url = slUtil.getFeedPreviewUrl(m_elmCurrentlyDragged.getAttribute("href"));
-			transfer.setData("text/x-moz-url", url);
+			transfer.setData("text/x-moz-url", url + "\n" + m_elmCurrentlyDragged.firstElementChild.firstElementChild.textContent);
 			transfer.setData("text/uri-list", url);
 		}
 		m_elmCurrentlyDragged.classList.add("dragged");
@@ -1102,7 +1102,13 @@ let rssTreeView = (function() {
 								elmDropped.focus();
 							});
 						});
+					}).catch((error) => {
+						InfoBubble.i.show("Bookmarks error: Drop target may have been removed.\nShift+click on toolbar button <b>Check feeds</b> to reload the sidebar.", undefined, true, false, 4000)
+						console.log("[Sage-Like]", "Bookmarks get error", error);
 					});
+				}).catch((error) => {
+					InfoBubble.i.show("Bookmarks error: Dragged item may have been removed.\nShift+click on toolbar button <b>Check feeds</b> to reload the sidebar.", undefined, true, false, 4000)
+					console.log("[Sage-Like]", "Bookmarks get error", error);
 				});
 
 			} else if (transfer.types.includes("text/x-moz-url")) {

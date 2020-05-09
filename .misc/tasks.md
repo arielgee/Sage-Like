@@ -712,6 +712,9 @@
 ---
 
 ## Next
+* call suspendBookmarksEventHandler() with an arrow function expression and not an anonymous function (let funcMove = {} => {})
+* console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
+* InfoBubble.i.show() revisit all dismissOnScroll parameter. need to be true only if it has a reference element
 * offsetLeft - clientLeft
 	* offsetLeft = position left+margin from the first positioned parent left edge.
 	* clientLeft = left border + left scrollbar width (if present). (block level elements -only!)
@@ -732,6 +735,8 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
+* MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
+	* make a POC and post in somewhere. must me a sidebar webextension!
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### Unresolved
