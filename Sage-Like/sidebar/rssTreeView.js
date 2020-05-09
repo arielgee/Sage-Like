@@ -1581,8 +1581,8 @@ let rssTreeView = (function() {
 				return browser.bookmarks.create(newFolder).then((created) => {
 
 					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FOLDER, null);
-
 					let elmUL = createTagUL();
+
 					newElm.appendChild(elmUL);
 
 					setFolderState(newElm, false);
