@@ -706,15 +706,15 @@
 * fix hang when loading https://www.php.net/feed.atom in Fx v59.0.3		=====> only in Fx v59.0.3 and only with https://www.php.net/feed.atom
 * Do NOT get drops from another window ONLY if its "text/wx-sl-treeitem-html"
 	* (!!!m_elmCurrentlyDragged && transfer.types.includes(validMimes[0])) ||		// Prevent drop of "text/wx-sl-treeitem-html" from another window
+* call suspendBookmarksEventHandler() with an arrow function expression and not an anonymous function (let funcMove = {} => {})		==> NO
+* InfoBubble.i.show() revisit all dismissOnScroll parameter. need to be true only if it has a reference element
 ---
 
 ## Now
 ---
 
 ## Next
-* call suspendBookmarksEventHandler() with an arrow function expression and not an anonymous function (let funcMove = {} => {})
 * console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
-* InfoBubble.i.show() revisit all dismissOnScroll parameter. need to be true only if it has a reference element
 * offsetLeft - clientLeft
 	* offsetLeft = position left+margin from the first positioned parent left edge.
 	* clientLeft = left border + left scrollbar width (if present). (block level elements -only!)

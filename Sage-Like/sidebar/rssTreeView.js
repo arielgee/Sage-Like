@@ -1121,7 +1121,7 @@ let rssTreeView = (function() {
 				if( !!slUtil.validURL(url) ) {
 					createNewFeedExtended(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), url, true, false, event.shiftKey);
 				} else {
-					InfoBubble.i.show("The dropped url is not valid.", undefined, true, false, 3500, true);
+					InfoBubble.i.show("The dropped url is not valid.");
 					console.log("[Sage-Like]", "Drop text/x-moz-url invalid URL error", "'" + url + "'");
 				}
 
@@ -1132,7 +1132,7 @@ let rssTreeView = (function() {
 				if( !!slUtil.validURL(url) ) {
 					createNewFeedExtended(elmDropTarget, "New Feed", url, true, false, event.shiftKey);
 				} else {
-					InfoBubble.i.show("The dropped url is not valid.", undefined, true, false, 3500, true);
+					InfoBubble.i.show("The dropped url is not valid.");
 					console.log("[Sage-Like]", "Drop text/uri-list invalid URL error", "'" + url + "'");
 				}
 
@@ -1143,7 +1143,7 @@ let rssTreeView = (function() {
 				if( !!slUtil.validURL(data) ) {
 					createNewFeedExtended(elmDropTarget, "New Feed", data, true, false, event.shiftKey);
 				} else {
-					InfoBubble.i.show("The dropped text is not a valid URL.", undefined, true, false, 3500, true);
+					InfoBubble.i.show("The dropped text is not a valid URL.");
 					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
 				}
 			}
@@ -1640,10 +1640,10 @@ let rssTreeView = (function() {
 				setFolderState(elmLI, true);		// will do nothing if it's a feed
 				createNewFeedExtended(elmLI, "New Feed", text, true, false, true);
 			} else {
-				InfoBubble.i.show("The pasted text is not a valid URL.", undefined, true, false, 3500, true);
+				InfoBubble.i.show("The pasted text is not a valid URL.");
 				console.log("[Sage-Like]", "Pasted text invalid URL error", "'" + text + "'");
 			}
-		}).catch((error) => InfoBubble.i.show(error.message, undefined, true, false, 3500, true) );
+		}).catch((error) => InfoBubble.i.show(error.message) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
