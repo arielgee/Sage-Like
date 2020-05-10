@@ -708,26 +708,26 @@
 	* (!!!m_elmCurrentlyDragged && transfer.types.includes(validMimes[0])) ||		// Prevent drop of "text/wx-sl-treeitem-html" from another window
 * call suspendBookmarksEventHandler() with an arrow function expression and not an anonymous function (let funcMove = {} => {})		==> NO
 * InfoBubble.i.show() revisit all dismissOnScroll parameter. need to be true only if it has a reference element
----
-
-## Now
----
-
-## Next
-* console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
-* offsetLeft - clientLeft
+* offsetLeft - clientLeft		==> NOT RELEVENT
 	* offsetLeft = position left+margin from the first positioned parent left edge.
 	* clientLeft = left border + left scrollbar width (if present). (block level elements -only!)
 	* https://stackoverflow.com/questions/27199247/what-is-the-difference-between-offsetleft-and-clientleft-in-javascript
+---
+
+## Now
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
-* try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
-	> https://matthiasott.com/articles/feed.json
-* NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
-* convert discoveryView and messageView to classes and create base class for slideDown ???
+---
+
+## Next
 * a better word for 'Easy' in 'Feed check method' pref.
-* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
+* console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
+* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
+* NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
+* try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
+	> https://matthiasott.com/articles/feed.json
+* convert discoveryView and messageView to classes and create base class for slideDown ???
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
