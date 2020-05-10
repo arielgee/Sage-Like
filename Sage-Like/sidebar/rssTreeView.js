@@ -1688,6 +1688,9 @@ let rssTreeView = (function() {
 						updateTreeBranchFoldersStats(elmDeletedFolderUL);
 						m_objTreeFeedsData.remove(elmLI.id);
 
+					}).catch((error) => {
+						InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+click on toolbar button <b>Check feeds</b> to reload the sidebar.", undefined, true, false, 4000)
+						console.log("[Sage-Like]", "Bookmarks remove" + (isFolder ? "Tree" : "") + " error", error);
 					});
 				});
 			}
