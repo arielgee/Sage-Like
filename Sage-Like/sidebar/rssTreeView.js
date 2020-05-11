@@ -2606,15 +2606,17 @@ let rssTreeView = (function() {
 
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM);
 			for(let i=0, len=elms.length; i<len; i++) {
-				elms[i].tabIndex = -1;
-				elms[i].setAttribute("disabled", "");
+				if( !!(elms[i].offsetParent) ) {			// only if it's visible (items in closed folders)
+					elms[i].tabIndex = -1;
+					elms[i].setAttribute("disabled", "");
+				}
 			}
 
 		} else {
 			m_elmTreeRoot.removeAttribute("disabled");
 			m_elmTreeRoot.classList.remove("disabled", "disabledBlur");
 
-			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM);
+			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM + "[disabled]");
 			for(let i=0, len=elms.length; i<len; i++) {
 				elms[i].tabIndex = 0;
 				elms[i].removeAttribute("disabled");
