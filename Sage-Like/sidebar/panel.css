@@ -28,6 +28,8 @@
 	--font-sidebar: Tahoma;
 	--font-family-sidebar-fallback: var(--font-default-fallback), Verdana, Segoe, sans-serif;
 	--font-family-sidebar: var(--font-sidebar), var(--font-family-sidebar-fallback);
+
+	--transition-duration-slide-down-panel: 300ms;			/* 0.1ms for no duration, 0ms to no transition. */
 }
 
 :focus {
@@ -255,7 +257,7 @@ html, body {
 	border-top: 50px solid #888888;
 	border-radius: 0 0 6px 6px;
 	z-index: 1;
-	transition: top 0.35s cubic-bezier(0.7, 0, 0.2, 1.5) 0s;
+	transition: top var(--transition-duration-slide-down-panel) cubic-bezier(0.7, 0, 0.2, 1.5) 0ms;
 	display: none;
 }
 
