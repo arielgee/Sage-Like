@@ -713,10 +713,12 @@
 	* clientLeft = left border + left scrollbar width (if present). (block level elements -only!)
 	* https://stackoverflow.com/questions/27199247/what-is-the-difference-between-offsetleft-and-clientleft-in-javascript
 * fast multiple delete with Kb of feeds leave the sidebar disabled (and blured) ==> situation improved but not resolved
+* the InfoBubble alert about reappling filter due to feed status changed must be limited
 ---
 
 ## Now
-* the InfoBubble alert about reappling filter due to feed status changed must be limited
+* rename: ?etReapplyFilterShowMsgCount => ?etMsgShowCountReapplyFilter
+* rename: ?etHoverFilterTextBoxShowMsgCount => ?etMsgShowCountHoverFilterTextBox
 ---
 
 ## Next

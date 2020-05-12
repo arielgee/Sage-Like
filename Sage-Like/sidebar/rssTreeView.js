@@ -1356,6 +1356,7 @@ let rssTreeView = (function() {
 		m_filterChangeDebouncer = setTimeout(() => {
 
 			handleTreeFilter();
+			InfoBubble.i.dismiss();
 
 			// selected item always in view if it's visible
 			if(!!m_elmCurrentlySelected && !!m_elmCurrentlySelected.offsetParent) {
@@ -2394,6 +2395,7 @@ let rssTreeView = (function() {
 		m_reapplyInfoBubbleMsgShownOnce = false;
 
 		internalPrefs.setFeedsFilter("");
+		InfoBubble.i.dismiss();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2568,10 +2570,13 @@ let rssTreeView = (function() {
 					m_elmReapplyFilter.classList.add("alert");
 					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\nFilter may require reapplying.";
 
-					if(!m_reapplyInfoBubbleMsgShownOnce) {
-						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
-						m_reapplyInfoBubbleMsgShownOnce = true;
-					}
+					internalPrefs.getReapplyFilterShowMsgCount().then((count) => {
+						if( (count > 0) && !m_reapplyInfoBubbleMsgShownOnce ) {
+							InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
+							internalPrefs.setReapplyFilterShowMsgCount(--count);
+							m_reapplyInfoBubbleMsgShownOnce = true;
+						}
+					});
 				}
 			}
 		}

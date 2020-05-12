@@ -947,6 +947,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_FEEDS_FILTER_VALUE = "";
 	const DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE = "0";
 	const DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE = 3;
+	const DEF_PREF_REAPPLY_FILTER_SHOW_MSG_COUNT_VALUE = 3;
 
 	const PREF_OPEN_TREE_FOLDERS = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
@@ -958,6 +959,7 @@ let internalPrefs = (function() {
 	const PREF_FEEDS_FILTER = "pref_feedsFilter";
 	const PREF_AGGRESSIVE_DISCOVERY_LEVEL = "pref_aggressiveDiscoveryLevel";
 	const PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT = "pref_hoverFilterTextBoxShowMsgCount";
+	const PREF_REAPPLY_FILTER_SHOW_MSG_COUNT = "pref_reapplyFilterShowMsgCount";
 
 	let m_localStorage = browser.storage.local;
 
@@ -1079,6 +1081,16 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getReapplyFilterShowMsgCount() {
+		return getPreferenceValue(PREF_REAPPLY_FILTER_SHOW_MSG_COUNT, DEF_PREF_REAPPLY_FILTER_SHOW_MSG_COUNT_VALUE);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setReapplyFilterShowMsgCount(value) {
+		return setPreferenceValue(PREF_REAPPLY_FILTER_SHOW_MSG_COUNT, value);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setOpenTreeFolders(DEF_PREF_OPEN_TREE_FOLDERS_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
@@ -1090,6 +1102,7 @@ let internalPrefs = (function() {
 		this.setFeedsFilter(DEF_PREF_FEEDS_FILTER_VALUE);
 		this.setAggressiveDiscoveryLevel(DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE);
 		this.setHoverFilterTextBoxShowMsgCount(DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE);
+		this.setReapplyFilterShowMsgCount(DEF_PREF_REAPPLY_FILTER_SHOW_MSG_COUNT_VALUE);
 
 		return {
 			openTreeFolders: DEF_PREF_OPEN_TREE_FOLDERS_VALUE,
@@ -1102,6 +1115,7 @@ let internalPrefs = (function() {
 			feedsFilter: DEF_PREF_FEEDS_FILTER_VALUE,
 			aggressiveDiscoveryLevel: DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE,
 			hoverFilterTextBoxShowMsgCount: DEF_PREF_HOVER_FILTER_TEXT_BOX_SHOW_MSG_COUNT_VALUE,
+			reapplyFilterShowMsgCount: DEF_PREF_REAPPLY_FILTER_SHOW_MSG_COUNT_VALUE,
 		};
 	}
 
@@ -1140,6 +1154,8 @@ let internalPrefs = (function() {
 		setAggressiveDiscoveryLevel: setAggressiveDiscoveryLevel,
 		getHoverFilterTextBoxShowMsgCount: getHoverFilterTextBoxShowMsgCount,
 		setHoverFilterTextBoxShowMsgCount: setHoverFilterTextBoxShowMsgCount,
+		getReapplyFilterShowMsgCount: getReapplyFilterShowMsgCount,
+		setReapplyFilterShowMsgCount: setReapplyFilterShowMsgCount,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 
