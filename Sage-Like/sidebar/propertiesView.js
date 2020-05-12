@@ -64,13 +64,13 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	open(elmLI, funcPromiseResolve) {
 
+		if(this.m_slideDownPanel.isDown) return;
+
 		// the element been clicked
 		this.m_elmTreeItemLI = elmLI;
 
 		// the promise resolve function
 		this.m_funcPromiseResolve = funcPromiseResolve;
-
-		this._addEventListeners();
 
 		this._showPanel();
 		this.m_isOpen = true;
@@ -142,7 +142,9 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_showPanel() {
 
-		this.m_slideDownPanel.pull(true);
+		this.m_slideDownPanel.pull(true).then(() => {
+			this._addEventListeners();
+		});
 		panel.disable(true);
 	}
 

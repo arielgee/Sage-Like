@@ -37,7 +37,12 @@ let discoveryView = (function() {
 
 			initMembers();
 
-			m_slideDownPanel.pull(true);
+			if(m_slideDownPanel.isDown) return;
+
+			m_slideDownPanel.pull(true).then(() => {
+				addEventListeners();
+				runDiscoverFeeds();
+			});
 			panel.disable(true);
 
 			m_elmDiscoverPanel.focus()
@@ -53,7 +58,9 @@ let discoveryView = (function() {
 			return;
 		}
 
-		m_slideDownPanel.pull(false);
+		m_slideDownPanel.pull(false).then(() => {
+			emptyDiscoverFeedsList();
+		});
 		panel.disable(false);
 
 		removeEventListeners();
@@ -85,7 +92,7 @@ let discoveryView = (function() {
 			m_elmButtonCancel = document.getElementById("btnDiscoverFeedsCancel");
 			m_elmDiscoveryStatusBar = document.getElementById("discoveryStatusBar");
 
-			m_slideDownPanel = new SlideDownPanel(m_elmDiscoverPanel, onPullDownSlideDownPanel, onPullUpSlideDownPanel);
+			m_slideDownPanel = new SlideDownPanel(m_elmDiscoverPanel);
 
 			if(m_elmButtonRediscover.slSavedTitle === undefined) {
 				m_elmButtonRediscover.slSavedTitle = m_elmButtonRediscover.title;
@@ -95,8 +102,6 @@ let discoveryView = (function() {
 		}
 
 		internalPrefs.getAggressiveDiscoveryLevel().then(level => m_elmTriTglAggressiveDiscoveryLevel.setAttribute("data-toggler-state", level));
-
-		addEventListeners();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -364,20 +369,6 @@ let discoveryView = (function() {
 	function setStatusbarMessage(text, isError, concatToContent = false) {
 		m_elmDiscoveryStatusBar.textContent = (concatToContent ? m_elmDiscoveryStatusBar.textContent : "") + text;
 		m_elmDiscoveryStatusBar.classList.toggle("error", isError);
-	}
-
-	//==================================================================================
-	//=== Callbacks
-	//==================================================================================
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onPullDownSlideDownPanel() {
-		runDiscoverFeeds();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onPullUpSlideDownPanel() {
-		emptyDiscoverFeedsList();
 	}
 
 	//==================================================================================

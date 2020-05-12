@@ -35,6 +35,8 @@ let messageView = (function () {
 
 			initMembers();
 
+			if(m_slideDownPanel.isDown) return;
+
 			m_buttonSet = btnSet;
 
 			let elmMsgText = document.getElementById("msgText");
@@ -51,7 +53,9 @@ let messageView = (function () {
 				m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
 			}
 
-			m_slideDownPanel.pull(true);
+			m_slideDownPanel.pull(true).then(() => {
+				addEventListeners();
+			});
 			panel.disable(true);
 
 			m_elmMessagePanel.focus();
@@ -95,8 +99,6 @@ let messageView = (function () {
 			m_slideDownPanel = new SlideDownPanel(m_elmMessagePanel);
 		}
 		m_elmOptionsHref = null;		// re-initialize in each display
-
-		addEventListeners();
 
 		m_buttonCodeResult = ButtonCode.none;
 	}

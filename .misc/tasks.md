@@ -712,16 +712,20 @@
 	* offsetLeft = position left+margin from the first positioned parent left edge.
 	* clientLeft = left border + left scrollbar width (if present). (block level elements -only!)
 	* https://stackoverflow.com/questions/27199247/what-is-the-difference-between-offsetleft-and-clientleft-in-javascript
+* fast multiple delete with Kb of feeds leave the sidebar disabled (and blured) ==> situation improved but not resolved
 ---
 
 ## Now
-* fast multiple delete with Kb of feeds leave the sidebar disabled (and blured)
+* the InfoBubble alert about reappling filter due to feed status changed must be limited
 ---
 
 ## Next
+* when many feeds are loaded some remain in loading status until thay are clicked
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
+* consider preference for no dialog animation (.slideDownPanel transition)
+	* transition-duration from 300ms to 0.1ms
 * console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
@@ -735,6 +739,7 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
+* support keyboard navigation in ContextMenu
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must me a sidebar webextension!
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
