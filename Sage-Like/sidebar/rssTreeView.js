@@ -2326,10 +2326,10 @@ let rssTreeView = (function() {
 
 		m_elmFilterTextBoxContainer.style.display = "flex";
 
-		internalPrefs.getHoverFilterTextBoxShowMsgCount().then((count) => {
+		internalPrefs.getMsgShowCountHoverFilterTextBox().then((count) => {
 			if(count > 0) {
 				InfoBubble.i.show("Hover over the filter text box for vital information.", m_elmFilterWidget, false, false, 4000);
-				internalPrefs.setHoverFilterTextBoxShowMsgCount(--count);
+				internalPrefs.setMsgShowCountHoverFilterTextBox(--count);
 			}
 			m_elmTextFilter.focus();
 		}).finally(() => {
@@ -2570,10 +2570,10 @@ let rssTreeView = (function() {
 					m_elmReapplyFilter.classList.add("alert");
 					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\nFilter may require reapplying.";
 
-					internalPrefs.getReapplyFilterShowMsgCount().then((count) => {
+					internalPrefs.getMsgShowCountReapplyFilter().then((count) => {
 						if( (count > 0) && !m_reapplyInfoBubbleMsgShownOnce ) {
 							InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
-							internalPrefs.setReapplyFilterShowMsgCount(--count);
+							internalPrefs.setMsgShowCountReapplyFilter(--count);
 							m_reapplyInfoBubbleMsgShownOnce = true;
 						}
 					});
