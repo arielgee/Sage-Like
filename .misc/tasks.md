@@ -718,18 +718,19 @@
 * rename: ?etHoverFilterTextBoxShowMsgCount => ?etMsgShowCountHoverFilterTextBox
 * getMsgShowCountReapplyFilter() may occure after widget is closed and the wrong message in the InfoBubble will blink
 * check for getMsgShowCountReapplyFilter() in the openFilterWidget() and in the notifyAppliedFilter() just check for m_reapplyInfoBubbleMsgShownOnce (also change its name)
+* when many feeds are loaded some remain in loading status until thay are clicked
 ---
 
 ## Now
-* when many feeds are loaded some remain in loading status until thay are clicked
+* disabling an open and big tree is realy heave on the fps
+* support without preference: consider preference for no dialog animation (.slideDownPanel transition)
+	* transition-duration from 300ms to 0.1ms
 ---
 
 ## Next
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
-* consider preference for no dialog animation (.slideDownPanel transition)
-	* transition-duration from 300ms to 0.1ms
 * console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works

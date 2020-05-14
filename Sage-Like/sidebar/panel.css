@@ -29,7 +29,7 @@
 	--font-family-sidebar-fallback: var(--font-default-fallback), Verdana, Segoe, sans-serif;
 	--font-family-sidebar: var(--font-sidebar), var(--font-family-sidebar-fallback);
 
-	--transition-duration-slide-down-panel: 300ms;			/* 0.1ms for no duration, 0ms to no transition. */
+	--transition-duration-slide-down-panel: 300ms;			/* 0.001ms for no duration, 0ms to no transition. */
 }
 
 :focus {
