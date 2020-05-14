@@ -716,15 +716,15 @@
 * the InfoBubble alert about reappling filter due to feed status changed must be limited
 * rename: ?etReapplyFilterShowMsgCount => ?etMsgShowCountReapplyFilter
 * rename: ?etHoverFilterTextBoxShowMsgCount => ?etMsgShowCountHoverFilterTextBox
----
-
-## Now
 * getMsgShowCountReapplyFilter() may occure after widget is closed and the wrong message in the InfoBubble will blink
 * check for getMsgShowCountReapplyFilter() in the openFilterWidget() and in the notifyAppliedFilter() just check for m_reapplyInfoBubbleMsgShownOnce (also change its name)
 ---
 
-## Next
+## Now
 * when many feeds are loaded some remain in loading status until thay are clicked
+---
+
+## Next
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview

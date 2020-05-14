@@ -79,7 +79,7 @@ let rssTreeView = (function() {
 	let m_objCurrentlyDraggedOver = new CurrentlyDraggedOver();
 
 	let m_isFilterApplied = false;
-	let m_reapplyInfoBubbleMsgShownOnce = false;
+	let m_msgShowCountReapplyFilter = 0;
 	let m_bPrefShowFeedStats = prefs.DEF_PREF_SHOW_FEED_STATS_VALUE;
 
 	let m_filterChangeDebouncer = null;
@@ -2335,6 +2335,8 @@ let rssTreeView = (function() {
 		}).finally(() => {
 			setTimeout(() => m_elmFilterWidget.classList.add("opened"), 0);
 		});
+
+		internalPrefs.getMsgShowCountReapplyFilter().then((count) => m_msgShowCountReapplyFilter = count );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2392,7 +2394,6 @@ let rssTreeView = (function() {
 		m_elmTextFilter.value = "";
 		notifyAppliedFilter(true);
 		m_isFilterApplied = false;
-		m_reapplyInfoBubbleMsgShownOnce = false;
 
 		internalPrefs.setFeedsFilter("");
 		InfoBubble.i.dismiss();
@@ -2570,13 +2571,11 @@ let rssTreeView = (function() {
 					m_elmReapplyFilter.classList.add("alert");
 					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\nFilter may require reapplying.";
 
-					internalPrefs.getMsgShowCountReapplyFilter().then((count) => {
-						if( (count > 0) && !m_reapplyInfoBubbleMsgShownOnce ) {
-							InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
-							internalPrefs.setMsgShowCountReapplyFilter(--count);
-							m_reapplyInfoBubbleMsgShownOnce = true;
-						}
-					});
+					if(m_msgShowCountReapplyFilter > 0) {
+						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
+						internalPrefs.setMsgShowCountReapplyFilter(--m_msgShowCountReapplyFilter);
+						m_msgShowCountReapplyFilter = 0;	// show only once per widget session
+					}
 				}
 			}
 		}
