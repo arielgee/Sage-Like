@@ -1205,6 +1205,7 @@ let prefs = (function() {
 	const DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE = false;
 	const DEF_PREF_CUSTOM_CSS_SOURCE_VALUE = "";
 	const DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE = "";
+	const DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE = true;
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
@@ -1231,6 +1232,7 @@ let prefs = (function() {
 	const PREF_USE_CUSTOM_CSS_FEED_PREVIEW = "pref_useCustomCSSFeedPreview";
 	const PREF_CUSTOM_CSS_SOURCE = "pref_customCSSSource";
 	const PREF_CUSTOM_CSS_SOURCE_HASH = "pref_customCSSSourceHash";
+	const PREF_ANIMATED_SLIDE_DOWN_PANEL = "pref_animatedSlideDownPanel";
 
 	let m_localStorage = browser.storage.local;
 
@@ -1493,6 +1495,16 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getAnimatedSlideDownPanel() {
+		return getPreferenceValue(PREF_ANIMATED_SLIDE_DOWN_PANEL, DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setAnimatedSlideDownPanel(value) {
+		return setPreferenceValue(PREF_ANIMATED_SLIDE_DOWN_PANEL, value);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
 		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
@@ -1518,6 +1530,7 @@ let prefs = (function() {
 		this.setImageSet(DEF_PREF_IMAGE_SET_VALUE);
 		this.setUseCustomCSSFeedPreview(DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE);
 		this.setCustomCSSSource(DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
+		this.setAnimatedSlideDownPanel(DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE);
 
 		return {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
@@ -1545,6 +1558,7 @@ let prefs = (function() {
 			useCustomCSSFeedPreview: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
 			customCSSSource: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
 			customCSSSourceHash: DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
+			animatedSlideDownPanel: DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
 		};
 	}
 
@@ -1591,6 +1605,7 @@ let prefs = (function() {
 		DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
 		DEF_PREF_CUSTOM_CSS_SOURCE_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
 		DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
+		DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE: DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
 
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
@@ -1641,6 +1656,8 @@ let prefs = (function() {
 		getCustomCSSSource: getCustomCSSSource,
 		setCustomCSSSource: setCustomCSSSource,
 		getCustomCSSSourceHash: getCustomCSSSourceHash,
+		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,
+		getAnimatedSlideDownPanel: getAnimatedSlideDownPanel,
 
 		restoreDefaults: restoreDefaults,
 	}

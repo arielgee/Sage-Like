@@ -19,15 +19,23 @@ class SlideDownPanel {
 
 		return new Promise((resolve) => {
 
-			this._funcPromiseResolve = resolve;
+			/*	To enable the transition in the case of down=true, the '.style.display="block"' must be
+				set ASAP and way before the '.classList.add("visible")'.
+				Those two settings (block & visible) must be as far apart as possible or the transition
+				will not happend and the 'transitionend' event will not be fired.
 
-			if(down) {
-				this._addEventListeners();
-				this._slideDownPanel.style.display = "block";
-				setTimeout(() => this._slideDownPanel.classList.add("visible"), 0);
-			} else {
-				this._slideDownPanel.classList.remove("visible");
-			}
+				In the case of _pullNotAnimated() this has no importance.		*/
+			if(down) this._slideDownPanel.style.display = "block";
+
+			prefs.getAnimatedSlideDownPanel().then((animate) => {
+				if(animate) {
+					this._funcPromiseResolve = resolve;
+					this._pullAnimated(down);
+				} else {
+					this._pullNotAnimated(down);
+					resolve({ status: (down ? "down" : "up") });
+				}
+			});
 		});
 	}
 
@@ -37,6 +45,28 @@ class SlideDownPanel {
 		this._slideDownPanel = elmPanel;
 		this._funcPromiseResolve = null;
 		this._onTransitionEndSlideDownPanel = this._onTransitionEndSlideDownPanel.bind(this);
+	}
+
+	///////////////////////////////////////////////////////////////
+	_pullAnimated(down) {
+		if(down) {
+			this._addEventListeners();
+			this._slideDownPanel.classList.add("visible");
+		} else {
+			this._slideDownPanel.classList.remove("visible");
+		}
+	}
+
+	///////////////////////////////////////////////////////////////
+	_pullNotAnimated(down) {
+		if(down) {
+			this._slideDownPanel.classList.add("visible");
+			this._isDown = true;
+		} else {
+			this._slideDownPanel.classList.remove("visible");
+			this._slideDownPanel.style.display = "none";
+			this._isDown = false;
+		}
 	}
 
 	///////////////////////////////////////////////////////////////

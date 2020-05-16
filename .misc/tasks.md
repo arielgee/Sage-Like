@@ -722,12 +722,17 @@
 ---
 
 ## Now
-* disabling an open and big tree is realy heave on the fps
+* SlideDownPanel support for no animation: DONE. Still need to complate the preference wrapping to it all
+	* slGlobals.MSGD_PREF_CHANGE_xxx, broadcastPreferencesUpdated(), style.setProperty("--transition-duration-slide-down-panel", animate);
+	* handle situation where setting if modified while panel is down
 * support without preference: consider preference for no dialog animation (.slideDownPanel transition)
 	* transition-duration from 300ms to 0.1ms
 ---
 
 ## Next
+* disabling a big tree with all folders are open is realy heave on the fps
+* UI density, font name and font size do not impact the dialogs
+* when the messagesView is one the blue listView icon is moved to the left if the list has a scrollbar
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
