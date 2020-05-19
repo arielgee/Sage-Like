@@ -47,32 +47,44 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onRuntimeMessage(message) {
 
-		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
+		switch (message.id) {
 
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_UI_DENSITY) {
-				setPanelDensityFromPreferences();
-			}
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_FONT_NAME) {
-				setPanelFontNameFromPreferences();
-			}
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT) {
-				setPanelFontSizePercentFromPreferences();
-			}
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_COLORS) {
-				setPanelColorsFromPreferences();
-			}
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_IMAGES) {
-				setPanelImageSetFromPreferences();
-			}
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS) {
-				setFeedItemsDescColorsFromPreferences();
-			}
+			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL) {
+					setAnimatedSlideDownPanelFromPreferences();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_UI_DENSITY) {
+					setPanelDensityFromPreferences();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_FONT_NAME) {
+					setPanelFontNameFromPreferences();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT) {
+					setPanelFontSizePercentFromPreferences();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_COLORS) {
+					setPanelColorsFromPreferences();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_IMAGES) {
+					setPanelImageSetFromPreferences();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS) {
+					setFeedItemsDescColorsFromPreferences();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case slGlobals.MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:
+				closeAllSidebarPanels();
+				break;
+				/////////////////////////////////////////////////////////////////////////
 		}
 	}
 
@@ -104,6 +116,7 @@ let panel = (function() {
 		let browserFont = getComputedStyle(m_elmBody).getPropertyValue("font-family");
 		document.documentElement.style.setProperty("--font-default-fallback", browserFont);
 
+		setAnimatedSlideDownPanelFromPreferences();
 		setPanelDensityFromPreferences();
 		setPanelFontNameFromPreferences();
 		setPanelFontSizePercentFromPreferences();
@@ -125,6 +138,13 @@ let panel = (function() {
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setAnimatedSlideDownPanelFromPreferences() {
+		prefs.getAnimatedSlideDownPanel().then((animate) => {
+			document.documentElement.style.setProperty("--transition-duration-slide-down-panel", animate ? "300ms" : "0");
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -251,14 +271,7 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownBody(event) {
 		if(event.code === "Escape") {
-			messageView.close();
-			discoveryView.close();
-			NewFeedPropertiesView.close();
-			NewFolderPropertiesView.close();
-			EditFeedPropertiesView.close();
-			EditFolderPropertiesView.close();
-			InfoBubble.i.dismiss();
-			rssListView.hideVisibleFeedItemDescPanel();
+			closeAllSidebarPanels();
 		}
 	}
 
@@ -346,6 +359,18 @@ let panel = (function() {
 		if(m_viewsLoadedContentFlags === slGlobals.VIEW_CONTENT_LOAD_FLAG.ALL_VIEWS_LOADED) {
 			internalPrefs.getSplitterTop().then((splitterTop) => setPanelLayout(splitterTop));
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function closeAllSidebarPanels(event) {
+		messageView.close();
+		discoveryView.close();
+		NewFeedPropertiesView.close();
+		NewFolderPropertiesView.close();
+		EditFeedPropertiesView.close();
+		EditFolderPropertiesView.close();
+		InfoBubble.i.dismiss();
+		rssListView.hideVisibleFeedItemDescPanel();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

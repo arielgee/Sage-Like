@@ -719,9 +719,6 @@
 * getMsgShowCountReapplyFilter() may occure after widget is closed and the wrong message in the InfoBubble will blink
 * check for getMsgShowCountReapplyFilter() in the openFilterWidget() and in the notifyAppliedFilter() just check for m_reapplyInfoBubbleMsgShownOnce (also change its name)
 * when many feeds are loaded some remain in loading status until thay are clicked
----
-
-## Now
 * SlideDownPanel support for no animation: DONE. Still need to complate the preference wrapping to it all
 	* slGlobals.MSGD_PREF_CHANGE_xxx, broadcastPreferencesUpdated(), style.setProperty("--transition-duration-slide-down-panel", animate);
 	* handle situation where setting if modified while panel is down
@@ -729,7 +726,12 @@
 	* transition-duration from 300ms to 0.1ms
 ---
 
+## Now
+---
+
 ## Next
+* in leatest Fx ver the discoveryView (PageDataByInjection, _injectCode) works differently, no 'Unable to access current tab' line
+* in panel.onKeyDownBody(): can I use PropertiesView.close() to close all/any of the PropertiesView panels?
 * disabling a big tree with all folders are open is realy heave on the fps
 * UI density, font name and font size do not impact the dialogs
 * when the messagesView is one the blue listView icon is moved to the left if the list has a scrollbar
@@ -749,6 +751,7 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
+* expose hidden_pref_animated_slide_down_panel()
 * support keyboard navigation in ContextMenu
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must me a sidebar webextension!

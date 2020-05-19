@@ -1303,4 +1303,21 @@ let preferences = (function() {
 			}
 		});
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function hidden_pref_animated_slide_down_panel(animate = true) {
+		// do not change this preference while any slide-down panel is visible (down)
+		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_CLOSE_ALL_SIDEBAR_PANELS }).then(() => {
+			// wait a little to make sure all transitions were completed
+			slUtil.sleep(450).then(() => {
+				prefs.setAnimatedSlideDownPanel(!!animate).then(() => {
+					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL);
+				});
+			});
+		});
+	}
+
+	return {
+		hidden_pref_animated_slide_down_panel: hidden_pref_animated_slide_down_panel,
+	}
 })();
