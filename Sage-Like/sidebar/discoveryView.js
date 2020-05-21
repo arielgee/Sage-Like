@@ -161,7 +161,7 @@ let discoveryView = (function() {
 					}
 
 					//console.log("[Sage-Like]", error);
-				}).finally(() => pageData.dispose());
+				});
 			}
 		});
 	}
