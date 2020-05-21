@@ -722,6 +722,8 @@ let rssListView = (function() {
 				elm.setAttribute("disabled", "");
 			}
 
+			setStatusbarIcon(false);
+
 		} else {
 			m_elmList.removeAttribute("disabled");
 			m_elmList.classList.remove("disabled", "disabledBlur");
@@ -731,6 +733,8 @@ let rssListView = (function() {
 				elm.tabIndex = 0;
 				elm.removeAttribute("disabled");
 			}
+
+			setStatusbarIcon( !!(m_elmList.firstElementChild) );
 		}
 	}
 

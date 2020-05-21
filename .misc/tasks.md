@@ -726,6 +726,7 @@
 	* transition-duration from 300ms to 0.1ms
 * in panel.onKeyDownBody(): can I use PropertiesView.close() to close all/any of the PropertiesView panels?			=> NO
 * in leatest Fx ver the discoveryView (PageDataByInjection, _injectCode) works differently, no 'Unable to access current tab' line. => executeScript not rejecting: open Bug 1639529
+* when the messagesView is on the blue listView icon is moved to the left if the list has a scrollbar
 ---
 
 ## Now
@@ -734,7 +735,6 @@
 
 ## Next
 * disabling a big tree with all folders are open is realy heave on the fps
-* when the messagesView is one the blue listView icon is moved to the left if the list has a scrollbar
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
