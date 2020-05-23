@@ -58,10 +58,8 @@ class Feed {
 			return this._factoryCreateJsonFeed(feedText, feedUrl);
 
 		} else {
-
-			let errMsg = "Feed format is neither XML nor JSON.";
-			console.log("[Sage-Like]", "Parser error at " + feedUrl, "- " + errMsg);
-			throw new Error(errMsg);
+			//console.log("[Sage-Like]", "Parser error at " + feedUrl, "- Feed format is neither XML nor JSON.");
+			throw new Error("Feed format is neither XML nor JSON.");
 		}
 	}
 

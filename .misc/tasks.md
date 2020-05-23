@@ -731,9 +731,11 @@
 
 ## Now
 * UI density, font name and font size do not impact the dialogs
+	* change those properties in the panel or in the individual dialog class/file?
 ---
 
 ## Next
+* discovery is realy slow to start on https://developer.android.com/guide. takes time to change to 'loading'
 * disabling a big tree with all folders are open is realy heave on the fps
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
