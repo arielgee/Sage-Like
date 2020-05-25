@@ -15,7 +15,7 @@
 	white-space: nowrap;
 	background-color: var(--bk-color-window);
 	unicode-bidi: embed;
-	line-height: var(--line-height);
+	line-height: var(--line-height-rss-view);
 }
 
 .treeview ul {
@@ -33,7 +33,7 @@
 
 /* <li> elements that contains folders (other ULs) */
 .treeview li.rtvTreeFolder {
-	background: transparent no-repeat left calc((var(--line-height) + 2px - 16px) / 2); /* (captionHeight + captionBorders - imageHeight) / 2 */
+	background: transparent no-repeat left calc((var(--line-height-rss-view) + 2px - 16px) / 2); /* (captionHeight + captionBorders - imageHeight) / 2 */
 }
 
 .treeview li.rtvTreeFolder.open {
@@ -75,7 +75,7 @@
 
 .treeview .rtvCaption {
 	box-sizing: content-box;
-	min-height: var(--line-height);
+	min-height: var(--line-height-rss-view);
 	padding: 1px 5px 1px 0;
 	pointer-events: none; /* otherwise the menucontext is not fired */
 	display: flex;

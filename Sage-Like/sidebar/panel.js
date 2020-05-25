@@ -158,7 +158,7 @@ let panel = (function() {
 			m_lineHeight = parseInt(parts[0]);
 			m_treeIndent = parseInt(parts[1]);
 
-			style.setProperty("--line-height", m_lineHeight + "px");
+			style.setProperty("--line-height-rss-view", m_lineHeight + "px");
 			style.setProperty("--rss-tree-indent", m_treeIndent + "px");
 		});
 	}

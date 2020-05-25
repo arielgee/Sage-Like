@@ -11,7 +11,7 @@
 	white-space: nowrap;
 	background-color: var(--bk-color-window);
 	unicode-bidi: embed;
-	line-height: var(--line-height);
+	line-height: var(--line-height-rss-view);
 }
 
 .listview li.rlvListItem {

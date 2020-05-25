@@ -5,8 +5,10 @@
 	--toolbar-button-size: 18px;
 	--top-height: 60%;
 	--splitter-height: 7px;
-	--line-height: 19px;		/* UI density: Comfortable */
-	--rss-tree-indent: 18px;	/* UI density: Comfortable */
+	--line-height: 19px;
+
+	--line-height-rss-view: var(--line-height);	/* UI density: Comfortable */
+	--rss-tree-indent: 18px;					/* UI density: Comfortable */
 
 	--bk-color-window: #F3F3F3;
 	--bk-color-window-contrasted: #000000;
@@ -29,7 +31,7 @@
 	--font-family-sidebar-fallback: var(--font-default-fallback), Verdana, Segoe, sans-serif;
 	--font-family-sidebar: var(--font-sidebar), var(--font-family-sidebar-fallback);
 
-	--transition-duration-slide-down-panel: 300ms;			/* 0.001ms for no duration, 0ms to no transition. */
+	--transition-duration-slide-down-panel: 300ms;			/* 0.001ms for no duration, 0ms for no transition. */
 }
 
 :focus {
