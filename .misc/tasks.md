@@ -729,10 +729,10 @@
 * when the messagesView is on the blue listView icon is moved to the left if the list has a scrollbar
 * UI density, font name and font size do not impact the dialogs		=> UI density, font name and size is limited to tree and list views
 * use #rssTreeView and #rssListView instead of .treeview and .listview in css and js and maybe remove the class-names
+* discovery is realy slow to start on https://developer.android.com/guide. takes time to change to 'loading'
 ---
 
 ## Now
-* discovery is realy slow to start on https://developer.android.com/guide. takes time to change to 'loading'
 ---
 
 ## Next

@@ -124,6 +124,9 @@ let discoveryView = (function() {
 
 				const pageData = new PageDataByInjection();
 
+				setDiscoverLoadingState(true);
+				emptyDiscoverFeedsList();
+
 				pageData.get(tab.id).then((pd) => {
 
 					if(!!!pd.title) pd.title = slGlobals.STR_TITLE_EMPTY;
@@ -150,6 +153,7 @@ let discoveryView = (function() {
 				}).catch((error) => {
 
 					if(tab.url.match(/^(about|view-source|chrome|resource):/)) {
+						setDiscoverLoadingState(false);
 						setNoFeedsMsg("Unable to access current tab.");
 					} else {
 
@@ -184,8 +188,6 @@ let discoveryView = (function() {
 
 		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 
-		setDiscoverLoadingState(true);
-		emptyDiscoverFeedsList();
 		setStatusbarMessage(domainName, false);
 
 		syndication.feedDiscovery(strUrl, timeout, m_nRequestId).then((feedData) => {
@@ -244,9 +246,8 @@ let discoveryView = (function() {
 			}
 		};
 
-		setDiscoverLoadingState(true);
-		emptyDiscoverFeedsList();
 		setStatusbarMessage(domainName, false);
+
 		syndication.webPageFeedsDiscovery(txtHTML, timeout, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveLevel).then((result) => {
 
 			if((feedCount = result.length) === 0) {
