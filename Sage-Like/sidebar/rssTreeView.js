@@ -280,7 +280,7 @@ let rssTreeView = (function() {
 			} else {
 
 				// switched from 'show' to 'do not show', clear stat text
-				let elms = m_elmTreeRoot.querySelectorAll(".treeview ." + slGlobals.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS);
+				let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS);
 
 				for(let i=0, len=elms.length; i<len; i++) {
 					elms[i].textContent = "";

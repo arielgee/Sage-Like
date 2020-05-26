@@ -728,15 +728,15 @@
 * in leatest Fx ver the discoveryView (PageDataByInjection, _injectCode) works differently, no 'Unable to access current tab' line. => executeScript not rejecting: open Bug 1639529
 * when the messagesView is on the blue listView icon is moved to the left if the list has a scrollbar
 * UI density, font name and font size do not impact the dialogs		=> UI density, font name and size is limited to tree and list views
+* use #rssTreeView and #rssListView instead of .treeview and .listview in css and js and maybe remove the class-names
 ---
 
 ## Now
-* use #rssTreeView and #rssListView instead of .rtvTreeItem and .rlvListItem in css and js and maybe remove the class-names
+* discovery is realy slow to start on https://developer.android.com/guide. takes time to change to 'loading'
 ---
 
 ## Next
 * click on link in https://www.haaretz.co.il/misc/rss not opening feedPreview
-* discovery is realy slow to start on https://developer.android.com/guide. takes time to change to 'loading'
 * disabling a big tree with all folders are open is realy heave on the fps
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar

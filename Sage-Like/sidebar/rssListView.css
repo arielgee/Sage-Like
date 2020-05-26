@@ -4,7 +4,7 @@
 	--rlv-scrollbar-width: 0px;
 }
 
-.listview {
+#rssListView {
 	margin: 0;
 	padding: 2px;
 	font-weight: normal;
@@ -14,7 +14,7 @@
 	line-height: var(--line-height-rss-view);
 }
 
-.listview li.rlvListItem {
+#rssListView li.rlvListItem {
 	box-sizing: content-box;
 	list-style-type: none;
 	margin: 0;
@@ -24,20 +24,20 @@
 	text-overflow: ellipsis;
 }
 
-.listview li.bold {
+#rssListView li.bold {
 	font-weight: bold ;
 }
 
-.listview li.selected {
+#rssListView li.selected {
 	background-color: var(--bk-color-active);
 	color: var(--bk-color-active-contrasted);
 }
 
-.listview li.selected:focus {
+#rssListView li.selected:focus {
 	outline: 1px dotted gray;
 }
 
-.listview li.errormsg {
+#rssListView li.errormsg {
 	background: transparent url("/icons/errormsg.png") no-repeat left top;
 	padding-left: 20px;
 	color: crimson;
@@ -47,7 +47,7 @@
 	white-space: normal;
 }
 
-.listview[style*="direction: rtl;"] li.errormsg {
+#rssListView[style*="direction: rtl;"] li.errormsg {
 	background-position-x: right;
 	padding-right: 20px;
 }
