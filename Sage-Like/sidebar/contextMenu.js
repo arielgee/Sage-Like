@@ -58,7 +58,6 @@ let contextMenu = (function() {
 		m_elmContextMenu = document.getElementById("mnuContextMenu");
 
 		m_elmSidebarBody.addEventListener("contextmenu", onContextMenu);
-		m_elmContextMenu.addEventListener("blur", onBlurContextMenu);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +66,6 @@ let contextMenu = (function() {
 		closeContextMenu();
 
 		m_elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
-		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -90,6 +88,8 @@ let contextMenu = (function() {
 
 		m_elmContextMenu.style.display = "none";
 
+		m_elmContextMenu.removeEventListener("mouseover", onMouseOverContextMenu);
+		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu, true);
 		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
 		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 
@@ -150,6 +150,8 @@ let contextMenu = (function() {
 
 		if (showMenu) {
 
+			m_elmContextMenu.addEventListener("mouseover", onMouseOverContextMenu);
+			m_elmContextMenu.addEventListener("blur", onBlurContextMenu, true);
 			m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
 			m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
 
@@ -172,22 +174,45 @@ let contextMenu = (function() {
 			m_elmContextMenu.style.left = x + "px";
 			m_elmContextMenu.style.top = y + "px";
 
-			m_elmContextMenu.focus();
+			let items = m_elmContextMenu.querySelectorAll("." + m_currentContext + ":not( [style*=\"display: none\"] )");
+			if( !!items && !!items[0] ) {
+				items[0].focus();
+			} else {
+				m_elmContextMenu.focus();
+			}
 			m_isContextMenuOpen = true;
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseOverContextMenu(event) {
+		if(event.target.classList.contains("contextmenuitem")) {
+			event.target.focus();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurContextMenu(event) {
-		closeContextMenu();
+		// close menu if not focusing on a menuITEM
+		if( !!!event.relatedTarget || !event.relatedTarget.classList.contains("contextmenuitem") ) {
+			closeContextMenu();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownContextMenu(event) {
 
+		let keyCode = event.code;
+
+		// when 'Tab' is pressed let the system handle it. Exit withOUT preventDefault()
+		if(keyCode === "Tab") return;
+
 		event.preventDefault();
 
-		let keyCode = event.code;
+		if(["Enter", "NumpadEnter"].includes(keyCode)) {
+			handleMenuItemsAction(event.target.id);
+			return;
+		}
 
 		if(keyCode === "Escape") {
 			closeContextMenu();
@@ -261,7 +286,17 @@ let contextMenu = (function() {
 
 		event.preventDefault();
 
-		switch (event.target.id) {
+		handleMenuItemsAction(event.target.id);
+	}
+
+	//==================================================================================
+	//=== menu items handlers
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function handleMenuItemsAction(menuId) {
+
+		switch (menuId) {
 			case "mnuTreeOpenFeed":						handleTreeMenuActions(ContextAction.treeOpen);				break;
 			case "mnuTreeOpenFeedNewTab":				handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
 			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
@@ -290,10 +325,6 @@ let contextMenu = (function() {
 			case "mnuListSwitchDirection":				handleListMenuActions(ContextAction.listSwitchDirection);	break;
 		}
 	}
-
-	//==================================================================================
-	//=== menu items handlers
-	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
