@@ -21,7 +21,7 @@
 	white-space: nowrap;
 }
 
-.contextmenu .contextmenuitem:hover {
+.contextmenu .contextmenuitem:focus {
 	background-color: white;
 	filter: invert(100%);
 }

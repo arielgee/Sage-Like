@@ -730,13 +730,15 @@
 * UI density, font name and font size do not impact the dialogs		=> UI density, font name and size is limited to tree and list views
 * use #rssTreeView and #rssListView instead of .treeview and .listview in css and js and maybe remove the class-names
 * discovery is realy slow to start on https://developer.android.com/guide. takes time to change to 'loading'
+* click on link in https://www.haaretz.co.il/misc/rss not opening feedPreview	==> STRICT CONTENT-TYPES SEMANTICS ALL OVER AGAIN!!!!
+* support keyboard navigation in ContextMenu
 ---
 
 ## Now
+* replace querySelectorAll()[0] with querySelector()
 ---
 
 ## Next
-* click on link in https://www.haaretz.co.il/misc/rss not opening feedPreview
 * disabling a big tree with all folders are open is realy heave on the fps
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
@@ -754,11 +756,14 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
-* expose hidden_pref_animated_slide_down_panel()
-* support keyboard navigation in ContextMenu
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must me a sidebar webextension!
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
+
+### preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
+* expose hidden_pref_animated_slide_down_panel()
+* a preference (hidden?) for how strict the content-type semantics are:
+	> [X] strict semantics (rss|rdf|atom|feed))		[O] Accept 'text' type in addition to 'application' type
 
 ### Unresolved
 * a lot of sub folders in the tree view will fuck up the UI
@@ -766,7 +771,6 @@
 
 ### low priority
 * user bookmarks.description to hold 'updateTitle:1; openInFeedPreview:0;' or 'open:1;' instead of internalPrefs setOpenTreeFolders()/setTreeFeedsData()
-* tabs in preferences? It'll be a PAIN! better to use '"open_in_tab": true' in manifest.options_ui.
 * Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on.
 	* second reload or closing & re-opening the sidebar fixes the issue.
 * Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465

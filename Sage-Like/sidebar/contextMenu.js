@@ -58,7 +58,6 @@ let contextMenu = (function() {
 		m_elmContextMenu = document.getElementById("mnuContextMenu");
 
 		m_elmSidebarBody.addEventListener("contextmenu", onContextMenu);
-		m_elmContextMenu.addEventListener("blur", onBlurContextMenu);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +66,6 @@ let contextMenu = (function() {
 		closeContextMenu();
 
 		m_elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
-		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -90,6 +88,8 @@ let contextMenu = (function() {
 
 		m_elmContextMenu.style.display = "none";
 
+		m_elmContextMenu.removeEventListener("mousemove", onMouseMoveContextMenu);
+		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu, true);
 		m_elmContextMenu.removeEventListener("keydown", onKeyDownContextMenu);
 		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 
@@ -150,6 +150,8 @@ let contextMenu = (function() {
 
 		if (showMenu) {
 
+			m_elmContextMenu.addEventListener("mousemove", onMouseMoveContextMenu);
+			m_elmContextMenu.addEventListener("blur", onBlurContextMenu, true);
 			m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
 			m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
 
@@ -172,14 +174,29 @@ let contextMenu = (function() {
 			m_elmContextMenu.style.left = x + "px";
 			m_elmContextMenu.style.top = y + "px";
 
-			m_elmContextMenu.focus();
+			let item = m_elmContextMenu.querySelector(".contextmenuitem." + m_currentContext);	// first visible items
+			if(!!item) {
+				item.focus();
+			} else {
+				m_elmContextMenu.focus();
+			}
 			m_isContextMenuOpen = true;
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseMoveContextMenu(event) {
+		if(event.target.classList.contains("contextmenuitem")) {
+			event.target.focus();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurContextMenu(event) {
-		closeContextMenu();
+		// close menu if not focusing on a menuITEM
+		if( !!!event.relatedTarget || !event.relatedTarget.classList.contains("contextmenuitem") ) {
+			closeContextMenu();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -187,12 +204,47 @@ let contextMenu = (function() {
 
 		event.preventDefault();
 
-		let keyCode = event.code;
+		let qResult, keyCode = event.code;
 
-		if(keyCode === "Escape") {
-			closeContextMenu();
-			return;
+		switch(keyCode) {
+
+			case "ArrowUp":
+				qResult = m_elmContextMenu.querySelectorAll(".contextmenuitem." + m_currentContext);	// all visible items
+				for(let i=0, len=qResult.length; i<len; i++) {
+					if(qResult[i].id === event.target.id && i >= 1) {
+						qResult[i-1].focus();
+						break;
+					} else if(i === len-1) {
+						qResult[qResult.length-1].focus();	// last item
+					}
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowDown":
+				qResult = m_elmContextMenu.querySelector("#" + event.target.id + " ~ .contextmenuitem." + m_currentContext);	// first visible after target
+				if(!!qResult) {
+					qResult.focus();
+				} else {
+					m_elmContextMenu.querySelectorAll(".contextmenuitem." + m_currentContext)[0].focus();	// first item
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Enter":
+			case "NumpadEnter":
+				handleMenuItemsAction(event.target.id);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Escape":
+				closeContextMenu();
+				break;
+				/////////////////////////////////////////////////////////////////////////
 		}
+
+		// if key was handled then no need to continue
+		if(["ArrowUp", "ArrowDown", "Enter", "NumpadEnter", "Escape"].includes(keyCode)) return;
 
 		if(m_currentContext === "treeitemfoldercontext") {
 			switch (keyCode) {
@@ -261,7 +313,17 @@ let contextMenu = (function() {
 
 		event.preventDefault();
 
-		switch (event.target.id) {
+		handleMenuItemsAction(event.target.id);
+	}
+
+	//==================================================================================
+	//=== menu items handlers
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function handleMenuItemsAction(menuId) {
+
+		switch (menuId) {
 			case "mnuTreeOpenFeed":						handleTreeMenuActions(ContextAction.treeOpen);				break;
 			case "mnuTreeOpenFeedNewTab":				handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
 			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
@@ -290,10 +352,6 @@ let contextMenu = (function() {
 			case "mnuListSwitchDirection":				handleListMenuActions(ContextAction.listSwitchDirection);	break;
 		}
 	}
-
-	//==================================================================================
-	//=== menu items handlers
-	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeMenuActions(menuAction) {
