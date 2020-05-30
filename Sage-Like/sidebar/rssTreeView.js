@@ -1699,18 +1699,23 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openAllFeedsInTabs(elmLI, onlyUnread = true) {
+	async function openAllFeedsInTabs(elmLI, onlyUnread = true) {
 
 		if(!!!elmLI) return;
 
 		let parkedTabUrl;
-		let elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
+		let elm, elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
 
 		for(let i=0, len=elms.length; i<len; i++) {
-			parkedTabUrl = slUtil.getParkedTabUrl(slUtil.getFeedPreviewUrl(elms[i].getAttribute("href")), getTreeItemText(elms[i]));
-			browser.tabs.create({ active: false, url: parkedTabUrl }).then(() => {
-				setFeedVisitedState(elms[i], true);
-			});
+			elm = elms[i];
+			parkedTabUrl = slUtil.getParkedTabUrl(slUtil.getFeedPreviewUrl(elm.getAttribute("href")), getTreeItemText(elm));
+			try {
+				await browser.tabs.create({ active: false, url: parkedTabUrl })
+				setFeedVisitedState(elm, true);
+				m_objTreeFeedsData.set(elm.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+			} catch (error) {
+				console.log("[Sage-Like]", error);
+			}
 		}
 	}
 
