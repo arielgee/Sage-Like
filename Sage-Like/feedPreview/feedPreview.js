@@ -253,6 +253,7 @@
 			elmFeedItemAttachmentLink = document.createElement("a");
 			elmFeedItemAttachmentLink.className = "feedItemAttachmentLink";
 			elmFeedItemAttachmentLink.href = att.url;
+			elmFeedItemAttachmentLink.download = "";
 
 			elmFeedItemAttachmentImage = document.createElement("img");
 			elmFeedItemAttachmentImage.className = "feedItemAttachmentImage";

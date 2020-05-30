@@ -733,10 +733,11 @@
 * click on link in https://www.haaretz.co.il/misc/rss not opening feedPreview	==> STRICT CONTENT-TYPES SEMANTICS ALL OVER AGAIN!!!!
 * support keyboard navigation in ContextMenu
 * replace querySelectorAll()[0] with querySelector()
+* console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16	=> can't be repreduced
+* when click on feedPreview attachment (https://www.php.net/releases/feed.php) that tries to download the page goes blank, there is no back button and only F5 works
 ---
 
 ## Now
-* console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
 ---
 
 ## Next
@@ -745,7 +746,6 @@
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
-* NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
 * convert discoveryView and messageView to classes and create base class for slideDown ???
