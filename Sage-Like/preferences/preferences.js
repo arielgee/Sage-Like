@@ -436,16 +436,16 @@ let preferences = (function() {
 
 		if( !!event.target && event.target.classList.contains("preference") ) {
 
-			let elmInputs = event.target.querySelectorAll("input[type=checkbox],input[type=text]");
+			let elmInput = event.target.querySelector("input[type=checkbox],input[type=text]");
 
-			if(elmInputs.length > 0) {
+			if(!!elmInput) {
 				event.stopPropagation();
 
-				if(elmInputs[0].type === "checkbox") {
-					elmInputs[0].click();
-				} else if(elmInputs[0].type === "text") {
-					elmInputs[0].focus();
-					elmInputs[0].select();
+				if(elmInput.type === "checkbox") {
+					elmInput.click();
+				} else if(elmInput.type === "text") {
+					elmInput.focus();
+					elmInput.select();
 				}
 			}
 		}

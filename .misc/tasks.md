@@ -732,10 +732,11 @@
 * discovery is realy slow to start on https://developer.android.com/guide. takes time to change to 'loading'
 * click on link in https://www.haaretz.co.il/misc/rss not opening feedPreview	==> STRICT CONTENT-TYPES SEMANTICS ALL OVER AGAIN!!!!
 * support keyboard navigation in ContextMenu
+* replace querySelectorAll()[0] with querySelector()
 ---
 
 ## Now
-* replace querySelectorAll()[0] with querySelector()
+* console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
 ---
 
 ## Next
@@ -743,7 +744,6 @@
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
-* console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * NEED TO REPREDUCE: when click on feedPreview attachment that tries to download the page goes blank, there is no back button and only F5 works
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()

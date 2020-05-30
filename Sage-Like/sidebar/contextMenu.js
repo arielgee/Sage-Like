@@ -226,7 +226,7 @@ let contextMenu = (function() {
 				if(!!qResult) {
 					qResult.focus();
 				} else {
-					m_elmContextMenu.querySelectorAll(".contextmenuitem." + m_currentContext)[0].focus();	// first item
+					m_elmContextMenu.querySelector(".contextmenuitem." + m_currentContext).focus();	// first item
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
