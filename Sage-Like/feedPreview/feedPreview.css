@@ -171,6 +171,10 @@ body {
 	margin: 6px 0 !important;
 }
 
+.feedItemContent *:not(img):empty {
+	display: none !important;
+}
+
 .feedItemAttachmentsContainer {
 	display: flex;
 	flex-wrap: wrap;

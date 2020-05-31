@@ -735,6 +735,8 @@
 * replace querySelectorAll()[0] with querySelector()
 * console error: TypeError: m_objTreeFeedsData.value(...) is undefined[Learn More]  rssTreeView.js:884:16	=> can't be repreduced
 * when click on feedPreview attachment (https://www.php.net/releases/feed.php) that tries to download the page goes blank, there is no back button and only F5 works
+* try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
+	> https://matthiasott.com/articles/feed.json
 ---
 
 ## Now
@@ -746,8 +748,6 @@
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
-* try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
-	> https://matthiasott.com/articles/feed.json
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
@@ -761,6 +761,7 @@
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
+* custom CSS style: support in-place editing
 * expose hidden_pref_animated_slide_down_panel()
 * a preference (hidden?) for how strict the content-type semantics are:
 	> [X] strict semantics (rss|rdf|atom|feed))		[O] Accept 'text' type in addition to 'application' type
