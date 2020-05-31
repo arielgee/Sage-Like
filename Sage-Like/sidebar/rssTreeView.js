@@ -1699,23 +1699,22 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function openAllFeedsInTabs(elmLI, onlyUnread = true) {
+	function openAllFeedsInTabs(elmLI, onlyUnread = true) {
 
 		if(!!!elmLI) return;
 
 		let parkedTabUrl;
-		let elm, elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
+		let elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
 
 		for(let i=0, len=elms.length; i<len; i++) {
-			elm = elms[i];
+			const elm = elms[i];		// redeclare each iteration due to the async Promise
 			parkedTabUrl = slUtil.getParkedTabUrl(slUtil.getFeedPreviewUrl(elm.getAttribute("href")), getTreeItemText(elm));
-			try {
-				await browser.tabs.create({ active: false, url: parkedTabUrl })
+			browser.tabs.create({ active: false, url: parkedTabUrl }).then(() => {
 				setFeedVisitedState(elm, true);
 				m_objTreeFeedsData.set(elm.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
-			} catch (error) {
+			}).catch((error) => {
 				console.log("[Sage-Like]", error);
-			}
+			});
 		}
 	}
 

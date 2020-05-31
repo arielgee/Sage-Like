@@ -740,6 +740,7 @@
 ---
 
 ## Now
+* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 ---
 
 ## Next
@@ -747,7 +748,6 @@
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
-* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed
