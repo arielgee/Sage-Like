@@ -737,10 +737,10 @@
 * when click on feedPreview attachment (https://www.php.net/releases/feed.php) that tries to download the page goes blank, there is no back button and only F5 works
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
+* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 ---
 
 ## Now
-* pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 ---
 
 ## Next

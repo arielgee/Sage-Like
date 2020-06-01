@@ -207,16 +207,8 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function createFeedList() {
 
-		let elmSubCaption = document.getElementById("popupSubCaption");
-		let elmBusyContainer = document.getElementById("busyContainer");
-
-
-		// empty list if it was filled
-		if(!!m_elmPageFeedsList.firstElementChild && m_elmPageFeedsList.firstElementChild !== elmBusyContainer) {
-			while (m_elmPageFeedsList.firstElementChild) {
-				m_elmPageFeedsList.removeChild(m_elmPageFeedsList.firstElementChild);
-			}
-		}
+		// empty list if it was filled (leave the busyContainer)
+		emptyFeedList(false);
 
 		browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
 
@@ -224,7 +216,7 @@
 
 			browser.tabs.sendMessage(currentTabId, { id: slGlobals.MSG_ID_GET_PAGE_DATA }).then((response) => {
 
-				elmSubCaption.textContent = response.title;
+				document.getElementById("popupSubCaption").textContent = response.title;
 
 				const feeds = response.feeds;
 				const feedsLen = feeds.length;
@@ -232,21 +224,21 @@
 				if(feedsLen < response.feedCount) {
 					setTimeout(createFeedList, 2000);
 					return;
-				} else {
-					elmBusyContainer.parentElement.removeChild(elmBusyContainer);
 				}
 
 				// sort by index
 				feeds.sort((a, b) => a.index > b.index ? 1 : -1);
 
+				// empty list; remove busyContainer or if it was filled
+				emptyFeedList();
 				let isListEmpty = true;
 
 				for (let idx=0; idx<feedsLen; idx++) {
 
 					const feed = feeds[idx];
 
-					// For some unclear reason the data type of the lastUpdated property is converted from Date to string
-					// during its transfer via the response object of the tabs.sendMessage() function when delivered
+					// The data type of the lastUpdated property is converted from Date to string during its
+					// transfer via the response object of the tabs.sendMessage() function when delivered
 					// from the content script.
 					// This was tested using typeof just before the listener's resolve() in content.js and here and Its
 					// type is needed in createTagLI(). So there!
@@ -273,7 +265,7 @@
 
 				elmNoticeContainer.firstElementChild.textContent = "Something Went Wrong!\nMost likely it's a browser issue concerning page permissions."
 				elmNoticeContainer.style.display = "block";
-				elmBusyContainer.parentElement.removeChild(elmBusyContainer);
+				emptyFeedList();
 
 				console.log("[Sage-Like]", error);
 			});
@@ -354,6 +346,14 @@
 		m_elmOptionsHref = document.getElementById("pagePopupOptionsHref");
 		if(!!m_elmOptionsHref) {
 			m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function emptyFeedList(removeBusyContainer = true) {
+		let elms = m_elmPageFeedsList.querySelectorAll("li" + (removeBusyContainer ? ", #busyContainer" : "") );
+		for(let i=0, len=elms.length; i<len; i++) {
+			m_elmPageFeedsList.removeChild(elms[i]);
 		}
 	}
 
