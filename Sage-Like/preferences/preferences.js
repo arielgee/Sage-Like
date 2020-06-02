@@ -1066,7 +1066,7 @@ let preferences = (function() {
 
 		if(typeof(m_funcResolveGetUserFontName) === "function") {
 			m_funcResolveGetUserFontName("");
-			setTimeout(() => m_elmUserFontBox.style.display = "none", 0);		// to avoid: "TypeError: Property 'handleEvent' is not callable."
+			setTimeout(() => m_elmUserFontBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 		}
 	}
 
@@ -1121,7 +1121,7 @@ let preferences = (function() {
 
 		if(typeof(m_funcResolveGetTimeOfDay) === "function") {
 			m_funcResolveGetTimeOfDay("");
-			setTimeout(() => m_elmTimeOfDayBox.style.display = "none", 0);		// to avoid: "TypeError: Property 'handleEvent' is not callable."
+			setTimeout(() => m_elmTimeOfDayBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 		}
 	}
 
@@ -1157,7 +1157,7 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurTextCSSViewer(event) {
-		setTimeout(() => m_elmCSSViewBox.style.display = "none", 0);		// to avoid: "TypeError: Property 'handleEvent' is not callable."
+		setTimeout(() => m_elmCSSViewBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 	}
 
 	//==================================================================================

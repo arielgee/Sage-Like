@@ -2337,7 +2337,7 @@ let rssTreeView = (function() {
 			}
 			m_elmTextFilter.focus();
 		}).finally(() => {
-			setTimeout(() => m_elmFilterWidget.classList.add("opened"), 0);
+			setTimeout(() => m_elmFilterWidget.classList.add("opened"));
 		});
 
 		internalPrefs.getMsgShowCountReapplyFilter().then((count) => m_msgShowCountReapplyFilter = count );
