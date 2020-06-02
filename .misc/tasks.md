@@ -739,11 +739,11 @@
 	> https://matthiasott.com/articles/feed.json
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed	=> NO
-* disabling a big tree with all folders are open is realy heave on the fps
+* disabling a big tree with all folders are open is realy heave on the fps	=> NO GOOD REPLACEMENT WAS FOUND
+* change the slideDownPanel transition function when prefs.setAnimatedSlideDownPanel() is set to false	=> POINTLESS
 ---
 
 ## Now
-* change the slideDownPanel transition function when prefs.setAnimatedSlideDownPanel() is set to false
 ---
 
 ## Next
