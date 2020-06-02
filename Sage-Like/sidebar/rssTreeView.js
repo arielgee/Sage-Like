@@ -2609,18 +2609,20 @@ let rssTreeView = (function() {
 	function disable(value) {
 
 		if (value === true) {
+			m_elmTreeRoot.tabIndex = -1;
 			m_elmTreeRoot.setAttribute("disabled", "");
 			m_elmTreeRoot.classList.add("disabled", "disabledBlur");
 
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM);
 			for(let i=0, len=elms.length; i<len; i++) {
-				if( !!(elms[i].offsetParent) ) {			// only if it's visible (items in closed folders)
+				if( !!(elms[i].offsetParent) ) {			// only if it's visible (items in open folders)
 					elms[i].tabIndex = -1;
 					elms[i].setAttribute("disabled", "");
 				}
 			}
 
 		} else {
+			m_elmTreeRoot.tabIndex = 0;
 			m_elmTreeRoot.removeAttribute("disabled");
 			m_elmTreeRoot.classList.remove("disabled", "disabledBlur");
 

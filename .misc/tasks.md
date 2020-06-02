@@ -738,19 +738,20 @@
 * try to collapse parent elements of removed elements when using stripHtmlTags() and stripUnsafeHtmlComponents()
 	> https://matthiasott.com/articles/feed.json
 * pagePopup is doubleing the entries. not clearing? something to do with back and forward. need to repreduce. HERE: https://adactio.com/
+* menu hotkeys must check that the ctrl/alt/shift are NOT pressed	=> NO
+* disabling a big tree with all folders are open is realy heave on the fps
 ---
 
 ## Now
+* change the slideDownPanel transition function when prefs.setAnimatedSlideDownPanel() is set to false
 ---
 
 ## Next
-* disabling a big tree with all folders are open is realy heave on the fps
 * a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
-* menu hotkeys must check that the ctrl/alt/shift are NOT pressed
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
 	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
 	* Maybe need to use feed items Read/Unread state (alterative option?)

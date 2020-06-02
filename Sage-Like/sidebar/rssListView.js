@@ -713,25 +713,27 @@ let rssListView = (function() {
 	function disable(value) {
 
 		if (value === true) {
+			m_elmList.tabIndex = -1;
 			m_elmList.setAttribute("disabled", "");
 			m_elmList.classList.add("disabled", "disabledBlur");
 
-			for(let i=0, len=m_elmList.children.length; i<len; i++) {
-				const elm = m_elmList.children[i];
-				elm.tabIndex = -1;
-				elm.setAttribute("disabled", "");
+			let elms = m_elmList.children;
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].tabIndex = -1;
+				elms[i].setAttribute("disabled", "");
 			}
 
 			setStatusbarIcon(false);
 
 		} else {
+			m_elmList.tabIndex = 0;
 			m_elmList.removeAttribute("disabled");
 			m_elmList.classList.remove("disabled", "disabledBlur");
 
-			for(let i=0, len=m_elmList.children.length; i<len; i++) {
-				const elm = m_elmList.children[i];
-				elm.tabIndex = 0;
-				elm.removeAttribute("disabled");
+			let elms = m_elmList.children;
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].tabIndex = 0;
+				elms[i].removeAttribute("disabled");
 			}
 
 			setStatusbarIcon( !!(m_elmList.firstElementChild) );
