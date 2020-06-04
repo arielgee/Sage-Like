@@ -7,9 +7,9 @@ let discoveryView = (function() {
 	//==================================================================================
 
 	const AGGRESSIVE_TOOLTIP_TITLE = "Aggressive Discovery: \n" +
-									"  \u25cf None: Check only for standardly discoverable RSS links. \n" +
-									"  \u25cf Low: Check each hyperlink in page that its URL might suggest it links to an RSS feed. \n" +
-									"  \u25cf High: Check ALL hyperlinks in page (process may be lengthy).";
+									" \u25cf None: Check only for standardly discoverable RSS links. \n" +
+									" \u25cf Low: Check each hyperlink in page that its URL might suggest it links to an RSS feed. \n" +
+									" \u25cf High: Check ALL hyperlinks in page (process may be lengthy).";
 
 	let m_elmDiscoverPanel = null;
 	let m_elmDiscoverFeedsList;

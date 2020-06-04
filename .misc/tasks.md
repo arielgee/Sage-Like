@@ -741,13 +741,13 @@
 * menu hotkeys must check that the ctrl/alt/shift are NOT pressed	=> NO
 * disabling a big tree with all folders are open is realy heave on the fps	=> NO GOOD REPLACEMENT WAS FOUND
 * change the slideDownPanel transition function when prefs.setAnimatedSlideDownPanel() is set to false	=> POINTLESS
+* a better word for 'Easy' in 'Feed check method' pref.		=> 'Easy' IS GOOD
 ---
 
 ## Now
 ---
 
 ## Next
-* a better word for 'Easy' in 'Feed check method' pref.
 * consider '@media (prefers-color-scheme: dark)' for sidebar
 * consider '@media (prefers-color-scheme: dark)' for feedPreview
 * convert discoveryView and messageView to classes and create base class for slideDown ???

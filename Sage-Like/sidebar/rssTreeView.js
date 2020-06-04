@@ -31,15 +31,15 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	const FILTER_TOOLTIP_TITLE = "Feed Filtering Methods: \n" +
-									"  \u25cf Filtering using case-insensitive text. \n" +
-									"  \u25cf Filtering using Regular Expression pattern enclosed between two slashes ('/'). \n" +
-									"      Flag 'i' (case-insensitive) is supported when placed after the second slash. \n" +
-									"  \u25cf URL filtering using text prefixed with a single percent sign ('%'). \n" +
-									"  \u25cf Status filtering using special commands prefixed with a single greater-than sign ('>'): \n" +
-									"     \u2022 Use '>unread' for unvisited feeds. \n" +
-									"     \u2022 Use '>read' for visited feeds. \n" +
-									"     \u2022 Use '>error' for feeds that failed to update. \n" +
-									"     \u2022 Use '>load' for feeds that are still loading. \n\n" +
+									" \u25cf Filtering using case-insensitive text. \n" +
+									" \u25cf Filtering using Regular Expression pattern enclosed between two slashes ('/'). \n" +
+									"     Flag 'i' (case-insensitive) is supported when placed after the second slash. \n" +
+									" \u25cf URL filtering using text prefixed with a single percent sign ('%'). \n" +
+									" \u25cf Status filtering using special commands prefixed with a single greater-than sign ('>'): \n" +
+									"    \u2022 Use '>unread' for unvisited feeds. \n" +
+									"    \u2022 Use '>read' for visited feeds. \n" +
+									"    \u2022 Use '>error' for feeds that failed to update. \n" +
+									"    \u2022 Use '>load' for feeds that are still loading. \n\n" +
 									"\u2731 Feeds may change their title and/or status after the filter was applied.";
 
 	let TreeItemStatus = Object.freeze({
