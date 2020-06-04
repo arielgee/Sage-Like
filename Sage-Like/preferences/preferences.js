@@ -287,6 +287,7 @@ let preferences = (function() {
 	function getSavedPreferences() {
 
 		initializeSelectFeedsFolder();
+		initializeCheckFeedsMethodTitles();
 
 		prefs.getCheckFeedsInterval().then((value) => {
 			if(value.includes(":")) {
@@ -1012,6 +1013,25 @@ let preferences = (function() {
 		elm.value = value;
 		elm.textContent = text;
 		return elm;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initializeCheckFeedsMethodTitles() {
+
+		/*	The titles (tooltips) are not displayed in Fx v76 unless the
+			"options_ui" in manifest.json has the "open_in_tab" set to true. */
+
+		let re, found, items = m_elmCheckFeedsMethod.children;
+
+		for(let i=0, len=items.length; i<len; i++) {
+
+			re = new RegExp("\\b" + items[i].textContent + "\\b[^A-Z]*([A-Z].+\\.)\\s?$", "m");
+			found = TXT_HELP_INFO_CHECK_FEED_METHOD.match(re);
+
+			if( !!found && !!found[1] ) {
+				items[i].title = found[1];
+			}
+		}
 	}
 
 	//==================================================================================
