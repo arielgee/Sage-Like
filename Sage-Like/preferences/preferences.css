@@ -373,22 +373,15 @@ input[type="color"]::-moz-focus-inner {
 	background: linear-gradient(to left, var(--color1) 52%, var(--color-flash) 50%);
 }
 
-select,
-.annotation {
+select {
 	background: linear-gradient(to left, var(--background-color-select-control) 52%, var(--color-flash) 50%);
 }
 
 select,
-.annotation,
 .preferenceButton {
 	background-size: 220% 100%;
 	background-position: right bottom;
 	transition: background-position 0.2s ease-in 0s;
-}
-
-.annotation.flash {
-	background-position: left bottom;
-	color: black;
 }
 
 select.flash,

@@ -742,14 +742,16 @@
 * disabling a big tree with all folders are open is realy heave on the fps	=> NO GOOD REPLACEMENT WAS FOUND
 * change the slideDownPanel transition function when prefs.setAnimatedSlideDownPanel() is set to false	=> POINTLESS
 * a better word for 'Easy' in 'Feed check method' pref.		=> 'Easy' IS GOOD
+* consider '@media (prefers-color-scheme: dark)' for feedPreview		=> THATS WHAT CUSTOM CSS STYLE IS FOR.
+* consider '@media (prefers-color-scheme: dark)' for sidebar		=> THATS WHAT PREFERENCES SIDEBAR COLORS IS FOR.
+* preferences dark mode: the bullet comment at the end has its own bk color. thats not right.
 ---
 
 ## Now
+* re-check preferences dark mode
 ---
 
 ## Next
-* consider '@media (prefers-color-scheme: dark)' for sidebar
-* consider '@media (prefers-color-scheme: dark)' for feedPreview
 * convert discoveryView and messageView to classes and create base class for slideDown ???
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
