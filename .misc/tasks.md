@@ -745,6 +745,7 @@
 * consider '@media (prefers-color-scheme: dark)' for feedPreview		=> THATS WHAT CUSTOM CSS STYLE IS FOR.
 * consider '@media (prefers-color-scheme: dark)' for sidebar		=> THATS WHAT PREFERENCES SIDEBAR COLORS IS FOR.
 * preferences dark mode: the bullet comment at the end has its own bk color. thats not right.
+* convert discoveryView and messageView to classes and create base class for slideDown		=> NO
 ---
 
 ## Now
@@ -752,15 +753,12 @@
 ---
 
 ## Next
-* convert discoveryView and messageView to classes and create base class for slideDown ???
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
 	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
-* MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
-	* make a POC and post in somewhere. must me a sidebar webextension!
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
@@ -774,6 +772,8 @@
 * Firefox has no support for XML 1.1
 
 ### low priority
+* MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
+	* make a POC and post in somewhere. must me a sidebar webextension!
 * user bookmarks.description to hold 'updateTitle:1; openInFeedPreview:0;' or 'open:1;' instead of internalPrefs setOpenTreeFolders()/setTreeFeedsData()
 * Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on.
 	* second reload or closing & re-opening the sidebar fixes the issue.

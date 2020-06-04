@@ -2,12 +2,12 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Fri, 08 May 2020 07:28:20 GMT</dateCreated>
+		<dateCreated>Thu, 04 Jun 2020 09:04:05 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
-			<outline text="escape &amp; strip" data-wxsl-open="1">
-				<outline type="rss" text="&lt;/span&gt;&lt;h1&gt;HTML, &lt;a href=&quot;https://www.888.com&quot;&gt;Inject!&lt;/a&gt;&lt;/h1&gt;" title="&lt;/span&gt;&lt;h1&gt;HTML, &lt;a href=&quot;https://www.888.com&quot;&gt;Inject!&lt;/a&gt;&lt;/h1&gt;" xmlUrl="http://x/" data-wxsl-updateTitle="0" data-wxsl-openPreview="0"/>
+			<outline text="escape &amp; strip" data-wxsl-open="0">
+				<outline type="rss" text="&lt;/span&gt;&lt;h1&gt;Hello, &lt;a href=&quot;https://www.888.com&quot;&gt;World!&lt;/a&gt;&lt;/h1&gt;&lt;span&gt;" title="&lt;/span&gt;&lt;h1&gt;Hello, &lt;a href=&quot;https://www.888.com&quot;&gt;World!&lt;/a&gt;&lt;/h1&gt;&lt;span&gt;" xmlUrl="http://x/" data-wxsl-updateTitle="0" data-wxsl-openPreview="1"/>
 			</outline>
 			<outline text="RTL Languages" data-wxsl-open="0">
 				<outline type="rss" text="מידה" title="מידה" xmlUrl="https://feeds.feedburner.com/midaorg" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -26,6 +26,7 @@
 				<outline type="rss" text="Baaghi TV کے لیے تبصرے" title="Baaghi TV کے لیے تبصرے" xmlUrl="https://baaghitv.com/comments/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="attachments (rss,rss,rss,rss,atom,atom,atom,json,json)" data-wxsl-open="0">
+				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="editors dashboard" title="editors dashboard" xmlUrl="http://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -43,7 +44,7 @@
 				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/topics?sid=73c54e63355280ae7007ae5e47c44b56" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="RDF" data-wxsl-open="0">
+			<outline text="RDF" data-wxsl-open="1">
 				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="F1-Gate.com" title="F1-Gate.com" xmlUrl="https://f1-gate.com/index.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -72,7 +73,7 @@
 				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Adactio: Notes" title="Adactio: Notes" xmlUrl="https://adactio.com/notes/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Adactio" title="Adactio" xmlUrl="https://adactio.com/rss/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Jamie Tanna | Software Engineer" title="Jamie Tanna | Software Engineer" xmlUrl="https://www.jvt.me/feed.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="Atom" data-wxsl-open="0">
 				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -101,7 +102,7 @@
 				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="inessential" title="inessential" xmlUrl="https://inessential.com/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Jamie Tanna | Software (Quality) Engineer" title="Jamie Tanna | Software (Quality) Engineer" xmlUrl="https://www.jvt.me/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Jamie Tanna | Software Engineer" title="Jamie Tanna | Software Engineer" xmlUrl="https://www.jvt.me/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="JSON Feed" title="JSON Feed" xmlUrl="https://jsonfeed.org/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Manton Reece" title="Manton Reece" xmlUrl="https://manton.org/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Matthias Ott – Articles" title="Matthias Ott – Articles" xmlUrl="https://matthiasott.com/articles/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -112,9 +113,9 @@
 				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="Newsletter 2 Feed" data-wxsl-open="0">
-				<outline type="rss" text="adidas" title="adidas" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="KillTheNewsletter-01" title="KillTheNewsletter-01" xmlUrl="https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="sage-like" title="sage-like" xmlUrl="https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="adidas" title="adidas" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
+				<outline type="rss" text="KillTheNewsletter-01" title="KillTheNewsletter-01" xmlUrl="https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
+				<outline type="rss" text="sage-like" title="sage-like" xmlUrl="https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
 			</outline>
 			<outline text="discovery" data-wxsl-open="0">
 				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -192,7 +193,6 @@
 						<outline text="test target Folder" data-wxsl-open="0">
 							<outline text="f3" data-wxsl-open="0">
 								<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="http://www.ynet.co.il/Integration/StoryRss2142.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-								<outline type="rss" text="Manifest URL" title="Manifest URL" xmlUrl="moz-extension://aff0b402-9a1a-4661-a761-cb0bd23993ca/manifest.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 								<outline text="f4" data-wxsl-open="0">
 									<outline text="f5" data-wxsl-open="0">
 										<outline text="New Folder" data-wxsl-open="0">
