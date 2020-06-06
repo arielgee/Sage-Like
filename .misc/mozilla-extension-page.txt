@@ -9,7 +9,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
   <li>Feed discovery from the sidebar and from the address bar.</li>
   <li>Integrated with the browser's native bookmarks.</li>
   <li>Fully customizable tree view. Add, edit, move & delete feeds and folders directly from the sidebar.</li>
-  <li>Diversified filtering capabilities to the tree feeds (filter by title, URL or status).</li>
+  <li>Various filtering capabilities to the tree feeds (filter by title, URL or status).</li>
   <li>Context menus for feeds and for feed-items (articles) offer more actions.</li>
   <li>Support for <i>Middle Click</i>, <i>Ctrl+Click</i> & <i>Shift+Click</i> in the feed-items list.</li>
   <li>Feed preview (via: feed → context menu → Open xxx).</li>

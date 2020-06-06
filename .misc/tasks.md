@@ -746,13 +746,15 @@
 * consider '@media (prefers-color-scheme: dark)' for sidebar		=> THATS WHAT PREFERENCES SIDEBAR COLORS IS FOR.
 * preferences dark mode: the bullet comment at the end has its own bk color. thats not right.
 * convert discoveryView and messageView to classes and create base class for slideDown		=> NO
----
-
-## Now
 * re-check preferences dark mode
 ---
 
+## Now
+---
+
 ## Next
+* detect right-to-left languages and set direction by first characters of the text instead of the amount of characters in the text. (check online)
+* detect right-to-left languages and set direction in listview tooltips
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
 	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
