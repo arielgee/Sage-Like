@@ -277,7 +277,7 @@ let rssListView = (function() {
 		// set display=block as soon as possible to retrieve any remote html data (images, etc) and
 		// panel element will have dimentions (offsetWidth > 0)
 		m_elmFeedItemDescPanel.style.display = "block";
-		m_elmFeedItemDescPanel.style.direction = m_elmList.style.direction;
+		m_elmFeedItemDescPanel.style.direction = slUtil.getLanguageDir(elmLI.textContent, false);
 
 		m_timeoutMouseOver = setTimeout(() => {
 

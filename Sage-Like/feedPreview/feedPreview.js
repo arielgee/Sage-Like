@@ -165,9 +165,7 @@
 		elmFeedTitle.appendChild(elmFeedTitleTexts);
 		elmFeedTitle.appendChild(elmFeedTitleImage);
 
-		if(slUtil.isLanguageRTL(elmFeedTitleText.textContent)) {
-			elmFeedTitle.style.direction = "rtl";
-		}
+		elmFeedTitle.style.direction = slUtil.getLanguageDir(elmFeedTitleText.textContent);
 
 		return elmFeedTitle;
 	}
@@ -223,9 +221,7 @@
 		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
 
-		if(slUtil.isLanguageRTL(elmFeedItemTitleText.textContent)) {
-			elmFeedItemContainer.style.direction = "rtl";
-		}
+		elmFeedItemContainer.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
 
 		return elmFeedItemContainer;
 	}

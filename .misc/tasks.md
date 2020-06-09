@@ -748,15 +748,14 @@
 * convert discoveryView and messageView to classes and create base class for slideDown		=> NO
 * re-check preferences dark mode
 * detect right-to-left languages and set direction by first characters of the text instead of the amount of characters in the text. => NO NEED - performed on titles (which are short)
+* detect right-to-left languages and set direction in listview tooltips
 ---
 
 ## Now
-* detect right-to-left languages and set direction in listview tooltips
-* the list's direction is detected as a all and so the first-letter improvment is fuckless
+* replace trim() with trimStart()
 ---
 
 ## Next
-* replace trim() with trimStart()
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
 	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
