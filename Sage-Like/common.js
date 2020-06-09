@@ -861,6 +861,13 @@ let slPrototypes = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	if(typeof(String.prototype.trimStart) !== "function") {
+		String.prototype.trimStart = function() {
+			return this.trimLeft();
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	Date.prototype.toWebExtensionLocaleString = function() {
 		let options = {
 			weekday: "long",
