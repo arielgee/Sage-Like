@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Thu, 04 Jun 2020 09:04:05 GMT</dateCreated>
+		<dateCreated>Tue, 09 Jun 2020 12:32:22 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
@@ -10,6 +10,7 @@
 				<outline type="rss" text="&lt;/span&gt;&lt;h1&gt;Hello, &lt;a href=&quot;https://www.888.com&quot;&gt;World!&lt;/a&gt;&lt;/h1&gt;&lt;span&gt;" title="&lt;/span&gt;&lt;h1&gt;Hello, &lt;a href=&quot;https://www.888.com&quot;&gt;World!&lt;/a&gt;&lt;/h1&gt;&lt;span&gt;" xmlUrl="http://x/" data-wxsl-updateTitle="0" data-wxsl-openPreview="1"/>
 			</outline>
 			<outline text="RTL Languages" data-wxsl-open="0">
+				<outline type="rss" text="כלכליסט - ערוץ 24/7" title="כלכליסט - ערוץ 24/7" xmlUrl="https://www.calcalist.co.il/GeneralRSS/0,16335,L-3674,00.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="מידה" title="מידה" xmlUrl="https://feeds.feedburner.com/midaorg" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -23,6 +24,8 @@
 				<outline type="rss" text="كووورة: الموقع العربي الرياضي الأول" title="كووورة: الموقع العربي الرياضي الأول" xmlUrl="https://feeds.feedburner.com/kooora/Wnpe" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="الجزيرة نت" title="الجزيرة نت" xmlUrl="https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="ہم نیوز" title="ہم نیوز" xmlUrl="https://www.humnews.pk/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Baaghi TV" title="Baaghi TV" xmlUrl="https://baaghitv.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="تبصرے برائے: مقبوضہ فلسطین، آتش زدگی اور شدید گرمی کی وجہ سے 131صہیونی جھلس کر زخمی" title="تبصرے برائے: مقبوضہ فلسطین، آتش زدگی اور شدید گرمی کی وجہ سے 131صہیونی جھلس کر زخمی" xmlUrl="https://baaghitv.com/palestine-yahudi-zakhmi/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Baaghi TV کے لیے تبصرے" title="Baaghi TV کے لیے تبصرے" xmlUrl="https://baaghitv.com/comments/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="attachments (rss,rss,rss,rss,atom,atom,atom,json,json)" data-wxsl-open="0">
@@ -60,6 +63,7 @@
 				<outline type="rss" text="מידה" title="מידה" xmlUrl="https://feeds.feedburner.com/midaorg" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="כלכליסט - ערוץ 24/7" title="כלכליסט - ערוץ 24/7" xmlUrl="https://www.calcalist.co.il/GeneralRSS/0,16335,L-3674,00.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="אלכסון" title="אלכסון" xmlUrl="https://feeds.feedburner.com/alaxon" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="ynet - בלוגוס" title="ynet - בלוגוס" xmlUrl="http://www.ynet.co.il/Integration/StoryRss3764.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Mozilla Press Center" title="Mozilla Press Center" xmlUrl="https://blog.mozilla.org/press/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>

@@ -204,7 +204,7 @@
 
 		elmFeedItemNumber.textContent = idx + 1 + ".";
 		elmFeedItemLink.href = feedItem.url;
-		elmFeedItemTitleText.textContent = feedItem.title;
+		elmFeedItemTitleText.textContent = feedItem.title.trim().length > 0 ? feedItem.title : feedItem.url;
 		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
 		elmFeedItemContent.innerHTML = itemImage + itemContent;
 

@@ -162,7 +162,7 @@ let rssListView = (function() {
 		elm.classList.add(slGlobals.CLS_RLV_LI_LIST_ITEM)
 		setItemRealVisitedState(elm, url, false);
 
-		if(title.length === 0) title = slGlobals.STR_TITLE_EMPTY;	// url.split("/").reduceRight((p, c) => (c.length>0 && p==="<{in^it}>") ? c : p, "<{in^it}>");
+		if(title.length === 0) title = url;		// slGlobals.STR_TITLE_EMPTY ; url.split("/").reduceRight((p, c) => (c.length>0 && p==="<{in^it}>") ? c : p, "<{in^it}>");
 		desc = desc
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexATag)
