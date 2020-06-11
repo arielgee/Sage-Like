@@ -3,22 +3,21 @@
 --------------------------------------------------------------
 Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I tried to keep it lightweight and fast.
 
-<b>Features</b>
-<ul>
-  <li>A sidebar based display.</li>
-  <li>Feed discovery from the sidebar and from the address bar.</li>
-  <li>Integrated with the browser's native bookmarks.</li>
-  <li>Fully customizable tree view. Add, edit, move & delete feeds and folders directly from the sidebar.</li>
-  <li>Various filtering capabilities to the tree feeds (filter by title, URL or status).</li>
-  <li>Context menus for feeds and for feed-items (articles) offer more actions.</li>
-  <li>Support for <i>Middle Click</i>, <i>Ctrl+Click</i> & <i>Shift+Click</i> in the feed-items list.</li>
-  <li>Feed preview (via: feed → context menu → Open xxx).</li>
-  <li>Support for import & export feed subscriptions using an OPML file.</li>
-  <li>Customizable UI font & colors.</li>
-</ul>
+◼ <b>Features</b>
 
-<b>Support & Feedback:</b>
-<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383</a>
+&emsp;● A sidebar based display.
+&emsp;● Feed discovery from the sidebar and from the address bar.
+&emsp;● Integrated with the browser's native bookmarks.
+&emsp;● Fully customizable tree view. Add/Edit/Delete/Drag-n-drop directly from sidebar.
+&emsp;● Various filtering capabilities to the tree feeds (filter by title, URL or status).
+&emsp;● Context menus for feeds and for feed-items (articles) offer more actions.
+&emsp;● Support for <i>middle-click</i>, <i>ctrl-click</i> & <i>shift-click</i> in the feed-items list.
+&emsp;● Rendered Feed Preview via <i>middle-click</i> or context menu (support custom style sheet).
+&emsp;● Support for import & export feed subscriptions using an OPML file.
+&emsp;● Customizable UI font & colors.
+
+◼ <b>Support & Feedback</b>
+&emsp;<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383</a>
 
 + Product Page Tags (20 tags)
 --------------------------------------------------------------
@@ -28,6 +27,13 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 + Manage Version - Version Notes
 --------------------------------------------------------------
+
+DRAFT
++ Feed Preview now shows attachments (enclosures).
++ Feed Preview rendering improved.
++ ...
+
+
 <b>Changes</b>
 <ul>
   <li>Added ability to open links to feeds in pages, Bookmarks or location-bar with the Sage-Like Feed Preview.

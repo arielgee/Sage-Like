@@ -750,21 +750,14 @@
 * detect right-to-left languages and set direction by first characters of the text instead of the amount of characters in the text. => NO NEED - performed on titles (which are short)
 * detect right-to-left languages and set direction in listview tooltips
 * replace trim() with trimStart()
+* find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 ---
 
 ## Now
-* find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
-	* item bullet: '•' ; '&bull;' ; '&#8226;' ; '&raquo;' ; '»'
-	* space: '&nbsp;' ; '&emsp;' ; '\u00a0'
 ---
 
 
 ## Next
-* a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
-	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
-	* Maybe need to use feed items Read/Unread state (alterative option?)
-	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
-	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
@@ -775,11 +768,6 @@
 	> [X] strict semantics (rss|rdf|atom|feed))		[O] Accept 'text' type in addition to 'application' type
 
 
-### Unresolved
-* a lot of sub folders in the tree view will fuck up the UI
-* Firefox has no support for XML 1.1
-
-
 ### low priority
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must me a sidebar webextension!
@@ -788,6 +776,16 @@
 	* second reload or closing & re-opening the sidebar fixes the issue.
 * Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 	* for now there is a bug workaround using *Connection-based messaging* mecanizem.   => VERY good solution
+
+
+### Unresolved
+* a lot of sub folders in the tree view will fuck up the UI
+* Firefox has no support for XML 1.1
+* a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
+	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
+	* Maybe need to use feed items Read/Unread state (alterative option?)
+	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
+	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
 
 
 ### Links for PR work
