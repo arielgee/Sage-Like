@@ -27,32 +27,6 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 + Manage Version - Version Notes
 --------------------------------------------------------------
-
-◼ <b>CHANGES</b>
-
-&emsp;● Improved core syndication code. Rewritten and reorganized.
-&emsp;● Added support for HTML/XHTML content in feed-item for newsletter-to-RSS services.
-&emsp;● Improved and redesigned Feed Preview rendering.
-&emsp;● Added support for feed-item attachments (enclosures) in Feed Preview.
-&emsp;● Added support for custom CSS styling to Feed Preview in Options page.
-&emsp;● Added an option to open Feed Preview automatically when selecting a tree feed.
-&emsp;● Added support for right-to-left languages in Feed Preview.
-&emsp;● Added option to choose how to open/close a folder (single or double click).
-&emsp;● Added the ability to copy-paste URLs directly to the feeds tree.
-&emsp;● Added support for keyboard navigation in context menu (up/down arrows).
-&emsp;● Added support in context menu to open all unread feeds in a folder as Feed Preview tabs.
-&emsp;● Added new feed property 'open in Feed Preview'. Override option 'A feed-click automatically opens the Feed Preview' if it's 'No'.
-&emsp;● Added the ability to customize Feed-item tool tips (delay time, colors, show attachments).
-&emsp;● Added the ability to open discovered feeds in Feed Preview using middle-click from the sidebar and the address bar before adding to the feeds tree.
-&emsp;● Improved OPML import/export support.
-&emsp;● Added the ability to read/write Sage-Like specific feed properties in OPML import/export file (folder state, update title, open Feed Preview).
-&emsp;● Added a message box with summary information after importing/exporting an OPML file.
-&emsp;● Added a new option, 'Easy', to 'Feed check method'. Feeds are fetched in 10 batches with a 4-seconds pause between each one.
-&emsp;● Added support for dark system color theme to the Options page.
-&emsp;● Improved Options page UI.
-&emsp;● Under the hood performance enhancements.
-&emsp;● Bugs corrected.
-
 <b>Changes</b>
 <ul>
   <li>Improved core syndication code. Rewritten and reorganized.</li>
