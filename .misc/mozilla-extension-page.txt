@@ -1,10 +1,9 @@
 
 + Product Page Description (About this extension)
 --------------------------------------------------------------
-Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I tried to keep it lightweight and fast.
+Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I did my best to keep it lightweight and fast.
 
 ◼ <b>FEATURES</b>
-
 &emsp;● A sidebar based display.
 &emsp;● Feed discovery from the sidebar and from the address bar.
 &emsp;● Integrated with the browser's native bookmarks.
