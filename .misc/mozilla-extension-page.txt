@@ -3,12 +3,12 @@
 --------------------------------------------------------------
 Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I tried to keep it lightweight and fast.
 
-◼ <b>Features</b>
+◼ <b>FEATURES</b>
 
 &emsp;● A sidebar based display.
 &emsp;● Feed discovery from the sidebar and from the address bar.
 &emsp;● Integrated with the browser's native bookmarks.
-&emsp;● Fully customizable tree view. Add/Edit/Delete/Drag-n-drop directly from sidebar.
+&emsp;● Fully customizable tree view. Add/Edit/Delete/Copy/Paste/Drag-n-drop directly in sidebar.
 &emsp;● Various filtering capabilities to the tree feeds (filter by title, URL or status).
 &emsp;● Context menus for feeds and for feed-items (articles) offer more actions.
 &emsp;● Support for <i>middle-click</i>, <i>ctrl-click</i> & <i>shift-click</i> in the feed-items list.
@@ -16,7 +16,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● Support for import & export feed subscriptions using an OPML file.
 &emsp;● Customizable UI font & colors.
 
-◼ <b>Support & Feedback</b>
+◼ <b>SUPPORT & FEEDBACK</b>
 &emsp;<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383</a>
 
 + Product Page Tags (20 tags)
@@ -28,21 +28,55 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 + Manage Version - Version Notes
 --------------------------------------------------------------
 
-DRAFT
-+ Feed Preview now shows attachments (enclosures).
-+ Feed Preview rendering improved.
-+ ...
+◼ <b>CHANGES</b>
 
+&emsp;● Improved core syndication code. Rewritten and reorganized.
+&emsp;● Added support for HTML/XHTML content in feed-item for newsletter-to-RSS services.
+&emsp;● Improved and redesigned Feed Preview rendering.
+&emsp;● Added support for feed-item attachments (enclosures) in Feed Preview.
+&emsp;● Added support for custom CSS styling to Feed Preview in Options page.
+&emsp;● Added an option to open Feed Preview automatically when selecting a tree feed.
+&emsp;● Added support for right-to-left languages in Feed Preview.
+&emsp;● Added option to choose how to open/close a folder (single or double click).
+&emsp;● Added the ability to copy-paste URLs directly to the feeds tree.
+&emsp;● Added support for keyboard navigation in context menu (up/down arrows).
+&emsp;● Added support in context menu to open all unread feeds in a folder as Feed Preview tabs.
+&emsp;● Added new feed property 'open in Feed Preview'. Override option 'A feed-click automatically opens the Feed Preview' if it's 'No'.
+&emsp;● Added the ability to customize Feed-item tool tips (delay time, colors, show attachments).
+&emsp;● Added the ability to open discovered feeds in Feed Preview using middle-click from the sidebar and the address bar before adding to the feeds tree.
+&emsp;● Improved OPML import/export support.
+&emsp;● Added the ability to read/write Sage-Like specific feed properties in OPML import/export file (folder state, update title, open Feed Preview).
+&emsp;● Added a message box with summary information after importing/exporting an OPML file.
+&emsp;● Added a new option, 'Easy', to 'Feed check method'. Feeds are fetched in 10 batches with a 4-seconds pause between each one.
+&emsp;● Added support for dark system color theme to the Options page.
+&emsp;● Improved Options page UI.
+&emsp;● Under the hood performance enhancements.
+&emsp;● Bugs corrected.
 
 <b>Changes</b>
 <ul>
-  <li>Added ability to open links to feeds in pages, Bookmarks or location-bar with the Sage-Like Feed Preview.
-    <ul><li>The permissions <i>webRequest</i> & <i>webRequestBlocking</i> were needed.</li></ul>
-  </li>
-  <li>Added link in the feed preview to open the URL with the browser when an error occurs.</li>
-  <li>Added support for keyboard copy with Ctrl+Insert in feeds tree & feed-items list.</li>
-  <li>Fixed the 'Subscribe Using Sage-Like' icon. Change to gray (dimmed) when it's not available.</li>
-  <li>Minor improvements to the UI behavior.</li>
+  <li>Improved core syndication code. Rewritten and reorganized.</li>
+  <li>Added support for HTML/XHTML content in feed-item for newsletter-to-RSS services.</li>
+  <li>Improved and redesigned Feed Preview rendering.</li>
+  <li>Added support for feed-item attachments (enclosures) in Feed Preview.</li>
+  <li>Added support for custom CSS styling to Feed Preview in Options page.</li>
+  <li>Added an option to open Feed Preview automatically when selecting a tree feed.</li>
+  <li>Added support for right-to-left languages in Feed Preview.</li>
+  <li>Added option to choose how to open/close a folder (single or double click).</li>
+  <li>Added the ability to copy-paste URLs directly to the feeds tree.</li>
+  <li>Added support for keyboard navigation in context menu (up/down arrows).</li>
+  <li>Added support in context menu to open all unread feeds in a folder as Feed Preview tabs.</li>
+  <li>Added new feed property 'open in Feed Preview'. Override option 'A feed-click automatically opens the Feed Preview' if it's 'No'.</li>
+  <li>Added the ability to customize Feed-item tool tips (delay time, colors, show attachments).</li>
+  <li>Added the ability to open discovered feeds in Feed Preview using middle-click from the sidebar and the address bar before adding to the feeds tree.</li>
+  <li>Improved OPML import/export support.</li>
+  <li>Added the ability to read/write Sage-Like specific feed properties in OPML import/export file (folder state, update title, open Feed Preview).</li>
+  <li>Added a message box with summary information after importing/exporting an OPML file.</li>
+  <li>Added a new option, 'Easy', to 'Feed check method'. Feeds are fetched in 10 batches with a 4-seconds pause between each one.</li>
+  <li>Added support for dark system color theme to the Options page.</li>
+  <li>Improved Options page UI.</li>
+  <li>Under the hood performance enhancements.</li>
+  <li>Bugs corrected.</li>
 </ul>
 
 + Version Notes for next time
