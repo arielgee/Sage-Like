@@ -8,6 +8,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● A sidebar based display.
 &emsp;● Feed discovery from the sidebar and from the address bar.
 &emsp;● Integrated with the browser's native bookmarks.
+&emsp;● Feeds automatically sync across your devices when using Firefox Sync.
 &emsp;● Fully customizable tree view. Add/Edit/Delete/Copy/Paste/Drag-n-drop directly in sidebar.
 &emsp;● Various filtering capabilities to the tree feeds (filter by title, URL or status).
 &emsp;● Context menus for feeds and for feed-items (articles) offer more actions.
