@@ -16,10 +16,10 @@
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpUrlFilter;
 
-	initilization();
+	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initilization() {
+	function initialization() {
 
 		browser.runtime.onConnect.addListener(onRuntimeConnect);				// Handle connection from panel.js
 		browser.runtime.onMessage.addListener(onRuntimeMessage);				// Messages handler
@@ -43,7 +43,7 @@
 		m_regExpUrlFilter = slUtil.getRegExpDiscoveryUrlFilter();
 
 		// start the first bookmark feeds check after 2 seconds to allow the browser's
-		// initilization to terminate and possibly the sidebar to be displayed.
+		// initialization to terminate and possibly the sidebar to be displayed.
 		m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, 2000);
 	}
 
@@ -317,7 +317,7 @@
 
 		return new Promise((resolve, reject) => {
 
-			browser.tabs.executeScript(tabId, 					{ runAt: "document_idle", file: "/common.js" })
+			browser.tabs.executeScript(					 tabId, { runAt: "document_idle", file: "/common.js" })
 				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/feed.js" })
 				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/xmlFeed.js" })
 				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/jsonFeed.js" })

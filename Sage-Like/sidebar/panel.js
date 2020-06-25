@@ -29,10 +29,10 @@ let panel = (function() {
 
 	let m_viewsLoadedContentFlags = slGlobals.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
 
-	initilization();
+	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initilization() {
+	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 

@@ -2,10 +2,10 @@
 
 (function() {
 
-	initilization();
+	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initilization() {
+	function initialization() {
 		document.title = decodeURI(slUtil.getQueryStringValue("prkTitle"));
 		document.addEventListener("focus", onFocusDocument);
 	}
