@@ -9,10 +9,10 @@
 	let m_hashCustomCSSSource = "";
 	let m_customCSSSourceChanged = false;
 
-	initilization();
+	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initilization() {
+	function initialization() {
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);

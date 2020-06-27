@@ -29,10 +29,10 @@ let rssListView = (function() {
 		IN_NEW_PRIVATE_WIN: 4,
 	});
 
-	initilization();
+	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initilization() {
+	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 

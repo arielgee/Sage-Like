@@ -84,10 +84,10 @@ let rssTreeView = (function() {
 
 	let m_filterChangeDebouncer = null;
 
-	initilization();
+	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initilization() {
+	function initialization() {
 
 		m_objTreeFeedsData.purge();
 		m_objOpenTreeFolders.purge();

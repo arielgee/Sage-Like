@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Tue, 09 Jun 2020 12:32:22 GMT</dateCreated>
+		<dateCreated>Thu, 18 Jun 2020 09:21:04 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
@@ -120,6 +120,10 @@
 				<outline type="rss" text="adidas" title="adidas" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
 				<outline type="rss" text="KillTheNewsletter-01" title="KillTheNewsletter-01" xmlUrl="https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
 				<outline type="rss" text="sage-like" title="sage-like" xmlUrl="https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
+			</outline>
+			<outline text="Bibliogram - Instagram2RSS" data-wxsl-open="0">
+				<outline type="rss" text="@ariel__gee" title="@ariel__gee" xmlUrl="https://bibliogram.ggc-project.de/u/ariel__gee/atom.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="@ariel__gee" title="@ariel__gee" xmlUrl="https://bibliogram.ggc-project.de/u/ariel__gee/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="discovery" data-wxsl-open="0">
 				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>

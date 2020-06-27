@@ -13,10 +13,10 @@
 	let m_windowId = null;
 	let m_isSidebarOpen;
 
-	initilization();
+	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initilization() {
+	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 		window.addEventListener("unload", onUnload);

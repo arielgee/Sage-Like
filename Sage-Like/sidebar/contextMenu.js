@@ -43,10 +43,10 @@ let contextMenu = (function() {
 	let m_bActivePanelOpened = false;
 	let m_isContextMenuOpen = false;
 
-	initilization();
+	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initilization() {
+	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 	}
