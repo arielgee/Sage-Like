@@ -758,6 +758,7 @@
 
 
 ## Next
+* manifest.json; Rename `applications` to `browser_specific_settings` https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json
 * can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";'
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
