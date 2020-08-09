@@ -78,7 +78,7 @@ let syndication = (function() {
 				let url = new URL(linkFeeds[index]);
 				let discoveredFeed = {
 					status: "init",
-					url: url,
+					url: url.toString(),
 					requestId: requestId,
 				};
 

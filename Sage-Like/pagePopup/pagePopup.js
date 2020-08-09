@@ -302,7 +302,7 @@
 			(feed.format ? "Format:\u2003" + feed.format + "\n" : "") +
 			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\n" : "") +
 			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
-			"URL:\u2003" + feed.url.toString() +
+			"URL:\u2003" + feed.url +
 			"\n\n\u2731 Use Middle-click to preview this feed.";
 		elmListItem.title = titleText;
 
