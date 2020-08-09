@@ -329,9 +329,9 @@
 
 		// no size is zero
 		if(!!!size || size.startsWith("0 ")) {
-			return FMT_ATTACHMENT_TITLE.format([attachment.title, attachment.url.toString()]).escapeMarkup();
+			return FMT_ATTACHMENT_TITLE.format([attachment.title, decodeURIComponent(attachment.url.toString())]).escapeMarkup();
 		} else {
-			return FMT_ATTACHMENT_TITLE_WITH_SIZE.format([attachment.title, attachment.url.toString(), size]).escapeMarkup();
+			return FMT_ATTACHMENT_TITLE_WITH_SIZE.format([attachment.title, decodeURIComponent(attachment.url.toString()), size]).escapeMarkup();
 		}
 	}
 

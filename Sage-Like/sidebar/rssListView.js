@@ -578,7 +578,7 @@ let rssListView = (function() {
 		let elm = document.createElement("li");
 		elm.classList.add("errormsg");
 		elm.textContent = textContent;
-		elm.title = "Failed URL: " + url;
+		elm.title = "Failed URL: " + decodeURIComponent(url);
 
 		disposeList();
 		m_elmList.appendChild(elm);

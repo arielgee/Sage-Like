@@ -2068,7 +2068,7 @@ let rssTreeView = (function() {
 
 			tooltipText =
 				"Title: " + getTreeItemText(elmLI) +
-				"\nURL: " + elmLI.getAttribute("href") +
+				"\nURL: " + decodeURIComponent(elmLI.getAttribute("href")) +
 				(!!thirdLine ? "\n" + thirdLine : "");
 
 			tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error'
@@ -2093,7 +2093,7 @@ let rssTreeView = (function() {
 		}
 
 		tooltipText +=
-			(elmLI.hasAttribute("href") ? ("\nURL: " + elmLI.getAttribute("href")) : "") +
+			(elmLI.hasAttribute("href") ? ("\nURL: " + decodeURIComponent(elmLI.getAttribute("href"))) : "") +
 			"\n" + thirdLine;
 
 		tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error'
