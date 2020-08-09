@@ -226,7 +226,7 @@
 					return;
 				}
 
-				// sort by index
+				// sort by index - when feed.status is "error" there is no "index". So this always result to FALSE (comparing with undefined)
 				feeds.sort((a, b) => a.index > b.index ? 1 : -1);
 
 				// empty list; remove busyContainer or if it was filled
@@ -237,14 +237,15 @@
 
 					const feed = feeds[idx];
 
-					// The data type of the lastUpdated property is converted from Date to string during its
-					// transfer via the response object of the tabs.sendMessage() function when delivered
-					// from the content script.
-					// This was tested using typeof just before the listener's resolve() in content.js and here and Its
-					// type is needed in createTagLI(). So there!
-					feed.lastUpdated = new Date(feed.lastUpdated);
-
 					if(feed.status === "OK") {
+
+						// The date type of the lastUpdated property is converted in some Fx versions from Date to
+						// string during its transfer via the response object of the tabs.sendMessage() function when
+						// delivered from the content script.
+						// This was tested using typeof just before the listener's resolve() in content.js and here and Its
+						// type is needed in createTagLI(). So there!
+						feed.lastUpdated = new Date(feed.lastUpdated);
+
 						m_elmPageFeedsList.appendChild(createTagLI(feed));
 						isListEmpty = false;
 					} else if(feed.status === "error") {
