@@ -418,7 +418,7 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowUp":
-				elm = elmTargetLI.previousElementSibling
+				elm = elmTargetLI.previousElementSibling;
 				if(elm !== null) {
 					elm.focus();
 				}
@@ -426,7 +426,7 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowDown":
-				elm = elmTargetLI.nextElementSibling
+				elm = elmTargetLI.nextElementSibling;
 				if(elm !== null) {
 					elm.focus();
 				}
