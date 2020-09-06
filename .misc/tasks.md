@@ -759,6 +759,7 @@
 
 
 ## Next
+* auto-hide sidebar
 * can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";'
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
