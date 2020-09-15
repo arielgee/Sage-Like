@@ -237,7 +237,7 @@ let opml = (function() {
 					m_objOpenTreeFolders = null;
 					m_objTreeFeedsData = null;
 				});
-		});
+			});
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
