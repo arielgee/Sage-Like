@@ -16,6 +16,7 @@
 	--background-color-option-user: rgb(224, 224, 224);		/* option[value="-1"] */
 	--border-color-input-checked: rgb(153, 153, 153);
 	--box-shadow-color-swatch: rgba(0, 0, 0, 0.6);
+	--drop-shadow-control-image:rgba(0, 0, 0, 0);
 	--foreground-color-help-info: rgb(255, 255, 255);
 	--background-color-help-info: rgb(187, 187, 187);
 	--background-color-hover-help-info: rgb(42, 67, 100);
@@ -46,6 +47,7 @@
 		--background-color-option-user: rgb(16, 16, 16);		/* option[value="-1"] */
 		--border-color-input-checked: rgb(119, 119, 119);
 		--box-shadow-color-swatch: rgba(255, 255, 255, 0.6);
+		--drop-shadow-control-image:rgba(255, 255, 255, 0.6);
 		--foreground-color-help-info: rgb(0, 0, 0);
 		--background-color-help-info: rgb(92, 92, 92);
 		--background-color-hover-help-info: rgb(192, 192, 192);
@@ -257,6 +259,7 @@ input[type="color"]::-moz-focus-inner {
 	height: 20px;
 	margin: auto 0 auto 0;
 	background: transparent no-repeat 4px top/20px 20px;
+	filter: drop-shadow(0 0 2px var(--drop-shadow-control-image));
 }
 
 .controlImage:not(:last-child) {
