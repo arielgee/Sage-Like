@@ -2072,7 +2072,7 @@ let slUtil = (function() {
 	function replaceMozExtensionOriginURL(url, base) {
 
 		if(m_mozExtensionOrigin === "") {
-			m_mozExtensionOrigin = browser.extension.getURL("");
+			m_mozExtensionOrigin = browser.runtime.getURL("");
 			m_mozExtensionExecutionPath = (new URL((new URL(document.URL)).pathname, m_mozExtensionOrigin)).toString();
 			m_mozExtensionExecutionPath = m_mozExtensionExecutionPath.substring(0, m_mozExtensionExecutionPath.lastIndexOf("/")+1);
 		}
@@ -2181,12 +2181,12 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getParkedTabUrl(url, title) {
-		return browser.extension.getURL("/parkedTab/parked.html?prkTitle=" + title + "&prkUrl=" + encodeURIComponent(url));
+		return browser.runtime.getURL("/parkedTab/parked.html?prkTitle=" + title + "&prkUrl=" + encodeURIComponent(url));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedPreviewUrl(url) {
-		return browser.extension.getURL("/feedPreview/feedPreview.html?urlFeed=" + encodeURIComponent(url));
+		return browser.runtime.getURL("/feedPreview/feedPreview.html?urlFeed=" + encodeURIComponent(url));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

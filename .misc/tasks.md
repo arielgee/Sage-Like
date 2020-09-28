@@ -752,6 +752,7 @@
 * replace trim() with trimStart()
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * manifest.json; Rename `applications` to `browser_specific_settings` https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json
+* extension.getURL() is deprecated. Use runtime.getURL().
 ---
 
 ## Now
@@ -759,9 +760,8 @@
 
 
 ## Next
-* extension.getURL() is deprecated. Use runtime.getURL().
 * auto-hide sidebar
-* use webNavigation like in lizard ?
+* use browser.webNavigation like in lizard ?
 * can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";'
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
