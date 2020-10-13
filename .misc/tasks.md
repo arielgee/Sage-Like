@@ -760,6 +760,7 @@
 
 
 ## Next
+* add table of content in feed preview to jump to each feed-item
 * auto-hide sidebar
 * use browser.webNavigation like in lizard ?
 * can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";'
