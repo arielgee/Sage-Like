@@ -68,6 +68,15 @@ class Content {
 					this._feeds.push(feedData);
 				});
 
+			} else if(docElement.nodeName !== "HTML") {
+
+				// Fx XML viewer (most likely be Fx v64 and above. Before that will be handled by v63 build-in Feed Preview)
+
+				syndication.feedDiscovery(winLocation.toString(), timeout).then((feedData) => {
+					resolve(this._feedCount = (feedData.status === "OK" ? 1 : 0));
+					this._feeds.push(feedData);
+				});
+
 			} else {
 
 				// For regular web pages

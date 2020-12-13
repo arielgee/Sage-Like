@@ -753,6 +753,7 @@
 * find a way to format the Details/Changes in mozilla-extension-page.txt so that it will look pretty in both the addons website and the browser's extention page.
 * manifest.json; Rename `applications` to `browser_specific_settings` https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json
 * extension.getURL() is deprecated. Use runtime.getURL().
+* test XML handling (contect._collectPageFeeds, background.onWebRequestHeadersReceived) on all rss file types
 ---
 
 ## Now
@@ -760,6 +761,9 @@
 
 
 ## Next
+* use INJECTABLE[] in background.injectContentScripts()
+* search for '(reject|resolve).*\n\s*return' with '.*' and fix then
+* detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
 * add table of content in feed preview to jump to each feed-item
 * auto-hide sidebar
 * use browser.webNavigation like in lizard ?
