@@ -1,4 +1,9 @@
 
++ Summary
+--------------------------------------------------------------
+A basic RSS reader like the good ol' Sage add-on, may the gods avenge his untimely death.
+
+
 + Product Page Description (About this extension)
 --------------------------------------------------------------
 Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I did my best to keep it lightweight and fast.
@@ -30,6 +35,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 
 ◼ <b>SUPPORT & FEEDBACK</b>
 &emsp;<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383</a>
+
 
 + Product Page Tags (20 tags)
 --------------------------------------------------------------
