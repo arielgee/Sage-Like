@@ -210,8 +210,7 @@
 						if(headers[i].name.toLowerCase() === "content-type") {
 							if(headers[i].value.match(REGEX_RSS_CONTENT_TYPES)) {
 								//console.log("[Sage-Like] END:", details.requestId, "\n", details);
-								resolve({ redirectUrl: slUtil.getFeedPreviewUrl(details.url) });
-								return;
+								return resolve({ redirectUrl: slUtil.getFeedPreviewUrl(details.url) });
 							}
 							break;
 						}

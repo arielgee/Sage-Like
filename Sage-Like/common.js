@@ -1737,8 +1737,7 @@ let slUtil = (function() {
 				if(parseInt(version) >= 63) {
 
 					navigator.clipboard.readText().then((text) => {
-						resolve(text);
-						return;
+						return resolve(text);
 					}).catch((error) => {
 						console.log("[Sage-Like]", "navigator.clipboard.readText()", error);
 					});
@@ -1973,8 +1972,7 @@ let slUtil = (function() {
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					reject("Root feeds folder id not set (bookmarksFoldersAsCollection)");
-					return;
+					return reject("Root feeds folder id not set (bookmarksFoldersAsCollection)");
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
@@ -2008,8 +2006,7 @@ let slUtil = (function() {
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					reject("Root feeds folder id not set (bookmarksFeedsAsCollection)");
-					return;
+					return reject("Root feeds folder id not set (bookmarksFeedsAsCollection)");
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
@@ -2042,14 +2039,12 @@ let slUtil = (function() {
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					reject("Root feeds folder id not set (isDescendantOfRoot)");
-					return;
+					return reject("Root feeds folder id not set (isDescendantOfRoot)");
 				}
 
 				// if the feeds folder itself was modified
 				if (bookmarkIds.includes(folderId)) {
-					resolve(true);
-					return;
+					return resolve(true);
 				}
 
 				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {

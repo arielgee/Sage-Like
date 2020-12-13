@@ -761,6 +761,7 @@
 
 
 ## Next
+* too many log writing
 * use INJECTABLE[] in background.injectContentScripts()
 * search for '(reject|resolve).*\n\s*return' with '.*' and fix then
 * detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)

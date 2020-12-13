@@ -62,8 +62,7 @@ let opml = (function() {
 		function processOpmlDocument(xmlDoc) {
 
 			if(!xmlDoc) {
-				m_funcImportReject("This file may not be a valid OPML file.");
-				return;
+				return m_funcImportReject("This file may not be a valid OPML file.");
 			}
 
 			let nodeTitle = xmlDoc.querySelector("opml > head > title");
@@ -71,14 +70,12 @@ let opml = (function() {
 			let nodeBody = xmlDoc.querySelector("opml > body");
 
 			if(!nodeTitle || !nodeBody) {
-				m_funcImportReject("This file may not be a valid OPML file. Missing elements.");
-				return;
+				return m_funcImportReject("This file may not be a valid OPML file. Missing elements.");
 			}
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					m_funcImportReject("Root feeds folder id not set (processOpmlDocument)");
-					return;
+					return m_funcImportReject("Root feeds folder id not set (processOpmlDocument)");
 				}
 
 				let title = "Import - " + nodeTitle.textContent + (nodeCreated ? " (created: " + (new Date(nodeCreated.textContent)).toWebExtensionLocaleShortString() + ")": "");
@@ -320,8 +317,7 @@ let opml = (function() {
 						gettingRFFI.then((folderId) => {
 
 							if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-								reject("Root feeds folder id not set (getFeedsAsOpmlText)");
-								return;
+								return reject("Root feeds folder id not set (getFeedsAsOpmlText)");
 							}
 
 							browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
