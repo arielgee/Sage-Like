@@ -81,6 +81,8 @@ class XmlFeed extends Feed {
 		let elmDesc;
 		let funcGet = [
 			this._xmlFeed_getFeedItemDescription,
+			this._xmlFeed_getFeedItemContent,
+			this._xmlFeed_getFeedItemSummary,
 			this._xmlFeed_getFeedItemContentEncoded,		// look for <content:encoded>
 			this._xmlFeed_getFeedItemContentTypeHtml,		// look for <content type=html>
 		];
@@ -102,6 +104,8 @@ class XmlFeed extends Feed {
 		let funcGet = [
 			this._xmlFeed_getFeedItemContentTypeHtml,		// look for <content type=html>
 			this._xmlFeed_getFeedItemContentEncoded,		// look for <content:encoded>
+			this._xmlFeed_getFeedItemSummary,
+			this._xmlFeed_getFeedItemContent,
 			this._xmlFeed_getFeedItemDescription,
 		];
 
@@ -197,7 +201,17 @@ class XmlFeed extends Feed {
 
 	//////////////////////////////////////////
 	_xmlFeed_getFeedItemDescription(item) {
-		return item.querySelector("description,content:not([type=html]):not([type=xhtml]),summary");
+		return item.querySelector("description");
+	}
+
+	//////////////////////////////////////////
+	_xmlFeed_getFeedItemContent(item) {
+		return item.querySelector("content:not([type=html]):not([type=xhtml])");
+	}
+
+	//////////////////////////////////////////
+	_xmlFeed_getFeedItemSummary(item) {
+		return item.querySelector("summary");
 	}
 
 	//////////////////////////////////////////
