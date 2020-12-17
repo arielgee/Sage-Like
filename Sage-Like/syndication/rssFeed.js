@@ -54,7 +54,7 @@ class RssFeed extends XmlFeed {
 															this._getFeedItemHtmlContent(item),
 															elmLink.textContent,
 															this._getFeedItemLastUpdate(item),
-															this._getFeedItemImage(item));
+															this._getFeedItemImageUrl(item));
 
 				if (!!feedItem) {
 

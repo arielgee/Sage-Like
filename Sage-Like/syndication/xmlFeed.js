@@ -150,9 +150,23 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemImage(item) {
-		let elmImage = item.querySelector("image");
-		return (!!elmImage && slUtil.validURL(elmImage.textContent)) ? elmImage : null;
+	_getFeedItemImageUrl(item) {
+
+		let imageUrl;
+		let funcGet = [
+			this._xmlFeed_getFeedItemImageUrl,
+			this._xmlFeed_getFeedItemMediaContentImageUrl,
+		];
+
+		for(let i=0, len=funcGet.length; i<len; i++) {
+
+			imageUrl = (funcGet[i](item)).stripHtmlTags();
+
+			if(imageUrl.length > 0) {
+				return slUtil.validURL(imageUrl) ? imageUrl : "";
+			}
+		}
+		return "";
 	}
 
 	//////////////////////////////////////////
@@ -183,7 +197,7 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_createSingleListItemFeed(elmTitle, elmDesc, elmContent, strUrl, valLastUpdated, elmImage) {
+	_createSingleListItemFeed(elmTitle, elmDesc, elmContent, strUrl, valLastUpdated, imageUrl) {
 
 		let oErr = {};
 		if(!!!slUtil.validURL(strUrl, oErr)) {
@@ -196,7 +210,7 @@ class XmlFeed extends Feed {
 											!!elmContent ? elmContent.textContent.stripUnsafeHtmlComponents() : "",
 											strUrl.stripHtmlTags(),
 											valLastUpdated,
-											!!elmImage ? elmImage.textContent.stripHtmlTags() : "");
+											imageUrl);
 	}
 
 	//////////////////////////////////////////
@@ -216,11 +230,29 @@ class XmlFeed extends Feed {
 
 	//////////////////////////////////////////
 	_xmlFeed_getFeedItemContentEncoded(item) {
-		return (item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded"))[0];
+		return (item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded"))[0];	// look for <content:encoded>
 	}
 
 	//////////////////////////////////////////
 	_xmlFeed_getFeedItemContentTypeHtml(item) {
 		return item.querySelector("content[type=html],content[type=xhtml]");
+	}
+
+	//////////////////////////////////////////
+	_xmlFeed_getFeedItemImageUrl(item) {
+		const elmImage = item.querySelector("image");
+		return !!elmImage ? elmImage.textContent : "";
+	}
+
+	//////////////////////////////////////////
+	_xmlFeed_getFeedItemMediaContentImageUrl(item) {
+		const elmContent = (item.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content"))[0];	// look for <media:content>
+		if(!!elmContent) {
+			if(elmContent.getAttribute("medium") === "image") {
+				const url = elmContent.getAttribute("url");
+				return !!url ? url : "";
+			}
+		}
+		return "";
 	}
 }
