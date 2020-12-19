@@ -2,6 +2,18 @@
 
 (function() {
 
+	const INJECTABLE = [
+		{ isScript: true, details: { runAt: "document_idle", file: "/common.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/feed.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/xmlFeed.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/jsonFeed.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/rssFeed.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/rdfFeed.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/atomFeed.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/syndication.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/content.js" } },
+	];
+
 	// Top-level documents loaded into a tab web requests for files with MIMEs that include semantics.
 	// For example, "Content-Type: application/xml" will be ignored and handled by the browser.
 	// Only web requests with "Content-Type: application/rss+xml" (or rdf, atom) will be handled
@@ -314,29 +326,20 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function injectContentScripts(tabId) {
 
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 
-			browser.tabs.executeScript(					 tabId, { runAt: "document_idle", file: "/common.js" })
-				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/feed.js" })
-				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/xmlFeed.js" })
-				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/jsonFeed.js" })
-				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/rssFeed.js" })
-				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/rdfFeed.js" })
-				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/atomFeed.js" })
-				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/syndication/syndication.js" })
-				.then(() => { browser.tabs.executeScript(tabId, { runAt: "document_idle", file: "/content.js" })
+			let idx, len;
 
-				.then(() => { resolve({ errorCode: 0 }); })
+			try {
 
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -9 }) : reject(err); } ); })
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -8 }) : reject(err); } ); })
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -7 }) : reject(err); } ); })
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -6 }) : reject(err); } ); })
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -5 }) : reject(err); } ); })
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -4 }) : reject(err); } ); })
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -3 }) : reject(err); } ); })
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -2 }) : reject(err); } ); })
-				.catch((err) => { err.message.startsWith("redeclaration") ? resolve({ errorCode: -1 }) : reject(err); } );
+				for(idx=0, len=INJECTABLE.length; idx<len; idx++) {
+					await browser.tabs.executeScript(tabId, INJECTABLE[idx].details);
+				}
+				resolve({});
+
+			} catch (err) {
+				err.message.startsWith("redeclaration") ? resolve({ errorIndex: idx }) : reject(new Error(`Error index: ${idx}, ${err.message}`));
+			}
  		});
 	}
 

@@ -754,6 +754,7 @@
 * manifest.json; Rename `applications` to `browser_specific_settings` https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json
 * extension.getURL() is deprecated. Use runtime.getURL().
 * test XML handling (contect._collectPageFeeds, background.onWebRequestHeadersReceived) on all rss file types
+* use INJECTABLE[] in background.injectContentScripts()
 ---
 
 ## Now
@@ -761,8 +762,10 @@
 
 
 ## Next
+* post some CSS files that will serve as samples and/or templates (like the 2 columns)
+* the '&_SLWxoPenuRl=nOtinFEeDPREVIew'. replace with what i did in lizard for 'reload w/o alterations'
+* htmlEntityToLiteral.entities: '&#8211' long dash. There mast be a better solution then stating all characters; (http://hnapp.com/rss?q=score%3E100)
 * too many log writing
-* use INJECTABLE[] in background.injectContentScripts()
 * search for '(reject|resolve).*\n\s*return' with '.*' and fix then
 * detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
 * add table of content in feed preview to jump to each feed-item
