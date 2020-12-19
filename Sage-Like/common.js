@@ -711,14 +711,14 @@ let slPrototypes = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	String.prototype.htmlEntityToLiteral = function() {
 		// this is NOT safe; may be used as an attack vector if result is displayed to user
-		return this.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
+		return this.replaceAll("&amp;", "&").replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
 			return String.prototype.htmlEntityToLiteral.entities[matched];
 		});
 	};
 	String.prototype.htmlEntityToLiteral.entities = {
 		"&quot;": "\"",
 		"&apos;": "'",
-		"&amp;": "&",
+		//"&amp;": "&",
 		"&gt;": ">",
 		"&lt;": "<",
 		"&nbsp;": " ",
@@ -730,6 +730,7 @@ let slPrototypes = (function() {
 		"&#60;": "<",
 		"&#160;": " ",
 		"&#8195;": " ",
+		"&#8211;": "—",
 		"&reg;": "®",
 		"&copy;": "©",
 		"&trade;": "™",
