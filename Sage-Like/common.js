@@ -711,7 +711,7 @@ let slPrototypes = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	String.prototype.htmlEntityToLiteral = function() {
 		// this is NOT safe; may be used as an attack vector if result is displayed to user
-		return this.replaceAll("&amp;", "&").replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
+		return this.replace(/&amp;/gim, "&").replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
 			return String.prototype.htmlEntityToLiteral.entities[matched];
 		});
 	};
