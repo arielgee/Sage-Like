@@ -16,6 +16,9 @@ let g_feed = (function() {
 
 	const regexpXMLParseError = /^(.*)[\s\S]*(line number \d+, column \d+):.*/i;			// the first line and the error location
 
+	const regexpXML10InvalidChars = /[^\u0009\r\n\u0020-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug;	// xml 1.0	-	https://www.w3.org/TR/REC-xml/#charsets
+	const regexpXML11InvalidChars = /[^\u0001-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug;	// xml 1.1	-	https://www.w3.org/TR/2006/REC-xml11-20060816/#charsets
+
 	return {
 		domParser: domParser,
 		regexpXMLFormat: regexpXMLFormat,
@@ -25,6 +28,8 @@ let g_feed = (function() {
 		regexpXMLWhiteSpaceStart: regexpXMLWhiteSpaceStart,
 		regexpJunkAfterXMLDocElement: regexpJunkAfterXMLDocElement,
 		regexpXMLParseError: regexpXMLParseError,
+		regexpXML10InvalidChars: regexpXML10InvalidChars,
+		regexpXML11InvalidChars: regexpXML11InvalidChars,
 	}
 })();
 
@@ -153,20 +158,15 @@ class Feed {
 	//////////////////////////////////////////
 	static _removeXMLParsingErrors(xmlText, xmlVersion) {
 
-		// try to avoid stupid XML/RSS Parsing Errors
-		xmlText = xmlText.replace(g_feed.regexpXMLWhiteSpaceStart, "");				// XML declaration (prolog) not at start of document
-		xmlText = xmlText.replace(g_feed.regexpJunkAfterXMLDocElement, "$1");		// junk after document element
-		xmlText = xmlText.unknownNamedEntityInXMLToDecimal();
+		// if neither version then String.replace("", "") will do noting
+		let reXMLInvalidChars = (xmlVersion === "1.0") ? g_feed.regexpXML10InvalidChars : ( (xmlVersion === "1.1") ? g_feed.regexpXML11InvalidChars : "" );
 
-		// remove invalid characters
-		if(xmlVersion === "1.0") {
-			// xml 1.0	-	https://www.w3.org/TR/REC-xml/#charsets
-			xmlText = xmlText.replace(/[^\u0009\r\n\u0020-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug, "");
-		} else if(xmlVersion === "1.1") {
-			// xml 1.1	-	https://www.w3.org/TR/2006/REC-xml11-20060816/#charsets
-			xmlText = xmlText.replace(/[^\u0001-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug, "");
-		}
-		return xmlText;
+		// try to avoid stupid XML/RSS Parsing Errors
+		return xmlText
+			.replace(g_feed.regexpXMLWhiteSpaceStart, "")			// XML declaration (prolog) not at start of document
+			.replace(g_feed.regexpJunkAfterXMLDocElement, "$1")		// junk after document element
+			.unknownNamedEntityInXMLToDecimal()
+			.replace(reXMLInvalidChars, "");						// remove invalid characters
 	}
 
 	//////////////////////////////////////////
