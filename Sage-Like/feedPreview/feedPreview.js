@@ -196,8 +196,21 @@
 		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
 		elmFeedItemContent.className = "feedItemContent";
 
-		let itemContent = ((feedItem.htmlContent.length > 0) ? feedItem.htmlContent : feedItem.description);
-		itemContent = itemContent.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>");
+		let itemContent;
+		if(feedItem.htmlContent.length > 0) {
+			itemContent = feedItem.htmlContent
+				.stripHtmlTags(String.prototype.stripHtmlTags.regex3PlusBrTag, "<br><br>")
+				.stripHtmlTags(String.prototype.stripHtmlTags.regexStartMultiBrTags, "");
+		} else if (String.prototype.stripHtmlTags.regexAnyTag.test(feedItem.description)) {
+			itemContent = feedItem.description
+				.stripHtmlTags(String.prototype.stripHtmlTags.regex3PlusBrTag, "<br><br>")
+				.stripHtmlTags(String.prototype.stripHtmlTags.regexStartMultiBrTags, "");
+		} else {
+			itemContent = feedItem.description
+				.replace(/(\r\n)/gim, "<br>")
+				.replace(/(\n)/gim, "<br>")
+				.stripHtmlTags(String.prototype.stripHtmlTags.regexStartMultiBrTags, "");
+		}
 
 		// add feed-item image only if it's not included in the item content
 		let itemImage = "";

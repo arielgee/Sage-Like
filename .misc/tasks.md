@@ -755,6 +755,9 @@
 * extension.getURL() is deprecated. Use runtime.getURL().
 * test XML handling (contect._collectPageFeeds, background.onWebRequestHeadersReceived) on all rss file types
 * use INJECTABLE[] in background.injectContentScripts()
+* the '&_SLWxoPenuRl=nOtinFEeDPREVIew'. replace with what i did in lizard for 'reload w/o alterations' => ne need
+* htmlEntityToLiteral.entities: '&#8211;' long dash. There mast be a better solution then stating all characters; (http://hnapp.com/rss?q=score%3E100) => using String.fromCharCode()
+* search for '(reject|resolve).*\n\s*return' with '.*' and fix then
 ---
 
 ## Now
@@ -762,11 +765,11 @@
 
 
 ## Next
+* QA Test all test feeds in import in v59 and latest
+* remove the popup button from addressbar on navigating away from page. else popup shows "something is wrong"
+* triage the buildin feed URLs. Feed from https://www.manmadediy.com/ is DEAD.
 * post some CSS files that will serve as samples and/or templates (like the 2 columns)
-* the '&_SLWxoPenuRl=nOtinFEeDPREVIew'. replace with what i did in lizard for 'reload w/o alterations'
-* htmlEntityToLiteral.entities: '&#8211' long dash. There mast be a better solution then stating all characters; (http://hnapp.com/rss?q=score%3E100)
 * too many log writing
-* search for '(reject|resolve).*\n\s*return' with '.*' and fix then
 * detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
 * add table of content in feed preview to jump to each feed-item
 * auto-hide sidebar

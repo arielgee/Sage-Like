@@ -663,10 +663,14 @@ let slPrototypes = (function() {
 	let m_sRxAppletTag = "</?applet\\b[^>]*>";
 	let m_sRxObjectTag = "</?object\\b[^>]*>";
 	let m_sRxStyleTag = "<style\\b[^>]*>(([\\s\\S]*?)</\\s*\\bstyle\\b\\s*>)?";
+	let m_sRxBrTag = "</?br\\b[^>]*?/?>";
 
 	let m_sRxUnsafeTags = m_sRxScriptTag + "|" + m_sRxLinkTag + "|" + m_sRxFrameTag + "|" + m_sRxEmbedTag + "|" + m_sRxAppletTag + "|" + m_sRxObjectTag + "|" + m_sRxStyleTag;
 	let m_sRxContentTags = m_sRxATag + "|" + m_sRxUnsafeTags;
 	let m_sRxAudioVideoTags = m_sRxAudioTag + "|" + m_sRxVideoTag;
+	let m_sRxMultiBrTags = `(${m_sRxBrTag}\\s*){2,}`;
+	let m_sRx3PlusBrTags = `(${m_sRxBrTag}\\s*){3,}`;
+	let m_sRxStartMultiBrTags = `^(${m_sRxBrTag}\\s*)+`;
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function(args) {
@@ -820,8 +824,10 @@ let slPrototypes = (function() {
 	String.prototype.stripHtmlTags.regexAppletTag = new RegExp(m_sRxAppletTag, "gim");
 	String.prototype.stripHtmlTags.regexObjectTag = new RegExp(m_sRxObjectTag, "gim");
 	String.prototype.stripHtmlTags.regexImgTag = new RegExp("</?img\\b[^>]*>", "gim");
-	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?[a-zA-Z0-9]+\\b[^>]*>", "gm");
-	String.prototype.stripHtmlTags.regexMultiBrTag = new RegExp("(</?br\\b[^>]*/?>\\s*){2,}", "gim");
+	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?[a-zA-Z0-9]+\\b[^>]*?>", "gm");		// faster then: /<\/?[a-z][a-z0-9]*\b[^>]*?>/gim
+	String.prototype.stripHtmlTags.regexMultiBrTag = new RegExp(m_sRxMultiBrTags, "gim");
+	String.prototype.stripHtmlTags.regex3PlusBrTag = new RegExp(m_sRx3PlusBrTags, "gim");
+	String.prototype.stripHtmlTags.regexStartMultiBrTags = new RegExp(m_sRxStartMultiBrTags, "i");
 	String.prototype.stripHtmlTags.regexStyleTag = new RegExp(m_sRxStyleTag, "gim");
 	String.prototype.stripHtmlTags.regexStyleAttr = new RegExp("\\bstyle\\s*=\\s*(\"[\\s\\S]*?\"|'[\\s\\S]*?')", "gim");
 
