@@ -2,6 +2,10 @@
 
 (function () {
 
+	// Don't remove natively empty elements (css)
+	const SEL_EMPTY_ELEMENTS_NOTS = ":not(img):not(br):not(hr):not(col):not(source):not(track):not(wbr):not(embed):not(area)";
+	const SELECTOR_EMPTY_ELEMENT = `${SEL_EMPTY_ELEMENTS_NOTS}:empty,${SEL_EMPTY_ELEMENTS_NOTS}:-moz-only-whitespace`;
+
 	let m_URL;
 	let m_elmFeedBody = null;
 	let m_elmAttachmentTooltip;
@@ -125,6 +129,7 @@
 				}
 				m_elmFeedBody.removeChild(elmLoadImg);
 				document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
+				removeEmptyElementsFromFeedContent();
 				brutallyReinforceSvgStyle();
 			});
 		});
@@ -446,4 +451,29 @@
 			elmSvgs[i].style.cssText = cssText;
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function removeEmptyElementsFromFeedContent() {
+
+		const elmContents = document.querySelectorAll(".feedItemContent");
+
+		for(let i=0, len=elmContents.length; i<len; i++) {
+			removeEmptyElements(elmContents[i]);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function removeEmptyElements(elm) {
+
+		if(elm.children.length > 0) {
+
+			for(let i=elm.children.length-1; i>=0; i--) {
+				removeEmptyElements(elm.children[i]);
+			}
+		}
+		if(elm.matches(SELECTOR_EMPTY_ELEMENT)) {
+			elm.parentElement.removeChild(elm);
+		}
+	}
+
 })();
