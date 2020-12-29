@@ -758,20 +758,36 @@
 * the '&_SLWxoPenuRl=nOtinFEeDPREVIew'. replace with what i did in lizard for 'reload w/o alterations' => ne need
 * htmlEntityToLiteral.entities: '&#8211;' long dash. There mast be a better solution then stating all characters; (http://hnapp.com/rss?q=score%3E100) => using String.fromCharCode()
 * search for '(reject|resolve).*\n\s*return' with '.*' and fix then
+* QA Test all test feeds in import in v59 and latest
+* remove the popup button from addressbar on navigating away from page. else popup shows "something is wrong"	=> NO
+* triage the buildin feed URLs. Feed from https://www.manmadediy.com/ is DEAD.
 ---
 
 ## Now
+* too many log writing - temperary disable logging when discovery-Aggressive ?
 ---
 
 
 ## Next
-* QA Test all test feeds in import in v59 and latest
-* remove the popup button from addressbar on navigating away from page. else popup shows "something is wrong"
-* triage the buildin feed URLs. Feed from https://www.manmadediy.com/ is DEAD.
 * post some CSS files that will serve as samples and/or templates (like the 2 columns)
-* too many log writing
+* check following links
+	* in `Sage++ (Higmmer's Edition)` feeds don’t get recognized; "Failed to get feed data. [ Feed format is neither XML nor JSON. ]"
+		* http://www.ohgizmo.com/
+		* https://boingboing.net/
+		* https://www.androidpolice.com/
+		* http://hnapp.com/?q=score%3E50
+		* https://www.blog.google/products/gmail/
+	* in `Feedbro` and/or `Sage++ (Higmmer's Edition)` feed items differ from Sage-Like
+		* Sage-Like return less (50/100 vs 10-30)
+			* http://www.theverge.com/rss/index.xml
+			* http://feeds.feedburner.com/TheWirecutter
+			* http://feeds.feedburner.com/blogspot/amDG
+		* Sage-Like return more (100 vs 50)
+			* https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
+			* http://feeds.megaphone.fm/intercepted
 * detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
 * add table of content in feed preview to jump to each feed-item
+* preference: maximum feed items to display (different for list and feed preview?)
 * auto-hide sidebar
 * use browser.webNavigation like in lizard ?
 * can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";'
