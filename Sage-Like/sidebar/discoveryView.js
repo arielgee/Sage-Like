@@ -227,8 +227,8 @@ let discoveryView = (function() {
 				if(feed.status === "OK") {
 					m_elmDiscoverFeedsList.appendChild(createTagLI(feed));
 					setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
-				} else if(feed.status === "error") {
-					console.log("[Sage-Like]", feed.url.toString(), feed.message);
+				} else if(aggressiveLevel < 2 && feed.status === "error") {		// log errors only for non-aggressive level
+					console.log("[Sage-Like]", feed.url.toString().midTrunc(120), feed.message);
 				}
 
 				// if function was called for all founded feeds

@@ -694,12 +694,12 @@ let slPrototypes = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.trunc = function(n) {
-		return (this.length > n) ? this.substr(0, n - 1) + "&hellip;" : this;
+		return (this.length > n) ? this.substring(0, n - 1) + "\u2026" : this;
 	};
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.midTrunc = function(n) {
-		return (this.length > n) ? this.substr(0, n/2) + "\u2026" + this.substr(-((n-1)/2)) : this;
+		return (this.length > n) ? this.slice(0, n/2) + "\u2026" + this.slice(-(n/2)) : this;
 	};
 
 	//////////////////////////////////////////////////////////////////////

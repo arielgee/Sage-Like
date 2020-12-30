@@ -761,10 +761,12 @@
 * QA Test all test feeds in import in v59 and latest
 * remove the popup button from addressbar on navigating away from page. else popup shows "something is wrong"	=> NO
 * triage the buildin feed URLs. Feed from https://www.manmadediy.com/ is DEAD.
+* too many log writing - temperary disable logging when discovery-Aggressive ?
+* replace substr() with substring() or slice()
 ---
 
 ## Now
-* too many log writing - temperary disable logging when discovery-Aggressive ?
+* detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
 ---
 
 
@@ -785,7 +787,6 @@
 		* Sage-Like return more (100 vs 50)
 			* https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 			* http://feeds.megaphone.fm/intercepted
-* detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
 * add table of content in feed preview to jump to each feed-item
 * preference: maximum feed items to display (different for list and feed preview?)
 * auto-hide sidebar
