@@ -171,6 +171,10 @@ body {
 	margin: 6px 0 !important;
 }
 
+.feedItemContent strong {
+	font-weight: bold !important;
+}
+
 .feedItemAttachmentsContainer {
 	display: flex;
 	flex-wrap: wrap;

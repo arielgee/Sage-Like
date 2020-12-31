@@ -771,6 +771,10 @@
 
 
 ## Next
+* remove empty elements from the feed-item description tooltip
+* feed-item description tooltip: remove the images? only text?
+* feedPreview: show elaped time in text (3h 1d, 2w, 5m, 1y)
+* pasted url from THIS file ito the tree view is 'invalid URL error '
 * post some CSS files that will serve as samples and/or templates (like the 2 columns)
 * check following links
 	* in `Sage++ (Higmmer's Edition)` feeds don’t get recognized; "Failed to get feed data. [ Feed format is neither XML nor JSON. ]"
