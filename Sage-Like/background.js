@@ -320,7 +320,11 @@
 				}
 			}).catch(async (error) => console.log("[Sage-Like]", "send message at " + (await browser.tabs.get(tabId)).url, error));
 
-		}).catch(async (error) => {console.log("[Sage-Like]", "inject content scripts at " + (await browser.tabs.get(tabId)).url, error);});
+		}).catch(async (error) => {
+			if( !error.message.toLowerCase().includes("missing host permission for the tab") ) {
+				console.log("[Sage-Like]", "inject content scripts at " + (await browser.tabs.get(tabId)).url, error);
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

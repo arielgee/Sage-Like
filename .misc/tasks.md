@@ -763,17 +763,17 @@
 * triage the buildin feed URLs. Feed from https://www.manmadediy.com/ is DEAD.
 * too many log writing - temperary disable logging when discovery-Aggressive ?
 * replace substr() with substring() or slice()
+* detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
 ---
 
 ## Now
-* detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
+* feedPreview: show elaped time in text (3h 1d, 2w, 5m, 1y)
 ---
 
 
 ## Next
 * remove empty elements from the feed-item description tooltip
 * feed-item description tooltip: remove the images? only text?
-* feedPreview: show elaped time in text (3h 1d, 2w, 5m, 1y)
 * pasted url from THIS file ito the tree view is 'invalid URL error '
 * post some CSS files that will serve as samples and/or templates (like the 2 columns)
 * check following links
