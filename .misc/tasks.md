@@ -775,6 +775,7 @@
 * remove empty elements from the feed-item description tooltip
 * feed-item description tooltip: remove the images? only text?
 * pasted url from THIS file ito the tree view is 'invalid URL error '
+* in prototypes use `oRef` to reduce references like in `Date.prototype.getRelativeShortLocaleString()`
 * post some CSS files that will serve as samples and/or templates (like the 2 columns)
 * check following links
 	* in `Sage++ (Higmmer's Edition)` feeds don’t get recognized; "Failed to get feed data. [ Feed format is neither XML nor JSON. ]"

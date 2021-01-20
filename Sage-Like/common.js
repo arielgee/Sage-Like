@@ -896,6 +896,36 @@ let slPrototypes = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	Date.prototype.getRelativeShortLocaleString = function() {
+
+		let oRef = Date.prototype.getRelativeShortLocaleString;
+		let msSpan = Date.now() - this.getTime();
+		let o = {};
+
+		if( oRef.relYear(msSpan, o) > 0 ) {
+			return `${o.v} year${o.v>1?`s`:``} ago`;
+		} else if( oRef.relMon(msSpan, o) > 0 ) {
+			return `${o.v} month${o.v>1?`s`:``} ago`;
+		} else if( oRef.relDay(msSpan, o) > 0 ) {
+			return `${o.v} day${o.v>1?`s`:``} ago`;
+		} else if( oRef.relHour(msSpan, o) > 0 ) {
+			return `${o.v} hour${o.v>1?`s`:``} ago`;
+		} else if( oRef.relMin(msSpan, o) > 0 ) {
+			return `${o.v} minute${o.v>1?`s`:``} ago`;
+		} else if( oRef.relSec(msSpan, o) > 0 ) {
+			return `${o.v} second${o.v>1?`s`:``} ago`;
+		} else {
+			return "just now";
+		}
+	}
+	Date.prototype.getRelativeShortLocaleString.relYear = (ms, o) => o.v = Math.trunc(ms/31536000000);	// Millisec in 1 year : 31536000000 (1000*60*60*24*365)
+	Date.prototype.getRelativeShortLocaleString.relMon  = (ms, o) => o.v = Math.trunc(ms/2592000000);	// Millisec in 1 mon  :  2592000000 (1000*60*60*24*30)
+	Date.prototype.getRelativeShortLocaleString.relDay  = (ms, o) => o.v = Math.trunc(ms/86400000);		// Millisec in 1 day  :    86400000 (1000*60*60*24)
+	Date.prototype.getRelativeShortLocaleString.relHour = (ms, o) => o.v = Math.trunc(ms/3600000);		// Millisec in 1 hour :     3600000 (1000*60*60)
+	Date.prototype.getRelativeShortLocaleString.relMin  = (ms, o) => o.v = Math.trunc(ms/60000);		// Millisec in 1 min  :       60000 (1000*60)
+	Date.prototype.getRelativeShortLocaleString.relSec  = (ms, o) => o.v = Math.trunc(ms/1000);			// Millisec in 1 sec  :        1000
+
+	//////////////////////////////////////////////////////////////////////
 	Array.prototype.includesAll = function(targetAry) {
 		if(Array.isArray(targetAry)) {
 			return targetAry.every((n) => this.includes(n));

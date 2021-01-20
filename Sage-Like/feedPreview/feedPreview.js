@@ -185,6 +185,7 @@
 		let elmFeedItemLink = document.createElement("a");
 		let elmFeedItemTitleText = document.createElement("span");
 		let elmFeedItemLastUpdatedText = document.createElement("div");
+		let elmFeedItemLastUpdatedTime = document.createElement("time");
 		let elmFeedItemContent = document.createElement("div");
 		let elmFeedItemAttachmentsContainer;
 
@@ -194,6 +195,7 @@
 		elmFeedItemTitle.className = "feedItemTitle";
 		elmFeedItemTitleText.className = "feedItemTitleText feedItemBigFont";
 		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
+		elmFeedItemLastUpdatedTime.className = "feedItemLastUpdatedTime";
 		elmFeedItemContent.className = "feedItemContent";
 
 		let itemContent;
@@ -218,10 +220,13 @@
 			itemImage = "<img src=\"" + feedItem.image + "\" alt=\"" + feedItem.title + "\">";
 		}
 
+		let feedItemDate = new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated));
+
 		elmFeedItemNumber.textContent = idx + 1 + ".";
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title.trim().length > 0 ? feedItem.title : feedItem.url;
-		elmFeedItemLastUpdatedText.textContent = (new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated))).toWebExtensionLocaleString();
+		elmFeedItemLastUpdatedTime.dateTime = feedItemDate.toISOString();
+		elmFeedItemLastUpdatedTime.textContent = `${feedItemDate.toWebExtensionLocaleString()} (${feedItemDate.getRelativeShortLocaleString()})`;
 		elmFeedItemContent.innerHTML = itemImage + itemContent;
 
 		handleAbnormalURLs(elmFeedItemContent);
@@ -237,6 +242,7 @@
 		}
 		elmFeedItemTitle.appendChild(elmFeedItemLink);
 		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
+		elmFeedItemLastUpdatedText.appendChild(elmFeedItemLastUpdatedTime);
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
 
 		elmFeedItemContainer.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
