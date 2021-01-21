@@ -64,6 +64,7 @@ body {
 	color: inherit;
 }
 
+#loadingLabel,
 #feedDescriptionText {
 	font-size: 125%;
 }

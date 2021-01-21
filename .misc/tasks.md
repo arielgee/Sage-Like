@@ -755,7 +755,7 @@
 * extension.getURL() is deprecated. Use runtime.getURL().
 * test XML handling (contect._collectPageFeeds, background.onWebRequestHeadersReceived) on all rss file types
 * use INJECTABLE[] in background.injectContentScripts()
-* the '&_SLWxoPenuRl=nOtinFEeDPREVIew'. replace with what i did in lizard for 'reload w/o alterations' => ne need
+* the '&_SLWxoPenuRl=nOtinFEeDPREVIew'. replace with what i did in lizard for 'reload w/o alterations' => no need
 * htmlEntityToLiteral.entities: '&#8211;' long dash. There mast be a better solution then stating all characters; (http://hnapp.com/rss?q=score%3E100) => using String.fromCharCode()
 * search for '(reject|resolve).*\n\s*return' with '.*' and fix then
 * QA Test all test feeds in import in v59 and latest
@@ -764,17 +764,17 @@
 * too many log writing - temperary disable logging when discovery-Aggressive ?
 * replace substr() with substring() or slice()
 * detect 'host permission for the tab' to avoid injection error. Example: a github source code file displayed raw (https://raw.githubusercontent.com/arielgee/Sage-Like/master/README.md)
+* feedPreview: show relative time in text (3h 1d, 2w, 5m, 1y)
+* remove empty elements from the feed-item description tooltip => no need; there is no
+* feed-item description tooltip: remove the images? only text? => already DONE
 ---
 
 ## Now
-* feedPreview: show elaped time in text (3h 1d, 2w, 5m, 1y)
+* pasted url from THIS file ito the tree view is 'invalid URL error '
 ---
 
 
 ## Next
-* remove empty elements from the feed-item description tooltip
-* feed-item description tooltip: remove the images? only text?
-* pasted url from THIS file ito the tree view is 'invalid URL error '
 * in prototypes use `oRef` to reduce references like in `Date.prototype.getRelativeShortLocaleString()`
 * post some CSS files that will serve as samples and/or templates (like the 2 columns)
 * check following links

@@ -128,6 +128,7 @@
 					document.getElementById("pageHeaderContainer").style.direction = "rtl";
 				}
 				m_elmFeedBody.removeChild(elmLoadImg);
+				document.getElementById("pageHeaderContainer").removeChild(document.getElementById("loadingLabel"));
 				document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
 				removeEmptyElementsFromFeedContent();
 				brutallyReinforceSvgStyle();
