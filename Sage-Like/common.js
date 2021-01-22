@@ -2385,6 +2385,16 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function getUniqId(prefix = "", length = 32) {
+
+		let dec2hex = (d) => ( (d < 10) ? "0" + String(d) : d.toString(16) );
+		let values = new Uint8Array(length / 2);
+
+		window.crypto.getRandomValues(values);
+		return prefix + Array.from(values, dec2hex).join("");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=3) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -2441,6 +2451,7 @@ let slUtil = (function() {
 		getMimeTypeIconPath: getMimeTypeIconPath,
 		nbAlert: nbAlert,
 		getLanguageDir: getLanguageDir,
+		getUniqId: getUniqId,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};

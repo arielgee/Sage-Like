@@ -8,7 +8,8 @@
 
 	let m_URL;
 	let m_elmFeedBody = null;
-	let m_elmFeedJumpList = null;
+	let m_elmJumpListContainer = null;
+	let m_elmJumpList = null;
 	let m_elmAttachmentTooltip;
 	let m_timeoutMouseOver = null;
 	let m_hashCustomCSSSource = "";
@@ -67,11 +68,15 @@
 	function onUnload(event) {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+		document.removeEventListener("focus", onFocusDocument);
 
 		if(!!m_elmFeedBody) {
 			m_elmFeedBody.removeEventListener("mouseover", onMouseOverAttachment);
 			m_elmFeedBody.removeEventListener("mouseout", onMouseOutAttachment);
-		}
+			m_elmJumpListContainer.removeEventListener("click", onClickJumpListContainer);
+			m_elmJumpListContainer.removeEventListener("blur", onBlurJumpListContainer);
+			m_elmJumpListContainer.removeEventListener("keydown", onKeyDownJumpListContainer);
+	}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +92,8 @@
 	function createFeedPreview(urlFeed) {
 
 		m_elmFeedBody = document.getElementById("feedBody");
-		m_elmFeedJumpList = document.getElementById("feedJumpList");
+		m_elmJumpListContainer = document.getElementById("jumpListContainer");
+		m_elmJumpList = document.getElementById("jumpList");
 		let elmLoadImg = document.getElementById("busyAnimLoading");
 		let elmFeedTitle;
 
@@ -97,6 +103,9 @@
 				m_elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
 				m_elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
 				m_elmFeedBody.addEventListener("mouseout", onMouseOutAttachment);
+				m_elmJumpListContainer.addEventListener("click", onClickJumpListContainer);
+				m_elmJumpListContainer.addEventListener("blur", onBlurJumpListContainer);
+				m_elmJumpListContainer.addEventListener("keydown", onKeyDownJumpListContainer);
 
 				document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
 				elmFeedTitle = createFeedTitleElements(result.feedData);
@@ -250,13 +259,21 @@
 
 		elmFeedItemContainer.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
 
-		// add to jump list
-		let elmJLItem = document.createElement("div");
-		elmJLItem.class = "jumpListItem";
-		elmJLItem.textContent = elmFeedItemTitleText.textContent
-		m_elmFeedJumpList.appendChild(elmJLItem);
+		addToJumpList(idx, elmFeedItemTitleText.textContent, (elmFeedItemContainer.id = slUtil.getUniqId()));
 
 		return elmFeedItemContainer;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function addToJumpList(idx, textContent, href) {
+
+		let elmJLItem = document.createElement("a");
+
+		elmJLItem.className = "jumpListAnchor";
+		elmJLItem.textContent = `${idx+1}. ${textContent}`;
+		elmJLItem.href = `#${href}`;
+
+		m_elmJumpList.appendChild(elmJLItem);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -427,6 +444,31 @@
 			m_timeoutMouseOver = null;
 			m_elmAttachmentTooltip.style.display = "none";
 			m_elmAttachmentTooltip.style.visibility = "hidden";
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickJumpListContainer(event) {
+		if(event.target.id === "jumpListContainer") {
+			m_elmJumpListContainer.classList.add("open");
+			m_elmJumpListContainer.focus();
+		} else if(event.target.tagName === "A") {
+			m_elmJumpListContainer.classList.remove("open");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBlurJumpListContainer(event) {
+		//if( !!!event.relatedTarget || !event.relatedTarget.classList.contains("jumpListAnchor") ) {
+			if( !!!event.relatedTarget || !event.relatedTarget.closest(`#${m_elmJumpListContainer.id}`) ) {
+			m_elmJumpListContainer.classList.remove("open");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownJumpListContainer(event) {
+		if(event.code === "Escape") {
+			m_elmJumpListContainer.classList.remove("open");
 		}
 	}
 
