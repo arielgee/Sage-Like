@@ -767,10 +767,11 @@
 * feedPreview: show relative time in text (3h 1d, 2w, 5m, 1y)
 * remove empty elements from the feed-item description tooltip => no need; there is no
 * feed-item description tooltip: remove the images? only text? => already DONE
+* pasted url from THIS file ito the tree view is 'invalid URL error' => for clipboard.readText(), it's not simple text (include formating). clipboard.read() not supported
 ---
 
 ## Now
-* pasted url from THIS file ito the tree view is 'invalid URL error '
+* add table of content in feed preview to jump to each feed-item
 ---
 
 
@@ -792,7 +793,6 @@
 		* Sage-Like return more (100 vs 50)
 			* https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 			* http://feeds.megaphone.fm/intercepted
-* add table of content in feed preview to jump to each feed-item
 * preference: maximum feed items to display (different for list and feed preview?)
 * auto-hide sidebar
 * use browser.webNavigation like in lizard ?

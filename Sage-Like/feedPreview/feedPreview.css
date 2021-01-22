@@ -37,6 +37,38 @@ body {
 	filter: drop-shadow(0 0 4px #000000);
 }
 
+#feedJumpList {
+	position: fixed;
+	top: 3px;
+	left: 3px;
+	/* https://www.iconfinder.com/icons/6389163/arrow_interface_jump_next_smartphone_web_icon */
+	background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2UlEQVQ4jb3SoUqDURTA8d8MC4rIdOJDmERkwfUFi6DVYDaZfQG1Lmicj2D1BVwxDNnagiBM2FDr0gzfKX58u2Of4IFb7rn/c/6ce/jn6GF3WaiCbWxihgHWFkFVnOEJ33G+MEYHDyn4AP3QPcVGLr8a+fMieA+j6F5JNDnGR/5yC+9opfRSBtdo5+4auMdzFJ/IZtDJwzV8hgUcymbwiks0UZf9Qj8sfsUJHrGCK7zhqEB/7h60cYHb0K0VPUpFF3ehvL4sDENMsV8GJtuym7IwvGDnLwVKxw9buinFTRLBdwAAAABJRU5ErkJggg==") no-repeat left top;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	transition: 0.2s all linear;
+	overflow: hidden;
+}
+
+.jumpListItem {
+	white-space: nowrap;
+	overflow: hidden;
+	margin: 12px 3px;
+}
+
+#feedJumpList:hover {
+	width: auto;
+	height: auto;
+	max-width: 250px;
+	max-height: 45%;
+	cursor: default;
+	background: rgb(235, 235, 235);
+	border: 1px solid rgb(65, 65, 65);
+	box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
+	padding: 6px;
+
+}
+
 #pageHeaderText {
 	background: transparent url("/icons/sageLike-16.png") no-repeat left center;
 	padding-left: 24px;

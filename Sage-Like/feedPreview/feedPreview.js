@@ -8,6 +8,7 @@
 
 	let m_URL;
 	let m_elmFeedBody = null;
+	let m_elmFeedJumpList = null;
 	let m_elmAttachmentTooltip;
 	let m_timeoutMouseOver = null;
 	let m_hashCustomCSSSource = "";
@@ -86,6 +87,7 @@
 	function createFeedPreview(urlFeed) {
 
 		m_elmFeedBody = document.getElementById("feedBody");
+		m_elmFeedJumpList = document.getElementById("feedJumpList");
 		let elmLoadImg = document.getElementById("busyAnimLoading");
 		let elmFeedTitle;
 
@@ -247,6 +249,12 @@
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
 
 		elmFeedItemContainer.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
+
+		// add to jump list
+		let elmJLItem = document.createElement("div");
+		elmJLItem.class = "jumpListItem";
+		elmJLItem.textContent = elmFeedItemTitleText.textContent
+		m_elmFeedJumpList.appendChild(elmJLItem);
 
 		return elmFeedItemContainer;
 	}
