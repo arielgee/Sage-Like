@@ -833,12 +833,13 @@ let slPrototypes = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.stripUnsafeHtmlComponents = function() {
+		let oRef = String.prototype.stripUnsafeHtmlComponents;
 		return this
 			.htmlEntityToLiteral()
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags, "")
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexJavascript, "'#striped'")
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexImg1x1, "")
-			.replace(String.prototype.stripUnsafeHtmlComponents.regexEventAttr, "$1");
+			.replace(oRef.regexUnsafeTags, "")
+			.replace(oRef.regexJavascript, "'#striped'")
+			.replace(oRef.regexImg1x1, "")
+			.replace(oRef.regexEventAttr, "$1");
 	};
 	String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags = new RegExp(m_sRxUnsafeTags, "gim");
 	String.prototype.stripUnsafeHtmlComponents.regexJavascript = new RegExp("('\\bjavascript:([\\s\\S]*?)')|(\"\\bjavascript:([\\s\\S]*?)\")", "gim");

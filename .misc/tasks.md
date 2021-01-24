@@ -770,10 +770,11 @@
 * pasted url from THIS file ito the tree view is 'invalid URL error' => for clipboard.readText(), it's not simple text (include formating). clipboard.read() not supported
 * add table of content in feed preview to jump to each feed-item => jump list
 * auto-hide sidebar => NO
+* in prototypes use `oRef` to reduce references like in `Date.prototype.getRelativeShortLocaleString()`
 ---
 
 ## Now
-* in prototypes use `oRef` to reduce references like in `Date.prototype.getRelativeShortLocaleString()`
+* use browser.webNavigation like in lizard ?
 ---
 
 
@@ -795,7 +796,6 @@
 			* https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 			* http://feeds.megaphone.fm/intercepted
 * preference: maximum feed items to display (different for list and feed preview?)
-* use browser.webNavigation like in lizard ?
 * can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";'
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
