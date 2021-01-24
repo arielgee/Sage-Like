@@ -4,6 +4,7 @@
 	--background-color-page: #c8c8c8;
 	--background-color-header: #0F8528;
 	--background-color-feed-item: #ededed;
+	--background-jump-list: #ebebeb;
 
 	--color-header: #f0f0fa;
 
@@ -45,16 +46,16 @@ body {
 	height: 16px;
 	max-width: 55%;
 	max-height: 95%;
-	background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw1AUhU9TpSIVEYuIOGSoThZEizhKFYtgobQVWnUweekfNGlIUlwcBdeCgz+LVQcXZ10dXAVB8AfEzc1J0UVKvC8ptIjxwuN9nHfP4b37AKFRYarZNQmommWk4jExm1sVA6/wYQgDiCIkMVNPpBcz8Kyve+qmuovwLO++P6tPyZsM8InEc0w3LOIN4plNS+e8TxxiJUkhPieeMOiCxI9cl11+41x0WOCZISOTmicOEYvFDpY7mJUMlThKHFZUjfKFrMsK5y3OaqXGWvfkLwzmtZU012mNIo4lJJCECBk1lFGBhQjtGikmUnQe8/CPOP4kuWRylcHIsYAqVEiOH/wPfs/WLExPuUnBGND9YtsfY0BgF2jWbfv72LabJ4D/GbjS2v5qA5j9JL3e1sJHQP82cHHd1uQ94HIHGH7SJUNyJD8toVAA3s/om3LA4C3Qu+bOrXWO0wcgQ7NavgEODoHxImWve7y7p3Nu//a05vcDpJ9yu9LCJ/YAAAAGYktHRAD/AAAAADMnfPMAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQflARYSAgIB1XXSAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAAf9JREFUOMulk7FrGmEYxn89NSdB5GZB0sVJiKMgdTFLUIgc4nKizdAaAk7+B4H8AY5pSIcON4jTVSFw4FACyinIOYSAZEggwcXh9CMSkJguRlpvavPCC+/HAz+e93t4Ae6A1//suw+r4Qdwxb9VEvjsXT2uarXa93q9jhCCarVKq9XCtm00TQOg0+kgSRKqqmKaJoZh8CeAer2OoigUCgUajQayLJPL5RBC4DgOkiSRSqXo9/ssl8u1DeltEEKQyWTo9XpMJhPC4TCBQIDHx0ds20ZVVUajEZ1Oh93d3TVg7aBardJoNJhMJqTTaZ6enuh2u3i9Xg4PDzFNk+VyST6fZzweux20Wi1kWabf7388OTnZdxyH6XRKMpnk5uYGwzD2m83mzmKxwOfzuQG2bROJRAC+AJcXFxdHpVKJwWDA+fn5EXAJfL29vWU2m7lX0DQNIQTAKfAJODs+Pn5dyWfAL+D05eWFYDDoBgA4jkMsFnseDodp4CfwbSW1gYO9vb3naDSKx+NxA95yLpfLmKY5NwzjANBXcqFYLM4VRWGxWGBZlhuwmXOlUplLkqQCXF9foygKoVAIXddJJBK02+2/P3Ez5+3tbR4eHri/vycej+P3+9F1nWw2i9/vdzvYzNnn8yHLMsFgEI/Hg2VZJBIJhBBsbW2tAe8+Jt57zr8BiXj7v/XZ55EAAAAASUVORK5CYII=") no-repeat left top;
+	background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QARQBFAEUZt5ZyAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAlElEQVQ4y83TPQrCQBDF8Z+SIscQ72Gd0sZSGzG5mB7CYOlFcox0sRkk5ENM0uTBwO4f9rHMm4EKzcyqNnG4422aDrgIg9x05Wi2FmqdBntkAzzD7h+DK54oWqwIdhv6RTeFFK/gRVQTLO2mMBZjirI1MGXn8dcgGelNjSMecT8H6yn50eAap/XPQdJaDDOWiaXr/AHxhDt+JnDzlwAAAABJRU5ErkJggg==") no-repeat left top;
 	cursor: pointer;
-	transition: all 0.15s linear;
+	transition: all 100ms linear;
 	z-index: 1;
 }
 
 #jumpListContainer.open {
 	width: auto;
 	height: auto;
-	background: rgb(235, 235, 235);
+	background: var(--background-jump-list);
 	cursor: default;
 	border: 1px solid rgb(65, 65, 65);
 	box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
@@ -67,7 +68,7 @@ body {
 
 #jumpList {
 	display: none;
-	padding: 4px 8px 16px 8px;
+	padding: 4px 8px 8px 8px;
 	overflow: hidden;
 }
 

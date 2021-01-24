@@ -200,7 +200,9 @@
 		let elmFeedItemLastUpdatedTime = document.createElement("time");
 		let elmFeedItemContent = document.createElement("div");
 		let elmFeedItemAttachmentsContainer;
+		let elmJumpListItem = document.createElement("a");
 
+		elmFeedItemContainer.id = slUtil.getUniqId("sl");
 		elmFeedItemContainer.className = "feedItemContainer";
 		elmFeedItemNumber.className = "feedItemNumber feedItemBigFont";
 		elmFeedItem.className = "feedItem";
@@ -209,6 +211,7 @@
 		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
 		elmFeedItemLastUpdatedTime.className = "feedItemLastUpdatedTime";
 		elmFeedItemContent.className = "feedItemContent";
+		elmJumpListItem.className = "jumpListAnchor";
 
 		let itemContent;
 		if(feedItem.htmlContent.length > 0) {
@@ -240,6 +243,8 @@
 		elmFeedItemLastUpdatedTime.dateTime = feedItemDate.toISOString();
 		elmFeedItemLastUpdatedTime.textContent = `${feedItemDate.toWebExtensionLocaleString()} (${feedItemDate.getRelativeShortLocaleString()})`;
 		elmFeedItemContent.innerHTML = itemImage + itemContent;
+		elmJumpListItem.textContent = `${idx+1}. ${elmFeedItemTitleText.textContent}`;
+		elmJumpListItem.href = `#${elmFeedItemContainer.id}`;
 
 		handleAbnormalURLs(elmFeedItemContent);
 
@@ -256,24 +261,11 @@
 		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
 		elmFeedItemLastUpdatedText.appendChild(elmFeedItemLastUpdatedTime);
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
+		m_elmJumpList.appendChild(elmJumpListItem);
 
 		elmFeedItemContainer.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
 
-		addToJumpList(idx, elmFeedItemTitleText.textContent, (elmFeedItemContainer.id = slUtil.getUniqId()));
-
 		return elmFeedItemContainer;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function addToJumpList(idx, textContent, href) {
-
-		let elmJLItem = document.createElement("a");
-
-		elmJLItem.className = "jumpListAnchor";
-		elmJLItem.textContent = `${idx+1}. ${textContent}`;
-		elmJLItem.href = `#${href}`;
-
-		m_elmJumpList.appendChild(elmJLItem);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
