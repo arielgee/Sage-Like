@@ -771,10 +771,10 @@
 * add table of content in feed preview to jump to each feed-item => jump list
 * auto-hide sidebar => NO
 * in prototypes use `oRef` to reduce references like in `Date.prototype.getRelativeShortLocaleString()`
+* use browser.webNavigation like in lizard ? => NOT RELEVENT
 ---
 
 ## Now
-* use browser.webNavigation like in lizard ?
 ---
 
 
