@@ -775,6 +775,7 @@
 ---
 
 ## Now
+* feedPreview: replace changed custom CSS withOUT reloading.
 ---
 
 
