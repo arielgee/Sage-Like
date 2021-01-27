@@ -212,7 +212,7 @@ body {
 	width: auto !important;
 	height: auto !important;
 	margin: 3px !important;
-	display: block !important;
+	/* display: block !important; */
 }
 
 .feedItemContent p {
