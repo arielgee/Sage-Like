@@ -731,7 +731,11 @@ let preferences = (function() {
 				}
 
 				flashCustomCSSImportButton();
-				if(hash.length > 0) broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE);
+				if(hash.length > 0) {
+					prefs.getCustomCSSSource().then((currentSource) => {
+						broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, currentSource);
+					});
+				}
 			});
 		});
 	}
@@ -741,8 +745,10 @@ let preferences = (function() {
 
 		cssFileValidator(event.target.files[0]).then((result) => {
 
-			prefs.setCustomCSSSource(result.source).then(() => {
-				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE);
+			prefs.getCustomCSSSource().then((prevSource) => {
+				prefs.setCustomCSSSource(result.source).then(() => {
+					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
+				});
 			});
 
 			slUtil.disableElementTree(m_elmBtnViewCSSSource, false);
@@ -767,8 +773,10 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnClearCSSSource(event) {
-		prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE);
+		prefs.getCustomCSSSource().then((prevSource) => {
+			prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE).then(() => {
+				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
+			});
 		});
 		slUtil.disableElementTree(m_elmBtnViewCSSSource, true);
 		slUtil.disableElementTree(m_elmBtnClearCSSSource, true);
@@ -1233,10 +1241,11 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function broadcastPreferencesUpdated(details) {
+	function broadcastPreferencesUpdated(details, payload = undefined) {
 		browser.runtime.sendMessage({
 			id: slGlobals.MSG_ID_PREFERENCES_CHANGED,
 			details: details,
+			payload: payload,
 	 	});
 	}
 

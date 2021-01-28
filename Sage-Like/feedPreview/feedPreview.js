@@ -13,7 +13,6 @@
 	let m_elmAttachmentTooltip;
 	let m_timeoutMouseOver = null;
 	let m_hashCustomCSSSource = "";
-	let m_customCSSSourceChanged = false;
 
 	initialization();
 
@@ -22,7 +21,6 @@
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
-		document.addEventListener("focus", onFocusDocument);
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 
 		injectCustomCSSSource();
@@ -35,13 +33,7 @@
 
 			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
 				if(message.details === slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE) {
-					prefs.getUseCustomCSSFeedPreview().then((use) => {
-						if(!use) {
-							m_customCSSSourceChanged = (m_hashCustomCSSSource.length > 0)
-						} else {
-							prefs.getCustomCSSSourceHash().then((hash) => m_customCSSSourceChanged = (hash !== m_hashCustomCSSSource) );
-						}
-					});
+					injectReplaceCustomCSSSource({ source: message.payload });
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -68,7 +60,6 @@
 	function onUnload(event) {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
-		document.removeEventListener("focus", onFocusDocument);
 
 		if(!!m_elmFeedBody) {
 			m_elmFeedBody.removeEventListener("mouseover", onMouseOverAttachment);
@@ -77,15 +68,6 @@
 			m_elmJumpListContainer.removeEventListener("blur", onBlurJumpListContainer);
 			m_elmJumpListContainer.removeEventListener("keydown", onKeyDownJumpListContainer);
 	}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onFocusDocument(event) {
-
-		if(m_customCSSSourceChanged) {
-			browser.tabs.reload();
-		}
-		m_customCSSSourceChanged = false;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -483,6 +465,40 @@
 				});
 			}
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function injectReplaceCustomCSSSource(prev) {
+
+		let changed;
+		let using = await prefs.getUseCustomCSSFeedPreview();
+
+		if(using) {
+			changed = (await prefs.getCustomCSSSourceHash()) !== m_hashCustomCSSSource;
+		} else {
+			changed = (m_hashCustomCSSSource.length > 0);
+		}
+
+		let tabId = (using || changed) ? (await browser.tabs.getCurrent()).id : -1;
+
+		if(changed && !!prev.source) {
+			try {
+				await browser.tabs.removeCSS(tabId, { code: prev.source });
+			} catch (error) {
+				console.log("[Sage-Like]", "Removing injected custom CSS source generated an error", error);
+			}
+			prev.source = "";
+		}
+
+		if(using) {
+			let source = await prefs.getCustomCSSSource();
+			if(source.length > 0) {
+				prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
+				browser.tabs.insertCSS(tabId, { code: source, runAt: "document_start" }).catch((err) => {
+					console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
+				});
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

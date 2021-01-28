@@ -772,10 +772,10 @@
 * auto-hide sidebar => NO
 * in prototypes use `oRef` to reduce references like in `Date.prototype.getRelativeShortLocaleString()`
 * use browser.webNavigation like in lizard ? => NOT RELEVENT
+* feedPreview: replace changed custom CSS withOUT reloading.
 ---
 
 ## Now
-* feedPreview: replace changed custom CSS withOUT reloading.
 ---
 
 
