@@ -776,11 +776,11 @@
 ---
 
 ## Now
+* post some CSS files that will serve as samples and/or templates (like the 2 columns)
 ---
 
 
 ## Next
-* post some CSS files that will serve as samples and/or templates (like the 2 columns)
 * check following links
 	* in `Sage++ (Higmmer's Edition)` feeds don’t get recognized; "Failed to get feed data. [ Feed format is neither XML nor JSON. ]"
 		* http://www.ohgizmo.com/
