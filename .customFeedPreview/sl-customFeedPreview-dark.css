@@ -1,0 +1,54 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+:root {
+	--background-color-page: #1e1e1e;
+	--background-color-header: #2d2d2d;
+	--background-color-feed-item: #3c3c3c;
+	--background-jump-list: #2d2d2d;
+
+	--color-fg: #f3f3fd;
+
+	font-family: Consolas, 'Courier New', monospace;
+}
+
+#jumpListContainer,
+.feedItemAttachmentImage {
+	filter: invert(100%);
+}
+
+#jumpListContainer.open {
+	filter: none;
+	border-color: var(--color-fg);
+	box-shadow: none;
+}
+
+#jumpList {
+	color: var(--color-fg);
+}
+
+#feedTitle,
+.feedItemContainer {
+	color: var(--color-fg);
+	font-size: 110%;
+}
+
+#busyAnimLoading {
+	--color-image: var(--color-fg);
+}
+
+a:not(#errorMessageLink) {
+	color: yellow;
+	text-decoration: none;
+	text-decoration-color: yellow;
+}
+a:not(#errorMessageLink):hover { text-decoration: underline; }
+
+.feedItemAttachment:hover {
+	box-shadow: none;
+}
+
+#attachmentTooltip {
+	box-shadow: none;
+	color: var(--color-fg);
+	border-color: var(--color-fg);
+}

@@ -1,0 +1,21 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+:root {
+	--background-color-page: #fdf6e3;
+	--background-color-header: #d3cbb7;
+	--background-color-feed-item: #eee8d5;
+	--background-jump-list: #d9d2c2;
+
+	--color-header: #0f0f0f;
+
+	font-family: Florence, cursive;
+}
+
+#pageHeaderContainerInner {
+	filter: none;
+}
+
+#feedTitle,
+.feedItemContainer {
+	font-size: 120%;
+}

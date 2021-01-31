@@ -773,10 +773,10 @@
 * in prototypes use `oRef` to reduce references like in `Date.prototype.getRelativeShortLocaleString()`
 * use browser.webNavigation like in lizard ? => NOT RELEVENT
 * feedPreview: replace changed custom CSS withOUT reloading.
+* create some CSS files that will serve as samples and/or templates (like the 2 columns)
 ---
 
 ## Now
-* post some CSS files that will serve as samples and/or templates (like the 2 columns)
 ---
 
 
@@ -796,6 +796,9 @@
 		* Sage-Like return more (100 vs 50)
 			* https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 			* http://feeds.megaphone.fm/intercepted
+* WITH NEXT VERSION: ===> Post 'sl-customFeedPreview-files.zip' in https://discourse.mozilla.org with following text with next version
+	`A few basic custom FeedPreview CSS files that can be used as-is or serve as examples.`
+	`Best used with Sage-Like version 2.2 and above.`
 * preference: maximum feed items to display (different for list and feed preview?)
 * can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";'
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`

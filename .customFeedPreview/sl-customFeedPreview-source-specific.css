@@ -1,0 +1,15 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+html[data-feedpreview-hostname^="feeds.bbc"]:root {
+	--background-color-page: #eeb4b4;
+	--background-color-header: #8b0000;
+	--background-color-feed-item: #b89292;
+	--background-jump-list: #eeb4b4;
+}
+
+html[data-feedpreview-hostname="www.buzzfeed.com"]:root {
+	--background-color-page: #a9bebe;
+	--background-color-header: #305050;
+	--background-color-feed-item: #6c8686;
+	--background-jump-list: #a9bebe;
+}
