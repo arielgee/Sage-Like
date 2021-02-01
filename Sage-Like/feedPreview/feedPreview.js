@@ -6,6 +6,8 @@
 	const SEL_EMPTY_ELEMENTS_NOTS = ":not(img):not(br):not(hr):not(col):not(source):not(track):not(wbr):not(embed):not(area)";
 	const SELECTOR_EMPTY_ELEMENT = `${SEL_EMPTY_ELEMENTS_NOTS}:empty,${SEL_EMPTY_ELEMENTS_NOTS}:-moz-only-whitespace`;
 
+	const JUMP_LIST_CONTAINER_TITLE = "Jump List";
+
 	let m_URL;
 	let m_elmFeedBody = null;
 	let m_elmJumpListContainer = null;
@@ -88,6 +90,7 @@
 				m_elmJumpListContainer.addEventListener("click", onClickJumpListContainer);
 				m_elmJumpListContainer.addEventListener("blur", onBlurJumpListContainer);
 				m_elmJumpListContainer.addEventListener("keydown", onKeyDownJumpListContainer);
+				m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
 
 				document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
 				elmFeedTitle = createFeedTitleElements(result.feedData);
@@ -425,9 +428,11 @@
 	function onClickJumpListContainer(event) {
 		if(event.target.id === "jumpListContainer") {
 			m_elmJumpListContainer.classList.add("open");
+			m_elmJumpListContainer.title = "";
 			m_elmJumpListContainer.focus();
 		} else if(event.target.tagName === "A") {
 			m_elmJumpListContainer.classList.remove("open");
+			m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
 		}
 	}
 
@@ -436,6 +441,7 @@
 		//if( !!!event.relatedTarget || !event.relatedTarget.classList.contains("jumpListAnchor") ) {
 			if( !!!event.relatedTarget || !event.relatedTarget.closest(`#${m_elmJumpListContainer.id}`) ) {
 			m_elmJumpListContainer.classList.remove("open");
+			m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
 		}
 	}
 
@@ -443,6 +449,7 @@
 	function onKeyDownJumpListContainer(event) {
 		if(event.code === "Escape") {
 			m_elmJumpListContainer.classList.remove("open");
+			m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
 		}
 	}
 
