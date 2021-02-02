@@ -25,7 +25,7 @@ body {
 }
 
 #feedTitleTexts {
-	min-height: 500px;
+	min-height: 700px;
 }
 
 #feedBody {
@@ -36,6 +36,10 @@ body {
 #loadingLabel {
 	position: fixed;
 	writing-mode: vertical-rl;
+	max-height: 680px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 #feedTitle[style*="direction: rtl"] #feedTitleText {
