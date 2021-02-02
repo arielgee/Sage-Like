@@ -201,6 +201,7 @@ body {
 	font-size: 100% !important;
 	font-weight: normal !important;
 	float: none !important;
+	width: auto !important;
 }
 
 .feedItemContent audio,
