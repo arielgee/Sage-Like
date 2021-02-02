@@ -1,0 +1,49 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+:root {
+	--background-color-page: #f5f5f5;
+	--background-color-header: #c4b7d7;
+	--background-color-feed-item: #e3ddec;
+	--background-jump-list: #e3ddec;
+
+	--color-header: #080808;
+
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#pageHeaderContainerInner {
+	color: #5a5a5a;
+	filter: none;
+}
+
+#feedTitle,
+.feedItemContainer {
+	font-size: 120%;
+}
+
+#feedContent {
+	--grid-col-gap-size: 20px;
+
+	display: grid;
+	grid-template-columns: repeat(2, calc( 50% - var(--grid-col-gap-size) / 2 ) );
+	column-gap: var(--grid-col-gap-size);
+	grid-column-gap: var(--grid-col-gap-size);	/* Firefox v59 */
+
+	/* Uncomment for Right-to-left languages
+	direction: rtl !important; */
+}
+
+/*
+[+] Right-to-left languages may require using one or more of the following selectors:
+
+	html[data-feedpreview-hostname="www.hebrew.co.il"] #feedContent
+	html[data-feedpreview-pathname*="/arabic/"] #feedContent
+	#pageHeaderContainer[style*="direction: rtl"] > #feedContent
+
+	{ direction: rtl !important; }
+*/
+
+.feedItemContent {
+	max-height: 550px;
+	overflow: auto;
+}

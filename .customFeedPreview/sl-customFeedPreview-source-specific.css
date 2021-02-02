@@ -1,5 +1,6 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
+/* BBC in red */
 html[data-feedpreview-hostname^="feeds.bbc"]:root {
 	--background-color-page: #eeb4b4;
 	--background-color-header: #8b0000;
@@ -7,9 +8,26 @@ html[data-feedpreview-hostname^="feeds.bbc"]:root {
 	--background-jump-list: #eeb4b4;
 }
 
+/* BuzzFeed in dark slate */
 html[data-feedpreview-hostname="www.buzzfeed.com"]:root {
 	--background-color-page: #a9bebe;
 	--background-color-header: #305050;
 	--background-color-feed-item: #6c8686;
 	--background-jump-list: #a9bebe;
+}
+
+/* Reddit's feeds in blue */
+html[data-feedpreview-hostname="www.reddit.com"]:root {
+	--background-color-page: #b1e3ff;
+	--background-color-header: #578baa;
+	--background-color-feed-item: #6aadd3;
+	--background-jump-list: #90a9b8;
+}
+
+/* Reddit's 'World News' feed specifically in orange */
+html[data-feedpreview-hostname="www.reddit.com"][data-feedpreview-pathname*="/worldnews/"]:root {
+	--background-color-page: #ffa500;
+	--background-color-header: #825500;
+	--background-color-feed-item: #ffe7bd;
+	--background-jump-list: #ffe7bd;
 }

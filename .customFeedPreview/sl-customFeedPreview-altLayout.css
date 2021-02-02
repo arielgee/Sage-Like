@@ -1,0 +1,43 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+body {
+	--grid-col-gap-size: 35px;
+	--width-page-header-container: 59px;
+	--width-feed-body: calc( 100% - (var(--width-page-header-container) + var(--grid-col-gap-size)) );
+
+	display: grid;
+	grid-template-columns: var(--width-page-header-container) var(--width-feed-body);
+	column-gap: var(--grid-col-gap-size);
+	grid-column-gap: var(--grid-col-gap-size);	/* Firefox v59 */
+	padding: 0;
+	margin: 0;
+}
+
+#jumpListContainer,
+#pageHeaderContainerInner,
+#feedTitleImage,
+#feedDescriptionText {
+	display: none;
+}
+
+#pageHeaderContainer {
+	margin: 0;
+}
+
+#feedTitleTexts {
+	min-height: 500px;
+}
+
+#feedBody {
+	margin: 24px 24px 24px 0;
+}
+
+#feedTitleText,
+#loadingLabel {
+	position: fixed;
+	writing-mode: vertical-rl;
+}
+
+#feedTitle[style*="direction: rtl"] #feedTitleText {
+	transform: rotate(180deg);
+}
