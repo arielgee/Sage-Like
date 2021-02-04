@@ -775,13 +775,10 @@
 * feedPreview: replace changed custom CSS withOUT reloading.
 * create some CSS files that will serve as samples and/or templates (like the 2 columns)
 * preference: maximum feed items to display (different for list and feed preview?) => NO
+* can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";' => too complicated
 ---
 
 ## Now
----
-
-
-## Next
 * check following links
 	* in `Sage++ (Higmmer's Edition)` feeds don’t get recognized; "Failed to get feed data. [ Feed format is neither XML nor JSON. ]"
 		* http://www.ohgizmo.com/
@@ -797,10 +794,14 @@
 		* Sage-Like return more (100 vs 50)
 			* https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 			* http://feeds.megaphone.fm/intercepted
+---
+
+
+## Next
 * WITH NEXT VERSION: ===> Post 'sl-customFeedPreview-CSS-files.zip' in https://discourse.mozilla.org with following text with next version
 	`A few basic custom FeedPreview CSS files that can be used as-is or serve as examples.`
 	`Best used with Sage-Like version 2.2 and above.`
-* can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";'
+* add a link to the extension's page to the posted 'sl-customFeedPreview-CSS-files.zip' in discourse.mozilla.org
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
