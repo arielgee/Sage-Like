@@ -776,24 +776,24 @@
 * create some CSS files that will serve as samples and/or templates (like the 2 columns)
 * preference: maximum feed items to display (different for list and feed preview?) => NO
 * can I import??? found this in background.js (Panorama extension) 'import { loadOptions } from "./_share/options.js";' => too complicated
----
-
-## Now
 * check following links
-	* in `Sage++ (Higmmer's Edition)` feeds don’t get recognized; "Failed to get feed data. [ Feed format is neither XML nor JSON. ]"
+	* in `Sage++ (Higmmer's Edition)` feeds don’t get recognized; "Failed to get feed data. [ Feed format is neither XML nor JSON. ]" => PROBABLY performed discovery and display what's discovered
 		* http://www.ohgizmo.com/
 		* https://boingboing.net/
 		* https://www.androidpolice.com/
 		* http://hnapp.com/?q=score%3E50
 		* https://www.blog.google/products/gmail/
 	* in `Feedbro` and/or `Sage++ (Higmmer's Edition)` feed items differ from Sage-Like
-		* Sage-Like return less (50/100 vs 10-30)
+		* Sage-Like return less (50/100 vs 10-30) => PROBABLY stores locally old items
 			* http://www.theverge.com/rss/index.xml
 			* http://feeds.feedburner.com/TheWirecutter
 			* http://feeds.feedburner.com/blogspot/amDG
-		* Sage-Like return more (100 vs 50)
+		* Sage-Like return more (100 vs 50) => PROBABLY limits the number of displayed items
 			* https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 			* http://feeds.megaphone.fm/intercepted
+---
+
+## Now
 ---
 
 
