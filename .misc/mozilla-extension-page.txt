@@ -67,3 +67,8 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 Code improvements - tightening the bolts.
 Under the hoods Performance enhancements.
 Bugs fixed.
+
+
++ To see changes in browser’s extension page change this preferences in 'about:config' to 1
+--------------------------------------------------------------
+app.update.lastUpdateTime.addon-background-update-timer
