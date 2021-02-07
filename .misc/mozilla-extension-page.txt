@@ -33,6 +33,11 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● "webRequest" – Intercepting clicks on RSS links to display feed previews.
 &emsp;● "webRequestBlocking" – Intercepting clicks on RSS links to display feed previews.
 
+◼ <b>CUSTOM CSS FILES</b>
+&emsp;A few basic custom style sheet files (.css) for the Feed Preview page.
+&emsp;To be used as‑is or serve as examples.
+&emsp;<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18</a>
+
 ◼ <b>SUPPORT & FEEDBACK</b>
 &emsp;<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383</a>
 
@@ -47,10 +52,14 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1657384. Runtime messaging error causing feed discovery from address bar to stop working.</li>
-  <li>Display non-English URLs in tool tips properly.</li>
-  <li>manifest.json file updated.</li>
-  <li>Minor typos fixed.</li>
+  <li>Added a jump list to the Feed Preview page (button in the upper left corner).</li>
+  <li>Apply custom CSS to an open Feed Preview page without reloading.</li>
+  <li>Added relative update time to feed items in the Feed Preview page.</li>
+  <li>Improve Feed Preview rendering.</li>
+  <li>Detect if a loaded XML is a feed (address bar).</li>
+  <li>Created a few Feed Preview custom CSS files to use as-is or serve as examples. See link in 'About this extension'.</li>
+  <li>Maintenance to the built-in feeds.</li>
+  <li>Code improvements.</li>
 </ul>
 
 + Version Notes for next time
