@@ -49,6 +49,8 @@
 
 		m_URL = new URL(urlFeed);
 
+		getFavIcon(m_URL.origin);
+
 		// Enable creation of CSS rules by feed origin
 		document.documentElement.setAttribute("data-feedPreview-hostname", m_URL.hostname);
 		document.documentElement.setAttribute("data-feedPreview-pathname", m_URL.pathname);
@@ -506,6 +508,32 @@
 				});
 			}
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function getFavIcon(urlOrigin) {
+
+		try {
+
+			let response = await fetch(urlOrigin + "/favicon.ico");
+			let blob = await response.blob();
+
+			if( !!blob && ("size" in blob) && (blob.size > 0) && ("type" in blob) ) {
+
+				let reader = new FileReader();
+				reader.addEventListener("load", () => {
+
+					// if is base64 image data
+					if(reader.result.match(/^data:image\/[^;]+?;base64,/)) {
+
+						let elmLink = document.querySelector("link[rel=\"shortcut icon\"]");
+						elmLink.type = blob.type;
+						elmLink.href = reader.result;
+					}
+				}, false);
+				reader.readAsDataURL(blob);
+			}
+		} catch { /* Ignore errors, fallback favicon */ }
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

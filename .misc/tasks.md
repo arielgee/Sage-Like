@@ -791,6 +791,10 @@
 		* Sage-Like return more (100 vs 50) => PROBABLY limits the number of displayed items
 			* https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 			* http://feeds.megaphone.fm/intercepted
+* WITH NEXT VERSION: ===> Post 'sl-customFeedPreview-CSS-files.zip' in https://discourse.mozilla.org with following text with next version
+>A few basic custom CSS files for the Feed Preview page that can be used as‑is or serve as examples.
+* add a link to the extension's page to the posted 'sl-customFeedPreview-CSS-files.zip' in discourse.mozilla.org
+* use site's favicon for feedPreview page; access https://www.host.com/favicon.ico and replace the href of <link rel="shortcut icon"> in feedPreview.html
 ---
 
 ## Now
@@ -798,10 +802,7 @@
 
 
 ## Next
-* WITH NEXT VERSION: ===> Post 'sl-customFeedPreview-CSS-files.zip' in https://discourse.mozilla.org with following text with next version
-	`A few basic custom FeedPreview CSS files that can be used as-is or serve as examples.`
-	`Best used with Sage-Like version 2.2 and above.`
-* add a link to the extension's page to the posted 'sl-customFeedPreview-CSS-files.zip' in discourse.mozilla.org
+* try to handle more cases of site's favicons
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
