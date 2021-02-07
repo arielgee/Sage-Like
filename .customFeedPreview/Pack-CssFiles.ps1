@@ -26,5 +26,11 @@ if(Test-Path $outFile -PathType Leaf) {
 #### + Packing
 Write-Host "`nPacking...";
 $Process = Start-Process -FilePath $zip -ArgumentList "a", "-tzip", "`"$outFile`"", "`"$cssFilesFilter`"" -PassThru -Wait -WindowStyle Hidden;
-Write-Host "`n7z.exe exit code: $(($Process).ExitCode)";
-Write-Host ".7z file size: $((Get-Item $outFile).length) bytes";
+$PExitCode = $Process.ExitCode;
+
+if($PExitCode -eq 0) {
+	Write-Host "`nSuccessfully Packed`n-------------------";
+	$null = Start-Process -NoNewWindow -FilePath $zip -ArgumentList "l", "`"$outFile`"" -PassThru -Wait;
+} else {
+	Write-Host "`nERROR: Process '7z.exe' terminated with exit code: $PExitCode`n";
+}
