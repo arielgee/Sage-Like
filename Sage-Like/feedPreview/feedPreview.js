@@ -513,27 +513,46 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function getFavIcon(urlOrigin) {
 
-		try {
+		const favicons = [
+			"/favicon.ico",
+			"/favicon.png",
+			"/favicon.jpg",
+			"/favicon.gif",
+		];
 
-			let response = await fetch(urlOrigin + "/favicon.ico");
-			let blob = await response.blob();
+		function fetchFavIcon(faviconsUrl) {
 
-			if( !!blob && ("size" in blob) && (blob.size > 0) && ("type" in blob) ) {
+			return new Promise(async (resolve) => {
 
-				let reader = new FileReader();
-				reader.addEventListener("load", () => {
+				try {
 
-					// if is base64 image data
-					if(reader.result.match(/^data:image\/[^;]+?;base64,/)) {
+					let response = await fetch(faviconsUrl, { cache: "force-cache" });
+					let blob = await response.blob();
 
-						let elmLink = document.querySelector("link[rel=\"shortcut icon\"]");
+					if( !!!blob || !("size" in blob) || !(blob.size > 0) || !("type" in blob) || !(blob.type.startsWith("image") )) {
+						return resolve({ result: false });		// blob not valid image
+					}
+
+					let reader = new FileReader();
+					reader.addEventListener("load", () => {
+						let elmLink = document.getElementById("favicon");
 						elmLink.type = blob.type;
 						elmLink.href = reader.result;
-					}
-				}, false);
-				reader.readAsDataURL(blob);
+						resolve({ result: true });
+					}, false);
+					reader.readAsDataURL(blob);	// base64 image data
+
+				} catch {
+					resolve({ result: false });
+				}
+			});
+		}
+
+		for(let i=0, len=favicons.length; i<len; i++) {
+			if( (await fetchFavIcon(urlOrigin + favicons[i])).result ) {
+				return;
 			}
-		} catch { /* Ignore errors, fallback favicon */ }
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
