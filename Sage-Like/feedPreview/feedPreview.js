@@ -8,6 +8,14 @@
 
 	const JUMP_LIST_CONTAINER_TITLE = "Jump List";
 
+	const FAVICONS = [
+		"/favicon.ico",
+		"/favicon.png",
+		"/favicon.jpg",
+		"/favicon.gif",
+	];
+
+
 	let m_URL;
 	let m_elmFeedBody = null;
 	let m_elmJumpListContainer = null;
@@ -511,21 +519,56 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function getFavIcon(urlOrigin) {
+	function getFavIcon(urlOrigin) {
+		slUtil.getBrowserVersion().then((version) => {
+			if(parseInt(version) >= 79) {
+				getFavIconParallel(urlOrigin);		// Support for Promise.any() started at Fx v79
+			} else {
+				getFavIconSerial(urlOrigin);
+			}
+		});
+	}
 
-		const favicons = [
-			"/favicon.ico",
-			"/favicon.png",
-			"/favicon.jpg",
-			"/favicon.gif",
-		];
+	////////////////////////////////////////////////////////////////////////////////////
+	function getFavIconParallel(urlOrigin) {
 
 		function fetchFavIcon(faviconsUrl) {
-
-			return new Promise(async (resolve) => {
-
+			return new Promise(async (resolve, reject) => {
 				try {
+					let response = await fetch(faviconsUrl, { cache: "force-cache" });
+					let blob = await response.blob();
 
+					if( !!blob && ("size" in blob) && (blob.size > 0) && ("type" in blob) && (blob.type.startsWith("image") )) {
+						return resolve(blob);		// blob is a valid image
+					}
+				} catch {}
+				return reject();
+			});
+		}
+
+		let fetchPromises = [];
+
+		for(let i=0, len=FAVICONS.length; i<len; i++) {
+			fetchPromises.push( fetchFavIcon(urlOrigin + FAVICONS[i]) );
+		}
+
+		Promise.any(fetchPromises).then((blob) => {
+			let reader = new FileReader();
+			reader.addEventListener("load", () => {
+				let elmLink = document.getElementById("favicon");
+				elmLink.type = blob.type;
+				elmLink.href = reader.result;
+			}, false);
+			reader.readAsDataURL(blob);	// base64 image data
+		}).catch(() => {});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function getFavIconSerial(urlOrigin) {
+
+		function fetchFavIcon(faviconsUrl) {
+			return new Promise(async (resolve) => {
+				try {
 					let response = await fetch(faviconsUrl, { cache: "force-cache" });
 					let blob = await response.blob();
 
@@ -548,8 +591,8 @@
 			});
 		}
 
-		for(let i=0, len=favicons.length; i<len; i++) {
-			if( (await fetchFavIcon(urlOrigin + favicons[i])).result ) {
+		for(let i=0, len=FAVICONS.length; i<len; i++) {
+			if( (await fetchFavIcon(urlOrigin + FAVICONS[i])).result ) {
 				return;
 			}
 		}
