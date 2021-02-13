@@ -8,14 +8,6 @@
 
 	const JUMP_LIST_CONTAINER_TITLE = "Jump List";
 
-	const FAVICONS = [
-		"/favicon.ico",
-		"/favicon.png",
-		"/favicon.jpg",
-		"/favicon.gif",
-	];
-
-
 	let m_URL;
 	let m_elmFeedBody = null;
 	let m_elmJumpListContainer = null;
@@ -520,19 +512,15 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFavIcon(urlOrigin) {
-		slUtil.getBrowserVersion().then((version) => {
-			if(parseInt(version) >= 79) {
-				getFavIconParallel(urlOrigin);		// Support for Promise.any() started at Fx v79
-			} else {
-				getFavIconSerial(urlOrigin);
-			}
-		});
-	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function getFavIconParallel(urlOrigin) {
+		const favicons = [
+			"/favicon.ico",
+			"/favicon.png",
+			"/favicon.jpg",
+			"/favicon.gif",
+		];
 
-		function fetchFavIcon(faviconsUrl) {
+		let fetchFavIcon = (faviconsUrl) => {
 			return new Promise(async (resolve, reject) => {
 				try {
 					let response = await fetch(faviconsUrl, { cache: "force-cache" });
@@ -546,55 +534,24 @@
 			});
 		}
 
-		let fetchPromises = [];
+		let anyPromiseFulfilled = false;		// Support for Promise.any() started at Fx v79
 
-		for(let i=0, len=FAVICONS.length; i<len; i++) {
-			fetchPromises.push( fetchFavIcon(urlOrigin + FAVICONS[i]) );
-		}
+		for(let i=0, len=favicons.length; i<len; i++) {
 
-		Promise.any(fetchPromises).then((blob) => {
-			let reader = new FileReader();
-			reader.addEventListener("load", () => {
-				let elmLink = document.getElementById("favicon");
-				elmLink.type = blob.type;
-				elmLink.href = reader.result;
-			}, false);
-			reader.readAsDataURL(blob);	// base64 image data
-		}).catch(() => {});
-	}
+			fetchFavIcon(urlOrigin + favicons[i]).then((blob) => {
 
-	////////////////////////////////////////////////////////////////////////////////////
-	async function getFavIconSerial(urlOrigin) {
-
-		function fetchFavIcon(faviconsUrl) {
-			return new Promise(async (resolve) => {
-				try {
-					let response = await fetch(faviconsUrl, { cache: "force-cache" });
-					let blob = await response.blob();
-
-					if( !!!blob || !("size" in blob) || !(blob.size > 0) || !("type" in blob) || !(blob.type.startsWith("image") )) {
-						return resolve({ result: false });		// blob not valid image
-					}
+				if(!anyPromiseFulfilled) {
+					anyPromiseFulfilled = true;
 
 					let reader = new FileReader();
 					reader.addEventListener("load", () => {
 						let elmLink = document.getElementById("favicon");
 						elmLink.type = blob.type;
 						elmLink.href = reader.result;
-						resolve({ result: true });
 					}, false);
 					reader.readAsDataURL(blob);	// base64 image data
-
-				} catch {
-					resolve({ result: false });
 				}
-			});
-		}
-
-		for(let i=0, len=FAVICONS.length; i<len; i++) {
-			if( (await fetchFavIcon(urlOrigin + FAVICONS[i])).result ) {
-				return;
-			}
+			}).catch(() => { /* Ignore errors, fallback favicon */ });
 		}
 	}
 
