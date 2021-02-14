@@ -795,6 +795,7 @@
 >A few basic custom CSS files for the Feed Preview page that can be used as‑is or serve as examples.
 * add a link to the extension's page to the posted 'sl-customFeedPreview-CSS-files.zip' in discourse.mozilla.org
 * use site's favicon for feedPreview page; access https://www.host.com/favicon.ico and replace the href of <link rel="shortcut icon"> in feedPreview.html
+* try to handle more cases of site's favicons
 ---
 
 ## Now
@@ -802,7 +803,6 @@
 
 
 ## Next
-* try to handle more cases of site's favicons
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
