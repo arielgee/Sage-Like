@@ -796,15 +796,15 @@
 * add a link to the extension's page to the posted 'sl-customFeedPreview-CSS-files.zip' in discourse.mozilla.org
 * use site's favicon for feedPreview page; access https://www.host.com/favicon.ico and replace the href of <link rel="shortcut icon"> in feedPreview.html
 * try to handle more cases of site's favicons
+* change preferences with multiple "radio" type <input>s into <select>s. make the page less clutter (A Feed-Click autom...   "No, I'll use Middle-click", "In a new tab")
 ---
 
 ## Now
-* change preferences with multiple "radio" type <input>s into <select>s. make the page less clutter (A Feed-Click autom...   "No, I'll use Middle-click", "In a new tab")
+* allow for two different types of feed sorting, “chronological” and “source”. like old sage. simplly don't call xxxxFeed._sortFeederByDate().
 ---
 
 
 ## Next
-* allow for two different types of feed sorting, “chronological” and “source”. like old sage. simplly don't call xxxxFeed._sortFeederByDate().
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
