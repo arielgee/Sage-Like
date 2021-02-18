@@ -797,16 +797,23 @@
 * use site's favicon for feedPreview page; access https://www.host.com/favicon.ico and replace the href of <link rel="shortcut icon"> in feedPreview.html
 * try to handle more cases of site's favicons
 * change preferences with multiple "radio" type <input>s into <select>s. make the page less clutter (A Feed-Click autom...   "No, I'll use Middle-click", "In a new tab")
+* rebuild test feeds. fix http linsk to https, create folder with feeds (at least one or each standerd) that differ in sort order (chronological/source)
 ---
 
 ## Now
-* allow for two different types of feed sorting, “chronological” and “source”. like old sage. simplly don't call xxxxFeed._sortFeederByDate().
+* allow for two different types of feed sorting, "chronological" and "source". like old sage. simplly don't call xxxxFeed._sortFeederByDate().
+* broadcast sort preference change ?
 ---
 
 
 ## Next
+* in syndication.fetchFeedItems() set default value to 'reload' parameter so that no one calls the function with 'undefined'
+* seperate preferences into blockes with captions ?
+* feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
+### file "sl-customFeedPreview-CSS-files.zip" is head of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
+* one extra css file.
 
 ### preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
 * custom CSS style: support in-place editing
