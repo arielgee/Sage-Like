@@ -27,7 +27,7 @@ class RdfFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData, withAttachments = false) {
+	getFeedItems(feedData, sortItems = true, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -38,7 +38,11 @@ class RdfFeed extends XmlFeed {
 
 		//console.log("[Sage-Like]", "Feed: " + feedData.feeder.localName.toUpperCase(), "v" + (feedData.feeder.getAttribute("version") || "?"));
 
-		feedData.feeder = this._sortFeederByDate(feedData.feeder.querySelectorAll("item"));
+		if(sortItems) {
+			feedData.feeder = this._sortFeederByDate(feedData.feeder.querySelectorAll("item"));
+		} else {
+			feedData.feeder = feedData.feeder.querySelectorAll("item");
+		}
 
 		let i, len;
 		let item, elmLink, feedItem;

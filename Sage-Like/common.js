@@ -546,6 +546,7 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_IMAGES							= 1016;
 	const MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE				= 1017;
 	const MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL		= 1018;
+	const MSGD_PREF_CHANGE_SORT_FEED_ITEMS					= 1019;
 
 	const BOOKMARKS_ROOT_GUID = "root________";
 	const BOOKMARKS_ROOT_MENU_GUID = "menu________";
@@ -634,6 +635,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_IMAGES: MSGD_PREF_CHANGE_IMAGES,
 		MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE: MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE,
 		MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL: MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL,
+		MSGD_PREF_CHANGE_SORT_FEED_ITEMS: MSGD_PREF_CHANGE_SORT_FEED_ITEMS,
 
 		BOOKMARKS_ROOT_GUID: BOOKMARKS_ROOT_GUID,
 		BOOKMARKS_ROOT_MENU_GUID: BOOKMARKS_ROOT_MENU_GUID,
@@ -1199,6 +1201,7 @@ let prefs = (function() {
 	const DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = true;
 	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
 	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
+	const DEF_PREF_SORT_FEED_ITEMS_VALUE = true;
 	const DEF_PREF_FOLDER_CLICK_ACTION_VALUE = FOLDER_CLICK_ACTION_VALUES.doubleClick;
 	const DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE = CLICK_OPENS_FEED_PREVIEW_VALUES.openNo;
 	const DEF_PREF_SHOW_FEED_STATS_VALUE = true;
@@ -1226,6 +1229,7 @@ let prefs = (function() {
 	const PREF_CHECK_FEEDS_WHEN_SB_CLOSED = "pref_checkFeedsWhenSbClosed";
 	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
 	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
+	const PREF_SORT_FEED_ITEMS = "pref_sortFeedItems";
 	const PREF_FOLDER_CLICK_ACTION = "pref_folderClickAction";
 	const PREF_CLICK_OPENS_FEED_PREVIEW = "pref_clickOpensFeedPreview";
 	const PREF_SHOW_FEED_STATS = "pref_showFeedStats";
@@ -1298,6 +1302,16 @@ let prefs = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function setFetchTimeout(value) {
 		return setPreferenceValue(PREF_FETCH_TIMEOUT, value);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getSortFeedItems() {
+		return getPreferenceValue(PREF_SORT_FEED_ITEMS, DEF_PREF_SORT_FEED_ITEMS_VALUE);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setSortFeedItems(value) {
+		return setPreferenceValue(PREF_SORT_FEED_ITEMS, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1525,6 +1539,7 @@ let prefs = (function() {
 		this.setCheckFeedsWhenSbClosed(DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
 		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
 		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
+		this.setSortFeedItems(DEF_PREF_SORT_FEED_ITEMS_VALUE);
 		this.setFolderClickAction(DEF_PREF_FOLDER_CLICK_ACTION_VALUE);
 		this.setClickOpensFeedPreview(DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE);
 		this.setShowFeedStats(DEF_PREF_SHOW_FEED_STATS_VALUE);
@@ -1552,6 +1567,7 @@ let prefs = (function() {
 			checkFeedsWhenSbClosed: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
+			sortFeedItems: DEF_PREF_SORT_FEED_ITEMS_VALUE,
 			folderClickAction: DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
 			clickOpensFeedPreview: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
 			showFeedStats: DEF_PREF_SHOW_FEED_STATS_VALUE,
@@ -1599,6 +1615,7 @@ let prefs = (function() {
 		DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
 		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
 		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
+		DEF_PREF_SORT_FEED_ITEMS_VALUE: DEF_PREF_SORT_FEED_ITEMS_VALUE,
 		DEF_PREF_FOLDER_CLICK_ACTION_VALUE: DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
 		DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
 		DEF_PREF_SHOW_FEED_STATS_VALUE: DEF_PREF_SHOW_FEED_STATS_VALUE,
@@ -1631,6 +1648,8 @@ let prefs = (function() {
 		setCheckFeedsMethod: setCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,
 		setFetchTimeout: setFetchTimeout,
+		getSortFeedItems: getSortFeedItems,
+		setSortFeedItems: setSortFeedItems,
 		getFolderClickAction: getFolderClickAction,
 		setFolderClickAction: setFolderClickAction,
 		getClickOpensFeedPreview: getClickOpensFeedPreview,

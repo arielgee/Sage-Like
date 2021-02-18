@@ -29,7 +29,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData, withAttachments = false) {
+	getFeedItems(feedData, sortItems = true, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -40,7 +40,9 @@ class JsonFeed extends Feed {
 
 		//console.log("[Sage-Like]", "Feed: JSON", "v" + (feedData.jsonVersion.match(/[\d.]+$/) || "?"));
 
-		feedData.feeder = this._sortFeederByDate(feedData.feeder);
+		if(sortItems) {
+			feedData.feeder = this._sortFeederByDate(feedData.feeder);
+		}
 
 		let i, j, iLen, jLen;
 		let item, feedItem, itemAtts, feedItemAtt;

@@ -23,6 +23,7 @@ let preferences = (function() {
 	let m_elmCheckFeedsMethod;
 	let m_elmCheckFeedsMethodInfo;
 	let m_elmFetchTimeout;
+	let m_elmSortFeedItems;
 	let m_elmFolderClickAction;
 	let m_elmClickOpensFeedPreview;
 	let m_elmShowFeedStats;
@@ -88,6 +89,7 @@ let preferences = (function() {
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
+		m_elmSortFeedItems = document.getElementById("sortFeedItems");
 		m_elmFolderClickAction = document.getElementById("folderClickAction");
 		m_elmClickOpensFeedPreview = document.getElementById("clickOpensFeedPreview");
 		m_elmShowFeedStats = document.getElementById("showFeedStats");
@@ -155,6 +157,7 @@ let preferences = (function() {
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
+		m_elmSortFeedItems.removeEventListener("change", onChangeSortFeedItems);
 		m_elmFolderClickAction.removeEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreview.removeEventListener("change", onChangeClickOpensFeedPreview);
 		m_elmShowFeedStats.removeEventListener("change", onChangeShowFeedStats);
@@ -212,6 +215,7 @@ let preferences = (function() {
 		m_elmInputTime.addEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
+		m_elmSortFeedItems.addEventListener("change", onChangeSortFeedItems);
 		m_elmFolderClickAction.addEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreview.addEventListener("change", onChangeClickOpensFeedPreview);
 		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
@@ -297,6 +301,10 @@ let preferences = (function() {
 
 		prefs.getFetchTimeout().then((timeoutSec) => {
 			m_elmFetchTimeout.value = timeoutSec;
+		});
+
+		prefs.getSortFeedItems().then((checked) => {
+			m_elmSortFeedItems.checked = checked;
 		});
 
 		prefs.getFolderClickAction().then((value) => {
@@ -507,6 +515,13 @@ let preferences = (function() {
 		} else {
 			prefs.setFetchTimeout(m_elmFetchTimeout.value);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeSortFeedItems(event) {
+		prefs.setSortFeedItems(m_elmSortFeedItems.checked).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -842,6 +857,7 @@ let preferences = (function() {
 		m_elmCheckFeedsWhenSbClosed.checked = defPrefs.checkFeedsWhenSbClosed;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
+		m_elmSortFeedItems.checked = defPrefs.sortFeedItems;
 		m_elmFolderClickAction.value = defPrefs.folderClickAction;
 		m_elmClickOpensFeedPreview.value = defPrefs.clickOpensFeedPreview;
 		m_elmShowFeedStats.checked = defPrefs.showFeedStats;

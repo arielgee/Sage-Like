@@ -131,13 +131,13 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedItems(url, timeout, reload, ifNoItemsReject = true, withAttachments = false) {
+	function fetchFeedItems(url, timeout, reload, sortItems = true, ifNoItemsReject = true, withAttachments = false) {
 
 		return new Promise((resolve, reject) => {
 
 			fetchFeedData(url, timeout, reload).then((result) => {
 
-				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, withAttachments);
+				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, sortItems, withAttachments);
 
 				if(list.length > 0 || !ifNoItemsReject) {
 					resolve({ list: list, feedData: result.feedData});

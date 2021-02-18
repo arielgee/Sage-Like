@@ -37,6 +37,12 @@
 				if(message.details === slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE) {
 					injectReplaceCustomCSSSource({ source: message.payload });
 				}
+
+				if(message.details === slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
+					browser.tabs.getCurrent().then((tab) => {
+						browser.tabs.reload(tab.id);
+					});
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 		}
@@ -83,53 +89,61 @@
 		let elmLoadImg = document.getElementById("busyAnimLoading");
 		let elmFeedTitle;
 
-		prefs.getFetchTimeout().then((timeout) => {
-			syndication.fetchFeedItems(urlFeed, timeout * 1000, true, false, true).then((result) => {
+		let gettingTimeout = prefs.getFetchTimeout();
+		let gettingSortItems = prefs.getSortFeedItems();
 
-				m_elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
-				m_elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
-				m_elmFeedBody.addEventListener("mouseout", onMouseOutAttachment);
-				m_elmJumpListContainer.addEventListener("click", onClickJumpListContainer);
-				m_elmJumpListContainer.addEventListener("blur", onBlurJumpListContainer);
-				m_elmJumpListContainer.addEventListener("keydown", onKeyDownJumpListContainer);
-				m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
+		gettingTimeout.then((timeout) => {
+			gettingSortItems.then((sortItems) => {
 
-				document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
-				elmFeedTitle = createFeedTitleElements(result.feedData);
+				timeout *= 1000;	// to milliseconds
 
-				let elmFeedContent = document.createElement("div");
-				elmFeedContent.id = "feedContent";
+				syndication.fetchFeedItems(urlFeed, timeout, true, sortItems, false, true).then((result) => {
 
-				if(result.list.length > 0) {
-					for(let idx=0, len=result.list.length; idx<len; idx++) {
-						if(idx<100) {
-							elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
-						} else {
-							setTimeout(() => elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) ), 10);
+					m_elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
+					m_elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
+					m_elmFeedBody.addEventListener("mouseout", onMouseOutAttachment);
+					m_elmJumpListContainer.addEventListener("click", onClickJumpListContainer);
+					m_elmJumpListContainer.addEventListener("blur", onBlurJumpListContainer);
+					m_elmJumpListContainer.addEventListener("keydown", onKeyDownJumpListContainer);
+					m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
+
+					document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
+					elmFeedTitle = createFeedTitleElements(result.feedData);
+
+					let elmFeedContent = document.createElement("div");
+					elmFeedContent.id = "feedContent";
+
+					if(result.list.length > 0) {
+						for(let idx=0, len=result.list.length; idx<len; idx++) {
+							if(idx<100) {
+								elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
+							} else {
+								setTimeout(() => elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) ), 10);
+							}
 						}
+						m_elmFeedBody.appendChild(elmFeedContent);
+					} else {
+						createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedData(). SAD. */
 					}
-					m_elmFeedBody.appendChild(elmFeedContent);
-				} else {
-					createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedData(). SAD. */
-				}
 
-			}).catch((error) => {
+				}).catch((error) => {
 
-				document.title = m_URL.hostname;
-				elmFeedTitle = createFeedTitleElements({ description: m_URL.pathname, imageUrl: "" });
+					document.title = m_URL.hostname;
+					elmFeedTitle = createFeedTitleElements({ description: m_URL.pathname, imageUrl: "" });
 
-				createErrorContent(error.message, (new URL(urlFeed)));
-				console.log("[Sage-Like]", "Fetch error at " + urlFeed, error);
+					createErrorContent(error.message, (new URL(urlFeed)));
+					console.log("[Sage-Like]", "Fetch error at " + urlFeed, error);
 
-			}).finally(() => {
-				if(elmFeedTitle.style.direction === "rtl") {
-					document.getElementById("pageHeaderContainer").style.direction = "rtl";
-				}
-				m_elmFeedBody.removeChild(elmLoadImg);
-				document.getElementById("pageHeaderContainer").removeChild(document.getElementById("loadingLabel"));
-				document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
-				removeEmptyElementsFromFeedContent();
-				brutallyReinforceSvgStyle();
+				}).finally(() => {
+					if(elmFeedTitle.style.direction === "rtl") {
+						document.getElementById("pageHeaderContainer").style.direction = "rtl";
+					}
+					m_elmFeedBody.removeChild(elmLoadImg);
+					document.getElementById("pageHeaderContainer").removeChild(document.getElementById("loadingLabel"));
+					document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
+					removeEmptyElementsFromFeedContent();
+					brutallyReinforceSvgStyle();
+				});
 			});
 		});
 	}
