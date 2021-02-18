@@ -14,7 +14,7 @@ let syndication = (function() {
 													"a[href*=\"syndicat\" i]";
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function feedDiscovery(url, timeout, requestId = 0, reload) {
+	function feedDiscovery(url, timeout, requestId = 0, reload = false) {
 
 		return new Promise((resolve) => {
 
@@ -49,7 +49,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, aggressiveLevel = 0, reload) {
+	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, aggressiveLevel = 0, reload = false) {
 
 		return new Promise((resolve) => {
 

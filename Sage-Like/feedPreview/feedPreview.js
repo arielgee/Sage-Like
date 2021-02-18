@@ -123,7 +123,7 @@
 						}
 						m_elmFeedBody.appendChild(elmFeedContent);
 					} else {
-						createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedData(). SAD. */
+						createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedItems(). SAD. */
 					}
 
 				}).catch((error) => {

@@ -799,16 +799,17 @@
 * change preferences with multiple "radio" type <input>s into <select>s. make the page less clutter (A Feed-Click autom...   "No, I'll use Middle-click", "In a new tab")
 * rebuild test feeds. fix http linsk to https, create folder with feeds (at least one or each standerd) that differ in sort order (chronological/source)
 * allow two different types of feed sorting, "chronological" and "source". like old sage. don't call xxxxFeed._sortFeederByDate(). broadcast preference change.
+* in syndication.fetchFeedItems() set default value to 'reload' parameter so that no one calls the function with 'undefined'
 ---
 
 ## Now
-* in syndication.fetchFeedItems() set default value to 'reload' parameter so that no one calls the function with 'undefined'
+* seperate preferences into blockes with captions ?
 ---
 
 
 ## Next
-* seperate preferences into blockes with captions ?
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
+* try fix log error 'Promise resolved after context unloaded'
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### file "sl-customFeedPreview-CSS-files.zip" is head of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
