@@ -8,6 +8,7 @@
 	--color-text-input-focused: rgb(10, 133, 255);
 	--color-text-input-invalid: rgb(255, 0, 0);
 
+	--color-text-block-caption-values: 9, 119, 229;
 
 	/*******************light theme colors*******************/
 	--foreground-color: rgb(0, 0, 0);
@@ -83,7 +84,23 @@ body {
 
 .caption {
 	font-size: 2rem;
+	font-weight: bold;
 	margin-bottom: 35px;
+}
+
+.prefBlockCaption {
+	--v-font-size: 1.667rem;
+
+	margin: calc(var(--height-preference) * 1.2) 0 10px;
+	background: linear-gradient(to right, transparent 1%, rgba(var(--color-text-block-caption-values), 0.5));
+	color: rgb(var(--color-text-block-caption-values));
+	font-size: var(--v-font-size);
+	font-weight: bold;
+	line-height: calc(var(--v-font-size) * 1.5);
+}
+
+.prefBlockCaption.first {
+	margin-top: 10px;
 }
 
 .preference {
@@ -95,7 +112,7 @@ body {
 	max-height: var(--height-preference);
 }
 
-.preference:not(.extensionButtons):hover {
+.preference:hover {
 	background-color: var(--color-preference-hover);
 }
 
@@ -275,10 +292,7 @@ input[type="color"]::-moz-focus-inner {
 #imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
 
 .extensionButtons .preferenceButton {
-	padding: 1px 3px;
-	height: 30px;
 	width: 130px;
-	filter: invert(10%);
 }
 
 .helpInfo {
