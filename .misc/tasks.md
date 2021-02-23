@@ -805,6 +805,7 @@
 ---
 
 ## Now
+* why slUtil.getCurrentLocaleDate(); return 2 hours head? (tested in 23/2/2021)
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 ---
 
@@ -813,6 +814,9 @@
 * try fix log error 'Promise resolved after context unloaded'
 * import/export preferences
 * take new PR pictures for version with 'order feed-items chronologically'
+* use `scrollbar-width: thin;` ?
+* consider to change jump list UI. looks too much like a scroll-down button.
+* asSafeNumericDate() returns different types Date or numeric value
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### file "sl-customFeedPreview-CSS-files.zip" is ahead of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18

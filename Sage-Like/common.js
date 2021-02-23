@@ -691,18 +691,18 @@ let slPrototypes = (function() {
 			}
 			return replace;
 		});
-	};
+	}
 	String.prototype.format.regex = new RegExp("{-?[0-9]+}", "g");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.trunc = function(n) {
 		return (this.length > n) ? this.substring(0, n - 1) + "\u2026" : this;
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.midTrunc = function(n) {
 		return (this.length > n) ? this.slice(0, n/2) + "\u2026" + this.slice(-(n/2)) : this;
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.consolidateWhiteSpaces = function() {
@@ -710,7 +710,7 @@ let slPrototypes = (function() {
 			.trim()
 			.replace(String.prototype.consolidateWhiteSpaces.regexMultipleWhiteSpaces, " ")
 			.replace(String.prototype.consolidateWhiteSpaces.regexWhiteSpace, " ");
-	};
+	}
 	String.prototype.consolidateWhiteSpaces.regexWhiteSpace = new RegExp("\\s", "g");
 	String.prototype.consolidateWhiteSpaces.regexMultipleWhiteSpaces = new RegExp("\\s{2,}", "g");
 
@@ -723,7 +723,7 @@ let slPrototypes = (function() {
 			.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
 				return String.prototype.htmlEntityToLiteral.entities[matched];	// Handle nemonic entities
 		});
-	};
+	}
 	String.prototype.htmlEntityToLiteral.entities = {
 		"&quot;": "\"",
 		"&apos;": "'",
@@ -742,7 +742,7 @@ let slPrototypes = (function() {
 		"&laquo;": "«",
 		"&bull;": "•",
 		"&mdash;": "—",
-	};
+	}
 	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -751,7 +751,7 @@ let slPrototypes = (function() {
 		return this.replace(String.prototype.unknownNamedEntityInXMLToDecimal.regex, (matched) => {
 			return String.prototype.unknownNamedEntityInXMLToDecimal.entities[matched];
 		});
-	};
+	}
 	String.prototype.unknownNamedEntityInXMLToDecimal.entities = {
 		"&nbsp;": "&#160;",
 		"&emsp;": "&#8195;",
@@ -778,7 +778,7 @@ let slPrototypes = (function() {
 		"&ldquo;": "&#8220;",
 		"&rdquo;": "&#8221;",
 		"&bdquo;": "&#8222;",
-	};
+	}
 	String.prototype.unknownNamedEntityInXMLToDecimal.regex = new RegExp(Object.keys(String.prototype.unknownNamedEntityInXMLToDecimal.entities).join("|"), "gim");
 
 	//////////////////////////////////////////////////////////////////////
@@ -786,14 +786,14 @@ let slPrototypes = (function() {
 		return this.replace(String.prototype.escapeMarkup.regex, (match) => {
 			return String.prototype.escapeMarkup.markupReservedCharacters[match];
 		});
-	};
+	}
 	String.prototype.escapeMarkup.markupReservedCharacters = {
 		"&": "&amp;",
 		"<": "&lt;",
 		">": "&gt;",
 		"\"": "&quot;",
 		"'": "&#039;",
-	};
+	}
 	String.prototype.escapeMarkup.regex = new RegExp("[" + Object.keys(String.prototype.escapeMarkup.markupReservedCharacters).join("") + "]", "gm");
 
 	//////////////////////////////////////////////////////////////////////
@@ -801,7 +801,7 @@ let slPrototypes = (function() {
 		return this.replace(String.prototype.unescapeMarkup.regex, (match) => {
 			return Object.keys(String.prototype.escapeMarkup.markupReservedCharacters).find((key) => String.prototype.escapeMarkup.markupReservedCharacters[key] === match);
 		});
-	};
+	}
 	String.prototype.unescapeMarkup.regex = new RegExp(Object.values(String.prototype.escapeMarkup.markupReservedCharacters).join("|"), "gm");
 
 	//////////////////////////////////////////////////////////////////////
@@ -814,7 +814,7 @@ let slPrototypes = (function() {
 				.replace(String.prototype.stripHtmlTags.regexContentTags, "")
 				.replace(String.prototype.stripHtmlTags.regexAnyTag, " ");
 		}
-	};
+	}
 	// I know, embed, link, cannot have any child nodes. Not taking any risks
 	String.prototype.stripHtmlTags.regexContentTags = new RegExp(m_sRxContentTags, "gim");
 	String.prototype.stripHtmlTags.regexAudioVideoTags = new RegExp(m_sRxAudioVideoTags, "gim");
@@ -842,7 +842,7 @@ let slPrototypes = (function() {
 			.replace(oRef.regexJavascript, "'#striped'")
 			.replace(oRef.regexImg1x1, "")
 			.replace(oRef.regexEventAttr, "$1");
-	};
+	}
 	String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags = new RegExp(m_sRxUnsafeTags, "gim");
 	String.prototype.stripUnsafeHtmlComponents.regexJavascript = new RegExp("('\\bjavascript:([\\s\\S]*?)')|(\"\\bjavascript:([\\s\\S]*?)\")", "gim");
 	String.prototype.stripUnsafeHtmlComponents.regexImg1x1 = new RegExp("<img\\b[^>]*\\b(width|height)\\b\\s*=\\s*[\"']0*1[\"'][^>]*\\b(width|height)\\b\\s*=\\s*[\"']0*1[\"'][^>]*>", "gim");
@@ -873,30 +873,15 @@ let slPrototypes = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.toWebExtensionLocaleString = function() {
-		let options = {
-			weekday: "long",
-			month: "long",
-			day: "numeric",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-			hour12: false,
-		};
-		return this.toLocaleString(undefined, options);
+		return this.toLocaleString(undefined, Date.prototype.toWebExtensionLocaleString.options);
 	}
+	Date.prototype.toWebExtensionLocaleString.options = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false };
 
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.toWebExtensionLocaleShortString = function() {
-		let options = {
-			day: "numeric",
-			month: "numeric",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-			hour12: false,
-		};
-		return this.toLocaleString(undefined, options);
+		return this.toLocaleString(undefined, Date.prototype.toWebExtensionLocaleShortString.options);
 	}
+	Date.prototype.toWebExtensionLocaleShortString.options = { day: "numeric", month: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false };
 
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.getRelativeShortLocaleString = function() {
@@ -1705,12 +1690,12 @@ let slUtil = (function() {
 	let	m_mozExtensionExecutionPath = "";
 	let m_regExpDiscoveryUrlFilter = "";
 
-	//////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
 	function random1to100() {
 		return Math.floor(Math.random() * (100 - 1) + 1).toString();
 	}
 
-	//////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
 	async function disableElementTree(elm, value, blur = false, tags = undefined) {
 
 		for (let i=0, len=elm.children.length; i<len; i++) {
@@ -1832,7 +1817,7 @@ let slUtil = (function() {
 		return browser.history.deleteUrl( { url: url });
 	}
 
-	//////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
 	function getScrollbarWidth() {
 
 		if(m_savedScrollbarWidth === -1) {
