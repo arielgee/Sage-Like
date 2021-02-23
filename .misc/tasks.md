@@ -801,15 +801,15 @@
 * allow two different types of feed sorting, "chronological" and "source". like old sage. don't call xxxxFeed._sortFeederByDate(). broadcast preference change.
 * in syndication.fetchFeedItems() set default value to 'reload' parameter so that no one calls the function with 'undefined'
 * seperate preferences into blockes with captions ?
+* remove/hide the jump list button when there are no feed-items to display. for example an error ('Failed to get feed data') or an empty feed
 ---
 
 ## Now
-* remove/hide the jump list button when there are no feed-items to display. for example an error ('Failed to get feed data') or an empty feed
+* feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 ---
 
 
 ## Next
-* feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * try fix log error 'Promise resolved after context unloaded'
 * import/export preferences
 * take new PR pictures for version with 'order feed-items chronologically'

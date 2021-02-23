@@ -123,6 +123,7 @@
 						}
 						m_elmFeedBody.appendChild(elmFeedContent);
 					} else {
+						m_elmJumpListContainer.remove();
 						createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedItems(). SAD. */
 					}
 
@@ -131,6 +132,7 @@
 					document.title = m_URL.hostname;
 					elmFeedTitle = createFeedTitleElements({ description: m_URL.pathname, imageUrl: "" });
 
+					m_elmJumpListContainer.remove();
 					createErrorContent(error.message, (new URL(urlFeed)));
 					console.log("[Sage-Like]", "Fetch error at " + urlFeed, error);
 
