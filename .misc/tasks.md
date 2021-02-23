@@ -805,18 +805,19 @@
 ---
 
 ## Now
-* why slUtil.getCurrentLocaleDate(); return 2 hours head? (tested in 23/2/2021)
-* feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
+* need to fix slUtil.getCurrentLocaleDate(). return 2 hours head? (tested in 23/2/2021) `new Date()` differ between Fx59 and Fx85.
 ---
 
 
 ## Next
+* feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * try fix log error 'Promise resolved after context unloaded'
 * import/export preferences
 * take new PR pictures for version with 'order feed-items chronologically'
 * use `scrollbar-width: thin;` ?
 * consider to change jump list UI. looks too much like a scroll-down button.
-* asSafeNumericDate() returns different types Date or numeric value
+* asSafeNumericDate() returns different types: Date or numeric value ; should be `getCurrentLocaleDate().getTime()` ?
+* xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### file "sl-customFeedPreview-CSS-files.zip" is ahead of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
