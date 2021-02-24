@@ -1887,7 +1887,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function asSafeNumericDate(dateValue) {
 
-		// dateValue could be text
+		// dateValue could be a string
 		let safeDate = new Date(dateValue);
 
 		// another try
