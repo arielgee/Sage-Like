@@ -802,6 +802,7 @@
 * in syndication.fetchFeedItems() set default value to 'reload' parameter so that no one calls the function with 'undefined'
 * seperate preferences into blockes with captions ?
 * remove/hide the jump list button when there are no feed-items to display. for example an error ('Failed to get feed data') or an empty feed
+* The stripHtmlTags() removed iframe tags and left the content of the iframe. m_sRxFrameTag was fixed to include the content.
 ---
 
 ## Now
