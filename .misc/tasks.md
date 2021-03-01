@@ -803,6 +803,7 @@
 * seperate preferences into blockes with captions ?
 * remove/hide the jump list button when there are no feed-items to display. for example an error ('Failed to get feed data') or an empty feed
 * The stripHtmlTags() removed iframe tags and left the content of the iframe. m_sRxFrameTag was fixed to include the content.
+* bypass redirect to feedPreview: when responding status code is '301 Moved Permanently' the EXTRA_URL_PARAM_NO_REDIRECT parameter is removed from url and redirect is not skipped. (fix for Fx84 and up)
 ---
 
 ## Now
@@ -811,14 +812,23 @@
 
 
 ## Next
+* consider defaulting dates to `0` instaed of `Date.now()`
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * try fix log error 'Promise resolved after context unloaded'
-* import/export preferences
+* import/export the sage-like preferences
 * take new PR pictures for version with 'order feed-items chronologically'
 * use `scrollbar-width: thin;` ?
 * consider to change jump list UI. looks too much like a scroll-down button.
 * asSafeNumericDate() returns different types: Date or numeric value ; should be `getCurrentLocaleDate().getTime()` ?
 * xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???
+* when changing state (read/unread) update all sidebars in all windows
+* add relative time to feed tooltip (title) - treeView, dicovery, pagePopup
+* add this to discovery folder in the TEST-feeds export: https://www.ynet.co.il/articles/0,7340,L-3369891,00.html
+* why nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html ???
+* [stupid] (REGEX_RSS_CONTENT_TYPES got noting to do with discoveryView) REGEX_RSS_CONTENT_TYPES has add switch to discover feeds withOUT semantics in discoveryView
+* change checkbox in prefrences fo green switched [x---o] ?
+* background.js:291 `showNewBadge = !(await browser.sidebarAction.isOpen({}));` not considering multiple windows. isOpen() return false for current win only.
+	* test case: pref: bg feed chk is on. reload ext when 2 windows are open and close sidebar in one window only and wait
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### file "sl-customFeedPreview-CSS-files.zip" is ahead of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18

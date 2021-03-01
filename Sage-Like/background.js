@@ -211,6 +211,13 @@
 
 			//if(details.statusCode === 200) console.log("[Sage-Like] START:", details.requestId, "\n", details);
 
+			// ++Dev Mode++
+			//	When request status code is '301 Moved Permanently' the EXTRA_URL_PARAM_NO_REDIRECT parameter is removed from url and redirect is NOT skipped.
+			//	As a result the view-source is displaying the feedPreview.html source.
+			//	This can be fixed by storing the requestId in a `m_noRedirectRequestIds` map object and checking for it when `statusCode === 200`.
+			//	BUT, this is a ++Dev Mode++ issue that I do NOT want to fix. It is not worth the overhead of managing a Map object here just for Dem-Mode functionality.
+			//	And also this is not working for Fx below v84 due to lack of support for 'RequestFilter.view-source'.
+
 			if(details.statusCode === 200 && !details.url.includes(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT)) {
 
 				const headers = details.responseHeaders;
