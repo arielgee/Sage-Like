@@ -181,11 +181,16 @@ class XmlFeed extends Feed {
 			for(let i=0, len=selectors.length; i<len; i++) {
 				if(ary[0].querySelector(selectors[i]) !== null) {
 
+					let selector = selectors[i];
+					let nowIfNaN = Date.now();
+
 					ary.sort((a, b) => {
-						let aNode = a.querySelector(selectors[i]);
-						let bNode = b.querySelector(selectors[i]);
-						let d1 = aNode ? Date.parse(aNode.textContent) : 0;
-						let d2 = bNode ? Date.parse(bNode.textContent) : 0;
+						let aNode = a.querySelector(selector);
+						let bNode = b.querySelector(selector);
+						let d1 = aNode ? Date.parse(aNode.textContent) : nowIfNaN;
+						let d2 = bNode ? Date.parse(bNode.textContent) : nowIfNaN;
+						if(isNaN(d1)) d1 = nowIfNaN;
+						if(isNaN(d2)) d2 = nowIfNaN;
 						return d2 - d1;
 					});
 

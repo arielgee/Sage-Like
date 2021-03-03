@@ -812,6 +812,15 @@
 
 
 ## Next
+* asSafeNumericDate() returns different types: Date or numeric value ; should be `getCurrentLocaleDate().getTime()` ?
+* xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???
+
+* double click on `sort chronological` when feedPreview is open:
+	* Error: Error index: 0, No matching message handler
+		Stack trace:
+		injectContentScripts/<@moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/background.js:352:85
+	* moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/feedPreview/feedPreview.html?urlFeed=https%3A//www.ynet.co.il/Integration/StoryRss1854.xml
+
 * consider defaulting dates to `0` instaed of `Date.now()`
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * try fix log error 'Promise resolved after context unloaded'
@@ -819,14 +828,13 @@
 * take new PR pictures for version with 'order feed-items chronologically'
 * use `scrollbar-width: thin;` ?
 * consider to change jump list UI. looks too much like a scroll-down button.
-* asSafeNumericDate() returns different types: Date or numeric value ; should be `getCurrentLocaleDate().getTime()` ?
-* xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???
 * when changing state (read/unread) update all sidebars in all windows
 * add relative time to feed tooltip (title) - treeView, dicovery, pagePopup
 * add this to discovery folder in the TEST-feeds export: https://www.ynet.co.il/articles/0,7340,L-3369891,00.html
 * why nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html ???
-* [stupid] (REGEX_RSS_CONTENT_TYPES got noting to do with discoveryView) REGEX_RSS_CONTENT_TYPES has add switch to discover feeds withOUT semantics in discoveryView
-* change checkbox in prefrences fo green switched [x---o] ?
+* [stupid] (REGEX_RSS_CONTENT_TYPES got noting to do with discoveryView) REGEX_RSS_CONTENT_TYPES has - add switch to discover feeds withOUT semantics in discoveryView
+* change checkbox in prefrences to green switched [x---o] ?
+* add feed preference (like `Update title from feed`) `Order feed-items chronologically`.
 * background.js:291 `showNewBadge = !(await browser.sidebarAction.isOpen({}));` not considering multiple windows. isOpen() return false for current win only.
 	* test case: pref: bg feed chk is on. reload ext when 2 windows are open and close sidebar in one window only and wait
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
@@ -864,3 +872,6 @@
 ### Links for PR work
 * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741
 * moz feed: https://discourse.mozilla.org/c/add-ons.rss
+
+### wird feeds
+* https://ascraeus.org/jsonfeed/index.json ==> Date Format is bad ISO ==> "date_published": "2020-29-02T21:42:52+00:00" ==> month and day switched places,
