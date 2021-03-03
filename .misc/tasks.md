@@ -807,10 +807,10 @@
 * need to fix slUtil.getCurrentLocaleDate(). return 2 hours head? (tested in 23/2/2021) `new Date()` differ between Fx59 and Fx85. => `new Date()` is NOT differ between versions!
 * asSafeNumericDate() returns different types: Date or numeric value ; should be `getCurrentLocaleDate().getTime()` ?
 * xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???	=> as design
+* Update feed state when feed is middle-clicked in tree.
 ---
 
 ## Now
-* Update feed state when feed is middle-clicked in tree.
 * in pagePopup.js and discoveryView.js the feed.lastUpdated may be missing and it's OK but if its string should I force it to a valid Date?
 ---
 

@@ -899,15 +899,16 @@ let rssTreeView = (function() {
 					browser.tabs.create({ url: url });
 					browser.tabs.create({ url: "view-source:" + url });
 
-				} else if(event.shiftKey) {
-
-					// open feed preview in new window
-					browser.windows.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")), type: "normal" });
-
 				} else {
 
-					// open feed preview in new tab
-					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+					// open feed preview
+					if(event.shiftKey) {
+						browser.windows.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")), type: "normal" });	// in new window
+					} else {
+						browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });						// in new tab
+					}
+					setFeedVisitedState(elmLI, true);
+					m_objTreeFeedsData.set(elmLI.id, { lastVisited: Date.now() });
 				}
 			}
 
