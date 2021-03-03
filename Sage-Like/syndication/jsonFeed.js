@@ -112,7 +112,7 @@ class JsonFeed extends Feed {
 
 		if(isNaN(dateVal)) {
 			dateVal = new Date(items.reduce((prv, cur) => prv.date_published > cur.date_published ? prv : cur ).date_published);
-			return isNaN(dateVal) ? slUtil.getCurrentLocaleDate() : dateVal;
+			return isNaN(dateVal) ? (new Date()) : dateVal;
 		} else {
 			return dateVal;
 		}
@@ -203,7 +203,7 @@ class JsonFeed extends Feed {
 
 		if(isNaN(dateVal)) {
 			dateVal = new Date(item.date_published);
-			return isNaN(dateVal) ? slUtil.getCurrentLocaleDate() : dateVal;
+			return isNaN(dateVal) ? (new Date()) : dateVal;
 		} else {
 			return dateVal;
 		}

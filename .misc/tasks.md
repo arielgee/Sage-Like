@@ -804,23 +804,23 @@
 * remove/hide the jump list button when there are no feed-items to display. for example an error ('Failed to get feed data') or an empty feed
 * The stripHtmlTags() removed iframe tags and left the content of the iframe. m_sRxFrameTag was fixed to include the content.
 * bypass redirect to feedPreview: when responding status code is '301 Moved Permanently' the EXTRA_URL_PARAM_NO_REDIRECT parameter is removed from url and redirect is not skipped. (fix for Fx84 and up)
+* need to fix slUtil.getCurrentLocaleDate(). return 2 hours head? (tested in 23/2/2021) `new Date()` differ between Fx59 and Fx85. => `new Date()` is NOT differ between versions!
+* asSafeNumericDate() returns different types: Date or numeric value ; should be `getCurrentLocaleDate().getTime()` ?
+* xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???	=> as design
 ---
 
 ## Now
-* need to fix slUtil.getCurrentLocaleDate(). return 2 hours head? (tested in 23/2/2021) `new Date()` differ between Fx59 and Fx85.
+* Update feed state when feed is middle-clicked in tree.
+* in pagePopup.js and discoveryView.js the feed.lastUpdated may be missing and it's OK but if its string should I force it to a valid Date?
 ---
 
 
 ## Next
-* asSafeNumericDate() returns different types: Date or numeric value ; should be `getCurrentLocaleDate().getTime()` ?
-* xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???
-
 * double click on `sort chronological` when feedPreview is open:
 	* Error: Error index: 0, No matching message handler
 		Stack trace:
 		injectContentScripts/<@moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/background.js:352:85
 	* moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/feedPreview/feedPreview.html?urlFeed=https%3A//www.ynet.co.il/Integration/StoryRss1854.xml
-
 * consider defaulting dates to `0` instaed of `Date.now()`
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * try fix log error 'Promise resolved after context unloaded'

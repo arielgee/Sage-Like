@@ -69,7 +69,7 @@ class XmlFeed extends Feed {
 		}
 
 		if(isNaN(dateVal)) {
-			return txtLastUpdateVal.length > 0 ? txtLastUpdateVal : slUtil.getCurrentLocaleDate();	// final fallback
+			return txtLastUpdateVal.length > 0 ? txtLastUpdateVal : (new Date());	// final fallback
 		} else {
 			return dateVal;
 		}
@@ -143,7 +143,7 @@ class XmlFeed extends Feed {
 
 		if(isNaN(dateVal)) {
 			txtLastUpdatedVal = txtLastUpdatedVal.stripHtmlTags();
-			return txtLastUpdatedVal.length > 0 ? txtLastUpdatedVal : slUtil.getCurrentLocaleDate();	// fallback
+			return txtLastUpdatedVal.length > 0 ? txtLastUpdatedVal : (new Date());	// fallback
 		} else {
 			return dateVal;
 		}

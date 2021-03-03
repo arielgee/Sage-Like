@@ -1217,7 +1217,7 @@ let rssTreeView = (function() {
 						}
 
 						// even if there was an error the feed was visited
-						m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+						m_objTreeFeedsData.set(elmLI.id, { lastVisited: Date.now() });
 
 						updateTreeBranchFoldersStats(elmLI);
 					});
@@ -1717,7 +1717,7 @@ let rssTreeView = (function() {
 			parkedTabUrl = slUtil.getParkedTabUrl(slUtil.getFeedPreviewUrl(elm.getAttribute("href")), getTreeItemText(elm));
 			browser.tabs.create({ active: false, url: parkedTabUrl }).then(() => {
 				setFeedVisitedState(elm, true);
-				m_objTreeFeedsData.set(elm.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+				m_objTreeFeedsData.set(elm.id, { lastVisited: Date.now() });
 			}).catch((error) => {
 				console.log("[Sage-Like]", error);
 			});
@@ -1750,7 +1750,7 @@ let rssTreeView = (function() {
 			m_objTreeFeedsData.set(elmLI.id, { lastVisited: 0 });
 		} else {
 			// turned to visited
-			m_objTreeFeedsData.set(elmLI.id, { lastVisited: slUtil.getCurrentLocaleDate().getTime() });
+			m_objTreeFeedsData.set(elmLI.id, { lastVisited: Date.now() });
 		}
 		updateTreeBranchFoldersStats(elmLI);
 	}
@@ -1770,7 +1770,7 @@ let rssTreeView = (function() {
 				elm = elms[i];
 
 				elm.classList.toggle("bold", !visitedState);
-				m_objTreeFeedsData.set(elm.id, { lastVisited: (visitedState ? slUtil.getCurrentLocaleDate().getTime() : 0) }, false);
+				m_objTreeFeedsData.set(elm.id, { lastVisited: (visitedState ? Date.now() : 0) }, false);
 
 				// only once per folder
 				if(!!!elm.nextElementSibling) {
@@ -1790,7 +1790,7 @@ let rssTreeView = (function() {
 
 			for(let i=0, len=elms.length; i<len; i++) {
 				elms[i].classList.toggle("bold", !isVisited);
-				m_objTreeFeedsData.set(elms[i].id, { lastVisited: (isVisited ? slUtil.getCurrentLocaleDate().getTime() : 0) }, false);
+				m_objTreeFeedsData.set(elms[i].id, { lastVisited: (isVisited ? Date.now() : 0) }, false);
 			}
 			m_objTreeFeedsData.setStorage();
 			updateAllTreeFoldersStats();

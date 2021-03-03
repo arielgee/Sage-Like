@@ -1860,17 +1860,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getCurrentLocaleDate() {
-
-		let now = new Date();
-		let newDate = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000);
-
-		newDate.setHours(now.getHours() - (now.getTimezoneOffset() / 60));
-
-		return newDate;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function isContentOverflowing(elm) {
 		return ((elm.offsetWidth - 1) < elm.scrollWidth);
 	}
@@ -1891,20 +1880,14 @@ let slUtil = (function() {
 		let safeDate = new Date(dateValue);
 
 		// another try
-		if(isNaN(safeDate)) {
-
-			let now = new Date();
-			let modDateValue = dateValue.replace(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/, "$3-$2-$1T$4");	// assume dd/mm/yyyy hh:MM:ss
-
-			// if modification was successfull => yyyy-mm-ddThh:MM:ss
-			if(modDateValue.search(/^\d{4}-\d{1,2}-\d{1,2}T\d{1,2}:\d{1,2}:\d{1,2}$/) > -1) {
-				safeDate = new Date((new Date(modDateValue)).getTime() + now.getTimezoneOffset() * 60 * 1000);
-				safeDate.setHours(safeDate.getHours() - (now.getTimezoneOffset() / 60));
-			}
+		if(isNaN(safeDate) && typeof(dateValue) === "string") {
+			// assume 'dd/mm/yyyy hh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'
+			let modDateValue = dateValue.replace(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/, "$3-$2-$1T$4");
+			safeDate = new Date(modDateValue);
 		}
 
 		// make sure date is valid and save as simple numeric
-		return (!isNaN(safeDate) && (safeDate instanceof Date)) ? safeDate.getTime() : getCurrentLocaleDate();
+		return (!isNaN(safeDate) && (safeDate instanceof Date)) ? safeDate.getTime() : Date.now();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2421,7 +2404,6 @@ let slUtil = (function() {
 		getScrollbarWidth: getScrollbarWidth,
 		hasHScroll: hasHScroll,
 		hasVScroll: hasVScroll,
-		getCurrentLocaleDate: getCurrentLocaleDate,
 		isContentOverflowing: isContentOverflowing,
 		hashCode: hashCode,
 		asSafeNumericDate: asSafeNumericDate,
