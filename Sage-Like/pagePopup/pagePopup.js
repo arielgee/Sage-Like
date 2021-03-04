@@ -243,8 +243,8 @@
 						// string during its transfer via the response object of the tabs.sendMessage() function when
 						// delivered from the content script. Looks like intended serialization.
 						// This was tested using typeof just before the listener's resolve() in content.js and here and Its
-						// type is needed in createTagLI(). So there!
-						feed.lastUpdated = new Date(feed.lastUpdated);
+						// type is needed in createTagLI().
+						// + All this is handled in createTagLI()
 
 						m_elmPageFeedsList.appendChild(createTagLI(feed));
 						isListEmpty = false;
@@ -298,9 +298,22 @@
 		elmListItem.setAttribute("name", elmLabel.textContent);
 		elmListItem.setAttribute("href", feed.url);
 
+		// feed.lastUpdated may be missing, s string or a Date
+		// A string due to the failure of xmlFeed (and NOT jsonFeed) to convert the value to
+		// a Date type (_getFeedLastUpdate/_getFeedItemLastUpdate).
+		let lastUpdated = undefined;
+		if(feed.lastUpdated) {
+			if(feed.lastUpdated instanceof Date) {
+				lastUpdated = feed.lastUpdated.toWebExtensionLocaleString();
+			} else if(typeof(feed.lastUpdated) === "string") {
+				let d = new Date(feed.lastUpdated);
+				lastUpdated = isNaN(d) ? feed.lastUpdated : d.toWebExtensionLocaleString();
+			}
+		}
+
 		let titleText = "Title:\u2003" + feed.feedTitle + "\n" +
 			(feed.format ? "Format:\u2003" + feed.format + "\n" : "") +
-			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\n" : "") +
+			(lastUpdated ? "Update:\u2003" + lastUpdated + "\n" : "") +
 			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
 			"URL:\u2003" + decodeURIComponent(feed.url) +
 			"\n\n\u2731 Use Middle-click to preview this feed.";

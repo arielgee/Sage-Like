@@ -306,9 +306,22 @@ let discoveryView = (function() {
 		elmListItem.setAttribute("href", feed.url);
 		elmListItem.setAttribute("data-index", feed.index);
 
+		// feed.lastUpdated may be missing, s string or a Date
+		// A string due to the failure of xmlFeed (and NOT jsonFeed) to convert the value to
+		// a Date type (_getFeedLastUpdate/_getFeedItemLastUpdate).
+		let lastUpdated = undefined;
+		if(feed.lastUpdated) {
+			if(feed.lastUpdated instanceof Date) {
+				lastUpdated = feed.lastUpdated.toWebExtensionLocaleString();
+			} else if(typeof(feed.lastUpdated) === "string") {
+				let d = new Date(feed.lastUpdated);
+				lastUpdated = isNaN(d) ? feed.lastUpdated : d.toWebExtensionLocaleString();
+			}
+		}
+
 		let titleText = "Title:\u2003" + feed.feedTitle + "\n" +
 			(feed.format ? "Format:\u2003" + feed.format + "\n" : "") +
-			(feed.lastUpdated ? "Update:\u2003" + (feed.lastUpdated.toWebExtensionLocaleString() || feed.lastUpdated) + "\n" : "") +
+			(lastUpdated ? "Update:\u2003" + lastUpdated + "\n" : "") +
 			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
 			"URL:\u2003" + decodeURIComponent(feed.url) +
 			"\n\n\u2731 Use Middle-click to preview this feed.";

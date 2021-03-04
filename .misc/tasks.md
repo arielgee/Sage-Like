@@ -809,10 +809,11 @@
 * xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???	=> as design
 * Update feed state when feed is middle-clicked in tree.
 * add this to discovery folder in the TEST-feeds export: https://www.ynet.co.il/articles/0,7340,L-3369891,00.html
+* in pagePopup.js and discoveryView.js the feed.lastUpdated may be missing and it's OK but if its string should I force it to a valid Date?
 ---
 
 ## Now
-* in pagePopup.js and discoveryView.js the feed.lastUpdated may be missing and it's OK but if its string should I force it to a valid Date?
+* check all `statement || statement` will not do what u think
 ---
 
 
@@ -823,6 +824,7 @@
 		injectContentScripts/<@moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/background.js:352:85
 	* moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/feedPreview/feedPreview.html?urlFeed=https%3A//www.ynet.co.il/Integration/StoryRss1854.xml
 * consider defaulting dates to `0` instaed of `Date.now()`
+* Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * try fix log error 'Promise resolved after context unloaded'
 * import/export the sage-like preferences
