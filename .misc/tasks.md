@@ -808,6 +808,7 @@
 * asSafeNumericDate() returns different types: Date or numeric value ; should be `getCurrentLocaleDate().getTime()` ?
 * xmlFeed._getFeedLastUpdate() and xmlFeed._getFeedItemLastUpdate() returns different types: Date or string ???	=> as design
 * Update feed state when feed is middle-clicked in tree.
+* add this to discovery folder in the TEST-feeds export: https://www.ynet.co.il/articles/0,7340,L-3369891,00.html
 ---
 
 ## Now
@@ -830,7 +831,6 @@
 * consider to change jump list UI. looks too much like a scroll-down button.
 * when changing state (read/unread) update all sidebars in all windows
 * add relative time to feed tooltip (title) - treeView, dicovery, pagePopup
-* add this to discovery folder in the TEST-feeds export: https://www.ynet.co.il/articles/0,7340,L-3369891,00.html
 * why nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html ???
 * [stupid] (REGEX_RSS_CONTENT_TYPES got noting to do with discoveryView) REGEX_RSS_CONTENT_TYPES has - add switch to discover feeds withOUT semantics in discoveryView
 * change checkbox in prefrences to green switched [x---o] ?

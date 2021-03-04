@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Thu, 18 Feb 2021 08:40:02 GMT</dateCreated>
+		<dateCreated>Wed, 03 Mar 2021 16:17:13 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
@@ -150,6 +150,7 @@
 				<outline type="rss" text="@ariel__gee" title="@ariel__gee" xmlUrl="https://bibliogram.ggc-project.de/u/ariel__gee/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="discovery" data-wxsl-open="0">
+				<outline type="rss" text="ynet.co.il - RSS Feeds" title="ynet.co.il - RSS Feeds" xmlUrl="https://www.ynet.co.il/articles/0,7340,L-3369891,00.html" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="haaretz.co.il - RSS Feeds" title="haaretz.co.il - RSS Feeds" xmlUrl="https://www.haaretz.co.il/misc/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>

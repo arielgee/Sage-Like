@@ -241,7 +241,7 @@
 
 						// The date type of the lastUpdated property is converted in some Fx versions from Date to
 						// string during its transfer via the response object of the tabs.sendMessage() function when
-						// delivered from the content script.
+						// delivered from the content script. Looks like intended serialization.
 						// This was tested using typeof just before the listener's resolve() in content.js and here and Its
 						// type is needed in createTagLI(). So there!
 						feed.lastUpdated = new Date(feed.lastUpdated);
