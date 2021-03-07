@@ -15,6 +15,7 @@
 	let m_elmAttachmentTooltip;
 	let m_timeoutMouseOver = null;
 	let m_hashCustomCSSSource = "";
+	let m_reloadChangeSortDebouncer = null;
 
 	initialization();
 
@@ -39,9 +40,7 @@
 				}
 
 				if(message.details === slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
-					browser.tabs.getCurrent().then((tab) => {
-						browser.tabs.reload(tab.id);
-					});
+					reloadChangeSortFeedItems();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -622,6 +621,16 @@
 		if(elm.matches(SELECTOR_EMPTY_ELEMENT)) {
 			elm.parentElement.removeChild(elm);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function reloadChangeSortFeedItems() {
+		clearTimeout(m_reloadChangeSortDebouncer);
+		m_reloadChangeSortDebouncer = setTimeout(async () => {
+			let tab = await browser.tabs.getCurrent();
+			browser.tabs.reload(tab.id);
+			m_reloadChangeSortDebouncer = null;
+		}, 500);
 	}
 
 })();

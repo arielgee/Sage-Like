@@ -812,9 +812,6 @@
 * in pagePopup.js and discoveryView.js the feed.lastUpdated may be missing and it's OK but if its string should I force it to a valid Date?
 * check all `statement || statement` will not do what u think
 * consider defaulting dates to `0` instaed of `Date.now()` => NO
----
-
-## Now
 * double click on `sort chronological` when feedPreview is open:	==> implement a debouncer
 	* Error: Error index: 0, No matching message handler
 		Stack trace:
@@ -822,9 +819,12 @@
 	* moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/feedPreview/feedPreview.html?urlFeed=https%3A//www.ynet.co.il/Integration/StoryRss1854.xml
 ---
 
+## Now
+* try fix log error 'Promise resolved after context unloaded'
+---
+
 
 ## Next
-* try fix log error 'Promise resolved after context unloaded'
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * import/export the sage-like preferences
 * take new PR pictures for version with 'order feed-items chronologically'
