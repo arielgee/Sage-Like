@@ -888,20 +888,23 @@ let slPrototypes = (function() {
 
 		let oRef = Date.prototype.getRelativeShortLocaleString;
 		let msSpan = Date.now() - this.getTime();
+		let text = msSpan > 0 ? "% ago" : "in %";
 		let o = {};
 
+		msSpan = Math.abs(msSpan);
+
 		if( oRef.relYear(msSpan, o) > 0 ) {
-			return `${o.v} year${o.v>1?`s`:``} ago`;
+			return text.replace("%", `${o.v} year${o.v>1?`s`:``}`);
 		} else if( oRef.relMon(msSpan, o) > 0 ) {
-			return `${o.v} month${o.v>1?`s`:``} ago`;
+			return text.replace("%", `${o.v} month${o.v>1?`s`:``}`);
 		} else if( oRef.relDay(msSpan, o) > 0 ) {
-			return `${o.v} day${o.v>1?`s`:``} ago`;
+			return text.replace("%", `${o.v} day${o.v>1?`s`:``}`);
 		} else if( oRef.relHour(msSpan, o) > 0 ) {
-			return `${o.v} hour${o.v>1?`s`:``} ago`;
+			return text.replace("%", `${o.v} hour${o.v>1?`s`:``}`);
 		} else if( oRef.relMin(msSpan, o) > 0 ) {
-			return `${o.v} minute${o.v>1?`s`:``} ago`;
+			return text.replace("%", `${o.v} minute${o.v>1?`s`:``}`);
 		} else if( oRef.relSec(msSpan, o) > 0 ) {
-			return `${o.v} second${o.v>1?`s`:``} ago`;
+			return text.replace("%", `${o.v} second${o.v>1?`s`:``}`);
 		} else {
 			return "just now";
 		}

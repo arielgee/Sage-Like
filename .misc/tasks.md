@@ -821,6 +821,7 @@
 * use `scrollbar-width: thin;` ? => what for?
 * when changing state (read/unread) update all sidebars in all windows => NO. will not send a message for each and every tree modification
 * add relative time to feed tooltip (title) - treeView, discovery and pagePopup
+* getRelativeShortLocaleString: future date returns (Just now)
 ---
 
 
@@ -830,7 +831,6 @@
 
 
 ## Next
-* getRelativeShortLocaleString: future date returns (Just now)
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * import/export the sage-like preferences
 * take new PR pictures for version with 'order feed-items chronologically'
