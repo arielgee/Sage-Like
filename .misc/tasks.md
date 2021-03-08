@@ -826,6 +826,7 @@
 
 
 ## Now
+* why nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html ???
 * consider to change jump list UI. looks too much like a scroll-down button.
 ---
 
@@ -834,7 +835,6 @@
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * import/export the sage-like preferences
 * take new PR pictures for version with 'order feed-items chronologically'
-* why nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html ???
 * [stupid] (REGEX_RSS_CONTENT_TYPES got nothing to do with discoveryView) REGEX_RSS_CONTENT_TYPES has - add switch to discover feeds withOUT semantics in discoveryView
 * change checkbox in prefrences to green switched [x---o] ?
 * add feed preference (like `Update title from feed`) `Order feed-items chronologically`.
@@ -878,4 +878,5 @@
 * moz feed: https://discourse.mozilla.org/c/add-ons.rss
 
 ### wird feeds
-* https://ascraeus.org/jsonfeed/index.json ==> Date Format is bad ISO ==> "date_published": "2020-29-02T21:42:52+00:00" ==> month and day switched places,
+* https://ascraeus.org/jsonfeed/index.json ==> Date Format is bad ISO ==> "date_published": "2020-29-02T21:42:52+00:00" ==> month and day switched places.
+* https://www.php.net/feed.atom ==> entry `Southeast PHP Conference` has 2 <published> tags whereas all other entries have an <updated> tag. (<updated> is prefered to <published>).
