@@ -298,16 +298,17 @@
 		elmListItem.setAttribute("name", elmLabel.textContent);
 		elmListItem.setAttribute("href", feed.url);
 
-		// feed.lastUpdated may be missing, s string or a Date
+		// feed.lastUpdated may be missing, a string or a Date
 		// A string due to the failure of xmlFeed (and NOT jsonFeed) to convert the value to
 		// a Date type (_getFeedLastUpdate/_getFeedItemLastUpdate).
+		let feedLastUpdate = feed.lastUpdated;
 		let lastUpdated = undefined;
-		if(feed.lastUpdated) {
-			if(feed.lastUpdated instanceof Date) {
-				lastUpdated = feed.lastUpdated.toWebExtensionLocaleString();
-			} else if(typeof(feed.lastUpdated) === "string") {
-				let d = new Date(feed.lastUpdated);
-				lastUpdated = isNaN(d) ? feed.lastUpdated : d.toWebExtensionLocaleString();
+		if(feedLastUpdate) {
+			if(feedLastUpdate instanceof Date) {
+				lastUpdated = `${feedLastUpdate.toWebExtensionLocaleString()} (${feedLastUpdate.getRelativeShortLocaleString()})`;
+			} else if(typeof(feedLastUpdate) === "string") {
+				let d = new Date(feedLastUpdate);
+				lastUpdated = isNaN(d) ? feedLastUpdate : `${d.toWebExtensionLocaleString()} (${d.getRelativeShortLocaleString()})`;
 			}
 		}
 

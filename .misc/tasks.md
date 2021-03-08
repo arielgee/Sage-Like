@@ -512,7 +512,7 @@
 	* PROBLEM: how to manage the desc/content settings ???	=> DONE
 * read rss <content type="html"> as feed item content in preview	-> HERE: https://www.heise.de/rss/heise-atom.xml, IT'S ATOM => DONE
 * check at home is gmail's atom feed is processed without errors.		=> Got 'Critical security alert' from google => `¯\_(ツ)_/¯`
-* found a 1x1 tracking image in: https://www.npr.org/feeds/510317/feed.json								==> NOTING TO DO! :(
+* found a 1x1 tracking image in: https://www.npr.org/feeds/510317/feed.json								==> NOTHING TO DO! :(
 	* <img src="https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=812072352">
 		* 'tracking' ?
 		* 'pixel' ?
@@ -817,23 +817,25 @@
 		Stack trace:
 		injectContentScripts/<@moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/background.js:352:85
 	* moz-extension://85a3dd98-2566-43d1-a4a6-31608be8bbec/feedPreview/feedPreview.html?urlFeed=https%3A//www.ynet.co.il/Integration/StoryRss1854.xml
+* try fix log error 'Promise resolved after context unloaded' = NOTHING TO FIX
+* use `scrollbar-width: thin;` ? => what for?
+* when changing state (read/unread) update all sidebars in all windows => NO. will not send a message for each and every tree modification
+* add relative time to feed tooltip (title) - treeView, discovery and pagePopup
 ---
 
+
 ## Now
-* try fix log error 'Promise resolved after context unloaded'
+* consider to change jump list UI. looks too much like a scroll-down button.
 ---
 
 
 ## Next
+* getRelativeShortLocaleString: future date returns (Just now)
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * import/export the sage-like preferences
 * take new PR pictures for version with 'order feed-items chronologically'
-* use `scrollbar-width: thin;` ?
-* consider to change jump list UI. looks too much like a scroll-down button.
-* when changing state (read/unread) update all sidebars in all windows
-* add relative time to feed tooltip (title) - treeView, dicovery, pagePopup
 * why nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html ???
-* [stupid] (REGEX_RSS_CONTENT_TYPES got noting to do with discoveryView) REGEX_RSS_CONTENT_TYPES has - add switch to discover feeds withOUT semantics in discoveryView
+* [stupid] (REGEX_RSS_CONTENT_TYPES got nothing to do with discoveryView) REGEX_RSS_CONTENT_TYPES has - add switch to discover feeds withOUT semantics in discoveryView
 * change checkbox in prefrences to green switched [x---o] ?
 * add feed preference (like `Update title from feed`) `Order feed-items chronologically`.
 * background.js:291 `showNewBadge = !(await browser.sidebarAction.isOpen({}));` not considering multiple windows. isOpen() return false for current win only.

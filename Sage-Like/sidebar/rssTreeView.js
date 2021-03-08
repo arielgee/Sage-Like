@@ -536,12 +536,13 @@ let rssTreeView = (function() {
 
 			fetching.then((fetchResult) => {
 
-				let updateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
+				let msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
+				let updateTime = new Date(msUpdateTime);
 
-				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > updateTime);
+				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > msUpdateTime);
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
-				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, "Update: " + (new Date(updateTime)).toWebExtensionLocaleString());
+				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, `Update: ${updateTime.toWebExtensionLocaleString()} (${updateTime.getRelativeShortLocaleString()})`);
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
 				setFeedErrorState(elmLI, true, error.message);
@@ -1194,7 +1195,7 @@ let rssTreeView = (function() {
 						setFeedVisitedState(elmLI, true);
 						updateFeedTitle(elmLI, result.feedData.title);
 						updateFeedStatsFromHistory(elmLI, result.list);
-						setTreeItemTooltipFull(elmLI, result.feedData.title, "Update: " + fdDate.toWebExtensionLocaleString());
+						setTreeItemTooltipFull(elmLI, result.feedData.title, `Update: ${fdDate.toWebExtensionLocaleString()} (${fdDate.getRelativeShortLocaleString()})`);
 
 						// change the rssListView content only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {
