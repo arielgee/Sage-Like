@@ -18,28 +18,10 @@ let syndication = (function() {
 
 		return new Promise((resolve) => {
 
-			let discoveredFeed = {
-				status: "init",
-				url: url,
-				requestId: requestId,
-			};
+			let discoveredFeed = createObjectDiscoveredFeed(url, requestId);
 
 			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
-
-				let feedData = Feed.factoryCreateBySrc(feedSrc.text, url).getFeedData();
-
-				if(feedData.standard === SyndicationStandard.invalid) {
-					discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
-				} else {
-					discoveredFeed = Object.assign(discoveredFeed, {
-						status: "OK",
-						index: 0,		// there is only one
-						feedTitle: feedData.title.length > 0 ? feedData.title : (new URL(url)).hostname,
-						lastUpdated: feedData.lastUpdated,
-						format: feedData.standard,
-						itemCount: feedData.itemCount,
-					});
-				}
+				setDiscoveredFeedFromSource(discoveredFeed, feedSrc, (new URL(url)), 0);
 			}).catch((error) => {
 				discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: error.message});
 			}).finally(() => {
@@ -76,31 +58,14 @@ let syndication = (function() {
 			for(let index=0, len=linkFeeds.length; index<len; index++) {
 
 				let url = new URL(linkFeeds[index]);
-				let discoveredFeed = {
-					status: "init",
-					url: url.toString(),
-					requestId: requestId,
-				};
+				let discoveredFeed = createObjectDiscoveredFeed(url.toString(), requestId);
 
 				getFeedSourceText(url, reload, timeout).then((feedSrc) => {
 
-					// exit immediately if aborted
-					if(objAbort.isAborted) return;
+					if(objAbort.isAborted) return;		// exit immediately if aborted
 
-					let feedData = Feed.factoryCreateBySrc(feedSrc.text, url).getFeedData();
+					setDiscoveredFeedFromSource(discoveredFeed, feedSrc, url, index);
 
-					if(feedData.standard === SyndicationStandard.invalid) {
-						discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
-					} else {
-						discoveredFeed = Object.assign(discoveredFeed, {
-							status: "OK",
-							index: index,
-							feedTitle: feedData.title.length > 0 ? feedData.title : url.hostname,
-							lastUpdated: feedData.lastUpdated,
-							format: feedData.standard,
-							itemCount: feedData.itemCount,
-						});
-					}
 				}).catch((error) => {
 					discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: error.message});
 				}).finally(() => {
@@ -149,6 +114,34 @@ let syndication = (function() {
 				reject(error);
 			});
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createObjectDiscoveredFeed(url, requestId) {
+		return {
+			status: "init",
+			url: url,
+			requestId: requestId,
+		};
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setDiscoveredFeedFromSource(discoveredFeed, feedSrc, url, index) {
+
+		let feedData = Feed.factoryCreateBySrc(feedSrc.text, url).getFeedData();
+
+		if(feedData.standard === SyndicationStandard.invalid) {
+			discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
+		} else {
+			discoveredFeed = Object.assign(discoveredFeed, {
+				status: "OK",
+				index: index,
+				feedTitle: feedData.title.length > 0 ? feedData.title : url.hostname,
+				lastUpdated: feedData.lastUpdated,
+				format: feedData.standard,
+				itemCount: feedData.itemCount,
+			});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
