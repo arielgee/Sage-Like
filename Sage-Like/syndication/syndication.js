@@ -33,7 +33,7 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, aggressiveLevel = 0, reload = false) {
 
-		return new Promise((resolve) => {
+		return new Promise(async (resolve) => {
 
 			let doc = g_feed.domParser.parseFromString(txtHTML, "text/html");
 
@@ -47,13 +47,21 @@ let syndication = (function() {
 
 			// array of just the url links (href) as strings for easy filtering of duplicates
 			let linkFeeds = Array.from(doc.querySelectorAll(selector), item => slUtil.replaceMozExtensionOriginURL(item.href.stripHtmlTags(), origin).toString());
+			let iframeHosts = [];
 
-			// filter out duplicates
-			linkFeeds = linkFeeds.filter((item, idx) => linkFeeds.indexOf(item) === idx);
+			// will NOT check in iframes when aggressive level is 0 ('none')
+			if(aggressiveLevel > 0) {
+				let result = await getLinkFeedsFromFrames(doc, selector, timeout);
+				linkFeeds = linkFeeds.concat(result.linkFeeds);
+				iframeHosts = result.hosts;
+			}
+
+			// filter out duplicates and invalid urls
+			linkFeeds = linkFeeds.filter((item, idx) => ( (linkFeeds.indexOf(item) === idx) && !!slUtil.validURL(item) ) );
 
 			const objAbort = linkFeeds.length > 0 ? new AbortDiscovery() : null;
 
-			resolve({ length: linkFeeds.length, abortObject: objAbort });
+			resolve({ length: linkFeeds.length, abortObject: objAbort, iframeHosts: iframeHosts });
 
 			for(let index=0, len=linkFeeds.length; index<len; index++) {
 
@@ -112,6 +120,55 @@ let syndication = (function() {
 
 			}).catch((error) => {
 				reject(error);
+			});
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getLinkFeedsFromFrames(doc, selector, timeout) {
+
+		return new Promise((resolve) => {
+
+			let frames = doc.getElementsByTagName("iframe");
+			let allFetch = [];
+
+			for(let i=0, len=frames.length; i<len; i++) {
+
+				let url = slUtil.validURL(frames[i].src);
+
+				// if valid and visible
+				if( url && (frames[i].style.display !== "none") ) {
+					allFetch.push(fetchWithTimeout(url, { cache: "default" }, timeout));
+				}
+			}
+
+			let linkFeeds = [];
+			let hosts = [];
+
+			// Promise.all is fail-fast; first rejected promise will reject all immediately so convert catch error to simple regular (success) value.
+			Promise.all(allFetch.map(f => f.catch((e) => { return e; }))).then(async (responses) => {
+
+				for(let i=0, len=responses.length; i<len; i++) {
+
+					let response = responses[i];
+
+					if( (response instanceof Response) && response.ok ) {
+
+						let blob = await response.blob();
+
+						// only if text/html
+						if( blob.type.includes("text/html") ) {
+							let url = new URL(response.url);
+							let txt = await getResponseTextFromBlob(blob, "UTF-8");
+							let doc = g_feed.domParser.parseFromString(txt, "text/html");
+							let links = Array.from(doc.querySelectorAll(selector), n => slUtil.replaceMozExtensionOriginURL(n.href.stripHtmlTags(), url.origin).toString()); // array of string urls
+							linkFeeds = linkFeeds.concat(links);
+							hosts = hosts.concat(url.host);
+						}
+					}
+				}
+				hosts = hosts.filter((item, idx, ary) => ary.indexOf(item) === idx); // filter duplicates
+				resolve({ linkFeeds: linkFeeds, hosts: hosts });
 			});
 		});
 	}

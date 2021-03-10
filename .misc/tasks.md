@@ -822,16 +822,19 @@
 * when changing state (read/unread) update all sidebars in all windows => NO. will not send a message for each and every tree modification
 * add relative time to feed tooltip (title) - treeView, discovery and pagePopup
 * getRelativeShortLocaleString: future date returns (Just now)
+* nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html. Feeds are in an iframe => discoveryView now can handle iframes for Aggressive level 1 and 2
 ---
 
 
 ## Now
-* why nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html ???
 * consider to change jump list UI. looks too much like a scroll-down button.
 ---
 
 
 ## Next
+* in Fx v68 preferences dark theme dropdown list are fuckedup
+* discoveryView list show 'scroll' circule when it's full and user middle-click.
+* items in discoveryView and pagePopup are selected with right-click. should be only with left-click ?
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * import/export the sage-like preferences
 * take new PR pictures for version with 'order feed-items chronologically'

@@ -9,7 +9,8 @@ let discoveryView = (function() {
 	const AGGRESSIVE_TOOLTIP_TITLE = "Aggressive Discovery: \n" +
 									" \u25cf None: Check only for standardly discoverable RSS links. \n" +
 									" \u25cf Low: Check each hyperlink in page that its URL might suggest it links to an RSS feed. \n" +
-									" \u25cf High: Check ALL hyperlinks in page (process may be lengthy).";
+									" \u25cf High: Check ALL hyperlinks in page (process may be lengthy). \n\n" +
+									"\u2731 'Low' and 'High' will also check in iframe documents (1st level only).";
 
 	let m_elmDiscoverPanel = null;
 	let m_elmDiscoverFeedsList;
@@ -218,6 +219,7 @@ let discoveryView = (function() {
 
 		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 		const aggressiveLevel = parseInt(await internalPrefs.getAggressiveDiscoveryLevel());
+		let iframeHosts = [];
 
 		let feedCount = -1, counter = 0;
 
@@ -228,7 +230,8 @@ let discoveryView = (function() {
 
 				if(feed.status === "OK") {
 					m_elmDiscoverFeedsList.appendChild(createTagLI(feed));
-					setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
+					let msg = domainName + (iframeHosts.length>0 ? "\u00a0+\u00a0iframes" : "") + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")";
+					setStatusbarMessage(msg, false, false, iframeHosts.map(n => `\u2022\u00a0${n}`).join("\u000d"));
 				} else if(aggressiveLevel < 2 && feed.status === "error") {		// log errors only for non-aggressive level
 					console.log("[Sage-Like]", feed.url.toString().midTrunc(120), feed.message);
 				}
@@ -256,6 +259,7 @@ let discoveryView = (function() {
 				setNoFeedsMsg("No feeds were discovered.");
 				setDiscoverLoadingState(false);
 			}
+			iframeHosts = result.iframeHosts;
 			m_abortDiscovery = result.abortObject;
 		});
 	}
@@ -383,8 +387,9 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setStatusbarMessage(text, isError, concatToContent = false) {
+	function setStatusbarMessage(text, isError, concatToContent = false, info = "") {
 		m_elmDiscoveryStatusBar.textContent = (concatToContent ? m_elmDiscoveryStatusBar.textContent : "") + text;
+		if(!concatToContent) m_elmDiscoveryStatusBar.title = info;	// do not overwrite title if only adding to content
 		m_elmDiscoveryStatusBar.classList.toggle("error", isError);
 	}
 
