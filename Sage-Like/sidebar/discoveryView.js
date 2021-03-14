@@ -509,7 +509,7 @@ let discoveryView = (function() {
 
 		if(event.button === 1) {			// middle click
 
-			target = target.closest(".dfItem");
+			target = target.closest(".dfItem:not(.novalidfeeds)");
 			if(!!target) {
 
 				if(event.ctrlKey && event.altKey && !event.shiftKey) {

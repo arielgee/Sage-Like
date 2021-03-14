@@ -828,6 +828,7 @@
 
 
 ## Now
+* items in discoveryView and pagePopup are selected with right-click. should be only with left-click ?
 * consider to change jump list UI. looks too much like a scroll-down button.
 ---
 
@@ -835,7 +836,6 @@
 ## Next
 * pagePopup has ugly scrollbars when to many items in list. tast-case: duplicate line `m_elmPageFeedsList.appendChild(createTagLI(feed));`
 * in Fx v68 preferences dark theme dropdown list are fuckedup
-* items in discoveryView and pagePopup are selected with right-click. should be only with left-click ?
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * import/export the sage-like preferences
 * take new PR pictures for version with 'order feed-items chronologically'
