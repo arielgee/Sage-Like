@@ -46,6 +46,7 @@
 		m_elmStatusBar = document.getElementById("statusBar");
 		m_elmOptionsHref = null;
 
+		document.body.addEventListener("contextmenu", onContextMenu);
 		m_elmPageFeedsList.addEventListener("mousedown", onMouseDownPageFeedsList);
 		m_elmPageFeedsList.addEventListener("click", onClickPageFeedsList);
 		m_elmPageFeedsList.addEventListener("auxclick", onClickPageFeedsList);
@@ -73,6 +74,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
+		document.body.removeEventListener("contextmenu", onContextMenu);
 		m_elmPageFeedsList.removeEventListener("mousedown", onMouseDownPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("click", onClickPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("auxclick", onClickPageFeedsList);
@@ -84,6 +86,11 @@
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onContextMenu(event) {
+		event.preventDefault();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
