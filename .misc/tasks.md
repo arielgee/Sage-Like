@@ -824,17 +824,17 @@
 * getRelativeShortLocaleString: future date returns (Just now)
 * nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html. Feeds are in an iframe => discoveryView now can handle iframes for Aggressive level 1 and 2
 * discoveryView list show 'scroll' circule when it's full and user middle-click. => fixed also in pagePopup
+* items in discoveryView and pagePopup are selected with right-click. should be only with left-click ?
 ---
 
 
 ## Now
-* items in discoveryView and pagePopup are selected with right-click. should be only with left-click ?
+* pagePopup has ugly scrollbars when to many items in list. tast-case: duplicate line `m_elmPageFeedsList.appendChild(createTagLI(feed));`
 * consider to change jump list UI. looks too much like a scroll-down button.
 ---
 
 
 ## Next
-* pagePopup has ugly scrollbars when to many items in list. tast-case: duplicate line `m_elmPageFeedsList.appendChild(createTagLI(feed));`
 * in Fx v68 preferences dark theme dropdown list are fuckedup
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * import/export the sage-like preferences

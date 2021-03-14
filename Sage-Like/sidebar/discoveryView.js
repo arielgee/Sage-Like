@@ -526,7 +526,7 @@ let discoveryView = (function() {
 					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(target.getAttribute("href")), active: event.shiftKey });
 				}
 			}
-		} else {
+		} else if(event.button === 0) {			// default click
 
 			if(target.classList.contains("dfChkBox")) {
 				target.parentElement.focus();				// checkbox is clicked and changed, focus the list item

@@ -141,7 +141,7 @@
 				}
 			}
 
-		} else {
+		} else if(event.button === 0) {			// default click
 
 			if(target.classList.contains("feedChkBox")) {
 				target.parentElement.focus();				// checkbox is clicked and changed, focus the list item
