@@ -46,6 +46,7 @@
 		m_elmStatusBar = document.getElementById("statusBar");
 		m_elmOptionsHref = null;
 
+		m_elmPageFeedsList.addEventListener("mousedown", onMouseDownPageFeedsList);
 		m_elmPageFeedsList.addEventListener("click", onClickPageFeedsList);
 		m_elmPageFeedsList.addEventListener("auxclick", onClickPageFeedsList);
 		m_elmPageFeedsList.addEventListener("keydown", onKeyDownPageFeedsList);
@@ -72,6 +73,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onUnload(event) {
+		m_elmPageFeedsList.removeEventListener("mousedown", onMouseDownPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("click", onClickPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("auxclick", onClickPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("keydown", onKeyDownPageFeedsList);
@@ -82,6 +84,27 @@
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseDownPageFeedsList(event) {
+
+		// The default behaviour of Fx is to call "mousedown" when
+		// clicking with the middle button (scroll).
+		// Next event, for middle button, will be 'auxclick'
+
+		let target = event.target;
+
+		if(event.button === 1 || target === m_elmPageFeedsList) {
+			event.stopPropagation();
+			event.preventDefault();
+
+			if(target.classList.contains("feedChkBox")) {
+				target.parentElement.focus();				// checkbox is clicked, focus the list item
+			} else if(target.classList.contains("feedItem")) {
+				target.focus();				//  list item is clicked, focus the list item
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

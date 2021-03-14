@@ -823,11 +823,11 @@
 * add relative time to feed tooltip (title) - treeView, discovery and pagePopup
 * getRelativeShortLocaleString: future date returns (Just now)
 * nothing is discovered in https://www.ynet.co.il/articles/0,7340,L-3369891,00.html. Feeds are in an iframe => discoveryView now can handle iframes for Aggressive level 1 and 2
+* discoveryView list show 'scroll' circule when it's full and user middle-click. => fixed also in pagePopup
 ---
 
 
 ## Now
-* discoveryView list show 'scroll' circule when it's full and user middle-click.
 * consider to change jump list UI. looks too much like a scroll-down button.
 ---
 

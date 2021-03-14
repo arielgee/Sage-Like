@@ -402,6 +402,7 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.addEventListener("keydown", onKeyDownDiscoverPanel);
 		m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
+		m_elmDiscoverFeedsList.addEventListener("mousedown", onMouseDownDiscoverFeedsList);
 		m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.addEventListener("auxclick", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.addEventListener("keydown", onKeyDownDiscoverFeedsList);
@@ -418,6 +419,7 @@ let discoveryView = (function() {
 		m_elmDiscoverPanel.removeEventListener("keydown", onKeyDownDiscoverPanel);
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
+		m_elmDiscoverFeedsList.removeEventListener("mousedown", onMouseDownDiscoverFeedsList);
 		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.removeEventListener("auxclick", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.removeEventListener("keydown", onKeyDownDiscoverFeedsList);
@@ -474,6 +476,27 @@ let discoveryView = (function() {
 			abortDiscoverFeeds();
 		} else {
 			runDiscoverFeeds();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseDownDiscoverFeedsList(event) {
+
+		// The default behaviour of Fx is to call "mousedown" when
+		// clicking with the middle button (scroll).
+		// Next event, for middle button, will be 'auxclick'
+
+		let target = event.target;
+
+		if(event.button === 1 || target === m_elmDiscoverFeedsList) {
+			event.stopPropagation();
+			event.preventDefault();
+
+			if(target.classList.contains("dfChkBox")) {
+				target.parentElement.focus();				// checkbox is clicked, focus the list item
+			} else if(target.classList.contains("dfItem") && !target.classList.contains("novalidfeeds")) {
+				target.focus();				//  list item is clicked, focus the list item
+			}
 		}
 	}
 
