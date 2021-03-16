@@ -1184,6 +1184,11 @@ let prefs = (function() {
 		openNewTab: 2,
 	}
 
+	const FEED_ITEM_OPEN_METHOD_VALUES = {
+		openInTab: 0,
+		openInNewTab: 1,
+	}
+
 	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
 	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
 	const DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = true;
@@ -1192,6 +1197,7 @@ let prefs = (function() {
 	const DEF_PREF_SORT_FEED_ITEMS_VALUE = true;
 	const DEF_PREF_FOLDER_CLICK_ACTION_VALUE = FOLDER_CLICK_ACTION_VALUES.doubleClick;
 	const DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE = CLICK_OPENS_FEED_PREVIEW_VALUES.openNo;
+	const DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE = FEED_ITEM_OPEN_METHOD_VALUES.openInTab;
 	const DEF_PREF_SHOW_FEED_STATS_VALUE = true;
 	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
 	const DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE = 800;
@@ -1220,6 +1226,7 @@ let prefs = (function() {
 	const PREF_SORT_FEED_ITEMS = "pref_sortFeedItems";
 	const PREF_FOLDER_CLICK_ACTION = "pref_folderClickAction";
 	const PREF_CLICK_OPENS_FEED_PREVIEW = "pref_clickOpensFeedPreview";
+	const PREF_FEED_ITEM_OPEN_METHOD = "pref_feedItemOpenMethod";
 	const PREF_SHOW_FEED_STATS = "pref_showFeedStats";
 	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
 	const PREF_FEED_ITEM_DESC_DELAY = "pref_feedItemDescDelay";
@@ -1320,6 +1327,16 @@ let prefs = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function setClickOpensFeedPreview(value) {
 		return setPreferenceValue(PREF_CLICK_OPENS_FEED_PREVIEW, value);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getFeedItemOpenMethod() {
+		return getPreferenceValue(PREF_FEED_ITEM_OPEN_METHOD, DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setFeedItemOpenMethod(value) {
+		return setPreferenceValue(PREF_FEED_ITEM_OPEN_METHOD, value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1530,6 +1547,7 @@ let prefs = (function() {
 		this.setSortFeedItems(DEF_PREF_SORT_FEED_ITEMS_VALUE);
 		this.setFolderClickAction(DEF_PREF_FOLDER_CLICK_ACTION_VALUE);
 		this.setClickOpensFeedPreview(DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE);
+		this.setFeedItemOpenMethod(DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE);
 		this.setShowFeedStats(DEF_PREF_SHOW_FEED_STATS_VALUE);
 		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
 		this.setFeedItemDescDelay(DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE);
@@ -1558,6 +1576,7 @@ let prefs = (function() {
 			sortFeedItems: DEF_PREF_SORT_FEED_ITEMS_VALUE,
 			folderClickAction: DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
 			clickOpensFeedPreview: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
+			feedItemOpenMethod: DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE,
 			showFeedStats: DEF_PREF_SHOW_FEED_STATS_VALUE,
 			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 			feedItemDescDelay: DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
@@ -1597,6 +1616,7 @@ let prefs = (function() {
 	return {
 		FOLDER_CLICK_ACTION_VALUES: FOLDER_CLICK_ACTION_VALUES,
 		CLICK_OPENS_FEED_PREVIEW_VALUES: CLICK_OPENS_FEED_PREVIEW_VALUES,
+		FEED_ITEM_OPEN_METHOD_VALUES: FEED_ITEM_OPEN_METHOD_VALUES,
 
 		DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
 		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
@@ -1606,6 +1626,7 @@ let prefs = (function() {
 		DEF_PREF_SORT_FEED_ITEMS_VALUE: DEF_PREF_SORT_FEED_ITEMS_VALUE,
 		DEF_PREF_FOLDER_CLICK_ACTION_VALUE: DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
 		DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
+		DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE: DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE,
 		DEF_PREF_SHOW_FEED_STATS_VALUE: DEF_PREF_SHOW_FEED_STATS_VALUE,
 		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
 		DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE: DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
@@ -1642,6 +1663,8 @@ let prefs = (function() {
 		setFolderClickAction: setFolderClickAction,
 		getClickOpensFeedPreview: getClickOpensFeedPreview,
 		setClickOpensFeedPreview: setClickOpensFeedPreview,
+		getFeedItemOpenMethod: getFeedItemOpenMethod,
+		setFeedItemOpenMethod: setFeedItemOpenMethod,
 		getShowFeedStats: getShowFeedStats,
 		setShowFeedStats: setShowFeedStats,
 		getShowFeedItemDesc: getShowFeedItemDesc,

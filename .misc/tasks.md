@@ -826,17 +826,17 @@
 * discoveryView list show 'scroll' circule when it's full and user middle-click. => fixed also in pagePopup
 * items in discoveryView and pagePopup are selected with right-click. should be only with left-click ?
 * pagePopup has ugly scrollbars when to many items in list. tast-case: duplicate line `m_elmPageFeedsList.appendChild(createTagLI(feed));`
+* Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/20
 ---
 
 
 ## Now
-* in Fx v68 preferences dark theme dropdown list are fuckedup
+* in Fx v68 preferences dark theme dropdown list are fuckedup  - preferences: In Fx v68 dark theme, Bk color of dropdown list is white.
 * consider to change jump list UI. looks too much like a scroll-down button.
 ---
 
 
 ## Next
-* Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/19
 * import/export the sage-like preferences
 * take new PR pictures for version with 'order feed-items chronologically'
 * [stupid] (REGEX_RSS_CONTENT_TYPES got nothing to do with discoveryView) REGEX_RSS_CONTENT_TYPES has - add switch to discover feeds withOUT semantics in discoveryView

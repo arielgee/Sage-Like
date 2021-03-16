@@ -213,7 +213,7 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickFeedItem(event) {
+	async function onClickFeedItem(event) {
 
 		let elm = event.target;
 
@@ -222,20 +222,38 @@ let rssListView = (function() {
 
 			let openMethod = URLOpenMethod.INVALID;
 
-			if (event.button === 0 && !event.ctrlKey && !event.shiftKey) {
+			if(event.button === 0) {
 
-				// open in current tab; click
-				openMethod = URLOpenMethod.IN_TAB;
+				if(!event.ctrlKey && !event.shiftKey) {
 
-			} else if (event.button === 1 || (event.button === 0 && event.ctrlKey)) {
+					// left+click
+					let prefOpenMethod = await prefs.getFeedItemOpenMethod();
+					if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInNewTab) {
+						openMethod = URLOpenMethod.IN_NEW_TAB;
+					} else if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInTab) {
+						openMethod = URLOpenMethod.IN_TAB;
+					}
 
-				// open in new tab; middle click or ctrl+click
-				openMethod = URLOpenMethod.IN_NEW_TAB;
+				} else if(event.ctrlKey) {
 
-			} else if (event.button === 0 && event.shiftKey) {
+					// ctrl+click
+					openMethod = URLOpenMethod.IN_NEW_TAB;
 
-				// open in new window; shift+click
-				openMethod = URLOpenMethod.IN_NEW_WIN;
+				} else if(event.shiftKey) {
+
+					// shift+click
+					openMethod = URLOpenMethod.IN_NEW_WIN;
+				}
+
+			} else if(event.button === 1) {
+
+				// middle-click
+				let prefOpenMethod = await prefs.getFeedItemOpenMethod();
+				if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInTab) {
+					openMethod = URLOpenMethod.IN_NEW_TAB;
+				} else if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInNewTab) {
+					openMethod = URLOpenMethod.IN_TAB;
+				}
 			}
 
 			if(openMethod !== URLOpenMethod.INVALID) {

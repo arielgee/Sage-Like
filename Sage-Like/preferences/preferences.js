@@ -26,6 +26,7 @@ let preferences = (function() {
 	let m_elmSortFeedItems;
 	let m_elmFolderClickAction;
 	let m_elmClickOpensFeedPreview;
+	let m_elmFeedItemOpenMethod;
 	let m_elmShowFeedStats;
 	let m_elmShowFeedItemDesc;
 	let m_elmFeedItemDescDelay;
@@ -92,6 +93,7 @@ let preferences = (function() {
 		m_elmSortFeedItems = document.getElementById("sortFeedItems");
 		m_elmFolderClickAction = document.getElementById("folderClickAction");
 		m_elmClickOpensFeedPreview = document.getElementById("clickOpensFeedPreview");
+		m_elmFeedItemOpenMethod = document.getElementById("feedItemOpenMethod");
 		m_elmShowFeedStats = document.getElementById("showFeedStats");
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
 		m_elmFeedItemDescDelay = document.getElementById("feedItemDescDelay");
@@ -160,6 +162,7 @@ let preferences = (function() {
 		m_elmSortFeedItems.removeEventListener("change", onChangeSortFeedItems);
 		m_elmFolderClickAction.removeEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreview.removeEventListener("change", onChangeClickOpensFeedPreview);
+		m_elmFeedItemOpenMethod.removeEventListener("change", onChangeFeedItemOpenMethod);
 		m_elmShowFeedStats.removeEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
 		m_elmFeedItemDescDelay.removeEventListener("change", onChangeFeedItemDescDelay);
@@ -218,6 +221,7 @@ let preferences = (function() {
 		m_elmSortFeedItems.addEventListener("change", onChangeSortFeedItems);
 		m_elmFolderClickAction.addEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreview.addEventListener("change", onChangeClickOpensFeedPreview);
+		m_elmFeedItemOpenMethod.addEventListener("change", onChangeFeedItemOpenMethod);
 		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
 		m_elmFeedItemDescDelay.addEventListener("change", onChangeFeedItemDescDelay);
@@ -313,6 +317,10 @@ let preferences = (function() {
 
 		prefs.getClickOpensFeedPreview().then((value) => {
 			m_elmClickOpensFeedPreview.value = value;
+		});
+
+		prefs.getFeedItemOpenMethod().then((value) => {
+			m_elmFeedItemOpenMethod.value = value;
 		});
 
 		prefs.getShowFeedStats().then((checked) => {
@@ -532,6 +540,11 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeClickOpensFeedPreview(event) {
 		prefs.setClickOpensFeedPreview(parseInt(m_elmClickOpensFeedPreview.value));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeFeedItemOpenMethod(event) {
+		prefs.setFeedItemOpenMethod(parseInt(m_elmFeedItemOpenMethod.value));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -860,6 +873,7 @@ let preferences = (function() {
 		m_elmSortFeedItems.checked = defPrefs.sortFeedItems;
 		m_elmFolderClickAction.value = defPrefs.folderClickAction;
 		m_elmClickOpensFeedPreview.value = defPrefs.clickOpensFeedPreview;
+		m_elmFeedItemOpenMethod.value = defPrefs.feedItemOpenMethod;
 		m_elmShowFeedStats.checked = defPrefs.showFeedStats;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
 		m_elmFeedItemDescDelay.value = defPrefs.feedItemDescDelay;
