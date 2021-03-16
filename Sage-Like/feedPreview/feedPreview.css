@@ -220,6 +220,16 @@ body {
 	margin: 6px 0 !important;
 }
 
+.feedItemContent p > img.emoji,
+.feedItemContent p > img[alt^=":"][alt$=":"] {
+	max-width: 15.8px !important;
+	max-height: 15.8px !important;
+	width: auto !important;
+	height: auto !important;
+	margin: 0 !important;
+	vertical-align: middle;
+}
+
 .feedItemContent strong,
 .feedItemContent strong > em,
 .feedItemContent strong > mark {
