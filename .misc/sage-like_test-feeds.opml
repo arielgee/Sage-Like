@@ -2,10 +2,18 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Wed, 03 Mar 2021 16:17:13 GMT</dateCreated>
+		<dateCreated>Thu, 18 Mar 2021 09:19:22 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
+			<outline text="Rapid Update" data-wxsl-open="0">
+				<outline type="rss" text="CNN.com - RSS Channel" title="CNN.com - RSS Channel" xmlUrl="http://rss.cnn.com/rss/cnn_latest.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="World news | The Guardian" title="World news | The Guardian" xmlUrl="https://www.theguardian.com/world/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="CNN.com - RSS Channel - App International Edition" title="CNN.com - RSS Channel - App International Edition" xmlUrl="http://rss.cnn.com/rss/edition.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="CNN.com - RSS Channel - World" title="CNN.com - RSS Channel - World" xmlUrl="http://rss.cnn.com/rss/edition_world.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="BBC News - World" title="BBC News - World" xmlUrl="http://feeds.bbci.co.uk/news/world/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
 			<outline text="feed-item order" data-wxsl-open="0">
 				<outline text="RDF" data-wxsl-open="0">
 				</outline>
@@ -150,6 +158,7 @@
 				<outline type="rss" text="@ariel__gee" title="@ariel__gee" xmlUrl="https://bibliogram.ggc-project.de/u/ariel__gee/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="discovery" data-wxsl-open="0">
+				<outline type="rss" text="CNN.com - RSS Feeds" title="CNN.com - RSS Feeds" xmlUrl="https://edition.cnn.com/services/rss/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="ynet.co.il - RSS Feeds" title="ynet.co.il - RSS Feeds" xmlUrl="https://www.ynet.co.il/articles/0,7340,L-3369891,00.html" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="haaretz.co.il - RSS Feeds" title="haaretz.co.il - RSS Feeds" xmlUrl="https://www.haaretz.co.il/misc/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
