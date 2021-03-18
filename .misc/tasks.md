@@ -829,12 +829,12 @@
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/20
 * in Fx v68 preferences dark theme dropdown list are fuckedup.
 * change checkbox in prefrences to green switched [x---o] ? => DONE, also retouched the radio-box
+* background.js:291 `showNewBadge = !(await browser.sidebarAction.isOpen({}));` not considering multiple windows. isOpen() return false for current win only.
+	* test case: pref: bg feed chk is on. reload ext when 2 windows are open and close sidebar in one window only and wait
 ---
 
 
 ## Now
-* background.js:291 `showNewBadge = !(await browser.sidebarAction.isOpen({}));` not considering multiple windows. isOpen() return false for current win only.
-	* test case: pref: bg feed chk is on. reload ext when 2 windows are open and close sidebar in one window only and wait
 * consider to change jump list UI. looks too much like a scroll-down button.
 ---
 

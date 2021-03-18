@@ -162,7 +162,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onWindowsFocusChanged(winId) {
-		if(!!m_currentWindowId) {
+		if(!!m_currentWindowId && winId !== browser.windows.WINDOW_ID_NONE) {
 			m_currentWindowId = winId;
 		}
 	}
@@ -295,14 +295,14 @@
 					let result = await syndication.fetchFeedData(feed.url, 10000, false);		// minimal timeout
 
 					if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(result.feedData.lastUpdated)) {
-						showNewBadge = !(await browser.sidebarAction.isOpen({}));
+						showNewBadge = !(await browser.sidebarAction.isOpen({ windowId: m_currentWindowId }));
 						break;
 					}
 				} catch (error) {
 					console.log("[Sage-Like]", error);
 				}
 			}
-			browser.browserAction.setBadgeText({ text: (showNewBadge ? "N" : "") });
+			slUtil.setSafeBrowserActionBadgeText({ text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
 			//console.log("[Sage-Like]", "Periodic check for new feeds performed in background.");
 
 		}).catch((error) => {

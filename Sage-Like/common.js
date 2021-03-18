@@ -2409,6 +2409,16 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	async function setSafeBrowserActionBadgeText(details) {
+
+		// Fx v59 has no support for windowId
+		if(parseInt(await getBrowserVersion()) <= 59) {
+			delete details.windowId;
+		}
+		browser.browserAction.setBadgeText(details);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=3) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -2465,6 +2475,7 @@ let slUtil = (function() {
 		nbAlert: nbAlert,
 		getLanguageDir: getLanguageDir,
 		getUniqId: getUniqId,
+		setSafeBrowserActionBadgeText: setSafeBrowserActionBadgeText,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};

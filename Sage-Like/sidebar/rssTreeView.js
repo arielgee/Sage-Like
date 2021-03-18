@@ -221,7 +221,7 @@ let rssTreeView = (function() {
 
 		createRSSTree();
 
-		browser.browserAction.setBadgeText({text: ""});
+		slUtil.setSafeBrowserActionBadgeText({ text: "", windowId: (await browser.windows.getCurrent()).id });
 		m_elmFilterTextBoxContainer.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 
 		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
