@@ -828,11 +828,13 @@
 * pagePopup has ugly scrollbars when to many items in list. tast-case: duplicate line `m_elmPageFeedsList.appendChild(createTagLI(feed));`
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/20
 * in Fx v68 preferences dark theme dropdown list are fuckedup.
+* change checkbox in prefrences to green switched [x---o] ? => DONE, also retouched the radio-box
 ---
 
 
 ## Now
-* change checkbox in prefrences to green switched [x---o] ?
+* background.js:291 `showNewBadge = !(await browser.sidebarAction.isOpen({}));` not considering multiple windows. isOpen() return false for current win only.
+	* test case: pref: bg feed chk is on. reload ext when 2 windows are open and close sidebar in one window only and wait
 * consider to change jump list UI. looks too much like a scroll-down button.
 ---
 
@@ -842,8 +844,6 @@
 * take new PR pictures for version with 'order feed-items chronologically'
 * [stupid] (REGEX_RSS_CONTENT_TYPES got nothing to do with discoveryView) REGEX_RSS_CONTENT_TYPES has - add switch to discover feeds withOUT semantics in discoveryView
 * add feed preference (like `Update title from feed`) `Order feed-items chronologically`.
-* background.js:291 `showNewBadge = !(await browser.sidebarAction.isOpen({}));` not considering multiple windows. isOpen() return false for current win only.
-	* test case: pref: bg feed chk is on. reload ext when 2 windows are open and close sidebar in one window only and wait
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 ### file "sl-customFeedPreview-CSS-files.zip" is ahead of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18

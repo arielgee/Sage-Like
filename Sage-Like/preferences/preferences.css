@@ -10,12 +10,14 @@
 
 	--color-text-block-caption-values: 9, 119, 229;
 
+	--color-control-accent: rgb(0, 96, 223);
+	--background-color-input: rgb(121, 121, 121);
+
 	/*******************light theme colors*******************/
 	--foreground-color: rgb(0, 0, 0);
 	--background-color-body: transparent;
 	--background-color-select-control: transparent;
 	--background-color-option-user: rgb(224, 224, 224);		/* option[value="-1"] */
-	--border-color-input-checked: rgb(153, 153, 153);
 	--box-shadow-color-swatch: rgba(0, 0, 0, 0.6);
 	--drop-shadow-control-image:rgba(0, 0, 0, 0);
 	--foreground-color-help-info: rgb(255, 255, 255);
@@ -46,7 +48,6 @@
 		--background-color-body: rgb(32, 32, 35);
 		--background-color-select-control: rgb(50, 50, 54);
 		--background-color-option-user: rgb(16, 16, 16);		/* option[value="-1"] */
-		--border-color-input-checked: rgb(119, 119, 119);
 		--box-shadow-color-swatch: rgba(255, 255, 255, 0.6);
 		--drop-shadow-control-image:rgba(255, 255, 255, 0.6);
 		--foreground-color-help-info: rgb(0, 0, 0);
@@ -192,29 +193,68 @@ input[type="file"] {
 	opacity: 0;
 }
 
-input[type="radio"],
 input[type="checkbox"] {
-	-webkit-appearance: none;
+	--button-width: 36px;
+	--button-height: 18px;
+	--dot-margin: 4px;
+	--dot-size: calc(var(--button-height) - 2*var(--dot-margin));
+	--dot-transform-x: calc(var(--button-width) - 2*var(--dot-margin) - var(--dot-size));
+
 	-moz-appearance: none;
 	appearance: none;
-	background-color: transparent;
 	padding: 0;
 	margin: 2px 0;
-	width: 18px;
-	height: 18px;
-	border: 2px solid #999;
-	transition: 0.2s all linear;
 	outline: none;
+	box-sizing: border-box;
+	width: var(--button-width);
+	height: var(--button-height);
+	border-radius: calc(var(--button-height) / 2);
+	background-color: var(--background-color-input);
+}
+input[type="checkbox"]:checked {
+	background-color: var(--color-control-accent);
+}
+input[type="checkbox"]:disabled {
+	background-color: var(--background-color-disabled-control);
+}
+
+input[type="checkbox"]::before {
+	display: block;
+	content: "";
+	background-color: #ffffff;
+	height: var(--dot-size);
+	width: var(--dot-size);
+	margin: var(--dot-margin);
+	border-radius: 50%;
+	transition: transform 100ms;
+}
+input[type="checkbox"]:checked::before {
+	transform: translateX(var(--dot-transform-x));
+}
+input[type="checkbox"]:disabled::before {
+	background-color: var(--foreground-color-disabled-control);
 }
 
 input[type="radio"] {
+	-moz-appearance: none;
+	appearance: none;
+	padding: 0;
+	margin: 2px 0;
+	outline: none;
+	width: 18px;
+	height: 18px;
 	border-radius: 50%;
+	border: 2px solid var(--background-color-input);
+	transition: 0.2s all linear;
+	background-color: transparent;
 }
-
-input[type="radio"]:checked,
-input[type="checkbox"]:checked {
-	border: 5px solid var(--border-color-input-checked);
-	background-color: var(--foreground-color);
+input[type="radio"]:checked {
+	border: 6px solid var(--color-control-accent);
+	background-color: #ffffff;
+}
+input[type="radio"]:disabled {
+	border-color: var(--foreground-color-disabled-control);
+	background-color: var(--background-color-disabled-control);
 }
 
 input[type="color"] {
@@ -423,18 +463,11 @@ select.flash,
 }
 
 label.disabled,
-input[type="radio"].disabled,
-input[type="checkbox"].disabled,
 input[type="text"].disabled,
 .preferenceButton.disabled,
 .preference.subPref.disabled {
 	color: var(--foreground-color-disabled-control);
 	border-color: var(--foreground-color-disabled-control);
-}
-
-input[type="radio"].disabled,
-input[type="checkbox"].disabled {
-	background-color: var(--background-color-disabled-control);
 }
 
 input[type="color"].disabled {
