@@ -52,14 +52,19 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added a jump list to the Feed Preview page (button in the upper left corner).</li>
-  <li>Apply custom CSS to an open Feed Preview page without reloading.</li>
-  <li>Added relative update time to feed items in the Feed Preview page.</li>
-  <li>Improve Feed Preview rendering.</li>
-  <li>Detect if a loaded XML is a feed (address bar).</li>
-  <li>Created a few Feed Preview custom CSS files to use as-is or serve as examples. See link in 'About this extension'.</li>
-  <li>Maintenance to the built-in feeds.</li>
-  <li>Code improvements.</li>
+  <li>Added new option to specify feed item sorting: 'Chronological' or 'Source' from the Options page.</li>
+  <li>Added new option to specify where to open feed items: Current tab or a new tab.</li>
+  <li>Critical Bug Fix: The check feed process doesn't identify an updated feed in certain and frequent conditions.</li>
+  <li>Added support for feed discovery in 1st level iframe documents (aggressiveness 'Low' and 'High' only).</li>
+  <li>Added relative update time to feed tool tips in tree view and discovery views.</li>
+  <li>Redesigned UI of the Options page.
+    <ul>
+      <li>Replaced some radio buttons with drop-down lists.</li>
+      <li>Changed the look of check boxes and radio buttons.</li>
+      <li>Options reordered and separated into titled sections.</li>
+    </ul>
+  </li>
+  <li>Bugs were fixed and the code was improved.</li>
 </ul>
 
 + Version Notes for next time
@@ -69,6 +74,6 @@ Under the hoods Performance enhancements.
 Bugs fixed.
 
 
-+ To see changes in browser’s extension page change this preferences in 'about:config' to 1
++ To see changes in browser’s extension page: change this preferences in 'about:config' to 1
 --------------------------------------------------------------
 app.update.lastUpdateTime.addon-background-update-timer
