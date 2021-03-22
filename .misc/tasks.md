@@ -834,17 +834,20 @@
 * consider to change jump list UI. looks too much like a scroll-down button.
 * [stupid] (REGEX_RSS_CONTENT_TYPES got nothing to do with discoveryView) - add switch to discover feeds withOUT semantics in discoveryView
 * add feed preference (like `Update title from feed`) `Order feed-items chronologically`. => NO
+* Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on. ==> GONE IN v86.0.1
+	* second reload or closing & re-opening the sidebar fixes the issue.
+* user bookmarks.description to hold 'updateTitle:1; openInFeedPreview:0;' or 'open:1;' instead of internalPrefs setOpenTreeFolders()/setTreeFeedsData() ==> NO
 ---
 
 
 ## Now
-* import/export the sage-like preferences
+* take new PR pictures for version with 'order feed-items chronologically'
 ---
 
 
 ## Next
-* take new PR pictures for version with 'order feed-items chronologically'
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
+
 
 ### file "sl-customFeedPreview-CSS-files.zip" is ahead of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
 * one extra css file.
@@ -857,11 +860,9 @@
 
 
 ### low priority
+* import/export the sage-like preferences
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must me a sidebar webextension!
-* user bookmarks.description to hold 'updateTitle:1; openInFeedPreview:0;' or 'open:1;' instead of internalPrefs setOpenTreeFolders()/setTreeFeedsData()
-* Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on.
-	* second reload or closing & re-opening the sidebar fixes the issue.
 * Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 	* for now there is a bug workaround using *Connection-based messaging* mecanizem.   => VERY good solution
 
@@ -880,6 +881,7 @@
 ### Links for PR work
 * PR: https://discourse.mozilla.org/t/rss-sage-whree-are-they/21741
 * moz feed: https://discourse.mozilla.org/c/add-ons.rss
+
 
 ### wird feeds
 * https://ascraeus.org/jsonfeed/index.json ==> Date Format is bad ISO ==> "date_published": "2020-29-02T21:42:52+00:00" ==> month and day switched places.
