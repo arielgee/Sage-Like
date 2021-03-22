@@ -837,11 +837,11 @@
 * Tree scrollbar-thumb is not responding properly to dragging (clanky) after extension's first load as a temporary add-on. ==> GONE IN v86.0.1
 	* second reload or closing & re-opening the sidebar fixes the issue.
 * user bookmarks.description to hold 'updateTitle:1; openInFeedPreview:0;' or 'open:1;' instead of internalPrefs setOpenTreeFolders()/setTreeFeedsData() ==> NO
+* take new PR pictures for version with 'order feed-items chronologically'
 ---
 
 
 ## Now
-* take new PR pictures for version with 'order feed-items chronologically'
 ---
 
 
