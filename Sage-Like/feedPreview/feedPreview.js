@@ -324,8 +324,11 @@
 
 		for(let idx=0, len=elmsWithUrl.length; idx<len; idx++) {
 
-			// Link to a fake anchor result in href pointing to this webExt top page - leave it
-			if(elmsWithUrl[idx].getAttribute("href") === "#") continue;
+			// Link to a fake anchor result in href pointing to this webExt top page - remove it
+			if(["#", ""].includes(elmsWithUrl[idx].getAttribute("href"))) {
+				elmsWithUrl[idx].removeAttribute("href");
+				continue;
+			}
 
 			// modify relative URLs to absolute - for relative URLs .href is 'moz-extension://...'
 			url = slUtil.replaceMozExtensionOriginURL(elmsWithUrl[idx].href, m_URL.origin);
