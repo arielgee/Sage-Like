@@ -237,6 +237,13 @@ body {
 	font-weight: bold !important;
 }
 
+/* prevent pre content from overflowing */
+.feedItemContent pre {
+	/* padding: 3px 5px; */
+	/* background-color: #dddddd; */
+	white-space: normal;
+}
+
 .feedItemAttachmentsContainer {
 	display: flex;
 	flex-wrap: wrap;
