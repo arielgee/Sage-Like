@@ -36,12 +36,12 @@
 	--color-image: var(--color-fg);
 }
 
-a:not(#errorMessageLink) {
+a[href]:not(#errorMessageLink) {
 	color: yellow;
 	text-decoration: none;
 	text-decoration-color: yellow;
 }
-a:not(#errorMessageLink):hover { text-decoration: underline; }
+a[href]:not(#errorMessageLink):hover { text-decoration: underline; }
 
 .feedItemAttachment:hover {
 	box-shadow: none;
