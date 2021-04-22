@@ -404,6 +404,10 @@ input[type="color"]::-moz-focus-inner {
 	font-family: Consolas, 'Courier New', Courier, monospace;
 	font-size: 14px;
 	padding: 3px 6px;
+	border: 1px solid var(--foreground-color);
+	scrollbar-width: thin;
+	-moz-tab-size: 2;
+	tab-size: 2;
 }
 
 #messageBoxCaption,
