@@ -188,14 +188,7 @@ let opml = (function() {
 				m_funcExportResolve = resolve;
 
 				let dateExport = new Date();
-				let dateExportStr = dateExport.getFullYear() +
-					(dateExport.getMonth()+1).toLocaleString('en', {minimumIntegerDigits:2}) +
-					dateExport.getDate().toLocaleString('en', {minimumIntegerDigits:2}) + "-" +
-					dateExport.getHours().toLocaleString('en', {minimumIntegerDigits:2}) +
-					dateExport.getMinutes().toLocaleString('en', {minimumIntegerDigits:2}) +
-					dateExport.getSeconds().toLocaleString('en', {minimumIntegerDigits:2});
-
-				m_fileName = "sage-like-feeds-" + dateExportStr + ".opml"
+				m_fileName = slUtil.getStringExportFileName(dateExport, "sage-like-feeds-", "opml");
 
 				m_objOpenTreeFolders = new OpenTreeFolders();
 				m_objTreeFeedsData = new TreeFeedsData();

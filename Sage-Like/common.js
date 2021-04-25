@@ -2419,6 +2419,17 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function getStringExportFileName(dateVal, prefix, ext) {
+		let dateValStr = dateVal.getFullYear() +
+			(dateVal.getMonth()+1).toLocaleString('en', {minimumIntegerDigits:2}) +
+			dateVal.getDate().toLocaleString('en', {minimumIntegerDigits:2}) + "-" +
+			dateVal.getHours().toLocaleString('en', {minimumIntegerDigits:2}) +
+			dateVal.getMinutes().toLocaleString('en', {minimumIntegerDigits:2}) +
+			dateVal.getSeconds().toLocaleString('en', {minimumIntegerDigits:2});
+		return `${prefix}${dateValStr}.${ext}`;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=3) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -2476,6 +2487,7 @@ let slUtil = (function() {
 		getLanguageDir: getLanguageDir,
 		getUniqId: getUniqId,
 		setSafeBrowserActionBadgeText: setSafeBrowserActionBadgeText,
+		getStringExportFileName: getStringExportFileName,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};
