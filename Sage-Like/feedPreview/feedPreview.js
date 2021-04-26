@@ -35,11 +35,13 @@
 		switch (message.id) {
 
 			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
-				if(message.details === slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE) {
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE) {
 					injectReplaceCustomCSSSource({ source: message.payload });
 				}
 
-				if(message.details === slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
 					reloadChangeSortFeedItems();
 				}
 				break;

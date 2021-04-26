@@ -1225,7 +1225,7 @@ let preferences = (function() {
 	function hideMessageBox() {
 		m_elmPageOverlay.style.display = "none";
 		m_elmMessageBox.style.display = "none";
-}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownMessageBox(event) {

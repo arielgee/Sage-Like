@@ -842,11 +842,13 @@
 
 
 ## Now
+* import/export the sage-like preferences ?
 ---
 
 
 ## Next
-* import/export the sage-like preferences ?
+* bug: preferences: click 'restore defaults' -> set 'Feeds bookmarks folder' -> click OPML's 'Export...' => error: "TypeError: m_objTreeFeedsData.value(...) is undefined"
+	* need to reopen sidebar and wait for the tree to be loaded
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
