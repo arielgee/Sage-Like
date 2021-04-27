@@ -1551,9 +1551,9 @@ let prefs = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function setAllPreferences(objPrefs) {
 		return new Promise(async (resolve) => {
-			let existingPrefNames = Object.keys(getAllPreferencesDefaultObject());
+			let existingPrefs = getAllPreferencesDefaultObject();
 			for(const prefName of Object.keys(objPrefs)) {
-				if(existingPrefNames.includes(prefName)) {
+				if(existingPrefs.hasOwnProperty(prefName)) {
 					await setPreferenceValue(prefName, objPrefs[prefName]);
 				}
 			}
