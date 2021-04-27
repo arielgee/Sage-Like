@@ -1538,6 +1538,30 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getAllPreferences() {
+		return new Promise(async (resolve) => {
+			let objPrefs = getAllPreferencesDefaultObject();
+			for(const prefName of Object.keys(objPrefs)) {
+				objPrefs[prefName] = await getPreferenceValue(prefName, objPrefs[prefName]);
+			}
+			resolve(objPrefs);
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setAllPreferences(objPrefs) {
+		return new Promise(async (resolve) => {
+			let existingPrefNames = Object.keys(getAllPreferencesDefaultObject());
+			for(const prefName of Object.keys(objPrefs)) {
+				if(existingPrefNames.includes(prefName)) {
+					await setPreferenceValue(prefName, objPrefs[prefName]);
+				}
+			}
+			resolve();
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
 		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
@@ -1611,6 +1635,40 @@ let prefs = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function setPreferenceValue(pref, value) {
 		return m_localStorage.set({ [pref]: value });
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function getAllPreferencesDefaultObject() {
+		return {
+			[PREF_ROOT_FEEDS_FOLDER_ID]:			DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
+			[PREF_CHECK_FEEDS_INTERVAL]:			DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
+			[PREF_CHECK_FEEDS_WHEN_SB_CLOSED]:		DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
+			[PREF_CHECK_FEEDS_METHOD]:				DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
+			[PREF_FETCH_TIMEOUT]:					DEF_PREF_FETCH_TIMEOUT_VALUE,
+			[PREF_SORT_FEED_ITEMS]:					DEF_PREF_SORT_FEED_ITEMS_VALUE,
+			[PREF_FOLDER_CLICK_ACTION]:				DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
+			[PREF_CLICK_OPENS_FEED_PREVIEW]:		DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
+			[PREF_FEED_ITEM_OPEN_METHOD]:			DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE,
+			[PREF_SHOW_FEED_STATS]:					DEF_PREF_SHOW_FEED_STATS_VALUE,
+			[PREF_SHOW_FEED_ITEM_DESC]:				DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
+			[PREF_FEED_ITEM_DESC_DELAY]:			DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
+			[PREF_SHOW_FEED_ITEM_DESC_ATTACH]:		DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE,
+			[PREF_COLOR_FEED_ITEM_DESC_BACKGROUND]:	DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE,
+			[PREF_COLOR_FEED_ITEM_DESC_TEXT]:		DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE,
+			[PREF_DETECT_FEEDS_IN_WEB_PAGE]:		DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE,
+			[PREF_UI_DENSITY]:						DEF_PREF_UI_DENSITY_VALUE,
+			[PREF_FONT_NAME]:						DEF_PREF_FONT_NAME_VALUE,
+			[PREF_FONT_SIZE_PERCENT]:				DEF_PREF_FONT_SIZE_PERCENT_VALUE,
+			[PREF_COLOR_BACKGROUND]:				DEF_PREF_COLOR_BACKGROUND_VALUE,
+			[PREF_COLOR_DIALOG_BACKGROUND]:			DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
+			[PREF_COLOR_SELECT]:					DEF_PREF_COLOR_SELECT_VALUE,
+			[PREF_COLOR_TEXT]:						DEF_PREF_COLOR_TEXT_VALUE,
+			[PREF_IMAGE_SET]:						DEF_PREF_IMAGE_SET_VALUE,
+			[PREF_USE_CUSTOM_CSS_FEED_PREVIEW]:		DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
+			[PREF_CUSTOM_CSS_SOURCE]:				DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
+			[PREF_CUSTOM_CSS_SOURCE_HASH]:			DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
+			//[PREF_ANIMATED_SLIDE_DOWN_PANEL]:		DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
+		};
 	}
 
 	return {
@@ -1702,6 +1760,9 @@ let prefs = (function() {
 		getCustomCSSSourceHash: getCustomCSSSourceHash,
 		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,
 		getAnimatedSlideDownPanel: getAnimatedSlideDownPanel,
+
+		getAllPreferences: getAllPreferences,
+		setAllPreferences: setAllPreferences,
 
 		restoreDefaults: restoreDefaults,
 	}

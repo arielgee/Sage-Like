@@ -58,6 +58,8 @@ let preferences = (function() {
 	let m_elmTextCSSViewer;
 	let m_elmImportOpml;
 	let m_elmExportOpml;
+	let m_elmImportPreferences;
+	let m_elmExportPreferences;
 
 	let m_elmPageOverlay;
 	let m_elmMessageBox;
@@ -126,6 +128,8 @@ let preferences = (function() {
 		m_elmTextCSSViewer = document.getElementById("textCSSViewer");
 		m_elmImportOpml = document.getElementById("inputImportOPML");
 		m_elmExportOpml = document.getElementById("btnExportOPML");
+		m_elmImportPreferences = document.getElementById("inputImportPreferences");
+		m_elmExportPreferences = document.getElementById("btnExportPreferences");
 
 		m_elmPageOverlay = document.getElementById("pageOverlay");
 		m_elmMessageBox = document.getElementById("messageBox");
@@ -198,6 +202,8 @@ let preferences = (function() {
 		m_elmTextCSSViewer.removeEventListener("blur", onBlurTextCSSViewer);
 		m_elmImportOpml.removeEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.removeEventListener("click", onClickExportOpml);
+		m_elmImportPreferences.removeEventListener("change", onChangeImportPreferences);
+		m_elmExportPreferences.removeEventListener("click", onClickExportPreferences);
 
 		m_elmMessageBox.removeEventListener("keydown", onKeyDownMessageBox);
 		m_elmBtnMessageBoxOK.removeEventListener("click", onClickBtnMessageBoxOK);
@@ -257,6 +263,8 @@ let preferences = (function() {
 		m_elmTextCSSViewer.addEventListener("blur", onBlurTextCSSViewer);
 		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.addEventListener("click", onClickExportOpml);
+		m_elmImportPreferences.addEventListener("change", onChangeImportPreferences);
+		m_elmExportPreferences.addEventListener("click", onClickExportPreferences);
 
 		m_elmMessageBox.addEventListener("keydown", onKeyDownMessageBox);
 		m_elmBtnMessageBoxOK.addEventListener("click", onClickBtnMessageBoxOK);
@@ -842,6 +850,51 @@ let preferences = (function() {
 			if(!!result.fileName) {
 				let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully exported.\n\nFile: " + result.fileName;
 				showMessageBox("Export", msg, elmPref);
+			}
+
+		}).catch((error) => {
+			showMessageBox("Error", error, elmPref);
+			console.log("[Sage-Like]", error);
+		}).finally(() => {
+			slUtil.disableElementTree(elmPref, false);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeImportPreferences(event) {
+
+		let elmPrefOverlay = document.getElementById("prefOverlayManage");
+		let elmPref = m_elmImportPreferences.parentElement.parentElement;
+
+		elmPrefOverlay.classList.add("processing");
+		slUtil.disableElementTree(elmPref, true);
+
+		preferencesData.import.run(event.target.files[0]).then(() => {
+
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ALL);
+			let msg = "File was successfully imported.\n\nThis page will now be reloaded to reflect imported options.";
+			showMessageBox("Import", msg, elmPref, () => browser.tabs.reload({ bypassCache: true }) );
+
+		}).catch((error) => {
+			showMessageBox("Error", error, elmPref);
+			console.log("[Sage-Like]", error);
+		}).finally(() => {
+			elmPrefOverlay.classList.remove("processing");
+			slUtil.disableElementTree(elmPref, false);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickExportPreferences(event) {
+
+		let elmPref = m_elmImportPreferences.parentElement.parentElement;
+		slUtil.disableElementTree(elmPref, true);
+
+		preferencesData.export.run().then((result) => {
+
+			// fileName is missing when download was canceled by user
+			if(!!result.fileName) {
+				showMessageBox("Export", `Options were successfully exported.\n\nFile: ${result.fileName}`, elmPref);
 			}
 
 		}).catch((error) => {

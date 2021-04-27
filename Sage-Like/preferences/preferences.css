@@ -340,7 +340,12 @@ input[type="color"]::-moz-focus-inner {
 #imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
 
 .extensionButtons .preferenceButton {
-	width: 130px;
+	width: 115px;
+	margin-left: 7px;
+}
+
+#btnReloadExtension {
+	margin-left: 16px;
 }
 
 .helpInfo {
@@ -479,13 +484,13 @@ input[type="color"].disabled {
 }
 
 /****************************************************************************/
-/**************************** OPML Feed Transfer ****************************/
+/**************************** Preference Overlay ****************************/
 /****************************************************************************/
-#prefContainerFeedTrans {
+.prefContainerOverlay {
 	position: relative;
 }
 
-#prefOverlayFeedTrans {
+.preferenceOverlay {
 	display: flex;
 	justify-content: flex-start;
 	position: absolute;
@@ -500,12 +505,12 @@ input[type="color"].disabled {
 	overflow: hidden;
 }
 
-#prefOverlayFeedTrans.processing {
+.preferenceOverlay.processing {
 	width: 100%;
 	height: 100%;
 }
 
-#busyAnimFeedTrans {
+.busyAnimPrefOverlay {
 	--size-image: 30px;
 	--color-image: white;
 	display: none;
@@ -515,18 +520,18 @@ input[type="color"].disabled {
 	border-radius: 50%;
 	border: 5px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
-	animation: busyAnimFeedTransFrames 0.7s linear infinite;
+	animation: busyAnimPrefOverlayFrames 0.7s linear infinite;
 }
-@keyframes busyAnimFeedTransFrames {
+@keyframes busyAnimPrefOverlayFrames {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
 
-#prefOverlayFeedTrans.processing #busyAnimFeedTrans {
+.preferenceOverlay.processing .busyAnimPrefOverlay {
 	display: block;
 }
 
-#feedTransProcessingMsg {
+.processingMsgPrefOverlay {
 	display: none;
 	margin: auto auto auto 10px;
 	font-weight: bold;
@@ -535,7 +540,7 @@ input[type="color"].disabled {
 	font-size: 115%;
 }
 
-#prefOverlayFeedTrans.processing #feedTransProcessingMsg {
+.preferenceOverlay.processing .processingMsgPrefOverlay {
 	display: block;
 }
 

@@ -838,17 +838,19 @@
 	* second reload or closing & re-opening the sidebar fixes the issue.
 * user bookmarks.description to hold 'updateTitle:1; openInFeedPreview:0;' or 'open:1;' instead of internalPrefs setOpenTreeFolders()/setTreeFeedsData() ==> NO
 * take new PR pictures for version with 'order feed-items chronologically'
----
-
-
-## Now
 * import/export the sage-like preferences ?
 ---
 
 
-## Next
+## Now
 * bug: preferences: click 'restore defaults' -> set 'Feeds bookmarks folder' -> click OPML's 'Export...' => error: "TypeError: m_objTreeFeedsData.value(...) is undefined"
 	* need to reopen sidebar and wait for the tree to be loaded
+---
+
+
+## Next
+* open custom CSS in new window
+* allow edit of custom CSS
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
@@ -870,6 +872,9 @@
 
 
 ### Unresolved
+* preferences: When importing options the success message box may not be displayed.
+	* Reason: the import unsets the 'Feed bookmark folder' option and the options page is reloaded from the treeView before the messageBox is displayed.
+	* This happends when the bookmark folder ID in the file was deleted from the browser.
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * a lot of sub folders in the tree view will fuck up the UI
 * Firefox has no support for XML 1.1

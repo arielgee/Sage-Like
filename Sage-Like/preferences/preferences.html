@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="preferences.css"/>
 	<script src="/common.js"></script>
 	<script src="/opml/opml.js"></script>
+	<script src="preferencesData.js"></script>
 	<script src="preferences.js"></script>
 </head>
 
@@ -268,7 +269,7 @@
 	<!-- //////////////// Preference Block: Miscellaneous //////////////// -->
 	<div class="prefBlockCaption">Miscellaneous</div>
 
-	<div id="prefContainerFeedTrans">
+	<div class="prefContainerOverlay">
 		<div class="preference">
 			<label class="preferenceLabel">Feeds transfer (OPML)</label>
 			<div class="preferenceControl">
@@ -277,22 +278,37 @@
 				<input type="file" id="inputImportOPML" accept="text/xml,.opml"/>
 			</div>
 		</div>
-		<div id="prefOverlayFeedTrans">
-			<div id="busyAnimFeedTrans"></div>
-			<div id="feedTransProcessingMsg">Do not close this tab until the process is completed.</div>
+		<div id="prefOverlayFeedTrans" class="preferenceOverlay">
+			<div class="busyAnimPrefOverlay"></div>
+			<div class="processingMsgPrefOverlay">Do not close this tab until the process is completed.</div>
 		</div>
 	</div>
 	<div class="prefSeperator"></div>
 
-	<div class="preference extensionButtons">
-		<label>Extension</label>
-		<div class="preferenceControl">
-			<button type="button" class="preferenceButton" id="btnReloadExtension">Reload Extension</button>
-			<button type="button" class="preferenceButton" id="btnRestoreDefaults">Restore Defaults</button>
+	<div class="prefContainerOverlay">
+		<div class="preference extensionButtons">
+			<label>Manage</label>
+			<div class="preferenceControl">
+				<label for="inputImportPreferences" class="preferenceButton" tabindex="0">Import Options...</label>
+				<button type="button" class="preferenceButton" id="btnExportPreferences">Export Options...</button>
+				<input type="file" id="inputImportPreferences" accept="text/json,.json"/>
+
+				<button type="button" class="preferenceButton" id="btnRestoreDefaults">Restore Defaults</button>
+				<button type="button" class="preferenceButton" id="btnReloadExtension">Reload Extension</button>
+			</div>
+		</div>
+		<div id="prefOverlayManage" class="preferenceOverlay">
+			<div class="busyAnimPrefOverlay"></div>
+			<div class="processingMsgPrefOverlay">Do not close this tab until the process is completed.</div>
 		</div>
 	</div>
 	<div class="prefSeperator"></div>
-	<p class="annotation">&#10033;&nbsp;Clicking <b>Reload Extension</b> may require reloading this page.</p>
+
+	<p class="annotation">
+		&#10033;&nbsp;<b>Import Options</b> may fail to set/restore the selected <b>Feeds bookmark folder</b> if it's missing from the browser.<br>
+		&#10033;&nbsp;<b>Restore Defaults</b> will clear the selected <b>Feeds bookmark folder</b> and the imported <b>CSS source code</b>.<br>
+		&#10033;&nbsp;Clicking <b>Reload Extension</b> may require reloading this page.
+	</p>
 
 
 	<!-- ////////////////////////// User Font Box ////////////////////////// -->
