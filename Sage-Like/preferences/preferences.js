@@ -61,6 +61,7 @@ let preferences = (function() {
 
 	let m_elmPageOverlay;
 	let m_elmMessageBox;
+	let m_funcOnCloseMessageBox;
 	let m_elmBtnMessageBoxOK;
 
 	let m_elmBtnReloadExtension;
@@ -1201,13 +1202,16 @@ let preferences = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showMessageBox(msgCaption, msgText, elmPreferenceReference) {
+	function showMessageBox(msgCaption, msgText, elmPreferenceReference, callbackOnCloseBox = null) {
+
+		m_funcOnCloseMessageBox = callbackOnCloseBox;
 
 		document.getElementById("messageBoxCaption").textContent = msgCaption;
 		document.getElementById("messageBoxText").textContent = msgText;
 
 		m_elmPageOverlay.style.display = "block";
 		m_elmMessageBox.style.display = "block";
+		m_elmMessageBox.style.color = (["Error", "Warning"].includes(msgCaption) ? "#db0000" : "");
 
 		let rect = slUtil.getElementViewportRect(elmPreferenceReference, window.innerWidth, window.innerHeight);
 
@@ -1225,6 +1229,10 @@ let preferences = (function() {
 	function hideMessageBox() {
 		m_elmPageOverlay.style.display = "none";
 		m_elmMessageBox.style.display = "none";
+		if(typeof(m_funcOnCloseMessageBox) === "function") {
+			m_funcOnCloseMessageBox();
+		}
+		m_funcOnCloseMessageBox = null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
