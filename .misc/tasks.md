@@ -839,17 +839,17 @@
 * user bookmarks.description to hold 'updateTitle:1; openInFeedPreview:0;' or 'open:1;' instead of internalPrefs setOpenTreeFolders()/setTreeFeedsData() ==> NO
 * take new PR pictures for version with 'order feed-items chronologically'
 * import/export the sage-like preferences ?
----
-
-
-## Now
 * bug: preferences: click 'restore defaults' -> set 'Feeds bookmarks folder' -> click OPML's 'Export...' => error: "TypeError: m_objTreeFeedsData.value(...) is undefined"
 	* need to reopen sidebar and wait for the tree to be loaded
 ---
 
 
-## Next
+## Now
 * open custom CSS in new window
+---
+
+
+## Next
 * allow edit of custom CSS
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 

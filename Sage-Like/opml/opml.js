@@ -285,15 +285,16 @@ let opml = (function() {
 
 					} else if (bookmark.type === "bookmark") {
 
-						let title = bookmark.title.escapeMarkup();
+						const title = bookmark.title.escapeMarkup();
+						const feedData = m_objTreeFeedsData.value(bookmark.id);	// if bookmark.id not found return undefined
 
 						lines.push("\t".repeat(indent) +
 							"<outline type=\"rss\" " +
 							"text=\"" + title + "\" " +
 							"title=\"" + title + "\" " +
 							"xmlUrl=\"" + bookmark.url.escapeMarkup() + "\" " +
-							"data-wxsl-updateTitle=\"" + Number(m_objTreeFeedsData.value(bookmark.id).updateTitle) + "\" " +
-							"data-wxsl-openPreview=\"" + Number(m_objTreeFeedsData.value(bookmark.id).openInFeedPreview) + "\"/>");
+							"data-wxsl-updateTitle=\"" + Number(!!feedData ? feedData.updateTitle : true) + "\" " +			// if undefined default to true
+							"data-wxsl-openPreview=\"" + Number(!!feedData ? feedData.openInFeedPreview : false) + "\"/>");	// if undefined default to false
 
 						m_feedCount++;
 					}
