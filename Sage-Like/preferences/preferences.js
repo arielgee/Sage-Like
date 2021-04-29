@@ -1348,7 +1348,7 @@ let preferences = (function() {
 
 				reader.onload = (event) => {
 
-					let source = event.target.result;
+					let source = event.target.result.replace(/\r\n?/g, "\n");	// css source will be saved in prefs w/o CR, replaced by \n
 
 					if(source.length === 0) {
 						reject(new Error("File has no text content."));
