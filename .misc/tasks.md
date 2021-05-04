@@ -842,6 +842,7 @@
 * bug: preferences: click 'restore defaults' -> set 'Feeds bookmarks folder' -> click OPML's 'Export...' => error: "TypeError: m_objTreeFeedsData.value(...) is undefined"
 	* need to reopen sidebar and wait for the tree to be loaded
 * open custom CSS in new window and allow edit. no need to validate notepad text like cssFileValidator
+	* custom CSS style: support in-place editing
 * remember custom CSS file name	=> NO
 * remove old view box that was replaced by the notepad
 * PR images: preferences image changed 'Edit'
@@ -860,7 +861,6 @@
 * one extra css file.
 
 ### preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
-* custom CSS style: support in-place editing
 * expose hidden_pref_animated_slide_down_panel()
 * a preference (hidden?) for how strict the content-type semantics are:
 	> [X] strict semantics (rss|rdf|atom|feed))		[O] Accept 'text' type in addition to 'application' type
@@ -876,7 +876,7 @@
 ### Unresolved
 * preferences: When importing options the success message box may not be displayed.
 	* Reason: the import unsets the 'Feed bookmark folder' option and the options page is reloaded from the treeView before the messageBox is displayed.
-	* This happends when the bookmark folder ID in the file was deleted from the browser.
+	* This happends when the bookmark folder ID in the imported options file was deleted from the browser.
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * a lot of sub folders in the tree view will fuck up the UI
 * Firefox has no support for XML 1.1
