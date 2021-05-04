@@ -841,16 +841,16 @@
 * import/export the sage-like preferences ?
 * bug: preferences: click 'restore defaults' -> set 'Feeds bookmarks folder' -> click OPML's 'Export...' => error: "TypeError: m_objTreeFeedsData.value(...) is undefined"
 	* need to reopen sidebar and wait for the tree to be loaded
----
-
-
-## Now
 * open custom CSS in new window and allow edit. no need to validate notepad text like cssFileValidator
 ---
 
 
-## Next
+## Now
 * remove old view box that was replaced by the notepad
+---
+
+
+## Next
 * remember custom CSS file name
 * PR images: preferences image changed 'Edit'
 *

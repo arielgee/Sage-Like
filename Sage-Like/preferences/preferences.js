@@ -52,7 +52,7 @@ let preferences = (function() {
 	let m_elmRadioImageSet6;
 	let m_elmUseCustomCSSFeedPreview;
 	let m_elmImportCustomCSSSource;
-	let m_elmBtnViewCSSSource;
+	let m_elmBtnEditCSSSource;
 	let m_elmBtnClearCSSSource;
 	let m_elmCSSViewBox;
 	let m_elmTextCSSViewer;
@@ -71,6 +71,8 @@ let preferences = (function() {
 
 	let m_funcResolveGetTimeOfDay;
 	let m_funcResolveGetUserFontName;
+
+	let m_winIdNotepad = 0;
 
 	let m_lockBookmarksEventHandler = new Locker();
 
@@ -122,7 +124,7 @@ let preferences = (function() {
 		m_elmRadioImageSet6 = document.getElementById("imageSet6");
 		m_elmUseCustomCSSFeedPreview = document.getElementById("useCustomCSSFeedPreview");
 		m_elmImportCustomCSSSource = document.getElementById("importCustomCSSSource");
-		m_elmBtnViewCSSSource = document.getElementById("btnViewCSSSource");
+		m_elmBtnEditCSSSource = document.getElementById("btnEditCSSSource");
 		m_elmBtnClearCSSSource = document.getElementById("btnClearCSSSource");
 		m_elmCSSViewBox = document.getElementById("cssViewBox");
 		m_elmTextCSSViewer = document.getElementById("textCSSViewer");
@@ -196,7 +198,7 @@ let preferences = (function() {
 		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
 		m_elmUseCustomCSSFeedPreview.removeEventListener("change", onChangeUseCustomCSSFeedPreview);
 		m_elmImportCustomCSSSource.removeEventListener("change", onChangeImportCustomCSSSource);
-		m_elmBtnViewCSSSource.removeEventListener("click", onClickBtnViewCSSSource);
+		m_elmBtnEditCSSSource.removeEventListener("click", onClickBtnEditCSSSource);
 		m_elmBtnClearCSSSource.removeEventListener("click", onClickBtnClearCSSSource);
 		m_elmCSSViewBox.removeEventListener("keydown", onKeyDownCSSViewBox);
 		m_elmTextCSSViewer.removeEventListener("blur", onBlurTextCSSViewer);
@@ -257,7 +259,7 @@ let preferences = (function() {
 		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
 		m_elmUseCustomCSSFeedPreview.addEventListener("change", onChangeUseCustomCSSFeedPreview);
 		m_elmImportCustomCSSSource.addEventListener("change", onChangeImportCustomCSSSource);
-		m_elmBtnViewCSSSource.addEventListener("click", onClickBtnViewCSSSource);
+		m_elmBtnEditCSSSource.addEventListener("click", onClickBtnEditCSSSource);
 		m_elmBtnClearCSSSource.addEventListener("click", onClickBtnClearCSSSource);
 		m_elmCSSViewBox.addEventListener("keydown", onKeyDownCSSViewBox);
 		m_elmTextCSSViewer.addEventListener("blur", onBlurTextCSSViewer);
@@ -424,7 +426,7 @@ let preferences = (function() {
 			m_elmUseCustomCSSFeedPreview.checked = checked;
 			if(checked) {
 				prefs.getCustomCSSSourceHash().then((hash) => {
-					slUtil.disableElementTree(m_elmBtnViewCSSSource, (hash.length === 0));
+					slUtil.disableElementTree(m_elmBtnEditCSSSource, (hash.length === 0));
 					slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
 					flashCustomCSSImportButton();
 				});
@@ -742,7 +744,7 @@ let preferences = (function() {
 
 				if(m_elmUseCustomCSSFeedPreview.checked) {
 					slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, false);
-					slUtil.disableElementTree(m_elmBtnViewCSSSource, (hash.length === 0));
+					slUtil.disableElementTree(m_elmBtnEditCSSSource, (hash.length === 0));
 					slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
 				} else {
 					slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
@@ -761,44 +763,58 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeImportCustomCSSSource(event) {
 
-		cssFileValidator(event.target.files[0]).then((result) => {
+		ifNotepadWindowIsClosed().then(() => {
+			cssFileValidator(event.target.files[0]).then((result) => {
 
-			prefs.getCustomCSSSource().then((prevSource) => {
-				prefs.setCustomCSSSource(result.source).then(() => {
-					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
+				prefs.getCustomCSSSource().then((prevSource) => {
+					prefs.setCustomCSSSource(result.source).then(() => {
+						broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
+					});
 				});
+
+				slUtil.disableElementTree(m_elmBtnEditCSSSource, false);
+				slUtil.disableElementTree(m_elmBtnClearCSSSource, false);
+
+				flashCustomCSSImportButton();
+
+				if(!!result.warning) {
+					showMessageBox("Warning", result.warning, m_elmImportCustomCSSSource.parentElement.parentElement);
+				}
+
+			}).catch((error) => {
+				showMessageBox("Error", error.message, m_elmImportCustomCSSSource.parentElement.parentElement);
+				console.log("[Sage-Like]", "CSS file validation error", error.message);
 			});
-
-			slUtil.disableElementTree(m_elmBtnViewCSSSource, false);
-			slUtil.disableElementTree(m_elmBtnClearCSSSource, false);
-
-			flashCustomCSSImportButton();
-
-			if(!!result.warning) {
-				showMessageBox("Warning", result.warning, m_elmImportCustomCSSSource.parentElement.parentElement);
-			}
-
-		}).catch((error) => {
-			showMessageBox("Error", error.message, m_elmImportCustomCSSSource.parentElement.parentElement);
-			console.log("[Sage-Like]", "CSS file validation error", error.message);
-		});
+		}).catch(() => { /* if open do nothing */ });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickBtnViewCSSSource(event) {
-		showCSSViewBox();
+	function onClickBtnEditCSSSource(event) {
+		//showCSSViewBox();
+
+		// if notepad windows is not found (or id is zero) the catch() will create a new notepad window
+		browser.windows.update(m_winIdNotepad, { focused: true }).catch(() => {
+			let createData = {
+				url: browser.runtime.getURL("notepad/notepad.html"),
+				type: "popup",
+				allowScriptsToClose: true,
+			};
+			browser.windows.create(createData).then(win => m_winIdNotepad = win.id);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnClearCSSSource(event) {
-		prefs.getCustomCSSSource().then((prevSource) => {
-			prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE).then(() => {
-				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
+		ifNotepadWindowIsClosed().then(() => {
+			prefs.getCustomCSSSource().then((prevSource) => {
+				prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE).then(() => {
+					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
+				});
 			});
-		});
-		slUtil.disableElementTree(m_elmBtnViewCSSSource, true);
-		slUtil.disableElementTree(m_elmBtnClearCSSSource, true);
-		flashCustomCSSImportButton();
+			slUtil.disableElementTree(m_elmBtnEditCSSSource, true);
+			slUtil.disableElementTree(m_elmBtnClearCSSSource, true);
+			flashCustomCSSImportButton();
+		}).catch(() => { /* if open do nothing */ });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1228,8 +1244,8 @@ let preferences = (function() {
 
 			m_elmCSSViewBox.style.display = "block";
 
-			let x = m_elmBtnViewCSSSource.parentElement.parentElement.offsetLeft;
-			let y = m_elmBtnViewCSSSource.offsetTop - m_elmCSSViewBox.offsetHeight;
+			let x = m_elmBtnEditCSSSource.parentElement.parentElement.offsetLeft;
+			let y = m_elmBtnEditCSSSource.offsetTop - m_elmCSSViewBox.offsetHeight;
 
 			m_elmCSSViewBox.style.left = x + "px";
 			m_elmCSSViewBox.style.top = y + "px";
@@ -1320,7 +1336,7 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function flashCustomCSSImportButton() {
-		document.getElementById("labelForImportCustomCSSSource").classList.toggle("flash", (m_elmUseCustomCSSFeedPreview.checked && m_elmBtnViewCSSSource.disabled));
+		document.getElementById("labelForImportCustomCSSSource").classList.toggle("flash", (m_elmUseCustomCSSFeedPreview.checked && m_elmBtnEditCSSSource.disabled));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1399,6 +1415,20 @@ let preferences = (function() {
 				};
 				reader.readAsText(cssFile);
 			}
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function ifNotepadWindowIsClosed() {
+		return new Promise((resolve, reject) => {
+			browser.windows.get(m_winIdNotepad).then(() => {
+				let msg = "The Operation cannot be completed while the notepad CSS source code editor is open.\n\nClose the editor.";
+				let funcOnCloseBox = () => browser.windows.update(m_winIdNotepad, { focused: true }).catch(() => {});
+				showMessageBox("Error", msg, m_elmImportCustomCSSSource.parentElement.parentElement, funcOnCloseBox);
+				reject();
+			}).catch(() => {
+				resolve();
+			});
 		});
 	}
 

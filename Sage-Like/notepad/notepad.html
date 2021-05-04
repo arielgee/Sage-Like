@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="notepad.css" />
+	<script src="/common.js"></script>
+	<script src="notepad.js"></script>
+	<title>Notepad</title>
+</head>
+<body>
+	<div id="helpPopup" tabindex="-1" >
+		<div id="helpPopupContent">
+			<div class="caption">Keyboard Hotkeys</div>
+			<div class="item"><span class="hotkey">&#10033;&nbsp;Ctrl+S</span>Save</div>
+			<div class="item"><span class="hotkey">&#10033;&nbsp;Alt+S</span>Save and exit</div>
+			<div class="item"><span class="hotkey">&#10033;&nbsp;Ctrl+R</span>Revert to saved</div>
+			<div class="item"><span class="hotkey">&#10033;&nbsp;Ctrl+E</span>Export to file</div>
+			<div class="item"><span class="hotkey">&#10033;&nbsp;Ctrl+Q</span>Quit without saving</div>
+		</div>
+	</div>
+	<textarea id="sourceEditor" autofocus tabindex="1" spellcheck="false" autocomplete="off" wrap="hard"></textarea>
+</body>
+</html>
