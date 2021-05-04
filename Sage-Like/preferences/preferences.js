@@ -54,8 +54,6 @@ let preferences = (function() {
 	let m_elmImportCustomCSSSource;
 	let m_elmBtnEditCSSSource;
 	let m_elmBtnClearCSSSource;
-	let m_elmCSSViewBox;
-	let m_elmTextCSSViewer;
 	let m_elmImportOpml;
 	let m_elmExportOpml;
 	let m_elmImportPreferences;
@@ -126,8 +124,6 @@ let preferences = (function() {
 		m_elmImportCustomCSSSource = document.getElementById("importCustomCSSSource");
 		m_elmBtnEditCSSSource = document.getElementById("btnEditCSSSource");
 		m_elmBtnClearCSSSource = document.getElementById("btnClearCSSSource");
-		m_elmCSSViewBox = document.getElementById("cssViewBox");
-		m_elmTextCSSViewer = document.getElementById("textCSSViewer");
 		m_elmImportOpml = document.getElementById("inputImportOPML");
 		m_elmExportOpml = document.getElementById("btnExportOPML");
 		m_elmImportPreferences = document.getElementById("inputImportPreferences");
@@ -200,8 +196,6 @@ let preferences = (function() {
 		m_elmImportCustomCSSSource.removeEventListener("change", onChangeImportCustomCSSSource);
 		m_elmBtnEditCSSSource.removeEventListener("click", onClickBtnEditCSSSource);
 		m_elmBtnClearCSSSource.removeEventListener("click", onClickBtnClearCSSSource);
-		m_elmCSSViewBox.removeEventListener("keydown", onKeyDownCSSViewBox);
-		m_elmTextCSSViewer.removeEventListener("blur", onBlurTextCSSViewer);
 		m_elmImportOpml.removeEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.removeEventListener("click", onClickExportOpml);
 		m_elmImportPreferences.removeEventListener("change", onChangeImportPreferences);
@@ -261,8 +255,6 @@ let preferences = (function() {
 		m_elmImportCustomCSSSource.addEventListener("change", onChangeImportCustomCSSSource);
 		m_elmBtnEditCSSSource.addEventListener("click", onClickBtnEditCSSSource);
 		m_elmBtnClearCSSSource.addEventListener("click", onClickBtnClearCSSSource);
-		m_elmCSSViewBox.addEventListener("keydown", onKeyDownCSSViewBox);
-		m_elmTextCSSViewer.addEventListener("blur", onBlurTextCSSViewer);
 		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
 		m_elmExportOpml.addEventListener("click", onClickExportOpml);
 		m_elmImportPreferences.addEventListener("change", onChangeImportPreferences);
@@ -790,8 +782,6 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnEditCSSSource(event) {
-		//showCSSViewBox();
-
 		// if notepad windows is not found (or id is zero) the catch() will create a new notepad window
 		browser.windows.update(m_winIdNotepad, { focused: true }).catch(() => {
 			let createData = {
@@ -1229,41 +1219,6 @@ let preferences = (function() {
 			m_funcResolveGetTimeOfDay("");
 			setTimeout(() => m_elmTimeOfDayBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 		}
-	}
-
-	//==================================================================================
-	//=== CSS View Box functions
-	//==================================================================================
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function showCSSViewBox() {
-
-		prefs.getCustomCSSSource().then((source) => {
-
-			m_elmTextCSSViewer.textContent = source;
-
-			m_elmCSSViewBox.style.display = "block";
-
-			let x = m_elmBtnEditCSSSource.parentElement.parentElement.offsetLeft;
-			let y = m_elmBtnEditCSSSource.offsetTop - m_elmCSSViewBox.offsetHeight;
-
-			m_elmCSSViewBox.style.left = x + "px";
-			m_elmCSSViewBox.style.top = y + "px";
-
-			m_elmTextCSSViewer.focus();
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onKeyDownCSSViewBox(event) {
-		if(event.code === "Escape") {
-			m_elmCSSViewBox.style.display = "none";
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onBlurTextCSSViewer(event) {
-		setTimeout(() => m_elmCSSViewBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 	}
 
 	//==================================================================================

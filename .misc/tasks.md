@@ -842,18 +842,17 @@
 * bug: preferences: click 'restore defaults' -> set 'Feeds bookmarks folder' -> click OPML's 'Export...' => error: "TypeError: m_objTreeFeedsData.value(...) is undefined"
 	* need to reopen sidebar and wait for the tree to be loaded
 * open custom CSS in new window and allow edit. no need to validate notepad text like cssFileValidator
----
-
-
-## Now
+* remember custom CSS file name	=> NO
 * remove old view box that was replaced by the notepad
 ---
 
 
-## Next
-* remember custom CSS file name
+## Now
 * PR images: preferences image changed 'Edit'
-*
+---
+
+
+## Next
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
