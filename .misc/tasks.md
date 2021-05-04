@@ -844,11 +844,11 @@
 * open custom CSS in new window and allow edit. no need to validate notepad text like cssFileValidator
 * remember custom CSS file name	=> NO
 * remove old view box that was replaced by the notepad
+* PR images: preferences image changed 'Edit'
 ---
 
 
 ## Now
-* PR images: preferences image changed 'Edit'
 ---
 
 
