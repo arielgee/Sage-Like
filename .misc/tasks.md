@@ -850,10 +850,14 @@
 
 
 ## Now
+* notepad dark theme toggle hotkey
+* remember last notepad color scheme in internalPrefs
 ---
 
 
 ## Next
+* open notepad helpPopup on first loads
+* check into the keydown's event.code / event.keyCode (multilang keyboard)
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
