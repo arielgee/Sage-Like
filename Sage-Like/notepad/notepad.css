@@ -14,18 +14,16 @@
 	--color-help-popup-hotkey: rgb(0, 0, 255);
 }
 
-@media (prefers-color-scheme: dark) {
+html.darkColorScheme {
 
-	:root {
-		/********************dark theme colors*******************/
-		--foreground-color-source-editor: rgb(255, 255, 255); /* rgb(207, 179, 67); */
-		--background-color-source-editor: rgb(32, 32, 32);
+	/********************dark theme colors*******************/
+	--foreground-color-source-editor: rgb(255, 255, 255); /* rgb(207, 179, 67); */
+	--background-color-source-editor: rgb(32, 32, 32);
 
-		--foreground-color-help-popup: rgb(205, 205, 205);
-		--background-color-help-popup: rgb(64, 64, 64);
-		--invert-filter-help-popup: invert(100%);
-		--color-help-popup-hotkey: rgb(30, 144, 255);
-	}
+	--foreground-color-help-popup: rgb(205, 205, 205);
+	--background-color-help-popup: rgb(64, 64, 64);
+	--invert-filter-help-popup: invert(100%);
+	--color-help-popup-hotkey: rgb(30, 144, 255);
 }
 
 html, body {

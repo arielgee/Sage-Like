@@ -952,6 +952,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE = "0";
 	const DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE = 3;
 	const DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE = 3;
+	const DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE = undefined;
 
 	const PREF_OPEN_TREE_FOLDERS = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
@@ -964,6 +965,7 @@ let internalPrefs = (function() {
 	const PREF_AGGRESSIVE_DISCOVERY_LEVEL = "pref_aggressiveDiscoveryLevel";
 	const PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX = "pref_hoverFilterTextBoxShowMsgCount";
 	const PREF_MSG_SHOW_COUNT_REAPPLY_FILTER = "pref_reapplyFilterShowMsgCount";
+	const PREF_NOTEPAD_DARK_COLOR_SCHEME = "pref_notepadDarkColorScheme";
 
 	let m_localStorage = browser.storage.local;
 
@@ -1095,6 +1097,16 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getNotepadDarkColorScheme() {
+		return getPreferenceValue(PREF_NOTEPAD_DARK_COLOR_SCHEME, DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setNotepadDarkColorScheme(value) {
+		return setPreferenceValue(PREF_NOTEPAD_DARK_COLOR_SCHEME, value);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setOpenTreeFolders(DEF_PREF_OPEN_TREE_FOLDERS_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
@@ -1107,6 +1119,7 @@ let internalPrefs = (function() {
 		this.setAggressiveDiscoveryLevel(DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE);
 		this.setMsgShowCountHoverFilterTextBox(DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE);
 		this.setMsgShowCountReapplyFilter(DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE);
+		this.setNotepadDarkColorScheme(DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE);
 
 		return {
 			openTreeFolders: DEF_PREF_OPEN_TREE_FOLDERS_VALUE,
@@ -1120,6 +1133,7 @@ let internalPrefs = (function() {
 			aggressiveDiscoveryLevel: DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE,
 			msgShowCountHoverFilterTextBox: DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE,
 			msgShowCountReapplyFilter: DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE,
+			notepadDarkColorScheme: DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE,
 		};
 	}
 
@@ -1160,6 +1174,8 @@ let internalPrefs = (function() {
 		setMsgShowCountHoverFilterTextBox: setMsgShowCountHoverFilterTextBox,
 		getMsgShowCountReapplyFilter: getMsgShowCountReapplyFilter,
 		setMsgShowCountReapplyFilter: setMsgShowCountReapplyFilter,
+		getNotepadDarkColorScheme: getNotepadDarkColorScheme,
+		setNotepadDarkColorScheme: setNotepadDarkColorScheme,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 

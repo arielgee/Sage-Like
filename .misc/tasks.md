@@ -846,17 +846,17 @@
 * remember custom CSS file name	=> NO
 * remove old view box that was replaced by the notepad
 * PR images: preferences image changed 'Edit'
----
-
-
-## Now
 * notepad dark theme toggle hotkey
 * remember last notepad color scheme in internalPrefs
 ---
 
 
-## Next
+## Now
 * open notepad helpPopup on first loads
+---
+
+
+## Next
 * check into the keydown's event.code / event.keyCode (multilang keyboard)
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 

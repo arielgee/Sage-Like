@@ -7,6 +7,7 @@ let notepad = (function() {
 	let m_elmHelpPopup
 	let m_elmSourceEditor;
 
+	let m_isDarkColorScheme;
 	let m_windowLayoutThrottler = false;
 	let m_isDirty;
 	let m_savedCSSSource;
@@ -34,6 +35,7 @@ let notepad = (function() {
 		m_elmSourceEditor.addEventListener("keydown", onKeyDownSourceEditor);
 		m_elmSourceEditor.addEventListener("input", onInputSourceEditor);
 
+		getInitialColorScheme();
 		await setSavedCSSSourceToEditor();
 		setHelpInfoElementPosition();
 	}
@@ -117,6 +119,11 @@ let notepad = (function() {
 		if(stateKeyModifier === KEY_MODIFIER_CTRL && event.code === "KeyE") {		// Export to file
 			event.preventDefault();
 			exportToFile();
+			return;
+		}
+
+		if(stateKeyModifier === KEY_MODIFIER_ALT && event.code === "KeyT") {		// Toggle color theme
+			toggleColorScheme();
 			return;
 		}
 
@@ -209,6 +216,33 @@ let notepad = (function() {
 				console.log("[Sage-Like]", error);
 			}
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getInitialColorScheme() {
+
+		internalPrefs.getNotepadDarkColorScheme().then((darkColorScheme) => {
+
+			// check if NotepadDarkColorScheme was ever set
+
+			if(darkColorScheme === undefined) {
+				// flip the boolean 'matches' value so that toggleColorScheme() will toggle(flip) it back
+				m_isDarkColorScheme = !(window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+			} else {
+				// flip the boolean preference value so that toggleColorScheme() will toggle(flip) it back
+				m_isDarkColorScheme = !darkColorScheme;
+			}
+
+			toggleColorScheme();
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function toggleColorScheme() {
+		m_isDarkColorScheme = !m_isDarkColorScheme;
+		internalPrefs.setNotepadDarkColorScheme(m_isDarkColorScheme);
+		document.documentElement.classList.toggle("darkColorScheme", m_isDarkColorScheme);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
