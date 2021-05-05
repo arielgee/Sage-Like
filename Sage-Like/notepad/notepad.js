@@ -38,6 +38,7 @@ let notepad = (function() {
 		getInitialColorScheme();
 		await setSavedCSSSourceToEditor();
 		setHelpInfoElementPosition();
+		showFirstLoadHelpPopup();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -269,6 +270,16 @@ let notepad = (function() {
 		} else {
 			document.documentElement.style.setProperty("--source-editor-scrollbar-width", "0px");
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function showFirstLoadHelpPopup() {
+		internalPrefs.getPopupShowCountNotepadHelp().then((count) => {
+			if(count>0) {
+				m_elmHelpPopup.classList.add("show");
+				internalPrefs.setPopupShowCountNotepadHelp(--count);
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

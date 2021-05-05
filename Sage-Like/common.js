@@ -953,6 +953,7 @@ let internalPrefs = (function() {
 	const DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE = 3;
 	const DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE = 3;
 	const DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE = undefined;
+	const DEF_PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP_VALUE = 3;
 
 	const PREF_OPEN_TREE_FOLDERS = "pref_openSubTrees";
 	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
@@ -966,6 +967,7 @@ let internalPrefs = (function() {
 	const PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX = "pref_hoverFilterTextBoxShowMsgCount";
 	const PREF_MSG_SHOW_COUNT_REAPPLY_FILTER = "pref_reapplyFilterShowMsgCount";
 	const PREF_NOTEPAD_DARK_COLOR_SCHEME = "pref_notepadDarkColorScheme";
+	const PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP = "pref_notepadHelpShowPopupCount";
 
 	let m_localStorage = browser.storage.local;
 
@@ -1107,6 +1109,16 @@ let internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getPopupShowCountNotepadHelp() {
+		return getPreferenceValue(PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP, DEF_PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP_VALUE);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setPopupShowCountNotepadHelp(value) {
+		return setPreferenceValue(PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP, value);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
 		this.setOpenTreeFolders(DEF_PREF_OPEN_TREE_FOLDERS_VALUE);
 		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
@@ -1120,6 +1132,7 @@ let internalPrefs = (function() {
 		this.setMsgShowCountHoverFilterTextBox(DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE);
 		this.setMsgShowCountReapplyFilter(DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE);
 		this.setNotepadDarkColorScheme(DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE);
+		this.setPopupShowCountNotepadHelp(DEF_PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP_VALUE);
 
 		return {
 			openTreeFolders: DEF_PREF_OPEN_TREE_FOLDERS_VALUE,
@@ -1134,6 +1147,7 @@ let internalPrefs = (function() {
 			msgShowCountHoverFilterTextBox: DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE,
 			msgShowCountReapplyFilter: DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE,
 			notepadDarkColorScheme: DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE,
+			popupShowCountNotepadHelp: DEF_PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP_VALUE,
 		};
 	}
 
@@ -1176,6 +1190,8 @@ let internalPrefs = (function() {
 		setMsgShowCountReapplyFilter: setMsgShowCountReapplyFilter,
 		getNotepadDarkColorScheme: getNotepadDarkColorScheme,
 		setNotepadDarkColorScheme: setNotepadDarkColorScheme,
+		getPopupShowCountNotepadHelp: getPopupShowCountNotepadHelp,
+		setPopupShowCountNotepadHelp: setPopupShowCountNotepadHelp,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 

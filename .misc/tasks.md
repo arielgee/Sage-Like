@@ -848,16 +848,16 @@
 * PR images: preferences image changed 'Edit'
 * notepad dark theme toggle hotkey
 * remember last notepad color scheme in internalPrefs
----
-
-
-## Now
 * open notepad helpPopup on first loads
 ---
 
 
-## Next
+## Now
 * check into the keydown's event.code / event.keyCode (multilang keyboard)
+---
+
+
+## Next
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
