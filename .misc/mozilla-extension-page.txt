@@ -52,19 +52,14 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added new option to specify feed item sorting: 'Chronological' or 'Source' from the Options page.</li>
-  <li>Added new option to specify where to open feed items: Current tab or a new tab.</li>
-  <li>Critical Bug Fix: The check feed process doesn't identify an updated feed in certain and frequent conditions.</li>
-  <li>Added support for feed discovery in 1st level iframe documents (aggressiveness 'Low' and 'High' only).</li>
-  <li>Added relative update time to feed tool tips in tree view and discovery views.</li>
-  <li>Redesigned UI of the Options page.
+  <li>Added support for Importing/Exporting of the extension's options from the Options page.</li>
+  <li>Added a basic code editor for the imported custom CSS source code instead of the in-page view box.
     <ul>
-      <li>Replaced some radio buttons with drop-down lists.</li>
-      <li>Changed the look of check boxes and radio buttons.</li>
-      <li>Options reordered and separated into titled sections.</li>
+      <li>Changes to the code are immediately reflected in the Feed Previews when saved.</li>
+      <li>Modified source code can be exported to a file.</li>
     </ul>
   </li>
-  <li>Bugs were fixed and the code was improved.</li>
+  <li>Code was improved and bugs were fixed.</li>
 </ul>
 
 + Version Notes for next time
