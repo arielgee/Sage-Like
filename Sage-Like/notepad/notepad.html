@@ -11,14 +11,44 @@
 <body>
 	<div id="helpPopup" tabindex="-1" >
 		<div id="helpPopupContent">
-			<div class="caption">Keyboard Hotkeys</div>
-			<div class="item"><span class="hotkey">&#10033;&nbsp;Ctrl+S</span>Save</div>
-			<div class="item"><span class="hotkey">&#10033;&nbsp;Alt+S</span>Save and exit</div>
-			<div class="item"><span class="hotkey">&#10033;&nbsp;Ctrl+R</span>Revert to saved</div>
-			<div class="item"><span class="hotkey">&#10033;&nbsp;Ctrl+E</span>Export to file</div>
-			<div class="item"><span class="hotkey">&#10033;&nbsp;Alt+T</span>Toggle dark theme</div>
-			<div class="item"><span class="hotkey">&#10033;&nbsp;F1</span>Toggle this popup</div>
-			<div class="item"><span class="hotkey">&#10033;&nbsp;Ctrl+Q</span>Quit without saving</div>
+			<div class="caption">Keyboard Shortcut Commands</div>
+			<table id="shortcutInfo">
+				<tbody>
+					<tr>
+						<th>Command</th>
+						<th>Shortcut</th>
+					</tr>
+					<tr>
+						<td>Save</td>
+						<td><span class="key mod">Ctrl</span>+<span class="key char">S</span></td>
+					</tr>
+					<tr>
+						<td>Save and exit</td>
+						<td><span class="key mod">Alt</span>+<span class="key char">S</span></td>
+					</tr>
+					<tr>
+						<td>Revert to saved</td>
+						<td><span class="key mod">Ctrl</span>+<span class="key char">R</span></td>
+					</tr>
+					<tr>
+						<td>Export to file</td>
+						<td><span class="key mod">Ctrl</span>+<span class="key char">E</span></td>
+					</tr>
+					<tr>
+						<td>Toggle dark theme</td>
+						<td><span class="key mod">Alt</span>+<span class="key char">T</span></td>
+					</tr>
+					<tr>
+						<td>Toggle this popup</td>
+						<td><span class="key func">F1</span></td>
+					</tr>
+					<tr>
+						<td>Quit without saving</td>
+						<td><span class="key mod">Ctrl</span>+<span class="key char">Q</span></td>
+					</tr>
+				</tbody>
+			</table>
+
 		</div>
 	</div>
 	<textarea id="sourceEditor" autofocus tabindex="1" spellcheck="false" autocomplete="off" wrap="hard"></textarea>

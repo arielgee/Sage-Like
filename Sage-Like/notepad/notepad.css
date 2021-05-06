@@ -11,19 +11,21 @@
 	--foreground-color-help-popup: rgb(0, 0, 0);
 	--background-color-help-popup: rgb(255, 255, 220);
 	--invert-filter-help-popup: none;
-	--color-help-popup-hotkey: rgb(0, 0, 255);
+	--color-help-popup-caption: rgb(0, 0, 255);
+	--border-color-help-popup-key: rgb(51, 51, 51);
 }
 
 html.darkColorScheme {
 
 	/********************dark theme colors*******************/
-	--foreground-color-source-editor: rgb(255, 255, 255); /* rgb(207, 179, 67); */
+	--foreground-color-source-editor: rgb(255, 255, 255);
 	--background-color-source-editor: rgb(32, 32, 32);
 
 	--foreground-color-help-popup: rgb(205, 205, 205);
 	--background-color-help-popup: rgb(64, 64, 64);
 	--invert-filter-help-popup: invert(100%);
-	--color-help-popup-hotkey: rgb(30, 144, 255);
+	--color-help-popup-caption: rgb(30, 144, 255);
+	--border-color-help-popup-key: rgb(181, 181, 181);
 }
 
 html, body {
@@ -70,25 +72,45 @@ html, body {
 }
 
 #helpPopup .caption {
-	font-size: 15px;
+	color: var(--color-help-popup-caption);
+	font-size: 16px;
 	font-weight: bold;
-	padding: 2px 0 8px 2px;
+	padding: 2px 0 14px 2px;
 }
 
-#helpPopup .item {
-	padding: 1px 10px 3px 8px;
+#shortcutInfo {
+	table-layout: fixed;
+	border-collapse: collapse;
+	border-spacing: 0;
+	text-align: left;
+	margin: 0 0 5px 10px;
 }
-#helpPopup .item:not(:last-child) {
+#shortcutInfo tr {
 	border-bottom: 1px dotted rgb(128, 128, 128);
 }
-
-#helpPopup .item > .hotkey {
-	display: inline-block;
-	width: 70px;
-	color: var(--color-help-popup-hotkey);
-	font-weight: bold;
+#shortcutInfo td:first-child {
+	padding: 5px 25px 5px 0;
 }
-
+#shortcutInfo td:last-child {
+	padding: 5px 10px 5px 0;
+}
+#shortcutInfo .key {
+	display: inline-block;
+	border: 1px solid var(--border-color-help-popup-key);
+	border-radius: 0.3em;
+	padding: 1px 4px;
+	background-color: rgb(181, 181, 181);
+	color: rgb(0, 0, 0);
+	font-family: 'Courier New', monospace;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}
+#shortcutInfo .key:first-child { margin-right: 5px; }
+#shortcutInfo .key:nth-child(2) { margin-left: 5px; }
+#shortcutInfo .key.mod { width: 34px; }
+#shortcutInfo .key.func { width: 18px; }
+#shortcutInfo .key.char { width: 12px; }
 
 #sourceEditor {
 	margin: 0;
