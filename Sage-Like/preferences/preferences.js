@@ -70,7 +70,7 @@ let preferences = (function() {
 	let m_funcResolveGetTimeOfDay;
 	let m_funcResolveGetUserFontName;
 
-	let m_winIdNotepad = 0;
+	let m_winIdNotepad = [0];
 
 	let m_lockBookmarksEventHandler = new Locker();
 
@@ -783,13 +783,18 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnEditCSSSource(event) {
 		// if notepad windows is not found (or id is zero) the catch() will create a new notepad window
-		browser.windows.update(m_winIdNotepad, { focused: true }).catch(() => {
+		browser.windows.update(m_winIdNotepad[0], { focused: true }).catch(() => {
 			let createData = {
 				url: browser.runtime.getURL("notepad/notepad.html"),
 				type: "popup",
 				allowScriptsToClose: true,
 			};
-			browser.windows.create(createData).then(win => m_winIdNotepad = win.id);
+			browser.windows.create(createData).then(win => {
+				m_winIdNotepad.push(win.id);
+				while(m_winIdNotepad.length > 1) {	// there must be only one
+					browser.windows.remove(m_winIdNotepad.shift()).catch(() => { /* if not found do nothing */ });
+				}
+			});
 		});
 	}
 
@@ -1376,9 +1381,9 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function ifNotepadWindowIsClosed() {
 		return new Promise((resolve, reject) => {
-			browser.windows.get(m_winIdNotepad).then(() => {
+			browser.windows.get(m_winIdNotepad[0]).then(() => {
 				let msg = "The Operation cannot be completed while the notepad CSS source code editor is open.\n\nClose the editor.";
-				let funcOnCloseBox = () => browser.windows.update(m_winIdNotepad, { focused: true }).catch(() => {});
+				let funcOnCloseBox = () => browser.windows.update(m_winIdNotepad[0], { focused: true }).catch(() => {});
 				showMessageBox("Error", msg, m_elmImportCustomCSSSource.parentElement.parentElement, funcOnCloseBox);
 				reject();
 			}).catch(() => {

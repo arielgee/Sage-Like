@@ -849,11 +849,11 @@
 * notepad dark theme toggle hotkey
 * remember last notepad color scheme in internalPrefs
 * open notepad helpPopup on first loads
+* check into the keydown's event.code / event.keyCode (multilang keyboard) => ALL GOOD
 ---
 
 
 ## Now
-* check into the keydown's event.code / event.keyCode (multilang keyboard)
 ---
 
 
