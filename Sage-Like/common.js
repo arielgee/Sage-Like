@@ -547,6 +547,7 @@ let slGlobals = (function() {
 	const MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE				= 1017;
 	const MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL		= 1018;
 	const MSGD_PREF_CHANGE_SORT_FEED_ITEMS					= 1019;
+	const MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES			= 1020;
 
 	const BOOKMARKS_ROOT_GUID = "root________";
 	const BOOKMARKS_ROOT_MENU_GUID = "menu________";
@@ -636,6 +637,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE: MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE,
 		MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL: MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL,
 		MSGD_PREF_CHANGE_SORT_FEED_ITEMS: MSGD_PREF_CHANGE_SORT_FEED_ITEMS,
+		MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES: MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES,
 
 		BOOKMARKS_ROOT_GUID: BOOKMARKS_ROOT_GUID,
 		BOOKMARKS_ROOT_MENU_GUID: BOOKMARKS_ROOT_MENU_GUID,
@@ -1249,6 +1251,7 @@ let prefs = (function() {
 	const DEF_PREF_CUSTOM_CSS_SOURCE_VALUE = "";
 	const DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE = "";
 	const DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE = true;
+	const DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE = true;
 
 	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
 	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
@@ -1278,6 +1281,7 @@ let prefs = (function() {
 	const PREF_CUSTOM_CSS_SOURCE = "pref_customCSSSource";
 	const PREF_CUSTOM_CSS_SOURCE_HASH = "pref_customCSSSourceHash";
 	const PREF_ANIMATED_SLIDE_DOWN_PANEL = "pref_animatedSlideDownPanel";
+	const PREF_STRICT_RSS_CONTENT_TYPES = "pref_strictRssContentTypes";
 
 	let m_localStorage = browser.storage.local;
 
@@ -1570,6 +1574,16 @@ let prefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function getStrictRssContentTypes() {
+		return getPreferenceValue(PREF_STRICT_RSS_CONTENT_TYPES, DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function setStrictRssContentTypes(value) {
+		return setPreferenceValue(PREF_STRICT_RSS_CONTENT_TYPES, value);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function getAllPreferences() {
 		return new Promise(async (resolve) => {
 			let objPrefs = getAllPreferencesDefaultObject();
@@ -1622,6 +1636,7 @@ let prefs = (function() {
 		this.setUseCustomCSSFeedPreview(DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE);
 		this.setCustomCSSSource(DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
 		this.setAnimatedSlideDownPanel(DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE);
+		this.setStrictRssContentTypes(DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE);
 
 		return {
 			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
@@ -1652,6 +1667,7 @@ let prefs = (function() {
 			customCSSSource: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
 			customCSSSourceHash: DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
 			animatedSlideDownPanel: DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
+			strictRssContentTypes: DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE,
 		};
 	}
 
@@ -1700,6 +1716,7 @@ let prefs = (function() {
 			[PREF_CUSTOM_CSS_SOURCE]:				DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
 			[PREF_CUSTOM_CSS_SOURCE_HASH]:			DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
 			//[PREF_ANIMATED_SLIDE_DOWN_PANEL]:		DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
+			//[PREF_STRICT_RSS_CONTENT_TYPES]:		DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE,
 		};
 	}
 
@@ -1736,6 +1753,7 @@ let prefs = (function() {
 		DEF_PREF_CUSTOM_CSS_SOURCE_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
 		DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
 		DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE: DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
+		DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE: DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE,
 
 		getRootFeedsFolderId: getRootFeedsFolderId,
 		setRootFeedsFolderId: setRootFeedsFolderId,
@@ -1792,6 +1810,8 @@ let prefs = (function() {
 		getCustomCSSSourceHash: getCustomCSSSourceHash,
 		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,
 		getAnimatedSlideDownPanel: getAnimatedSlideDownPanel,
+		setStrictRssContentTypes: setStrictRssContentTypes,
+		getStrictRssContentTypes: getStrictRssContentTypes,
 
 		getAllPreferences: getAllPreferences,
 		setAllPreferences: setAllPreferences,

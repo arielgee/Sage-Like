@@ -1405,7 +1405,16 @@ let preferences = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function hidden_pref_strict_rss_content_types(strict = true) {
+		console.log("[Sage-Like]", "WARNING: The result of setting this preference to 'False' is that Sage-Like will treat nearly any XML file as an RSS feed and attempt to display it with Feed Preview.");
+		prefs.setStrictRssContentTypes(!!strict).then(() => {
+			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES);
+		});
+	}
+
 	return {
 		hidden_pref_animated_slide_down_panel: hidden_pref_animated_slide_down_panel,
+		hidden_pref_strict_rss_content_types: hidden_pref_strict_rss_content_types,
 	}
 })();

@@ -852,11 +852,11 @@
 * check into the keydown's event.code / event.keyCode (multilang keyboard) => ALL GOOD
 * preferences in own tab ('"open_in_tab": true' in manifest.options_ui) => NO
 * expose hidden_pref_animated_slide_down_panel() => NO
+* a hidden preference for strict content-type semantics
 ---
 
 
 ## Now
-* a hidden preference for strict content-type semantics
 ---
 
 
@@ -877,8 +877,8 @@
 
 ### Unresolved
 * preferences: When importing options the success message box may not be displayed.
+	* This happends when the bookmark folder ID in the imported options file was deleted from the browser or is _rootFeedsFolderIdNotSet_.
 	* Reason: the import unsets the 'Feed bookmark folder' option and the options page is reloaded from the treeView before the messageBox is displayed.
-	* This happends when the bookmark folder ID in the imported options file was deleted from the browser.
 * feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * a lot of sub folders in the tree view will fuck up the UI
 * Firefox has no support for XML 1.1

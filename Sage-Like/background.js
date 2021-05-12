@@ -14,19 +14,21 @@
 		{ isScript: true, details: { runAt: "document_idle", file: "/content.js" } },
 	];
 
+	/*** Content-Type Default Strict Behavior ***/
 	// Top-level documents loaded into a tab web requests for files with MIMEs that include semantics.
 	// For example, "Content-Type: application/xml" will be ignored and handled by the browser.
 	// Only web requests with "Content-Type: application/rss+xml" (or rdf, atom) will be handled
 	// by Sage-Like.
 	// This is in accordance with Firefox version 64.0 and above (RSS support was dropped) when it started
 	// to display the 'open with' dialog for files with "Content-Type: application/rss+xml" (or rdf, atom).
-	const REGEX_RSS_CONTENT_TYPES = new RegExp("application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))", "i");			// semantics NOT optional
-	//const REGEX_RSS_CONTENT_TYPES = new RegExp("application/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))", "i");	// semantics optional
+	const REGEX_RSS_CONTENT_TYPES_STRICT = new RegExp("application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))", "i");						// semantics NOT optional
+	const REGEX_RSS_CONTENT_TYPES_NOT_STRICT = new RegExp("(application|text)/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))", "i");	// semantics optional
 
 	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpUrlFilter;
+	let m_regExpRssContentTypes;
 
 	initialization();
 
@@ -47,6 +49,7 @@
 			["blocking", "responseHeaders"]
 		);
 
+		handlePrefStrictRssContentTypes()										// Check if web response can be displayed as feedPreview
 		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for pageAction
 
 		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
@@ -96,6 +99,10 @@
 				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 					message.details === slGlobals.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE) {
 					handlePrefDetectFeedsInWebPage();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES) {
+					handlePrefStrictRssContentTypes();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -227,7 +234,7 @@
 					for(let i=0, len=headers.length; i<len; i++) {
 
 						if(headers[i].name.toLowerCase() === "content-type") {
-							if(headers[i].value.match(REGEX_RSS_CONTENT_TYPES)) {
+							if(headers[i].value.match(m_regExpRssContentTypes)) {
 								//console.log("[Sage-Like] END:", details.requestId, "\n", details);
 								return resolve({ redirectUrl: slUtil.getFeedPreviewUrl(details.url) });
 							}
@@ -352,6 +359,11 @@
 				err.message.startsWith("redeclaration") ? resolve({ errorIndex: idx }) : reject(new Error(`Error index: ${idx}, ${err.message}`));
 			}
  		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function handlePrefStrictRssContentTypes() {
+		m_regExpRssContentTypes = (await prefs.getStrictRssContentTypes()) ? REGEX_RSS_CONTENT_TYPES_STRICT : REGEX_RSS_CONTENT_TYPES_NOT_STRICT;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
