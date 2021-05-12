@@ -850,10 +850,13 @@
 * remember last notepad color scheme in internalPrefs
 * open notepad helpPopup on first loads
 * check into the keydown's event.code / event.keyCode (multilang keyboard) => ALL GOOD
+* preferences in own tab ('"open_in_tab": true' in manifest.options_ui) => NO
+* expose hidden_pref_animated_slide_down_panel() => NO
 ---
 
 
 ## Now
+* a hidden preference for strict content-type semantics
 ---
 
 
@@ -863,11 +866,6 @@
 
 ### file "sl-customFeedPreview-CSS-files.zip" is ahead of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
 * one extra css file.
-
-### preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
-* expose hidden_pref_animated_slide_down_panel()
-* a preference (hidden?) for how strict the content-type semantics are:
-	> [X] strict semantics (rss|rdf|atom|feed))		[O] Accept 'text' type in addition to 'application' type
 
 
 ### low priority
