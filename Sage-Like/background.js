@@ -21,8 +21,8 @@
 	// by Sage-Like.
 	// This is in accordance with Firefox version 64.0 and above (RSS support was dropped) when it started
 	// to display the 'open with' dialog for files with "Content-Type: application/rss+xml" (or rdf, atom).
-	const REGEX_RSS_CONTENT_TYPES_STRICT = new RegExp("application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))", "i");						// semantics NOT optional
-	const REGEX_RSS_CONTENT_TYPES_NOT_STRICT = new RegExp("(application|text)/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))", "i");	// semantics optional
+	const REGEX_RSS_CONTENT_TYPES_STRICT = "application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))";					// semantics NOT optional
+	const REGEX_RSS_CONTENT_TYPES_NOT_STRICT = "(application|text)/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))";	// semantics optional
 
 	let m_windowIds = [];
 	let m_currentWindowId = null;
@@ -362,8 +362,10 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function handlePrefStrictRssContentTypes() {
-		m_regExpRssContentTypes = (await prefs.getStrictRssContentTypes()) ? REGEX_RSS_CONTENT_TYPES_STRICT : REGEX_RSS_CONTENT_TYPES_NOT_STRICT;
+	function handlePrefStrictRssContentTypes() {
+		prefs.getStrictRssContentTypes().then((strict) => {
+			m_regExpRssContentTypes = new RegExp(strict ? REGEX_RSS_CONTENT_TYPES_STRICT : REGEX_RSS_CONTENT_TYPES_NOT_STRICT, "i");
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
