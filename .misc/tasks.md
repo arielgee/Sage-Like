@@ -827,7 +827,7 @@
 * items in discoveryView and pagePopup are selected with right-click. should be only with left-click ?
 * pagePopup has ugly scrollbars when to many items in list. tast-case: duplicate line `m_elmPageFeedsList.appendChild(createTagLI(feed));`
 * Allow open articles in a new tab option as a permanently toggle global option. https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/20
-* in Fx v68 preferences dark theme dropdown list are fuckedup.
+* in Fx v68 preferences dark theme dropdown list are fuckedup. (dropdown list items is white on white)
 * change checkbox in prefrences to green switched [x---o] ? => DONE, also retouched the radio-box
 * background.js:291 `showNewBadge = !(await browser.sidebarAction.isOpen({}));` not considering multiple windows. isOpen() return false for current win only.
 	* test case: pref: bg feed chk is on. reload ext when 2 windows are open and close sidebar in one window only and wait
@@ -857,6 +857,7 @@
 
 
 ## Now
+* in panel.css set splitter colors like toolbar (dialog bk/border colors): var(--bk-color-dialog / -contrasted-alfa)
 ---
 
 
@@ -887,6 +888,10 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
+
+
+### Will not fix
+* The Fx68 bug that was worked-around in commit a8807b9 (16/3/2021) is back in v89 (preferences: In Fx v68 dark theme, dropdown list items is white on white)
 
 
 ### Links for PR work
