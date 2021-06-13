@@ -17,6 +17,7 @@
 	--foreground-color: rgb(0, 0, 0);
 	--background-color-body: transparent;
 	--background-color-select-control: transparent;
+	--background-color-option-control: transparent;
 	--background-color-option-user: rgb(224, 224, 224);		/* option[value="-1"] */
 	--box-shadow-color-swatch: rgba(0, 0, 0, 0.6);
 	--drop-shadow-control-image:rgba(0, 0, 0, 0);
@@ -47,6 +48,7 @@
 		--foreground-color: rgb(249, 249, 250);
 		--background-color-body: rgb(32, 32, 35);
 		--background-color-select-control: rgb(50, 50, 54);
+		--background-color-option-control: rgb(43, 42, 51);
 		--background-color-option-user: rgb(16, 16, 16);		/* option[value="-1"] */
 		--box-shadow-color-swatch: rgba(255, 255, 255, 0.6);
 		--drop-shadow-control-image:rgba(255, 255, 255, 0.6);
@@ -175,10 +177,9 @@ select {
 	background-color: var(--background-color-select-control);
 }
 
-@media (prefers-color-scheme: dark) {
-	body.optionBkColorBugStyleV68 select > option {
-		background-color: var(--background-color-body);
-	}
+select > option {
+	color: var(--foreground-color);
+	background-color: var(--background-color-option-control);
 }
 
 /*** User font and Time of day ***/

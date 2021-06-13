@@ -854,6 +854,7 @@
 * expose hidden_pref_animated_slide_down_panel() => NO
 * a hidden preference for strict content-type semantics
 * in panel.css set splitter colors like toolbar (dialog bk/border colors): var(--bk-color-dialog)
+* The Fx68 bug that was worked-around in commit a8807b9 (16/3/2021) is back in v89 (preferences: In Fx v68 dark theme, dropdown list items is white on white)
 ---
 
 
@@ -888,10 +889,6 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
-
-
-### Will not fix
-* The Fx68 bug that was worked-around in commit a8807b9 (16/3/2021) is back in v89 (preferences: In Fx v68 dark theme, dropdown list items is white on white)
 
 
 ### Links for PR work

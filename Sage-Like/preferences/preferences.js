@@ -140,9 +140,6 @@ let preferences = (function() {
 			if(parseInt(version) >= 68) {
 				document.body.classList.add("noCaptionStyleV68");
 			}
-			if(parseInt(version) === 68) {
-				document.body.classList.add("optionBkColorBugStyleV68");
-			}
 		});
 
 		m_elmCheckFeedsMethodInfo.title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
