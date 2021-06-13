@@ -67,9 +67,9 @@ html, body {
 	top: var(--top-height);
 	width: 100%;
 	height: var(--splitter-height);
-	background-color: #c0c0c0;
+	background-color: var(--bk-color-dialog);
 	cursor: n-resize;
-	border-top: 1px #e0e0e0 solid;
+	border-top: 1px #7f7f7f solid;
 	border-bottom: 1px #7f7f7f solid;
 }
 

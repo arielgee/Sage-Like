@@ -853,11 +853,11 @@
 * preferences in own tab ('"open_in_tab": true' in manifest.options_ui) => NO
 * expose hidden_pref_animated_slide_down_panel() => NO
 * a hidden preference for strict content-type semantics
+* in panel.css set splitter colors like toolbar (dialog bk/border colors): var(--bk-color-dialog)
 ---
 
 
 ## Now
-* in panel.css set splitter colors like toolbar (dialog bk/border colors): var(--bk-color-dialog / -contrasted-alfa)
 ---
 
 
