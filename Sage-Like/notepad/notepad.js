@@ -163,7 +163,6 @@ let notepad = (function() {
 			let v = m_elmSourceEditor.value;
 			m_elmSourceEditor.value = v.substring(0, m_elmSourceEditor.selectionStart) + "\t" + v.substring(m_elmSourceEditor.selectionEnd, v.length);
 			m_elmSourceEditor.selectionStart = m_elmSourceEditor.selectionEnd = newCaretPos;
-			return;
 		}
 	}
 
