@@ -37,7 +37,7 @@ let notepad = (function() {
 
 		getInitialColorScheme();
 		await setSavedCSSSourceToEditor();
-		setHelpInfoElementPosition();
+		setEditorScrollbarWidth();
 		showFirstLoadHelpPopup();
 	}
 
@@ -113,7 +113,7 @@ let notepad = (function() {
 		if(stateKeyModifier === KEY_MODIFIER_CTRL && event.code === "KeyR") {		// Revert to saved
 			event.preventDefault();
 			await setSavedCSSSourceToEditor();
-			setHelpInfoElementPosition();
+			setEditorScrollbarWidth();
 			return;
 		}
 
@@ -251,18 +251,18 @@ let notepad = (function() {
 		if(!m_windowLayoutThrottler) {
 			m_windowLayoutThrottler = true;
 			window.requestAnimationFrame(() => {
-				setHelpInfoElementPosition();
+				setEditorScrollbarWidth();
 				m_windowLayoutThrottler = false;
 			});
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setHelpInfoElementPosition() {
+	function setEditorScrollbarWidth() {
 
 		// set CSS variable accordingly depending if has VScroll
 		if(slUtil.hasVScroll(m_elmSourceEditor)) {
-			if(m_elmSourceEditor.parentElement.getBoundingClientRect().width > m_elmSourceEditor.scrollWidth) {
+			if(m_elmSourceEditor.parentElement.getBoundingClientRect().width !== m_elmSourceEditor.scrollWidth) {
 				document.documentElement.style.setProperty("--source-editor-scrollbar-width", slUtil.getScrollbarWidth() + "px");
 			} else {
 				document.documentElement.style.setProperty("--source-editor-scrollbar-width", "0px");
