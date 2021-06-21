@@ -32,6 +32,7 @@ let notepad = (function() {
 		window.addEventListener("resize", onResizeWindow, false);
 		window.addEventListener("beforeunload", onBeforeUnloadWindow, { capture: true });
 		window.addEventListener("keydown", onKeyDownWindow);
+		window.addEventListener("wheel", onWheelWindow, { passive: false });
 		m_elmSourceEditor.addEventListener("keydown", onKeyDownSourceEditor);
 		m_elmSourceEditor.addEventListener("input", onInputSourceEditor);
 
@@ -42,19 +43,20 @@ let notepad = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload(event) {
+	function onUnload() {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
 
 		window.removeEventListener("resize", onResizeWindow, false);
 		window.removeEventListener("beforeunload", onBeforeUnloadWindow, { capture: true });
 		window.removeEventListener("keydown", onKeyDownWindow);
+		window.removeEventListener("wheel", onWheelWindow, { passive: false });
 		m_elmSourceEditor.removeEventListener("keydown", onKeyDownSourceEditor);
 		m_elmSourceEditor.removeEventListener("input", onInputSourceEditor);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onResizeWindow(event) {
+	function onResizeWindow() {
 		updateLayoutThrottled();
 	}
 
@@ -134,6 +136,19 @@ let notepad = (function() {
 			browser.windows.remove((await browser.windows.getCurrent()).id);
 			return;
 		}
+
+		let zoomKeys = ["Minus", "Equal", "NumpadAdd", "NumpadSubtract"];
+		if(stateKeyModifier === KEY_MODIFIER_CTRL && zoomKeys.includes(event.code)) {		// Prevent zooming
+			event.preventDefault();
+			return;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onWheelWindow(event) {
+		if(event.ctrlKey && !event.altKey && !event.shiftKey) {		// Prevent zooming
+			event.preventDefault();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +168,7 @@ let notepad = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function onInputSourceEditor(event) {
+	async function onInputSourceEditor() {
 		setDirty((m_savedCSSSourceHash !== await slUtil.hashCode(m_elmSourceEditor.value)));
 		updateLayoutThrottled();
 	}
