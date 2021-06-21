@@ -33,6 +33,7 @@ html, body {
 	padding: 0;
 	border: 0;
 	height: 100%;
+	overflow: hidden;
 }
 
 #helpPopup {
@@ -51,6 +52,7 @@ html, body {
 	background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABAklEQVQ4jYXSQUoDQRAF0JeNZqGewCM4moU7L+A93LgVryBuBZNRAuoRxL1Et15AQ9biDRRHMImLbkPTmZl8KGj6/+qu+lUsYw/XmOAnxgRX2K3RL9DFEDPMG2KGEut1yc+Z+AWnOInnlBvFnAWGmeAGnYTv4C7TlGnPadlf2EQP7zEKbOE7a6cQDUtf/sAxnpK7i/jZa6YdEBxuMm2OXxxiA58ZNyaMqc31o+jBbQ1frXrgMpY+aOCrVS0cYLuFfyNsWJPgHg8tfJ+wnm3b1xRT7MQWlQ2iHvZX+IOw26Ma0RnOa+4fsSZDN1bS1s40/ryUnKIQxjYWxlQJbvfTnv/xB2gLsLkZhnXnAAAAAElFTkSuQmCC") no-repeat left top;
 	transition: all 50ms linear 10ms;
 	filter: var(--invert-filter-help-popup);
+	user-select: none;
 }
 #helpPopup.show,
 #helpPopup:hover {
@@ -65,6 +67,7 @@ html, body {
 #helpPopupContent {
 	display: none;
 	white-space: nowrap;
+	pointer-events: none;
 }
 #helpPopup.show > #helpPopupContent,
 #helpPopup:hover > #helpPopupContent {
