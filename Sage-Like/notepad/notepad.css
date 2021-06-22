@@ -115,6 +115,11 @@ html, body {
 #shortcutInfo .key.func { width: 18px; }
 #shortcutInfo .key.char { width: 12px; }
 
+body {
+	display: flex;
+	flex-direction: column;
+}
+
 #sourceEditor {
 	margin: 0;
 	padding: 8px;
@@ -130,4 +135,16 @@ html, body {
 	font-family: Consolas, 'Courier New', monospace;
 	font-size: 14px;
 	font-weight: normal;
+}
+
+#statusBar {
+	padding: 5px 12px 5px 8px;
+	background-color: rgb(64, 64, 64);
+	color: rgb(255, 255, 255);
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 12px;
+	line-height: 12px;
+	font-weight: bold;
+	user-select: none;
+	pointer-events: none;
 }

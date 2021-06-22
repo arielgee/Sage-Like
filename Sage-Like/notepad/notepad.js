@@ -6,12 +6,16 @@ let notepad = (function() {
 
 	let m_elmHelpPopup
 	let m_elmSourceEditor;
+	let m_elmStatusBar;
 
 	let m_isDarkColorScheme;
 	let m_windowLayoutReqIdDebouncer = null;
+	let m_statusBarReqIdDebouncer = null;
 	let m_isDirty;
 	let m_savedCSSSource;
 	let m_savedCSSSourceHash = "";
+	let m_saveSelectionStart = -1;
+	let m_saveSelectionEnd = -1;
 
 	initialization();
 
@@ -28,18 +32,24 @@ let notepad = (function() {
 
 		m_elmHelpPopup = document.getElementById("helpPopup");
 		m_elmSourceEditor = document.getElementById("sourceEditor");
+		m_elmStatusBar = document.getElementById("statusBar");
 
 		window.addEventListener("resize", onResizeWindow, false);
 		window.addEventListener("beforeunload", onBeforeUnloadWindow, { capture: true });
 		window.addEventListener("keydown", onKeyDownWindow);
 		window.addEventListener("wheel", onWheelWindow, { passive: false });
-		m_elmSourceEditor.addEventListener("keydown", onKeyDownSourceEditor);
 		m_elmSourceEditor.addEventListener("input", onInputSourceEditor);
+		m_elmSourceEditor.addEventListener("keydown", onKeyDownSourceEditor);
+		m_elmSourceEditor.addEventListener("keyup", onCaretMoveSourceEditor);
+		m_elmSourceEditor.addEventListener("mousedown", onCaretMoveSourceEditor);
+		m_elmSourceEditor.addEventListener("mouseup", onCaretMoveSourceEditor);
+		m_elmSourceEditor.addEventListener("mousemove", onMouseMoveSourceEditor);
 
 		getInitialColorScheme();
 		await setSavedCSSSourceToEditor();
 		setEditorScrollbarWidth();
 		showFirstLoadHelpPopup();
+		updateStatusBar();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -51,8 +61,12 @@ let notepad = (function() {
 		window.removeEventListener("beforeunload", onBeforeUnloadWindow, { capture: true });
 		window.removeEventListener("keydown", onKeyDownWindow);
 		window.removeEventListener("wheel", onWheelWindow, { passive: false });
-		m_elmSourceEditor.removeEventListener("keydown", onKeyDownSourceEditor);
 		m_elmSourceEditor.removeEventListener("input", onInputSourceEditor);
+		m_elmSourceEditor.removeEventListener("keydown", onKeyDownSourceEditor);
+		m_elmSourceEditor.removeEventListener("keyup", onCaretMoveSourceEditor);
+		m_elmSourceEditor.removeEventListener("mousedown", onCaretMoveSourceEditor);
+		m_elmSourceEditor.removeEventListener("mouseup", onCaretMoveSourceEditor);
+		m_elmSourceEditor.removeEventListener("mousemove", onMouseMoveSourceEditor);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -152,6 +166,13 @@ let notepad = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	async function onInputSourceEditor() {
+		setDirty((m_savedCSSSourceHash !== await slUtil.hashCode(m_elmSourceEditor.value)));
+		updateLayoutDebounced();
+		updateStatusBarDebounced();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function onKeyDownSourceEditor(event) {
 
 		// Tab without key modifiers
@@ -164,12 +185,20 @@ let notepad = (function() {
 			m_elmSourceEditor.value = v.substring(0, m_elmSourceEditor.selectionStart) + "\t" + v.substring(m_elmSourceEditor.selectionEnd, v.length);
 			m_elmSourceEditor.selectionStart = m_elmSourceEditor.selectionEnd = newCaretPos;
 		}
+
+		updateStatusBarDebounced();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function onInputSourceEditor() {
-		setDirty((m_savedCSSSourceHash !== await slUtil.hashCode(m_elmSourceEditor.value)));
-		updateLayoutDebounced();
+	function onCaretMoveSourceEditor() {
+		updateStatusBarDebounced();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseMoveSourceEditor(event) {
+		if(event.buttons === 1 && m_elmSourceEditor.selectionStart !== m_elmSourceEditor.selectionEnd) {
+			updateStatusBarDebounced();		// when selecting text with mouse
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -270,6 +299,15 @@ let notepad = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function updateStatusBarDebounced() {
+		window.cancelAnimationFrame(m_statusBarReqIdDebouncer);
+		m_statusBarReqIdDebouncer = window.requestAnimationFrame(() => {
+			updateStatusBar();
+			m_statusBarReqIdDebouncer = null;
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function setEditorScrollbarWidth() {
 
 		// set CSS variable accordingly depending if has VScroll
@@ -281,6 +319,25 @@ let notepad = (function() {
 			}
 		} else {
 			document.documentElement.style.setProperty("--source-editor-scrollbar-width", "0px");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateStatusBar() {
+
+		let m_selStart = m_elmSourceEditor.selectionStart;
+		let m_selEnd = m_elmSourceEditor.selectionEnd;
+
+		if( (m_saveSelectionStart !== m_selStart) || (m_saveSelectionEnd !== m_selEnd) ) {
+
+			let lines = m_elmSourceEditor.value.substring(0, (m_elmSourceEditor.selectionDirection==="forward" ? m_selEnd : m_selStart)).split("\n");
+			let diff = m_selEnd - m_selStart;
+			//let lfCount = (m_elmSourceEditor.value.substring(m_selStart, m_selEnd).match(/\n/g) || []).length
+
+			m_elmStatusBar.textContent = `Ln ${lines.length}, Col ${lines[lines.length-1].length+1}` + (!!diff ? ` (${Math.abs(diff)} selected)` : ``);
+
+			m_saveSelectionStart = m_selStart;
+			m_saveSelectionEnd = m_selEnd;
 		}
 	}
 
