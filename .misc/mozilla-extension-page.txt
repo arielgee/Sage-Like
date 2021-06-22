@@ -13,25 +13,32 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● Feed discovery from the sidebar and from the address bar.
 &emsp;● Integrated with the browser's native bookmarks.
 &emsp;● Feeds automatically sync across your devices when using Firefox Sync.
-&emsp;● Fully customizable tree view. Add/Edit/Delete/Copy/Paste/Drag-n-drop directly in sidebar.
+&emsp;● Fully customizable tree view. Add/Edit/Delete/Copy/Paste/Drag-n-drop directly
+&emsp;&emsp;in sidebar.
 &emsp;● Various filtering capabilities to the tree feeds (filter by title, URL or status).
 &emsp;● Context menus for feeds and for feed-items (articles) offer more actions.
 &emsp;● Support for <i>middle-click</i>, <i>ctrl-click</i> & <i>shift-click</i> in the feed-items list.
-&emsp;● Rendered Feed Preview via <i>middle-click</i> or context menu (support custom style sheet).
+&emsp;● Rendered Feed Preview via <i>middle-click</i> or context menu (support custom
+&emsp;&emsp;style sheet).
 &emsp;● Support for import & export feed subscriptions using an OPML file.
 &emsp;● Customizable UI font & colors.
 
 ◼ <b>PERMISSION JUSTIFICATION</b>
-&emsp;● 'Access your data for all websites' – Feed discovery in web pages from the sidebar/address bar.
-&emsp;● 'Read and modify bookmarks' – Integration with the browser's native bookmarks.
-&emsp;● 'Get data from the clipboard' – Support for Copy/Paste operations in the sidebar.
+&emsp;● 'Access your data for all websites' – Feed discovery in web pages from the
+&emsp;&emsp;sidebar/address bar.
+&emsp;● 'Read and modify bookmarks' – Integration with the browser's native
+&emsp;&emsp;bookmarks.
+&emsp;● 'Get data from the clipboard' – Support for Copy/Paste operations in the
+&emsp;&emsp;sidebar.
 &emsp;● 'Input data to the clipboard' – Support for Copy/Paste operations in the sidebar.
-&emsp;● 'Download files and read and modify the browser’s download history' – Exporting feeds to a file (OPML).
+&emsp;● 'Download files and read and modify the browser’s download history' –
+&emsp;&emsp;Exporting feeds to a file (OPML).
 &emsp;● 'Access browsing history' – Managing feed state (read/unread).
 &emsp;● 'Access browser tabs' – Opening feed articles, feed Previews, etc.
 &emsp;● "storage" – Storing extension preferences.
 &emsp;● "webRequest" – Intercepting clicks on RSS links to display feed previews.
-&emsp;● "webRequestBlocking" – Intercepting clicks on RSS links to display feed previews.
+&emsp;● "webRequestBlocking" – Intercepting clicks on RSS links to display feed
+&emsp;&emsp;previews.
 
 ◼ <b>CUSTOM CSS FILES</b>
 &emsp;A few basic custom style sheet files (.css) for the Feed Preview page.
