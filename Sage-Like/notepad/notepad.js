@@ -8,7 +8,7 @@ let notepad = (function() {
 	let m_elmSourceEditor;
 
 	let m_isDarkColorScheme;
-	let m_windowLayoutThrottler = false;
+	let m_windowLayoutReqIdDebouncer = null;
 	let m_isDirty;
 	let m_savedCSSSource;
 	let m_savedCSSSourceHash = "";
@@ -57,7 +57,7 @@ let notepad = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onResizeWindow() {
-		updateLayoutThrottled();
+		updateLayoutDebounced();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -169,7 +169,7 @@ let notepad = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onInputSourceEditor() {
 		setDirty((m_savedCSSSourceHash !== await slUtil.hashCode(m_elmSourceEditor.value)));
-		updateLayoutThrottled();
+		updateLayoutDebounced();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -261,14 +261,12 @@ let notepad = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function updateLayoutThrottled() {
-		if(!m_windowLayoutThrottler) {
-			m_windowLayoutThrottler = true;
-			window.requestAnimationFrame(() => {
-				setEditorScrollbarWidth();
-				m_windowLayoutThrottler = false;
-			});
-		}
+	function updateLayoutDebounced() {
+		window.cancelAnimationFrame(m_windowLayoutReqIdDebouncer);
+		m_windowLayoutReqIdDebouncer = window.requestAnimationFrame(() => {
+			setEditorScrollbarWidth();
+			m_windowLayoutReqIdDebouncer = null;
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
