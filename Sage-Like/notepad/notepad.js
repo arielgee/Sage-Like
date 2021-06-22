@@ -64,7 +64,7 @@ let notepad = (function() {
 	function onBeforeUnloadWindow(event) {
 		if(isDirty()) {
 			event.preventDefault();
-			return event.returnValue = "Do you want to leave? - Changes you made may not be saved.";
+			return (event.returnValue = "Do you want to leave? - Changes you made may not be saved.");
 		}
 	}
 
