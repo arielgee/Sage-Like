@@ -59,14 +59,9 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added support for Importing/Exporting of the extension's options from the Options page.</li>
-  <li>Added a basic code editor for the imported custom CSS source code instead of the in-page view box.
-    <ul>
-      <li>Changes to the code are immediately reflected in the Feed Previews when saved.</li>
-      <li>Modified source code can be exported to a file.</li>
-    </ul>
-  </li>
-  <li>Code was improved and bugs were fixed.</li>
+  <li>Match the colors of the sidebar's splitter to the dialog colors.</li>
+  <li>Small improvements to the CSS notepad editor.</li>
+  <li>Under the hood modifications and fixes in the Options page.</li>
 </ul>
 
 + Version Notes for next time
