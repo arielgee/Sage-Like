@@ -1828,6 +1828,7 @@ let slUtil = (function() {
 	let m_mozExtensionOrigin = "";
 	let	m_mozExtensionExecutionPath = "";
 	let m_regExpDiscoveryUrlFilter = "";
+	let m_mimeTypeIcons = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function random1to100() {
@@ -2429,44 +2430,46 @@ let slUtil = (function() {
 
 		let pathToIcons = "/icons/mimeType/";
 
-		let mimeTypeIcons = [
+		if(m_mimeTypeIcons === null) {
+			m_mimeTypeIcons = [
 
-			// default
-			{ mimeType: "file", icon: "file.svg" },
+				// default
+				{ mimeType: "file", icon: "file.svg" },
 
-			// archive
-			{ mimeType: "application/zip", icon: "file-archive.svg" },
-			{ mimeType: "application/gzip", icon: "file-archive.svg" },
+				// archive
+				{ mimeType: "application/zip", icon: "file-archive.svg" },
+				{ mimeType: "application/gzip", icon: "file-archive.svg" },
 
-			// doc
-			{ mimeType: "text/plain", icon: "file-text.svg" },
-			{ mimeType: "text/html", icon: "file-code.svg" },
-			{ mimeType: "application/json", icon: "file-code.svg" },
-			{ mimeType: "application/pdf", icon: "file-pdf.svg" },
-			{ mimeType: "application/msword", icon: "file-word.svg" },
-			{ mimeType: "application/vnd.ms-word", icon: "file-word.svg" },
-			{ mimeType: "application/vnd.oasis.opendocument.text", icon: "file-word.svg" },
-			{ mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml", icon: "file-word.svg" },
-			{ mimeType: "application/vnd.ms-excel", icon: "file-excel.svg" },
-			{ mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml", icon: "file-excel.svg" },
-			{ mimeType: "application/vnd.oasis.opendocument.spreadsheet", icon: "file-excel.svg" },
-			{ mimeType: "application/vnd.ms-powerpoint", icon: "file-powerpoint.svg" },
-			{ mimeType: "application/vnd.openxmlformats-officedocument.presentationml", icon: "file-powerpoint.svg" },
-			{ mimeType: "application/vnd.oasis.opendocument.presentation", icon: "file-powerpoint.svg" },
+				// doc
+				{ mimeType: "text/plain", icon: "file-text.svg" },
+				{ mimeType: "text/html", icon: "file-code.svg" },
+				{ mimeType: "application/json", icon: "file-code.svg" },
+				{ mimeType: "application/pdf", icon: "file-pdf.svg" },
+				{ mimeType: "application/msword", icon: "file-word.svg" },
+				{ mimeType: "application/vnd.ms-word", icon: "file-word.svg" },
+				{ mimeType: "application/vnd.oasis.opendocument.text", icon: "file-word.svg" },
+				{ mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml", icon: "file-word.svg" },
+				{ mimeType: "application/vnd.ms-excel", icon: "file-excel.svg" },
+				{ mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml", icon: "file-excel.svg" },
+				{ mimeType: "application/vnd.oasis.opendocument.spreadsheet", icon: "file-excel.svg" },
+				{ mimeType: "application/vnd.ms-powerpoint", icon: "file-powerpoint.svg" },
+				{ mimeType: "application/vnd.openxmlformats-officedocument.presentationml", icon: "file-powerpoint.svg" },
+				{ mimeType: "application/vnd.oasis.opendocument.presentation", icon: "file-powerpoint.svg" },
 
-			// media
-			{ mimeType: "image", icon: "file-image.svg" },
-			{ mimeType: "audio", icon: "file-audio.svg" },
-			{ mimeType: "video", icon: "file-video.svg" },
-		];
+				// media
+				{ mimeType: "image", icon: "file-image.svg" },
+				{ mimeType: "audio", icon: "file-audio.svg" },
+				{ mimeType: "video", icon: "file-video.svg" },
+			];
+		}
 
-		for(let i=0, len=mimeTypeIcons.length; i<len; i++) {
-			if(mimeType.startsWith(mimeTypeIcons[i].mimeType)) {
-				return (pathToIcons + mimeTypeIcons[i].icon);
+		for(let i=0, len=m_mimeTypeIcons.length; i<len; i++) {
+			if(mimeType.startsWith(m_mimeTypeIcons[i].mimeType)) {
+				return (pathToIcons + m_mimeTypeIcons[i].icon);
 			}
 		}
 
-		return pathToIcons + mimeTypeIcons[0].icon;
+		return pathToIcons + m_mimeTypeIcons[0].icon;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

@@ -859,10 +859,15 @@
 
 
 ## Now
+* support for <video> and <audio> for attachments (enclosures). from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/24
 ---
 
 
 ## Next
+* can <video> and <audio> be customize for dark mode (color/ background color)
+* add podcast feed from https://castos.com/ to sage-like_test-feeds.opml and then to github
+* new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
+
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
