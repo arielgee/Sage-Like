@@ -855,6 +855,7 @@
 * a hidden preference for strict content-type semantics
 * in panel.css set splitter colors like toolbar (dialog bk/border colors): var(--bk-color-dialog)
 * The Fx68 bug that was worked-around in commit a8807b9 (16/3/2021) is back in v89 (preferences: In Fx v68 dark theme, dropdown list items is white on white)
+* add podcast feed from https://castos.com/ to sage-like_test-feeds.opml and then to github
 ---
 
 
@@ -865,9 +866,12 @@
 
 ## Next
 * can <video> and <audio> be customize for dark mode (color/ background color)
-* add podcast feed from https://castos.com/ to sage-like_test-feeds.opml and then to github
 * new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
-
+* following link is an rss feed that its items only include enclosures:
+	view-source:https://feeds.buzzsprout.com/192305.rss
+	view-source:https://rss.art19.com/vega
+	view-source:https://feeds.megaphone.fm/stealthestars
+	full list here: https://discoverpods.com/sci-fi-podcasts-science-fiction/
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

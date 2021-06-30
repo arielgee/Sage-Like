@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Thu, 18 Mar 2021 09:19:22 GMT</dateCreated>
+		<dateCreated>Wed, 30 Jun 2021 14:02:12 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
@@ -73,6 +73,13 @@
 				<outline type="rss" text="PHP.net releases" title="PHP.net releases" xmlUrl="https://www.php.net/releases/feed.php" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adventures in New America" title="Adventures in New America" xmlUrl="https://anchor.fm/s/4bd40bfc/podcast/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Within the Wires" title="Within the Wires" xmlUrl="http://feeds.nightvalepresents.com/WithinTheWires" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Audience" title="Audience" xmlUrl="https://castos.com/feed/podcast" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="The Lowe Post" title="The Lowe Post" xmlUrl="https://feeds.megaphone.fm/ESP3625084333" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Stories from Among the Stars" title="Stories from Among the Stars" xmlUrl="https://feeds.megaphone.fm/stealthestars" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Vega: A Sci-Fi Adventure Podcast!" title="Vega: A Sci-Fi Adventure Podcast!" xmlUrl="https://rss.art19.com/vega" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="A World Where RSS Feed" title="A World Where RSS Feed" xmlUrl="https://feeds.buzzsprout.com/192305.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="Syndication Type Testing (rdf,rss,rss,atom,json)" data-wxsl-open="0">
 				<outline type="rss" text="Nature - Issue - nature.com science feeds" title="Nature - Issue - nature.com science feeds" xmlUrl="http://feeds.nature.com/nature/rss/current" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
