@@ -115,11 +115,19 @@
 					elmFeedContent.id = "feedContent";
 
 					if(result.list.length > 0) {
-						for(let idx=0, len=result.list.length; idx<len; idx++) {
-							if(idx<100) {
+
+						const FIRST_FAST_LOAD_PACK_SIZE = 50;
+
+						if(result.list.length <= FIRST_FAST_LOAD_PACK_SIZE) {
+							for(let idx=0, len=result.list.length; idx<len; idx++) {
 								elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
-							} else {
-								setTimeout(() => elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) ), 10);
+							}
+						} else {
+							for(let idx=0; idx<FIRST_FAST_LOAD_PACK_SIZE; idx++) {
+								elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) );
+							}
+							for(let idx=FIRST_FAST_LOAD_PACK_SIZE, len=result.list.length, timeout=0; idx<len; idx++) {
+								setTimeout(() => elmFeedContent.appendChild( createFeedItemElements(idx, result.list[idx]) ), (timeout+=6));
 							}
 						}
 						m_elmFeedBody.appendChild(elmFeedContent);
