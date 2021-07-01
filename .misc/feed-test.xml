@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="windows-1252"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="windows-1252"?> -->
 <!-- Put this file in the local IIS -->
 <rss version="2.0">
     <channel>
@@ -38,7 +39,42 @@
             <enclosure url="http://127.0.0.1/dummy4.txt" type="text/plain" />
             <enclosure url="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/friday.mp4" type="video/mp4" />
             <enclosure url="http://127.0.0.1/dummy5.txt" type="text/plain" />
-            <enclosure url="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+            <enclosure url="https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4" type="video/mp4" />
+            <enclosure url="http://127.0.0.1/dummy6.txt" type="text/plain" />
+            <enclosure url="https://mdn.github.io/learning-area/javascript/apis/video-audio/finished/video/sintel-short.mp4" type="video/mp4" />
+            <enclosure url="http://127.0.0.1/dummy6.txt" type="text/plain" />
+            <enclosure url="https://img.haarets.co.il/img/1.9951332/1351822972.jpg" type="image/jpg" />
+            <enclosure url="http://127.0.0.1/dummy7.txt" type="text/plain" />
+            <enclosure url="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/mp4" />
+            <enclosure url="http://127.0.0.1/dummy8.txt" type="text/plain" />
+            <enclosure url="https://img.hzzrets.co.il/img/1.9951332/errImg.jpg" type="image/jpg" />
+            <enclosure url="http://127.0.0.1/dummy7.txt" type="text/plain" />
+            <enclosure url="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg" type="image/jpg" />
+            <enclosure url="http://127.0.0.1/dummy8.txt" type="text/plain" />
+            <enclosure url="http://www.s3ripting.com/mp3s/errAudio.mp3" length="12216320" type="audio/mpeg" />
+            <enclosure url="http://127.0.0.1/dummy4.txt" type="text/plain" />
+            <enclosure url="https://inter6ctive-examples.mdn.mozilla.net/media/cc0-videos/errVideo.mp4" type="video/mp4" />
+            <enclosure url="http://127.0.0.1/dummy5.txt" type="text/plain" />
+        </item>
+        <item>
+            <title>שרות מיוחד בעברית</title>
+            <description>
+                בית המשפט העליון בלוס אנג'לס דחה לפנות בוקר (חמישי) את בקשתה של הזמרת בריטני ספירס להסיר את ההיבטים הכלכליים באפוטרופסות של אביה ג'יימי עליה. עורך הדין של הזמרת ביקש מבית המשפט להרחיק את ג'יימי ספירס מעמדתו כמנהל הקרן הנאמנות שלה, השולטת על כ–60 מיליון דולרים. לפי הדיווח באתר "וראייטי" נכתב בפסק הדין כי ספירס "אינה מסוגלת לנהל את ענייניה הכלכליים". דיון נוסף בנושא יתקיים ב–14 ביולי.70 אלף בני אדם פקדו את כיכר טיאננמן כדי להקשיב לנאומו של המנהיג החזק ביותר במדינה מאז מאו. שי שיבח את מפלגת השלטון שהפכה את סין למעצמה עולמית משגשגת והזהיר את יריבותיה לא לעמוד בדרכה: "לא ניתן לכוחות זרים להתעמר בנו"70 אלף בני אדם פקדו את כיכר טיאננמן כדי להקשיב לנאומו של המנהיג החזק ביותר במדינה מאז מאו. שי שיבח את מפלגת השלטון שהפכה את סין למעצמה עולמית משגשגת והזהיר את יריבותיה לא לעמוד בדרכה: "לא ניתן לכוחות זרים להתעמר בנו"70 אלף בני אדם פקדו את כיכר טיאננמן כדי להקשיב לנאומו של המנהיג החזק ביותר במדינה מאז מאו. שי שיבח את מפלגת השלטון שהפכה את סין למעצמה עולמית משגשגת והזהיר את יריבותיה לא לעמוד בדרכה: "לא ניתן לכוחות זרים להתעמר בנו"
+            </description>
+            <link>http://www.feedforall.com</link>
+            <pubDate>Tue, 26 Oct 2004 14:03:25 -0500</pubDate>
+            <enclosure url="http://127.0.0.1/dummy1.txt" type="text/plain" />
+            <enclosure url="http://www.scripting.com/mp3s/weatherReportSuite.mp3" length="12216320" type="audio/mpeg" />
+            <enclosure url="http://127.0.0.1/dummy2.txt" type="text/plain" />
+            <enclosure url="https://play.podtrac.com/npr-510317/edge1.pod.npr.org/anon.npr-mp3/npr/sam/2021/06/20210622_sam_sam_-_wwcf_anjuli__-_mix_5.mp3?orgId=1&amp;d=1591&amp;p=510317&amp;story=1007140883&amp;t=podcast&amp;e=1007140883&amp;size=25457520&amp;ft=pod&amp;f=510317&amp;awCollectionId=510317&amp;awEpisodeId=1007140883" length="12216320" type="audio/mpeg" />
+            <enclosure url="http://127.0.0.1/dummy3.txt" type="text/plain" />
+            <enclosure url="http://www.scripting.com/mp3s/weatherReportSuite.mp3" length="12216320" type="audio/mpeg" />
+            <enclosure url="http://127.0.0.1/dummy4.txt" type="text/plain" />
+            <enclosure url="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/friday.mp4" type="video/mp4" />
+            <enclosure url="http://127.0.0.1/dummy5.txt" type="text/plain" />
+            <enclosure url="https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4" type="video/mp4" />
+            <enclosure url="http://127.0.0.1/dummy6.txt" type="text/plain" />
+            <enclosure url="https://mdn.github.io/learning-area/javascript/apis/video-audio/finished/video/sintel-short.mp4" type="video/mp4" />
             <enclosure url="http://127.0.0.1/dummy6.txt" type="text/plain" />
             <enclosure url="https://img.haarets.co.il/img/1.9951332/1351822972.jpg" type="image/jpg" />
             <enclosure url="http://127.0.0.1/dummy7.txt" type="text/plain" />
