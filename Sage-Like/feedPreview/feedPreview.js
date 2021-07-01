@@ -285,10 +285,15 @@
 
 		let elmFeedItemAttachment;
 		let elmFeedItemAttachmentLink;
+		let elmFeedItemAttachmentImageContainer;
 		let elmFeedItemAttachmentImage;
+		let elmFeedItemAttachmentMediaPlayer;
 		let elmFeedItemAttachmentTitle;
 		let elmFeedItemAttachmentsContainer = document.createElement("div");
 		let att;
+		let mediaType;
+		let elmLastVid = null;
+		let elmLastAud = null;
 
 		elmFeedItemAttachmentsContainer.className = "feedItemAttachmentsContainer";
 
@@ -296,27 +301,70 @@
 
 			att = attachments[i];
 
+			if(att.mimeType.startsWith("audio")) {
+				mediaType = "audio";
+			} else if(att.mimeType.startsWith("video")) {
+				mediaType = "video";
+			} else if(att.mimeType.startsWith("image")) {
+				mediaType = "image";
+			} else {
+				mediaType = "";
+			}
+
 			elmFeedItemAttachment = document.createElement("div");
-			elmFeedItemAttachment.className = "feedItemAttachment idx" + i;
+			elmFeedItemAttachment.className = `feedItemAttachment ${mediaType} idx${i}`;
 			elmFeedItemAttachment.setAttribute("data-title", getAttachmentTitle(att));
+
+			/* Attachment types ordering: First the video attachments, then the audio attachments and last all other attachments. */
+			if(mediaType === "video") {
+				if(elmLastVid !== null) {	// insert this VIDEO after last VIDEO or as first attachment
+					elmLastVid = elmFeedItemAttachmentsContainer.insertBefore(elmFeedItemAttachment, elmLastVid.nextSibling);
+				} else {
+					elmLastVid = elmFeedItemAttachmentsContainer.insertBefore(elmFeedItemAttachment, elmFeedItemAttachmentsContainer.firstChild);
+				}
+			} else if(mediaType === "audio") {
+				if(elmLastAud !== null) {	// insert this AUDIO after last AUDIO or ...
+					elmLastAud = elmFeedItemAttachmentsContainer.insertBefore(elmFeedItemAttachment, elmLastAud.nextSibling);
+				} else {
+					if(elmLastVid !== null) {	// insert this AUDIO after last VIDEO or as first attachment
+						elmLastAud = elmFeedItemAttachmentsContainer.insertBefore(elmFeedItemAttachment, elmLastVid.nextSibling);
+					} else {
+						elmLastAud = elmFeedItemAttachmentsContainer.insertBefore(elmFeedItemAttachment, elmFeedItemAttachmentsContainer.firstChild);
+					}
+				}
+			} else {
+				elmFeedItemAttachmentsContainer.appendChild(elmFeedItemAttachment);
+			}
 
 			elmFeedItemAttachmentLink = document.createElement("a");
 			elmFeedItemAttachmentLink.className = "feedItemAttachmentLink";
 			elmFeedItemAttachmentLink.href = att.url;
 			elmFeedItemAttachmentLink.download = "";
+			elmFeedItemAttachment.appendChild(elmFeedItemAttachmentLink);
+
+			elmFeedItemAttachmentImageContainer = document.createElement("div");
+			elmFeedItemAttachmentImageContainer.className = "feedItemAttachmentImageContainer";
+			elmFeedItemAttachmentLink.appendChild(elmFeedItemAttachmentImageContainer);
 
 			elmFeedItemAttachmentImage = document.createElement("img");
 			elmFeedItemAttachmentImage.className = "feedItemAttachmentImage";
-			elmFeedItemAttachmentImage.src = slUtil.getMimeTypeIconPath(att.mimeType);
+			elmFeedItemAttachmentImage.src = (mediaType === "image" ? att.url : slUtil.getMimeTypeIconPath(att.mimeType));
+			if(mediaType === "image") elmFeedItemAttachmentImage.addEventListener("error", onErrorImage);
+			elmFeedItemAttachmentImageContainer.appendChild(elmFeedItemAttachmentImage);
+
+			if(mediaType === "audio" || mediaType === "video") {
+				elmFeedItemAttachmentMediaPlayer = document.createElement(mediaType);
+				elmFeedItemAttachmentMediaPlayer.className = `feedItemAttachment${mediaType.replace(/^./, c => c.toUpperCase())}Player`;	// Title case
+				elmFeedItemAttachmentMediaPlayer.controls = true;
+				elmFeedItemAttachmentMediaPlayer.setAttribute("src", att.url);		// when using <source> for <video>/<audio>, 'error' event is not raised when resource fail to load. - elmFeedItemAttachmentMediaPlayer.appendChild(document.createElement("source")).src = att.url;
+				elmFeedItemAttachmentMediaPlayer.addEventListener("error", onErrorMediaPlayer);
+				elmFeedItemAttachmentImageContainer.appendChild(elmFeedItemAttachmentMediaPlayer);
+			}
 
 			elmFeedItemAttachmentTitle = document.createElement("div");
 			elmFeedItemAttachmentTitle.className = "feedItemAttachmentTitle";
 			elmFeedItemAttachmentTitle.textContent = att.title;
-
-			elmFeedItemAttachment.appendChild(elmFeedItemAttachmentLink);
-			elmFeedItemAttachmentLink.appendChild(elmFeedItemAttachmentImage);
 			elmFeedItemAttachmentLink.appendChild(elmFeedItemAttachmentTitle);
-			elmFeedItemAttachmentsContainer.appendChild(elmFeedItemAttachment);
 		}
 
 		return elmFeedItemAttachmentsContainer;
@@ -481,6 +529,28 @@
 			m_elmJumpListContainer.classList.remove("open");
 			m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onErrorMediaPlayer(event) {
+
+		let player = event.target;
+		let attElement = player.closest(".feedItemAttachment");
+		let msg = (player.networkState===3 ? `Resource not loaded, may be missing [${player.error.message}].`: player.error.message);
+
+		attElement.classList.add("loadError");
+		attElement.setAttribute("data-title", attElement.getAttribute("data-title") + `<br><p><b>Error:</b> ${msg}</p>`);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onErrorImage(event) {
+
+		let image = event.target;
+		let attElement = image.closest(".feedItemAttachment");
+
+		image.src = slUtil.getMimeTypeIconPath("image");
+		attElement.classList.add("loadError");
+		attElement.setAttribute("data-title", attElement.getAttribute("data-title") + `<br><p><b>Error:</b> Image not loaded, may be missing.</p>`);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

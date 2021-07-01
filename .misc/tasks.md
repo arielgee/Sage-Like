@@ -856,16 +856,19 @@
 * in panel.css set splitter colors like toolbar (dialog bk/border colors): var(--bk-color-dialog)
 * The Fx68 bug that was worked-around in commit a8807b9 (16/3/2021) is back in v89 (preferences: In Fx v68 dark theme, dropdown list items is white on white)
 * add podcast feed from https://castos.com/ to sage-like_test-feeds.opml and then to github
----
-
-
-## Now
 * support for <video> and <audio> for attachments (enclosures). from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/24
 ---
 
 
-## Next
+## Now
+* feed preview: make attached images bigger? (width=300px) - is attached image is in feed contect, do i remove it????????
+* check attachments when [style*="direction: rtl"] -> feed
 * can <video> and <audio> be customize for dark mode (color/ background color)
+---
+
+
+## Next
+* in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"`
 * new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
 * following link is an rss feed that its items only include enclosures:
 	view-source:https://feeds.buzzsprout.com/192305.rss

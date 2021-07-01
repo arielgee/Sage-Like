@@ -246,56 +246,118 @@ body {
 
 .feedItemAttachmentsContainer {
 	display: flex;
-	flex-wrap: wrap;
+	flex-flow: row wrap;
+	justify-content: flex-start;
 	margin-top: 18px;
 	padding-top: 5px;
 	border-top: 1px solid gray;
 }
 
 .feedItemAttachment {
-	--size-attachment: 64px;
+	--spacing-horizontal: 16px;
+	--spacing-vertical: 10px;
+	--size-image: 32px;
+	--width-media-player: 0px;
+	--height-video-player: 0px;
+	--height-title: 12px;
+	--width-attachment: 64px;
+	--height-attachment: 64px;
 	--margin-attachment: 10px;
-	width: var(--size-attachment);
-	height: var(--size-attachment);
-	max-width: var(--size-attachment);
-	max-height: var(--size-attachment);
-	margin-block-start: var(--margin-attachment);
-	margin-block-end: var(--margin-attachment);
-	margin-inline-end: var(--margin-attachment);
-	background-color: var(--background-color-page);
-	border-radius: 0.5rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 
+	box-sizing: border-box;
+	width: var(--width-attachment);
+	height: var(--height-attachment);
+	max-height: var(--height-attachment);
+	/* margin-block-start: var(--margin-attachment);
+	margin-block-end: var(--margin-attachment);
+	margin-inline-end: var(--margin-attachment); */
+
+	margin: var(--margin-attachment);
+	margin-inline-start: 0;
+	padding: var(--spacing-vertical) var(--spacing-horizontal);
+	border-radius: 0.5rem;
+	background-color: var(--background-color-page);
+}
+.feedItemAttachment.audio,
+.feedItemAttachment.video {
+	--spacing-horizontal: 8px;
+	--width-media-player: 300px;
+	--width-attachment: calc(var(--spacing-horizontal) + var(--size-image) + (var(--spacing-horizontal) / 2) + var(--width-media-player) + var(--spacing-horizontal));
+}
+.feedItemAttachment.video {
+	--height-video-player: 169px;
+	--height-attachment: calc(var(--spacing-vertical) + var(--height-video-player) + var(--height-title) + var(--spacing-vertical));
+}
 .feedItemAttachment:hover {
 	box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.8);
 }
 
-.elmFeedItemAttachmentLink {
-	width: 100%;
-	height: 100%;
+.feedItemAttachmentImageContainer {
 	display: flex;
-	align-items: center;
+	flex-direction: row;
+	justify-content: space-between;
 }
+
 .feedItemAttachmentImage {
 	display: block;
-	width: 32px;
-	height: 32px;
-	margin: auto auto 0 auto;
+	width: var(--size-image);
+	height: var(--size-image);
+	pointer-events: none;
+}
+.feedItemAttachment.loadError .feedItemAttachmentImage {
+	filter: hue-rotate(138deg) saturate(622%);	/* blue to red */
+}
+
+.feedItemAttachmentAudioPlayer {
+	display: none;
+	width: var(--width-media-player);
+	height: var(--size-image);
+	border-radius: 0.25rem;
+	filter: drop-shadow(0 0 1px #ffffff);
+}
+.feedItemAttachment.audio .feedItemAttachmentAudioPlayer {
+	display: block;
+}
+.feedItemAttachment.loadError .feedItemAttachmentAudioPlayer {
+	filter: contrast(30%);		/* dim when error */
+	pointer-events: none;
+}
+
+.feedItemAttachmentVideoPlayer {
+	display: none;
+	width: var(--width-media-player);
+	height: var(--height-video-player);
+	border-radius: 0.25rem;
+}
+.feedItemAttachment.video .feedItemAttachmentVideoPlayer {
+	display: block;
+}
+.feedItemAttachment.loadError .feedItemAttachmentVideoPlayer {
 	pointer-events: none;
 }
 
 .feedItemAttachmentTitle {
-	max-width: calc(var(--size-attachment) - 6px);
-	margin: 2px auto auto auto;
+	--margin-title: 3px;
+
+	position: relative;
+	left: calc( (var(--spacing-horizontal) - var(--margin-title)) * -1);
+	width: calc(var(--width-attachment) - (var(--margin-title) * 2));
+	height: var(--height-title);
+	margin-top: 2px;
+	text-align: center;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	font-size: 80%;
-	text-align: center;
 	pointer-events: none;
+}
+.feedItemAttachment.audio .feedItemAttachmentTitle {
+	position: static;
+	left: auto;
+	width: auto;
+}
+.feedItemContainer[style*="direction: rtl"] .feedItemAttachmentTitle {
+	right: calc( (var(--spacing-horizontal) - var(--margin-title)) * -1);
 }
 
 #attachmentTooltip {
