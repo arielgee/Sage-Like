@@ -380,7 +380,7 @@
 	function getAttachmentTitle(attachment) {
 
 		const FMT_ATTACHMENT_TITLE = "<p><b>Title:</b> {0}</p><p><b>URL:</b> {1}</p>";
-		const FMT_ATTACHMENT_TITLE_WITH_SIZE = FMT_ATTACHMENT_TITLE + "<p><b>Size:</b> {2}";
+		const FMT_ATTACHMENT_TITLE_WITH_SIZE = FMT_ATTACHMENT_TITLE + "<p><b>Size:</b> {2}</p>";
 
 		let size = slUtil.asPrettyByteSize(attachment.byteSize);
 
