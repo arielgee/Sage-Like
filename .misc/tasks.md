@@ -868,6 +868,7 @@
 
 
 ## Next
+* video enclosure will have a width larger then 300px
 * in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"`
 * new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
 * following link is an rss feed that its items only include enclosures:
