@@ -857,24 +857,25 @@
 * The Fx68 bug that was worked-around in commit a8807b9 (16/3/2021) is back in v89 (preferences: In Fx v68 dark theme, dropdown list items is white on white)
 * add podcast feed from https://castos.com/ to sage-like_test-feeds.opml and then to github
 * support for <video> and <audio> for attachments (enclosures). from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/24
+* if attached image is in feed contect, do i remove it???????? => NO
 ---
 
 
 ## Now
-* feed preview: make attached images bigger? (width=300px) - is attached image is in feed contect, do i remove it????????
+* the width of the audio/video attachment should be in multiplications of the basic attachment (64px + margins). will look nicer and aligned
+* attachment block margin (top,bottom) is double the inline margin (left,right)
+* feed preview: make attached images bigger? (width=300px)
 * check attachments when [style*="direction: rtl"] -> feed
 * can <video> and <audio> be customize for dark mode (color/ background color)
 ---
 
 
 ## Next
-* the width ofthe audio/video attachment should be in multiplications of the basic attachment (64px + margin). will look nicer and aligned
 * attachments in those feeds are not played
 	https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 	http://feeds.megaphone.fm/intercepted
 	see help:
 		https://support.mozilla.org/en-US/questions/1262177
-
 * video enclosure will have a width larger then 300px
 * in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"`
 * new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
