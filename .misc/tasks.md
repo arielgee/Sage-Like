@@ -861,12 +861,13 @@
 * the width of the audio/video attachment should be in multiplications of the basic attachment (64px + margins). will look nicer and aligned
 * attachment block margin (top,bottom) is double the inline margin (left,right)
 * check attachments when [style*="direction: rtl"] -> feed
+* can <video> and <audio> be customize for dark mode (color/ background color) => it's OK
+* video enclosure will have a width larger then 300px => NO
 ---
 
 
 ## Now
 * feed preview: make attached images bigger? (width=300px)
-* can <video> and <audio> be customize for dark mode (color/ background color)
 ---
 
 
@@ -876,7 +877,6 @@
 	http://feeds.megaphone.fm/intercepted
 	see help:
 		https://support.mozilla.org/en-US/questions/1262177
-* video enclosure will have a width larger then 300px
 * in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"`
 * new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
 * following link is an rss feed that its items only include enclosures:
