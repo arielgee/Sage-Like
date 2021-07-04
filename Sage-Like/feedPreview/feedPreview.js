@@ -612,12 +612,19 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFavIcon(urlOrigin) {
 
+		const urlDomainOrigins = [ urlOrigin ];
 		const favicons = [
 			"/favicon.ico",
 			"/favicon.png",
 			"/favicon.jpg",
 			"/favicon.gif",
 		];
+
+		// create all possible sub domain url origins
+		while(urlOrigin.match(/\/\/\w+\.\w+\.\w+/)) {
+			urlOrigin = urlOrigin.replace(/(\/\/)\w+\./, "$1");
+			urlDomainOrigins.push(urlOrigin);
+		}
 
 		let fetchFavIcon = (faviconsUrl) => {
 			return new Promise(async (resolve, reject) => {
@@ -635,22 +642,25 @@
 
 		let anyPromiseFulfilled = false;		// Support for Promise.any() started at Fx v79
 
-		for(let i=0, len=favicons.length; i<len; i++) {
+		for(let i=0, lenO=urlDomainOrigins.length; i<lenO; i++) {
 
-			fetchFavIcon(urlOrigin + favicons[i]).then((blob) => {
+			for(let j=0, lenF=favicons.length; j<lenF; j++) {
 
-				if(!anyPromiseFulfilled) {
-					anyPromiseFulfilled = true;
+				fetchFavIcon(urlDomainOrigins[i] + favicons[j]).then((blob) => {
 
-					let reader = new FileReader();
-					reader.addEventListener("load", () => {
-						let elmLink = document.getElementById("favicon");
-						elmLink.type = blob.type;
-						elmLink.href = reader.result;
-					}, false);
-					reader.readAsDataURL(blob);	// base64 image data
-				}
-			}).catch(() => { /* Ignore errors, fallback favicon */ });
+					if(!anyPromiseFulfilled) {
+						anyPromiseFulfilled = true;
+
+						let reader = new FileReader();
+						reader.addEventListener("load", () => {
+							let elmLink = document.getElementById("favicon");
+							elmLink.type = blob.type;
+							elmLink.href = reader.result;
+						}, false);
+						reader.readAsDataURL(blob);	// base64 image data
+					}
+				}).catch(() => { /* Ignore errors, fallback favicon */ });
+			}
 		}
 	}
 
