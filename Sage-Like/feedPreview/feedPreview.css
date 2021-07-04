@@ -268,12 +268,9 @@ body {
 	width: var(--width-attachment);
 	height: var(--height-attachment);
 	max-height: var(--height-attachment);
-	/* margin-block-start: var(--margin-attachment);
-	margin-block-end: var(--margin-attachment);
-	margin-inline-end: var(--margin-attachment); */
-
-	margin: var(--margin-attachment);
-	margin-inline-start: 0;
+	margin-block-start: calc( var(--margin-attachment) / 2 );
+	margin-block-end: calc( var(--margin-attachment) / 2 );
+	margin-inline-end: var(--margin-attachment);
 	padding: var(--spacing-vertical) var(--spacing-horizontal);
 	border-radius: 0.5rem;
 	background-color: var(--background-color-page);
@@ -281,11 +278,11 @@ body {
 .feedItemAttachment.audio,
 .feedItemAttachment.video {
 	--spacing-horizontal: 8px;
-	--width-media-player: 300px;
+	--width-media-player: 308px;
 	--width-attachment: calc(var(--spacing-horizontal) + var(--size-image) + (var(--spacing-horizontal) / 2) + var(--width-media-player) + var(--spacing-horizontal));
 }
 .feedItemAttachment.video {
-	--height-video-player: 169px;
+	--height-video-player: 173px;
 	--height-attachment: calc(var(--spacing-vertical) + var(--height-video-player) + var(--height-title) + var(--spacing-vertical));
 }
 .feedItemAttachment:hover {
