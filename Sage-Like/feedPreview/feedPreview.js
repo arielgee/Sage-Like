@@ -364,6 +364,7 @@
 			elmFeedItemAttachmentTitle = document.createElement("div");
 			elmFeedItemAttachmentTitle.className = "feedItemAttachmentTitle";
 			elmFeedItemAttachmentTitle.textContent = att.title;
+			elmFeedItemAttachmentTitle.style.direction = "initial";
 			elmFeedItemAttachmentLink.appendChild(elmFeedItemAttachmentTitle);
 		}
 
