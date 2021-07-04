@@ -868,9 +868,13 @@
 
 
 ## Next
+* the width ofthe audio/video attachment should be in multiplications of the basic attachment (64px + margin). will look nicer and aligned
 * attachments in those feeds are not played
 	https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 	http://feeds.megaphone.fm/intercepted
+	see help:
+		https://support.mozilla.org/en-US/questions/1262177
+
 * video enclosure will have a width larger then 300px
 * in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"`
 * new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
