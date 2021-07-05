@@ -537,7 +537,7 @@
 
 		let player = event.target;
 		let attElement = player.closest(".feedItemAttachment");
-		let msg = (player.networkState===3 ? `Resource not loaded, may be missing [${player.error.message}].`: player.error.message);
+		let msg = (player.networkState===3 ? `Resource not loaded, may be missing [${player.error.message}].`: `Unexpected failure [${player.error.message}].`);
 
 		attElement.classList.add("loadError");
 		attElement.setAttribute("data-title", attElement.getAttribute("data-title") + `<br><p><b>Error:</b> ${msg}</p>`);
@@ -620,10 +620,12 @@
 			"/favicon.gif",
 		];
 
-		// create all possible sub domain url origins
-		while(urlOrigin.match(/\/\/\w+\.\w+\.\w+/)) {
-			urlOrigin = urlOrigin.replace(/(\/\/)\w+\./, "$1");
-			urlDomainOrigins.push(urlOrigin);
+		// create all possible sub domain url origins - IF IT'S NOT AN IPv4 ADDRESS
+		if( ! urlOrigin.match(/^(https?:\/\/)?\d+\.\d+\.\d+\.\d+$/) ) {
+			while(urlOrigin.match(/\/\/[^.]+\.[^.]+\.[^.]+/)) {
+				urlOrigin = urlOrigin.replace(/(\/\/)[^.]+\./, "$1");
+				urlDomainOrigins.push(urlOrigin);
+			}
 		}
 
 		let fetchFavIcon = (faviconsUrl) => {
