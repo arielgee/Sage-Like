@@ -863,20 +863,21 @@
 * check attachments when [style*="direction: rtl"] -> feed
 * can <video> and <audio> be customize for dark mode (color/ background color) => it's OK
 * video enclosure will have a width larger then 300px => NO
----
-
-
-## Now
+* in Fx90 the menu item in menubar->View->Sidebar->Sage-like is not aligned with the other menu items => BUG: https://bugzilla.mozilla.org/show_bug.cgi?id=1715096
 * feed preview: make attached images bigger? (width=300px)
 ---
 
 
-## Next
+## Now
 * attachments in those feeds are not played
 	https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 	http://feeds.megaphone.fm/intercepted
 	see help:
 		https://support.mozilla.org/en-US/questions/1262177
+---
+
+
+## Next
 * got this message: "This error message will be blank when privacy.resistFingerprinting = true. If it is really necessary, please add it to the whitelist in MediaError::GetMessage: 2152398850: Request failed" feedPreview.js:540:80
 * in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"`
 * new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
@@ -892,6 +893,7 @@
 			elmFeedTitleTextAnchor.href = url.toString();
 			getFavIcon((new URL(url)).origin);
 		}
+* feedPreview: the attachments erea is can be folded. Auto hide/fold if its too big (height)
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
