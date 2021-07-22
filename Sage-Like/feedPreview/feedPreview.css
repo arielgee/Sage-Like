@@ -296,7 +296,7 @@ body {
 .feedItemAttachment.img { order: 2; }
 .feedItemAttachment.audio { order: 3; }
 
-.feedItemAttachmentImageContainer {
+.feedItemAttachmentContent {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;

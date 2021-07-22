@@ -285,7 +285,7 @@
 
 		let elmFeedItemAttachment;
 		let elmFeedItemAttachmentLink;
-		let elmFeedItemAttachmentImageContainer;
+		let elmFeedItemAttachmentContent;
 		let elmFeedItemAttachmentImage;
 		let elmFeedItemAttachmentMedia;
 		let elmFeedItemAttachmentTitle;
@@ -320,15 +320,15 @@
 			elmFeedItemAttachmentLink.download = "";
 			elmFeedItemAttachment.appendChild(elmFeedItemAttachmentLink);
 
-			elmFeedItemAttachmentImageContainer = document.createElement("div");
-			elmFeedItemAttachmentImageContainer.className = "feedItemAttachmentImageContainer";
-			elmFeedItemAttachmentLink.appendChild(elmFeedItemAttachmentImageContainer);
+			elmFeedItemAttachmentContent = document.createElement("div");
+			elmFeedItemAttachmentContent.className = "feedItemAttachmentContent";
+			elmFeedItemAttachmentLink.appendChild(elmFeedItemAttachmentContent);
 
 			if(mediaType === "") {
 				elmFeedItemAttachmentImage = document.createElement("img");
 				elmFeedItemAttachmentImage.className = "feedItemAttachmentImage";
 				elmFeedItemAttachmentImage.src = slUtil.getMimeTypeIconPath(att.mimeType);
-				elmFeedItemAttachmentImageContainer.appendChild(elmFeedItemAttachmentImage);
+				elmFeedItemAttachmentContent.appendChild(elmFeedItemAttachmentImage);
 			} else {
 				elmFeedItemAttachmentMedia = document.createElement(mediaType);
 				elmFeedItemAttachmentMedia.className = `feedItemAttachmentMediaObject`;	// Title case
@@ -337,7 +337,7 @@
 					elmFeedItemAttachmentMedia.controls = true;
 				}
 				elmFeedItemAttachmentMedia.addEventListener("error", onErrorMedia);
-				elmFeedItemAttachmentImageContainer.appendChild(elmFeedItemAttachmentMedia);
+				elmFeedItemAttachmentContent.appendChild(elmFeedItemAttachmentMedia);
 			}
 
 			elmFeedItemAttachmentTitle = document.createElement("div");
