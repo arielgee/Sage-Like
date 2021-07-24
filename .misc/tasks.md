@@ -865,22 +865,25 @@
 * video enclosure will have a width larger then 300px => NO
 * in Fx90 the menu item in menubar->View->Sidebar->Sage-like is not aligned with the other menu items => BUG: https://bugzilla.mozilla.org/show_bug.cgi?id=1715096
 * feed preview: make attached images bigger? (width=300px)
+* in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"` => NO
 ---
 
 
 ## Now
+* new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: https://twitter.com/yoshboi420/status/1359269944609939457
+Mark all feed-items as "Read" when feed is opened in Feed Preview from the sidebar
+Mark all feed-items as "Read" when Feed Preview is opend from the sidebar
+Mark all feed-items as "Read" when feed is opened from the sidebar in Feed Preview
+---
+
+
+## Next
 * attachments in those feeds are not played
 	https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 	http://feeds.megaphone.fm/intercepted
 	see help:
 		https://support.mozilla.org/en-US/questions/1262177
----
-
-
-## Next
 * got this message: "This error message will be blank when privacy.resistFingerprinting = true. If it is really necessary, please add it to the whitelist in MediaError::GetMessage: 2152398850: Request failed" feedPreview.js:540:80
-* in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"`
-* new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: @yoshboi420 - 0:36 10 Feb 2021
 * following link is an rss feed that its items only include enclosures:
 	view-source:https://feeds.buzzsprout.com/192305.rss
 	view-source:https://rss.art19.com/vega
