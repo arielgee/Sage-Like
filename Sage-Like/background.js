@@ -27,7 +27,7 @@
 	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
-	let m_regExpUrlFilter;
+	let m_regExpUrlFilter = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrlPrefix().escapeRegExp());
 	let m_regExpRssContentTypes;
 
 	initialization();
@@ -49,13 +49,11 @@
 			["blocking", "responseHeaders"]
 		);
 
-		handlePrefStrictRssContentTypes()										// Check if web response can be displayed as feedPreview
+		handlePrefStrictRssContentTypes();										// Check if web response can be displayed as feedPreview
 		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for pageAction
 
 		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
-
-		m_regExpUrlFilter = slUtil.getRegExpDiscoveryUrlFilter();
 
 		// start the first bookmark feeds check after 2 seconds to allow the browser's
 		// initialization to terminate and possibly the sidebar to be displayed.

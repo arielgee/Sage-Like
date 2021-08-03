@@ -1827,7 +1827,6 @@ let slUtil = (function() {
 	let m_savedScrollbarWidth = -1;
 	let m_mozExtensionOrigin = "";
 	let	m_mozExtensionExecutionPath = "";
-	let m_regExpDiscoveryUrlFilter = "";
 	let m_mimeTypeIcons = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2391,16 +2390,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getRegExpDiscoveryUrlFilter() {
-
-		if(m_regExpDiscoveryUrlFilter === "") {
-			// also accept Sage-Like feed preview URL
-			m_regExpDiscoveryUrlFilter = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrl("").escapeRegExp());
-		}
-		return m_regExpDiscoveryUrlFilter;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function asSafeTypeValue(entity, asNumeric = false) {
 
 		// if object then get first object property
@@ -2592,7 +2581,6 @@ let slUtil = (function() {
 		setLimitedInterval: setLimitedInterval,
 		validURL: validURL,
 		incognitoErrorMessage: incognitoErrorMessage,
-		getRegExpDiscoveryUrlFilter: getRegExpDiscoveryUrlFilter,
 		getElementViewportRect: getElementViewportRect,
 		getHScrollWidth: getHScrollWidth,
 		getVScrollWidth: getVScrollWidth,
