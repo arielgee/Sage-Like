@@ -9,7 +9,7 @@ class Content {
 
 		this._onRuntimeMessage = this._onRuntimeMessage.bind(this);
 
-		browser.runtime.onMessage.addListener(this._onRuntimeMessage)
+		browser.runtime.onMessage.addListener(this._onRuntimeMessage);
 	}
 
 	//////////////////////////////////////////////////////////////////////
