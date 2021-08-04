@@ -2317,8 +2317,13 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getQueryStringValue(field) {
+		return getURLQueryStringValue(window.location.href, field);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getURLQueryStringValue(url, field) {
 		let reg = new RegExp("[?&]" + field + "=([^&#]*)", "i");
-		let value = reg.exec(window.location.href);
+		let value = reg.exec(url);
 		return value ? value[1] : null;
 	}
 
@@ -2338,8 +2343,13 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedPreviewUrl(url) {
-		return browser.runtime.getURL("/feedPreview/feedPreview.html?urlFeed=" + encodeURIComponent(url));
+	function getFeedPreviewUrlPrefix() {
+		return browser.runtime.getURL("/feedPreview/feedPreview.html?urlFeed=");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getFeedPreviewUrl(url, feedUrlsVisited = false) {
+		return (getFeedPreviewUrlPrefix() + encodeURIComponent(url) + (feedUrlsVisited ? "&fuv=1" : ""));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2573,8 +2583,10 @@ let slUtil = (function() {
 		invertColor: invertColor,
 		contrastColor: contrastColor,
 		getQueryStringValue: getQueryStringValue,
+		getURLQueryStringValue: getURLQueryStringValue,
 		getBrowserVersion: getBrowserVersion,
 		getParkedTabUrl: getParkedTabUrl,
+		getFeedPreviewUrlPrefix: getFeedPreviewUrlPrefix,
 		getFeedPreviewUrl: getFeedPreviewUrl,
 		getFeedPreviewUrlByBrowserVersion: getFeedPreviewUrlByBrowserVersion,
 		isRegExpValid: isRegExpValid,

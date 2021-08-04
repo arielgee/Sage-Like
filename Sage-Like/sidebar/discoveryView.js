@@ -142,7 +142,7 @@ let discoveryView = (function() {
 
 						// Fx v64 Sage-Like Feed Preview
 
-						loadSingleDiscoverFeed(decodeURIComponent(tab.url.substring(slUtil.getFeedPreviewUrl("").length)), pd.title);
+						loadSingleDiscoverFeed(decodeURIComponent(slUtil.getURLQueryStringValue(tab.url, "urlFeed")), pd.title);
 
 					} else {
 
