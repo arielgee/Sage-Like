@@ -561,11 +561,13 @@ let rssListView = (function() {
 
 		if(elms.length > 0) {
 
-			for(let i=0, len=elms.length; i<len; i++) {
-				if(isVisited) {
+			if(isVisited) {
+				for(let i=0, len=elms.length; i<len; i++) {
 					slUtil.addUrlToBrowserHistory(elms[i].getAttribute("href"), elms[i].textContent);
 					elms[i].classList.remove("bold");
-				} else {
+				}
+			} else {
+				for(let i=0, len=elms.length; i<len; i++) {
 					slUtil.deleteUrlFromBrowserHistory(elms[i].getAttribute("href"));
 					elms[i].classList.add("bold");
 				}

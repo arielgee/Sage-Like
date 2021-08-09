@@ -1790,9 +1790,16 @@ let rssTreeView = (function() {
 
 		if(elms.length > 0) {
 
-			for(let i=0, len=elms.length; i<len; i++) {
-				elms[i].classList.toggle("bold", !isVisited);
-				m_objTreeFeedsData.set(elms[i].id, { lastVisited: (isVisited ? Date.now() : 0) }, false);
+			if(isVisited) {
+				for(let i=0, len=elms.length; i<len; i++) {
+					elms[i].classList.remove("bold");
+					m_objTreeFeedsData.set(elms[i].id, { lastVisited: Date.now() }, false);
+				}
+			} else {
+				for(let i=0, len=elms.length; i<len; i++) {
+					elms[i].classList.add("bold");
+					m_objTreeFeedsData.set(elms[i].id, { lastVisited: 0 }, false);
+				}
 			}
 			m_objTreeFeedsData.setStorage();
 			updateAllTreeFoldersStats();
