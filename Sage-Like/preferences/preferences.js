@@ -26,6 +26,7 @@ let preferences = (function() {
 	let m_elmSortFeedItems;
 	let m_elmFolderClickAction;
 	let m_elmClickOpensFeedPreview;
+	let m_elmMarkFeedPreviewUrlsAsVisited;
 	let m_elmFeedItemOpenMethod;
 	let m_elmShowFeedStats;
 	let m_elmShowFeedItemDesc;
@@ -96,6 +97,7 @@ let preferences = (function() {
 		m_elmSortFeedItems = document.getElementById("sortFeedItems");
 		m_elmFolderClickAction = document.getElementById("folderClickAction");
 		m_elmClickOpensFeedPreview = document.getElementById("clickOpensFeedPreview");
+		m_elmMarkFeedPreviewUrlsAsVisited = document.getElementById("markFeedPreviewUrlsAsVisited");
 		m_elmFeedItemOpenMethod = document.getElementById("feedItemOpenMethod");
 		m_elmShowFeedStats = document.getElementById("showFeedStats");
 		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
@@ -165,6 +167,7 @@ let preferences = (function() {
 		m_elmSortFeedItems.removeEventListener("change", onChangeSortFeedItems);
 		m_elmFolderClickAction.removeEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreview.removeEventListener("change", onChangeClickOpensFeedPreview);
+		m_elmMarkFeedPreviewUrlsAsVisited.removeEventListener("change", onChangeMarkFeedPreviewUrlsAsVisited);
 		m_elmFeedItemOpenMethod.removeEventListener("change", onChangeFeedItemOpenMethod);
 		m_elmShowFeedStats.removeEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
@@ -224,6 +227,7 @@ let preferences = (function() {
 		m_elmSortFeedItems.addEventListener("change", onChangeSortFeedItems);
 		m_elmFolderClickAction.addEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreview.addEventListener("change", onChangeClickOpensFeedPreview);
+		m_elmMarkFeedPreviewUrlsAsVisited.addEventListener("change", onChangeMarkFeedPreviewUrlsAsVisited);
 		m_elmFeedItemOpenMethod.addEventListener("change", onChangeFeedItemOpenMethod);
 		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
 		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
@@ -320,6 +324,10 @@ let preferences = (function() {
 
 		prefs.getClickOpensFeedPreview().then((value) => {
 			m_elmClickOpensFeedPreview.value = value;
+		});
+
+		prefs.getMarkFeedPreviewUrlsAsVisited().then((value) => {
+			m_elmMarkFeedPreviewUrlsAsVisited.checked = value;
 		});
 
 		prefs.getFeedItemOpenMethod().then((value) => {
@@ -543,6 +551,11 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeClickOpensFeedPreview(event) {
 		prefs.setClickOpensFeedPreview(parseInt(m_elmClickOpensFeedPreview.value));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeMarkFeedPreviewUrlsAsVisited(event) {
+		prefs.setMarkFeedPreviewUrlsAsVisited(m_elmMarkFeedPreviewUrlsAsVisited.checked);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -938,6 +951,7 @@ let preferences = (function() {
 		m_elmSortFeedItems.checked = defPrefs.sortFeedItems;
 		m_elmFolderClickAction.value = defPrefs.folderClickAction;
 		m_elmClickOpensFeedPreview.value = defPrefs.clickOpensFeedPreview;
+		m_elmMarkFeedPreviewUrlsAsVisited.checked = defPrefs.markFeedPreviewUrlsAsVisited;
 		m_elmFeedItemOpenMethod.value = defPrefs.feedItemOpenMethod;
 		m_elmShowFeedStats.checked = defPrefs.showFeedStats;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
