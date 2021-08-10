@@ -131,15 +131,19 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setFeedItems(list, title, elmLITreeFeed) {
 
-		let item;
+		const FIRST_FAST_LOAD_PACK_SIZE = 1000;
 
 		disposeList();
-		for(let i=0, len=list.length; i<len; i++) {
-			item = list[i];
-			if(i<1000) {
-				appendTagIL(i+1, item.title, item.description, item.url, item.attachments);
-			} else {
-				setTimeout(() => appendTagIL(i+1, item.title, item.description, item.url, item.attachments), 10);
+		if(list.length <= FIRST_FAST_LOAD_PACK_SIZE) {
+			for(let i=0, len=list.length; i<len; i++) {
+				appendTagIL(i+1, list[i]);
+			}
+		} else {
+			for(let i=0; i<FIRST_FAST_LOAD_PACK_SIZE; i++) {
+				appendTagIL(i+1, list[i]);
+			}
+			for(let i=FIRST_FAST_LOAD_PACK_SIZE, len=list.length; i<len; i++) {
+				setTimeout(() => appendTagIL(i+1, list[i]), 10);
 			}
 		}
 		m_elmLITreeFeed = elmLITreeFeed;
@@ -155,8 +159,12 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function appendTagIL(index, title, desc, url, attachments) {
+	function appendTagIL(index, item) {
 
+		let title = item.title;
+		let desc = item.description;
+		let url = item.url;
+		let attachments = item.attachments;
 		let elm = document.createElement("li");
 
 		elm.classList.add(slGlobals.CLS_RLV_LI_LIST_ITEM)

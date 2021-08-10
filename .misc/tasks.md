@@ -871,14 +871,6 @@
 
 ## Now
 * new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: https://twitter.com/yoshboi420/status/1359269944609939457
-	<!-- possible preference text
-
-		Mark all feed-items as "Read" when feed is opened from the sidebar in Feed Preview
-		Mark all feed-items as "Read" when feed is opened in Feed Preview from the sidebar
-		Mark all feed-items as "Read" when Feed Preview is opend from the sidebar
-		Mark all feed-items as "Read" when opened in Feed Preview
-		Mark feed-items as "Read" when feed is opened in Feed Preview
-	-->
 ---
 
 
@@ -908,6 +900,45 @@
 * show "drop" line when dropping after last feed in tree - if its possibale
 * link in message box "sage-like extension in not allowed in private windows" is not readable in dark colors
 * inspect error: Unknown property ‘-moz-outline-radius’.  Declaration dropped. discoveryView.css:192:22  Elements matching selector: sl-tri-toggler:focus
+* feeds with embedded credentials in the feed url. Try to create one in my local IIS. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
+* have button(s) in toolbar with ‘mark-all-as-read/unread’ functionality. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
+* if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
+* limit number of feed-items displayed in listView
+* improve prefs: convert the pair `DEF_PREF_xxx/PREF_xxx` to an object: `PREFERENCES.xxx = { name: "pref_xxx", default: false }`
+<!--
+	const PREFERENCES = Object.freeze({
+		ROOT_FEEDS_FOLDER_ID:				{ name: "pref_rootFeedsFolderId",				default: slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET	},
+		CHECK_FEEDS_INTERVAL:				{ name: "pref_checkFeedsInterval",				default: "3600000"								},
+		CHECK_FEEDS_WHEN_SB_CLOSED:			{ name: "pref_checkFeedsWhenSbClosed",			default: true									},
+		CHECK_FEEDS_METHOD:					{ name: "pref_checkFeedsMethod",				default: "3;2000"								},
+		FETCH_TIMEOUT:						{ name: "pref_fetchTimeout",					default: "60"									},
+		SORT_FEED_ITEMS:					{ name: "pref_sortFeedItems",					default: true									},
+		FOLDER_CLICK_ACTION:				{ name: "pref_folderClickAction",				default: FOLDER_CLICK_ACTION_VALUES.doubleClick	},
+		CLICK_OPENS_FEED_PREVIEW:			{ name: "pref_clickOpensFeedPreview",			default: CLICK_OPENS_FEED_PREVIEW_VALUES.openNo	},
+		FEED_ITEM_OPEN_METHOD:				{ name: "pref_feedItemOpenMethod",				default: FEED_ITEM_OPEN_METHOD_VALUES.openInTab	},
+		SHOW_FEED_STATS:					{ name: "pref_showFeedStats",					default: true									},
+		SHOW_FEED_ITEM_DESC:				{ name: "pref_showFeedItemDesc",				default: true									},
+		FEED_ITEM_DESC_DELAY:				{ name: "pref_feedItemDescDelay",				default: 800									},
+		SHOW_FEED_ITEM_DESC_ATTACH:			{ name: "pref_showFeedItemDescAttach",			default: false									},
+		COLOR_FEED_ITEM_DESC_BACKGROUND:	{ name: "pref_colorFeedItemDescBk",				default: "#FFFDAC"								},
+		COLOR_FEED_ITEM_DESC_TEXT:			{ name: "pref_colorFeedItemDescText",			default: "#000000"								},
+		DETECT_FEEDS_IN_WEB_PAGE:			{ name: "pref_detectFeedsInWebPage",			default: true									},
+		UI_DENSITY:							{ name: "pref_UIDensity",						default: "19;18"								},
+		FONT_NAME:							{ name: "perf_fontName",						default: "(Browser Default)"					},
+		FONT_SIZE_PERCENT:					{ name: "perf_fontSizePercent",					default: "100"									},
+		COLOR_BACKGROUND:					{ name: "pref_colorBk",							default: "#F3F3F3"								},
+		COLOR_DIALOG_BACKGROUND:			{ name: "pref_colorDlgBk",						default: "#E3E3E3"								},
+		COLOR_SELECT:						{ name: "pref_colorSelect",						default: "#F3C8BA"								},
+		COLOR_TEXT:							{ name: "pref_colorText",						default: "#000000"								},
+		IMAGE_SET:							{ name: "pref_imageSet",						default: 0										},
+		USE_CUSTOM_CSS_FEED_PREVIEW:		{ name: "pref_useCustomCSSFeedPreview",			default: false									},
+		CUSTOM_CSS_SOURCE:					{ name: "pref_customCSSSource",					default: ""										},
+		CUSTOM_CSS_SOURCE_HASH:				{ name: "pref_customCSSSourceHash",				default: ""										},
+		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true									},
+		STRICT_RSS_CONTENT_TYPES:			{ name: "pref_strictRssContentTypes",			default: true									},
+		MARK_FEED_PREVIEW_URLS_AS_VISITED:	{ name: "pref_markFeedPreviewUrlsAsVisited",	default: false									},
+	});
+ -->
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
