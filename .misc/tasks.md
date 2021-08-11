@@ -796,7 +796,7 @@
 * add a link to the extension's page to the posted 'sl-customFeedPreview-CSS-files.zip' in discourse.mozilla.org
 * use site's favicon for feedPreview page; access https://www.host.com/favicon.ico and replace the href of <link rel="shortcut icon"> in feedPreview.html
 * try to handle more cases of site's favicons
-* change preferences with multiple "radio" type <input>s into <select>s. make the page less clutter (A Feed-Click autom...   "No, I'll use Middle-click", "In a new tab")
+* change preferences with multiple "radio" type `<input>`s into `<select>`s. make the page less clutter (A Feed-Click autom...   "No, I'll use Middle-click", "In a new tab")
 * rebuild test feeds. fix http linsk to https, create folder with feeds (at least one or each standerd) that differ in sort order (chronological/source)
 * allow two different types of feed sorting, "chronological" and "source". like old sage. don't call xxxxFeed._sortFeederByDate(). broadcast preference change.
 * in syndication.fetchFeedItems() set default value to 'reload' parameter so that no one calls the function with 'undefined'
@@ -975,3 +975,20 @@
 ### wird feeds
 * https://ascraeus.org/jsonfeed/index.json ==> Date Format is bad ISO ==> "date_published": "2020-29-02T21:42:52+00:00" ==> month and day switched places.
 * https://www.php.net/feed.atom ==> entry `Southeast PHP Conference` has 2 <published> tags whereas all other entries have an <updated> tag. (<updated> is prefered to <published>).
+
+
+# node.js / npm / web-ext
+1. download and install node.js
+2. verify installation with command: `node -v`
+3. configure proxy if requered with following commands:
+	1. `npm config set proxy http://DEV%5Carielg:Ag123456@forcepoint_lb.road6operator.com:8080`
+	2. `npm config set https-proxy http://DEV%5Carielg:Ag123456@forcepoint_lb.road6operator.com:8080`
+4. install npm with command: `npm install npm --global`
+5. to run firefox with web-ext: `web-ext run`
+	1. additinal command line switchs:
+		* Specify a particular version of Firefox Desktop to run the extension in: ` --firefox="C:\Program Files\Mozilla Firefox\firefox.exe"`
+		* Specify a base Firefox profile to run the extension in: `--firefox-profile="c:\path\to\firefox\profile\folder"`
+		* Specifies the directory of the extension's source code: `--source-dir="c:\path\to\extension\source\code\folder"`
+6. example:
+	* `web-ext run --firefox="C:\Program Files\Mozilla Firefox\firefox.exe" --firefox-profile="c:\Documents and Settings\arielg\Application Data\Mozilla\Firefox\Profiles\czx8tcde.default.dev" --source-dir="c:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like" --verbose --browser-console`
+

@@ -29,7 +29,7 @@
 	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
-	let m_regExpRssContentTypes;
+	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_CONTENT_TYPES_STRICT, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
 
 	initialization();
 
