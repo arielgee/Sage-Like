@@ -2602,7 +2602,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function stripFeedPreviewUrl(url) {
 		if(url.startsWith(slUtil.getFeedPreviewUrlPrefix())) {
-			return decodeURIComponent(slUtil.getURLQueryStringValue(url, "urlFeed"));
+			return slUtil.getURLQueryStringValue(url, "urlFeed");
 		}
 		return url;
 	}

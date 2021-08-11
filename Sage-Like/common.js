@@ -2354,7 +2354,7 @@ let slUtil = (function() {
 	function getURLQueryStringValue(url, field) {
 		let reg = new RegExp("[?&]" + field + "=([^&#]*)", "i");
 		let value = reg.exec(url);
-		return value ? value[1] : null;
+		return value ? decodeURIComponent(value[1]) : null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

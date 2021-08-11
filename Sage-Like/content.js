@@ -63,7 +63,7 @@ class Content {
 				// Fx v64 Sage-Like Feed Preview
 
 				resolve(this._feedCount = 1);
-				let url = decodeURIComponent(slUtil.getURLQueryStringValue(winLocation.toString(), "urlFeed"));
+				let url = slUtil.getURLQueryStringValue(winLocation.toString(), "urlFeed");
 				syndication.feedDiscovery(url, timeout).then((feedData) => {
 					this._feeds.push(feedData);
 				});
