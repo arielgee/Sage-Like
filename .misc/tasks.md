@@ -866,11 +866,12 @@
 * in Fx90 the menu item in menubar->View->Sidebar->Sage-like is not aligned with the other menu items => BUG: https://bugzilla.mozilla.org/show_bug.cgi?id=1715096
 * feed preview: make attached images bigger? (width=300px)
 * in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"` => NO
+* new pref: mark all feed items as "read" when opening feed preview from feed. Twitter: https://twitter.com/yoshboi420/status/1359269944609939457
 ---
 
 
 ## Now
-* new pref: mark all feed entities as "read" when openning feed preview from feed. Twitter: https://twitter.com/yoshboi420/status/1359269944609939457
+* in rssTreeView: eventOccureInItemIcon() is not used
 ---
 
 
@@ -894,7 +895,6 @@
 			getFavIcon((new URL(url)).origin);
 		}
 * feedPreview: the attachments erea is can be folded. Auto hide/fold if its too big (height)
-* in rssTreeView: eventOccureInItemIcon() is not used
 * check all uses of getQueryStringValue() is it always for feedPreview? (please let it be yes)
 * for all calls to getQueryStringValue & getURLQueryStringValue: the calls are wrapped with decodeURIComponent(). PUT the decodeURIComponent() INSIDE the function; `decodeURIComponent(value[1])`
 * show "drop" line when dropping after last feed in tree - if its possibale

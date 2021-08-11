@@ -526,6 +526,7 @@ let slGlobals = (function() {
 	const MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW			= 109;
 	const MSG_ID_RSS_TREE_CREATED_OK					= 110;
 	const MSG_ID_CLOSE_ALL_SIDEBAR_PANELS				= 111;
+	const MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED	= 112;
 
 	// Message Details IDs
 	const MSGD_PREF_CHANGE_ALL								= 1001;
@@ -591,6 +592,15 @@ let slGlobals = (function() {
 		ALL_VIEWS_LOADED:	parseInt("11", 2),
 	};
 
+	const FEED_PREVIEW_REQ_SOURCE = {
+		NONE: "",
+		BK_WEB_REQUEST: "bwr",
+		PAGE_POPUP: "ppu",
+		CONTEXTMENU_TREE_HANDLER: "cth",
+		DISCOVERY_VIEW: "dsv",
+		RSS_TREE_VIEW: "rtv",
+	};
+
 	return {
 		ID_UL_RSS_TREE_VIEW: ID_UL_RSS_TREE_VIEW,
 		ID_UL_RSS_LIST_VIEW: ID_UL_RSS_LIST_VIEW,
@@ -617,6 +627,7 @@ let slGlobals = (function() {
 		MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW: MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW,
 		MSG_ID_RSS_TREE_CREATED_OK: MSG_ID_RSS_TREE_CREATED_OK,
 		MSG_ID_CLOSE_ALL_SIDEBAR_PANELS: MSG_ID_CLOSE_ALL_SIDEBAR_PANELS,
+		MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED: MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED,
 
 		MSGD_PREF_CHANGE_ALL: MSGD_PREF_CHANGE_ALL,
 		MSGD_PREF_CHANGE_ROOT_FOLDER: MSGD_PREF_CHANGE_ROOT_FOLDER,
@@ -650,6 +661,7 @@ let slGlobals = (function() {
 		IMAGE_SET: IMAGE_SET,
 
 		VIEW_CONTENT_LOAD_FLAG: VIEW_CONTENT_LOAD_FLAG,
+		FEED_PREVIEW_REQ_SOURCE: FEED_PREVIEW_REQ_SOURCE,
 	};
 
 })();
@@ -2366,8 +2378,8 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedPreviewUrl(url, feedUrlsVisited = false) {
-		return (getFeedPreviewUrlPrefix() + encodeURIComponent(url) + (feedUrlsVisited ? "&fuv=1" : ""));
+	function getFeedPreviewUrl(url, source = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE) {
+		return (getFeedPreviewUrlPrefix() + encodeURIComponent(url) + "&src=" + source);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

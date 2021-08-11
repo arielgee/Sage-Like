@@ -16,6 +16,7 @@
 	let m_timeoutMouseOver = null;
 	let m_hashCustomCSSSource = "";
 	let m_reloadChangeSortDebouncer = null;
+	let m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
 
 	initialization();
 
@@ -53,8 +54,12 @@
 	function onDOMContentLoaded() {
 
 		let urlFeed = decodeURIComponent(slUtil.getQueryStringValue("urlFeed"));
+		m_requestSource = slUtil.getQueryStringValue("src");
 
 		m_URL = new URL(urlFeed);
+		if( !(Object.values(slGlobals.FEED_PREVIEW_REQ_SOURCE).includes(m_requestSource)) ) {
+			m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
+		}
 
 		getFavIcon(m_URL.origin);
 
@@ -131,6 +136,7 @@
 							}
 						}
 						m_elmFeedBody.appendChild(elmFeedContent);
+						addFeedItemUrlsToBrowserHistory(result.list);
 					} else {
 						m_elmJumpListContainer.remove();
 						createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedItems(). SAD. */
@@ -701,6 +707,30 @@
 			browser.tabs.reload(tab.id);
 			m_reloadChangeSortDebouncer = null;
 		}, 500);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function addFeedItemUrlsToBrowserHistory(list) {
+
+		// only if it was opend from the sidebar's tree AND only if the pref say so
+		if( (m_requestSource === slGlobals.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW) && (await prefs.getMarkFeedPreviewUrlsAsVisited()) ) {
+
+			// delayed
+			setTimeout(() => {
+
+				for(let idx=0, len=list.length; idx<len; idx++) {
+					const item = list[idx];
+					slUtil.addUrlToBrowserHistory(item.url, (item.title.trim().length > 0 ? item.title : item.url));
+				}
+
+				browser.runtime.sendMessage({
+					id: slGlobals.MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED,
+					feedUrl: m_URL.toString(),
+					feedItems: list.map((n) => n.url),	// just the urls
+				});
+
+			}, 150);
+		}
 	}
 
 })();

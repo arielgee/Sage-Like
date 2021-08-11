@@ -384,7 +384,7 @@ let contextMenu = (function() {
 		let actionData = { url: "" };
 
 		if(noSupportOpenRssFeedActions.includes(menuAction)) {
-			actionData.url = slUtil.getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"));
+			actionData.url = slUtil.getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"), slGlobals.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW);
 		} else {
 			actionData.url = m_elmEventTarget.getAttribute("href");
 		}

@@ -49,17 +49,25 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onRuntimeMessage(message) {
 
-		if (message.id === slGlobals.MSG_ID_PREFERENCES_CHANGED) {
+		switch (message.id) {
 
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-				message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC) {
-				setShowFeedItemDescFromPreferences();
-			}
+			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC) {
+					setShowFeedItemDescFromPreferences();
+				}
 
-			// Pref for tooltip delay is already retrieved when: message.details === slGlobals.MSGD_PREF_CHANGE_ALL
-			if (message.details === slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY) {
-				setFeedItemDescDelayFromPreferences();
-			}
+				// Pref for tooltip delay is already retrieved when: message.details === slGlobals.MSGD_PREF_CHANGE_ALL
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY) {
+					setFeedItemDescDelayFromPreferences();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case slGlobals.MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:
+				updateFeedItemsStateToVisited(message.feedUrl, message.feedItems);
+				break;
+				/////////////////////////////////////////////////////////////////////////
 		}
 	}
 
@@ -578,6 +586,19 @@ let rssListView = (function() {
 				for(let i=0, len=elms.length; i<len; i++) {
 					slUtil.deleteUrlFromBrowserHistory(elms[i].getAttribute("href"));
 					elms[i].classList.add("bold");
+				}
+			}
+			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateFeedItemsStateToVisited(feedUrl, feedItems) {
+		if(feedUrl === m_elmLITreeFeed.getAttribute("href")) {
+			let elms = m_elmList.querySelectorAll(".bold." + slGlobals.CLS_RLV_LI_LIST_ITEM);
+			for(let i=0, len=elms.length; i<len; i++) {
+				if(feedItems.includes(elms[i].getAttribute("href"))) {
+					elms[i].classList.remove("bold");
 				}
 			}
 			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));

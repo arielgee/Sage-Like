@@ -758,14 +758,14 @@ let rssTreeView = (function() {
 
 			case "KeyO":
 				if(TreeItemType.isFeed(elmTarget)) {
-					browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")) });
+					browser.tabs.update({ url: getFeedPreviewUrl(elmTarget.getAttribute("href")) });
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyT":
 				if(TreeItemType.isFeed(elmTarget)) {
-					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")) });
+					browser.tabs.create({ url: getFeedPreviewUrl(elmTarget.getAttribute("href")) });
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -773,7 +773,7 @@ let rssTreeView = (function() {
 			case "KeyW":
 				if(TreeItemType.isFeed(elmTarget)) {
 					browser.windows.create({
-						url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")),
+						url: getFeedPreviewUrl(elmTarget.getAttribute("href")),
 						type: "normal",
 					});
 				}
@@ -783,7 +783,7 @@ let rssTreeView = (function() {
 			case "KeyV":
 				if(TreeItemType.isFeed(elmTarget)) {
 					browser.windows.create({
-						url: slUtil.getFeedPreviewUrl(elmTarget.getAttribute("href")),
+						url: getFeedPreviewUrl(elmTarget.getAttribute("href")),
 						type: "normal",
 						incognito: true,
 					}).catch((error) => messageView.open(slUtil.incognitoErrorMessage(error)) );
@@ -880,11 +880,11 @@ let rssTreeView = (function() {
 				// open feed preview
 				prefs.getClickOpensFeedPreview().then((value) => {
 					if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openNewTab) {
-						browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+						browser.tabs.create({ url: getFeedPreviewUrl(elmLI.getAttribute("href")) });
 					} else if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openTab) {
-						browser.tabs.update({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+						browser.tabs.update({ url: getFeedPreviewUrl(elmLI.getAttribute("href")) });
 					} else if(m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) {
-						browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });
+						browser.tabs.create({ url: getFeedPreviewUrl(elmLI.getAttribute("href")) });
 					}
 				});
 
@@ -904,9 +904,9 @@ let rssTreeView = (function() {
 
 					// open feed preview
 					if(event.shiftKey) {
-						browser.windows.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")), type: "normal" });	// in new window
+						browser.windows.create({ url: getFeedPreviewUrl(elmLI.getAttribute("href")), type: "normal" });	// in new window
 					} else {
-						browser.tabs.create({ url: slUtil.getFeedPreviewUrl(elmLI.getAttribute("href")) });						// in new tab
+						browser.tabs.create({ url: getFeedPreviewUrl(elmLI.getAttribute("href")) });						// in new tab
 					}
 					setFeedVisitedState(elmLI, true);
 					m_objTreeFeedsData.set(elmLI.id, { lastVisited: Date.now() });
@@ -948,7 +948,7 @@ let rssTreeView = (function() {
 		transfer.setData("text/wx-sl-treeitem-html", m_elmCurrentlyDragged.outerHTML);
 
 		if(TreeItemType.isFeed(m_elmCurrentlyDragged)) {
-			let url = slUtil.getFeedPreviewUrl(m_elmCurrentlyDragged.getAttribute("href"));
+			let url = getFeedPreviewUrl(m_elmCurrentlyDragged.getAttribute("href"));
 			transfer.setData("text/x-moz-url", url + "\n" + m_elmCurrentlyDragged.firstElementChild.firstElementChild.textContent);
 			transfer.setData("text/uri-list", url);
 		}
@@ -1716,7 +1716,7 @@ let rssTreeView = (function() {
 
 		for(let i=0, len=elms.length; i<len; i++) {
 			const elm = elms[i];		// redeclare each iteration due to the async Promise
-			parkedTabUrl = slUtil.getParkedTabUrl(slUtil.getFeedPreviewUrl(elm.getAttribute("href")), getTreeItemText(elm));
+			parkedTabUrl = slUtil.getParkedTabUrl(getFeedPreviewUrl(elm.getAttribute("href")), getTreeItemText(elm));
 			browser.tabs.create({ active: false, url: parkedTabUrl }).then(() => {
 				setFeedVisitedState(elm, true);
 				m_objTreeFeedsData.set(elm.id, { lastVisited: Date.now() });
@@ -2616,6 +2616,11 @@ let rssTreeView = (function() {
 			return decodeURIComponent(slUtil.getURLQueryStringValue(url, "urlFeed"));
 		}
 		return url;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getFeedPreviewUrl(url) {
+		return slUtil.getFeedPreviewUrl(url, slGlobals.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW)
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
