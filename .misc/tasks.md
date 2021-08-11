@@ -867,11 +867,13 @@
 * feed preview: make attached images bigger? (width=300px)
 * in feed preview: when rtl language is detected add class name in addition to `style="direction: rtl"` => NO
 * new pref: mark all feed items as "read" when opening feed preview from feed. Twitter: https://twitter.com/yoshboi420/status/1359269944609939457
+* in rssTreeView: eventOccureInItemIcon() is not used
 ---
 
 
 ## Now
-* in rssTreeView: eventOccureInItemIcon() is not used
+* check all uses of getQueryStringValue() is it always for feedPreview? (please let it be yes)
+* for all calls to getQueryStringValue & getURLQueryStringValue: the calls are wrapped with decodeURIComponent(). PUT the decodeURIComponent() INSIDE the function; `decodeURIComponent(value[1])`
 ---
 
 
@@ -895,8 +897,6 @@
 			getFavIcon((new URL(url)).origin);
 		}
 * feedPreview: the attachments erea is can be folded. Auto hide/fold if its too big (height)
-* check all uses of getQueryStringValue() is it always for feedPreview? (please let it be yes)
-* for all calls to getQueryStringValue & getURLQueryStringValue: the calls are wrapped with decodeURIComponent(). PUT the decodeURIComponent() INSIDE the function; `decodeURIComponent(value[1])`
 * show "drop" line when dropping after last feed in tree - if its possibale
 * link in message box "sage-like extension in not allowed in private windows" is not readable in dark colors
 * inspect error: Unknown property ‘-moz-outline-radius’.  Declaration dropped. discoveryView.css:192:22  Elements matching selector: sl-tri-toggler:focus
