@@ -24,10 +24,11 @@
 	const REGEX_RSS_CONTENT_TYPES_STRICT = "application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))";					// semantics NOT optional
 	const REGEX_RSS_CONTENT_TYPES_NOT_STRICT = "(application|text)/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))";	// semantics optional
 
+	const REGEXP_URL_FILTER_TAB_STATE_CHANGE = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrlPrefix().escapeRegExp());
+
 	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
-	let m_regExpUrlFilter = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrlPrefix().escapeRegExp());
 	let m_regExpRssContentTypes;
 
 	initialization();
@@ -176,7 +177,7 @@
 	function onTabsUpdated(tabId, changeInfo, tab) {
 		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
 		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
-		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(m_regExpUrlFilter)) {
+		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(REGEXP_URL_FILTER_TAB_STATE_CHANGE)) {
 			handleTabChangedState(tabId);
 		}
 	}
@@ -184,7 +185,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsAttached(tabId) {
 		browser.tabs.get(tabId).then((tab) => {
-			if (tab.url.match(m_regExpUrlFilter)) {
+			if (tab.url.match(REGEXP_URL_FILTER_TAB_STATE_CHANGE)) {
 				handleTabChangedState(tabId);
 			}
 		});
