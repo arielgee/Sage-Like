@@ -54,7 +54,7 @@
 	function onDOMContentLoaded() {
 
 		let urlFeed = decodeURIComponent(slUtil.getQueryStringValue("urlFeed"));
-		m_requestSource = slUtil.getQueryStringValue("src");
+		m_requestSource = decodeURIComponent(slUtil.getQueryStringValue("src"));
 
 		m_URL = new URL(urlFeed);
 		if( !(Object.values(slGlobals.FEED_PREVIEW_REQ_SOURCE).includes(m_requestSource)) ) {

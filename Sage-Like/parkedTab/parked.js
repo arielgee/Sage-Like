@@ -6,7 +6,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
-		document.title = decodeURI(slUtil.getQueryStringValue("prkTitle"));
+		document.title = decodeURIComponent(slUtil.getQueryStringValue("prkTitle"));
 		document.addEventListener("focus", onFocusDocument);
 	}
 

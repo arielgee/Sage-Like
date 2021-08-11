@@ -2369,7 +2369,7 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getParkedTabUrl(url, title) {
-		return browser.runtime.getURL("/parkedTab/parked.html?prkTitle=" + title + "&prkUrl=" + encodeURIComponent(url));
+		return browser.runtime.getURL("/parkedTab/parked.html?prkTitle=" + encodeURIComponent(title) + "&prkUrl=" + encodeURIComponent(url));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2379,7 +2379,7 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedPreviewUrl(url, source = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE) {
-		return (getFeedPreviewUrlPrefix() + encodeURIComponent(url) + "&src=" + source);
+		return (getFeedPreviewUrlPrefix() + encodeURIComponent(url) + "&src=" + encodeURIComponent(source));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
