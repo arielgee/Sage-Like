@@ -870,11 +870,13 @@
 * in rssTreeView: eventOccureInItemIcon() is not used
 * check all uses of getQueryStringValue() is it always for feedPreview? (please let it be yes)	=> NO parked.js
 * for all calls to getQueryStringValue & getURLQueryStringValue: the calls are wrapped with decodeURIComponent(). PUT the decodeURIComponent() INSIDE the function; `decodeURIComponent(value[1])`
+* inspect error: Unknown property ‘-moz-outline-radius’.  Declaration dropped. discoveryView.css:192:22  Elements matching selector: sl-tri-toggler:focus => leave it. it's still supported from v59-v87
+* link in message box "sage-like extension in not allowed in private windows" is not readable in dark colors
 ---
 
 
 ## Now
-* inspect error: Unknown property ‘-moz-outline-radius’.  Declaration dropped. discoveryView.css:192:22  Elements matching selector: sl-tri-toggler:focus
+* show "drop" line when dropping after last feed in tree - if its possibale
 ---
 
 
@@ -898,8 +900,6 @@
 			getFavIcon((new URL(url)).origin);
 		}
 * feedPreview: the attachments erea is can be folded. Auto hide/fold if its too big (height)
-* show "drop" line when dropping after last feed in tree - if its possibale
-* link in message box "sage-like extension in not allowed in private windows" is not readable in dark colors
 * feeds with embedded credentials in the feed url. Try to create one in my local IIS. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
 * have button(s) in toolbar with ‘mark-all-as-read/unread’ functionality. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)

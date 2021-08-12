@@ -50,6 +50,11 @@ let messageView = (function () {
 
 			m_elmOptionsHref = document.getElementById("incognitoMsgOptionsHref");
 			if(!!m_elmOptionsHref) {
+				prefs.getColorDialogBackground().then(color => {
+					if(color < "#888888") {		// quick fix - on dark bk anchor will invert from blue to yellow. Will not adapt if bk color changes while messageView is open
+						m_elmOptionsHref.style.filter = "invert(100%)";
+					}
+				});
 				m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
 			}
 
