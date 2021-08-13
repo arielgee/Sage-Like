@@ -258,13 +258,13 @@
 		clearTimeout(m_timeoutIdMonitorBookmarkFeeds);
 		m_timeoutIdMonitorBookmarkFeeds = null;
 
-		let nextInterval = await prefs.getCheckFeedsInterval().catch(() => nextInterval = prefs.DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
+		let nextInterval = await prefs.getCheckFeedsInterval().catch(() => nextInterval = prefs.DEFAULTS.checkFeedsInterval);
 
 		// if interval is zero then do not perform background monitoring
 		if(nextInterval !== "0") {
 
 			let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));		// supported in 59.0
-			let checkWhenSbClosed = await prefs.getCheckFeedsWhenSbClosed().catch(() => checkWhenSbClosed = prefs.DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
+			let checkWhenSbClosed = await prefs.getCheckFeedsWhenSbClosed().catch(() => checkWhenSbClosed = prefs.DEFAULTS.checkFeedsWhenSbClosed);
 
 			// background monitoring from the background page is done solely for
 			// the purpose of updating the action button when the sidebar is closed

@@ -955,256 +955,119 @@ let internalPrefs = (function() {
 
 	// internal preferences
 
-	const DEF_PREF_OPEN_TREE_FOLDERS_VALUE = {};
-	const DEF_PREF_TREE_FEEDS_DATA_VALUE = {};
-	const DEF_PREF_IS_EXTENSION_INSTALLED_VALUE = null;
-	const DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE = null;
-	const DEF_PREF_TREE_SCROLL_TOP_VALUE = 0;
-	const DEF_PREF_SPLITTER_TOP_VALUE = undefined;
-	const DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE = 5;
-	const DEF_PREF_FEEDS_FILTER_VALUE = "";
-	const DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE = "0";
-	const DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE = 3;
-	const DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE = 3;
-	const DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE = undefined;
-	const DEF_PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP_VALUE = 3;
-
-	const PREF_OPEN_TREE_FOLDERS = "pref_openSubTrees";
-	const PREF_TREE_FEEDS_DATA = "pref_treeFeedsData";
-	const PREF_IS_EXTENSION_INSTALLED = "pref_isExtensionInstalled";
-	const PREF_TREE_SELECTED_ITEM_ID = "pref_treeSelectedItemId";
-	const PREF_TREE_SCROLL_TOP = "pref_treeScrollTop";
-	const PREF_SPLITTER_TOP = "pref_splitterTop";
-	const PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT = "pref_dropInsideFolderShowMsgCount";
-	const PREF_FEEDS_FILTER = "pref_feedsFilter";
-	const PREF_AGGRESSIVE_DISCOVERY_LEVEL = "pref_aggressiveDiscoveryLevel";
-	const PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX = "pref_hoverFilterTextBoxShowMsgCount";
-	const PREF_MSG_SHOW_COUNT_REAPPLY_FILTER = "pref_reapplyFilterShowMsgCount";
-	const PREF_NOTEPAD_DARK_COLOR_SCHEME = "pref_notepadDarkColorScheme";
-	const PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP = "pref_notepadHelpShowPopupCount";
+	const PREF = Object.freeze({
+		OPEN_TREE_FOLDERS:						{ name: "pref_openSubTrees",					default: {}			},
+		TREE_FEEDS_DATA:						{ name: "pref_treeFeedsData",					default: {}			},
+		IS_EXTENSION_INSTALLED:					{ name: "pref_isExtensionInstalled",			default: null		},
+		TREE_SELECTED_ITEM_ID:					{ name: "pref_treeSelectedItemId",				default: null		},
+		TREE_SCROLL_TOP:						{ name: "pref_treeScrollTop",					default: 0			},
+		SPLITTER_TOP:							{ name: "pref_splitterTop",						default: undefined	},
+		DROP_INSIDE_FOLDER_SHOW_MSG_COUNT:		{ name: "pref_dropInsideFolderShowMsgCount",	default: 5			},
+		FEEDS_FILTER:							{ name: "pref_feedsFilter",						default: ""			},
+		AGGRESSIVE_DISCOVERY_LEVEL:				{ name: "pref_aggressiveDiscoveryLevel",		default: "0"		},
+		MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX:	{ name: "pref_hoverFilterTextBoxShowMsgCount",	default: 3			},
+		MSG_SHOW_COUNT_REAPPLY_FILTER:			{ name: "pref_reapplyFilterShowMsgCount",		default: 3			},
+		NOTEPAD_DARK_COLOR_SCHEME:				{ name: "pref_notepadDarkColorScheme",			default: undefined	},
+		POPUP_SHOW_COUNT_NOTEPAD_HELP:			{ name: "pref_notepadHelpShowPopupCount",		default: 3			},
+	});
 
 	let m_localStorage = browser.storage.local;
 
-	//////////////////////////////////////////////////////////////////////
-	function getOpenTreeFolders() {
-		return getPreferenceValue(PREF_OPEN_TREE_FOLDERS, DEF_PREF_OPEN_TREE_FOLDERS_VALUE);
-	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function getOpenTreeFolders()					{ return _getPreferenceValue(PREF.OPEN_TREE_FOLDERS); }
+	function getTreeFeedsData()						{ return _getPreferenceValue(PREF.TREE_FEEDS_DATA); }
+	function getIsExtensionInstalled()				{ return _getPreferenceValue(PREF.IS_EXTENSION_INSTALLED); }
+	function getTreeSelectedItemId()				{ return _getPreferenceValue(PREF.TREE_SELECTED_ITEM_ID); }
+	function getTreeScrollTop()						{ return _getPreferenceValue(PREF.TREE_SCROLL_TOP); }
+	function getSplitterTop()						{ return _getPreferenceValue(PREF.SPLITTER_TOP); }
+	function getDropInsideFolderShowMsgCount()		{ return _getPreferenceValue(PREF.DROP_INSIDE_FOLDER_SHOW_MSG_COUNT); }
+	function getFeedsFilter()						{ return _getPreferenceValue(PREF.FEEDS_FILTER); }
+	function getAggressiveDiscoveryLevel()			{ return _getPreferenceValue(PREF.AGGRESSIVE_DISCOVERY_LEVEL); }
+	function getMsgShowCountHoverFilterTextBox()	{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX); }
+	function getMsgShowCountReapplyFilter()			{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_REAPPLY_FILTER); }
+	function getNotepadDarkColorScheme()			{ return _getPreferenceValue(PREF.NOTEPAD_DARK_COLOR_SCHEME); }
+	function getPopupShowCountNotepadHelp()			{ return _getPreferenceValue(PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP); }
 
-	//////////////////////////////////////////////////////////////////////
-	function setOpenTreeFolders(value) {
-		return setPreferenceValue(PREF_OPEN_TREE_FOLDERS, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getTreeFeedsData() {
-		return getPreferenceValue(PREF_TREE_FEEDS_DATA, DEF_PREF_TREE_FEEDS_DATA_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setTreeFeedsData(value) {
-		return setPreferenceValue(PREF_TREE_FEEDS_DATA, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getIsExtensionInstalled() {
-		return getPreferenceValue(PREF_IS_EXTENSION_INSTALLED, DEF_PREF_IS_EXTENSION_INSTALLED_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setIsExtensionInstalled(value) {
-		return setPreferenceValue(PREF_IS_EXTENSION_INSTALLED, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getTreeSelectedItemId() {
-		return getPreferenceValue(PREF_TREE_SELECTED_ITEM_ID, DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setTreeSelectedItemId(value) {
-		return setPreferenceValue(PREF_TREE_SELECTED_ITEM_ID, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getTreeScrollTop() {
-		return getPreferenceValue(PREF_TREE_SCROLL_TOP, DEF_PREF_TREE_SCROLL_TOP_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setTreeScrollTop(value) {
-		return setPreferenceValue(PREF_TREE_SCROLL_TOP, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getSplitterTop() {
-		return getPreferenceValue(PREF_SPLITTER_TOP, DEF_PREF_SPLITTER_TOP_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setSplitterTop(value) {
-		return setPreferenceValue(PREF_SPLITTER_TOP, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getDropInsideFolderShowMsgCount() {
-		return getPreferenceValue(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT, DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setDropInsideFolderShowMsgCount(value) {
-		return setPreferenceValue(PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getFeedsFilter() {
-		return getPreferenceValue(PREF_FEEDS_FILTER, DEF_PREF_FEEDS_FILTER_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setFeedsFilter(value) {
-		return setPreferenceValue(PREF_FEEDS_FILTER, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getAggressiveDiscoveryLevel() {
-		return getPreferenceValue(PREF_AGGRESSIVE_DISCOVERY_LEVEL, DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setAggressiveDiscoveryLevel(value) {
-		return setPreferenceValue(PREF_AGGRESSIVE_DISCOVERY_LEVEL, value);
-	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function setOpenTreeFolders(value)					{ return _setPreferenceValue(PREF.OPEN_TREE_FOLDERS, value); }
+	function setTreeFeedsData(value)					{ return _setPreferenceValue(PREF.TREE_FEEDS_DATA, value); }
+	function setIsExtensionInstalled(value)				{ return _setPreferenceValue(PREF.IS_EXTENSION_INSTALLED, value); }
+	function setTreeSelectedItemId(value)				{ return _setPreferenceValue(PREF.TREE_SELECTED_ITEM_ID, value); }
+	function setTreeScrollTop(value)					{ return _setPreferenceValue(PREF.TREE_SCROLL_TOP, value); }
+	function setSplitterTop(value)						{ return _setPreferenceValue(PREF.SPLITTER_TOP, value); }
+	function setDropInsideFolderShowMsgCount(value)		{ return _setPreferenceValue(PREF.DROP_INSIDE_FOLDER_SHOW_MSG_COUNT, value); }
+	function setFeedsFilter(value)						{ return _setPreferenceValue(PREF.FEEDS_FILTER, value); }
+	function setAggressiveDiscoveryLevel(value)			{ return _setPreferenceValue(PREF.AGGRESSIVE_DISCOVERY_LEVEL, value); }
+	function setMsgShowCountHoverFilterTextBox(value)	{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX, value); }
+	function setMsgShowCountReapplyFilter(value)		{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_REAPPLY_FILTER, value); }
+	function setNotepadDarkColorScheme(value)			{ return _setPreferenceValue(PREF.NOTEPAD_DARK_COLOR_SCHEME, value); }
+	function setPopupShowCountNotepadHelp(value)		{ return _setPreferenceValue(PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP, value); }
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
 		return new Promise((resolve) => {
 			m_localStorage.get([
-				PREF_TREE_SCROLL_TOP,
-				PREF_TREE_SELECTED_ITEM_ID,
-				PREF_FEEDS_FILTER,
+				PREF.TREE_SCROLL_TOP.name,
+				PREF.TREE_SELECTED_ITEM_ID.name,
+				PREF.FEEDS_FILTER.name,
 			]).then((result) => {
 				resolve({
-					treeScrollTop: result[PREF_TREE_SCROLL_TOP] === undefined ? DEF_PREF_TREE_SCROLL_TOP_VALUE : result[PREF_TREE_SCROLL_TOP],
-					treeSelectedItemId: result[PREF_TREE_SELECTED_ITEM_ID] === undefined ? DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE : result[PREF_TREE_SELECTED_ITEM_ID],
-					feedsFilter: result[PREF_FEEDS_FILTER] === undefined ? DEF_PREF_FEEDS_FILTER_VALUE : result[PREF_FEEDS_FILTER],
+					treeScrollTop: result[PREF.TREE_SCROLL_TOP.name] === undefined ? PREF.TREE_SCROLL_TOP.default : result[PREF.TREE_SCROLL_TOP.name],
+					treeSelectedItemId: result[PREF.TREE_SELECTED_ITEM_ID.name] === undefined ? PREF.TREE_SELECTED_ITEM_ID.default : result[PREF.TREE_SELECTED_ITEM_ID.name],
+					feedsFilter: result[PREF.FEEDS_FILTER.name] === undefined ? PREF.FEEDS_FILTER.default : result[PREF.FEEDS_FILTER.name],
 				});
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getMsgShowCountHoverFilterTextBox() {
-		return getPreferenceValue(PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX, DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setMsgShowCountHoverFilterTextBox(value) {
-		return setPreferenceValue(PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getMsgShowCountReapplyFilter() {
-		return getPreferenceValue(PREF_MSG_SHOW_COUNT_REAPPLY_FILTER, DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setMsgShowCountReapplyFilter(value) {
-		return setPreferenceValue(PREF_MSG_SHOW_COUNT_REAPPLY_FILTER, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getNotepadDarkColorScheme() {
-		return getPreferenceValue(PREF_NOTEPAD_DARK_COLOR_SCHEME, DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setNotepadDarkColorScheme(value) {
-		return setPreferenceValue(PREF_NOTEPAD_DARK_COLOR_SCHEME, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getPopupShowCountNotepadHelp() {
-		return getPreferenceValue(PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP, DEF_PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setPopupShowCountNotepadHelp(value) {
-		return setPreferenceValue(PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
-		this.setOpenTreeFolders(DEF_PREF_OPEN_TREE_FOLDERS_VALUE);
-		this.setTreeFeedsData(DEF_PREF_TREE_FEEDS_DATA_VALUE);
-		this.setIsExtensionInstalled(DEF_PREF_IS_EXTENSION_INSTALLED_VALUE);
-		this.setTreeSelectedItemId(DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE);
-		this.setTreeScrollTop(DEF_PREF_TREE_SCROLL_TOP_VALUE);
-		this.setSplitterTop(DEF_PREF_SPLITTER_TOP_VALUE);
-		this.setDropInsideFolderShowMsgCount(DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE);
-		this.setFeedsFilter(DEF_PREF_FEEDS_FILTER_VALUE);
-		this.setAggressiveDiscoveryLevel(DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE);
-		this.setMsgShowCountHoverFilterTextBox(DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE);
-		this.setMsgShowCountReapplyFilter(DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE);
-		this.setNotepadDarkColorScheme(DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE);
-		this.setPopupShowCountNotepadHelp(DEF_PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP_VALUE);
-
-		return {
-			openTreeFolders: DEF_PREF_OPEN_TREE_FOLDERS_VALUE,
-			treeFeedsData: DEF_PREF_TREE_FEEDS_DATA_VALUE,
-			isExtensionInstalled: DEF_PREF_IS_EXTENSION_INSTALLED_VALUE,
-			treeSelectedItemId: DEF_PREF_TREE_SELECTED_ITEM_ID_VALUE,
-			treeScrollTop: DEF_PREF_TREE_SCROLL_TOP_VALUE,
-			splitterTop: DEF_PREF_SPLITTER_TOP_VALUE,
-			dropInsideFolderShowMsgCount: DEF_PREF_DROP_INSIDE_FOLDER_SHOW_MSG_COUNT_VALUE,
-			feedsFilter: DEF_PREF_FEEDS_FILTER_VALUE,
-			aggressiveDiscoveryLevel: DEF_PREF_AGGRESSIVE_DISCOVERY_LEVEL_VALUE,
-			msgShowCountHoverFilterTextBox: DEF_PREF_MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX_VALUE,
-			msgShowCountReapplyFilter: DEF_PREF_MSG_SHOW_COUNT_REAPPLY_FILTER_VALUE,
-			notepadDarkColorScheme: DEF_PREF_NOTEPAD_DARK_COLOR_SCHEME_VALUE,
-			popupShowCountNotepadHelp: DEF_PREF_POPUP_SHOW_COUNT_NOTEPAD_HELP_VALUE,
-		};
+		for(const p of Object.values(PREF)) {
+			_setPreferenceValue(p, p.default);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getPreferenceValue(pref, defValue) {
+	function _getPreferenceValue(pref) {
 		return new Promise((resolve) => {
-			m_localStorage.get(pref).then((result) => {
-				resolve(result[pref] === undefined ? defValue : result[pref]);
+			m_localStorage.get(pref.name).then((result) => {
+				resolve(result[pref.name] === undefined ? pref.default : result[pref.name]);
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setPreferenceValue(pref, value) {
-		return m_localStorage.set({ [pref]: value });
+	function _setPreferenceValue(pref, value) {
+		return m_localStorage.set({ [pref.name]: value });
 	}
 
 	return {
 		getOpenTreeFolders: getOpenTreeFolders,
-		setOpenTreeFolders: setOpenTreeFolders,
 		getTreeFeedsData: getTreeFeedsData,
-		setTreeFeedsData: setTreeFeedsData,
 		getIsExtensionInstalled: getIsExtensionInstalled,
-		setIsExtensionInstalled: setIsExtensionInstalled,
 		getTreeSelectedItemId: getTreeSelectedItemId,
-		setTreeSelectedItemId: setTreeSelectedItemId,
 		getTreeScrollTop: getTreeScrollTop,
-		setTreeScrollTop: setTreeScrollTop,
 		getSplitterTop: getSplitterTop,
-		setSplitterTop: setSplitterTop,
 		getDropInsideFolderShowMsgCount: getDropInsideFolderShowMsgCount,
-		setDropInsideFolderShowMsgCount: setDropInsideFolderShowMsgCount,
 		getFeedsFilter: getFeedsFilter,
-		setFeedsFilter: setFeedsFilter,
 		getAggressiveDiscoveryLevel: getAggressiveDiscoveryLevel,
-		setAggressiveDiscoveryLevel: setAggressiveDiscoveryLevel,
 		getMsgShowCountHoverFilterTextBox: getMsgShowCountHoverFilterTextBox,
-		setMsgShowCountHoverFilterTextBox: setMsgShowCountHoverFilterTextBox,
 		getMsgShowCountReapplyFilter: getMsgShowCountReapplyFilter,
-		setMsgShowCountReapplyFilter: setMsgShowCountReapplyFilter,
 		getNotepadDarkColorScheme: getNotepadDarkColorScheme,
-		setNotepadDarkColorScheme: setNotepadDarkColorScheme,
 		getPopupShowCountNotepadHelp: getPopupShowCountNotepadHelp,
+
+		setOpenTreeFolders: setOpenTreeFolders,
+		setTreeFeedsData: setTreeFeedsData,
+		setIsExtensionInstalled: setIsExtensionInstalled,
+		setTreeSelectedItemId: setTreeSelectedItemId,
+		setTreeScrollTop: setTreeScrollTop,
+		setSplitterTop: setSplitterTop,
+		setDropInsideFolderShowMsgCount: setDropInsideFolderShowMsgCount,
+		setFeedsFilter: setFeedsFilter,
+		setAggressiveDiscoveryLevel: setAggressiveDiscoveryLevel,
+		setMsgShowCountHoverFilterTextBox: setMsgShowCountHoverFilterTextBox,
+		setMsgShowCountReapplyFilter: setMsgShowCountReapplyFilter,
+		setNotepadDarkColorScheme: setNotepadDarkColorScheme,
 		setPopupShowCountNotepadHelp: setPopupShowCountNotepadHelp,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
@@ -1235,384 +1098,130 @@ let prefs = (function() {
 		openInNewTab: 1,
 	}
 
-	const DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET;
-	const DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE = "3600000";
-	const DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE = true;
-	const DEF_PREF_CHECK_FEEDS_METHOD_VALUE = "3;2000";
-	const DEF_PREF_FETCH_TIMEOUT_VALUE = "60";
-	const DEF_PREF_SORT_FEED_ITEMS_VALUE = true;
-	const DEF_PREF_FOLDER_CLICK_ACTION_VALUE = FOLDER_CLICK_ACTION_VALUES.doubleClick;
-	const DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE = CLICK_OPENS_FEED_PREVIEW_VALUES.openNo;
-	const DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE = FEED_ITEM_OPEN_METHOD_VALUES.openInTab;
-	const DEF_PREF_SHOW_FEED_STATS_VALUE = true;
-	const DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE = true;
-	const DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE = 800;
-	const DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE = false;
-	const DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE = "#FFFDAC";
-	const DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE = "#000000";
-	const DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE = true;
-	const DEF_PREF_UI_DENSITY_VALUE = "19;18";
-	const DEF_PREF_FONT_NAME_VALUE = "(Browser Default)";
-	const DEF_PREF_FONT_SIZE_PERCENT_VALUE = "100";
-	const DEF_PREF_COLOR_BACKGROUND_VALUE = "#F3F3F3";
-	const DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE = "#E3E3E3";
-	const DEF_PREF_COLOR_SELECT_VALUE = "#F3C8BA";
-	const DEF_PREF_COLOR_TEXT_VALUE = "#000000";
-	const DEF_PREF_IMAGE_SET_VALUE = 0;
-	const DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE = false;
-	const DEF_PREF_CUSTOM_CSS_SOURCE_VALUE = "";
-	const DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE = "";
-	const DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE = true;
-	const DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE = true;
-	const DEF_PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUE = false;
+	const PREF = Object.freeze({
+		ROOT_FEEDS_FOLDER_ID:				{ name: "pref_rootFeedsFolderId",				default: slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET	},
+		CHECK_FEEDS_INTERVAL:				{ name: "pref_checkFeedsInterval",				default: "3600000"								},
+		CHECK_FEEDS_WHEN_SB_CLOSED:			{ name: "pref_checkFeedsWhenSbClosed",			default: true									},
+		CHECK_FEEDS_METHOD:					{ name: "pref_checkFeedsMethod",				default: "3;2000"								},
+		FETCH_TIMEOUT:						{ name: "pref_fetchTimeout",					default: "60"									},
+		SORT_FEED_ITEMS:					{ name: "pref_sortFeedItems",					default: true									},
+		FOLDER_CLICK_ACTION:				{ name: "pref_folderClickAction",				default: FOLDER_CLICK_ACTION_VALUES.doubleClick	},
+		CLICK_OPENS_FEED_PREVIEW:			{ name: "pref_clickOpensFeedPreview",			default: CLICK_OPENS_FEED_PREVIEW_VALUES.openNo	},
+		FEED_ITEM_OPEN_METHOD:				{ name: "pref_feedItemOpenMethod",				default: FEED_ITEM_OPEN_METHOD_VALUES.openInTab	},
+		SHOW_FEED_STATS:					{ name: "pref_showFeedStats",					default: true									},
+		SHOW_FEED_ITEM_DESC:				{ name: "pref_showFeedItemDesc",				default: true									},
+		FEED_ITEM_DESC_DELAY:				{ name: "pref_feedItemDescDelay",				default: 800									},
+		SHOW_FEED_ITEM_DESC_ATTACH:			{ name: "pref_showFeedItemDescAttach",			default: false									},
+		COLOR_FEED_ITEM_DESC_BACKGROUND:	{ name: "pref_colorFeedItemDescBk",				default: "#FFFDAC"								},
+		COLOR_FEED_ITEM_DESC_TEXT:			{ name: "pref_colorFeedItemDescText",			default: "#000000"								},
+		DETECT_FEEDS_IN_WEB_PAGE:			{ name: "pref_detectFeedsInWebPage",			default: true									},
+		UI_DENSITY:							{ name: "pref_UIDensity",						default: "19;18"								},
+		FONT_NAME:							{ name: "perf_fontName",						default: "(Browser Default)"					},	// typo in the name
+		FONT_SIZE_PERCENT:					{ name: "perf_fontSizePercent",					default: "100"									},	// typo in the name
+		COLOR_BACKGROUND:					{ name: "pref_colorBk",							default: "#F3F3F3"								},
+		COLOR_DIALOG_BACKGROUND:			{ name: "pref_colorDlgBk",						default: "#E3E3E3"								},
+		COLOR_SELECT:						{ name: "pref_colorSelect",						default: "#F3C8BA"								},
+		COLOR_TEXT:							{ name: "pref_colorText",						default: "#000000"								},
+		IMAGE_SET:							{ name: "pref_imageSet",						default: 0										},
+		USE_CUSTOM_CSS_FEED_PREVIEW:		{ name: "pref_useCustomCSSFeedPreview",			default: false									},
+		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true									},
+		STRICT_RSS_CONTENT_TYPES:			{ name: "pref_strictRssContentTypes",			default: true									},
+		MARK_FEED_PREVIEW_URLS_AS_VISITED:	{ name: "pref_markFeedPreviewUrlsAsVisited",	default: false									},
+		CUSTOM_CSS_SOURCE_HASH:				{ name: "pref_customCSSSourceHash",				default: ""										},
+		CUSTOM_CSS_SOURCE:					{ name: "pref_customCSSSource",					default: ""										},
+	});
 
-	const PREF_ROOT_FEEDS_FOLDER_ID = "pref_rootFeedsFolderId";
-	const PREF_CHECK_FEEDS_INTERVAL = "pref_checkFeedsInterval";
-	const PREF_CHECK_FEEDS_WHEN_SB_CLOSED = "pref_checkFeedsWhenSbClosed";
-	const PREF_CHECK_FEEDS_METHOD = "pref_checkFeedsMethod";
-	const PREF_FETCH_TIMEOUT = "pref_fetchTimeout";
-	const PREF_SORT_FEED_ITEMS = "pref_sortFeedItems";
-	const PREF_FOLDER_CLICK_ACTION = "pref_folderClickAction";
-	const PREF_CLICK_OPENS_FEED_PREVIEW = "pref_clickOpensFeedPreview";
-	const PREF_FEED_ITEM_OPEN_METHOD = "pref_feedItemOpenMethod";
-	const PREF_SHOW_FEED_STATS = "pref_showFeedStats";
-	const PREF_SHOW_FEED_ITEM_DESC = "pref_showFeedItemDesc";
-	const PREF_FEED_ITEM_DESC_DELAY = "pref_feedItemDescDelay";
-	const PREF_SHOW_FEED_ITEM_DESC_ATTACH = "pref_showFeedItemDescAttach";
-	const PREF_COLOR_FEED_ITEM_DESC_BACKGROUND = "pref_colorFeedItemDescBk";
-	const PREF_COLOR_FEED_ITEM_DESC_TEXT = "pref_colorFeedItemDescText";
-	const PREF_DETECT_FEEDS_IN_WEB_PAGE = "pref_detectFeedsInWebPage";
-	const PREF_UI_DENSITY = "pref_UIDensity";
-	const PREF_FONT_NAME = "perf_fontName";
-	const PREF_FONT_SIZE_PERCENT = "perf_fontSizePercent";
-	const PREF_COLOR_BACKGROUND = "pref_colorBk";
-	const PREF_COLOR_DIALOG_BACKGROUND = "pref_colorDlgBk";
-	const PREF_COLOR_SELECT = "pref_colorSelect";
-	const PREF_COLOR_TEXT = "pref_colorText";
-	const PREF_IMAGE_SET = "pref_imageSet";
-	const PREF_USE_CUSTOM_CSS_FEED_PREVIEW = "pref_useCustomCSSFeedPreview";
-	const PREF_CUSTOM_CSS_SOURCE = "pref_customCSSSource";
-	const PREF_CUSTOM_CSS_SOURCE_HASH = "pref_customCSSSourceHash";
-	const PREF_ANIMATED_SLIDE_DOWN_PANEL = "pref_animatedSlideDownPanel";
-	const PREF_STRICT_RSS_CONTENT_TYPES = "pref_strictRssContentTypes";
-	const PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED = "pref_markFeedPreviewUrlsAsVisited";
+	const PREFS_BANNED_FROM_EXPORT = [
+		PREF.ANIMATED_SLIDE_DOWN_PANEL.name,
+		PREF.STRICT_RSS_CONTENT_TYPES.name
+	];
 
 	let m_localStorage = browser.storage.local;
 
-	//////////////////////////////////////////////////////////////////////
-	function getRootFeedsFolderId() {
-		return getPreferenceValue(PREF_ROOT_FEEDS_FOLDER_ID, DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
-	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function getRootFeedsFolderId()				{ return _getPreferenceValue(PREF.ROOT_FEEDS_FOLDER_ID); }
+	function getCheckFeedsInterval()			{ return _getPreferenceValue(PREF.CHECK_FEEDS_INTERVAL); }
+	function getCheckFeedsWhenSbClosed()		{ return _getPreferenceValue(PREF.CHECK_FEEDS_WHEN_SB_CLOSED); }
+	function getCheckFeedsMethod()				{ return _getPreferenceValue(PREF.CHECK_FEEDS_METHOD); }
+	function getFetchTimeout()					{ return _getPreferenceValue(PREF.FETCH_TIMEOUT); }
+	function getSortFeedItems()					{ return _getPreferenceValue(PREF.SORT_FEED_ITEMS); }
+	function getFolderClickAction()				{ return _getPreferenceValue(PREF.FOLDER_CLICK_ACTION); }
+	function getClickOpensFeedPreview()			{ return _getPreferenceValue(PREF.CLICK_OPENS_FEED_PREVIEW); }
+	function getFeedItemOpenMethod()			{ return _getPreferenceValue(PREF.FEED_ITEM_OPEN_METHOD); }
+	function getShowFeedStats()					{ return _getPreferenceValue(PREF.SHOW_FEED_STATS); }
+	function getShowFeedItemDesc()				{ return _getPreferenceValue(PREF.SHOW_FEED_ITEM_DESC); }
+	function getFeedItemDescDelay()				{ return _getPreferenceValue(PREF.FEED_ITEM_DESC_DELAY); }
+	function getShowFeedItemDescAttach()		{ return _getPreferenceValue(PREF.SHOW_FEED_ITEM_DESC_ATTACH); }
+	function getColorFeedItemDescBackground()	{ return _getPreferenceValue(PREF.COLOR_FEED_ITEM_DESC_BACKGROUND); }
+	function getColorFeedItemDescText()			{ return _getPreferenceValue(PREF.COLOR_FEED_ITEM_DESC_TEXT); }
+	function getDetectFeedsInWebPage()			{ return _getPreferenceValue(PREF.DETECT_FEEDS_IN_WEB_PAGE); }
+	function getUIDensity()						{ return _getPreferenceValue(PREF.UI_DENSITY); }
+	function getFontName()						{ return _getPreferenceValue(PREF.FONT_NAME); }
+	function getFontSizePercent()				{ return _getPreferenceValue(PREF.FONT_SIZE_PERCENT); }
+	function getColorBackground()				{ return _getPreferenceValue(PREF.COLOR_BACKGROUND); }
+	function getColorDialogBackground()			{ return _getPreferenceValue(PREF.COLOR_DIALOG_BACKGROUND); }
+	function getColorSelect()					{ return _getPreferenceValue(PREF.COLOR_SELECT); }
+	function getColorText()						{ return _getPreferenceValue(PREF.COLOR_TEXT); }
+	function getImageSet()						{ return _getPreferenceValue(PREF.IMAGE_SET); }
+	function getUseCustomCSSFeedPreview()		{ return _getPreferenceValue(PREF.USE_CUSTOM_CSS_FEED_PREVIEW); }
+	function getAnimatedSlideDownPanel()		{ return _getPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL); }
+	function getStrictRssContentTypes()			{ return _getPreferenceValue(PREF.STRICT_RSS_CONTENT_TYPES); }
+	function getMarkFeedPreviewUrlsAsVisited()	{ return _getPreferenceValue(PREF.MARK_FEED_PREVIEW_URLS_AS_VISITED); }
+	function getCustomCSSSourceHash()			{ return _getPreferenceValue(PREF.CUSTOM_CSS_SOURCE_HASH); }
+	function getCustomCSSSource()				{ return _getPreferenceValue(PREF.CUSTOM_CSS_SOURCE); }
 
-	//////////////////////////////////////////////////////////////////////
-	function setRootFeedsFolderId(value) {
-		return setPreferenceValue(PREF_ROOT_FEEDS_FOLDER_ID, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getCheckFeedsInterval() {
-		return getPreferenceValue(PREF_CHECK_FEEDS_INTERVAL, DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setCheckFeedsInterval(value) {
-		return setPreferenceValue(PREF_CHECK_FEEDS_INTERVAL, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getCheckFeedsWhenSbClosed() {
-		return getPreferenceValue(PREF_CHECK_FEEDS_WHEN_SB_CLOSED, DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setCheckFeedsWhenSbClosed(value) {
-		return setPreferenceValue(PREF_CHECK_FEEDS_WHEN_SB_CLOSED, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getCheckFeedsMethod() {
-		return getPreferenceValue(PREF_CHECK_FEEDS_METHOD, DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setCheckFeedsMethod(value) {
-		return setPreferenceValue(PREF_CHECK_FEEDS_METHOD, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getFetchTimeout() {
-		return getPreferenceValue(PREF_FETCH_TIMEOUT, DEF_PREF_FETCH_TIMEOUT_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setFetchTimeout(value) {
-		return setPreferenceValue(PREF_FETCH_TIMEOUT, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getSortFeedItems() {
-		return getPreferenceValue(PREF_SORT_FEED_ITEMS, DEF_PREF_SORT_FEED_ITEMS_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setSortFeedItems(value) {
-		return setPreferenceValue(PREF_SORT_FEED_ITEMS, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getFolderClickAction() {
-		return getPreferenceValue(PREF_FOLDER_CLICK_ACTION, DEF_PREF_FOLDER_CLICK_ACTION_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setFolderClickAction(value) {
-		return setPreferenceValue(PREF_FOLDER_CLICK_ACTION, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getClickOpensFeedPreview() {
-		return getPreferenceValue(PREF_CLICK_OPENS_FEED_PREVIEW, DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setClickOpensFeedPreview(value) {
-		return setPreferenceValue(PREF_CLICK_OPENS_FEED_PREVIEW, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getFeedItemOpenMethod() {
-		return getPreferenceValue(PREF_FEED_ITEM_OPEN_METHOD, DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setFeedItemOpenMethod(value) {
-		return setPreferenceValue(PREF_FEED_ITEM_OPEN_METHOD, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getShowFeedStats() {
-		return getPreferenceValue(PREF_SHOW_FEED_STATS, DEF_PREF_SHOW_FEED_STATS_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setShowFeedStats(value) {
-		return setPreferenceValue(PREF_SHOW_FEED_STATS, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getShowFeedItemDesc() {
-		return getPreferenceValue(PREF_SHOW_FEED_ITEM_DESC, DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setShowFeedItemDesc(value) {
-		return setPreferenceValue(PREF_SHOW_FEED_ITEM_DESC, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getFeedItemDescDelay() {
-		return getPreferenceValue(PREF_FEED_ITEM_DESC_DELAY, DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setFeedItemDescDelay(value) {
-		return setPreferenceValue(PREF_FEED_ITEM_DESC_DELAY, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getShowFeedItemDescAttach() {
-		return getPreferenceValue(PREF_SHOW_FEED_ITEM_DESC_ATTACH, DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setShowFeedItemDescAttach(value) {
-		return setPreferenceValue(PREF_SHOW_FEED_ITEM_DESC_ATTACH, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getColorFeedItemDescBackground() {
-		return getPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND, DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setColorFeedItemDescBackground(value) {
-		return setPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_BACKGROUND, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getColorFeedItemDescText() {
-		return getPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_TEXT, DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setColorFeedItemDescText(value) {
-		return setPreferenceValue(PREF_COLOR_FEED_ITEM_DESC_TEXT, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getDetectFeedsInWebPage() {
-		return getPreferenceValue(PREF_DETECT_FEEDS_IN_WEB_PAGE, DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setDetectFeedsInWebPage(value) {
-		return setPreferenceValue(PREF_DETECT_FEEDS_IN_WEB_PAGE, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getUIDensity() {
-		return getPreferenceValue(PREF_UI_DENSITY, DEF_PREF_UI_DENSITY_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setUIDensity(value) {
-		return setPreferenceValue(PREF_UI_DENSITY, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getFontName() {
-		return getPreferenceValue(PREF_FONT_NAME, DEF_PREF_FONT_NAME_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setFontName(value) {
-		return setPreferenceValue(PREF_FONT_NAME, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getFontSizePercent() {
-		return getPreferenceValue(PREF_FONT_SIZE_PERCENT, DEF_PREF_FONT_SIZE_PERCENT_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setFontSizePercent(value) {
-		return setPreferenceValue(PREF_FONT_SIZE_PERCENT, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getColorBackground() {
-		return getPreferenceValue(PREF_COLOR_BACKGROUND, DEF_PREF_COLOR_BACKGROUND_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setColorBackground(value) {
-		return setPreferenceValue(PREF_COLOR_BACKGROUND, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getColorDialogBackground() {
-		return getPreferenceValue(PREF_COLOR_DIALOG_BACKGROUND, DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setColorDialogBackground(value) {
-		return setPreferenceValue(PREF_COLOR_DIALOG_BACKGROUND, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getColorSelect() {
-		return getPreferenceValue(PREF_COLOR_SELECT, DEF_PREF_COLOR_SELECT_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setColorSelect(value) {
-		return setPreferenceValue(PREF_COLOR_SELECT, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getColorText() {
-		return getPreferenceValue(PREF_COLOR_TEXT, DEF_PREF_COLOR_TEXT_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setColorText(value) {
-		return setPreferenceValue(PREF_COLOR_TEXT, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getImageSet() {
-		return getPreferenceValue(PREF_IMAGE_SET, DEF_PREF_IMAGE_SET_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setImageSet(value) {
-		return setPreferenceValue(PREF_IMAGE_SET, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getUseCustomCSSFeedPreview() {
-		return getPreferenceValue(PREF_USE_CUSTOM_CSS_FEED_PREVIEW, DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setUseCustomCSSFeedPreview(value) {
-		return setPreferenceValue(PREF_USE_CUSTOM_CSS_FEED_PREVIEW, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getCustomCSSSource() {
-		return getPreferenceValue(PREF_CUSTOM_CSS_SOURCE, DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function setRootFeedsFolderId(value)			{ return _setPreferenceValue(PREF.ROOT_FEEDS_FOLDER_ID, value); }
+	function setCheckFeedsInterval(value)			{ return _setPreferenceValue(PREF.CHECK_FEEDS_INTERVAL, value); }
+	function setCheckFeedsWhenSbClosed(value)		{ return _setPreferenceValue(PREF.CHECK_FEEDS_WHEN_SB_CLOSED, value); }
+	function setCheckFeedsMethod(value)				{ return _setPreferenceValue(PREF.CHECK_FEEDS_METHOD, value); }
+	function setFetchTimeout(value)					{ return _setPreferenceValue(PREF.FETCH_TIMEOUT, value); }
+	function setSortFeedItems(value)				{ return _setPreferenceValue(PREF.SORT_FEED_ITEMS, value); }
+	function setFolderClickAction(value)			{ return _setPreferenceValue(PREF.FOLDER_CLICK_ACTION, value); }
+	function setClickOpensFeedPreview(value)		{ return _setPreferenceValue(PREF.CLICK_OPENS_FEED_PREVIEW, value); }
+	function setFeedItemOpenMethod(value)			{ return _setPreferenceValue(PREF.FEED_ITEM_OPEN_METHOD, value); }
+	function setShowFeedStats(value)				{ return _setPreferenceValue(PREF.SHOW_FEED_STATS, value); }
+	function setShowFeedItemDesc(value)				{ return _setPreferenceValue(PREF.SHOW_FEED_ITEM_DESC, value); }
+	function setFeedItemDescDelay(value)			{ return _setPreferenceValue(PREF.FEED_ITEM_DESC_DELAY, value); }
+	function setShowFeedItemDescAttach(value)		{ return _setPreferenceValue(PREF.SHOW_FEED_ITEM_DESC_ATTACH, value); }
+	function setColorFeedItemDescBackground(value)	{ return _setPreferenceValue(PREF.COLOR_FEED_ITEM_DESC_BACKGROUND, value); }
+	function setColorFeedItemDescText(value)		{ return _setPreferenceValue(PREF.COLOR_FEED_ITEM_DESC_TEXT, value); }
+	function setDetectFeedsInWebPage(value)			{ return _setPreferenceValue(PREF.DETECT_FEEDS_IN_WEB_PAGE, value); }
+	function setUIDensity(value)					{ return _setPreferenceValue(PREF.UI_DENSITY, value); }
+	function setFontName(value)						{ return _setPreferenceValue(PREF.FONT_NAME, value); }
+	function setFontSizePercent(value)				{ return _setPreferenceValue(PREF.FONT_SIZE_PERCENT, value); }
+	function setColorBackground(value)				{ return _setPreferenceValue(PREF.COLOR_BACKGROUND, value); }
+	function setColorDialogBackground(value)		{ return _setPreferenceValue(PREF.COLOR_DIALOG_BACKGROUND, value); }
+	function setColorSelect(value)					{ return _setPreferenceValue(PREF.COLOR_SELECT, value); }
+	function setColorText(value)					{ return _setPreferenceValue(PREF.COLOR_TEXT, value); }
+	function setImageSet(value)						{ return _setPreferenceValue(PREF.IMAGE_SET, value); }
+	function setUseCustomCSSFeedPreview(value)		{ return _setPreferenceValue(PREF.USE_CUSTOM_CSS_FEED_PREVIEW, value); }
+	function setAnimatedSlideDownPanel(value)		{ return _setPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL, value); }
+	function setStrictRssContentTypes(value)		{ return _setPreferenceValue(PREF.STRICT_RSS_CONTENT_TYPES, value); }
+	function setMarkFeedPreviewUrlsAsVisited(value)	{ return _setPreferenceValue(PREF.MARK_FEED_PREVIEW_URLS_AS_VISITED, value); }
 	function setCustomCSSSource(value) {
 		return new Promise(async (resolve) => {
 
-			await setPreferenceValue(PREF_CUSTOM_CSS_SOURCE, value);
+			await _setPreferenceValue(PREF.CUSTOM_CSS_SOURCE, value);
 
 			// This value is set only here and only if PREF_CUSTOM_CSS_SOURCE has content.
 			// This hash is also an indicator to the existence of a css source. Therefore when there is no source the hash will be empty.
 			if(!!value && value.length > 0) {
 				let hash = await slUtil.hashCode(value);
-				await setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, hash);
+				await _setPreferenceValue(PREF.CUSTOM_CSS_SOURCE_HASH, hash);
 			} else {
-				await setPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE);
+				await _setPreferenceValue(PREF.CUSTOM_CSS_SOURCE_HASH, PREF.CUSTOM_CSS_SOURCE_HASH.default);
 			}
 			resolve();
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getCustomCSSSourceHash() {
-		return getPreferenceValue(PREF_CUSTOM_CSS_SOURCE_HASH, DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getAnimatedSlideDownPanel() {
-		return getPreferenceValue(PREF_ANIMATED_SLIDE_DOWN_PANEL, DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setAnimatedSlideDownPanel(value) {
-		return setPreferenceValue(PREF_ANIMATED_SLIDE_DOWN_PANEL, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getStrictRssContentTypes() {
-		return getPreferenceValue(PREF_STRICT_RSS_CONTENT_TYPES, DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setStrictRssContentTypes(value) {
-		return setPreferenceValue(PREF_STRICT_RSS_CONTENT_TYPES, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function getMarkFeedPreviewUrlsAsVisited() {
-		return getPreferenceValue(PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED, DEF_PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUE);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	function setMarkFeedPreviewUrlsAsVisited(value) {
-		return setPreferenceValue(PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED, value);
-	}
-
-	//////////////////////////////////////////////////////////////////////
 	function getAllPreferences() {
 		return new Promise(async (resolve) => {
-			let objPrefs = getAllPreferencesDefaultObject();
+			let objPrefs = _getAllPreferencesForExport();
 			for(const prefName of Object.keys(objPrefs)) {
-				objPrefs[prefName] = await getPreferenceValue(prefName, objPrefs[prefName]);
+				objPrefs[prefName] = await _getPreferenceValue({ name: prefName, default: objPrefs[prefName] });
 			}
 			resolve(objPrefs);
 		});
@@ -1621,10 +1230,10 @@ let prefs = (function() {
 	//////////////////////////////////////////////////////////////////////
 	function setAllPreferences(objPrefs) {
 		return new Promise(async (resolve) => {
-			let existingPrefs = getAllPreferencesDefaultObject();
+			let existingPrefs = _getAllPreferencesForExport();
 			for(const prefName of Object.keys(objPrefs)) {
 				if(existingPrefs.hasOwnProperty(prefName)) {
-					await setPreferenceValue(prefName, objPrefs[prefName]);
+					await _setPreferenceValue({ name: prefName }, objPrefs[prefName]);
 				}
 			}
 			resolve();
@@ -1633,118 +1242,46 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function restoreDefaults() {
-		this.setRootFeedsFolderId(DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE);
-		this.setCheckFeedsInterval(DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE);
-		this.setCheckFeedsWhenSbClosed(DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE);
-		this.setCheckFeedsMethod(DEF_PREF_CHECK_FEEDS_METHOD_VALUE);
-		this.setFetchTimeout(DEF_PREF_FETCH_TIMEOUT_VALUE);
-		this.setSortFeedItems(DEF_PREF_SORT_FEED_ITEMS_VALUE);
-		this.setFolderClickAction(DEF_PREF_FOLDER_CLICK_ACTION_VALUE);
-		this.setClickOpensFeedPreview(DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE);
-		this.setFeedItemOpenMethod(DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE);
-		this.setShowFeedStats(DEF_PREF_SHOW_FEED_STATS_VALUE);
-		this.setShowFeedItemDesc(DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE);
-		this.setFeedItemDescDelay(DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE);
-		this.setShowFeedItemDescAttach(DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE);
-		this.setColorFeedItemDescBackground(DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE);
-		this.setColorFeedItemDescText(DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE);
-		this.setDetectFeedsInWebPage(DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE);
-		this.setUIDensity(DEF_PREF_UI_DENSITY_VALUE);
-		this.setFontName(DEF_PREF_FONT_NAME_VALUE);
-		this.setFontSizePercent(DEF_PREF_FONT_SIZE_PERCENT_VALUE);
-		this.setColorBackground(DEF_PREF_COLOR_BACKGROUND_VALUE);
-		this.setColorDialogBackground(DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE);
-		this.setColorSelect(DEF_PREF_COLOR_SELECT_VALUE);
-		this.setColorText(DEF_PREF_COLOR_TEXT_VALUE);
-		this.setImageSet(DEF_PREF_IMAGE_SET_VALUE);
-		this.setUseCustomCSSFeedPreview(DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE);
-		this.setCustomCSSSource(DEF_PREF_CUSTOM_CSS_SOURCE_VALUE);
-		this.setAnimatedSlideDownPanel(DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE);
-		this.setStrictRssContentTypes(DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE);
-		this.setMarkFeedPreviewUrlsAsVisited(DEF_PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUE);
-
-		return {
-			rootFeedsFolderId: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
-			checkFeedsInterval: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
-			checkFeedsWhenSbClosed: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
-			checkFeedsMethod: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
-			fetchTimeout: DEF_PREF_FETCH_TIMEOUT_VALUE,
-			sortFeedItems: DEF_PREF_SORT_FEED_ITEMS_VALUE,
-			folderClickAction: DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
-			clickOpensFeedPreview: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
-			feedItemOpenMethod: DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE,
-			showFeedStats: DEF_PREF_SHOW_FEED_STATS_VALUE,
-			showFeedItemDesc: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
-			feedItemDescDelay: DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
-			showFeedItemDescAttach: DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE,
-			colorFeedItemDescBackground: DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE,
-			colorFeedItemDescText: DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE,
-			detectFeedsInWebPage: DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE,
-			UIDensity: DEF_PREF_UI_DENSITY_VALUE,
-			fontName: DEF_PREF_FONT_NAME_VALUE,
-			fontSizePercent: DEF_PREF_FONT_SIZE_PERCENT_VALUE,
-			colorBackground: DEF_PREF_COLOR_BACKGROUND_VALUE,
-			colorDialogBackground: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
-			colorSelect: DEF_PREF_COLOR_SELECT_VALUE,
-			colorText: DEF_PREF_COLOR_TEXT_VALUE,
-			imageSet: DEF_PREF_IMAGE_SET_VALUE,
-			useCustomCSSFeedPreview: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
-			customCSSSource: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
-			customCSSSourceHash: DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
-			animatedSlideDownPanel: DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
-			strictRssContentTypes: DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE,
-			markFeedPreviewUrlsAsVisited: DEF_PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUE,
-		};
+		for(const p of Object.values(PREF)) {
+			_setPreferenceValue(p, p.default);
+		}
+		return _getAllPreferencesObject(true);
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getPreferenceValue(pref, defValue) {
+	function _getPreferenceValue(pref) {
 		return new Promise((resolve) => {
-			m_localStorage.get(pref).then((result) => {
-				resolve(result[pref] === undefined ? defValue : result[pref]);
+			m_localStorage.get(pref.name).then((result) => {
+				resolve(result[pref.name] === undefined ? pref.default : result[pref.name]);
 			});
 		});
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function setPreferenceValue(pref, value) {
-		return m_localStorage.set({ [pref]: value });
+	function _setPreferenceValue(pref, value) {
+		return m_localStorage.set({ [pref.name]: value });
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	function getAllPreferencesDefaultObject() {
-		return {
-			[PREF_ROOT_FEEDS_FOLDER_ID]:				DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
-			[PREF_CHECK_FEEDS_INTERVAL]:				DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
-			[PREF_CHECK_FEEDS_WHEN_SB_CLOSED]:			DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
-			[PREF_CHECK_FEEDS_METHOD]:					DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
-			[PREF_FETCH_TIMEOUT]:						DEF_PREF_FETCH_TIMEOUT_VALUE,
-			[PREF_SORT_FEED_ITEMS]:						DEF_PREF_SORT_FEED_ITEMS_VALUE,
-			[PREF_FOLDER_CLICK_ACTION]:					DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
-			[PREF_CLICK_OPENS_FEED_PREVIEW]:			DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
-			[PREF_FEED_ITEM_OPEN_METHOD]:				DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE,
-			[PREF_SHOW_FEED_STATS]:						DEF_PREF_SHOW_FEED_STATS_VALUE,
-			[PREF_SHOW_FEED_ITEM_DESC]:					DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
-			[PREF_FEED_ITEM_DESC_DELAY]:				DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
-			[PREF_SHOW_FEED_ITEM_DESC_ATTACH]:			DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE,
-			[PREF_COLOR_FEED_ITEM_DESC_BACKGROUND]:		DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE,
-			[PREF_COLOR_FEED_ITEM_DESC_TEXT]:			DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE,
-			[PREF_DETECT_FEEDS_IN_WEB_PAGE]:			DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE,
-			[PREF_UI_DENSITY]:							DEF_PREF_UI_DENSITY_VALUE,
-			[PREF_FONT_NAME]:							DEF_PREF_FONT_NAME_VALUE,
-			[PREF_FONT_SIZE_PERCENT]:					DEF_PREF_FONT_SIZE_PERCENT_VALUE,
-			[PREF_COLOR_BACKGROUND]:					DEF_PREF_COLOR_BACKGROUND_VALUE,
-			[PREF_COLOR_DIALOG_BACKGROUND]:				DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
-			[PREF_COLOR_SELECT]:						DEF_PREF_COLOR_SELECT_VALUE,
-			[PREF_COLOR_TEXT]:							DEF_PREF_COLOR_TEXT_VALUE,
-			[PREF_IMAGE_SET]:							DEF_PREF_IMAGE_SET_VALUE,
-			[PREF_USE_CUSTOM_CSS_FEED_PREVIEW]:			DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
-			[PREF_CUSTOM_CSS_SOURCE]:					DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
-			[PREF_CUSTOM_CSS_SOURCE_HASH]:				DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
-			//[PREF_ANIMATED_SLIDE_DOWN_PANEL]:			DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
-			//[PREF_STRICT_RSS_CONTENT_TYPES]:			DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE,
-			[PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED]:	DEF_PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUE,
-		};
+	function _getAllPreferencesForExport() {
+		let obj = _getAllPreferencesObject(false);
+		for(let i=0, len=PREFS_BANNED_FROM_EXPORT.length; i<len; i++) {
+			delete obj[PREFS_BANNED_FROM_EXPORT[i]];
+		}
+		return obj;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function _getAllPreferencesObject(trimKeyNamePrefix = false) {
+		let obj = {};
+		for(const p of Object.values(PREF)) {
+			if(trimKeyNamePrefix) {
+				obj[p.name.replace(/^p[re]{2}f_/, "")] = p.default;	// handle typo
+			} else {
+				obj[p.name] = p.default;
+			}
+		}
+		return obj;
 	}
 
 	return {
@@ -1752,96 +1289,68 @@ let prefs = (function() {
 		CLICK_OPENS_FEED_PREVIEW_VALUES: CLICK_OPENS_FEED_PREVIEW_VALUES,
 		FEED_ITEM_OPEN_METHOD_VALUES: FEED_ITEM_OPEN_METHOD_VALUES,
 
-		DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE: DEF_PREF_ROOT_FEEDS_FOLDER_ID_VALUE,
-		DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE: DEF_PREF_CHECK_FEEDS_INTERVAL_VALUE,
-		DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE: DEF_PREF_CHECK_FEEDS_WHEN_SB_CLOSED_VALUE,
-		DEF_PREF_CHECK_FEEDS_METHOD_VALUE: DEF_PREF_CHECK_FEEDS_METHOD_VALUE,
-		DEF_PREF_FETCH_TIMEOUT_VALUE: DEF_PREF_FETCH_TIMEOUT_VALUE,
-		DEF_PREF_SORT_FEED_ITEMS_VALUE: DEF_PREF_SORT_FEED_ITEMS_VALUE,
-		DEF_PREF_FOLDER_CLICK_ACTION_VALUE: DEF_PREF_FOLDER_CLICK_ACTION_VALUE,
-		DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE: DEF_PREF_CLICK_OPENS_FEED_PREVIEW_VALUE,
-		DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE: DEF_PREF_FEED_ITEM_OPEN_METHOD_VALUE,
-		DEF_PREF_SHOW_FEED_STATS_VALUE: DEF_PREF_SHOW_FEED_STATS_VALUE,
-		DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE,
-		DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE: DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE,
-		DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE: DEF_PREF_SHOW_FEED_ITEM_DESC_ATTACH_VALUE,
-		DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE: DEF_PREF_COLOR_FEED_ITEM_DESC_BACKGROUND_VALUE,
-		DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE: DEF_PREF_COLOR_FEED_ITEM_DESC_TEXT_VALUE,
-		DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE: DEF_PREF_DETECT_FEEDS_IN_WEB_PAGE_VALUE,
-		DEF_PREF_UI_DENSITY_VALUE: DEF_PREF_UI_DENSITY_VALUE,
-		DEF_PREF_FONT_NAME_VALUE: DEF_PREF_FONT_NAME_VALUE,
-		DEF_PREF_FONT_SIZE_PERCENT_VALUE: DEF_PREF_FONT_SIZE_PERCENT_VALUE,
-		DEF_PREF_COLOR_BACKGROUND_VALUE: DEF_PREF_COLOR_BACKGROUND_VALUE,
-		DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE: DEF_PREF_COLOR_DIALOG_BACKGROUND_VALUE,
-		DEF_PREF_COLOR_SELECT_VALUE: DEF_PREF_COLOR_SELECT_VALUE,
-		DEF_PREF_COLOR_TEXT_VALUE: DEF_PREF_COLOR_TEXT_VALUE,
-		DEF_PREF_IMAGE_SET_VALUE: DEF_PREF_IMAGE_SET_VALUE,
-		DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE: DEF_PREF_USE_CUSTOM_CSS_FEED_PREVIEW_VALUE,
-		DEF_PREF_CUSTOM_CSS_SOURCE_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_VALUE,
-		DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE: DEF_PREF_CUSTOM_CSS_SOURCE_HASH_VALUE,
-		DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE: DEF_PREF_ANIMATED_SLIDE_DOWN_PANEL_VALUE,
-		DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE: DEF_PREF_STRICT_RSS_CONTENT_TYPES_VALUE,
-		DEF_PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUE: DEF_PREF_MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUE,
+		DEFAULTS: _getAllPreferencesObject(true),
 
 		getRootFeedsFolderId: getRootFeedsFolderId,
-		setRootFeedsFolderId: setRootFeedsFolderId,
 		getCheckFeedsInterval: getCheckFeedsInterval,
-		setCheckFeedsInterval: setCheckFeedsInterval,
 		getCheckFeedsWhenSbClosed: getCheckFeedsWhenSbClosed,
-		setCheckFeedsWhenSbClosed: setCheckFeedsWhenSbClosed,
 		getCheckFeedsMethod: getCheckFeedsMethod,
-		setCheckFeedsMethod: setCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,
-		setFetchTimeout: setFetchTimeout,
 		getSortFeedItems: getSortFeedItems,
-		setSortFeedItems: setSortFeedItems,
 		getFolderClickAction: getFolderClickAction,
-		setFolderClickAction: setFolderClickAction,
 		getClickOpensFeedPreview: getClickOpensFeedPreview,
-		setClickOpensFeedPreview: setClickOpensFeedPreview,
 		getFeedItemOpenMethod: getFeedItemOpenMethod,
-		setFeedItemOpenMethod: setFeedItemOpenMethod,
 		getShowFeedStats: getShowFeedStats,
-		setShowFeedStats: setShowFeedStats,
 		getShowFeedItemDesc: getShowFeedItemDesc,
-		setShowFeedItemDesc: setShowFeedItemDesc,
 		getFeedItemDescDelay: getFeedItemDescDelay,
-		setFeedItemDescDelay: setFeedItemDescDelay,
 		getShowFeedItemDescAttach: getShowFeedItemDescAttach,
-		setShowFeedItemDescAttach: setShowFeedItemDescAttach,
 		getColorFeedItemDescBackground: getColorFeedItemDescBackground,
-		setColorFeedItemDescBackground: setColorFeedItemDescBackground,
 		getColorFeedItemDescText: getColorFeedItemDescText,
-		setColorFeedItemDescText: setColorFeedItemDescText,
 		getDetectFeedsInWebPage: getDetectFeedsInWebPage,
-		setDetectFeedsInWebPage: setDetectFeedsInWebPage,
 		getUIDensity: getUIDensity,
-		setUIDensity: setUIDensity,
 		getFontName: getFontName,
-		setFontName: setFontName,
 		getFontSizePercent: getFontSizePercent,
-		setFontSizePercent: setFontSizePercent,
 		getColorBackground: getColorBackground,
-		setColorBackground: setColorBackground,
 		getColorDialogBackground: getColorDialogBackground,
-		setColorDialogBackground: setColorDialogBackground,
 		getColorSelect: getColorSelect,
-		setColorSelect: setColorSelect,
 		getColorText: getColorText,
-		setColorText: setColorText,
 		getImageSet: getImageSet,
-		setImageSet: setImageSet,
 		getUseCustomCSSFeedPreview: getUseCustomCSSFeedPreview,
-		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
-		getCustomCSSSource: getCustomCSSSource,
-		setCustomCSSSource: setCustomCSSSource,
-		getCustomCSSSourceHash: getCustomCSSSourceHash,
-		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,
 		getAnimatedSlideDownPanel: getAnimatedSlideDownPanel,
-		setStrictRssContentTypes: setStrictRssContentTypes,
 		getStrictRssContentTypes: getStrictRssContentTypes,
-		setMarkFeedPreviewUrlsAsVisited: setMarkFeedPreviewUrlsAsVisited,
 		getMarkFeedPreviewUrlsAsVisited: getMarkFeedPreviewUrlsAsVisited,
+		getCustomCSSSourceHash: getCustomCSSSourceHash,
+		getCustomCSSSource: getCustomCSSSource,
+
+		setRootFeedsFolderId: setRootFeedsFolderId,
+		setCheckFeedsInterval: setCheckFeedsInterval,
+		setCheckFeedsWhenSbClosed: setCheckFeedsWhenSbClosed,
+		setCheckFeedsMethod: setCheckFeedsMethod,
+		setFetchTimeout: setFetchTimeout,
+		setSortFeedItems: setSortFeedItems,
+		setFolderClickAction: setFolderClickAction,
+		setClickOpensFeedPreview: setClickOpensFeedPreview,
+		setFeedItemOpenMethod: setFeedItemOpenMethod,
+		setShowFeedStats: setShowFeedStats,
+		setShowFeedItemDesc: setShowFeedItemDesc,
+		setFeedItemDescDelay: setFeedItemDescDelay,
+		setShowFeedItemDescAttach: setShowFeedItemDescAttach,
+		setColorFeedItemDescBackground: setColorFeedItemDescBackground,
+		setColorFeedItemDescText: setColorFeedItemDescText,
+		setDetectFeedsInWebPage: setDetectFeedsInWebPage,
+		setUIDensity: setUIDensity,
+		setFontName: setFontName,
+		setFontSizePercent: setFontSizePercent,
+		setColorBackground: setColorBackground,
+		setColorDialogBackground: setColorDialogBackground,
+		setColorSelect: setColorSelect,
+		setColorText: setColorText,
+		setImageSet: setImageSet,
+		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
+		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,
+		setStrictRssContentTypes: setStrictRssContentTypes,
+		setMarkFeedPreviewUrlsAsVisited: setMarkFeedPreviewUrlsAsVisited,
+		setCustomCSSSource: setCustomCSSSource,
 
 		getAllPreferences: getAllPreferences,
 		setAllPreferences: setAllPreferences,

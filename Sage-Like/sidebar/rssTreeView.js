@@ -80,7 +80,7 @@ let rssTreeView = (function() {
 
 	let m_isFilterApplied = false;
 	let m_msgShowCountReapplyFilter = 0;
-	let m_bPrefShowFeedStats = prefs.DEF_PREF_SHOW_FEED_STATS_VALUE;
+	let m_bPrefShowFeedStats = prefs.DEFAULTS.showFeedStats;
 
 	let m_filterChangeDebouncer = null;
 

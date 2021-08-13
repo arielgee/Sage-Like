@@ -168,7 +168,7 @@ let panel = (function() {
 
 		prefs.getFontName().then(name => {
 
-			if (name === prefs.DEF_PREF_FONT_NAME_VALUE) {
+			if (name === prefs.DEFAULTS.fontName) {
 				m_elmTop.style.fontFamily = m_elmBottom.style.fontFamily = "";
 			} else {
 				document.documentElement.style.setProperty("--font-sidebar", name);

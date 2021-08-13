@@ -872,11 +872,18 @@
 * for all calls to getQueryStringValue & getURLQueryStringValue: the calls are wrapped with decodeURIComponent(). PUT the decodeURIComponent() INSIDE the function; `decodeURIComponent(value[1])`
 * inspect error: Unknown property ‘-moz-outline-radius’.  Declaration dropped. discoveryView.css:192:22  Elements matching selector: sl-tri-toggler:focus => leave it. it's still supported from v59-v87
 * link in message box "sage-like extension in not allowed in private windows" is not readable in dark colors
+* show "drop" line when dropping after last feed in tree - not possibale
+* improve prefs: convert the pair `DEF_PREF_xxx/PREF_xxx` to an object: `PREFERENCES.xxx = { name: "pref_xxx", default: false }`
 ---
 
 
 ## Now
-* show "drop" line when dropping after last feed in tree - if its possibale
+* feeds with embedded credentials in url. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31) => NO
+	because:
+		https://www.reddit.com/r/sysadmin/comments/74bgbh/use_url_to_pass_credentials_to_login_to_iis_site/dnwz4mn?utm_source=share&utm_medium=web2x&context=3
+		https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#access_using_credentials_in_the_url
+		https://medium.com/@lmakarov/say-goodbye-to-urls-with-embedded-credentials-b051f6c7b6a3
+* got this message: "This error message will be blank when privacy.resistFingerprinting = true. If it is really necessary, please add it to the whitelist in MediaError::GetMessage: 2152398850: Request failed" feedPreview.js:540:80
 ---
 
 
@@ -886,7 +893,6 @@
 	http://feeds.megaphone.fm/intercepted
 	see help:
 		https://support.mozilla.org/en-US/questions/1262177
-* got this message: "This error message will be blank when privacy.resistFingerprinting = true. If it is really necessary, please add it to the whitelist in MediaError::GetMessage: 2152398850: Request failed" feedPreview.js:540:80
 * following link is an rss feed that its items only include enclosures:
 	view-source:https://feeds.buzzsprout.com/192305.rss
 	view-source:https://rss.art19.com/vega
@@ -900,46 +906,14 @@
 			getFavIcon((new URL(url)).origin);
 		}
 * feedPreview: the attachments erea is can be folded. Auto hide/fold if its too big (height)
-* feeds with embedded credentials in the feed url. Try to create one in my local IIS. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
 * have button(s) in toolbar with ‘mark-all-as-read/unread’ functionality. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 * limit number of feed-items displayed in listView
 * change feed-item visited state when its feed-preview url is visible in the screen's viewport: use IntersectionObserver (https://usefulangle.com/post/113/javascript-detecting-element-visible-during-scroll)
-* improve prefs: convert the pair `DEF_PREF_xxx/PREF_xxx` to an object: `PREFERENCES.xxx = { name: "pref_xxx", default: false }`
-<!--
-	const PREFERENCES = Object.freeze({
-		ROOT_FEEDS_FOLDER_ID:				{ name: "pref_rootFeedsFolderId",				default: slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET	},
-		CHECK_FEEDS_INTERVAL:				{ name: "pref_checkFeedsInterval",				default: "3600000"								},
-		CHECK_FEEDS_WHEN_SB_CLOSED:			{ name: "pref_checkFeedsWhenSbClosed",			default: true									},
-		CHECK_FEEDS_METHOD:					{ name: "pref_checkFeedsMethod",				default: "3;2000"								},
-		FETCH_TIMEOUT:						{ name: "pref_fetchTimeout",					default: "60"									},
-		SORT_FEED_ITEMS:					{ name: "pref_sortFeedItems",					default: true									},
-		FOLDER_CLICK_ACTION:				{ name: "pref_folderClickAction",				default: FOLDER_CLICK_ACTION_VALUES.doubleClick	},
-		CLICK_OPENS_FEED_PREVIEW:			{ name: "pref_clickOpensFeedPreview",			default: CLICK_OPENS_FEED_PREVIEW_VALUES.openNo	},
-		FEED_ITEM_OPEN_METHOD:				{ name: "pref_feedItemOpenMethod",				default: FEED_ITEM_OPEN_METHOD_VALUES.openInTab	},
-		SHOW_FEED_STATS:					{ name: "pref_showFeedStats",					default: true									},
-		SHOW_FEED_ITEM_DESC:				{ name: "pref_showFeedItemDesc",				default: true									},
-		FEED_ITEM_DESC_DELAY:				{ name: "pref_feedItemDescDelay",				default: 800									},
-		SHOW_FEED_ITEM_DESC_ATTACH:			{ name: "pref_showFeedItemDescAttach",			default: false									},
-		COLOR_FEED_ITEM_DESC_BACKGROUND:	{ name: "pref_colorFeedItemDescBk",				default: "#FFFDAC"								},
-		COLOR_FEED_ITEM_DESC_TEXT:			{ name: "pref_colorFeedItemDescText",			default: "#000000"								},
-		DETECT_FEEDS_IN_WEB_PAGE:			{ name: "pref_detectFeedsInWebPage",			default: true									},
-		UI_DENSITY:							{ name: "pref_UIDensity",						default: "19;18"								},
-		FONT_NAME:							{ name: "perf_fontName",						default: "(Browser Default)"					},
-		FONT_SIZE_PERCENT:					{ name: "perf_fontSizePercent",					default: "100"									},
-		COLOR_BACKGROUND:					{ name: "pref_colorBk",							default: "#F3F3F3"								},
-		COLOR_DIALOG_BACKGROUND:			{ name: "pref_colorDlgBk",						default: "#E3E3E3"								},
-		COLOR_SELECT:						{ name: "pref_colorSelect",						default: "#F3C8BA"								},
-		COLOR_TEXT:							{ name: "pref_colorText",						default: "#000000"								},
-		IMAGE_SET:							{ name: "pref_imageSet",						default: 0										},
-		USE_CUSTOM_CSS_FEED_PREVIEW:		{ name: "pref_useCustomCSSFeedPreview",			default: false									},
-		CUSTOM_CSS_SOURCE:					{ name: "pref_customCSSSource",					default: ""										},
-		CUSTOM_CSS_SOURCE_HASH:				{ name: "pref_customCSSSourceHash",				default: ""										},
-		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true									},
-		STRICT_RSS_CONTENT_TYPES:			{ name: "pref_strictRssContentTypes",			default: true									},
-		MARK_FEED_PREVIEW_URLS_AS_VISITED:	{ name: "pref_markFeedPreviewUrlsAsVisited",	default: false									},
-	});
- -->
+* some day must fix the colors in preferences select tag in dark mode!!!! look if other webext using select in dark mode
+* >> Replies To discourse.mozilla.org
+	* k3qoo0os k3qoo0os@tutanota.com
+	* cjgk cjgk@outlook.com
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
@@ -992,4 +966,3 @@
 		* Specifies the directory of the extension's source code: `--source-dir="c:\path\to\extension\source\code\folder"`
 6. example:
 	* `web-ext run --firefox="C:\Program Files\Mozilla Firefox\firefox.exe" --firefox-profile="c:\Documents and Settings\arielg\Application Data\Mozilla\Firefox\Profiles\czx8tcde.default.dev" --source-dir="c:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like" --verbose --browser-console`
-

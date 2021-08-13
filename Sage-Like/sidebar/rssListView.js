@@ -17,8 +17,8 @@ let rssListView = (function() {
 	let m_elmLITreeFeed = null;
 	let m_observerElmLITreeFeed = null;
 
-	let m_bPrefShowFeedItemDesc = prefs.DEF_PREF_SHOW_FEED_ITEM_DESC_VALUE;
-	let m_msPrefFeedItemDescDelay = prefs.DEF_PREF_FEED_ITEM_DESC_DELAY_VALUE;
+	let m_bPrefShowFeedItemDesc = prefs.DEFAULTS.showFeedItemDesc;
+	let m_msPrefFeedItemDescDelay = prefs.DEFAULTS.feedItemDescDelay;
 	let m_timeoutMouseOver = null;
 
 	let URLOpenMethod = Object.freeze({

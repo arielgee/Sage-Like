@@ -812,7 +812,7 @@ let preferences = (function() {
 	function onClickBtnClearCSSSource(event) {
 		ifNotepadWindowIsClosed().then(() => {
 			prefs.getCustomCSSSource().then((prevSource) => {
-				prefs.setCustomCSSSource(prefs.DEF_PREF_CUSTOM_CSS_SOURCE_VALUE).then(() => {
+				prefs.setCustomCSSSource(prefs.DEFAULTS.customCSSSource).then(() => {
 					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
 				});
 			});
@@ -957,16 +957,16 @@ let preferences = (function() {
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
 		m_elmFeedItemDescDelay.value = defPrefs.feedItemDescDelay;
 		m_elmShowFeedItemDescAttach.checked = defPrefs.showFeedItemDescAttach;
-		m_elmColorFeedItemDescBackground.value = defPrefs.colorFeedItemDescBackground;
+		m_elmColorFeedItemDescBackground.value = defPrefs.colorFeedItemDescBk;
 		m_elmColorFeedItemDescText.value = defPrefs.colorFeedItemDescText;
 		m_elmDetectFeedsInWebPage.checked = defPrefs.detectFeedsInWebPage;
 		m_elmUIDensity.value = defPrefs.UIDensity;
 		m_elmFontName.value = defPrefs.fontName;
 		m_elmFontSizePercent.value = defPrefs.fontSizePercent;
-		m_elmColorBackground.value = defPrefs.colorBackground
-		m_elmColorDialogBackground.value = defPrefs.colorDialogBackground
-		m_elmColorSelect.value = defPrefs.colorSelect
-		m_elmColorText.value = defPrefs.colorText
+		m_elmColorBackground.value = defPrefs.colorBk;
+		m_elmColorDialogBackground.value = defPrefs.colorDlgBk;
+		m_elmColorSelect.value = defPrefs.colorSelect;
+		m_elmColorText.value = defPrefs.colorText;
 		let radios = document.getElementsByName("imageSet");
 		for(let radio of radios) {
 			if(parseInt(radio.value) === defPrefs.imageSet) {
