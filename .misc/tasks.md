@@ -879,20 +879,20 @@
 		https://www.reddit.com/r/sysadmin/comments/74bgbh/use_url_to_pass_credentials_to_login_to_iis_site/dnwz4mn?utm_source=share&utm_medium=web2x&context=3
 		https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#access_using_credentials_in_the_url
 		https://medium.com/@lmakarov/say-goodbye-to-urls-with-embedded-credentials-b051f6c7b6a3
+* error: "This error message will be blank when privacy.resistFingerprinting = true. ... Request failed" feedPreview.js:528:77 => its just the `<video>` when fail to load file.
 ---
 
 
 ## Now
-* got this message: "This error message will be blank when privacy.resistFingerprinting = true. If it is really necessary, please add it to the whitelist in MediaError::GetMessage: 2152398850: Request failed" feedPreview.js:540:80
----
-
-
-## Next
 * attachments in those feeds are not played
 	https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 	http://feeds.megaphone.fm/intercepted
 	see help:
 		https://support.mozilla.org/en-US/questions/1262177
+---
+
+
+## Next
 * following link is an rss feed that its items only include enclosures:
 	view-source:https://feeds.buzzsprout.com/192305.rss
 	view-source:https://rss.art19.com/vega
@@ -911,6 +911,7 @@
 * limit number of feed-items displayed in listView
 * change feed-item visited state when its feed-preview url is visible in the screen's viewport: use IntersectionObserver (https://usefulangle.com/post/113/javascript-detecting-element-visible-during-scroll)
 * some day must fix the colors in preferences select tag in dark mode!!!! look if other webext using select in dark mode
+* check extension performance when feedPreview saves alot of urls to history
 * >> Replies To discourse.mozilla.org
 	* k3qoo0os k3qoo0os@tutanota.com
 	* cjgk cjgk@outlook.com
