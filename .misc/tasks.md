@@ -874,15 +874,15 @@
 * link in message box "sage-like extension in not allowed in private windows" is not readable in dark colors
 * show "drop" line when dropping after last feed in tree - not possibale
 * improve prefs: convert the pair `DEF_PREF_xxx/PREF_xxx` to an object: `PREFERENCES.xxx = { name: "pref_xxx", default: false }`
----
-
-
-## Now
 * feeds with embedded credentials in url. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31) => NO
 	because:
 		https://www.reddit.com/r/sysadmin/comments/74bgbh/use_url_to_pass_credentials_to_login_to_iis_site/dnwz4mn?utm_source=share&utm_medium=web2x&context=3
 		https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#access_using_credentials_in_the_url
 		https://medium.com/@lmakarov/say-goodbye-to-urls-with-embedded-credentials-b051f6c7b6a3
+---
+
+
+## Now
 * got this message: "This error message will be blank when privacy.resistFingerprinting = true. If it is really necessary, please add it to the whitelist in MediaError::GetMessage: 2152398850: Request failed" feedPreview.js:540:80
 ---
 
