@@ -9,6 +9,7 @@
 	const JUMP_LIST_CONTAINER_TITLE = "Jump List";
 
 	let m_URL;
+	let m_urlWebPage;
 	let m_elmFeedBody = null;
 	let m_elmJumpListContainer = null;
 	let m_elmJumpList = null;
@@ -61,8 +62,6 @@
 			m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
 		}
 
-		getFavIcon(m_URL.origin);
-
 		// Enable creation of CSS rules by feed origin
 		document.documentElement.setAttribute("data-feedPreview-hostname", m_URL.hostname);
 		document.documentElement.setAttribute("data-feedPreview-pathname", m_URL.pathname);
@@ -104,6 +103,10 @@
 				timeout *= 1000;	// to milliseconds
 
 				syndication.fetchFeedItems(urlFeed, timeout, true, sortItems, false, true).then((result) => {
+
+					// try to normalize url; may return null
+					m_urlWebPage = slUtil.replaceMozExtensionOriginURL(result.feedData.webPageUrl, m_URL.origin);
+					getFavIcon(m_URL.origin, (!!m_urlWebPage ? m_urlWebPage.origin : ""));
 
 					m_elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
 					m_elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
@@ -182,9 +185,8 @@
 		elmFeedDescText.id = "feedDescriptionText";
 		elmFeedTitleImage.id = "feedTitleImage";
 
-		let url = slUtil.replaceMozExtensionOriginURL(feedData.webPageUrl, m_URL.origin);
-		if(!!url) {
-			elmFeedTitleTextAnchor.href = url.toString();
+		if(!!m_urlWebPage) {
+			elmFeedTitleTextAnchor.href = m_urlWebPage.toString();
 		}
 
 		elmFeedTitleTextAnchor.textContent = document.title;
@@ -597,7 +599,7 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFavIcon(urlOrigin) {
+	function getFavIcon(urlOrigin, urlOriginWebPage = "") {
 
 		const urlDomainOrigins = [ urlOrigin ];
 		const favicons = [
@@ -606,6 +608,11 @@
 			"/favicon.jpg",
 			"/favicon.gif",
 		];
+
+		// if web-page url is valid insert at start; has priority.
+		if(!!urlOriginWebPage && urlOriginWebPage !== urlOrigin) {
+			urlDomainOrigins.splice(0, 0, urlOriginWebPage);
+		}
 
 		// create all possible sub domain url origins - IF IT'S NOT AN IPv4 ADDRESS
 		if( ! urlOrigin.match(/^(https?:\/\/)?\d+\.\d+\.\d+\.\d+$/) ) {

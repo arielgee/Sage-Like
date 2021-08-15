@@ -883,11 +883,12 @@
 * attachments in those feeds are not played => Maybe due to redirect or slow resource download
 	https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
 	http://feeds.megaphone.fm/intercepted
+* feedPreview: acquire favicon using feed's webPageUrl in createFeedTitleElements() instead of urlFeed in onDOMContentLoaded(). both? whereas the webPageUrl is done last?
+	* sometimes the favicon from the webPageUrl is the correct one. sometimes the urlFeed originate from some feeds provider on a different website
 ---
 
 
 ## Now
-* feedPreview: acquire favicon using feed's webPageUrl in createFeedTitleElements() instead of urlFeed in onDOMContentLoaded(). both? whereas the webPageUrl is done last?
 ---
 
 
@@ -897,12 +898,6 @@
 	view-source:https://rss.art19.com/vega
 	view-source:https://feeds.megaphone.fm/stealthestars
 	full list here: https://discoverpods.com/sci-fi-podcasts-science-fiction/
-	* sometimes the favicon from the webPageUrl is the correct one. sometimes the urlFeed originate from some feeds provider on a different website
-	* createFeedTitleElements():
-		if(!!url) {
-			elmFeedTitleTextAnchor.href = url.toString();
-			getFavIcon((new URL(url)).origin);
-		}
 * feedPreview: the attachments erea is can be folded. Auto hide/fold if its too big (height)
 * have button(s) in toolbar with ‘mark-all-as-read/unread’ functionality. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
