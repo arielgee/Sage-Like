@@ -880,15 +880,14 @@
 		https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#access_using_credentials_in_the_url
 		https://medium.com/@lmakarov/say-goodbye-to-urls-with-embedded-credentials-b051f6c7b6a3
 * error: "This error message will be blank when privacy.resistFingerprinting = true. ... Request failed" feedPreview.js:528:77 => its just the `<video>` when fail to load file.
+* attachments in those feeds are not played => Maybe due to redirect or slow resource download
+	https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
+	http://feeds.megaphone.fm/intercepted
 ---
 
 
 ## Now
-* attachments in those feeds are not played
-	https://cdn.kuechenstud.io/feeds/ldn-mp3.xml
-	http://feeds.megaphone.fm/intercepted
-	see help:
-		https://support.mozilla.org/en-US/questions/1262177
+* feedPreview: acquire favicon using feed's webPageUrl in createFeedTitleElements() instead of urlFeed in onDOMContentLoaded(). both? whereas the webPageUrl is done last?
 ---
 
 
@@ -898,7 +897,6 @@
 	view-source:https://rss.art19.com/vega
 	view-source:https://feeds.megaphone.fm/stealthestars
 	full list here: https://discoverpods.com/sci-fi-podcasts-science-fiction/
-* feedPreview: acquire favicon using feed's webPageUrl in createFeedTitleElements() instead of urlFeed in onDOMContentLoaded(). both? whereas the webPageUrl is done last?
 	* sometimes the favicon from the webPageUrl is the correct one. sometimes the urlFeed originate from some feeds provider on a different website
 	* createFeedTitleElements():
 		if(!!url) {
