@@ -45,18 +45,18 @@ class RssFeed extends XmlFeed {
 		}
 
 		let i, j, iLen, jLen;
-		let item, elmLink, feedItem, elmEnclosures, feedItemAtt;
+		let item, feedItemUrl, feedItem, elmEnclosures, feedItemAtt;
 		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
-			elmLink = item.querySelector("link");
+			feedItemUrl = this._getFeedItemUrl(item);
 
-			if(elmLink) {
+			if(!!feedItemUrl) {
 				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
 															this._getFeedItemDescription(item),
 															this._getFeedItemHtmlContent(item),
-															elmLink.textContent,
+															feedItemUrl.stripHtmlTags(),
 															this._getFeedItemLastUpdate(item),
 															this._getFeedItemImageUrl(item));
 
@@ -78,6 +78,23 @@ class RssFeed extends XmlFeed {
 			}
 		}
 		return feedItemList;
+	}
+
+	//////////////////////////////////////////
+	_getFeedItemUrl(item) {
+
+		let elm = item.querySelector("link");
+		if(!!elm) {
+			return elm.textContent;
+		}
+
+		// try to get first enclosure if any
+		elm = item.querySelector("enclosure");
+		if(!!elm) {
+			return elm.getAttribute("url");
+		}
+
+		return "";
 	}
 
 	//////////////////////////////////////////

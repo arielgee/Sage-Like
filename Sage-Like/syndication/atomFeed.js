@@ -45,21 +45,17 @@ class AtomFeed extends XmlFeed {
 		}
 
 		let i, j, iLen, jLen;
-		let item, elmLink, feedItem, elmLinks, feedItemAtt;
+		let item, feedItemUrl, feedItem, elmLinks, feedItemAtt;
 		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
-			elmLink = item.querySelector("link[href]:not([rel])") ||
-						item.querySelector("link[href][rel=alternate]") ||
-						item.querySelector("link[href]:not([rel=enclosure]):not([rel=related])") ||
-						item.querySelector("id") ||				// one more WTF that use the <id> for the permalink to the page instead of <link>
-						item.querySelector("link[href]");
+			feedItemUrl = this._getFeedItemUrl(item);
 
-			if(!!elmLink) {
+			if(!!feedItemUrl) {
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
 															this._getFeedItemDescription(item),
 															this._getFeedItemHtmlContent(item),
-															elmLink.hasAttribute("href") ? elmLink.getAttribute("href") : elmLink.textContent,	// when link comes from <id>
+															feedItemUrl.stripHtmlTags(),
 															this._getFeedItemLastUpdate(item),
 															this._getFeedItemImageUrl(item));
 
@@ -67,7 +63,7 @@ class AtomFeed extends XmlFeed {
 
 					if(withAttachments) {
 
-						elmLinks = item.querySelectorAll("link[href][rel=enclosure],link[href][rel=related]");
+						elmLinks = item.querySelectorAll("link[href][rel=enclosure],link[href][rel=related]");	// selector duplicated in _getFeedItemUrl()
 
 						for(j=0, jLen=elmLinks.length; j<jLen; j++) {
 							if( !!(feedItemAtt = this._getFeedItemLinkAsAttObject(elmLinks[j])) ) {
@@ -95,6 +91,28 @@ class AtomFeed extends XmlFeed {
 			url = slUtil.validURL(node.hasAttribute("href") ? node.getAttribute("href") : node.textContent);
 		}
 		return !!url ? url.toString() : "";
+	}
+
+	//////////////////////////////////////////
+	_getFeedItemUrl(item) {
+
+		let elm = item.querySelector("link[href]:not([rel])") ||
+					item.querySelector("link[href][rel=alternate]") ||
+					item.querySelector("link[href]:not([rel=enclosure]):not([rel=related])") ||
+					item.querySelector("id") ||				// one more WTF that use the <id> for the permalink to the page instead of <link>
+					item.querySelector("link[href]");
+
+		if(!!elm) {
+			return (elm.hasAttribute("href") ? elm.getAttribute("href") : elm.textContent);	// when link comes from <id>
+		}
+
+		// try to get first enclosure if any
+		elm = item.querySelector("link[href][rel=enclosure],link[href][rel=related]");	// selector duplicated in getFeedItems()
+		if(!!elm) {
+			return elm.getAttribute("href");
+		}
+
+		return "";
 	}
 
 	//////////////////////////////////////////

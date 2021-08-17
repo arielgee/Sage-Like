@@ -885,15 +885,15 @@
 	http://feeds.megaphone.fm/intercepted
 * feedPreview: acquire favicon using feed's webPageUrl in createFeedTitleElements() instead of urlFeed in onDOMContentLoaded(). both? whereas the webPageUrl is done last?
 	* sometimes the favicon from the webPageUrl is the correct one. sometimes the urlFeed originate from some feeds provider on a different website
----
-
-
-## Now
 * following link is an rss feed that its items only include enclosures:
 	view-source:https://feeds.buzzsprout.com/192305.rss
 	view-source:https://rss.art19.com/vega
 	view-source:https://feeds.megaphone.fm/stealthestars
 	full list here: https://discoverpods.com/sci-fi-podcasts-science-fiction/
+---
+
+
+## Now
 ---
 
 
