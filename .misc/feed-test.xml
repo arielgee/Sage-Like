@@ -55,6 +55,7 @@
             <enclosure url="http://127.0.0.1/dummy4.txt" type="text/plain" />
             <enclosure url="https://inter6ctive-examples.mdn.mozilla.net/media/cc0-videos/errVideo.mp4" type="video/mp4" />
             <enclosure url="http://127.0.0.1/dummy5.txt" type="text/plain" />
+            <enclosure url="this-is-a-vary-long-file-name-much-more-longer-then-you-think-it-is-longer-then-the-longest-long-ever-and-tthen-some.png" type="image/png" />
         </item>
         <item>
             <title>שרות מיוחד בעברית</title>
@@ -88,6 +89,7 @@
             <enclosure url="http://127.0.0.1/dummy4.txt" type="text/plain" />
             <enclosure url="https://inter6ctive-examples.mdn.mozilla.net/media/cc0-videos/errVideo.mp4" type="video/mp4" />
             <enclosure url="http://127.0.0.1/dummy5.txt" type="text/plain" />
+            <enclosure url="this-is-a-vary-long-file-name-much-more-longer-then-you-think-it-is-longer-then-the-longest-long-ever-and-tthen-some.png" type="image/png" />
         </item>
         <item>
             <title>feedforall</title>

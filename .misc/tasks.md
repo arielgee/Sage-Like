@@ -889,15 +889,16 @@
 
 
 ## Now
----
-
-
-## Next
 * following link is an rss feed that its items only include enclosures:
 	view-source:https://feeds.buzzsprout.com/192305.rss
 	view-source:https://rss.art19.com/vega
 	view-source:https://feeds.megaphone.fm/stealthestars
 	full list here: https://discoverpods.com/sci-fi-podcasts-science-fiction/
+---
+
+
+## Next
+* feedPreview: the width of the attachment's title need to be restricted (max-width) to its container. but notb to the media object since the image with is different
 * feedPreview: the attachments erea is can be folded. Auto hide/fold if its too big (height)
 * have button(s) in toolbar with ‘mark-all-as-read/unread’ functionality. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)

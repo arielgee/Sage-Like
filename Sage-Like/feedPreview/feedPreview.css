@@ -257,6 +257,7 @@ body {
 	--spacing-horizontal: 16px;
 	--spacing-vertical: 10px;
 	--size-image: 32px;
+	--max-width-media-object: 310px;
 	--width-media-object: auto;
 	--height-media-object: 170px;
 	--height-title: 12px;
@@ -313,7 +314,7 @@ body {
 }
 
 .feedItemAttachmentMediaObject {
-	max-width: 310px;
+	max-width: var(--max-width-media-object);
 	min-height: var(--height-media-object);
 	max-height: var(--height-media-object);
 	width: var(--width-media-object);
@@ -351,13 +352,21 @@ body {
 	font-size: 80%;
 	pointer-events: none;
 }
-.feedItemAttachment.audio .feedItemAttachmentTitle {
+.feedItemContainer[style*="direction: rtl"] .feedItemAttachmentTitle {
+	right: calc( (var(--spacing-horizontal) - var(--margin-title)) * -1);
+}
+.feedItemAttachment.video .feedItemAttachmentTitle,
+.feedItemAttachment.audio .feedItemAttachmentTitle,
+.feedItemAttachment.img .feedItemAttachmentTitle {
 	position: static;
 	left: auto;
 	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: calc(var(--max-width-media-object) - (var(--margin-title) * 8));
 }
-.feedItemContainer[style*="direction: rtl"] .feedItemAttachmentTitle {
-	right: calc( (var(--spacing-horizontal) - var(--margin-title)) * -1);
+.feedItemAttachment.img.loadError .feedItemAttachmentTitle {
+	max-width: calc(var(--height-media-object) - (var(--margin-title) * 2));
 }
 
 #attachmentTooltip {
