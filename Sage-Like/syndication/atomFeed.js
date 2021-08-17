@@ -106,7 +106,7 @@ class AtomFeed extends XmlFeed {
 
 			let title = elm.getAttribute("title");
 			if(!!!title) {
-				title = url.pathname.replace(/(^.*)\/$/, "$1").split("/").pop();
+				title = url.pathname.replace(/(\/|%2F)+$/i, "").split(/\/|%2F/i).pop();
 			}
 			return this._createFeedItemAttachmentObject(title, url,
 														slUtil.asSafeTypeValue(elm.getAttribute("type")),
