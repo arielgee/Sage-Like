@@ -895,6 +895,11 @@
 
 
 ## Now
+* check extension performance when feedPreview saves alot of urls to history
+* >> Replies To discourse.mozilla.org
+	* k3qoo0os k3qoo0os@tutanota.com
+	* cjgk cjgk@outlook.com
+* Release next version
 ---
 
 
@@ -905,10 +910,6 @@
 * limit number of feed-items displayed in listView
 * change feed-item visited state when its feed-preview url is visible in the screen's viewport: use IntersectionObserver (https://usefulangle.com/post/113/javascript-detecting-element-visible-during-scroll)
 * some day must fix the colors in preferences select tag in dark mode!!!! look if other webext using select in dark mode
-* check extension performance when feedPreview saves alot of urls to history
-* >> Replies To discourse.mozilla.org
-	* k3qoo0os k3qoo0os@tutanota.com
-	* cjgk cjgk@outlook.com
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
