@@ -5,8 +5,8 @@
 	--max-width-preferences-body: 700px;
 	--bottom-left-radius-last-sub-perf: 15px;
 
-	--color-text-input-focused: rgb(10, 133, 255);
-	--color-text-input-invalid: rgb(255, 0, 0);
+	--color-control-focused: rgb(10, 133, 255);
+	--color-control-invalid: rgb(255, 0, 0);
 
 	--color-text-block-caption-values: 9, 119, 229;
 
@@ -286,13 +286,13 @@ input[type="color"]::-moz-focus-inner {
 }
 
 .numericInput:focus {
-	border-color: var(--color-text-input-focused);
-	box-shadow: 0 0 2.5px 1px var(--color-text-input-focused);
+	border-color: var(--color-control-focused);
+	box-shadow: 0 0 2.5px 1px var(--color-control-focused);
 }
 
 .numericInput:invalid {
-	border-color: var(--color-text-input-invalid);
-	box-shadow: 0 0 2.5px 1px var(--color-text-input-invalid);
+	border-color: var(--color-control-invalid);
+	box-shadow: 0 0 2.5px 1px var(--color-control-invalid);
 }
 
 .preferenceButton {
