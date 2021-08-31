@@ -891,11 +891,12 @@
 	view-source:https://feeds.megaphone.fm/stealthestars
 	full list here: https://discoverpods.com/sci-fi-podcasts-science-fiction/
 * feedPreview: the width of the attachment's title need to be restricted (max-width) to its container. but notb to the media object since the image with is different
+* check extension performance when feedPreview saves alot of urls to history
 ---
 
 
 ## Now
-* check extension performance when feedPreview saves alot of urls to history
+* some day must fix the colors in preferences select tag in dark mode!!!! look if other webext using select in dark mode
 * >> Replies To discourse.mozilla.org
 	* k3qoo0os k3qoo0os@tutanota.com
 	* cjgk cjgk@outlook.com
@@ -909,7 +910,6 @@
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 * limit number of feed-items displayed in listView
 * change feed-item visited state when its feed-preview url is visible in the screen's viewport: use IntersectionObserver (https://usefulangle.com/post/113/javascript-detecting-element-visible-during-scroll)
-* some day must fix the colors in preferences select tag in dark mode!!!! look if other webext using select in dark mode
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

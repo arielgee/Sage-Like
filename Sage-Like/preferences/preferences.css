@@ -176,6 +176,10 @@ select {
 	color: var(--foreground-color);
 	background-color: var(--background-color-select-control);
 }
+select:focus {
+	border-color: var(--color-control-focused);
+	box-shadow: 0 0 2.5px 1px var(--color-control-focused);
+}
 
 select > option {
 	color: var(--foreground-color);
@@ -217,6 +221,9 @@ input[type="checkbox"]:checked {
 }
 input[type="checkbox"]:disabled {
 	background-color: var(--background-color-disabled-control);
+}
+input[type="checkbox"]:focus {
+	box-shadow: 0 0 2.5px 2px var(--color-control-focused);
 }
 
 input[type="checkbox"]::before {
