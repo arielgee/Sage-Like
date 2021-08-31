@@ -892,15 +892,16 @@
 	full list here: https://discoverpods.com/sci-fi-podcasts-science-fiction/
 * feedPreview: the width of the attachment's title need to be restricted (max-width) to its container. but notb to the media object since the image with is different
 * check extension performance when feedPreview saves alot of urls to history
+* some day must fix the colors in preferences select tag in dark mode!!!! look if other webext using select in dark mode
 ---
 
 
 ## Now
-* some day must fix the colors in preferences select tag in dark mode!!!! look if other webext using select in dark mode
 * >> Replies To discourse.mozilla.org
 	* k3qoo0os k3qoo0os@tutanota.com
 	* cjgk cjgk@outlook.com
 * Release next version
+>> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 

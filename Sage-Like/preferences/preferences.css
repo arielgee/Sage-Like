@@ -179,10 +179,10 @@ select {
 select:focus {
 	border-color: var(--color-control-focused);
 	box-shadow: 0 0 2.5px 1px var(--color-control-focused);
+	background-color: var(--background-color-select-control);
 }
 
 select > option {
-	color: var(--foreground-color);
 	background-color: var(--background-color-option-control);
 }
 
