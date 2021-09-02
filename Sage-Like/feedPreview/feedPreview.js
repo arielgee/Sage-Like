@@ -82,6 +82,7 @@
 			m_elmJumpListContainer.removeEventListener("click", onClickJumpListContainer);
 			m_elmJumpListContainer.removeEventListener("blur", onBlurJumpListContainer);
 			m_elmJumpListContainer.removeEventListener("keydown", onKeyDownJumpListContainer);
+		}
 	}
 	}
 
