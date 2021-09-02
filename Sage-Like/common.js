@@ -1098,37 +1098,43 @@ let prefs = (function() {
 		openInNewTab: 1,
 	}
 
+	const MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES = {
+		none: 0,
+		all: 1,
+		whenVisible: 2,
+	}
+
 	const PREF = Object.freeze({
-		ROOT_FEEDS_FOLDER_ID:				{ name: "pref_rootFeedsFolderId",				default: slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET	},
-		CHECK_FEEDS_INTERVAL:				{ name: "pref_checkFeedsInterval",				default: "3600000"								},
-		CHECK_FEEDS_WHEN_SB_CLOSED:			{ name: "pref_checkFeedsWhenSbClosed",			default: true									},
-		CHECK_FEEDS_METHOD:					{ name: "pref_checkFeedsMethod",				default: "3;2000"								},
-		FETCH_TIMEOUT:						{ name: "pref_fetchTimeout",					default: "60"									},
-		SORT_FEED_ITEMS:					{ name: "pref_sortFeedItems",					default: true									},
-		FOLDER_CLICK_ACTION:				{ name: "pref_folderClickAction",				default: FOLDER_CLICK_ACTION_VALUES.doubleClick	},
-		CLICK_OPENS_FEED_PREVIEW:			{ name: "pref_clickOpensFeedPreview",			default: CLICK_OPENS_FEED_PREVIEW_VALUES.openNo	},
-		FEED_ITEM_OPEN_METHOD:				{ name: "pref_feedItemOpenMethod",				default: FEED_ITEM_OPEN_METHOD_VALUES.openInTab	},
-		SHOW_FEED_STATS:					{ name: "pref_showFeedStats",					default: true									},
-		SHOW_FEED_ITEM_DESC:				{ name: "pref_showFeedItemDesc",				default: true									},
-		FEED_ITEM_DESC_DELAY:				{ name: "pref_feedItemDescDelay",				default: 800									},
-		SHOW_FEED_ITEM_DESC_ATTACH:			{ name: "pref_showFeedItemDescAttach",			default: false									},
-		COLOR_FEED_ITEM_DESC_BACKGROUND:	{ name: "pref_colorFeedItemDescBk",				default: "#FFFDAC"								},
-		COLOR_FEED_ITEM_DESC_TEXT:			{ name: "pref_colorFeedItemDescText",			default: "#000000"								},
-		DETECT_FEEDS_IN_WEB_PAGE:			{ name: "pref_detectFeedsInWebPage",			default: true									},
-		UI_DENSITY:							{ name: "pref_UIDensity",						default: "19;18"								},
-		FONT_NAME:							{ name: "perf_fontName",						default: "(Browser Default)"					},	// typo in the name
-		FONT_SIZE_PERCENT:					{ name: "perf_fontSizePercent",					default: "100"									},	// typo in the name
-		COLOR_BACKGROUND:					{ name: "pref_colorBk",							default: "#F3F3F3"								},
-		COLOR_DIALOG_BACKGROUND:			{ name: "pref_colorDlgBk",						default: "#E3E3E3"								},
-		COLOR_SELECT:						{ name: "pref_colorSelect",						default: "#F3C8BA"								},
-		COLOR_TEXT:							{ name: "pref_colorText",						default: "#000000"								},
-		IMAGE_SET:							{ name: "pref_imageSet",						default: 0										},
-		USE_CUSTOM_CSS_FEED_PREVIEW:		{ name: "pref_useCustomCSSFeedPreview",			default: false									},
-		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true									},
-		STRICT_RSS_CONTENT_TYPES:			{ name: "pref_strictRssContentTypes",			default: true									},
-		MARK_FEED_PREVIEW_URLS_AS_VISITED:	{ name: "pref_markFeedPreviewUrlsAsVisited",	default: false									},
-		CUSTOM_CSS_SOURCE_HASH:				{ name: "pref_customCSSSourceHash",				default: ""										},
-		CUSTOM_CSS_SOURCE:					{ name: "pref_customCSSSource",					default: ""										},
+		ROOT_FEEDS_FOLDER_ID:				{ name: "pref_rootFeedsFolderId",				default: slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET			},
+		CHECK_FEEDS_INTERVAL:				{ name: "pref_checkFeedsInterval",				default: "3600000"										},
+		CHECK_FEEDS_WHEN_SB_CLOSED:			{ name: "pref_checkFeedsWhenSbClosed",			default: true											},
+		CHECK_FEEDS_METHOD:					{ name: "pref_checkFeedsMethod",				default: "3;2000"										},
+		FETCH_TIMEOUT:						{ name: "pref_fetchTimeout",					default: "60"											},
+		SORT_FEED_ITEMS:					{ name: "pref_sortFeedItems",					default: true											},
+		FOLDER_CLICK_ACTION:				{ name: "pref_folderClickAction",				default: FOLDER_CLICK_ACTION_VALUES.doubleClick			},
+		CLICK_OPENS_FEED_PREVIEW:			{ name: "pref_clickOpensFeedPreview",			default: CLICK_OPENS_FEED_PREVIEW_VALUES.openNo			},
+		FEED_ITEM_OPEN_METHOD:				{ name: "pref_feedItemOpenMethod",				default: FEED_ITEM_OPEN_METHOD_VALUES.openInTab			},
+		SHOW_FEED_STATS:					{ name: "pref_showFeedStats",					default: true											},
+		SHOW_FEED_ITEM_DESC:				{ name: "pref_showFeedItemDesc",				default: true											},
+		FEED_ITEM_DESC_DELAY:				{ name: "pref_feedItemDescDelay",				default: 800											},
+		SHOW_FEED_ITEM_DESC_ATTACH:			{ name: "pref_showFeedItemDescAttach",			default: false											},
+		COLOR_FEED_ITEM_DESC_BACKGROUND:	{ name: "pref_colorFeedItemDescBk",				default: "#FFFDAC"										},
+		COLOR_FEED_ITEM_DESC_TEXT:			{ name: "pref_colorFeedItemDescText",			default: "#000000"										},
+		DETECT_FEEDS_IN_WEB_PAGE:			{ name: "pref_detectFeedsInWebPage",			default: true											},
+		UI_DENSITY:							{ name: "pref_UIDensity",						default: "19;18"										},
+		FONT_NAME:							{ name: "perf_fontName",						default: "(Browser Default)"							},	// typo in the name
+		FONT_SIZE_PERCENT:					{ name: "perf_fontSizePercent",					default: "100"											},	// typo in the name
+		COLOR_BACKGROUND:					{ name: "pref_colorBk",							default: "#F3F3F3"										},
+		COLOR_DIALOG_BACKGROUND:			{ name: "pref_colorDlgBk",						default: "#E3E3E3"										},
+		COLOR_SELECT:						{ name: "pref_colorSelect",						default: "#F3C8BA"										},
+		COLOR_TEXT:							{ name: "pref_colorText",						default: "#000000"										},
+		IMAGE_SET:							{ name: "pref_imageSet",						default: 0												},
+		USE_CUSTOM_CSS_FEED_PREVIEW:		{ name: "pref_useCustomCSSFeedPreview",			default: false											},
+		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true											},
+		STRICT_RSS_CONTENT_TYPES:			{ name: "pref_strictRssContentTypes",			default: true											},
+		MARK_FEED_PREVIEW_URLS_AS_VISITED:	{ name: "pref_markFeedPreviewUrlsAsVisited",	default: MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.none	},
+		CUSTOM_CSS_SOURCE_HASH:				{ name: "pref_customCSSSourceHash",				default: ""												},
+		CUSTOM_CSS_SOURCE:					{ name: "pref_customCSSSource",					default: ""												},
 	});
 
 	const PREFS_BANNED_FROM_EXPORT = [
@@ -1288,6 +1294,7 @@ let prefs = (function() {
 		FOLDER_CLICK_ACTION_VALUES: FOLDER_CLICK_ACTION_VALUES,
 		CLICK_OPENS_FEED_PREVIEW_VALUES: CLICK_OPENS_FEED_PREVIEW_VALUES,
 		FEED_ITEM_OPEN_METHOD_VALUES: FEED_ITEM_OPEN_METHOD_VALUES,
+		MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES: MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES,
 
 		DEFAULTS: _getAllPreferencesObject(true),
 

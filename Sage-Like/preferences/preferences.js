@@ -327,7 +327,7 @@ let preferences = (function() {
 		});
 
 		prefs.getMarkFeedPreviewUrlsAsVisited().then((value) => {
-			m_elmMarkFeedPreviewUrlsAsVisited.checked = value;
+			m_elmMarkFeedPreviewUrlsAsVisited.value = value;
 		});
 
 		prefs.getFeedItemOpenMethod().then((value) => {
@@ -555,7 +555,7 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeMarkFeedPreviewUrlsAsVisited(event) {
-		prefs.setMarkFeedPreviewUrlsAsVisited(m_elmMarkFeedPreviewUrlsAsVisited.checked);
+		prefs.setMarkFeedPreviewUrlsAsVisited(parseInt(m_elmMarkFeedPreviewUrlsAsVisited.value));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -951,7 +951,7 @@ let preferences = (function() {
 		m_elmSortFeedItems.checked = defPrefs.sortFeedItems;
 		m_elmFolderClickAction.value = defPrefs.folderClickAction;
 		m_elmClickOpensFeedPreview.value = defPrefs.clickOpensFeedPreview;
-		m_elmMarkFeedPreviewUrlsAsVisited.checked = defPrefs.markFeedPreviewUrlsAsVisited;
+		m_elmMarkFeedPreviewUrlsAsVisited.value = defPrefs.markFeedPreviewUrlsAsVisited;
 		m_elmFeedItemOpenMethod.value = defPrefs.feedItemOpenMethod;
 		m_elmShowFeedStats.checked = defPrefs.showFeedStats;
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;

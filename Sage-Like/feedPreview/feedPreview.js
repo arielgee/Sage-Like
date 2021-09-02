@@ -18,6 +18,8 @@
 	let m_hashCustomCSSSource = "";
 	let m_reloadChangeSortDebouncer = null;
 	let m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
+	let m_markUrlsAsVisited = prefs.MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.none;
+	let m_feedItemObserver = null;
 
 	initialization();
 
@@ -52,7 +54,7 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onDOMContentLoaded() {
+	async function onDOMContentLoaded() {
 
 		let urlFeed = slUtil.getQueryStringValue("urlFeed");
 		m_URL = new URL(urlFeed);
@@ -60,6 +62,17 @@
 		m_requestSource = slUtil.getQueryStringValue("src");
 		if( !(Object.values(slGlobals.FEED_PREVIEW_REQ_SOURCE).includes(m_requestSource)) ) {
 			m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
+		}
+
+		// only if it was opend from the sidebar's tree
+		if(m_requestSource === slGlobals.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW) {
+
+			m_markUrlsAsVisited = await prefs.getMarkFeedPreviewUrlsAsVisited();
+
+			// AND only if the pref say so
+			if(m_markUrlsAsVisited === prefs.MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.whenVisible) {
+				m_feedItemObserver = new IntersectionObserver(onFeedItemIntersectionObserver, { threshold: [0.3] });
+			}
 		}
 
 		// Enable creation of CSS rules by feed origin
@@ -84,6 +97,17 @@
 			m_elmJumpListContainer.removeEventListener("keydown", onKeyDownJumpListContainer);
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onFeedItemIntersectionObserver(entries) {
+		let list = entries.filter((n) => n.isIntersecting).map((n) => {
+			const feedItem = n.target;
+			let elmUrl = feedItem.querySelector(".feedItemTitle > a");
+			let elmTitle = feedItem.querySelector(".feedItemTitleText");
+			m_feedItemObserver.unobserve(feedItem);
+			return { url: elmUrl.href, title: elmTitle.textContent };
+		});
+		addFeedItemUrlsToBrowserHistory(list);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +164,11 @@
 							}
 						}
 						m_elmFeedBody.appendChild(elmFeedContent);
-						addFeedItemUrlsToBrowserHistory(result.list);
+
+						if(m_markUrlsAsVisited === prefs.MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.all) {
+							addFeedItemUrlsToBrowserHistory(result.list, false);
+						}
+
 					} else {
 						m_elmJumpListContainer.remove();
 						createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedItems(). SAD. */
@@ -285,6 +313,11 @@
 		m_elmJumpList.appendChild(elmJumpListItem);
 
 		elmFeedItemContainer.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
+
+		// only if IntersectionObserver object was created
+		if(!!m_feedItemObserver) {
+			m_feedItemObserver.observe(elmFeedItem);
+		}
 
 		return elmFeedItemContainer;
 	}
@@ -725,27 +758,23 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function addFeedItemUrlsToBrowserHistory(list) {
+	function addFeedItemUrlsToBrowserHistory(list, immediately = true) {
 
-		// only if it was opend from the sidebar's tree AND only if the pref say so
-		if( (m_requestSource === slGlobals.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW) && (await prefs.getMarkFeedPreviewUrlsAsVisited()) ) {
+		// not in main thread
+		setTimeout(() => {
 
-			// delayed
-			setTimeout(() => {
+			for(let idx=0, len=list.length; idx<len; idx++) {
+				const item = list[idx];
+				slUtil.addUrlToBrowserHistory(item.url, (item.title.trim().length > 0 ? item.title : item.url));
+			}
 
-				for(let idx=0, len=list.length; idx<len; idx++) {
-					const item = list[idx];
-					slUtil.addUrlToBrowserHistory(item.url, (item.title.trim().length > 0 ? item.title : item.url));
-				}
+			browser.runtime.sendMessage({
+				id: slGlobals.MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED,
+				feedUrl: m_URL.toString(),
+				feedItems: list.map((n) => n.url),	// just the urls
+			});
 
-				browser.runtime.sendMessage({
-					id: slGlobals.MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED,
-					feedUrl: m_URL.toString(),
-					feedItems: list.map((n) => n.url),	// just the urls
-				});
-
-			}, 150);
-		}
+		}, (immediately ? 0 : 150));
 	}
 
 })();
