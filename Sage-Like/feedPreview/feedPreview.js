@@ -55,9 +55,9 @@
 	function onDOMContentLoaded() {
 
 		let urlFeed = slUtil.getQueryStringValue("urlFeed");
-		m_requestSource = slUtil.getQueryStringValue("src");
-
 		m_URL = new URL(urlFeed);
+
+		m_requestSource = slUtil.getQueryStringValue("src");
 		if( !(Object.values(slGlobals.FEED_PREVIEW_REQ_SOURCE).includes(m_requestSource)) ) {
 			m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
 		}
