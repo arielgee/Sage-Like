@@ -59,9 +59,14 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Match the colors of the sidebar's splitter to the dialog colors.</li>
-  <li>Small improvements to the CSS notepad editor.</li>
-  <li>Under the hood modifications and fixes in the Options page.</li>
+  <li>User can now play media attachments (RSS enclosures) directly from the Feed Preview page (audio and video).</li>
+  <li>Image attachments will be loaded and displayed in the Feed Preview page instead of a link.</li>
+  <li>Improved the ability of the Feed Preview to acquire the favicon.</li>
+  <li>Added a new option to mark all feed entries as "Read" when a feed is opened in Feed Preview.</li>
+  <li>Added support for RSS/Atom feeds containing entries without an article link but with an enclosure link (Podcasts).</li>
+  <li>Bugfix: Startup tabs (pinned, homepage urls) sometimes might incorrectly be parsed as a Feed Preview page. Bug reported by Chris at discourse.mozilla.org.</li>
+  <li>Minor UI changes in Options page.</li>
+  <li>Various under the hood code improvements.</li>
 </ul>
 
 + Version Notes for next time
