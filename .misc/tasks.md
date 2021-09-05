@@ -895,22 +895,23 @@
 * some day must fix the colors in preferences select tag in dark mode!!!! look if other webext using select in dark mode
 * limit number of feed-items displayed in listView => NO
 * change feed-item visited state when its feed-preview url is visible in the screen's viewport: use IntersectionObserver (https://usefulangle.com/post/113/javascript-detecting-element-visible-during-scroll)
+* >> Replies To discourse.mozilla.org
+	* k3qoo0os k3qoo0os@tutanota.com
+	* cjgk cjgk@outlook.com
 ---
 
 
 ## Now
-* >> Replies To discourse.mozilla.org
-	* k3qoo0os k3qoo0os@tutanota.com
-	* cjgk cjgk@outlook.com
 * Release next version
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height)
 * have button(s) in toolbar with ‘mark-all-as-read/unread’ functionality. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
+* feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height)
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
+* access RSS feeds with credentials (user/password), behind a secure login page.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
