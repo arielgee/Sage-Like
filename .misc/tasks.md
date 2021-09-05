@@ -898,11 +898,11 @@
 * >> Replies To discourse.mozilla.org
 	* k3qoo0os k3qoo0os@tutanota.com
 	* cjgk cjgk@outlook.com
+* Release next version
 ---
 
 
 ## Now
-* Release next version
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
