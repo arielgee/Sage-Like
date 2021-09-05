@@ -100,13 +100,16 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onFeedItemIntersectionObserver(entries) {
-		let list = entries.filter((n) => n.isIntersecting).map((n) => {
-			const feedItem = n.target;
-			let elmUrl = feedItem.querySelector(".feedItemTitle > a");
-			let elmTitle = feedItem.querySelector(".feedItemTitleText");
-			m_feedItemObserver.unobserve(feedItem);
-			return { url: elmUrl.href, title: elmTitle.textContent };
-		});
+		let list = [];
+		for(let i=0, len=entries.length; i<len; i++) {
+			if(entries[i].isIntersecting) {
+				const feedItem = entries[i].target;
+				let elmUrl = feedItem.querySelector(".feedItemTitle > a");
+				let elmTitle = feedItem.querySelector(".feedItemTitleText");
+				list.push({ url: elmUrl.href, title: elmTitle.textContent });
+				m_feedItemObserver.unobserve(feedItem);
+			}
+		}
 		addFeedItemUrlsToBrowserHistory(list);
 	}
 
