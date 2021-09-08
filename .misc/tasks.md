@@ -903,6 +903,7 @@
 
 
 ## Now
+* when the imported settings is missing a new preference
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
