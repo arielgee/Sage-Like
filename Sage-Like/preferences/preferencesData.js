@@ -76,7 +76,7 @@ let preferencesData = (function() {
 
 					delete objPrefs[PREF_SELF_SIGNED];		// remove the self signed property before hash
 
-					if(hashSelfSigned == await hashStringPreferences(objPrefs)) {
+					if(hashSelfSigned === await hashStringPreferences(objPrefs)) {
 						await prefs.setAllPreferences(objPrefs);
 						m_funcImportResolve();
 					} else {
