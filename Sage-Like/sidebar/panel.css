@@ -225,6 +225,12 @@ html, body {
 #discoverfeed {
 	background: transparent url("/icons/discover.png") no-repeat center center;
 }
+#markAllRead {
+	background: transparent url("/icons/mark-all-read.png") no-repeat center center;
+}
+#markAllUnread {
+	background: transparent url("/icons/mark-all-unread.png") no-repeat center center;
+}
 #expandall {
 	background: transparent url("/icons/expandall.png") no-repeat center center;
 }

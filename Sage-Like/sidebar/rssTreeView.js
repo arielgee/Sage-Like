@@ -52,6 +52,8 @@ let rssTreeView = (function() {
 	});
 
 	let m_elmCheckTreeFeeds;
+	let m_elmMarkAllRead;
+	let m_elmMarkAllUnread;
 	let m_elmExpandAll;
 	let m_elmCollapseAll;
 	let m_elmFilterWidget;
@@ -171,6 +173,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
 
+		m_elmMarkAllRead = document.getElementById("markAllRead");
+		m_elmMarkAllUnread = document.getElementById("markAllUnread");
 		m_elmExpandAll = document.getElementById("expandall");
 		m_elmCollapseAll = document.getElementById("collapseall");
 		m_elmFilterWidget = document.getElementById("filterWidget");
@@ -189,6 +193,8 @@ let rssTreeView = (function() {
 
 		// toolbar buttons event listeners
 		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
+		m_elmMarkAllRead.addEventListener("click", onClickMarkAllReadUnread);
+		m_elmMarkAllUnread.addEventListener("click", onClickMarkAllReadUnread);
 		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
 		m_elmButtonFilter.addEventListener("click",onClickFilter);
@@ -235,6 +241,8 @@ let rssTreeView = (function() {
 
 		// toolbar buttons event listeners
 		m_elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
+		m_elmMarkAllRead.removeEventListener("click", onClickMarkAllReadUnread);
+		m_elmMarkAllUnread.removeEventListener("click", onClickMarkAllReadUnread);
 		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
 		m_elmButtonFilter.removeEventListener("click",onClickFilter);
@@ -1277,9 +1285,14 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onClickMarkAllReadUnread(event) {
+		markAllFeedsAsVisitedState(event.target.id === "markAllRead");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onClickExpandCollapseAll(event) {
 
-		if(this.id === "expandall") {
+		if(event.target.id === "expandall") {
 
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed");
 			for(let i=elms.length-1; i>=0; i--) {
