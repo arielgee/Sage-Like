@@ -13,8 +13,6 @@ let panel = (function() {
 	let m_elmBottom;
 
 	let m_elmToolbar;
-	let m_elmDiscoverFeed;
-	let m_elmPreferences;
 
 	let m_elmTree;
 	let m_elmList;
@@ -98,8 +96,6 @@ let panel = (function() {
 		m_elmBottom = document.getElementById("bottom");
 
 		m_elmToolbar = document.getElementById("toolbar");
-		m_elmDiscoverFeed = document.getElementById("discoverfeed");
-		m_elmPreferences = document.getElementById("preferences");
 
 		m_elmTree = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
 		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
@@ -109,8 +105,7 @@ let panel = (function() {
 		m_elmTop.addEventListener("scroll", onScrollTop);
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		m_elmDiscoverFeed.addEventListener("click", onClickDiscoverFeed);
-		m_elmPreferences.addEventListener("click", onClickPreferences);
+		m_elmToolbar.addEventListener("click", onClickToolbarButton);
 
 		// get browser default font for font-family fallback
 		let browserFont = getComputedStyle(m_elmBody).getPropertyValue("font-family");
@@ -133,8 +128,7 @@ let panel = (function() {
 		m_elmTop.removeEventListener("scroll", onScrollTop);
 		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		m_elmDiscoverFeed.removeEventListener("click", onClickDiscoverFeed);
-		m_elmPreferences.removeEventListener("click", onClickPreferences);
+		m_elmToolbar.removeEventListener("click", onClickToolbarButton);
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
@@ -337,17 +331,22 @@ let panel = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickDiscoverFeed(event) {
+	function onClickToolbarButton(event) {
+		if(!!event.target) {
+			switch(event.target.id) {
+				case "discoverfeed":	discoverFeed(event);				break;
+				case "preferences":		browser.runtime.openOptionsPage();	break;
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function discoverFeed(event) {
 		event.stopPropagation();
 
 		discoveryView.open().then((newFeedsList) => {
 			rssTreeView.addNewFeeds(newFeedsList);
 		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickPreferences(event) {
-		browser.runtime.openOptionsPage();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
