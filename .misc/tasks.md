@@ -901,17 +901,17 @@
 * Release next version
 * when the imported settings is missing a new preference = its just an old export when pref_markFeedPreviewUrlsAsVisited was boolean and not numeric
 * have button(s) in toolbar with ‘mark-all-as-read/unread’ functionality. (from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/31)
+* consolidate toolbar buttons (top level) EventListeners
 ---
 
 
 ## Now
-* consolidate toolbar buttons (top level) EventListeners
+* Refactor 'expandall' and 'collapseall'
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* Refactor 'expandall' and 'collapseall'
 * revisit the toolbar's ‘mark-all-as-read/unread’ functionality - better images? -
 * new filter; by update time (prefixed with a '~' or '^') `^\s*[0-9]+\s+(sec|second|seconds|min|minute|minutes|hour|hours|day|days|mon|month|months|year|years)\s+ago\s*$`
 * feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox

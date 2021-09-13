@@ -51,17 +51,12 @@ let rssTreeView = (function() {
 		EMPTY: 4,
 	});
 
+	let m_elmToolbar;
 	let m_elmCheckTreeFeeds;
-	let m_elmMarkAllRead;
-	let m_elmMarkAllUnread;
-	let m_elmExpandAll;
-	let m_elmCollapseAll;
 	let m_elmFilterWidget;
-	let m_elmButtonFilter;
 	let m_elmFilterTextBoxContainer;
 	let m_elmTextFilter;
 	let m_elmReapplyFilter;
-	let m_elmClearFilter;
 
 	let m_elmTreeRoot;
 
@@ -173,16 +168,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
 
-		m_elmMarkAllRead = document.getElementById("markAllRead");
-		m_elmMarkAllUnread = document.getElementById("markAllUnread");
-		m_elmExpandAll = document.getElementById("expandall");
-		m_elmCollapseAll = document.getElementById("collapseall");
+		m_elmToolbar = document.getElementById("toolbar");
 		m_elmFilterWidget = document.getElementById("filterWidget");
-		m_elmButtonFilter = document.getElementById("filter");
 		m_elmFilterTextBoxContainer = document.getElementById("filterTextBoxContainer");
 		m_elmTextFilter = document.getElementById("textFilter");
 		m_elmReapplyFilter = document.getElementById("reapplyFilter");
-		m_elmClearFilter = document.getElementById("clearFilter");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
 		m_elmTreeRoot = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
 
@@ -192,17 +182,10 @@ let rssTreeView = (function() {
 		}
 
 		// toolbar buttons event listeners
-		m_elmCheckTreeFeeds.addEventListener("click", onClickCheckTreeFeeds);
-		m_elmMarkAllRead.addEventListener("click", onClickMarkAllReadUnread);
-		m_elmMarkAllUnread.addEventListener("click", onClickMarkAllReadUnread);
-		m_elmExpandAll.addEventListener("click", onClickExpandCollapseAll);
-		m_elmCollapseAll.addEventListener("click", onClickExpandCollapseAll);
-		m_elmButtonFilter.addEventListener("click",onClickFilter);
+		m_elmToolbar.addEventListener("click", onClickToolbarButton);
 		m_elmFilterTextBoxContainer.addEventListener("transitionend",onTransitionEndFilterTextBoxContainer);
 		m_elmTextFilter.addEventListener("input", onInputChangeTextFilter);
 		m_elmTextFilter.addEventListener("keydown", onKeyDownTextFilter);
-		m_elmReapplyFilter.addEventListener("click", onClickReapplyFilter);
-		m_elmClearFilter.addEventListener("click", onClickClearFilter);
 
 		// treeView event listeners
 		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
@@ -240,17 +223,10 @@ let rssTreeView = (function() {
 		m_timeoutIdMonitorRSSTreeFeeds = null;
 
 		// toolbar buttons event listeners
-		m_elmCheckTreeFeeds.removeEventListener("click", onClickCheckTreeFeeds);
-		m_elmMarkAllRead.removeEventListener("click", onClickMarkAllReadUnread);
-		m_elmMarkAllUnread.removeEventListener("click", onClickMarkAllReadUnread);
-		m_elmExpandAll.removeEventListener("click", onClickExpandCollapseAll);
-		m_elmCollapseAll.removeEventListener("click", onClickExpandCollapseAll);
-		m_elmButtonFilter.removeEventListener("click",onClickFilter);
+		m_elmToolbar.removeEventListener("click", onClickToolbarButton);
 		m_elmFilterTextBoxContainer.removeEventListener("transitionend",onTransitionEndFilterTextBoxContainer);
 		m_elmTextFilter.removeEventListener("input", onInputChangeTextFilter);
 		m_elmTextFilter.removeEventListener("keydown", onKeyDownTextFilter);
-		m_elmReapplyFilter.removeEventListener("click", onClickReapplyFilter);
-		m_elmClearFilter.removeEventListener("click", onClickClearFilter);
 
 		// treeView event listeners
 		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
@@ -1272,9 +1248,26 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickCheckTreeFeeds(event) {
+	function onClickToolbarButton(event) {
 
-		if( !m_rssTreeCreatedOK || event.shiftKey ) {
+		if(!!event.target) {
+			switch(event.target.id) {
+				case "checkTreeFeeds":	checkTreeFeeds(event.shiftKey);		break;
+				case "markAllRead":		markAllFeedsAsVisitedState(true);	break;
+				case "markAllUnread":	markAllFeedsAsVisitedState(false);	break;
+				case "expandall":		expandCollapseAll(true);			break;
+				case "collapseall":		expandCollapseAll(false);			break;
+				case "filter":			openFilterWidget();					break;
+				case "reapplyFilter":	reapplyFilter();					break;
+				case "clearFilter":		clearFilter();						break;
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function checkTreeFeeds(shiftKey) {
+
+		if( !m_rssTreeCreatedOK || shiftKey ) {
 			handleTreeClearFilter();
 			rssListView.disposeList();
 			createRSSTree();
@@ -1285,14 +1278,9 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickMarkAllReadUnread(event) {
-		markAllFeedsAsVisitedState(event.target.id === "markAllRead");
-	}
+	function expandCollapseAll(isExpanded) {
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickExpandCollapseAll(event) {
-
-		if(event.target.id === "expandall") {
+		if(isExpanded) {
 
 			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed");
 			for(let i=elms.length-1; i>=0; i--) {
@@ -1317,11 +1305,6 @@ let rssTreeView = (function() {
 			}
 		}
 		setFocus();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickFilter(event) {
-		openFilterWidget();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1371,7 +1354,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickReapplyFilter(event) {
+	function reapplyFilter() {
 
 		clearTimeout(m_filterChangeDebouncer);
 		m_filterChangeDebouncer = setTimeout(() => {
@@ -1389,7 +1372,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickClearFilter(event) {
+	function clearFilter() {
 
 		handleTreeClearFilter();
 
