@@ -35,12 +35,19 @@ let rssTreeView = (function() {
 									" \u25cf Filtering using Regular Expression pattern enclosed between two slashes ('/'). \n" +
 									"     Flag 'i' (case-insensitive) is supported when placed after the second slash. \n" +
 									" \u25cf URL filtering using text prefixed with a single percent sign ('%'). \n" +
+									" \u25cf Update time filtering using Relative Time text prefixed with a single tilde sign ('~'). \n" +
+									"     Relative Time expression pattern: '[number] [time_unit] ago' whereas [time_unit] \n" +
+									"     can be: 'seconds', 'minutes', 'hours', 'days', 'weeks', 'months' or 'years'. \n" +
+									"     Examples: \n" +
+									"     \u2022 '~5 weeks ago' \u2013 for feeds not updated as of 5 weeks ago. \n" +
+									"     \u2022 '~12 months ago' \u2013 for feeds not updated as of 12 months ago. \n" +
+									"     \u2022 '~^3 days ago' \u2013 for feeds that WERE updated as of 3 days ago (notice the '^'). \n" +
 									" \u25cf Status filtering using special commands prefixed with a single greater-than sign ('>'): \n" +
 									"    \u2022 Use '>unread' for unvisited feeds. \n" +
 									"    \u2022 Use '>read' for visited feeds. \n" +
 									"    \u2022 Use '>error' for feeds that failed to update. \n" +
 									"    \u2022 Use '>load' for feeds that are still loading. \n\n" +
-									"\u2731 Feeds may change their title and/or status after the filter was applied.";
+									"\u2731 Feeds may change their title, update time and/or status after the filter was applied.";
 
 	let TreeItemStatus = Object.freeze({
 		UNDEFINED: -1,
@@ -526,6 +533,7 @@ let rssTreeView = (function() {
 				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > msUpdateTime);
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
+				setTreeItemUpdateDataAttribute(elmLI, updateTime);
 				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, `Update: ${updateTime.toWebExtensionLocaleString()} (${updateTime.getRelativeShortLocaleString()})`);
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
@@ -1179,6 +1187,7 @@ let rssTreeView = (function() {
 						setFeedVisitedState(elmLI, true);
 						updateFeedTitle(elmLI, result.feedData.title);
 						updateFeedStatsFromHistory(elmLI, result.list);
+						setTreeItemUpdateDataAttribute(elmLI, fdDate);
 						setTreeItemTooltipFull(elmLI, result.feedData.title, `Update: ${fdDate.toWebExtensionLocaleString()} (${fdDate.getRelativeShortLocaleString()})`);
 
 						// change the rssListView content only if this is the last user click.
@@ -2111,6 +2120,11 @@ let rssTreeView = (function() {
 		elmLI.title = tooltipText;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function setTreeItemUpdateDataAttribute(elmLI, updateTime) {
+		elmLI.setAttribute("data-updateTime", updateTime.toISOString());
+	}
+
 	//==================================================================================
 	//=== Utils
 	//==================================================================================
@@ -2346,7 +2360,7 @@ let rssTreeView = (function() {
 		let itemsFiltered = false;		// pessimistic
 
 		notifyAppliedFilter(true);
-		m_elmFilterWidget.classList.remove("filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
+		m_elmFilterWidget.classList.remove("filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn", "filterUpdateTimeOn");
 		m_elmTreeRoot.classList.add("hidden");
 
 		if(txtValue !== "") {
@@ -2368,6 +2382,10 @@ let rssTreeView = (function() {
 
 				itemsFiltered = filterTreeItemURL(txtValue.substring(1).trim().toLowerCase());
 
+			} else if(txtValue[0] === "~") {
+
+				itemsFiltered = filterTreeItemUpdateTime(txtValue.substring(1).trim().toLowerCase());
+
 			} else {
 				itemsFiltered = filterTreeItemText(txtValue);
 			}
@@ -2388,7 +2406,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeClearFilter() {
 
-		m_elmFilterWidget.classList.remove("opened", "filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn");
+		m_elmFilterWidget.classList.remove("opened", "filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn", "filterUpdateTimeOn");
 		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
 		m_elmTextFilter.value = "";
 		notifyAppliedFilter(true);
@@ -2437,6 +2455,56 @@ let rssTreeView = (function() {
 		}
 
 		return true;	// itemsFiltered;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function filterTreeItemUpdateTime(txtFilter) {
+
+		m_elmFilterWidget.classList.add("filterUpdateTimeOn");
+
+		const REG_EXP_PATTERN = /^\^?([0-9]+)\s+(s|sec|second|seconds|mi|min|minute|minutes|h|hour|hours|d|day|days|w|week|weeks|mo|mon|month|months|y|year|years)\s+ago$/;
+		let found = txtFilter.match(REG_EXP_PATTERN);
+
+		// match must find a number and a unit name ($1 and $2)
+		if(!!found && found.length === 3) {
+
+			const afterAsOfDate = (txtFilter[0] === '^');
+			const number = parseInt(found[1]);
+			const unit = found[2];
+			let asOfDate = new Date();
+
+			if(["s","sec","second","seconds"].includes(unit)) {
+				asOfDate = new Date(asOfDate.setSeconds(asOfDate.getSeconds()-number));
+			} else if(["mi","min","minute","minutes"].includes(unit)) {
+				asOfDate = new Date(asOfDate.setMinutes(asOfDate.getMinutes()-number));
+			} else if(["h","hour","hours"].includes(unit)) {
+				asOfDate = new Date(asOfDate.setHours(asOfDate.getHours()-number));
+			} else if(["d","day","days"].includes(unit)) {
+				asOfDate = new Date(asOfDate.setDate(asOfDate.getDate()-number));
+			} else if(["w","week","weeks"].includes(unit)) {
+				asOfDate = new Date(asOfDate.setDate(asOfDate.getDate()-(number*7)));
+			} else if(["mo","mon","month","months"].includes(unit)) {
+				asOfDate = new Date(asOfDate.setMonth(asOfDate.getMonth()-number));
+			} else if(["y","year","years"].includes(unit)) {
+				asOfDate = new Date(asOfDate.setFullYear(asOfDate.getFullYear()-number));
+			}
+			//console.log("[Sage-Like] As-Of-Date: ", asOfDate.toWebExtensionLocaleString());
+
+			// select all tree items
+			let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
+
+			const funcUpdatedBeforeDate = (feedUpdateTime, osDate) => (new Date(feedUpdateTime)) > osDate;
+			const funcUpdatedAfterDate = (feedUpdateTime, osDate) => (new Date(feedUpdateTime)) <= osDate;
+			const funcUpdatedDate = (afterAsOfDate ? funcUpdatedAfterDate : funcUpdatedBeforeDate);
+
+			// hide the ones that do not match the filter
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].classList.toggle("filtered", funcUpdatedDate(elms[i].getAttribute("data-UpdateTime"), asOfDate));
+			}
+			return true;		// itemsFiltered
+		}
+
+		return false;		// itemsFiltered
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2563,7 +2631,7 @@ let rssTreeView = (function() {
 			} else {
 
 				// Do NOT notify the filter about changes if the current filter is on feed URLs.
-				// Unlike feed title & feed status, a feed's URL is not modified by tree updates.
+				// Unlike feed title, feed update time & feed status, a feed's URL is not modified by tree updates.
 
 				if(!m_elmFilterWidget.classList.contains("filterUrlOn")) {
 

@@ -219,6 +219,11 @@ html, body {
 	background-color: rgb(255, 190, 255);
 }
 
+#filterWidget.filterUpdateTimeOn #imageFilter,
+#filterWidget.filterUpdateTimeOn #textFilter {
+	background-color: rgb(255, 253, 150);
+}
+
 #checkTreeFeeds {
 	background: transparent url("/icons/reload.png") no-repeat center center;
 }
