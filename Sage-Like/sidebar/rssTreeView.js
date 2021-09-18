@@ -2393,8 +2393,10 @@ let rssTreeView = (function() {
 
 		if (itemsFiltered) {
 			filterEmptyFolderItems();
+			handleFilteredTreeIndicator();
 		} else {
 			unfilterAllTreeItems();
+			handleFilteredTreeIndicator(true);
 			m_isFilterApplied = false;
 		}
 
@@ -2410,6 +2412,7 @@ let rssTreeView = (function() {
 		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
 		m_elmTextFilter.value = "";
 		notifyAppliedFilter(true);
+		handleFilteredTreeIndicator(true);
 		m_isFilterApplied = false;
 
 		internalPrefs.setFeedsFilter("");
@@ -2614,6 +2617,16 @@ let rssTreeView = (function() {
 
 			if(interval === 100) zeroed = 0;		// after 100 intervals do not timeout the process
 		} while (--iterations);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function handleFilteredTreeIndicator(clear = false) {
+		if(clear) {
+			m_elmTreeRoot.classList.remove("filteredItems");
+		} else {
+			let elmFiltered = m_elmTreeRoot.querySelector("li." + slGlobals.CLS_RTV_LI_TREE_ITEM + ".filtered");
+			m_elmTreeRoot.classList.toggle("filteredItems", !!elmFiltered);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

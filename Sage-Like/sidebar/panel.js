@@ -15,6 +15,7 @@ let panel = (function() {
 	let m_elmToolbar;
 
 	let m_elmTree;
+	let m_elmTreeIndicator;
 	let m_elmList;
 
 	let m_panelLayoutThrottler = false;
@@ -98,6 +99,7 @@ let panel = (function() {
 		m_elmToolbar = document.getElementById("toolbar");
 
 		m_elmTree = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
+		m_elmTreeIndicator = document.getElementById("treeIndicator");
 		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
 
 		window.addEventListener("resize", onResize, false);
@@ -241,6 +243,7 @@ let panel = (function() {
 		if (splitterTop > splitterMargin && (m_elmBody.offsetHeight - splitterTop) > splitterMargin) {
 			m_elmSplitter.style.top = splitterTop + "px";
 			m_elmTop.style.height = (m_elmSplitter.offsetTop - m_elmToolbar.offsetHeight) + "px";
+			m_elmTreeIndicator.style.height = (m_elmSplitter.offsetTop - m_elmToolbar.offsetHeight) + "px";
 			m_elmBottom.style.top = (m_elmSplitter.offsetTop + m_elmSplitter.offsetHeight) + "px";
 			m_elmBottom.style.height = (m_elmBody.offsetHeight - (m_elmSplitter.offsetTop + m_elmSplitter.offsetHeight)) + "px";
 
@@ -271,6 +274,8 @@ let panel = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onScrollTop(event) {
+
+		m_elmTreeIndicator.style.top = m_elmTop.scrollTop + "px";
 
 		if(!m_scrollTopThrottler) {
 			m_scrollTopThrottler = true;
