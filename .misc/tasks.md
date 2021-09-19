@@ -905,6 +905,8 @@
 * Refactor 'discoverfeed', 'expandall' and 'collapseall'	=> NO NEED
 * new preference to control if to open sage-like sidebar when a new Fx window is opened => behavior is by firefox design
 * new filter; by update time (prefixed with a '~' or '^') `^\s*[0-9]+\s+(sec|second|seconds|min|minute|minutes|hour|hours|day|days|mon|month|months|year|years)\s+ago\s*$`
+* revisit the toolbar's ‘mark-all-as-read/unread’ functionality - better images? - IT'S GOOD
+* preference to show/hide filtered tree indicator ? => NO
 ---
 
 
@@ -914,11 +916,9 @@
 
 
 ## Next
-* rethink filtered tree indicator color. filter: invert(31%) sepia(92%) saturate(6972%) hue-rotate(354deg) brightness(96%) contrast(123%)"
-* revisit the toolbar's ‘mark-all-as-read/unread’ functionality - better images? -
-* preference to show/hide filtered tree indicator ?
-* feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
+* rethink filtered tree indicator color. filter: invert(31%) sepia(92%) saturate(6972%) hue-rotate(354deg) brightness(96%) contrast(123%)"
+* feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
 * access RSS feeds with credentials (user/password), behind a secure login page.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
