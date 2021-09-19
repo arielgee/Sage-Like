@@ -911,6 +911,7 @@
 
 
 ## Now
+* BUG: filtered tree indicator is not fixed when scrolling the tree
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
@@ -972,3 +973,40 @@
 		* Specifies the directory of the extension's source code: `--source-dir="c:\path\to\extension\source\code\folder"`
 6. example:
 	* `web-ext run --firefox="C:\Program Files\Mozilla Firefox\firefox.exe" --firefox-profile="c:\Documents and Settings\arielg\Application Data\Mozilla\Firefox\Profiles\czx8tcde.default.dev" --source-dir="c:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like" --verbose --browser-console`
+
+
+
+
+
+
+
+
++ panel.css ----------------------------------------------
+
+html, body {
+	margin: 0;
+	box-sizing: border-box;
+
+.toolbar {
+	box-sizing: border-box;
+
+
+
++ rssListView.css ----------------------------------------------
+
+#rssListView {
+	user-select: none;
+
+
+
++ reeTreeView.css ----------------------------------------------
+
+#rssTreeView {
+	user-select: none;
+
+
+
++ rssTreeView.js ----------------------------------------------
+
+function onClickToolbarButton(event) {
+	case "checkTreeFeeds":	browser.tabs.create({ url: browser.runtime.getURL("/sidebar/panel.html") });		break;
