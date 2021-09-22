@@ -917,6 +917,13 @@
 
 
 ## Next
+* ISSUE: panel.setPanelLayout() has code with comment `// HScroll causes an un-nessesery VScroll`
+	* if i remove the tree height setting the <UL>'s height is normal (its content do not overflow and it's not eqal to the top's viewport height)
+	* is v59 there is an HScroll but not in vXX
+	* is the comment stil true?
+	* need to repreduce the behavior mentioned in the comment - may be obsolete
+* Remove Complex Animations From the Flow. position: absolute; or position: fixed; to animated elements like the toolbar's FilterWidget. https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
+* use Document.createDocumentFragment() in loops https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 * rethink filtered tree indicator color. filter: invert(31%) sepia(92%) saturate(6972%) hue-rotate(354deg) brightness(96%) contrast(123%)"
 * feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
