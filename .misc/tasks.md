@@ -908,20 +908,11 @@
 * revisit the toolbar's ‘mark-all-as-read/unread’ functionality - better images? - IT'S GOOD
 * preference to show/hide filtered tree indicator ? => NO
 * filtered tree indicator is not fixed when scrolling the tree - fixed
+* ISSUE: panel.setPanelLayout() has code with comment `// HScroll causes an un-nessesery VScroll` => behavior repreduced. in both v59 and vXX
 ---
 
 
 ## Now
-* ISSUE: panel.setPanelLayout() has code with comment `// HScroll causes an un-nessesery VScroll`
-	* if i remove the tree height setting the <UL>'s height is normal (its content do not overflow and it's not eqal to the top's viewport height)
-	* is v59 there is an HScroll but not in vXX
-	* is the comment stil true?
-	* need to repreduce the behavior mentioned in the comment - may be obsolete
->> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
----
-
-
-## Next
 * replace the tree indicator (the red frame) with an exclemation icon like in the listView
 	<div id="filteredIndicator"><img class="imgFilteredIndicator" src="/icons/blueInfo.png" /></div>
 	#filteredIndicator {
@@ -934,6 +925,11 @@
 		box-sizing: border-box;
 		background-color: transparent;
 	}
+>> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
+---
+
+
+## Next
 * file rssListView.css: for `#listViewStatusbar`, replace `position: fixed;` with `position: absolute;`. This will make the variable `--rlv-scrollbar-width` and `updateLayoutWidth()` redundent.
 	* also in notepad.css the `#helpPopup` should be `position: absolute;`
 * revisit all the `data:image/png;base64` images in css files
