@@ -1,0 +1,46 @@
+panel.html
+	<div id="filteredIndicator" title="Some feeds are filtered"><img class="imgFilteredIndicator" src="/icons/exclamation-red.png" /></div>
+
+
+panel.css
+	--tree-view-scrollbar-width: 0px;
+
+	#filteredIndicator {
+		display: none;
+		position: fixed;
+		top: var(--toolbar-height);		/* from panel.css */
+		right: var(--tree-view-scrollbar-width);
+		box-sizing: border-box;
+		background-color: transparent;
+	}
+
+
+panel.js
+	updateLayoutWidth();				IN => setPanelLayout()
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateLayoutWidth() {
+
+		// set CSS variable accordingly depending if has VScroll
+		if(slUtil.hasVScroll(m_elmTop)) {
+			if(m_elmTop.parentElement.getBoundingClientRect().width !== m_elmTop.scrollWidth) {
+				document.documentElement.style.setProperty("--tree-view-scrollbar-width", slUtil.getScrollbarWidth() + "px");
+			} else {
+				document.documentElement.style.setProperty("--tree-view-scrollbar-width", "0px");
+			}
+		} else {
+			document.documentElement.style.setProperty("--tree-view-scrollbar-width", "0px");
+		}
+	}
+
+	updateLayoutWidth: updateLayoutWidth,
+
+
+rssTreeView.css
+	#rssTreeView.filteredItems + #filteredIndicator {
+		display: block;
+	}
+
+
+rssTreeView.js
+	panel.updateLayoutWidth();				IN => createRSSTree() , expandCollapseAll() , handleTreeFilter()
