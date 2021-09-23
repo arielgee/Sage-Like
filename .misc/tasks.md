@@ -907,21 +907,36 @@
 * new filter; by update time (prefixed with a '~' or '^') `^\s*[0-9]+\s+(sec|second|seconds|min|minute|minutes|hour|hours|day|days|mon|month|months|year|years)\s+ago\s*$`
 * revisit the toolbar's ‘mark-all-as-read/unread’ functionality - better images? - IT'S GOOD
 * preference to show/hide filtered tree indicator ? => NO
+* filtered tree indicator is not fixed when scrolling the tree - fixed
 ---
 
 
 ## Now
-* BUG: filtered tree indicator is not fixed when scrolling the tree
->> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
----
-
-
-## Next
 * ISSUE: panel.setPanelLayout() has code with comment `// HScroll causes an un-nessesery VScroll`
 	* if i remove the tree height setting the <UL>'s height is normal (its content do not overflow and it's not eqal to the top's viewport height)
 	* is v59 there is an HScroll but not in vXX
 	* is the comment stil true?
 	* need to repreduce the behavior mentioned in the comment - may be obsolete
+>> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
+---
+
+
+## Next
+* replace the tree indicator (the red frame) with an exclemation icon like in the listView
+	<div id="filteredIndicator"><img class="imgFilteredIndicator" src="/icons/blueInfo.png" /></div>
+	#filteredIndicator {
+		display: block;
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 20px;
+		height: 20px;
+		box-sizing: border-box;
+		background-color: transparent;
+	}
+* file rssListView.css: for `#listViewStatusbar`, replace `position: fixed;` with `position: absolute;`. This will make the variable `--rlv-scrollbar-width` and `updateLayoutWidth()` redundent.
+	* also in notepad.css the `#helpPopup` should be `position: absolute;`
+* revisit all the `data:image/png;base64` images in css files
 * Remove Complex Animations From the Flow. position: absolute; or position: fixed; to animated elements like the toolbar's FilterWidget. https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
 * use Document.createDocumentFragment() in loops https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
