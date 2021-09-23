@@ -1,7 +1,7 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-	--rlv-scrollbar-width: 0px;
+	--list-view-scrollbar-width: 0px;
 }
 
 #rssListView {
@@ -124,7 +124,7 @@
 #listViewStatusbar {
 	display: none;
 	position: fixed;
-	right: var(--rlv-scrollbar-width);
+	right: var(--list-view-scrollbar-width);
 	bottom: 0;
 	width: 20px;
 	height: 20px;
@@ -145,7 +145,7 @@
 
 #listViewStatusbar[style*="direction: rtl;"] {
 	right: unset;
-	left: var(--rlv-scrollbar-width);
+	left: var(--list-view-scrollbar-width);
 }
 
 #listViewStatusbar.visible {
@@ -153,7 +153,7 @@
 }
 
 #listViewStatusbar:hover {
-	width: calc(100% - var(--rlv-scrollbar-width));
+	width: calc(100% - var(--list-view-scrollbar-width));
 	opacity: 1;
 	background-color: var(--bk-color-info-window);
 }

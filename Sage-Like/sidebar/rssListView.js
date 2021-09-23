@@ -795,12 +795,12 @@ let rssListView = (function() {
 		// set listview's CSS variable accordingly depending if has VScroll
 		if(slUtil.hasVScroll(m_elmList)) {
 			if(m_elmList.parentElement.getBoundingClientRect().width > m_elmList.scrollWidth) {
-				document.documentElement.style.setProperty("--rlv-scrollbar-width", slUtil.getScrollbarWidth() + "px");
+				document.documentElement.style.setProperty("--list-view-scrollbar-width", slUtil.getScrollbarWidth() + "px");
 			} else {
-				document.documentElement.style.setProperty("--rlv-scrollbar-width", "0px");
+				document.documentElement.style.setProperty("--list-view-scrollbar-width", "0px");
 			}
 		} else {
-			document.documentElement.style.setProperty("--rlv-scrollbar-width", "0px");
+			document.documentElement.style.setProperty("--list-view-scrollbar-width", "0px");
 		}
 	}
 
