@@ -147,10 +147,10 @@
 					document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
 					elmFeedTitle = createFeedTitleElements(result.feedData);
 
-					let elmFeedContent = document.createElement("div");
-					elmFeedContent.id = "feedContent";
-
 					if(result.list.length > 0) {
+
+						let elmFeedContent = document.createElement("div");
+						elmFeedContent.id = "feedContent";
 
 						const FIRST_FAST_LOAD_PACK_SIZE = 50;
 
