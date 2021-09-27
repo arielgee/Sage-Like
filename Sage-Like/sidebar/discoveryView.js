@@ -271,7 +271,7 @@ let discoveryView = (function() {
 		items.sort((a, b) => a.getAttribute("data-index") > b.getAttribute("data-index") ? 1 : -1);
 
 		for(let i=0, len=items.length; i<len; i++) {
-			m_elmDiscoverFeedsList.appendChild(m_elmDiscoverFeedsList.removeChild(items[i]));
+			m_elmDiscoverFeedsList.appendChild(items[i]);
 		}
 	}
 
