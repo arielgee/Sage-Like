@@ -262,6 +262,7 @@
 				// empty list; remove busyContainer or if it was filled
 				emptyFeedList();
 				let isListEmpty = true;
+				let frag = document.createDocumentFragment();
 
 				for (let idx=0; idx<feedsLen; idx++) {
 
@@ -276,7 +277,7 @@
 						// type is needed in createTagLI().
 						// + All this is handled in createTagLI()
 
-						m_elmPageFeedsList.appendChild(createTagLI(feed));
+						frag.appendChild(createTagLI(feed));
 						isListEmpty = false;
 					} else if(feed.status === "error") {
 						console.log("[Sage-Like]", feed.url.toString(), feed.message);
@@ -287,6 +288,7 @@
 					document.getElementById("noticeContainer").style.display = "block";
 					browser.runtime.sendMessage({ id: slGlobals.MSG_ID_WAIT_AND_HIDE_POPUP, tabId: currentTabId, msWait: 7000 });
 				} else {
+					m_elmPageFeedsList.appendChild(frag);
 					m_elmButtonAddFeeds.disabled = false;
 				}
 

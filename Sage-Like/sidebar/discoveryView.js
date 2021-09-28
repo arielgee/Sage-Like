@@ -270,9 +270,12 @@ let discoveryView = (function() {
 		let items = Array.from(m_elmDiscoverFeedsList.children);
 		items.sort((a, b) => a.getAttribute("data-index") > b.getAttribute("data-index") ? 1 : -1);
 
+		let frag = document.createDocumentFragment();
+		frag.append(...m_elmDiscoverFeedsList.children);
 		for(let i=0, len=items.length; i<len; i++) {
-			m_elmDiscoverFeedsList.appendChild(items[i]);
+			frag.appendChild(items[i]);
 		}
+		m_elmDiscoverFeedsList.appendChild(frag);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

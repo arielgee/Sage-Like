@@ -142,16 +142,19 @@ let rssListView = (function() {
 		const FIRST_FAST_LOAD_PACK_SIZE = 1000;
 
 		disposeList();
+		let frag = document.createDocumentFragment();
 		if(list.length <= FIRST_FAST_LOAD_PACK_SIZE) {
 			for(let i=0, len=list.length; i<len; i++) {
-				appendTagIL(i+1, list[i]);
+				frag.appendChild(createTagIL(i+1, list[i]));
 			}
+			m_elmList.appendChild(frag);
 		} else {
 			for(let i=0; i<FIRST_FAST_LOAD_PACK_SIZE; i++) {
-				appendTagIL(i+1, list[i]);
+				frag.appendChild(createTagIL(i+1, list[i]));
 			}
+			m_elmList.appendChild(frag);
 			for(let i=FIRST_FAST_LOAD_PACK_SIZE, len=list.length; i<len; i++) {
-				setTimeout(() => appendTagIL(i+1, list[i]), 10);
+				setTimeout(() => m_elmList.appendChild(createTagIL(i+1, list[i]), 10));
 			}
 		}
 		m_elmLITreeFeed = elmLITreeFeed;
@@ -167,7 +170,7 @@ let rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function appendTagIL(index, item) {
+	function createTagIL(index, item) {
 
 		let title = item.title;
 		let desc = item.description;
@@ -202,7 +205,7 @@ let rssListView = (function() {
 			elm.setAttribute("data-attach-mimetypes", atts.slice(0, -1));	// remove last ','
 		}
 
-		m_elmList.appendChild(elm);
+		return elm;
 	}
 
 	//==================================================================================
@@ -646,13 +649,17 @@ let rssListView = (function() {
 
 			let mimeTypes = elmLI.getAttribute("data-attach-mimetypes").split(","); /* .filter(e => e.length > 0);*/
 
-			while(m_elmFeedItemDescAttachments.firstElementChild) {
-				m_elmFeedItemDescAttachments.removeChild(m_elmFeedItemDescAttachments.firstElementChild	);
+			let frag = document.createDocumentFragment();
+			frag.append(...m_elmFeedItemDescAttachments.children);
+
+			while(frag.firstElementChild) {
+				frag.removeChild(frag.firstElementChild);
 			}
 
 			for(let i=0, len=mimeTypes.length; i<len; i++) {
-				(m_elmFeedItemDescAttachments.appendChild(document.createElement("img"))).src = slUtil.getMimeTypeIconPath(mimeTypes[i]);
+				(frag.appendChild(document.createElement("img"))).src = slUtil.getMimeTypeIconPath(mimeTypes[i]);
 			}
+			m_elmFeedItemDescAttachments.appendChild(frag);
 
 			m_elmFeedItemDescAttachments.style.borderColor = getComputedStyle(m_elmFeedItemDescAttachments).getPropertyValue("color").replace(/^(rgb)(\([0-9, ]+)(\))$/, "$1a$2, 0.5$3");
 			m_elmFeedItemDescAttachments.classList.add("notEmpty");

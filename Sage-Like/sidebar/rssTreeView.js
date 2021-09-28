@@ -312,9 +312,11 @@ let rssTreeView = (function() {
 			browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
 				let folderChildren = bookmarks[0].children;
 				if (!!folderChildren) {		// do this to skip displaying the parent folder
+					let frag = document.createDocumentFragment();
 					for (let i=0, len=folderChildren.length; i<len; i++) {
-						createTreeItem(m_elmTreeRoot, folderChildren[i]);
+						createTreeItem(frag, folderChildren[i]);
 					}
+					m_elmTreeRoot.appendChild(frag);
 				}
 
 				// HScroll causes an un-nessesery VScroll. so if has HScroll reduse height to accommodate
@@ -1425,17 +1427,19 @@ let rssTreeView = (function() {
 			return new Promise(async (resolve, reject) => {
 
 				let created, elmLI;
+				let frag = document.createDocumentFragment();
 				for(let i=0, len=bookmarksList.length; i<len; i++) {
 
 					created = await browser.bookmarks.create(bookmarksList[i]);
 
 					elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FEED, created.url);
 					elmLI.classList.add("blinkNew");
-					m_elmTreeRoot.appendChild(elmLI);
+					frag.appendChild(elmLI);
 
 					m_objTreeFeedsData.set(created.id);
 					setFeedVisitedState(elmLI, false);
 				}
+				m_elmTreeRoot.appendChild(frag);
 
 				elmLI.scrollIntoView({behavior: "smooth"});		// when loop terminates the elmLI is the last LI appended
 				blinkNewlyAddedFeeds();

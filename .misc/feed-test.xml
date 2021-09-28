@@ -119,6 +119,8 @@
             <description>some feed's description</description>
             <link>https://www.digitalwhisper.co.il/0xA4/</link>
             <pubDate>Tue, 26 Oct 2047 14:03:25 -0500</pubDate>
+            <!-- <enclosure url="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/mp4" /> -->
+            <enclosure url="https://dts.podtrac.com/redirect.mp3/files.lagedernation.org/lagedernation/LdN259.mp3?ptm_source=feed&amp;ptm_context=mp3&amp;ptm_file=LdN259.mp3" type="audio/mpeg" />
         </item>
         <item>
             <title>some feed 3</title>

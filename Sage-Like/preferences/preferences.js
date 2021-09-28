@@ -1056,23 +1056,23 @@ let preferences = (function() {
 
 		return new Promise((resolve) => {
 
-			// hide element to reduce repaint/reflow
-			m_elmRootFeedsFolder.style.display = "none";
+			let frag = document.createDocumentFragment();
+			frag.append(...m_elmRootFeedsFolder.children);
 
-			while(m_elmRootFeedsFolder.firstElementChild) {
-				m_elmRootFeedsFolder.removeChild(m_elmRootFeedsFolder.firstElementChild);
+			while(frag.firstElementChild) {
+				frag.removeChild(frag.firstElementChild);
 			}
 
 			browser.bookmarks.getSubTree(slGlobals.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
 
 				let elmOption = createTagOption(slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
-				m_elmRootFeedsFolder.appendChild(elmOption);
+				frag.appendChild(elmOption);
 
 				let folderChildren = bookmarks[0].children;
 				for(let i=0, len=folderChildren.length; i<len; i++) {
-					createSelectFeedsFolderElement(folderChildren[i], 0);
+					createSelectFeedsFolderSingleElement(frag, folderChildren[i], 0);
 				}
-				m_elmRootFeedsFolder.style.display = "block";
+				m_elmRootFeedsFolder.appendChild(frag);
 				resolve();
 			});
 
@@ -1080,7 +1080,7 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createSelectFeedsFolderElement(bookmarkItem, indent) {
+	function createSelectFeedsFolderSingleElement(frag, bookmarkItem, indent) {
 
 		if(bookmarkItem.type === "folder") {
 			let elmOption = createTagOption(bookmarkItem.id, "\u2003".repeat(indent) + "\u276F\u2002" + bookmarkItem.title);	/* &emsp; ❯ &ensp; */
@@ -1090,10 +1090,10 @@ let preferences = (function() {
 				elmNoItem.textContent = "\u2003\u2205";		/* &emsp; ∅ */
 				elmOption.appendChild(elmNoItem);
 			}
-			m_elmRootFeedsFolder.appendChild(elmOption);
+			frag.appendChild(elmOption);
 			indent++;
-			for(let child of bookmarkItem.children) {
-				createSelectFeedsFolderElement(child, indent);
+			for(let i=0, len=bookmarkItem.children.length; i<len; i++) {
+				createSelectFeedsFolderSingleElement(frag, bookmarkItem.children[i], indent);
 			}
 			indent--;
 		}
