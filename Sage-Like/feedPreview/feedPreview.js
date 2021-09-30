@@ -20,6 +20,7 @@
 	let m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
 	let m_markUrlsAsVisited = prefs.MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.none;
 	let m_feedItemObserver = null;
+	let m_attContainerObserver = null;
 
 	initialization();
 
@@ -111,6 +112,20 @@
 			}
 		}
 		addFeedItemUrlsToBrowserHistory(list);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onAttContainerIntersectionObserver(entries) {
+		for(let i=0, len=entries.length; i<len; i++) {
+			if(entries[i].isIntersecting) {
+				const attContainer = entries[i].target;
+				const mediaObjects = attContainer.querySelectorAll("audio.feedItemAttachmentMediaObject,video.feedItemAttachmentMediaObject");
+				for(let j=0, len=mediaObjects.length; j<len; j++) {
+					mediaObjects[j].src = decodeURIComponent(mediaObjects[j].getAttribute("data-url"));
+				}
+				m_attContainerObserver.unobserve(attContainer);
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -308,6 +323,11 @@
 		if(feedItem.attachments.length > 0) {
 			elmFeedItemAttachmentsContainer = createFeedItemAttachmentsElements(feedItem.attachments);
 			elmFeedItem.appendChild(elmFeedItemAttachmentsContainer);
+
+			if(!!!m_attContainerObserver) {
+				m_attContainerObserver = new IntersectionObserver(onAttContainerIntersectionObserver, { threshold: [0] });
+			}
+			m_attContainerObserver.observe(elmFeedItemAttachmentsContainer);
 		}
 
 		elmFeedItemTitle.appendChild(elmFeedItemLink);
@@ -379,9 +399,11 @@
 			} else {
 				elmFeedItemAttachmentMedia = document.createElement(mediaType);
 				elmFeedItemAttachmentMedia.className = `feedItemAttachmentMediaObject`;	// Title case
-				elmFeedItemAttachmentMedia.src = att.url;		// when using <source> for <video>/<audio>, 'error' event is not raised when resource fail to load. - elmFeedItemAttachmentMediaPlayer.appendChild(document.createElement("source")).src = att.url;
 				if(["audio", "video"].includes(mediaType)) {
+					elmFeedItemAttachmentMedia.setAttribute("data-url", encodeURIComponent(att.url));	// audio/video resource is loaded when element is visible via IntersectionObserver
 					elmFeedItemAttachmentMedia.controls = true;
+				} else {
+					elmFeedItemAttachmentMedia.src = att.url;	// image are loaded on page load
 				}
 				elmFeedItemAttachmentMedia.addEventListener("error", onErrorMedia);
 				elmFeedItemAttachmentContent.appendChild(elmFeedItemAttachmentMedia);

@@ -910,11 +910,11 @@
 * filtered tree indicator is not fixed when scrolling the tree - fixed
 * ISSUE: panel.setPanelLayout() has code with comment `// HScroll causes an un-nessesery VScroll` => behavior repreduced. in both v59 and vXX
 * use Document.createDocumentFragment() in loops https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
+* solve the "will not play" issue for audio/video attachments => set the audio/video url to 'data-' attribute and set to .src via an IntersectionObserver
 ---
 
 
 ## Now
-* solve the "will not play" issue for audio/video attachments => set the audio/video url to 'data-' attribute and set to .src via an IntersectionObserver
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
