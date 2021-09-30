@@ -914,20 +914,13 @@
 
 
 ## Now
+* solve the "will not play" issue for audio/video attachments => set the audio/video url to 'data-' attribute and set to .src via an IntersectionObserver
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* solve the "will not play" issue for audio/video attachments in feedPreview
-	* set the audio/video url to 'data-src' attribute and set to .src on hover/setFocus
-	* try to create a frame for audio/video attachments instead of audio/video objects.
-			// let iframe = document.createElement('iframe');
-			// iframe.src = att.url;
-			// iframe.className = `feedItemAttachment ${mediaType} idx${i}`;
-			// iframe.setAttribute("data-title", getAttachmentTitle(att));
-			// elmFeedItemAttachmentsContainer.appendChild(iframe);
-* when tree is scrolled down the #treeIndicator prevent the scroll-into-view after filtering. so tree looks empty
+* when tree is scrolled down, the #treeIndicator prevent the scroll-into-view after filtering. so tree looks empty
 * 16x16 background image in the UL
 * replace the tree indicator (the red frame) with an exclemation icon like in the listView
 	<div id="filteredIndicator"><img class="imgFilteredIndicator" src="/icons/blueInfo.png" /></div>

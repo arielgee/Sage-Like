@@ -300,15 +300,16 @@
 
 		handleAbnormalURLs(elmFeedItemContent);
 
-		elmFeedItemAttachmentsContainer = createFeedItemAttachmentsElements(feedItem.attachments);
-
 		elmFeedItemContainer.appendChild(elmFeedItemNumber);
 		elmFeedItemContainer.appendChild(elmFeedItem);
 		elmFeedItem.appendChild(elmFeedItemTitle);
 		elmFeedItem.appendChild(elmFeedItemContent);
-		if(elmFeedItemAttachmentsContainer.children.length > 0) {
+
+		if(feedItem.attachments.length > 0) {
+			elmFeedItemAttachmentsContainer = createFeedItemAttachmentsElements(feedItem.attachments);
 			elmFeedItem.appendChild(elmFeedItemAttachmentsContainer);
 		}
+
 		elmFeedItemTitle.appendChild(elmFeedItemLink);
 		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
 		elmFeedItemLastUpdatedText.appendChild(elmFeedItemLastUpdatedTime);
@@ -334,10 +335,11 @@
 		let elmFeedItemAttachmentImage;
 		let elmFeedItemAttachmentMedia;
 		let elmFeedItemAttachmentTitle;
-		let elmFeedItemAttachmentsContainer = document.createElement("div");
+		let elmFeedItemAttachmentsContainer;
 		let att;
 		let mediaType;
 
+		elmFeedItemAttachmentsContainer = document.createElement("div");
 		elmFeedItemAttachmentsContainer.className = "feedItemAttachmentsContainer";
 
 		for(let i=0, len=attachments.length; i<len; i++) {
