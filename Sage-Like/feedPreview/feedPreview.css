@@ -47,7 +47,7 @@ body {
 	height: 16px;
 	max-width: 55%;
 	max-height: 95%;
-	background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TxSIVByuIKGSoThaKijhKFYtgobQVWnUwufQLmjQkKS6OgmvBwY/FqoOLs64OroIg+AHi5uak6CIl/i8ptIjx4Lgf7+497t4BQqPCVLMrCqiaZaTiMTGbWxV7XuHHIAIYRVRipp5IL2bgOb7u4ePrXYRneZ/7c/QpeZMBPpF4jumGRbxBPLNp6Zz3iUOsJCnE58QTBl2Q+JHrsstvnIsOCzwzZGRS88QhYrHYwXIHs5KhEk8ThxVVo3wh67LCeYuzWqmx1j35C4N5bSXNdZojiGMJCSQhQkYNZVRgIUKrRoqJFO3HPPzDjj9JLplcZTByLKAKFZLjB/+D392ahalJNykYA7pfbPtjDOjZBZp12/4+tu3mCeB/Bq60tr/aAGY/Sa+3tfAR0L8NXFy3NXkPuNwBhp50yZAcyU9TKBSA9zP6phwwcAv0rrm9tfZx+gBkqKvlG+DgEBgvUva6x7sDnb39e6bV3w+c4HK4YgSqvgAAAAZiS0dEAMgAyADIKiWVHwAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+UDFQoABdfHjLUAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAOklEQVQ4y2NgYGCoZ2Bg+E8mrmeAMsgF/5kYKAQsyKZBaUYiXcXIwMDAQLELRsNgNAwGTxg0UOCKBgC9Uh8GFtIW7QAAAABJRU5ErkJggg==") no-repeat left top;
+	background: transparent url("/icons/feed-preview-jump-list.png") no-repeat left top;
 	cursor: pointer;
 	transition: all 100ms linear;
 	z-index: 1;

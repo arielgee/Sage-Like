@@ -911,6 +911,7 @@
 * ISSUE: panel.setPanelLayout() has code with comment `// HScroll causes an un-nessesery VScroll` => behavior repreduced. in both v59 and vXX
 * use Document.createDocumentFragment() in loops https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
 * solve the "will not play" issue for audio/video attachments => set the audio/video url to 'data-' attribute and set to .src via an IntersectionObserver
+* revisit all the `data:image/png;base64` images in css files
 ---
 
 
@@ -920,32 +921,32 @@
 
 
 ## Next
-* when tree is scrolled down, the #treeIndicator prevent the scroll-into-view after filtering. so tree looks empty
-* 16x16 background image in the UL
-* replace the tree indicator (the red frame) with an exclemation icon like in the listView
-	<div id="filteredIndicator"><img class="imgFilteredIndicator" src="/icons/blueInfo.png" /></div>
-	#filteredIndicator {
-		display: block;
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		width: 20px;
-		height: 20px;
-		box-sizing: border-box;
-		background-color: transparent;
-	}
+* tree indicator
+	* when tree is scrolled down, the #treeIndicator prevent the scroll-into-view after filtering. so tree looks empty
+	* 16x16 background image in the UL
+	* replace the tree indicator (the red frame) with an exclemation icon like in the listView
+		<div id="filteredIndicator"><img class="imgFilteredIndicator" src="/icons/blueInfo.png" /></div>
+		#filteredIndicator {
+			display: block;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 20px;
+			height: 20px;
+			box-sizing: border-box;
+			background-color: transparent;
+		}
+	* rethink filtered tree indicator color. filter: invert(31%) sepia(92%) saturate(6972%) hue-rotate(354deg) brightness(96%) contrast(123%)"
 * file rssListView.css: for `#listViewStatusbar`, replace `position: fixed;` with `position: absolute;`. This will make the variable `--list-view-scrollbar-width` and `updateLayoutWidth()` redundent.
 	* also in notepad.css the `#helpPopup` should be `position: absolute;`
-* revisit all the `data:image/png;base64` images in css files
 * Remove Complex Animations From the Flow. position: absolute; or position: fixed; to animated elements like the toolbar's FilterWidget. https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
-* if the sidebar is loaded in a tab's page the extension can be used in mobile? (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 * Move all --xxxxx-scrollbar-width to panel.css.Also refactor the names
 * method to remove all children of an element ?
 		// let frag = document.createDocumentFragment();
 		// frag.append(...m_elmTreeRoot.children);
 		// frag = null;
-* rethink filtered tree indicator color. filter: invert(31%) sepia(92%) saturate(6972%) hue-rotate(354deg) brightness(96%) contrast(123%)"
 * feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
+* if the sidebar is loaded in a tab's page the extension can be used in mobile? (see CSS rules at the end of this file) (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 * access RSS feeds with credentials (user/password), behind a secure login page.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
