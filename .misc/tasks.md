@@ -912,6 +912,8 @@
 * use Document.createDocumentFragment() in loops https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
 * solve the "will not play" issue for audio/video attachments => set the audio/video url to 'data-' attribute and set to .src via an IntersectionObserver
 * revisit all the `data:image/png;base64` images in css files
+* when clearing an element with a while loop, lastElementChild should be easier/faster then firstElementChild. (computer-science 101: remove last element from a link-list) => NO. tested on v92. firstElementChild is faster.
+* method to remove all children of an element using `fragment.append(...m_elm.children)` ? ==> NO. tested and its not faster.
 ---
 
 
@@ -941,11 +943,6 @@
 	* also in notepad.css the `#helpPopup` should be `position: absolute;`
 * Remove Complex Animations From the Flow. position: absolute; or position: fixed; to animated elements like the toolbar's FilterWidget. https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
 * Move all --xxxxx-scrollbar-width to panel.css.Also refactor the names
-* method to remove all children of an element ?
-		// let frag = document.createDocumentFragment();
-		// frag.append(...m_elmTreeRoot.children);
-		// frag = null;
-	* when clearing an element with a while loop, use lastElementChild instead of firstElementChild. computer-science 101 its easier to remove last element from a list then the first one.
 * feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
 * if the sidebar is loaded in a tab's page the extension can be used in mobile? (see CSS rules at the end of this file) (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 * access RSS feeds with credentials (user/password), behind a secure login page.
