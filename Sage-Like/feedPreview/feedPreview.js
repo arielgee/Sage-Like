@@ -119,7 +119,7 @@
 		for(let i=0, len=entries.length; i<len; i++) {
 			if(entries[i].isIntersecting) {
 				const attContainer = entries[i].target;
-				const mediaObjects = attContainer.querySelectorAll("audio.feedItemAttachmentMediaObject,video.feedItemAttachmentMediaObject");
+				const mediaObjects = attContainer.querySelectorAll(".feedItemAttachmentMediaObject");
 				for(let j=0, len=mediaObjects.length; j<len; j++) {
 					mediaObjects[j].src = decodeURIComponent(mediaObjects[j].getAttribute("data-url"));
 				}
@@ -398,12 +398,10 @@
 				elmFeedItemAttachmentContent.appendChild(elmFeedItemAttachmentImage);
 			} else {
 				elmFeedItemAttachmentMedia = document.createElement(mediaType);
-				elmFeedItemAttachmentMedia.className = `feedItemAttachmentMediaObject`;	// Title case
+				elmFeedItemAttachmentMedia.className = `feedItemAttachmentMediaObject`;
+				elmFeedItemAttachmentMedia.setAttribute("data-url", encodeURIComponent(att.url));	// media resources are loaded (.src = att.url) when element is visible via IntersectionObserver
 				if(["audio", "video"].includes(mediaType)) {
-					elmFeedItemAttachmentMedia.setAttribute("data-url", encodeURIComponent(att.url));	// audio/video resource is loaded when element is visible via IntersectionObserver
 					elmFeedItemAttachmentMedia.controls = true;
-				} else {
-					elmFeedItemAttachmentMedia.src = att.url;	// image are loaded on page load
 				}
 				elmFeedItemAttachmentMedia.addEventListener("error", onErrorMedia);
 				elmFeedItemAttachmentContent.appendChild(elmFeedItemAttachmentMedia);
