@@ -479,6 +479,8 @@ input[type="color"].disabled {
 }
 
 .preferenceOverlay {
+	--size-image: 30px;
+	--margin-left-children: 10px;
 	display: flex;
 	justify-content: flex-start;
 	position: absolute;
@@ -499,12 +501,13 @@ input[type="color"].disabled {
 }
 
 .busyAnimPrefOverlay {
-	--size-image: 30px;
 	--color-image: white;
 	display: none;
 	width: var(--size-image);
 	height: var(--size-image);
-	margin: auto 0 auto 10px;
+	position: absolute;		/* performance: remove animations from the flow */
+	top: calc(50% - (var(--size-image) / 2));
+	margin-left: var(--margin-left-children);
 	border-radius: 50%;
 	border: 5px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
@@ -521,7 +524,7 @@ input[type="color"].disabled {
 
 .processingMsgPrefOverlay {
 	display: none;
-	margin: auto auto auto 10px;
+	margin: auto auto auto calc(var(--size-image) + (var(--margin-left-children) * 2));
 	font-weight: bold;
 	letter-spacing: 0.7px;
 	color: white;

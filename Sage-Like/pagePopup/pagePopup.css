@@ -37,13 +37,17 @@ body {
 	padding: 12px;
 }
 
-#busyAnimLoading {
+#busyContainer {
 	--size-image: 32px;
+}
+
+#busyAnimLoading {
 	--color-image: wheat;
 	display: block;
 	width: var(--size-image);
 	height: var(--size-image);
-	margin: 0 auto;
+	position: fixed;		/* performance: remove animations from the flow */
+	left: calc(50% - (var(--size-image) / 2));
 	border-radius: 50%;
 	border: 6px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
@@ -61,6 +65,7 @@ body {
 	color: wheat;
 	line-height: 180%;
 	white-space: pre-wrap;
+	margin-top: var(--size-image);
 }
 
 #noticeContainer {

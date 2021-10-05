@@ -136,12 +136,14 @@ body {
 }
 
 #busyAnimLoading {
-	--size-image: 32px;
+	--size-image: 44px;
 	--color-image: #000000;
 	display: block;
 	width: var(--size-image);
 	height: var(--size-image);
-	margin: 0 auto;
+	box-sizing: border-box;
+	position: fixed;		/* performance: remove animations from the flow */
+	left: calc(50% - (var(--size-image) / 2));
 	border-radius: 50%;
 	border: 6px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;

@@ -399,7 +399,9 @@ html, body {
 	display: none;
 	width: var(--size-image);
 	height: var(--size-image);
-	margin: 10% auto auto auto;
+	position: fixed;		/* performance: remove animations from the flow */
+	left: calc(50% - (var(--size-image) / 2));
+	margin-top: 10%;
 	border-radius: 50%;
 	border: 8px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
