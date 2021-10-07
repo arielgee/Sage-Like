@@ -8,17 +8,6 @@
 	--url-img-tree-item-error: url("/icons/error-0.png");
 }
 
-#treeIndicator {
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	pointer-events: none;
-	box-shadow: inset 0 0 3px 1px red;
-}
-
 #rssTreeView {
 	margin: 0;
 	padding: 4px;
@@ -27,9 +16,6 @@
 	background-color: var(--bk-color-window);
 	unicode-bidi: embed;
 	line-height: var(--line-height-rss-view);
-}
-#rssTreeView.filteredItems + #treeIndicator {
-	display: block;
 }
 
 #rssTreeView ul {
