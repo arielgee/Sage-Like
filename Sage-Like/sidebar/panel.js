@@ -254,7 +254,8 @@ let panel = (function() {
 			internalPrefs.setSplitterTop(splitterTop);
 		}
 
-		// set listview's CSS variable accordingly depending if has VScroll
+		// set CSS variables accordingly depending if has VScroll
+		rssTreeView.updateLayoutWidth();
 		rssListView.updateLayoutWidth();
 
 		// side bar resizing escapes the contextMenu and the infoBubble

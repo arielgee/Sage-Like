@@ -1,6 +1,8 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
+	--tree-view-scrollbar-width: 0px;
+
 	--url-img-open-folder: url("/icons/open-0.png");
 	--url-img-closed-folder: url("/icons/closed-0.png");
 	--url-img-tree-item: url("/icons/rss-0.png");
@@ -150,4 +152,26 @@
 #rssTreeView.hidden,
 #rssTreeView li.rtvTreeItem.filtered {
 	display: none;
+}
+
+#treeViewIndicator {
+	display: none;
+	position: fixed;
+	right: var(--tree-view-scrollbar-width);
+	top: var(--toolbar-height);
+	width: 16px;
+	height: 16px;
+	opacity: 0.45;
+}
+#treeViewIndicator:hover {
+	opacity: 1;
+}
+
+#rssTreeView.filteredItems + #treeViewIndicator {
+	display: block;
+}
+
+#top[style*="direction: rtl;"] > #treeViewIndicator {
+	right: unset;
+	left: var(--tree-view-scrollbar-width);;
 }

@@ -1522,6 +1522,7 @@ let rssTreeView = (function() {
 						elmLI.parentElement.insertBefore(newElm, elmLI);
 					}
 
+					updateLayoutWidth();
 					setFeedVisitedState(newElm, false);
 					updateTreeBranchFoldersStats(newElm);
 					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle, openInFeedPreview: openInFeedPreview });
@@ -1555,6 +1556,7 @@ let rssTreeView = (function() {
 
 					m_elmTreeRoot.appendChild(newElm);
 
+					updateLayoutWidth();
 					setFeedVisitedState(newElm, false);
 					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle, openInFeedPreview: openInFeedPreview });
 					newElm.focus();
@@ -1705,6 +1707,7 @@ let rssTreeView = (function() {
 						elmDeletedFolderUL.removeChild(elmLI);
 						updateTreeBranchFoldersStats(elmDeletedFolderUL);
 						m_objTreeFeedsData.remove(elmLI.id);
+						updateLayoutWidth();
 
 					}).catch((error) => {
 						InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+click on toolbar button <b>Check feeds</b> to reload the sidebar.", undefined, true, false, 4000)
@@ -2002,6 +2005,7 @@ let rssTreeView = (function() {
 				m_objOpenTreeFolders.set(elm.id);
 				elm.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
 			}
+			updateLayoutWidth();
 		}
 	}
 
@@ -2021,6 +2025,7 @@ let rssTreeView = (function() {
 				setFolderVisibility(elm, false);
 				m_objOpenTreeFolders.remove(elm.id);
 			}
+			updateLayoutWidth();
 		}
 	}
 
@@ -2405,8 +2410,8 @@ let rssTreeView = (function() {
 		}
 
 		m_elmTreeRoot.classList.remove("hidden");
-
 		internalPrefs.setFeedsFilter(txtValue);
+		updateLayoutWidth();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2729,6 +2734,28 @@ let rssTreeView = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function updateLayoutWidth() {
+
+		/*
+			Since the CSS varaiable `--tree-view-scrollbar-width` is only used (for now) when indicating that
+			the tree is filtered, do not modify its value when no filter is applied.
+		*/
+		if(m_isFilterApplied) {
+
+			// set treeview's CSS variable accordingly depending if has VScroll
+			if(slUtil.hasVScroll(m_elmTreeRoot)) {
+				if(m_elmTreeRoot.parentElement.getBoundingClientRect().width > m_elmTreeRoot.scrollWidth) {
+					document.documentElement.style.setProperty("--tree-view-scrollbar-width", slUtil.getScrollbarWidth() + "px");
+				} else {
+					document.documentElement.style.setProperty("--tree-view-scrollbar-width", "0px");
+				}
+			} else {
+				document.documentElement.style.setProperty("--tree-view-scrollbar-width", "0px");
+			}
+		}
+	}
+
 	return {
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
@@ -2747,6 +2774,7 @@ let rssTreeView = (function() {
 		updateTreeItemStats: updateTreeItemStats,
 		getTreeItemText: getTreeItemText,
 		disable: disable,
+		updateLayoutWidth: updateLayoutWidth,
 	};
 
 })();

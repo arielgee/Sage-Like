@@ -915,6 +915,9 @@
 * when clearing an element with a while loop, lastElementChild should be easier/faster then firstElementChild. (computer-science 101: remove last element from a link-list) => NO. tested on v92. firstElementChild is faster.
 * method to remove all children of an element using `fragment.append(...m_elm.children)` ? ==> NO. tested and its not faster.
 * Remove Complex Animations From the Flow. position: absolute; or position: fixed; to animated elements like the toolbar's FilterWidget. https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
+* file rssListView.css: for `#listViewStatusbar`, replace `position: fixed;` with `position: absolute;`. This will make the variable `--list-view-scrollbar-width` and `updateLayoutWidth()` redundent. also `#helpPopup` in notepad.css ==> NO scrolling is a problem
+* tree indicator: replace the tree indicator (the red frame) with an exclemation icon like in the listView
+* Move all --xxxxx-scrollbar-width to panel.css.Also refactor the names => No to moving variables to panel.css.
 ---
 
 
@@ -924,27 +927,21 @@
 
 
 ## Next
-* tree indicator
-	* when tree is scrolled down, the #treeIndicator prevent the scroll-into-view after filtering. so tree looks empty
-	* 16x16 background image in the UL
-	* replace the tree indicator (the red frame) with an exclemation icon like in the listView
-		<div id="filteredIndicator"><img class="imgFilteredIndicator" src="/icons/blueInfo.png" /></div>
-		#filteredIndicator {
-			display: block;
-			position: absolute;
-			right: 0;
-			bottom: 0;
-			width: 20px;
-			height: 20px;
-			box-sizing: border-box;
-			background-color: transparent;
+* replace updateLayoutWidth()/setEditorScrollbarWidth with slUtil.setElementScrollbarWidthCSSVariable(element, cssVariableName) IF THE `!==` IN notepad IS CLEARED OUT
+	function setElementScrollbarWidthCSSVariable(elm, cssVariableName) {
+		// set CSS variable accordingly depending if has VScroll
+		if(hasVScroll(elm)) {
+			if(elm.parentElement.getBoundingClientRect().width > elm.scrollWidth) {
+				elm.ownerDocument.documentElement.style.setProperty(cssVariableName, getScrollbarWidth() + "px");
+			} else {
+				elm.ownerDocument.documentElement.style.setProperty(cssVariableName, "0px");
+			}
+		} else {
+			elm.ownerDocument.documentElement.style.setProperty(cssVariableName, "0px");
 		}
-	* rethink filtered tree indicator color. filter: invert(31%) sepia(92%) saturate(6972%) hue-rotate(354deg) brightness(96%) contrast(123%)"
-* file rssListView.css: for `#listViewStatusbar`, replace `position: fixed;` with `position: absolute;`. This will make the variable `--list-view-scrollbar-width` and `updateLayoutWidth()` redundent.
-	* also in notepad.css the `#helpPopup` should be `position: absolute;`
-* Move all --xxxxx-scrollbar-width to panel.css.Also refactor the names
-* feedPreview: the attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
-* if the sidebar is loaded in a tab's page the extension can be used in mobile? (see CSS rules at the end of this file) (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
+	}
+* feedPreview: Attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
+* Support mobile: if the sidebar is loaded in a tab's page the extension can be used in mobile? (see CSS rules at the end of this file) (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 * access RSS feeds with credentials (user/password), behind a secure login page.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
