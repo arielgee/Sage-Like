@@ -170,6 +170,10 @@
 #rssTreeView.filteredItems + #treeViewIndicator {
 	display: block;
 }
+#rssTreeView.disabled + #treeViewIndicator {
+	right: 0;
+	top: 0;
+}
 
 #top[style*="direction: rtl;"] > #treeViewIndicator {
 	right: unset;

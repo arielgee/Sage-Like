@@ -1441,6 +1441,7 @@ let rssTreeView = (function() {
 				}
 				m_elmTreeRoot.appendChild(frag);
 
+				updateLayoutWidth();
 				elmLI.scrollIntoView({behavior: "smooth"});		// when loop terminates the elmLI is the last LI appended
 				blinkNewlyAddedFeeds();
 				resolve();
@@ -1615,6 +1616,7 @@ let rssTreeView = (function() {
 						elmLI.parentElement.insertBefore(newElm, elmLI);
 					}
 
+					updateLayoutWidth();
 					newElm.focus();
 				});
 			});
