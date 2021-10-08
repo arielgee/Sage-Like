@@ -918,31 +918,19 @@
 * file rssListView.css: for `#listViewStatusbar`, replace `position: fixed;` with `position: absolute;`. This will make the variable `--list-view-scrollbar-width` and `updateLayoutWidth()` redundent. also `#helpPopup` in notepad.css ==> NO scrolling is a problem
 * tree indicator: replace the tree indicator (the red frame) with an exclemation icon like in the listView
 * Move all --xxxxx-scrollbar-width to panel.css.Also refactor the names => No to moving variables to panel.css.
+* replace updateLayoutWidth()/setEditorScrollbarWidth with slUtil.setElementScrollbarWidthCSSVariable(element, cssVariableName) IF THE `!==` IN notepad IS CLEARED OUT ==> NO
+* too mach `updateLayoutWidth()` in rssTreeView.js => BETTER THEN AND AN Observer
 ---
 
 
 ## Now
-* too mach `updateLayoutWidth()` in rssTreeView.js
+* Support mobile: if the sidebar is loaded in a tab's page the extension can be used in mobile? (see CSS rules at the end of this file) (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* replace updateLayoutWidth()/setEditorScrollbarWidth with slUtil.setElementScrollbarWidthCSSVariable(element, cssVariableName) IF THE `!==` IN notepad IS CLEARED OUT
-	function setElementScrollbarWidthCSSVariable(elm, cssVariableName) {
-		// set CSS variable accordingly depending if has VScroll
-		if(hasVScroll(elm)) {
-			if(elm.parentElement.getBoundingClientRect().width > elm.scrollWidth) {
-				elm.ownerDocument.documentElement.style.setProperty(cssVariableName, getScrollbarWidth() + "px");
-			} else {
-				elm.ownerDocument.documentElement.style.setProperty(cssVariableName, "0px");
-			}
-		} else {
-			elm.ownerDocument.documentElement.style.setProperty(cssVariableName, "0px");
-		}
-	}
 * feedPreview: Attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
-* Support mobile: if the sidebar is loaded in a tab's page the extension can be used in mobile? (see CSS rules at the end of this file) (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
 * access RSS feeds with credentials (user/password), behind a secure login page.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
