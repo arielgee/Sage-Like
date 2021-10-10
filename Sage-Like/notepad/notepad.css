@@ -52,6 +52,7 @@ html, body {
 	background: transparent url("/icons/notepad-help-popup.png") no-repeat left top;
 	transition: all 50ms linear 10ms;
 	filter: var(--invert-filter-help-popup);
+	-moz-user-select: none;
 	user-select: none;
 }
 #helpPopup.show,
@@ -145,6 +146,7 @@ body {
 	font-size: 12px;
 	line-height: 12px;
 	font-weight: bold;
+	-moz-user-select: none;
 	user-select: none;
 	pointer-events: none;
 }

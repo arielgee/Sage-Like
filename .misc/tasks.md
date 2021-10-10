@@ -919,7 +919,7 @@
 * tree indicator: replace the tree indicator (the red frame) with an exclemation icon like in the listView
 * Move all --xxxxx-scrollbar-width to panel.css.Also refactor the names => No to moving variables to panel.css.
 * replace updateLayoutWidth()/setEditorScrollbarWidth with slUtil.setElementScrollbarWidthCSSVariable(element, cssVariableName) IF THE `!==` IN notepad IS CLEARED OUT ==> NO
-* too mach `updateLayoutWidth()` in rssTreeView.js => BETTER THEN AND AN Observer
+* too mach `updateLayoutWidth()` in rssTreeView.js => BETTER THEN AN Observer
 ---
 
 
