@@ -22,9 +22,6 @@ let panel = (function() {
 
 	let m_windowId = null;
 
-	let m_lineHeight = 19;
-	let m_treeIndent = 18;
-
 	let m_viewsLoadedContentFlags = slGlobals.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
 
 	initialization();
@@ -149,11 +146,8 @@ let panel = (function() {
 			let parts = value.split(";");
 			let style = document.documentElement.style;
 
-			m_lineHeight = parseInt(parts[0]);
-			m_treeIndent = parseInt(parts[1]);
-
-			style.setProperty("--line-height-rss-view", m_lineHeight + "px");
-			style.setProperty("--rss-tree-indent", m_treeIndent + "px");
+			style.setProperty("--line-height-rss-view", parts[0] + "px");
+			style.setProperty("--rss-tree-indent", parts[1] + "px");
 		});
 	}
 
@@ -449,19 +443,10 @@ let panel = (function() {
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function getDensity() {
-		return {
-			lineHeight: m_lineHeight,
-			treeIndent: m_treeIndent,
-		}
-	}
-
 	return {
 		getWindowId: getWindowId,
 		notifyViewContentLoaded: notifyViewContentLoaded,
 		disable: disable,
-		getDensity: getDensity,
 	};
 
 })();
