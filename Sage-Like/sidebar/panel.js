@@ -170,6 +170,9 @@ let panel = (function() {
 
 		prefs.getFontSizePercent().then(percent => {
 			m_elmTop.style.fontSize = m_elmBottom.style.fontSize = parseInt(percent) + "%";
+
+			let imageSizeAddend = (percent - parseInt(prefs.DEFAULTS.fontSizePercent)) * 0.09;
+			document.documentElement.style.setProperty("--addend-tree-image-size", imageSizeAddend + "px");
 		});
 	}
 

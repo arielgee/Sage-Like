@@ -8,6 +8,10 @@
 	--url-img-tree-item: url("/icons/rss-0.png");
 	--url-img-tree-item-loading: url("/icons/loading-0.gif");
 	--url-img-tree-item-error: url("/icons/error-0.png");
+
+	--default-tree-image-size: 16px;
+	--addend-tree-image-size: 0px;
+	--tree-image-size: calc(var(--default-tree-image-size) + var(--addend-tree-image-size));
 }
 
 #rssTreeView {
@@ -35,7 +39,7 @@
 
 /* <li> elements that contains folders (other ULs) */
 #rssTreeView li.rtvTreeFolder {
-	background: transparent no-repeat left calc((var(--line-height-rss-view) + 2px - 16px) / 2); /* (captionHeight + captionBorders - imageHeight) / 2 */
+	background: transparent no-repeat left calc((var(--line-height-rss-view) + 2px - var(--tree-image-size)) / 2) / var(--tree-image-size) var(--tree-image-size); /* (captionHeight + captionBorders - imageHeight) / 2 */
 }
 
 #rssTreeView li.rtvTreeFolder.open {
@@ -56,7 +60,7 @@
 
 /* <li> elements that are tree leafs */
 #rssTreeView li.rtvTreeFeed {
-	background: transparent var(--url-img-tree-item) no-repeat left center;
+	background: transparent var(--url-img-tree-item) no-repeat left center / var(--tree-image-size) var(--tree-image-size);
 	cursor: pointer;
 }
 
