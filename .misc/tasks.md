@@ -920,17 +920,17 @@
 * Move all --xxxxx-scrollbar-width to panel.css.Also refactor the names => No to moving variables to panel.css.
 * replace updateLayoutWidth()/setEditorScrollbarWidth with slUtil.setElementScrollbarWidthCSSVariable(element, cssVariableName) IF THE `!==` IN notepad IS CLEARED OUT ==> NO
 * too mach `updateLayoutWidth()` in rssTreeView.js => BETTER THEN AN Observer
+* Support mobile: if the sidebar is loaded in a tab's page the extension can be used in mobile? => NO its a completely new app. `function isMobileBrowser(){return (/\b(Android|iPhone|iPod|iPad|Windows\sPhone|BlackBerry|webOS)\b/i.test(navigator.userAgent));}`
 ---
 
 
 ## Now
-* Support mobile: if the sidebar is loaded in a tab's page the extension can be used in mobile? (see CSS rules at the end of this file) (from: https://www.reddit.com/r/FirefoxAddons/comments/ozz6s6/im_looking_for_a_specific_kind_of_rss_addon_that/)
+* feedPreview: Attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* feedPreview: Attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
 * access RSS feeds with credentials (user/password), behind a secure login page.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
@@ -1029,33 +1029,3 @@
 			...
 9. webextension SHOULD be loaded on the mobile firefox.
 10. On the dev computer click on the `connect` button next to the USB Android device and select it.
-
-+ panel.css ----------------------------------------------
-
-html, body {
-	margin: 0;
-	box-sizing: border-box;
-
-.toolbar {
-	box-sizing: border-box;
-
-
-
-+ rssListView.css ----------------------------------------------
-
-#rssListView {
-	user-select: none;
-
-
-
-+ reeTreeView.css ----------------------------------------------
-
-#rssTreeView {
-	user-select: none;
-
-
-
-+ rssTreeView.js ----------------------------------------------
-
-function onClickToolbarButton(event) {
-	case "checkTreeFeeds":	browser.tabs.create({ url: browser.runtime.getURL("/sidebar/panel.html") });		break;

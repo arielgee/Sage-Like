@@ -12,6 +12,8 @@
 	background-color: var(--bk-color-window);
 	unicode-bidi: embed;
 	line-height: var(--line-height-rss-view);
+	-moz-user-select: none;
+	user-select: none;
 }
 
 #rssListView li.rlvListItem {
