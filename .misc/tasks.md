@@ -985,12 +985,50 @@
 6. example:
 	* `web-ext run --firefox="C:\Program Files\Mozilla Firefox\firefox.exe" --firefox-profile="c:\Documents and Settings\arielg\Application Data\Mozilla\Firefox\Profiles\czx8tcde.default.dev" --source-dir="c:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like" --verbose --browser-console`
 
+# Firefox mobile debugging
+1. download and install adb (`platform-tools_xxxxx-windows.zip`) from https://developer.android.com/studio/command-line/adb.html (standalone)
+2. Enable Developer settings on your Android device.
+3. Enable Remote Debugging via USB in the Advanced Settings in Firefox on the Android device.
+4. Connect the Android device to your computer using a USB cable
+5. set USB preferences to `File transfer` on the Android device.
+6. In firefox (about:debugging#/setup) click `Enable USB Devices`. if not enabled then (re-)install `adb-extension-latest-win32.xpi` in Firefox (http://releases.mozilla.com/pub/labs/devtools/adb-extension/win32/)
+7. using cmd goto install directory of the adb and execute `adb devices`. U need to see this:
+			List of devices attached
+			711KPJP0963684  device
+8. from the debugged webextension directory run `web-ext run -t firefox-android` and follow instructions. Things SHOULD look like this:
+			C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like>web-ext run -t firefox-android
+			Running web extension from C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like
 
+			Android devices found:
+			- 711KPJP0963684
 
+			s: Select an android device using --android-device=<name>
 
+			C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like>web-ext run -t firefox-android --android-device=711KPJP0963684
+			Running web extension from C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like
+			Selected ADB device: 711KPJP0963684
 
+			Packages found:
+			- org.mozilla.fenix
+			- org.mozilla.firefox
 
+			s: Select one of the packages using --firefox-apk
 
+			C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like>web-ext run -t firefox-android --android-device=711KPJP0963684 --firefox-apk org.mozilla.firefox
+			Running web extension from C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like
+			Selected ADB device: 711KPJP0963684
+
+			s: Required android.permission.WRITE_EXTERNAL_STORAGE has not be granted for org.mozilla.firefox. Please grant them using the Android Settings or using the following adb command:
+					adb shell pm grant org.mozilla.firefox android.permission.WRITE_EXTERNAL_STORAGE
+
+	> previous command is executed from the install directory of the adb
+
+			C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like>web-ext run -t firefox-android --android-device=711KPJP0963684 --firefox-apk org.mozilla.firefox
+			Running web extension from C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like
+			Selected ADB device: 711KPJP0963684
+			...
+9. webextension SHOULD be loaded on the mobile firefox.
+10. On the dev computer click on the `connect` button next to the USB Android device and select it.
 
 + panel.css ----------------------------------------------
 
