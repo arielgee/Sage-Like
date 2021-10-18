@@ -413,6 +413,7 @@ let rssTreeView = (function() {
 		let elm = document.createElement("li");
 		elm.classList.add("errormsg");
 		elm.textContent = text;
+		elm.tabIndex = 0;
 		return elm;
 	}
 
@@ -695,7 +696,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "PageUp":
-				if( (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
+				if( m_rssTreeCreatedOK && (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
 
 					count = 1;
 					elmCount = slUtil.numberOfVItemsInViewport(elms[0].firstElementChild, m_elmTreeRoot);	// use caption height
@@ -723,7 +724,7 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "PageDown":
-				if( (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
+				if( m_rssTreeCreatedOK && (elms = m_elmTreeRoot.querySelectorAll("li:not(.filtered)")).length > 0 ) {		// get all selectable elements
 
 					count = 1;
 					elmCount = slUtil.numberOfVItemsInViewport(elms[0].firstElementChild, m_elmTreeRoot);	// use caption height
@@ -808,24 +809,37 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyN":
-				openNewFeedProperties(elmTarget);
+				if(m_rssTreeCreatedOK) {
+					openNewFeedProperties(elmTarget);
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyF":
-				openNewFolderProperties(elmTarget);
+				if(m_rssTreeCreatedOK) {
+					openNewFolderProperties(elmTarget);
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyC":
 				if(TreeItemType.isFeed(elmTarget)) {
 					slUtil.writeTextToClipboard(elmTarget.getAttribute("href"));
+				} else if(TreeItemType.isError(elmTarget)) {
+					let text = document.getSelection().toString();
+					if(text.length > 0) {
+						slUtil.writeTextToClipboard(text);
+					} else {
+						slUtil.writeTextToClipboard(elmTarget.textContent);
+					}
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyS":
-				pasteFeedUrlFromClipboard(elmTarget);
+				if(m_rssTreeCreatedOK) {
+					pasteFeedUrlFromClipboard(elmTarget);
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 

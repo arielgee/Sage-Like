@@ -493,6 +493,7 @@ class TreeItemType {
 	static isFolderClosed(elm)	{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER) && elm.classList.contains("closed"); }
 	static isOpen(elm)			{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains("open"); }		// Use after checking that TreeItemType.isFolder() return true
 	static isClosed(elm)		{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains("closed"); }	// Use after checking that TreeItemType.isFolder() return true
+	static isError(elm)			{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains("errormsg"); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////

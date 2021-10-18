@@ -445,12 +445,18 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "Home":
-				m_elmList.firstElementChild.focus();
+				elm = m_elmList.firstElementChild;
+				if(elm !== null) {
+					elm.focus();
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "End":
-				m_elmList.lastElementChild.focus();
+				elm = m_elmList.lastElementChild;
+				if(elm !== null) {
+					elm.focus();
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -474,7 +480,10 @@ let rssListView = (function() {
 				elmsCount = slUtil.numberOfVItemsInViewport(elmTargetLI, m_elmList);
 				index = Array.prototype.indexOf.call(m_elmList.children, elmTargetLI);
 				index = index-(elmsCount-1);
-				m_elmList.children[index < 0 ? 0 : index].focus();
+				elm = m_elmList.children[index < 0 ? 0 : index];
+				if(!!elm) {
+					elm.focus();
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -486,7 +495,10 @@ let rssListView = (function() {
 				if(index >= m_elmList.children.length) {
 					index = m_elmList.children.length-1;
 				}
-				m_elmList.children[index].focus();
+				elm = m_elmList.children[index < 0 ? 0 : index];
+				if(!!elm) {
+					elm.focus();
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -516,7 +528,9 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyG":
-				toggleItemVisitedState(elmTargetLI);
+				if(elmTargetLI.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+					toggleItemVisitedState(elmTargetLI);
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -531,7 +545,16 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyC":
-				slUtil.writeTextToClipboard(elmTargetLI.getAttribute("href"));
+				if(elmTargetLI.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+					slUtil.writeTextToClipboard(elmTargetLI.getAttribute("href"));
+				} else if(elmTargetLI.classList.contains("errormsg")) {
+					let text = document.getSelection().toString();
+					if(text.length > 0) {
+						slUtil.writeTextToClipboard(text);
+					} else {
+						slUtil.writeTextToClipboard(elmTargetLI.textContent);
+					}
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -631,6 +654,7 @@ let rssListView = (function() {
 		elm.classList.add("errormsg");
 		elm.textContent = textContent;
 		elm.title = "Failed URL: " + decodeURIComponent(url);
+		elm.tabIndex = 0;
 
 		disposeList();
 		m_elmList.appendChild(elm);

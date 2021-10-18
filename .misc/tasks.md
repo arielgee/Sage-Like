@@ -921,17 +921,18 @@
 * replace updateLayoutWidth()/setEditorScrollbarWidth with slUtil.setElementScrollbarWidthCSSVariable(element, cssVariableName) IF THE `!==` IN notepad IS CLEARED OUT ==> NO
 * too mach `updateLayoutWidth()` in rssTreeView.js => BETTER THEN AN Observer
 * Support mobile: if the sidebar is loaded in a tab's page the extension can be used in mobile? => NO its a completely new app. `function isMobileBrowser(){return (/\b(Android|iPhone|iPod|iPad|Windows\sPhone|BlackBerry|webOS)\b/i.test(navigator.userAgent));}`
+* feedPreview: Attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox => there is no need for that!
 ---
 
 
 ## Now
-* feedPreview: Attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
 * access RSS feeds with credentials (user/password), behind a secure login page.
+* indicate in the tree that selected feeds folder is empty ?
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
