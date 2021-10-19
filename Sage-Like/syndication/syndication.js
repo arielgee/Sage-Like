@@ -131,6 +131,7 @@ let syndication = (function() {
 
 			let frames = doc.getElementsByTagName("iframe");
 			let allFetch = [];
+			const init = { cache: "default" };
 
 			for(let i=0, len=frames.length; i<len; i++) {
 
@@ -138,7 +139,7 @@ let syndication = (function() {
 
 				// if valid and visible
 				if( url && (frames[i].style.display !== "none") ) {
-					allFetch.push(fetchWithTimeout(url, { cache: "default" }, timeout));
+					allFetch.push(fetchWithTimeout(url, init, timeout));
 				}
 			}
 
@@ -204,7 +205,7 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedSourceText(url, reload = false, timeout = 60000) {
 
-		let init = {
+		const init = {
 			cache: reload ? "reload" : "default",
 		};
 

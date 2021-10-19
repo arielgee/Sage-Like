@@ -926,11 +926,15 @@
 
 
 ## Now
+* avoiding errors. refresh big tree, close sidebar, see where errors at, avoid, profit.
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* in v95 TriToggler makes alot of reflow - check it
+* create frames with feeds in discovery-test.html (nested)
+* replace tree images with svg
 * access RSS feeds with credentials (user/password), behind a secure login page.
 * indicate in the tree that selected feeds folder is empty ?
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
