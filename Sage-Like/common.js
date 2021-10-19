@@ -46,14 +46,22 @@ class JsonFeedData extends FeedData {
 /////////////////////////////////////////////////////////////////////////////////////////////
 class SyndicationError extends Error {
 	constructor(message, errInfo = undefined) {
-		if(errInfo) {
+		let status = 0;
+		if(!!errInfo) {
 			if(errInfo instanceof Error) {
 				message += " [ " + errInfo.message + " ]";
 			} else if(typeof(errInfo) === "string") {
 				message += " [ " + errInfo + " ]";
+			} else if(typeof(errInfo) === "object" && errInfo.hasOwnProperty("status") && errInfo.hasOwnProperty("statusText")) {
+				status = errInfo.status;
+				message += ` [ ${status}: ${errInfo.statusText} ]`;
 			}
 		}
 		super(message);
+		this._httpResponseStatus = status;
+	}
+	httpResponseStatus() {
+		return this._httpResponseStatus;
 	}
 };
 
@@ -559,11 +567,12 @@ let slGlobals = (function() {
 	const EXTRA_URL_PARAM_NO_REDIRECT = EXTRA_URL_PARAM_NO_REDIRECT_SPLIT.join("=");
 
 	const FMT_IMAGE_SET = {
-		IMG_OPEN_FOLDER:		"url(\"/icons/open-{0}.png\")",
-		IMG_CLOSED_FOLDER:		"url(\"/icons/closed-{0}.png\")",
-		IMG_TREE_ITEM:			"url(\"/icons/rss-{0}.png\")",
-		IMG_TREE_ITEM_LOADING:	"url(\"/icons/loading-{0}.gif\")",
-		IMG_TREE_ITEM_ERROR:	"url(\"/icons/error-{0}.png\")",
+		IMG_OPEN_FOLDER:			"url(\"/icons/open-{0}.png\")",
+		IMG_CLOSED_FOLDER:			"url(\"/icons/closed-{0}.png\")",
+		IMG_TREE_ITEM:				"url(\"/icons/rss-{0}.png\")",
+		IMG_TREE_ITEM_LOADING:		"url(\"/icons/loading-{0}.gif\")",
+		IMG_TREE_ITEM_ERROR:		"url(\"/icons/error-{0}.png\")",
+		IMG_TREE_ITEM_UNAUTHORIZED:	"url(\"/icons/unauthorized-{0}.png\")",
 	};
 
 	const IMAGE_SET_VALUES = [0, 1, 2, 3, 4, 5, 6];
@@ -577,11 +586,12 @@ let slGlobals = (function() {
 		}
 
 		return {
-			IMG_OPEN_FOLDER:		FMT_IMAGE_SET.IMG_OPEN_FOLDER.format([setNumber]),
-			IMG_CLOSED_FOLDER:		FMT_IMAGE_SET.IMG_CLOSED_FOLDER.format([setNumber]),
-			IMG_TREE_ITEM:			FMT_IMAGE_SET.IMG_TREE_ITEM.format([setNumber]),
-			IMG_TREE_ITEM_LOADING:	FMT_IMAGE_SET.IMG_TREE_ITEM_LOADING.format([setNumber]),
-			IMG_TREE_ITEM_ERROR:	FMT_IMAGE_SET.IMG_TREE_ITEM_ERROR.format([setNumber]),
+			IMG_OPEN_FOLDER:			FMT_IMAGE_SET.IMG_OPEN_FOLDER.format([setNumber]),
+			IMG_CLOSED_FOLDER:			FMT_IMAGE_SET.IMG_CLOSED_FOLDER.format([setNumber]),
+			IMG_TREE_ITEM:				FMT_IMAGE_SET.IMG_TREE_ITEM.format([setNumber]),
+			IMG_TREE_ITEM_LOADING:		FMT_IMAGE_SET.IMG_TREE_ITEM_LOADING.format([setNumber]),
+			IMG_TREE_ITEM_ERROR:		FMT_IMAGE_SET.IMG_TREE_ITEM_ERROR.format([setNumber]),
+			IMG_TREE_ITEM_UNAUTHORIZED:	FMT_IMAGE_SET.IMG_TREE_ITEM_UNAUTHORIZED.format([setNumber]),
 		};
 	};
 

@@ -46,6 +46,7 @@ let rssTreeView = (function() {
 									"    \u2022 Use '>unread' for unvisited feeds. \n" +
 									"    \u2022 Use '>read' for visited feeds. \n" +
 									"    \u2022 Use '>error' for feeds that failed to update. \n" +
+									"    \u2022 Use '>error-ua' for feeds that failed to update due to lack of client authentication. \n" +
 									"    \u2022 Use '>load' for feeds that are still loading. \n\n" +
 									"\u2731 Feeds may change their title, update time and/or status after the filter was applied.";
 
@@ -56,6 +57,7 @@ let rssTreeView = (function() {
 		UNVISITED: 2,
 		LOADING: 3,
 		EMPTY: 4,
+		ERROR_UNAUTHORIZED: 5,
 	});
 
 	let m_elmToolbar;
@@ -540,7 +542,7 @@ let rssTreeView = (function() {
 				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, `Update: ${updateTime.toWebExtensionLocaleString()} (${updateTime.getRelativeShortLocaleString()})`);
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
-				setFeedErrorState(elmLI, true, error.message);
+				setFeedErrorState(elmLI, true, error);
 			}).finally(() => {	// wait for Fx v58
 				setFeedLoadingState(elmLI, false);
 			});
@@ -1213,7 +1215,7 @@ let rssTreeView = (function() {
 
 					}).catch((error) => {
 
-						setFeedErrorState(elmLI, true, error.message);
+						setFeedErrorState(elmLI, true, error);
 						updateTreeItemStats(elmLI, 0, 0);		// will remove the stats
 
 						// change the rssListView content only if this is the last user click.
@@ -2097,10 +2099,16 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setFeedErrorState(elm, isError, errorMsg) {
+	function setFeedErrorState(elm, isError, error) {
 
-		elm.classList.toggle("error", isError);
-		setTreeItemTooltip(elm, isError ? "Error: " + errorMsg : undefined);
+		if(isError) {
+			elm.classList.add("error");
+			elm.classList.toggle("unauthorized", (typeof(error.httpResponseStatus) === "function" && error.httpResponseStatus() === 401));
+			setTreeItemTooltip(elm, "Error: " + error.message);
+		} else {
+			elm.classList.remove("error", "unauthorized");
+			setTreeItemTooltip(elm);
+		}
 		notifyAppliedFilter();
 	}
 
@@ -2395,12 +2403,13 @@ let rssTreeView = (function() {
 			if(txtValue[0] === ">") {
 
 				switch (txtValue.toLowerCase()) {
-					case ">":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.EMPTY);		break;
-					case ">read":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.VISITED);	break;
-					case ">unread":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.UNVISITED);	break;
-					case ">error":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.ERROR);		break;
-					case ">load":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.LOADING);	break;
-					default:		itemsFiltered = filterTreeItemStatus(TreeItemStatus.UNDEFINED);	break;
+					case ">":			itemsFiltered = filterTreeItemStatus(TreeItemStatus.EMPTY);					break;
+					case ">read":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.VISITED);				break;
+					case ">unread":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.UNVISITED);				break;
+					case ">error":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.ERROR);					break;
+					case ">load":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.LOADING);				break;
+					case ">error-ua":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.ERROR_UNAUTHORIZED);	break;
+					default:			itemsFiltered = filterTreeItemStatus(TreeItemStatus.UNDEFINED);				break;
 				}
 
 			} else if(txtValue[0] === "%") {
@@ -2461,6 +2470,10 @@ let rssTreeView = (function() {
 		if(status === TreeItemStatus.ERROR) {
 			for(let i=0, len=elms.length; i<len; i++) {
 				elms[i].classList.toggle("filtered", !elms[i].classList.contains("error"));
+			}
+		} else if(status === TreeItemStatus.ERROR_UNAUTHORIZED) {
+			for(let i=0, len=elms.length; i<len; i++) {
+				elms[i].classList.toggle("filtered", !elms[i].classList.contains("unauthorized"));
 			}
 		} else if(status === TreeItemStatus.VISITED) {
 			for(let i=0, len=elms.length; i<len; i++) {

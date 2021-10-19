@@ -8,6 +8,7 @@
 	--url-img-tree-item: url("/icons/rss-0.png");
 	--url-img-tree-item-loading: url("/icons/loading-0.gif");
 	--url-img-tree-item-error: url("/icons/error-0.png");
+	--url-img-tree-item-unauthorized: url("/icons/unauthorized-0.png");
 
 	--default-tree-image-size: 16px;
 	--addend-tree-image-size: 0px;
@@ -79,6 +80,9 @@
 	background-image: var(--url-img-tree-item-error);
 	font-style: italic;
 	font-weight: normal;
+}
+#rssTreeView li.rtvTreeFeed.error.unauthorized {
+	background-image: var(--url-img-tree-item-unauthorized);
 }
 
 #rssTreeView .rtvCaption {

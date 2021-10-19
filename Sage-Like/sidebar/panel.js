@@ -210,6 +210,7 @@ let panel = (function() {
 			style.setProperty("--url-img-tree-item", imageSet.IMG_TREE_ITEM);
 			style.setProperty("--url-img-tree-item-loading", imageSet.IMG_TREE_ITEM_LOADING);
 			style.setProperty("--url-img-tree-item-error", imageSet.IMG_TREE_ITEM_ERROR);
+			style.setProperty("--url-img-tree-item-unauthorized", imageSet.IMG_TREE_ITEM_UNAUTHORIZED);
 		});
 	}
 
