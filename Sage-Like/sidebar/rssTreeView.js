@@ -1928,7 +1928,7 @@ let rssTreeView = (function() {
 		try {
 			while(!!elmULFolder && elmULFolder !== m_elmTreeRoot) {
 
-				totalCount = elmULFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+				totalCount = 0;		// elmULFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
 				unreadCount = elmULFolder.querySelectorAll(":not(.error).bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
 
 				updateTreeItemStats(elmULFolder.parentElement, totalCount, unreadCount);
@@ -1953,7 +1953,7 @@ let rssTreeView = (function() {
 
 			elmLI = elmLIs[i];
 
-			totalCount = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+			totalCount = 0;		// elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
 			unreadCount = elmLI.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
 
 			updateTreeItemStats(elmLI, totalCount, unreadCount);
@@ -1984,6 +1984,11 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateTreeItemStats(elmLI, totalCount, unreadCount) {
+
+		/*
+			Since 'totalCount' is not used, some code was altered & commented in locations where calls to this function are made.
+			Search for 'updateTreeItemStats()' in comments. There are 2 places in rssTreeView.js and 1 in rssListView.js.
+		*/
 
 		if(m_bPrefShowFeedStats && TreeItemType.isTreeItem(elmLI)) {
 			//setTreeItemStats(elmLI, "(\u200a" + unreadCount + "\u200a/\u200a" + totalCount + "\u200a)");	// THIN SPACE

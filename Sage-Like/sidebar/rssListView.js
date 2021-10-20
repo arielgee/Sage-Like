@@ -775,7 +775,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getListViewStats() {
 
-		let totalCount = m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM).length;
+		let totalCount = 0;		// m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
 		let unreadCount = m_elmList.querySelectorAll(".bold." + slGlobals.CLS_RLV_LI_LIST_ITEM).length;
 
 		return [
