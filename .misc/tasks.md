@@ -925,11 +925,12 @@
 * in v95 TriToggler makes alot of reflow - check it => DON'T TOUCH
 * create frames with feeds in discovery-test.html (nested)
 * indicate in the tree that selected feeds folder is empty ? use :empty selector
+* avoiding errors. change root folder somthing BIG, quickly change back to small/empty folder, see where errors at, avoid/log error.message instaed of error object, profit.
 ---
 
 
 ## Now
-* avoiding errors. change root folder somthing BIG, quickly change back to small/empty folder, see where errors at, avoid/log error.message instaed of error object, profit.
+* in calls to updateTreeItemStats() the second parameter 'totalCount' is never used, why acquire its value? redundent calls to querySelectorAll()
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
@@ -937,7 +938,6 @@
 ## Next
 * replace tree images with svg
 * access RSS feeds with credentials (user/password), behind a secure login page.
-* in calls to updateTreeItemStats() the second parameter 'totalCount' is never used, why acquire its value? redundent calls to querySelectorAll()
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

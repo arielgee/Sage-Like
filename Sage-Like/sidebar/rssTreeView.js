@@ -1926,7 +1926,7 @@ let rssTreeView = (function() {
 		let totalCount, unreadCount;
 
 		try {
-			while(elmULFolder !== m_elmTreeRoot) {
+			while(!!elmULFolder && elmULFolder !== m_elmTreeRoot) {
 
 				totalCount = elmULFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
 				unreadCount = elmULFolder.querySelectorAll(":not(.error).bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
@@ -1936,7 +1936,7 @@ let rssTreeView = (function() {
 				elmULFolder = elmULFolder.parentElement.parentElement;
 			}
 		} catch (error) {
-			console.log("[Sage-Like]", "A tree item may have been deleted. ", error);
+			console.log("[Sage-Like]", "A tree item may have been deleted.", error.message);
 		}
 	}
 
