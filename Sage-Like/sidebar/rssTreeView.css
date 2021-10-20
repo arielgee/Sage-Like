@@ -26,6 +26,15 @@
 	-moz-user-select: none;
 	user-select: none;
 }
+#rssTreeView:empty {
+	display: flex;
+}
+#rssTreeView:empty::after {
+	content: "It feels so empty, without feed";
+	font-size: 150%;
+	color: var(--bk-color-window-contrasted);
+	margin: 45px auto auto;
+}
 
 #rssTreeView ul {
 	margin: 0;

@@ -305,6 +305,12 @@ let rssTreeView = (function() {
 
 			disposeTree();
 
+			// This dummy node has one purpose. To prevent the flickring of the 'empty' content message after
+			// the content of the tree was cleared via disposeTree() and before the tree's new content is created and displayed.
+			// Once the new content is appended to the tree the node will be removed.
+			// This node prevents the CSS selector '#rssTreeView:empty' from effecting.
+			let aNode = m_elmTreeRoot.appendChild(document.createTextNode("\r"));
+
 			if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmTreeRoot.appendChild(createErrorTagLI("The feeds folder is not set in the Options page."));
 				browser.runtime.openOptionsPage();
@@ -333,7 +339,7 @@ let rssTreeView = (function() {
 			}).catch((error) => {
 				m_elmTreeRoot.appendChild(createErrorTagLI("Failed to load feeds folder: " + error.message));
 				browser.runtime.openOptionsPage();
-			});
+			}).finally(() => m_elmTreeRoot.removeChild(aNode) );
 		});
 	}
 
@@ -2226,8 +2232,8 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function disposeTree() {
 
-		while (m_elmTreeRoot.firstElementChild) {
-			m_elmTreeRoot.removeChild(m_elmTreeRoot.firstElementChild);
+		while (m_elmTreeRoot.firstChild) {
+			m_elmTreeRoot.removeChild(m_elmTreeRoot.firstChild);
 		}
 	}
 
