@@ -60,7 +60,7 @@
 
 
 	<p></p>
-	<p><b>links with 'feed' (low) protected:</b></p>
+	<p><b>links with unauthorized 'feed' (low):</b></p>
 	<ol>
 		<li><a href="http://localhost/Protected/feed-test.xml">a link</a></li>
 	</ol>
@@ -83,6 +83,27 @@
 		<li><a href="http://www.cnn.com/">a link</a></li>
 		<li><a href="http://www.bbc.co.uk/">a link</a></li>
 	</ol>
+
+
+	<p></p>
+	<p><b>iframes:</b></p>
+	<table>
+		<tr>
+			<tr>
+				<th style="background-color:black; color:white; font-size:110%; font-weight:bold; line-height:120%;">2 feeds</th>
+				<th style="background-color:transparent; color:white; font-size:110%; font-weight:bold; line-height:120%;"></th>
+				<th style="background-color:black; color:white; font-size:110%; font-weight:bold; line-height:120%;">51 feeds</th>
+				<th style="background-color:transparent; color:white; font-size:110%; font-weight:bold; line-height:120%;"></th>
+				<th style="background-color:black; color:white; font-size:110%; font-weight:bold; line-height:120%;">51 feeds in inner iframe (undiscoverable)</th>
+			</tr>
+			<td><iframe src="https://discoverpods.com/contact/" style='height:700px;width:400px;'></iframe></td>
+			<td style="width:50px;"></td>
+			<td><iframe src="https://z.ynet.co.il/short/content/RSS/index.html" style='height:700px;width:400px;'></iframe></td>
+			<td style="width:50px;"></td>
+			<td><iframe src="https://www.ynet.co.il/articles/0,7340,L-3369891,00.html" style='height:700px;width:400px;'></iframe></td>
+		</tr>
+	</table>
+	<br><br><br><br>
 
 </body>
 

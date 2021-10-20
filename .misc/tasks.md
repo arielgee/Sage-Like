@@ -922,21 +922,22 @@
 * too mach `updateLayoutWidth()` in rssTreeView.js => BETTER THEN AN Observer
 * Support mobile: if the sidebar is loaded in a tab's page the extension can be used in mobile? => NO its a completely new app. `function isMobileBrowser(){return (/\b(Android|iPhone|iPod|iPad|Windows\sPhone|BlackBerry|webOS)\b/i.test(navigator.userAgent));}`
 * feedPreview: Attachments erea can be folded. Auto hide/fold if its too big (height) - like in about:debugging#/runtime/this-firefox => there is no need for that!
+* in v95 TriToggler makes alot of reflow - check it => DON'T TOUCH
+* create frames with feeds in discovery-test.html (nested)
 ---
 
 
 ## Now
-* avoiding errors. refresh big tree, close sidebar, see where errors at, avoid, profit.
+* indicate in the tree that selected feeds folder is empty ? use :empty selector
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* in v95 TriToggler makes alot of reflow - check it
-* create frames with feeds in discovery-test.html (nested)
 * replace tree images with svg
 * access RSS feeds with credentials (user/password), behind a secure login page.
-* indicate in the tree that selected feeds folder is empty ?
+* avoiding errors. change root folder somthing BIG, quickly change back to small/empty folder, see where errors at, avoid/log error.message instaed of error object, profit.
+* in calls to updateTreeItemStats() the second parameter 'totalCount' is never used, why acquire its value? redundent calls to querySelectorAll()
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
