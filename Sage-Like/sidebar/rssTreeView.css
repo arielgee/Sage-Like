@@ -51,7 +51,8 @@
 
 /* <li> elements that contains folders (other ULs) */
 #rssTreeView li.rtvTreeFolder {
-	background: transparent no-repeat left calc((var(--line-height-rss-view) + 2px - var(--tree-image-size)) / 2) / var(--tree-image-size) var(--tree-image-size); /* (captionHeight + captionBorders - imageHeight) / 2 */
+	--image-top: calc((var(--line-height-rss-view) + 2px - var(--tree-image-size)) / 2);		/* (captionHeight + captionBorders - imageHeight) / 2 */
+	background: transparent no-repeat left var(--image-top) / var(--tree-image-size) var(--tree-image-size);
 }
 
 #rssTreeView li.rtvTreeFolder.open {
@@ -154,8 +155,9 @@
 }
 
 #rssTreeView li.errormsg {
+	--image-top: calc((var(--line-height-rss-view) - var(--tree-image-size)) / 2);
 	padding-inline-start: var(--rss-tree-indent);
-	background: transparent url("/icons/errormsg.png") no-repeat left top;
+	background: rgb(255, 255, 220) url("/icons/errormsg.png") no-repeat left var(--image-top) / var(--tree-image-size) var(--tree-image-size);
 	color: crimson;
 	cursor: default;
 	-moz-user-select: text;
@@ -165,7 +167,6 @@
 
 #rssTreeView[style*="direction: rtl;"] li {
 	background-position-x: right;
-	padding-right: 20px;
 }
 
 #rssTreeView.hidden,

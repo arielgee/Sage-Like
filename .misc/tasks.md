@@ -927,6 +927,7 @@
 * indicate in the tree that selected feeds folder is empty ? use :empty selector
 * avoiding errors. change root folder somthing BIG, quickly change back to small/empty folder, see where errors at, avoid/log error.message instaed of error object, profit.
 * in calls to updateTreeItemStats() the second parameter 'totalCount' is never used, why acquire its value? redundent calls to querySelectorAll()
+* tree/list error messages - change background to yellow, align image and text centers, resize image with font size change, change indentation with UI density (list only).
 ---
 
 
