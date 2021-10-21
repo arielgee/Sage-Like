@@ -937,6 +937,7 @@
 
 
 ## Next
+* when logging errors, log the error.message instaed on the entire error object. use discretion for each logging case. not relevent in all cases
 * replace tree images with svg
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 

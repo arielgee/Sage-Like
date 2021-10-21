@@ -90,9 +90,9 @@ class JsonFeed extends Feed {
 			// ++ some feeds are for audio/video files as attachments (WTF?) 	// https://www.npr.org/feeds/510317/feed.json
 			itemUrl = (!!item.url ? item.url : (!!item.external_url ? item.external_url : item.attachments[0].url));
 
-			let oErr = {};
+			let oErr = { error: null };
 			if(!!!slUtil.validURL(itemUrl, oErr)) {
-				console.log("[Sage-Like]", "URL validation", oErr.error);
+				console.log("[Sage-Like]", "URL validation.", oErr.error.message);
 				return null;
 			}
 		}
