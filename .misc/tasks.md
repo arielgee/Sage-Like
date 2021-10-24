@@ -938,7 +938,10 @@
 
 
 ## Next
+* in discovery (view + popup) detect that the error is due to `401 unauth` and display the link with the lock icon. (return the _httpResponseStatus) ==> WAIT! I'll most likely display links that are not even feeds!!!
+* rename getLinkFeedsFromFrames() to discoverFeedLinksInFrames()
 * when logging errors, log the error.message instaed on the entire error object. use discretion for each logging case. not relevent in all cases
+* in discover mode (sidebar & popup) when 401 is return show a notification 'a discoverable feed with sihn in info was found' (from webPageFeedsDiscovery() and feedDiscovery())
 * replace tree images with svg
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 

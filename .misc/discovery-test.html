@@ -38,6 +38,9 @@
 	<link rel="alternate" type="application/rss+xml" title="FEED-TEST" href="http://www.ynet.co.il/Integration/StoryRss4107.xml" />
 	<link rel="alternate" type="application/rss+xml" title="FEED-TEST" href="http://www.ynet.co.il/Integration/StoryRss4335.xml" />
 
+	<link rel="alternate" type="application/rss+xml" title="FEED-TEST-AUTH" href="http://eu.httpbin.org/digest-auth/qop/authfail/authfail" />
+
+
 </head>
 
 <body>
@@ -46,42 +49,43 @@
 	<p></p>
 	<p><b>links with 'rss' (low):</b></p>
 	<ol>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss786.xml">a link</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss544.xml">a link</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss2424.xml">a link</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss546.xml">a link</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss571.xml">a link</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss1694.xml">a link</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss545.xml">a link</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss4541.xml">a link</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss538.xml">a link</a></li>
-		<li><a href="http://www.titanic-magazin.de/sc.rss">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss786.xml" title="http://www.ynet.co.il/Integration/StoryRss786.xml">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss544.xml" title="http://www.ynet.co.il/Integration/StoryRss544.xml">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss2424.xml" title="http://www.ynet.co.il/Integration/StoryRss2424.xml">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss546.xml" title="http://www.ynet.co.il/Integration/StoryRss546.xml">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss571.xml" title="http://www.ynet.co.il/Integration/StoryRss571.xml">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss1694.xml" title="http://www.ynet.co.il/Integration/StoryRss1694.xml">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss545.xml" title="http://www.ynet.co.il/Integration/StoryRss545.xml">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss4541.xml" title="http://www.ynet.co.il/Integration/StoryRss4541.xml">a link</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss538.xml" title="http://www.ynet.co.il/Integration/StoryRss538.xml">a link</a></li>
+		<li><a href="http://www.titanic-magazin.de/sc.rss" title="http://www.titanic-magazin.de/sc.rss">a link</a></li>
 	</ol>
 
 
 	<p></p>
 	<p><b>links with unauthorized 'feed' (low):</b></p>
 	<ol>
-		<li><a href="http://localhost/Protected/feed-test.xml">a link</a></li>
+		<li><a href="http://localhost/Protected/feed-test.xml" title="http://localhost/Protected/feed-test.xml">a link</a></li>
+		<li><a href="http://eu.httpbin.org/basic-auth/feed/feed" title="http://eu.httpbin.org/basic-auth/feed/feed">a link</a></li>
 	</ol>
 
 
 	<p></p>
 	<p><b>links with OUT 'rss' (high):</b></p>
 	<ol>
-		<li><a href="http://www.haaretz.co.il/cmlink/editors-dashboard-htz-1.8225589">a link</a></li>
-		<li><a href="http://www.haaretz.co.il/cmlink/%D7%90%D7%95%D7%9C%D7%99-%D7%A4%D7%A1%D7%A4%D7%A1%D7%AA%D7%9D-1.9245472">a link</a></li>
-		<li><a href="http://www.haaretz.co.il/cmlink/%D7%A1%D7%91%D7%99%D7%91%D7%94-%D7%95%D7%91%D7%A2%D7%9C%D7%99-%D7%97%D7%99%D7%99%D7%9D-1.9243353">a link</a></li>
+		<li><a href="http://www.haaretz.co.il/cmlink/editors-dashboard-htz-1.8225589" title="http://www.haaretz.co.il/cmlink/editors-dashboard-htz-1.8225589">a link</a></li>
+		<li><a href="http://www.haaretz.co.il/cmlink/%D7%90%D7%95%D7%9C%D7%99-%D7%A4%D7%A1%D7%A4%D7%A1%D7%AA%D7%9D-1.9245472" title="http://www.haaretz.co.il/cmlink/%D7%90%D7%95%D7%9C%D7%99-%D7%A4%D7%A1%D7%A4%D7%A1%D7%AA%D7%9D-1.9245472">a link</a></li>
+		<li><a href="http://www.haaretz.co.il/cmlink/%D7%A1%D7%91%D7%99%D7%91%D7%94-%D7%95%D7%91%D7%A2%D7%9C%D7%99-%D7%97%D7%99%D7%99%D7%9D-1.9243353" title="http://www.haaretz.co.il/cmlink/%D7%A1%D7%91%D7%99%D7%91%D7%94-%D7%95%D7%91%D7%A2%D7%9C%D7%99-%D7%97%D7%99%D7%99%D7%9D-1.9243353">a link</a></li>
 	</ol>
 
 
 	<p></p>
 	<p><b>links to not feeds:</b></p>
 	<ol>
-		<li><a href="http://www.haaretz.co.il/">a link</a></li>
-		<li><a href="http://www.ynet.co.il/">a link</a></li>
-		<li><a href="http://www.cnn.com/">a link</a></li>
-		<li><a href="http://www.bbc.co.uk/">a link</a></li>
+		<li><a href="http://www.haaretz.co.il/" title="http://www.haaretz.co.il/">a link</a></li>
+		<li><a href="http://www.ynet.co.il/" title="http://www.ynet.co.il/">a link</a></li>
+		<li><a href="http://www.cnn.com/" title="http://www.cnn.com/">a link</a></li>
+		<li><a href="http://www.bbc.co.uk/" title="http://www.bbc.co.uk/">a link</a></li>
 	</ol>
 
 

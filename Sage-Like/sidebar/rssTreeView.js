@@ -534,7 +534,7 @@ let rssTreeView = (function() {
 
 			timeout *= 1000;	// to milliseconds
 
-			let fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, false, false) : syndication.fetchFeedData(url, timeout, false, false);
+			let fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, false, false) : syndication.fetchFeedData(url, timeout, false);
 
 			fetching.then((fetchResult) => {
 
