@@ -1,5 +1,32 @@
 "use strict";
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+class SigninCredential {
+	constructor(...args) {
+		if(args.length === 0) {
+			this.initialized = false;		// The fetch's `init` object will NOT have an `Authorization` header.
+		} else {
+
+			let singleObj = (args.length === 1) && (typeof(args[0]) === "object");
+
+			if(singleObj && Object.keys(args[0]).length === 0) {
+				this.username = "";
+				this.password = "";
+			} else if(singleObj && args[0].hasOwnProperty("username") && args[0].hasOwnProperty("password")) {
+				this.username = args[0].username;
+				this.password = args[0].password;
+			} else if((args.length === 2) && (typeof(args[0]) === "string") && (typeof(args[1]) === "string")) {
+				this.username = args[0];
+				this.password = args[1];
+			} else {
+				throw Error("Invalid constructor parameter(s).");
+			}
+			this.initialized = true;		// The fetch's `init` object will have an `Authorization` header with provided username/password values.
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 let syndication = (function() {
 
 	const STANDARD_DISCOVERY_SELECTOR = "link[rel=\"alternate\" i][type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
@@ -85,11 +112,11 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedData(url, timeout, reload) {
+	function fetchFeedData(url, timeout, reload, signinCred) {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
+			getFeedSourceText(url, reload, timeout, signinCred).then((feedSrc) => {
 
 				try {
 					resolve({ feedData: Feed.factoryCreateBySrc(feedSrc.text, url).getFeedData() });
@@ -104,11 +131,11 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedItems(url, timeout, reload, sortItems = true, ifNoItemsReject = true, withAttachments = false) {
+	function fetchFeedItems(url, timeout, reload, sortItems = true, ifNoItemsReject = true, withAttachments = false, signinCred) {
 
 		return new Promise((resolve, reject) => {
 
-			fetchFeedData(url, timeout, reload).then((result) => {
+			fetchFeedData(url, timeout, reload, signinCred).then((result) => {
 
 				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, sortItems, withAttachments);
 
@@ -129,9 +156,19 @@ let syndication = (function() {
 
 		return new Promise((resolve) => {
 
+			// include an 'Authorization' header with empty username and password so that the sign-in
+			// dialog 'Authorization Required - Mozilla Firefox' will not be displayed when performing sidebar discovery.
+			// See comment in getFeedSourceText() about '401 Unauthorized' response.
+			const init = {
+				method: "GET",
+				headers: {
+					Authorization: "Basic " + btoa(":"),
+				},
+				cache: "default",
+			};
+
 			let frames = doc.getElementsByTagName("iframe");
 			let allFetch = [];
-			const init = { cache: "default" };
 
 			for(let i=0, len=frames.length; i<len; i++) {
 
@@ -203,11 +240,31 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedSourceText(url, reload = false, timeout = 60000) {
+	function getFeedSourceText(url, reload = false, timeout = 60000, signinCred = new SigninCredential({}) /* initialized with empty username/password */) {
 
 		const init = {
+			method: "GET",
+			headers: {},
 			cache: reload ? "reload" : "default",
 		};
+
+		if( !(signinCred instanceof SigninCredential) ) {
+			throw new Error("Parameter 'signinCred' is not an instance of SigninCredential.");
+		} else if(signinCred.initialized) {
+
+			/*
+				'401 Unauthorized' Response
+					* Behaviour When 'Authorization' header is NOT provided in the init parameter:
+						+ Fx v93: A login dialog 'Authorization Required - Mozilla Firefox' is displayed. Will not display if fetch is done from background.js.
+						+ Fx v59: No dialog is displayed.
+					* Behaviour When 'Authorization' header IS provided in the init parameter with empty username/password:
+						+ Fx v93: No dialog is displayed.
+						+ Fx v59: No dialog is displayed.
+			*/
+
+			// add 'Authorization' header if an initialized SigninCredential was provided
+			init.headers["Authorization"] = "Basic " + btoa(`${signinCred.username}:${signinCred.password}`);
+		}
 
 		return new Promise((resolve, reject) => {
 

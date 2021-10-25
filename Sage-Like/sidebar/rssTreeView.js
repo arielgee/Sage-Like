@@ -1204,7 +1204,7 @@ let rssTreeView = (function() {
 
 					timeout *= 1000;	// to milliseconds
 
-					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach).then((result) => {
+					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, (new SigninCredential())).then((result) => {
 
 						let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
 

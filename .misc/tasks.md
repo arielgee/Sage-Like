@@ -928,17 +928,18 @@
 * avoiding errors. change root folder somthing BIG, quickly change back to small/empty folder, see where errors at, avoid/log error.message instaed of error object, profit.
 * in calls to updateTreeItemStats() the second parameter 'totalCount' is never used, why acquire its value? redundent calls to querySelectorAll()
 * tree/list error messages - change background to yellow, align image and text centers, resize image with font size change, change indentation with UI density (list only).
+* access RSS feeds with credentials (user/password), behind a secure login page.
 ---
 
 
 ## Now
-* access RSS feeds with credentials (user/password), behind a secure login page.
+* context menu for unauth tree feeds: 'Sign in...' that open a dropdown
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* in discovery (view + popup) detect that the error is due to `401 unauth` and display the link with the lock icon. (return the _httpResponseStatus) ==> WAIT! I'll most likely display links that are not even feeds!!!
+* Discovery(sidebar+popup) detect error is `401 unauth` and display link with the lock icon. (see _httpResponseStatus) ==> WAIT! I'll most likely display links that are not even feeds!!! ==> WAIT2! Just for Aggressiveness 'none' and 'low'. not 'high'.
 * rename getLinkFeedsFromFrames() to discoverFeedLinksInFrames()
 * when logging errors, log the error.message instaed on the entire error object. use discretion for each logging case. not relevent in all cases
 * in discover mode (sidebar & popup) when 401 is return show a notification 'a discoverable feed with sihn in info was found' (from webPageFeedsDiscovery() and feedDiscovery())

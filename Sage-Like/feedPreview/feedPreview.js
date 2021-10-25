@@ -145,7 +145,7 @@
 
 				timeout *= 1000;	// to milliseconds
 
-				syndication.fetchFeedItems(urlFeed, timeout, true, sortItems, false, true).then((result) => {
+				syndication.fetchFeedItems(urlFeed, timeout, true, sortItems, false, true, (new SigninCredential())).then((result) => {
 
 					// try to normalize url; may return null
 					m_urlWebPage = slUtil.replaceMozExtensionOriginURL(result.feedData.webPageUrl, m_URL.origin);
