@@ -29,7 +29,7 @@
 #msgText {
 	width: 100%;
 	word-wrap: normal;
-	text-align: center;
+	padding-inline-start: 16px;
 	max-height: calc(var(--line-height) * 15);
 	margin-bottom: var(--panel-spacing);
 	overflow: hidden;
