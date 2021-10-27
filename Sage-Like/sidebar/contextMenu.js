@@ -2,7 +2,7 @@
 
 let contextMenu = (function() {
 
-	let ContextAction = Object.freeze({
+	const ContextAction = Object.freeze({
 		treeOpen:				1,
 		treeOpenNewTab:			2,
 		treeOpenNewWin:			3,

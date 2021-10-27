@@ -293,7 +293,7 @@ let syndication = (function() {
 					});
 
 				} else {
-					reject(new SyndicationError("Failed to retrieve feed source text from URL.", { status: response.status, statusText: response.statusText }));
+					reject(new SyndicationError("Failed to retrieve feed source from URL.", { status: response.status, statusText: response.statusText }));
 				}
 
 			}).catch((error) => {

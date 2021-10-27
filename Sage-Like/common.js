@@ -493,15 +493,17 @@ class InfoBubble {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeItemType {
-	static isTree(elm)			{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.id === slGlobals.ID_UL_RSS_TREE_VIEW; }
-	static isTreeItem(elm)		{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM); }
-	static isFeed(elm)			{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED); }
-	static isFolder(elm)		{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER); }
-	static isFolderOpen(elm)	{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER) && elm.classList.contains("open"); }
-	static isFolderClosed(elm)	{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER) && elm.classList.contains("closed"); }
-	static isOpen(elm)			{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains("open"); }		// Use after checking that TreeItemType.isFolder() return true
-	static isClosed(elm)		{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains("closed"); }	// Use after checking that TreeItemType.isFolder() return true
-	static isError(elm)			{ return !!elm && elm.nodeType === Node.ELEMENT_NODE && elm.classList.contains("errormsg"); }
+	static _isElm(e)			{ return !!e && e.nodeType === Node.ELEMENT_NODE; }
+
+	static isTree(elm)			{ return this._isElm(elm) && elm.id === slGlobals.ID_UL_RSS_TREE_VIEW; }
+	static isTreeItem(elm)		{ return this._isElm(elm) && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM); }
+	static isFeed(elm)			{ return this._isElm(elm) && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED); }
+	static isFolder(elm)		{ return this._isElm(elm) && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER); }
+	static isFolderOpen(elm)	{ return this.isFolder(elm) && elm.classList.contains("open"); }
+	static isFolderClosed(elm)	{ return this.isFolder(elm) && elm.classList.contains("closed"); }
+	static isOpen(elm)			{ return this._isElm(elm) && elm.classList.contains("open"); }		// Use after checking that TreeItemType.isFolder() return true
+	static isClosed(elm)		{ return this._isElm(elm) && elm.classList.contains("closed"); }	// Use after checking that TreeItemType.isFolder() return true
+	static isError(elm)			{ return this._isElm(elm) && elm.classList.contains("errormsg"); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
