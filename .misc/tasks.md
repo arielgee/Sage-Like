@@ -929,16 +929,22 @@
 * in calls to updateTreeItemStats() the second parameter 'totalCount' is never used, why acquire its value? redundent calls to querySelectorAll()
 * tree/list error messages - change background to yellow, align image and text centers, resize image with font size change, change indentation with UI density (list only).
 * access RSS feeds with credentials (user/password), behind a secure login page.
+* context menu for unauth tree feeds: 'Sign in...' that open a dropdown
+* some UI indication that the sign in operation was not successful
 ---
 
 
 ## Now
-* context menu for unauth tree feeds: 'Sign in...' that open a dropdown
+* why the text in the messagesView is centered?
+	#msgText {
+		- text-align: center;
+		+ padding-inline-start: 16px;
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* draw attention to the new `sign in` feature. Maybe with the InfoBubble
 * Discovery(sidebar+popup) detect error is `401 unauth` and display link with the lock icon. (see _httpResponseStatus) ==> WAIT! I'll most likely display links that are not even feeds!!! ==> WAIT2! Just for Aggressiveness 'none' and 'low'. not 'high'.
 * rename getLinkFeedsFromFrames() to discoverFeedLinksInFrames()
 * when logging errors, log the error.message instaed on the entire error object. use discretion for each logging case. not relevent in all cases

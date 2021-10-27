@@ -8,27 +8,28 @@ let contextMenu = (function() {
 		treeOpenNewWin:			3,
 		treeOpenNewPrivateWin:	4,
 		treeOpenAllInTabs:		5,
-		treeToggleReadUnread:	6,
-		treeMarkAllRead:		7,
-		treeMarkAllUnread:		8,
-		treeNewFeed:			9,
-		treeNewFolder:			10,
-		treeCopyUrl:			11,
-		treePasteUrl:			12,
-		treeDeleteTreeItem:		13,
-		treeProperties:			14,
-		treeSwitchDirection:	15,
+		treeSigninFeed:			6,
+		treeToggleReadUnread:	7,
+		treeMarkAllRead:		8,
+		treeMarkAllUnread:		9,
+		treeNewFeed:			10,
+		treeNewFolder:			11,
+		treeCopyUrl:			12,
+		treePasteUrl:			13,
+		treeDeleteTreeItem:		14,
+		treeProperties:			15,
+		treeSwitchDirection:	16,
 
-		listOpen:				16,
-		listOpenNewTab:			17,
-		listOpenNewWin:			18,
-		listOpenNewPrivateWin:	19,
-		listOpenAllInTabs:		20,
-		listToggleReadUnread:	21,
-		listMarkAllRead:		22,
-		listMarkAllUnread:		23,
-		listCopyUrl:			24,
-		listSwitchDirection:	25,
+		listOpen:				17,
+		listOpenNewTab:			18,
+		listOpenNewWin:			19,
+		listOpenNewPrivateWin:	20,
+		listOpenAllInTabs:		21,
+		listToggleReadUnread:	22,
+		listMarkAllRead:		23,
+		listMarkAllUnread:		24,
+		listCopyUrl:			25,
+		listSwitchDirection:	26,
 	});
 
 	//==================================================================================
@@ -155,7 +156,7 @@ let contextMenu = (function() {
 			m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
 			m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
 
-			showMenuItemsByClassName(m_currentContext);
+			showMenuItemsByClassName(m_currentContext, m_elmEventTarget.classList);
 
 			let x = event.clientX;
 			let y = event.clientY;
@@ -202,9 +203,17 @@ let contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownContextMenu(event) {
 
-		event.preventDefault();
-
 		let qResult, keyCode = event.code;
+
+		// The 'Sign in...' menu item (acceleratorKey:'L') is an oddball. Its visibility depends not only on the
+		// element context (tree feed item) but also on the element's state (unauthorized). So in order to prevent
+		// the context menu from being closed (from handleTreeMenuActions()), as if some action is being performed,
+		// exit here when its acceleratorKey is pressed and the 'Sign in...' menu item is not relevent.
+		if((keyCode === "KeyL") && (m_currentContext === "treeitemcontext") && !TreeItemType.isUnauthorized(m_elmEventTarget)) {
+			return;
+		}
+
+		event.preventDefault();
 
 		switch(keyCode) {
 
@@ -265,6 +274,7 @@ let contextMenu = (function() {
 				case "KeyT":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
 				case "KeyW":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 				case "KeyV":	handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
+				case "KeyL":	handleTreeMenuActions(ContextAction.treeSigninFeed);		break;
 				case "KeyG":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
 				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
 				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
@@ -329,6 +339,7 @@ let contextMenu = (function() {
 			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
 			case "mnuTreeOpenFeedNewPrivateWin":		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
 			case "mnuTreeOpenAllFeedsInNewTabs":		handleTreeMenuActions(ContextAction.treeOpenAllInTabs);		break;
+			case "mnuTreeSigninFeed":					handleTreeMenuActions(ContextAction.treeSigninFeed);		break;
 			case "mnuTreeToggleFeedReadUnread":			handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
 			case "mnuTreeMarkAllFeedsRead":				handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
 			case "mnuTreeMarkAllFeedsUnread":			handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
@@ -455,6 +466,11 @@ let contextMenu = (function() {
 				break;
 				///////////////////////////////////////////
 
+			case ContextAction.treeSigninFeed:
+				rssTreeView.signinFeed(m_elmEventTarget);
+				break;
+				///////////////////////////////////////////
+
 			case ContextAction.treeToggleReadUnread:
 				rssTreeView.toggleVisitedState(m_elmEventTarget);
 				break;
@@ -538,10 +554,14 @@ let contextMenu = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showMenuItemsByClassName(className) {
+	function showMenuItemsByClassName(className, targetClassList) {
 
-		m_elmContextMenu.classList.remove("treeitemfoldercontext", "treeitemcontext", "listitemcontext", "treecontext", "listcontext");
-		m_elmContextMenu.classList.add(className);
+		m_elmContextMenu.classList.remove("treeitemfoldercontext", "treeitemcontext", "listitemcontext", "treecontext", "listcontext", "treeitemunauthorizedcontext");
+		if(targetClassList.contains("unauthorized")) {
+			m_elmContextMenu.classList.add(className, "treeitemunauthorizedcontext");
+		} else {
+			m_elmContextMenu.classList.add(className);
+		}
 	}
 
 	return {

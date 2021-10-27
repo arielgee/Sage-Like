@@ -794,6 +794,11 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
+			case "KeyL":
+				signinFeed(elmTarget);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
 			case "KeyA":
 				if(TreeItemType.isFolder(elmTarget)) {
 					openAllFeedsInTabs(elmTarget);
@@ -1176,7 +1181,7 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openTreeFeed(elmLI, reload) {
+	function openTreeFeed(elmLI, reload, signinCred = new SigninCredential()) {
 
 		// remove here if is error
 		setFeedErrorState(elmLI, false);
@@ -1204,7 +1209,7 @@ let rssTreeView = (function() {
 
 					timeout *= 1000;	// to milliseconds
 
-					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, (new SigninCredential())).then((result) => {
+					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, signinCred).then((result) => {
 
 						let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
 
@@ -1227,6 +1232,11 @@ let rssTreeView = (function() {
 						// change the rssListView content only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {
 							rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI), url);
+						}
+
+						// signinCred will be initialized only if it was called from signinFeed()
+						if(signinCred.initialized){
+							messageView.open(error.message, messageView.ButtonSet.setOK, "Sign in Failed");
 						}
 					}).finally(() => {	// wait for Fx v58
 
@@ -1758,6 +1768,18 @@ let rssTreeView = (function() {
 				m_objTreeFeedsData.set(elm.id, { lastVisited: Date.now() });
 			}).catch((error) => {
 				console.log("[Sage-Like]", error);
+			});
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function signinFeed(elmLI) {
+
+		if(TreeItemType.isUnauthorized(elmLI)) {
+			signinView.open().then((signinCredential) => {
+				if(!!signinCredential && signinCredential.initialized) {
+					openTreeFeed(elmLI, false, signinCredential);
+				}
 			});
 		}
 	}
@@ -2804,6 +2826,7 @@ let rssTreeView = (function() {
 		pasteFeedUrlFromClipboard: pasteFeedUrlFromClipboard,
 		deleteTreeItem: deleteTreeItem,
 		openAllFeedsInTabs: openAllFeedsInTabs,
+		signinFeed: signinFeed,
 		toggleVisitedState: toggleVisitedState,
 		markAllFeedsAsVisitedState: markAllFeedsAsVisitedState,
 		openEditTreeItemProperties: openEditTreeItemProperties,

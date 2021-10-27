@@ -1,0 +1,53 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+#signinPanel {
+	white-space: nowrap;
+	font-weight: normal;
+	overflow: hidden;
+}
+
+#signinPanel > .captionContainer {
+	display: flex;
+	justify-content: left;
+	margin: 0 0 var(--panel-spacing);
+}
+
+#signinPanel .captionImage {
+	background: transparent url("/icons/unauthorized.png") no-repeat center center;
+	width: 16px;
+	height: 16px;
+	margin: auto 8px auto 0;
+}
+
+#signinPanel .caption {
+	margin: 0;
+}
+
+.signinInfoContainer {
+	display: flex;
+	margin: var(--panel-spacing);
+}
+
+.signinInfoContainer label {
+	width: 65px;
+	margin: auto auto auto 0;
+}
+
+.signinInfoContainer .signinInput {
+	margin: auto 0 auto auto;
+	width: 80%;
+	font-size: inherit;
+}
+
+.signinButtonContainer {
+	display: flex;
+	justify-content: right;
+	margin-right: var(--panel-spacing);
+}
+
+#signinStatusbar {
+	margin-top: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: red;
+}

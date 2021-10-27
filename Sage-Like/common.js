@@ -504,6 +504,7 @@ class TreeItemType {
 	static isOpen(elm)			{ return this._isElm(elm) && elm.classList.contains("open"); }		// Use after checking that TreeItemType.isFolder() return true
 	static isClosed(elm)		{ return this._isElm(elm) && elm.classList.contains("closed"); }	// Use after checking that TreeItemType.isFolder() return true
 	static isError(elm)			{ return this._isElm(elm) && elm.classList.contains("errormsg"); }
+	static isUnauthorized(elm)	{ return this.isFeed(elm) && elm.classList.contains("unauthorized"); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
