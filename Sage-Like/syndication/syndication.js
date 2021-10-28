@@ -24,6 +24,11 @@ class SigninCredential {
 			this.initialized = true;		// The fetch's `init` object will have an `Authorization` header with provided username/password values.
 		}
 	}
+	setDefault() {
+		this.username = "";
+		this.password = "";
+		this.initialized = true;
+	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////

@@ -50,7 +50,7 @@ let rssTreeView = (function() {
 									"    \u2022 Use '>load' for feeds that are still loading. \n\n" +
 									"\u2731 Feeds may change their title, update time and/or status after the filter was applied.";
 
-	let TreeItemStatus = Object.freeze({
+	const TreeItemStatus = Object.freeze({
 		UNDEFINED: -1,
 		ERROR: 0,
 		VISITED: 1,
@@ -59,6 +59,13 @@ let rssTreeView = (function() {
 		EMPTY: 4,
 		ERROR_UNAUTHORIZED: 5,
 	});
+
+	// indicates from where the call has originated from
+	const UserInput = {
+		NONE: 0,	// A process not directly related to user input
+		EVENT: 1,	// An event-listener (click/keydown)
+		DIALOG: 2,	// Result of an interaction with a dialog (SlideDownPanel)
+	};
 
 	let m_elmToolbar;
 	let m_elmCheckTreeFeeds;
@@ -139,7 +146,7 @@ let rssTreeView = (function() {
 					message.details === slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
 
 					if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
-						openTreeFeed(m_elmCurrentlySelected, false);
+						openTreeFeed(m_elmCurrentlySelected, false, UserInput.NONE);
 					}
 				}
 				break;
@@ -436,7 +443,7 @@ let rssTreeView = (function() {
 				setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
 
 				if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
-					openTreeFeed(m_elmCurrentlySelected, false);
+					openTreeFeed(m_elmCurrentlySelected, false, UserInput.NONE);
 				}
 
 			} else {
@@ -1181,7 +1188,7 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openTreeFeed(elmLI, reload, signinCred = new SigninCredential()) {
+	function openTreeFeed(elmLI, reload, userInput = UserInput.EVENT, signinCred = new SigninCredential()) {
 
 		// remove here if is error
 		setFeedErrorState(elmLI, false);
@@ -1209,6 +1216,8 @@ let rssTreeView = (function() {
 
 					timeout *= 1000;	// to milliseconds
 
+					if(userInput === UserInput.NONE) signinCred.setDefault(); // set to empty username/password to prevent Fx login dialog
+
 					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, signinCred).then((result) => {
 
 						let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
@@ -1235,8 +1244,8 @@ let rssTreeView = (function() {
 							rssListView.setListErrorMsg(error.message, getTreeItemText(elmLI), url);
 						}
 
-						// signinCred will be initialized only if it was called from signinFeed()
-						if(signinCred.initialized){
+						// UserInput.DIALOG indicates that this call is a result of an interaction with a dialog (signinView)
+						if(userInput === UserInput.DIALOG) {
 							messageView.open(error.message, messageView.ButtonSet.setOK, "Sign in Failed");
 						}
 					}).finally(() => {	// wait for Fx v58
@@ -1779,7 +1788,7 @@ let rssTreeView = (function() {
 		if(TreeItemType.isUnauthorized(elmLI)) {
 			signinView.open().then((signinCredential) => {
 				if(!!signinCredential && signinCredential.initialized) {
-					openTreeFeed(elmLI, false, signinCredential);
+					openTreeFeed(elmLI, false, UserInput.DIALOG, signinCredential);
 				}
 			});
 		}
