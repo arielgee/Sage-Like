@@ -934,27 +934,19 @@
 * why the text in the messageView is centered? -> normal align
 * draw attention to the new `sign in` feature. Maybe with the InfoBubble
 * preventing Fx from opening 'Authentication Required' dialog when openTreeFeed() is called from onRuntimeMessage() or restoreTreeViewState(). NOTICE the 'Sign in Failed' message.
+* replace long parameter list with a single details object (search pattern: `function [a-zA-Z_0-9]+\((.*,){4}`) => bad idea
+* in v59, after 'sign in', browser do not remember authorization. reclicking the feed turns 'rss' back to 'lock'. feed preview is not prompting for user/password. => v64 is OK
+* rename getLinkFeedsFromFrames() to discoverFeedLinksInFrames()
 ---
 
 
 ## Now
-* replace long parameter list with a single details object (search pattern: `function [a-zA-Z_0-9]+\((.*,){4}`)
-	show(infoText, refElement = undefined, isAlertive = true, rightPointerStyle = false, showDuration = 3500, dismissOnScroll = false) {
-		let _details = Object.assign({
-			refElement: undefined,
-			isAlertive: true,
-			rightPointerStyle: false,
-			showDuration: 3500,
-			dismissOnScroll: false,
-		}, details)
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* in v59, after 'sign in', browser do not remember authorization. reclicking the feed turns 'rss' back to 'lock'. feed preview is not prompting for user/password.
 * Discovery(sidebar+popup) detect error is `401 unauth` and display link with the lock icon. (see _httpResponseStatus) ==> WAIT! I'll most likely display links that are not even feeds!!! ==> WAIT2! Just for Aggressiveness 'none' and 'low'. not 'high'.
-* rename getLinkFeedsFromFrames() to discoverFeedLinksInFrames()
 * when logging errors, log the error.message instaed on the entire error object. use discretion for each logging case. not relevent in all cases
 * in discover mode (sidebar & popup) when 401 is return show a notification 'a discoverable feed with sihn in info was found' (from webPageFeedsDiscovery() and feedDiscovery())
 * replace tree images with svg

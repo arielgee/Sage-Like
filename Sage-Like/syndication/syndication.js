@@ -83,7 +83,7 @@ let syndication = (function() {
 
 			// will NOT check in iframes when aggressive level is 0 ('none')
 			if(aggressiveLevel > 0) {
-				let result = await getLinkFeedsFromFrames(doc, selector, timeout);
+				let result = await discoverFeedLinksInFrames(doc, selector, timeout);
 				linkFeeds = linkFeeds.concat(result.linkFeeds);
 				iframeHosts = result.hosts;
 			}
@@ -157,7 +157,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getLinkFeedsFromFrames(doc, selector, timeout) {
+	function discoverFeedLinksInFrames(doc, selector, timeout) {
 
 		return new Promise((resolve) => {
 
