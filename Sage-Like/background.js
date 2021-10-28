@@ -305,7 +305,7 @@
 						break;
 					}
 				} catch (error) {
-					console.log("[Sage-Like]", error);
+					console.log("[Sage-Like]", error.message);
 				}
 			}
 			slUtil.setSafeBrowserActionBadgeText({ text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });

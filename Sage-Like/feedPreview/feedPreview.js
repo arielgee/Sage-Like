@@ -199,7 +199,7 @@
 
 					m_elmJumpListContainer.remove();
 					createErrorContent(error.message, (new URL(urlFeed)));
-					console.log("[Sage-Like]", "Fetch error at " + urlFeed, error);
+					console.log("[Sage-Like]", "Fetch error at " + urlFeed, error.message);
 
 				}).finally(() => {
 					if(elmFeedTitle.style.direction === "rtl") {

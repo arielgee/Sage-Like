@@ -937,18 +937,19 @@
 * replace long parameter list with a single details object (search pattern: `function [a-zA-Z_0-9]+\((.*,){4}`) => bad idea
 * in v59, after 'sign in', browser do not remember authorization. reclicking the feed turns 'rss' back to 'lock'. feed preview is not prompting for user/password. => v64 is OK
 * rename getLinkFeedsFromFrames() to discoverFeedLinksInFrames()
+* when logging errors, log the error.message instaed on the entire error object. use discretion for each logging case. not relevent in all cases
 ---
 
 
 ## Now
+* in discover mode (sidebar & popup) when 401 is return show a notification 'a discoverable feed with required authentication was found' (from webPageFeedsDiscovery() and feedDiscovery())
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* store username/password locally? + asynchronous encryption ??? (see: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt)
 * Discovery(sidebar+popup) detect error is `401 unauth` and display link with the lock icon. (see _httpResponseStatus) ==> WAIT! I'll most likely display links that are not even feeds!!! ==> WAIT2! Just for Aggressiveness 'none' and 'low'. not 'high'.
-* when logging errors, log the error.message instaed on the entire error object. use discretion for each logging case. not relevent in all cases
-* in discover mode (sidebar & popup) when 401 is return show a notification 'a discoverable feed with sihn in info was found' (from webPageFeedsDiscovery() and feedDiscovery())
 * replace tree images with svg
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
