@@ -388,9 +388,11 @@ body * {
 }
 
 #infoBubble .infoBubbleSymbol {
-	width: 16px;
-	height: 16px;
+	--image-size: 16px;
+	min-width: var(--image-size);
+	min-height: var(--image-size);
 	margin-inline-end: 6px;
+	margin-top: calc((var(--line-height) - var(--image-size)) / 2);
 	background: transparent url("/icons/blueInfo.png") no-repeat center/100%;
 }
 

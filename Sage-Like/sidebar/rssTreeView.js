@@ -1228,6 +1228,7 @@ let rssTreeView = (function() {
 
 						setFeedErrorState(elmLI, true, error);
 						updateTreeItemStats(elmLI, 0, 0);		// will remove the stats
+						showUnauthorizedInfoBubble(elmLI, error);
 
 						// change the rssListView content only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {
@@ -2815,6 +2816,19 @@ let rssTreeView = (function() {
 			} else {
 				document.documentElement.style.setProperty("--tree-view-scrollbar-width", "0px");
 			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function showUnauthorizedInfoBubble(refElm, errorObject) {
+
+		if(typeof(errorObject.httpResponseStatus) === "function" && errorObject.httpResponseStatus() === 401) {
+			internalPrefs.getMsgShowCountUnauthorizedFeed().then((count) => {
+				if(count > 0) {
+					InfoBubble.i.show("Unauthenticated. Right-click the locked feed and select <b>Sign\u00a0in...</b> from the menu, or use the <b>L</b> key.", refElm, false, m_elmTreeRoot.style.direction === "rtl", 8000, true);
+					internalPrefs.setMsgShowCountUnauthorizedFeed(--count);
+				}
+			});
 		}
 	}
 
