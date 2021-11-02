@@ -157,6 +157,11 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function isUnauthorizedError(errorObject) {
+		return (!!errorObject && typeof(errorObject.httpResponseStatus) === "function" && errorObject.httpResponseStatus() === 401);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function discoverFeedLinksInFrames(doc, selector, timeout) {
 
 		return new Promise((resolve) => {
@@ -350,6 +355,7 @@ let syndication = (function() {
 		webPageFeedsDiscovery: webPageFeedsDiscovery,
 		fetchFeedData: fetchFeedData,
 		fetchFeedItems: fetchFeedItems,
+		isUnauthorizedError: isUnauthorizedError,
 	};
 
 })();

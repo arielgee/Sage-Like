@@ -948,6 +948,7 @@
 
 
 ## Next
+* check the function parameter: foo(p, { a = 1, b = "X"} = {}). (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 * store username/password locally? + asynchronous encryption ??? (see: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt)
 * Discovery(sidebar+popup) detect error is `401 unauth` and display link with the lock icon. (see _httpResponseStatus) ==> WAIT! I'll most likely display links that are not even feeds!!! ==> WAIT2! Just for Aggressiveness 'none' and 'low'. not 'high'.
 * replace tree images with svg

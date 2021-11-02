@@ -2146,7 +2146,7 @@ let rssTreeView = (function() {
 
 		if(isError) {
 			elm.classList.add("error");
-			elm.classList.toggle("unauthorized", (typeof(error.httpResponseStatus) === "function" && error.httpResponseStatus() === 401));
+			elm.classList.toggle("unauthorized", syndication.isUnauthorizedError(error));
 			setTreeItemTooltip(elm, "Error: " + error.message);
 		} else {
 			elm.classList.remove("error", "unauthorized");
@@ -2263,7 +2263,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isFeedInTree(url) {
-		return (m_elmTreeRoot.querySelector("." + slGlobals.CLS_RTV_LI_TREE_FEED + "[href=\"" + url + "\"]") !== null);
+		return (m_elmTreeRoot.querySelector("." + slGlobals.CLS_RTV_LI_TREE_FEED + "[href=\"" + url + "\" i]") !== null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2831,7 +2831,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function showUnauthorizedInfoBubble(refElm, errorObject) {
 
-		if(typeof(errorObject.httpResponseStatus) === "function" && errorObject.httpResponseStatus() === 401) {
+		if(syndication.isUnauthorizedError(errorObject)) {
 			internalPrefs.getMsgShowCountUnauthorizedFeed().then((count) => {
 				if(count > 0) {
 					InfoBubble.i.show("Unauthenticated. Right-click the locked feed and select <b>Sign\u00a0in...</b> from the menu, or use the <b>L</b> key.", refElm, false, m_elmTreeRoot.style.direction === "rtl", 8000, true);
