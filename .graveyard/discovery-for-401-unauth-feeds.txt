@@ -1,0 +1,34 @@
+contect.js
+	const isUnauthorizedFeed = (feedData.status === "error" && feedData.unauthorized && /rss|feed|atom|syndicat/i.test(feedData.url));
+	resolve(this._feedCount = (feedData.status === "OK" || isUnauthorizedFeed ? 1 : 0));
+
+popup.js
+	const isUnauthorizedFeed = (feed.status === "error" && feed.unauthorized);		// here it's only discoverable feeds (aggressiveLevel=0)
+
+	if((isUnauthorizedFeed)) {
+		feed.feedTitle = slGlobals.STR_TITLE_POSSIBLE_SIGN_IN_FEED.format([ !!feed.index ? feed.index+1 : 1 ]);
+	}
+
+	if(feed.status === "OK" || isUnauthorizedFeed) {
+
+discoveryView.js
+	const isUnauthorizedFeed = (feedData.status === "error" && feedData.unauthorized && /rss|feed|atom|syndicat/i.test(feedData.url));
+
+	if((isUnauthorizedFeed)) {
+		feedData.feedTitle = slGlobals.STR_TITLE_POSSIBLE_SIGN_IN_FEED.format([1]);
+	}
+
+	if(feedData.status === "OK" || isUnauthorizedFeed) {
+
+
+
+	// a link is considered an 'unauthorized feed' if it's a discoverable feed (aggressiveLevel=0) or its URL hints that it is a feed.
+	const isUnauthorizedFeed = (feed.status === "error" && feed.unauthorized && (aggressiveLevel === 0 || /rss|feed|atom|syndicat/i.test(feed.url)));
+
+	//becouse of regexp the above is not getting `<link rel="alternate" type="application/rss+xml"	title="FEED-TEST-AUTH" href="http://eu.httpbin.org/digest-auth/qop/authfail/authfail" />`
+
+	if(isUnauthorizedFeed) {
+		feed.feedTitle = slGlobals.STR_TITLE_POSSIBLE_SIGN_IN_FEED.format([feed.index+1]);
+	}
+
+	if(feed.status === "OK" || isUnauthorizedFeed) {

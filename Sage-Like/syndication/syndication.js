@@ -55,7 +55,7 @@ let syndication = (function() {
 			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
 				setDiscoveredFeedFromSource(discoveredFeed, feedSrc, (new URL(url)), 0);
 			}).catch((error) => {
-				discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: error.message});
+				setDiscoveredFeedError(discoveredFeed, error);
 			}).finally(() => {
 				resolve(discoveredFeed);
 			});
@@ -107,7 +107,7 @@ let syndication = (function() {
 					setDiscoveredFeedFromSource(discoveredFeed, feedSrc, url, index);
 
 				}).catch((error) => {
-					discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: error.message});
+					setDiscoveredFeedError(discoveredFeed, error, index);
 				}).finally(() => {
 					// Only if not aborted
 					if(!objAbort.isAborted) callback(discoveredFeed);
@@ -247,6 +247,16 @@ let syndication = (function() {
 				itemCount: feedData.itemCount,
 			});
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setDiscoveredFeedError(discoveredFeed, errorObject, index = -1) {
+		discoveredFeed = Object.assign(discoveredFeed, {
+			status: "error",
+			message: errorObject.message,
+			unauthorized: isUnauthorizedError(errorObject),
+		},
+		(index > -1) ? { index: index } : {});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

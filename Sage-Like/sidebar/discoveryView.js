@@ -200,7 +200,7 @@ let discoveryView = (function() {
 					m_elmDiscoverFeedsList.appendChild(createTagLI(feedData));
 					setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
 				} else if(feedData.status === "error") {
-					if( !injectErr.nativeError.message.toLowerCase().startsWith("missing host permission for the tab") ) {
+					if( !!!injectErr || !(injectErr.nativeError instanceof Error) || !(injectErr.nativeError.message.toLowerCase().startsWith("missing host permission for the tab")) ) {
 						console.log("[Sage-Like]", feedData.url, feedData.message, ...(!!injectErr ? ["[ Inject error: ", injectErr, "]"] : []));
 					}
 				}
