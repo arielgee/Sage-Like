@@ -194,13 +194,15 @@ let contextMenu = (function() {
 	function onMouseMoveContextMenu(event) {
 		if(event.target.classList.contains("contextmenuitem")) {
 			event.target.focus();
+		} else {
+			m_elmContextMenu.focus();	// move focus to parent (may be an <hr> line)
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurContextMenu(event) {
-		// close menu if not focusing on a menuITEM
-		if( !!!event.relatedTarget || !event.relatedTarget.classList.contains("contextmenuitem") ) {
+		// close menu if focus is outside the context menu
+		if( !!!event.relatedTarget || !!!event.relatedTarget.closest(".contextmenu") ) {
 			closeContextMenu();
 		}
 	}
