@@ -108,6 +108,12 @@ let contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onContextMenu(event) {
 
+		m_elmEventTarget = event.target;
+
+		// show default context menu for text inputs
+		if(m_elmEventTarget.tagName === "INPUT" && ["text", "password"].includes(m_elmEventTarget.type.toLowerCase()))
+			return;
+
 		event.preventDefault();
 
 		// don't show menu if tree has issues
@@ -117,7 +123,6 @@ let contextMenu = (function() {
 		}
 
 		m_bActivePanelOpened = false;
-		m_elmEventTarget = event.target;
 
 		let showMenu = true;
 
