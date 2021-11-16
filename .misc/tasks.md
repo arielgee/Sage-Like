@@ -940,20 +940,20 @@
 * when logging errors, log the error.message instaed on the entire error object. use discretion for each logging case. not relevent in all cases
 * in discover mode (sidebar & popup) when 401 is return show a notification 'a discoverable feed with required authentication was found' (from webPageFeedsDiscovery() and feedDiscovery()) => COMPLICATED & INCONSISTENT: Discovery treats unauthentication as any error
 * Discovery(sidebar+popup) detect error is `401 unauth` and display link with the lock icon. (see _httpResponseStatus) ==> WAIT! I'll most likely display links that are not even feeds!!! ==> WAIT2! Just for Aggressiveness 'none' and 'low'. not 'high'. => COMPLICATED & INCONSISTENT: Discovery treats unauthentication as any error
-* make `/rss|feed|atom|syndicat/i` general in slUtil -> abondend.the 2 previous items made it irelevent
+* make `/rss|feed|atom|syndicat/i` general in slUtil -> abondend. The 2 previous items made it irelevent
+* check the function parameter: foo(p, { a = 1, b = "X"} = {}). (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+* replace tree images with svg
 ---
 
 
 ## Now
-* check the function parameter: foo(p, { a = 1, b = "X"} = {}). (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
 * remember user/password for feed in memory only to be used each time the feed is accessed.
-* store username/password locally? + asynchronous encryption ??? (see: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt)
-* replace tree images with svg
+* store username/password locally? + symmetric encryption ??? (see: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt)
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

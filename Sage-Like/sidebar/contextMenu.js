@@ -210,7 +210,7 @@ let contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownContextMenu(event) {
 
-		let qResult, keyCode = event.code;
+		let elm, keyCode = event.code;
 
 		// The 'Sign in...' menu item (acceleratorKey:'L') is an oddball. Its visibility depends not only on the
 		// element context (tree feed item) but also on the element's state (unauthorized). So in order to prevent
@@ -225,24 +225,41 @@ let contextMenu = (function() {
 		switch(keyCode) {
 
 			case "ArrowUp":
-				qResult = m_elmContextMenu.querySelectorAll(".contextmenuitem." + m_currentContext);	// all visible items
-				for(let i=0, len=qResult.length; i<len; i++) {
-					if(qResult[i].id === event.target.id && i >= 1) {
-						qResult[i-1].focus();
+				elm = event.target;
+				while( !!(elm = elm.previousElementSibling) ) {
+					if( !!elm.offsetParent && elm.classList.contains("contextmenuitem") ) {		// visible menu item
+						elm.focus();
 						break;
-					} else if(i === len-1) {
-						qResult[qResult.length-1].focus();	// last item
 					}
+				}
+				if(!!!elm) {
+					elm = m_elmContextMenu.lastElementChild;
+					do {
+						if( !!elm.offsetParent && elm.classList.contains("contextmenuitem") ) {
+							elm.focus();
+							break;
+						}
+					} while(!!(elm = elm.previousElementSibling));
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowDown":
-				qResult = m_elmContextMenu.querySelector("#" + event.target.id + " ~ .contextmenuitem." + m_currentContext);	// first visible after target
-				if(!!qResult) {
-					qResult.focus();
-				} else {
-					m_elmContextMenu.querySelector(".contextmenuitem." + m_currentContext).focus();	// first item
+				elm = event.target;
+				while( !!(elm = elm.nextElementSibling) ) {
+					if( !!elm.offsetParent && elm.classList.contains("contextmenuitem") ) {
+						elm.focus();
+						break;
+					}
+				}
+				if(!!!elm) {
+					elm = m_elmContextMenu.firstElementChild;
+					do {
+						if( !!elm.offsetParent && elm.classList.contains("contextmenuitem") ) {
+							elm.focus();
+							break;
+						}
+					} while(!!(elm = elm.nextElementSibling));
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -380,6 +397,7 @@ let contextMenu = (function() {
 		if (!m_elmEventTarget) return;
 
 		let openPanelActions = [
+			ContextAction.treeSigninFeed,
 			ContextAction.treeNewFeed,
 			ContextAction.treeNewFolder,
 			ContextAction.treeDeleteTreeItem,
