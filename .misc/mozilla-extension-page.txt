@@ -59,14 +59,13 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>User can now play media attachments (RSS enclosures) directly from the Feed Preview page (audio and video).</li>
-  <li>Image attachments will be loaded and displayed in the Feed Preview page instead of a link.</li>
-  <li>Improved the ability of the Feed Preview to acquire the favicon.</li>
-  <li>Added a new option to mark all feed entries as "Read" when a feed is opened in Feed Preview.</li>
-  <li>Added support for RSS/Atom feeds containing entries without an article link but with an enclosure link (Podcasts).</li>
-  <li>Bugfix: Startup tabs (pinned, homepage urls) sometimes might incorrectly be parsed as a Feed Preview page. Bug reported by Chris at discourse.mozilla.org.</li>
-  <li>Minor UI changes in Options page.</li>
-  <li>Various under the hood code improvements.</li>
+  <li>Added support for feeds that require basic client authentication. Sign in to an unauthorized feed using user/password from its context menu.</li>
+  <li>Improved the page loading performance of the Feed Preview for feeds with media attachments.</li>
+  <li>Added 2 new feed filtering methods - by update time and by error-unauthorized status. To learn more, hover with the mouse over the opened filter in the toolbar.</li>
+  <li>Added a visual notification in the tree as an indicator of hidden feeds due to an applied filter.</li>
+  <li>Added 2 new toolbar buttons for the 'Mark all Tree Feeds as Read/Unread' functionalities.</li>
+  <li>Code improvements</li>
+  <li>UI improvements</li>
 </ul>
 
 + Version Notes for next time
