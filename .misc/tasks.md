@@ -943,6 +943,8 @@
 * make `/rss|feed|atom|syndicat/i` general in slUtil -> abondend. The 2 previous items made it irelevent
 * check the function parameter: foo(p, { a = 1, b = "X"} = {}). (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 * replace tree images with svg
+* remember user/password for feed in memory only to be used each time the feed is accessed. => is done by fx. browser sends `Authorization Basic V0VCVXNlcjoxcWF6QFdTWA==` even if sidebar is closed AND stored cookies, site data, and cache is cleard from settings
+* store username/password locally? + symmetric encryption ??? (see: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt) = ?
 ---
 
 
@@ -952,8 +954,6 @@
 
 
 ## Next
-* remember user/password for feed in memory only to be used each time the feed is accessed.
-* store username/password locally? + symmetric encryption ??? (see: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt)
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
