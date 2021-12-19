@@ -579,13 +579,11 @@ let Global = (function() {
 		IMG_TREE_ITEM_UNAUTHORIZED:	"url(\"/icons/unauthorized-{0}.png\")",
 	};
 
-	const IMAGE_SET_VALUES = [0, 1, 2, 3, 4, 5, 6];
-
 	const IMAGE_SET = function(setNumber) {
 
 		setNumber = parseInt(setNumber);
 
-		if( !(IMAGE_SET_VALUES.includes(setNumber)) ) {
+		if( !([...Array(7).keys()].includes(setNumber)) ) {			// there's 7 image sets in the '/icons' folder: 'open-[0-6].png'
 			throw new Error("Invalid image set number: " + setNumber);
 		}
 
@@ -674,7 +672,6 @@ let Global = (function() {
 		EXTRA_URL_PARAM_NO_REDIRECT_SPLIT: EXTRA_URL_PARAM_NO_REDIRECT_SPLIT,
 		EXTRA_URL_PARAM_NO_REDIRECT: EXTRA_URL_PARAM_NO_REDIRECT,
 
-		IMAGE_SET_VALUES: IMAGE_SET_VALUES,
 		IMAGE_SET: IMAGE_SET,
 
 		VIEW_CONTENT_LOAD_FLAG: VIEW_CONTENT_LOAD_FLAG,

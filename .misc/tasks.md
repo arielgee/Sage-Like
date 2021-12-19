@@ -946,12 +946,12 @@
 * remember user/password for feed in memory only to be used each time the feed is accessed. => is done by fx. browser sends `Authorization Basic V0VCVXNlcjoxcWF6QFdTWA==` even if sidebar is closed AND stored cookies, site data, and cache is cleard from settings
 * store username/password locally? + symmetric encryption ??? (see: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt) = ?
 * add context menu item 'Try to Open Link in Feed Preview'; with preference
+* replace this: 'IMAGE_SET_VALUES = [0, 1, 2, 3, 4, 5, 6]' with this '[...Array(7).keys()]'
 ---
 
 
 ## Now
 * const valiables is slGlobals are not const - refactor slGlobals to a class and static get members.
-* replace this: 'IMAGE_SET_VALUES = [0, 1, 2, 3, 4, 5, 6]' with this '[...Array(7).keys()]'
 * in slGlobals.IMAGE_SET() freeze result object
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
