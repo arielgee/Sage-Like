@@ -22,7 +22,7 @@ let panel = (function() {
 
 	let m_windowId = null;
 
-	let m_viewsLoadedContentFlags = slGlobals.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
+	let m_viewsLoadedContentFlags = Global.VIEW_CONTENT_LOAD_FLAG.NO_VIEW_LOADED;
 
 	initialization();
 
@@ -44,39 +44,39 @@ let panel = (function() {
 
 		switch (message.id) {
 
-			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL) {
+			case Global.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL) {
 					setAnimatedSlideDownPanelFromPreferences();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_UI_DENSITY) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_UI_DENSITY) {
 					setPanelDensityFromPreferences();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_FONT_NAME) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_FONT_NAME) {
 					setPanelFontNameFromPreferences();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT) {
 					setPanelFontSizePercentFromPreferences();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_COLORS) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_COLORS) {
 					setPanelColorsFromPreferences();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_IMAGES) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_IMAGES) {
 					setPanelImageSetFromPreferences();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS) {
 					setFeedItemsDescColorsFromPreferences();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:
+			case Global.MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:
 				closeAllSidebarPanels();
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -94,8 +94,8 @@ let panel = (function() {
 
 		m_elmToolbar = document.getElementById("toolbar");
 
-		m_elmTree = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
-		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
+		m_elmTree = document.getElementById(Global.ID_UL_RSS_TREE_VIEW);
+		m_elmList = document.getElementById(Global.ID_UL_RSS_LIST_VIEW);
 
 		window.addEventListener("resize", onResize, false);
 		m_elmBody.addEventListener("keydown", onKeyDownBody);
@@ -203,7 +203,7 @@ let panel = (function() {
 		prefs.getImageSet().then(setNumber => {
 
 			let style = document.documentElement.style;
-			let imageSet = slGlobals.IMAGE_SET(setNumber);
+			let imageSet = Global.IMAGE_SET(setNumber);
 
 			style.setProperty("--url-img-open-folder", imageSet.IMG_OPEN_FOLDER);
 			style.setProperty("--url-img-closed-folder", imageSet.IMG_CLOSED_FOLDER);
@@ -354,7 +354,7 @@ let panel = (function() {
 		m_viewsLoadedContentFlags |= viewContentLoadFlag;
 
 		// set panel layout only after the content of rssTreeView & rssListView was loaded
-		if(m_viewsLoadedContentFlags === slGlobals.VIEW_CONTENT_LOAD_FLAG.ALL_VIEWS_LOADED) {
+		if(m_viewsLoadedContentFlags === Global.VIEW_CONTENT_LOAD_FLAG.ALL_VIEWS_LOADED) {
 			internalPrefs.getSplitterTop().then((splitterTop) => setPanelLayout(splitterTop));
 		}
 	}

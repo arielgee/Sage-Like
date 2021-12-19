@@ -468,9 +468,9 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeRootFeedsFolder(event) {
 		prefs.setRootFeedsFolderId(m_elmRootFeedsFolder.value).then(()=> {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ROOT_FOLDER);
 		});
-		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
+		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 		flashRootFeedsFolderElement();
 	}
 
@@ -510,14 +510,14 @@ let preferences = (function() {
 					m_elmCheckFeedsInterval.value = timeValue;
 
 					prefs.setCheckFeedsInterval(timeValue).then(() => {
-						broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
+						broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
 					});
 				}
 			});
 
 		} else {
 			prefs.setCheckFeedsInterval(m_elmCheckFeedsInterval.value).then(() => {
-				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
+				broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL);
 			});
 		}
 		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, m_elmCheckFeedsInterval.value === "0");
@@ -547,7 +547,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeSortFeedItems(event) {
 		prefs.setSortFeedItems(m_elmSortFeedItems.checked).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SORT_FEED_ITEMS);
 		});
 	}
 
@@ -574,14 +574,14 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeShowFeedStats(event) {
 		prefs.setShowFeedStats(m_elmShowFeedStats.checked).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_STATS);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_STATS);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeShowFeedItemDesc(event) {
 		prefs.setShowFeedItemDesc(m_elmShowFeedItemDesc.checked).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC);
 		});
 		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
 		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
@@ -596,7 +596,7 @@ let preferences = (function() {
 			});
 		} else {
 			prefs.setFeedItemDescDelay(m_elmFeedItemDescDelay.value).then(() => {
-				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY);
+				broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY);
 			});
 		}
 	}
@@ -604,7 +604,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeShowFeedItemDescAttach(event) {
 		prefs.setShowFeedItemDescAttach(m_elmShowFeedItemDescAttach.checked).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH);
 		});
 	}
 
@@ -612,7 +612,7 @@ let preferences = (function() {
 	function onChangeColorFeedItemDescBackground(event) {
 		m_elmColorFeedItemDescBackground.title = colorInputTitle(m_elmColorFeedItemDescBackground.value);
 		prefs.setColorFeedItemDescBackground(m_elmColorFeedItemDescBackground.value).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
 		});
 	}
 
@@ -620,21 +620,21 @@ let preferences = (function() {
 	function onChangeColorFeedItemDescText(event) {
 		m_elmColorFeedItemDescText.title = colorInputTitle(m_elmColorFeedItemDescText.value);
 		prefs.setColorFeedItemDescText(m_elmColorFeedItemDescText.value).then(() =>{
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeDetectFeedsInWebPage(event) {
 		prefs.setDetectFeedsInWebPage(m_elmDetectFeedsInWebPage.checked).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeUIDensity(event) {
 		prefs.setUIDensity(m_elmUIDensity.value).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_UI_DENSITY);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_UI_DENSITY);
 		});
 	}
 
@@ -689,14 +689,14 @@ let preferences = (function() {
 					m_elmFontName.value = userFontName;
 
 					prefs.setFontName(m_elmFontName.value).then(() => {
-						broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+						broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FONT_NAME);
 					});
 				}
 			});
 
 		} else {
 			prefs.setFontName(m_elmFontName.value).then(() => {
-				broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_NAME);
+				broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FONT_NAME);
 			});
 		}
 	}
@@ -704,7 +704,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeFontSizePercent(event) {
 		prefs.setFontSizePercent(m_elmFontSizePercent.value).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FONT_SIZE_PERCENT);
 		});
 	}
 
@@ -712,7 +712,7 @@ let preferences = (function() {
 	function onChangeColorBackground(event) {
 		m_elmColorBackground.title = colorInputTitle(m_elmColorBackground.value);
 		prefs.setColorBackground(m_elmColorBackground.value).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_COLORS);
 		});
 	}
 
@@ -720,7 +720,7 @@ let preferences = (function() {
 	function onChangeColorDialogBackground(event) {
 		m_elmColorDialogBackground.title = colorInputTitle(m_elmColorDialogBackground.value);
 		prefs.setColorDialogBackground(m_elmColorDialogBackground.value).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_COLORS);
 		});
 	}
 
@@ -728,7 +728,7 @@ let preferences = (function() {
 	function onChangeColorSelect(event) {
 		m_elmColorSelect.title = colorInputTitle(m_elmColorSelect.value);
 		prefs.setColorSelect(m_elmColorSelect.value).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_COLORS);
 		});
 	}
 
@@ -736,21 +736,21 @@ let preferences = (function() {
 	function onChangeColorText(event) {
 		m_elmColorText.title = colorInputTitle(m_elmColorText.value);
 		prefs.setColorText(m_elmColorText.value).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_COLORS);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_COLORS);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickRadioImageSet(event) {
 		prefs.setImageSet(parseInt(event.target.value)).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_IMAGES);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_IMAGES);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeShowTryOpenLinkInFeedPreview(event) {
 		prefs.setShowTryOpenLinkInFeedPreview(m_elmShowTryOpenLinkInFeedPreview.checked).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW);
 		});
 	}
 
@@ -770,7 +770,7 @@ let preferences = (function() {
 				flashCustomCSSImportButton();
 				if(hash.length > 0) {
 					prefs.getCustomCSSSource().then((currentSource) => {
-						broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, currentSource);
+						broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, currentSource);
 					});
 				}
 			});
@@ -785,7 +785,7 @@ let preferences = (function() {
 
 				prefs.getCustomCSSSource().then((prevSource) => {
 					prefs.setCustomCSSSource(result.source).then(() => {
-						broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
+						broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
 					});
 				});
 
@@ -828,7 +828,7 @@ let preferences = (function() {
 		ifNotepadWindowIsClosed().then(() => {
 			prefs.getCustomCSSSource().then((prevSource) => {
 				prefs.setCustomCSSSource(prefs.DEFAULTS.customCSSSource).then(() => {
-					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
+					broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE, prevSource);
 				});
 			});
 			slUtil.disableElementTree(m_elmBtnEditCSSSource, true);
@@ -840,7 +840,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeImportOpml(event) {
 
-		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER });
+		browser.runtime.sendMessage({ id: Global.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER });
 		m_lockBookmarksEventHandler.lock();
 
 		let elmPrefOverlayFeedTrans = document.getElementById("prefOverlayFeedTrans");
@@ -852,8 +852,8 @@ let preferences = (function() {
 		opml.importFeeds.run(event.target.files[0]).then((result) => {
 
 			initializeSelectFeedsFolder();
-			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: result.newFolderId });
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER);
+			browser.runtime.sendMessage({ id: Global.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID, itemId: result.newFolderId });
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ROOT_FOLDER);
 
 			let skipped = result.stats.outlineCount - (result.stats.feedCount + result.stats.folderCount);
 			let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully imported.";
@@ -866,7 +866,7 @@ let preferences = (function() {
 			showMessageBox("Error", error, elmPref);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
-			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
+			browser.runtime.sendMessage({ id: Global.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
 			m_lockBookmarksEventHandler.unlock();
 
 			elmPrefOverlayFeedTrans.classList.remove("processing");
@@ -907,7 +907,7 @@ let preferences = (function() {
 
 		preferencesData.import.run(event.target.files[0]).then(() => {
 
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ALL);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ALL);
 			let msg = "File was successfully imported.\n\nThis page will now be reloaded to reflect imported options.";
 			showMessageBox("Import", msg, elmPref, () => browser.tabs.reload({ bypassCache: true }) );
 
@@ -956,7 +956,7 @@ let preferences = (function() {
 		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, !defPrefs.useCustomCSSFeedPreview);
-		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, defPrefs.rootFeedsFolderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
+		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, defPrefs.rootFeedsFolderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
@@ -994,7 +994,7 @@ let preferences = (function() {
 
 		flashRootFeedsFolderElement();
 		flashCustomCSSImportButton();
-		broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ALL);
+		broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ALL);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1039,7 +1039,7 @@ let preferences = (function() {
 
 		let selected = m_elmRootFeedsFolder.options[m_elmRootFeedsFolder.selectedIndex];
 
-		if(selected === undefined || selected.value === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+		if(selected === undefined || selected.value === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 			m_elmRootFeedsFolder.classList.add("flash");
 		} else {
 			m_elmRootFeedsFolder.classList.remove("flash");
@@ -1059,9 +1059,9 @@ let preferences = (function() {
 
 				// if folderId is no longer valid (deleted)
 				if(m_elmRootFeedsFolder.options[m_elmRootFeedsFolder.selectedIndex] === undefined) {
-					m_elmRootFeedsFolder.value = slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET
+					m_elmRootFeedsFolder.value = Global.ROOT_FEEDS_FOLDER_ID_NOT_SET
 				}
-				slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET);
+				slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 				setTimeout(() => flashRootFeedsFolderElement(), 500);
 			});
 		});
@@ -1079,9 +1079,9 @@ let preferences = (function() {
 				frag.removeChild(frag.firstElementChild);
 			}
 
-			browser.bookmarks.getSubTree(slGlobals.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
+			browser.bookmarks.getSubTree(Global.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
 
-				let elmOption = createTagOption(slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
+				let elmOption = createTagOption(Global.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
 				frag.appendChild(elmOption);
 
 				let folderChildren = bookmarks[0].children;
@@ -1315,7 +1315,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function broadcastPreferencesUpdated(details, payload = undefined) {
 		browser.runtime.sendMessage({
-			id: slGlobals.MSG_ID_PREFERENCES_CHANGED,
+			id: Global.MSG_ID_PREFERENCES_CHANGED,
 			details: details,
 			payload: payload,
 	 	});
@@ -1422,11 +1422,11 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function hidden_pref_animated_slide_down_panel(animate = true) {
 		// do not change this preference while any slide-down panel is visible (down)
-		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_CLOSE_ALL_SIDEBAR_PANELS }).then(() => {
+		browser.runtime.sendMessage({ id: Global.MSG_ID_CLOSE_ALL_SIDEBAR_PANELS }).then(() => {
 			// wait a little to make sure all transitions were completed
 			slUtil.sleep(450).then(() => {
 				prefs.setAnimatedSlideDownPanel(!!animate).then(() => {
-					broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL);
+					broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL);
 				});
 			});
 		});
@@ -1436,7 +1436,7 @@ let preferences = (function() {
 	function hidden_pref_strict_rss_content_types(strict = true) {
 		console.log("[Sage-Like]", "WARNING: The result of setting this preference to 'False' is that Sage-Like will treat nearly any XML file as an RSS feed and attempt to display it with Feed Preview.");
 		prefs.setStrictRssContentTypes(!!strict).then(() => {
-			broadcastPreferencesUpdated(slGlobals.MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES);
 		});
 	}
 

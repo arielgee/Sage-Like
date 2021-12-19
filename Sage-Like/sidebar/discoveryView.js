@@ -130,7 +130,7 @@ let discoveryView = (function() {
 
 				pageData.get(tab.id).then((pd) => {
 
-					if(!!!pd.title) pd.title = slGlobals.STR_TITLE_EMPTY;
+					if(!!!pd.title) pd.title = Global.STR_TITLE_EMPTY;
 
 					if( (pd.docElmId === "feedHandler" && !!!pd.domainName) || pd.isPlainText ) {
 
@@ -299,7 +299,7 @@ let discoveryView = (function() {
 		elmCheckBox.type = "checkbox";
 		elmCheckBox.tabIndex = -1;						// only the elmListItem can get the focus
 
-		elmLabelCaption.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : slGlobals.STR_TITLE_EMPTY);
+		elmLabelCaption.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : Global.STR_TITLE_EMPTY);
 		elmLabelCaption.className = "dfLabelCaption";
 
 		elmLabelFormat.textContent = feed.format;
@@ -518,7 +518,7 @@ let discoveryView = (function() {
 				if(event.ctrlKey && event.altKey && !event.shiftKey) {
 
 					let url = new URL(target.getAttribute("href"));
-					url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+					url.searchParams.append(...(Global.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
 					url = url.toString();
 
 					// ++Dev Mode++: open link & link view-source in new tabs
@@ -659,7 +659,7 @@ let discoveryView = (function() {
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
-			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				setStatusbarMessage("Feeds folder not set in Options page.", true);
 				browser.runtime.openOptionsPage();
 			} else {

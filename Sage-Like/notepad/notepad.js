@@ -220,8 +220,8 @@ let notepad = (function() {
 			await prefs.setCustomCSSSource(m_elmSourceEditor.value);
 
 			browser.runtime.sendMessage({
-				id: slGlobals.MSG_ID_PREFERENCES_CHANGED,
-				details: slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE,
+				id: Global.MSG_ID_PREFERENCES_CHANGED,
+				details: Global.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE,
 				payload: m_savedCSSSource,
 			});
 

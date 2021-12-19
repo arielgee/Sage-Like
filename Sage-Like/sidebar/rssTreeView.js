@@ -116,9 +116,9 @@ let rssTreeView = (function() {
 
 		switch (message.id) {
 
-			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_ROOT_FOLDER) {
+			case Global.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_ROOT_FOLDER) {
 					messageView.close();
 					discoveryView.close();
 					NewFeedPropertiesView.close();
@@ -130,20 +130,20 @@ let rssTreeView = (function() {
 					createRSSTree();
 				}
 
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
 					monitorRSSTreeFeeds();
 				}
 
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_STATS) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_STATS) {
 					setShowFeedStatsFromPreferences();
 				}
 
-				// Entire tree is recreated when: message.details === slGlobals.MSGD_PREF_CHANGE_ALL
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
+				// Entire tree is recreated when: message.details === Global.MSGD_PREF_CHANGE_ALL
+				if (message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC ||
+					message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH ||
+					message.details === Global.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
 
 					if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
 						openTreeFeed(m_elmCurrentlySelected, false, UserInput.NONE);
@@ -152,22 +152,22 @@ let rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER:
+			case Global.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER:
 				m_lockBookmarksEventHandler.lock();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER:
+			case Global.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER:
 				m_lockBookmarksEventHandler.unlock();
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID:
+			case Global.MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID:
 				m_prioritySelectedItemId = message.itemId;
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_ADD_NEW_DISCOVERED_FEEDS:
+			case Global.MSG_ID_ADD_NEW_DISCOVERED_FEEDS:
 				if(message.winId === panel.getWindowId()) {
 					for(let feed of message.feeds) {
 						if(isFeedInTree(feed.url)) {
@@ -190,7 +190,7 @@ let rssTreeView = (function() {
 		m_elmTextFilter = document.getElementById("textFilter");
 		m_elmReapplyFilter = document.getElementById("reapplyFilter");
 		m_elmCheckTreeFeeds = document.getElementById("checkTreeFeeds");
-		m_elmTreeRoot = document.getElementById(slGlobals.ID_UL_RSS_TREE_VIEW);
+		m_elmTreeRoot = document.getElementById(Global.ID_UL_RSS_TREE_VIEW);
 
 		if(await internalPrefs.getIsExtensionInstalled()) {
 			internalPrefs.setIsExtensionInstalled(false);
@@ -229,7 +229,7 @@ let rssTreeView = (function() {
 		slUtil.setSafeBrowserActionBadgeText({ text: "", windowId: (await browser.windows.getCurrent()).id });
 		m_elmFilterTextBoxContainer.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 
-		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
+		panel.notifyViewContentLoaded(Global.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +281,7 @@ let rssTreeView = (function() {
 			} else {
 
 				// switched from 'show' to 'do not show', clear stat text
-				let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS);
+				let elms = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS);
 
 				for(let i=0, len=elms.length; i<len; i++) {
 					elms[i].textContent = "";
@@ -318,7 +318,7 @@ let rssTreeView = (function() {
 			// This node prevents the CSS selector '#rssTreeView:empty' from effecting.
 			let aNode = m_elmTreeRoot.appendChild(document.createTextNode("\r"));
 
-			if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+			if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmTreeRoot.appendChild(createErrorTagLI("The feeds folder is not set in the Options page."));
 				browser.runtime.openOptionsPage();
 				return;
@@ -357,7 +357,7 @@ let rssTreeView = (function() {
 
 		if (bookmark.type === "folder") {
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_TREE_FOLDER, null);
+			elmLI = createTagLI(bookmark.id, bookmark.title, Global.CLS_RTV_LI_TREE_FOLDER, null);
 
 			let elmUL = createTagUL();
 			elmLI.appendChild(elmUL);
@@ -370,7 +370,7 @@ let rssTreeView = (function() {
 
 		} else if (bookmark.type === "bookmark") {
 
-			elmLI = createTagLI(bookmark.id, bookmark.title, slGlobals.CLS_RTV_LI_TREE_FEED, bookmark.url);
+			elmLI = createTagLI(bookmark.id, bookmark.title, Global.CLS_RTV_LI_TREE_FEED, bookmark.url);
 		} else {
 			return;	// separator
 		}
@@ -392,7 +392,7 @@ let rssTreeView = (function() {
 				let url = new URL(href);
 				text = url.hostname;
 			} catch (error) {
-				text = slGlobals.STR_TITLE_EMPTY;
+				text = Global.STR_TITLE_EMPTY;
 			}
 		}
 
@@ -401,13 +401,13 @@ let rssTreeView = (function() {
 		let elmCaption = document.createElement("div");
 		let elm = document.createElement("li");
 
-		elmTitle.className = slGlobals.CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE;
+		elmTitle.className = Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE;
 		elmTitle.textContent = text;
-		elmStats.className = slGlobals.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS;
-		elmCaption.className = slGlobals.CLS_RTV_DIV_TREE_ITEM_CAPTION;
+		elmStats.className = Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS;
+		elmCaption.className = Global.CLS_RTV_DIV_TREE_ITEM_CAPTION;
 
 		elm.id = id;
-		elm.className = slGlobals.CLS_RTV_LI_TREE_ITEM + " " + className;
+		elm.className = Global.CLS_RTV_LI_TREE_ITEM + " " + className;
 		elm.draggable = true;
 		elm.tabIndex = 0;
 		if (href !== null) {
@@ -507,7 +507,7 @@ let rssTreeView = (function() {
 
 		await m_objTreeFeedsData.getStorage();
 
-		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
+		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 		prefs.getCheckFeedsMethod().then(async (value) => {
 
@@ -921,7 +921,7 @@ let rssTreeView = (function() {
 				if(event.ctrlKey && event.altKey && !event.shiftKey) {
 
 					let url = new URL(elmLI.getAttribute("href"));
-					url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+					url.searchParams.append(...(Global.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
 					url = url.toString();
 
 					// ++Dev Mode++: open link & link view-source in new tabs
@@ -1335,14 +1335,14 @@ let rssTreeView = (function() {
 
 		if(isExpanded) {
 
-			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".closed");
+			let elms = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FOLDER + ".closed");
 			for(let i=elms.length-1; i>=0; i--) {
 				setFolderState(elms[i], true, false);
 			}
 
 		} else {
 
-			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER + ".open");
+			let elms = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FOLDER + ".open");
 			for(let i=0, len=elms.length; i<len; i++) {
 				setFolderState(elms[i], false);
 			}
@@ -1474,7 +1474,7 @@ let rssTreeView = (function() {
 
 					created = await browser.bookmarks.create(bookmarksList[i]);
 
-					elmLI = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FEED, created.url);
+					elmLI = createTagLI(created.id, created.title, Global.CLS_RTV_LI_TREE_FEED, created.url);
 					elmLI.classList.add("blinkNew");
 					frag.appendChild(elmLI);
 
@@ -1555,7 +1555,7 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.create(newBookmark).then((created) => {
 
-					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FEED, created.url);
+					let newElm = createTagLI(created.id, created.title, Global.CLS_RTV_LI_TREE_FEED, created.url);
 
 					if(inFolder) {
 						let elmFolderUL = elmLI.lastElementChild;
@@ -1580,7 +1580,7 @@ let rssTreeView = (function() {
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
-			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				console.log("[Sage-Like]", "Can't create new feed in root folder when root folder is not set.");
 				return;
 			}
@@ -1595,7 +1595,7 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.create(newBookmark).then((created) => {
 
-					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FEED, created.url);
+					let newElm = createTagLI(created.id, created.title, Global.CLS_RTV_LI_TREE_FEED, created.url);
 
 					m_elmTreeRoot.appendChild(newElm);
 
@@ -1643,7 +1643,7 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.create(newFolder).then((created) => {
 
-					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FOLDER, null);
+					let newElm = createTagLI(created.id, created.title, Global.CLS_RTV_LI_TREE_FOLDER, null);
 					let elmUL = createTagUL();
 
 					newElm.appendChild(elmUL);
@@ -1670,7 +1670,7 @@ let rssTreeView = (function() {
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
-			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				console.log("[Sage-Like]", "Can't create new folder in root folder when root folder is not set.");
 				return;
 			}
@@ -1684,7 +1684,7 @@ let rssTreeView = (function() {
 			suspendBookmarksEventHandler(() => {
 				return browser.bookmarks.create(newFolder).then((created) => {
 
-					let newElm = createTagLI(created.id, created.title, slGlobals.CLS_RTV_LI_TREE_FOLDER, null);
+					let newElm = createTagLI(created.id, created.title, Global.CLS_RTV_LI_TREE_FOLDER, null);
 					let elmUL = createTagUL();
 
 					newElm.appendChild(elmUL);
@@ -1768,7 +1768,7 @@ let rssTreeView = (function() {
 		if(!!!elmLI) return;
 
 		let parkedTabUrl;
-		let elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
+		let elms = elmLI.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED + (onlyUnread ? ".bold" : ""));
 
 		for(let i=0, len=elms.length; i<len; i++) {
 			const elm = elms[i];		// redeclare each iteration due to the async Promise
@@ -1829,7 +1829,7 @@ let rssTreeView = (function() {
 	function toggleFolderFeedsVisitedState(elmLI) {
 
 		// matching elements are in document order
-		let elms = elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + ":not(.error)");
+		let elms = elmLI.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED + ":not(.error)");
 
 		if(elms.length > 0) {
 
@@ -1854,7 +1854,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function markAllFeedsAsVisitedState(isVisited) {
 
-		let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED + ":not(.error)");
+		let elms = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED + ":not(.error)");
 
 		if(elms.length > 0) {
 
@@ -1960,8 +1960,8 @@ let rssTreeView = (function() {
 		try {
 			while(!!elmULFolder && elmULFolder !== m_elmTreeRoot) {
 
-				totalCount = 0;		// elmULFolder.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
-				unreadCount = elmULFolder.querySelectorAll(":not(.error).bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+				totalCount = 0;		// elmULFolder.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
+				unreadCount = elmULFolder.querySelectorAll(":not(.error).bold." + Global.CLS_RTV_LI_TREE_FEED).length;
 
 				updateTreeItemStats(elmULFolder.parentElement, totalCount, unreadCount);
 
@@ -1979,14 +1979,14 @@ let rssTreeView = (function() {
 		if(!m_bPrefShowFeedStats) return;
 
 		let totalCount, unreadCount, elmLI;
-		let elmLIs = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FOLDER);
+		let elmLIs = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FOLDER);
 
 		for (let i=0, len=elmLIs.length; i<len; i++) {
 
 			elmLI = elmLIs[i];
 
-			totalCount = 0;		// elmLI.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
-			unreadCount = elmLI.querySelectorAll(".bold." + slGlobals.CLS_RTV_LI_TREE_FEED).length;
+			totalCount = 0;		// elmLI.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
+			unreadCount = elmLI.querySelectorAll(".bold." + Global.CLS_RTV_LI_TREE_FEED).length;
 
 			updateTreeItemStats(elmLI, totalCount, unreadCount);
 		}
@@ -2238,7 +2238,7 @@ let rssTreeView = (function() {
 
 		let list;
 		if(TreeItemType.isFolder(elmLI)) {
-			list = elmLI.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED)
+			list = elmLI.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED)
 		} else if(TreeItemType.isFeed(elmLI)) {
 			list = [elmLI];
 		}
@@ -2263,7 +2263,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isFeedInTree(url) {
-		return (m_elmTreeRoot.querySelector("." + slGlobals.CLS_RTV_LI_TREE_FEED + "[href=\"" + url + "\" i]") !== null);
+		return (m_elmTreeRoot.querySelector("." + Global.CLS_RTV_LI_TREE_FEED + "[href=\"" + url + "\" i]") !== null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2299,9 +2299,9 @@ let rssTreeView = (function() {
 			// set and can be obtained. This can happen if the extension's local storage was not removed
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
-				if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 
-					browser.bookmarks.search({ title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then(async (treeNodes) => {
+					browser.bookmarks.search({ title: Global.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME }).then(async (treeNodes) => {
 
 						let rootId, foundNode = treeNodes.find((node) => { return node.type === "folder"; });
 
@@ -2329,8 +2329,8 @@ let rssTreeView = (function() {
 		return new Promise(async (resolve) => {
 
 			let folderRoot = {
-				parentId: slGlobals.BOOKMARKS_ROOT_MENU_GUID,
-				title: slGlobals.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME,
+				parentId: Global.BOOKMARKS_ROOT_MENU_GUID,
+				title: Global.DEFAULT_FEEDS_BOOKMARKS_FOLDER_NAME,
 				type: "folder",
 			};
 
@@ -2507,7 +2507,7 @@ let rssTreeView = (function() {
 		}
 
 		// select all tree items
-		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
+		let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 		// hide the ones that do not match the filter
 		if(status === TreeItemStatus.ERROR) {
@@ -2575,7 +2575,7 @@ let rssTreeView = (function() {
 			//console.log("[Sage-Like] As-Of-Date: ", asOfDate.toWebExtensionLocaleString());
 
 			// select all tree items
-			let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
+			let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 			const funcUpdatedBeforeDate = (feedUpdateTime, osDate) => (new Date(feedUpdateTime)) > osDate;
 			const funcUpdatedAfterDate = (feedUpdateTime, osDate) => (new Date(feedUpdateTime)) <= osDate;
@@ -2599,7 +2599,7 @@ let rssTreeView = (function() {
 		if(txtFilter.length > 0) {
 
 			// select all tree items
-			let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
+			let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 			// hide the ones that do not match the filter
 			for(let i=0, len=elms.length; i<len; i++) {
@@ -2640,7 +2640,7 @@ let rssTreeView = (function() {
 		}
 
 		// select all tree items
-		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FEED);
+		let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 		// hide the ones that do not match the filter
 		for(let i=0, len=elms.length; i<len; i++) {
@@ -2654,12 +2654,12 @@ let rssTreeView = (function() {
 	function filterEmptyFolderItems() {
 
 		// select all folder items
-		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_FOLDER);
+		let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FOLDER);
 
 		// hide the ones that all their children are hidden
 		for(let i=0, len=elms.length; i<len; i++) {
 
-			let unFiltered = elms[i].querySelector("ul > ." + slGlobals.CLS_RTV_LI_TREE_FEED + ":not(.filtered)");
+			let unFiltered = elms[i].querySelector("ul > ." + Global.CLS_RTV_LI_TREE_FEED + ":not(.filtered)");
 			elms[i].classList.toggle("filtered", unFiltered === null);
 		}
 	}
@@ -2668,7 +2668,7 @@ let rssTreeView = (function() {
 	async function unfilterAllTreeItems() {
 
 		// show all that is hidden
-		let elms = m_elmTreeRoot.querySelectorAll("li." + slGlobals.CLS_RTV_LI_TREE_ITEM + ".filtered");
+		let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_ITEM + ".filtered");
 		let len = elms.length;
 
 
@@ -2705,7 +2705,7 @@ let rssTreeView = (function() {
 		if(clear) {
 			m_elmTreeRoot.classList.remove("filteredItems");
 		} else {
-			let elmFiltered = m_elmTreeRoot.querySelector("li." + slGlobals.CLS_RTV_LI_TREE_ITEM + ".filtered");
+			let elmFiltered = m_elmTreeRoot.querySelector("li." + Global.CLS_RTV_LI_TREE_ITEM + ".filtered");
 			m_elmTreeRoot.classList.toggle("filteredItems", !!elmFiltered);
 		}
 	}
@@ -2767,7 +2767,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedPreviewUrl(url) {
-		return slUtil.getFeedPreviewUrl(url, slGlobals.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW)
+		return slUtil.getFeedPreviewUrl(url, Global.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW)
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2778,7 +2778,7 @@ let rssTreeView = (function() {
 			m_elmTreeRoot.setAttribute("disabled", "");
 			m_elmTreeRoot.classList.add("disabled", "disabledBlur");
 
-			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM);
+			let elms = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_ITEM);
 			for(let i=0, len=elms.length; i<len; i++) {
 				if( !!(elms[i].offsetParent) ) {			// only if it's visible (items in open folders)
 					elms[i].tabIndex = -1;
@@ -2791,7 +2791,7 @@ let rssTreeView = (function() {
 			m_elmTreeRoot.removeAttribute("disabled");
 			m_elmTreeRoot.classList.remove("disabled", "disabledBlur");
 
-			let elms = m_elmTreeRoot.querySelectorAll("." + slGlobals.CLS_RTV_LI_TREE_ITEM + "[disabled]");
+			let elms = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_ITEM + "[disabled]");
 			for(let i=0, len=elms.length; i<len; i++) {
 				elms[i].tabIndex = 0;
 				elms[i].removeAttribute("disabled");
@@ -2802,7 +2802,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function broadcastRssTreeCreatedOK() {
 		browser.runtime.sendMessage({
-			id: slGlobals.MSG_ID_RSS_TREE_CREATED_OK
+			id: Global.MSG_ID_RSS_TREE_CREATED_OK
 		});
 	}
 

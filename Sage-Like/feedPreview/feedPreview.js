@@ -17,7 +17,7 @@
 	let m_timeoutMouseOver = null;
 	let m_hashCustomCSSSource = "";
 	let m_reloadChangeSortDebouncer = null;
-	let m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
+	let m_requestSource = Global.FEED_PREVIEW_REQ_SOURCE.NONE;
 	let m_markUrlsAsVisited = prefs.MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.none;
 	let m_feedItemObserver = null;
 	let m_attContainerObserver = null;
@@ -39,14 +39,14 @@
 
 		switch (message.id) {
 
-			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE) {
+			case Global.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE) {
 					injectReplaceCustomCSSSource({ source: message.payload });
 				}
 
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
 					reloadChangeSortFeedItems();
 				}
 				break;
@@ -61,12 +61,12 @@
 		m_URL = new URL(urlFeed);
 
 		m_requestSource = slUtil.getQueryStringValue("src");
-		if( !(Object.values(slGlobals.FEED_PREVIEW_REQ_SOURCE).includes(m_requestSource)) ) {
-			m_requestSource = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE;
+		if( !(Object.values(Global.FEED_PREVIEW_REQ_SOURCE).includes(m_requestSource)) ) {
+			m_requestSource = Global.FEED_PREVIEW_REQ_SOURCE.NONE;
 		}
 
 		// only if it was opend from the sidebar's tree
-		if(m_requestSource === slGlobals.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW) {
+		if(m_requestSource === Global.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW) {
 
 			m_markUrlsAsVisited = await prefs.getMarkFeedPreviewUrlsAsVisited();
 
@@ -464,7 +464,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function createErrorContent(errorMessage, url) {
 
-		url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+		url.searchParams.append(...(Global.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
 
 		document.getElementById("errorContainer").classList.add("withMessage");
 		document.getElementById("errorMessage").textContent = errorMessage;
@@ -794,7 +794,7 @@
 			}
 
 			browser.runtime.sendMessage({
-				id: slGlobals.MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED,
+				id: Global.MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED,
 				feedUrl: m_URL.toString(),
 				feedItems: list.map((n) => n.url),	// just the urls
 			});

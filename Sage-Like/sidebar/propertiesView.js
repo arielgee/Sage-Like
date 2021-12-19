@@ -228,7 +228,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			super.open(elmLI, resolve);
 
 			this._showNoneTitleProperties(true);
-			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
+			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER));
 
 			this.m_initialProperties.title = title;
 			this.m_initialProperties.location = location;
@@ -285,7 +285,7 @@ class NewFolderPropertiesView extends PropertiesView {
 			super.open(elmLI, resolve);
 
 			this._showNoneTitleProperties(false);
-			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER));
+			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER));
 
 			this.m_initialProperties.title = title;
 

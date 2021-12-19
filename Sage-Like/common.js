@@ -495,10 +495,10 @@ class InfoBubble {
 class TreeItemType {
 	static _isElm(e)			{ return !!e && e.nodeType === Node.ELEMENT_NODE; }
 
-	static isTree(elm)			{ return this._isElm(elm) && elm.id === slGlobals.ID_UL_RSS_TREE_VIEW; }
-	static isTreeItem(elm)		{ return this._isElm(elm) && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_ITEM); }
-	static isFeed(elm)			{ return this._isElm(elm) && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FEED); }
-	static isFolder(elm)		{ return this._isElm(elm) && elm.classList.contains(slGlobals.CLS_RTV_LI_TREE_FOLDER); }
+	static isTree(elm)			{ return this._isElm(elm) && elm.id === Global.ID_UL_RSS_TREE_VIEW; }
+	static isTreeItem(elm)		{ return this._isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_ITEM); }
+	static isFeed(elm)			{ return this._isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_FEED); }
+	static isFolder(elm)		{ return this._isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER); }
 	static isFolderOpen(elm)	{ return this.isFolder(elm) && elm.classList.contains("open"); }
 	static isFolderClosed(elm)	{ return this.isFolder(elm) && elm.classList.contains("closed"); }
 	static isOpen(elm)			{ return this._isElm(elm) && elm.classList.contains("open"); }		// Use after checking that TreeItemType.isFolder() return true
@@ -508,7 +508,7 @@ class TreeItemType {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let slGlobals = (function() {
+let Global = (function() {
 
 	const ID_UL_RSS_TREE_VIEW = "rssTreeView";
 	const ID_UL_RSS_LIST_VIEW = "rssListView";
@@ -1127,7 +1127,7 @@ let prefs = (function() {
 	}
 
 	const PREF = Object.freeze({
-		ROOT_FEEDS_FOLDER_ID:				{ name: "pref_rootFeedsFolderId",				default: slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET			},
+		ROOT_FEEDS_FOLDER_ID:				{ name: "pref_rootFeedsFolderId",				default: Global.ROOT_FEEDS_FOLDER_ID_NOT_SET			},
 		CHECK_FEEDS_INTERVAL:				{ name: "pref_checkFeedsInterval",				default: "3600000"										},
 		CHECK_FEEDS_WHEN_SB_CLOSED:			{ name: "pref_checkFeedsWhenSbClosed",			default: true											},
 		CHECK_FEEDS_METHOD:					{ name: "pref_checkFeedsMethod",				default: "3;2000"										},
@@ -1702,7 +1702,7 @@ let slUtil = (function() {
 
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
-				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 					return reject("Root feeds folder id not set (bookmarksFoldersAsCollection)");
 				}
 
@@ -1736,7 +1736,7 @@ let slUtil = (function() {
 
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
-				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 					return reject("Root feeds folder id not set (bookmarksFeedsAsCollection)");
 				}
 
@@ -1769,7 +1769,7 @@ let slUtil = (function() {
 
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
-				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 					return reject("Root feeds folder id not set (isDescendantOfRoot)");
 				}
 
@@ -1921,7 +1921,7 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedPreviewUrl(url, source = slGlobals.FEED_PREVIEW_REQ_SOURCE.NONE) {
+	function getFeedPreviewUrl(url, source = Global.FEED_PREVIEW_REQ_SOURCE.NONE) {
 		return (getFeedPreviewUrlPrefix() + encodeURIComponent(url) + "&src=" + encodeURIComponent(source));
 	}
 

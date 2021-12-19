@@ -74,7 +74,7 @@ let opml = (function() {
 			}
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
-				if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+				if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 					return m_funcImportReject("Root feeds folder id not set (processOpmlDocument)");
 				}
 
@@ -310,7 +310,7 @@ let opml = (function() {
 					gettingTFD.then(() => {
 						gettingRFFI.then((folderId) => {
 
-							if (folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+							if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 								return reject("Root feeds folder id not set (getFeedsAsOpmlText)");
 							}
 

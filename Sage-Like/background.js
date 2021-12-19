@@ -93,32 +93,32 @@
 
 		switch (message.id) {
 
-			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
+			case Global.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
 					monitorBookmarkFeeds();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE) {
 					handlePrefDetectFeedsInWebPage();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES) {
 					handlePrefStrictRssContentTypes();
 				}
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW) {
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW) {
 					handlePrefShowTryOpenLinkInFeedPreview();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_WAIT_AND_HIDE_POPUP:
+			case Global.MSG_ID_WAIT_AND_HIDE_POPUP:
 				setTimeout(() => hidePageAction(message.tabId), message.msWait);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:
+			case Global.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:
 				return Promise.resolve(m_windowIds.includes(message.winId));
 				/////////////////////////////////////////////////////////////////////////
 		}
@@ -242,7 +242,7 @@
 			//	BUT, this is a ++Dev Mode++ issue that I do NOT want to fix. It is not worth the overhead of managing a Map object here just for Dev-Mode functionality.
 			//	And also this is not working for Fx below v84 due to lack of support for 'RequestFilter.view-source'.
 
-			if(details.statusCode === 200 && !details.url.includes(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT)) {
+			if(details.statusCode === 200 && !details.url.includes(Global.EXTRA_URL_PARAM_NO_REDIRECT)) {
 
 				const headers = details.responseHeaders;
 
@@ -343,7 +343,7 @@
 
 		injectContentScripts(tabId).then((result) => {
 
-			browser.tabs.sendMessage(tabId, { id: slGlobals.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
+			browser.tabs.sendMessage(tabId, { id: Global.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
 				if(response.feedCount > 0) {
 					showPageAction(tabId);
 				} else {

@@ -27,7 +27,7 @@
 
 		switch (message.id) {
 
-			case slGlobals.MSG_ID_RSS_TREE_CREATED_OK:
+			case Global.MSG_ID_RSS_TREE_CREATED_OK:
 
 				if(!!m_newFeedsListWait4Sidebar && m_newFeedsListWait4Sidebar.length > 0) {
 					dispatchNewDiscoveredFeeds(m_newFeedsListWait4Sidebar);
@@ -55,14 +55,14 @@
 
 		browser.windows.getCurrent().then((winInfo) => {
 			m_windowId = winInfo.id
-			browser.runtime.sendMessage({ id: slGlobals.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW, winId: m_windowId }).then((isOpen) => {
+			browser.runtime.sendMessage({ id: Global.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW, winId: m_windowId }).then((isOpen) => {
 				m_isSidebarOpen = isOpen;
 			});
 		});
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
-			if(folderId === slGlobals.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmPageFeedsList.style.display = "none";
 				updateStatusBar("Feeds folder not set in <a href='#' id='pagePopupOptionsHref'>Options page</a>.");
 				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
@@ -129,7 +129,7 @@
 				if(event.ctrlKey && event.altKey && !event.shiftKey) {
 
 					let url = new URL(target.getAttribute("href"));
-					url.searchParams.append(...(slGlobals.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
+					url.searchParams.append(...(Global.EXTRA_URL_PARAM_NO_REDIRECT_SPLIT));
 					url = url.toString();
 
 					// ++Dev Mode++: open link & link view-source in new tabs
@@ -244,7 +244,7 @@
 
 			let currentTabId = tabs[0].id;
 
-			browser.tabs.sendMessage(currentTabId, { id: slGlobals.MSG_ID_GET_PAGE_DATA }).then((response) => {
+			browser.tabs.sendMessage(currentTabId, { id: Global.MSG_ID_GET_PAGE_DATA }).then((response) => {
 
 				document.getElementById("popupSubCaption").textContent = response.title;
 
@@ -286,7 +286,7 @@
 
 				if (isListEmpty) {
 					document.getElementById("noticeContainer").style.display = "block";
-					browser.runtime.sendMessage({ id: slGlobals.MSG_ID_WAIT_AND_HIDE_POPUP, tabId: currentTabId, msWait: 7000 });
+					browser.runtime.sendMessage({ id: Global.MSG_ID_WAIT_AND_HIDE_POPUP, tabId: currentTabId, msWait: 7000 });
 				} else {
 					m_elmPageFeedsList.appendChild(frag);
 					m_elmButtonAddFeeds.disabled = false;
@@ -320,7 +320,7 @@
 
 		elmLabel.className = "feedLabel";
 		elmLabel.htmlFor = elmCheckBox.id;
-		elmLabel.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : slGlobals.STR_TITLE_EMPTY);
+		elmLabel.textContent = (!!feed.feedTitle && feed.feedTitle.length > 0 ? feed.feedTitle : Global.STR_TITLE_EMPTY);
 
 		elmFormat.className = "format";
 		elmFormat.textContent = feed.format;
@@ -375,7 +375,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function dispatchNewDiscoveredFeeds(newFeedsList) {
 
-		browser.runtime.sendMessage({ id: slGlobals.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, winId: m_windowId, feeds: newFeedsList }).then((response) => {
+		browser.runtime.sendMessage({ id: Global.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, winId: m_windowId, feeds: newFeedsList }).then((response) => {
 
 			if(!!response && !!response.existInTree) {
 				updateStatusBar("Already in tree: '" + response.existInTree + "'.");

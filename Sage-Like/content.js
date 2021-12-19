@@ -19,12 +19,12 @@ class Content {
 
 			switch (message.id) {
 
-				case slGlobals.MSG_ID_GET_PAGE_FEED_COUNT:
+				case Global.MSG_ID_GET_PAGE_FEED_COUNT:
 					this._collectPageFeeds().then((count) => resolve({ feedCount: count }));
 					break;
 					//////////////////////////////////////////////////////////////
 
-				case slGlobals.MSG_ID_GET_PAGE_DATA:
+				case Global.MSG_ID_GET_PAGE_DATA:
 					resolve({ title: document.title, feeds: this._feeds, feedCount: this._feedCount });
 					break;
 					//////////////////////////////////////////////////////////////

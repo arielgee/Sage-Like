@@ -136,17 +136,17 @@ let contextMenu = (function() {
 			m_currentContext = "treeitemcontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
-		} else if (m_elmEventTarget.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		} else if (m_elmEventTarget.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 
 			m_currentContext = "listitemcontext";
 			rssListView.setFeedItemSelectionState(m_elmEventTarget);
 
-		} else if (m_elmEventTarget.closest("#" + slGlobals.ID_UL_RSS_TREE_VIEW) !== null) {
+		} else if (m_elmEventTarget.closest("#" + Global.ID_UL_RSS_TREE_VIEW) !== null) {
 
 			m_currentContext = "treecontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);	// select folder
 
-		} else if (m_elmEventTarget.closest("#" + slGlobals.ID_UL_RSS_LIST_VIEW) !== null) {
+		} else if (m_elmEventTarget.closest("#" + Global.ID_UL_RSS_LIST_VIEW) !== null) {
 
 			m_currentContext = "listcontext";
 
@@ -420,7 +420,7 @@ let contextMenu = (function() {
 		let actionData = { url: "" };
 
 		if(noSupportOpenRssFeedActions.includes(menuAction)) {
-			actionData.url = slUtil.getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"), slGlobals.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW);
+			actionData.url = slUtil.getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"), Global.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW);
 		} else {
 			actionData.url = m_elmEventTarget.getAttribute("href");
 		}

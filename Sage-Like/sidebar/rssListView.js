@@ -51,20 +51,20 @@ let rssListView = (function() {
 
 		switch (message.id) {
 
-			case slGlobals.MSG_ID_PREFERENCES_CHANGED:
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
-					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC) {
+			case Global.MSG_ID_PREFERENCES_CHANGED:
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC) {
 					setShowFeedItemDescFromPreferences();
 				}
 
-				// Pref for tooltip delay is already retrieved when: message.details === slGlobals.MSGD_PREF_CHANGE_ALL
-				if (message.details === slGlobals.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY) {
+				// Pref for tooltip delay is already retrieved when: message.details === Global.MSGD_PREF_CHANGE_ALL
+				if (message.details === Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY) {
 					setFeedItemDescDelayFromPreferences();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
-			case slGlobals.MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:
+			case Global.MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:
 				updateFeedItemsStateToVisited(message.feedUrl, message.feedItems);
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ let rssListView = (function() {
 	function onDOMContentLoaded() {
 
 		m_elmSidebarBody = document.body;
-		m_elmList = document.getElementById(slGlobals.ID_UL_RSS_LIST_VIEW);
+		m_elmList = document.getElementById(Global.ID_UL_RSS_LIST_VIEW);
 		m_elmFeedItemDescPanel = document.getElementById("feedItemDescPanel");
 		m_elmListViewStatusbar = document.getElementById("listViewStatusbar");
 		m_elmListViewRssTitle = document.getElementById("listViewRssTitle");
@@ -90,7 +90,7 @@ let rssListView = (function() {
 
 		setShowFeedItemDescFromPreferences();
 
-		panel.notifyViewContentLoaded(slGlobals.VIEW_CONTENT_LOAD_FLAG.LIST_VIEW_LOADED);
+		panel.notifyViewContentLoaded(Global.VIEW_CONTENT_LOAD_FLAG.LIST_VIEW_LOADED);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -178,10 +178,10 @@ let rssListView = (function() {
 		let attachments = item.attachments;
 		let elm = document.createElement("li");
 
-		elm.classList.add(slGlobals.CLS_RLV_LI_LIST_ITEM)
+		elm.classList.add(Global.CLS_RLV_LI_LIST_ITEM)
 		setItemRealVisitedState(elm, url, false);
 
-		if(title.length === 0) title = url;		// slGlobals.STR_TITLE_EMPTY ; url.split("/").reduceRight((p, c) => (c.length>0 && p==="<{in^it}>") ? c : p, "<{in^it}>");
+		if(title.length === 0) title = url;		// Global.STR_TITLE_EMPTY ; url.split("/").reduceRight((p, c) => (c.length>0 && p==="<{in^it}>") ? c : p, "<{in^it}>");
 		desc = desc
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
 			.stripHtmlTags(String.prototype.stripHtmlTags.regexATag)
@@ -237,7 +237,7 @@ let rssListView = (function() {
 		let elm = event.target;
 
 		// only for list item elements
-		if(event.detail === 1 && !!elm && elm.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		if(event.detail === 1 && !!elm && elm.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 
 			let openMethod = URLOpenMethod.INVALID;
 
@@ -287,7 +287,7 @@ let rssListView = (function() {
 	function onMouseOverFeedItem(event) {
 
 		// only for list item elements
-		if(!!!event.target || !event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		if(!!!event.target || !event.target.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 			return;
 		}
 
@@ -345,7 +345,7 @@ let rssListView = (function() {
 	function onMouseOutFeedItem(event) {
 
 		// only for list item elements
-		if(!!event.target && event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		if(!!event.target && event.target.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 			hideFeedItemDescPanel();
 		}
 	}
@@ -354,7 +354,7 @@ let rssListView = (function() {
 	function onMouseMoveFeedItem(event) {
 
 		// only for list item elements
-		if(!!event.target && event.target.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		if(!!event.target && event.target.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 			m_elmFeedItemDescPanel.slLastClientX = event.clientX;
 			m_elmFeedItemDescPanel.slLastClientY = event.clientY;
 		}
@@ -364,7 +364,7 @@ let rssListView = (function() {
 	function openListFeedItem(elm, openMethod) {
 
 		// only for list item elements
-		if(!!!elm || !elm.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) return;
+		if(!!!elm || !elm.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) return;
 
 		let url = elm.getAttribute("href");
 
@@ -528,7 +528,7 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyG":
-				if(elmTargetLI.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+				if(elmTargetLI.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 					toggleItemVisitedState(elmTargetLI);
 				}
 				break;
@@ -545,7 +545,7 @@ let rssListView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyC":
-				if(elmTargetLI.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+				if(elmTargetLI.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 					slUtil.writeTextToClipboard(elmTargetLI.getAttribute("href"));
 				} else if(elmTargetLI.classList.contains("errormsg")) {
 					let text = document.getSelection().toString();
@@ -599,7 +599,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function markAllItemsAsVisitedState(isVisited) {
 
-		let elms = m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM);
+		let elms = m_elmList.querySelectorAll("." + Global.CLS_RLV_LI_LIST_ITEM);
 
 		if(elms.length > 0) {
 
@@ -621,7 +621,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateFeedItemsStateToVisited(feedUrl, feedItems) {
 		if(feedUrl === m_elmLITreeFeed.getAttribute("href")) {
-			let elms = m_elmList.querySelectorAll(".bold." + slGlobals.CLS_RLV_LI_LIST_ITEM);
+			let elms = m_elmList.querySelectorAll(".bold." + Global.CLS_RLV_LI_LIST_ITEM);
 			for(let i=0, len=elms.length; i<len; i++) {
 				if(feedItems.includes(elms[i].getAttribute("href"))) {
 					elms[i].classList.remove("bold");
@@ -639,7 +639,7 @@ let rssListView = (function() {
 		}
 
 		// select only selectable list items
-		if (!!elm && elm.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		if (!!elm && elm.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 			m_elmCurrentlySelected = elm;
 			elm.classList.add("selected");
 			slUtil.scrollIntoViewIfNeeded(elm, m_elmList.parentElement);
@@ -733,7 +733,7 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openAllItemsInTabs(onlyUnread = true) {
 
-		let elm, elms = m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM + (onlyUnread ? ".bold" : ""));
+		let elm, elms = m_elmList.querySelectorAll("." + Global.CLS_RLV_LI_LIST_ITEM + (onlyUnread ? ".bold" : ""));
 
 		for(let i=0, len=elms.length; i<len; i++) {
 			openItemInParkedTab((elm = elms[i]), elm.getAttribute("href"), elm.textContent);
@@ -758,7 +758,7 @@ let rssListView = (function() {
 	function setFocus() {
 		if(m_elmCurrentlySelected !== null) {
 			m_elmCurrentlySelected.focus();
-		} else if(!!m_elmList.firstElementChild && m_elmList.firstElementChild.classList.contains(slGlobals.CLS_RLV_LI_LIST_ITEM)) {
+		} else if(!!m_elmList.firstElementChild && m_elmList.firstElementChild.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 			m_elmList.firstElementChild.focus();
 		} else {
 			m_elmList.focus();
@@ -775,8 +775,8 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getListViewStats() {
 
-		let totalCount = 0;		// m_elmList.querySelectorAll("." + slGlobals.CLS_RLV_LI_LIST_ITEM).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
-		let unreadCount = m_elmList.querySelectorAll(".bold." + slGlobals.CLS_RLV_LI_LIST_ITEM).length;
+		let totalCount = 0;		// m_elmList.querySelectorAll("." + Global.CLS_RLV_LI_LIST_ITEM).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
+		let unreadCount = m_elmList.querySelectorAll(".bold." + Global.CLS_RLV_LI_LIST_ITEM).length;
 
 		return [
 			totalCount,
