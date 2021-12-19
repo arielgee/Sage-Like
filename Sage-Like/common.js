@@ -541,26 +541,27 @@ let slGlobals = (function() {
 	const MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED	= 112;
 
 	// Message Details IDs
-	const MSGD_PREF_CHANGE_ALL								= 1001;
-	const MSGD_PREF_CHANGE_ROOT_FOLDER						= 1002;
-	const MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL				= 1003;
-	const MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED		= 1004;
-	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD				= 1005;
-	const MSGD_PREF_CHANGE_SHOW_FEED_STATS					= 1006;
-	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC				= 1007;
-	const MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY				= 1008;
-	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH		= 1009;
-	const MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS			= 1010;
-	const MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE			= 1011;
-	const MSGD_PREF_CHANGE_UI_DENSITY						= 1012;
-	const MSGD_PREF_CHANGE_FONT_NAME						= 1013;
-	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT				= 1014;
-	const MSGD_PREF_CHANGE_COLORS							= 1015;
-	const MSGD_PREF_CHANGE_IMAGES							= 1016;
-	const MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE				= 1017;
-	const MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL		= 1018;
-	const MSGD_PREF_CHANGE_SORT_FEED_ITEMS					= 1019;
-	const MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES			= 1020;
+	const MSGD_PREF_CHANGE_ALL									= 1001;
+	const MSGD_PREF_CHANGE_ROOT_FOLDER							= 1002;
+	const MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL					= 1003;
+	const MSGD_PREF_CHANGE_CHECK_FEEDS_WHEN_SB_CLOSED			= 1004;
+	const MSGD_PREF_CHANGE_CHECK_FEEDS_METHOD					= 1005;
+	const MSGD_PREF_CHANGE_SHOW_FEED_STATS						= 1006;
+	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC					= 1007;
+	const MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY					= 1008;
+	const MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH			= 1009;
+	const MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS				= 1010;
+	const MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE				= 1011;
+	const MSGD_PREF_CHANGE_UI_DENSITY							= 1012;
+	const MSGD_PREF_CHANGE_FONT_NAME							= 1013;
+	const MSGD_PREF_CHANGE_FONT_SIZE_PERCENT					= 1014;
+	const MSGD_PREF_CHANGE_COLORS								= 1015;
+	const MSGD_PREF_CHANGE_IMAGES								= 1016;
+	const MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE					= 1017;
+	const MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL			= 1018;
+	const MSGD_PREF_CHANGE_SORT_FEED_ITEMS						= 1019;
+	const MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES				= 1020;
+	const MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW	= 1021;
 
 	const BOOKMARKS_ROOT_GUID = "root________";
 	const BOOKMARKS_ROOT_MENU_GUID = "menu________";
@@ -613,6 +614,7 @@ let slGlobals = (function() {
 		CONTEXTMENU_TREE_HANDLER: "cth",
 		DISCOVERY_VIEW: "dsv",
 		RSS_TREE_VIEW: "rtv",
+		CONTEXTMENU_PAGE_LINK: "cpl",
 	};
 
 	return {
@@ -663,6 +665,7 @@ let slGlobals = (function() {
 		MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL: MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL,
 		MSGD_PREF_CHANGE_SORT_FEED_ITEMS: MSGD_PREF_CHANGE_SORT_FEED_ITEMS,
 		MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES: MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES,
+		MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW: MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW,
 
 		BOOKMARKS_ROOT_GUID: BOOKMARKS_ROOT_GUID,
 		BOOKMARKS_ROOT_MENU_GUID: BOOKMARKS_ROOT_MENU_GUID,
@@ -1152,6 +1155,7 @@ let prefs = (function() {
 		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true											},
 		STRICT_RSS_CONTENT_TYPES:			{ name: "pref_strictRssContentTypes",			default: true											},
 		MARK_FEED_PREVIEW_URLS_AS_VISITED:	{ name: "pref_markFeedPreviewUrlsAsVisited",	default: MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.none	},
+		SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW:	{ name: "pref_showTryOpenLinkInFeedPreview",	default: false											},
 		CUSTOM_CSS_SOURCE_HASH:				{ name: "pref_customCSSSourceHash",				default: ""												},
 		CUSTOM_CSS_SOURCE:					{ name: "pref_customCSSSource",					default: ""												},
 	});
@@ -1192,6 +1196,7 @@ let prefs = (function() {
 	function getAnimatedSlideDownPanel()		{ return _getPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL); }
 	function getStrictRssContentTypes()			{ return _getPreferenceValue(PREF.STRICT_RSS_CONTENT_TYPES); }
 	function getMarkFeedPreviewUrlsAsVisited()	{ return _getPreferenceValue(PREF.MARK_FEED_PREVIEW_URLS_AS_VISITED); }
+	function getShowTryOpenLinkInFeedPreview()	{ return _getPreferenceValue(PREF.SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW); }
 	function getCustomCSSSourceHash()			{ return _getPreferenceValue(PREF.CUSTOM_CSS_SOURCE_HASH); }
 	function getCustomCSSSource()				{ return _getPreferenceValue(PREF.CUSTOM_CSS_SOURCE); }
 
@@ -1224,6 +1229,7 @@ let prefs = (function() {
 	function setAnimatedSlideDownPanel(value)		{ return _setPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL, value); }
 	function setStrictRssContentTypes(value)		{ return _setPreferenceValue(PREF.STRICT_RSS_CONTENT_TYPES, value); }
 	function setMarkFeedPreviewUrlsAsVisited(value)	{ return _setPreferenceValue(PREF.MARK_FEED_PREVIEW_URLS_AS_VISITED, value); }
+	function setShowTryOpenLinkInFeedPreview(value)	{ return _setPreferenceValue(PREF.SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW, value); }
 	function setCustomCSSSource(value) {
 		return new Promise(async (resolve) => {
 
@@ -1345,6 +1351,7 @@ let prefs = (function() {
 		getAnimatedSlideDownPanel: getAnimatedSlideDownPanel,
 		getStrictRssContentTypes: getStrictRssContentTypes,
 		getMarkFeedPreviewUrlsAsVisited: getMarkFeedPreviewUrlsAsVisited,
+		getShowTryOpenLinkInFeedPreview: getShowTryOpenLinkInFeedPreview,
 		getCustomCSSSourceHash: getCustomCSSSourceHash,
 		getCustomCSSSource: getCustomCSSSource,
 
@@ -1376,6 +1383,7 @@ let prefs = (function() {
 		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,
 		setStrictRssContentTypes: setStrictRssContentTypes,
 		setMarkFeedPreviewUrlsAsVisited: setMarkFeedPreviewUrlsAsVisited,
+		setShowTryOpenLinkInFeedPreview: setShowTryOpenLinkInFeedPreview,
 		setCustomCSSSource: setCustomCSSSource,
 
 		getAllPreferences: getAllPreferences,

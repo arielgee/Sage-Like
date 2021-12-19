@@ -26,6 +26,8 @@
 
 	const REGEXP_URL_FILTER_TAB_STATE_CHANGE = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrlPrefix().escapeRegExp());
 
+	const MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW = "mnu-try-open-link-in-feed-preview";
+
 	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
@@ -52,6 +54,7 @@
 
 		handlePrefStrictRssContentTypes();										// Check if web response can be displayed as feedPreview
 		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for pageAction
+		handlePrefShowTryOpenLinkInFeedPreview();								// Try to open a link as a feed in the feedPreview
 
 		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
@@ -102,6 +105,10 @@
 				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
 					message.details === slGlobals.MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES) {
 					handlePrefStrictRssContentTypes();
+				}
+				if (message.details === slGlobals.MSGD_PREF_CHANGE_ALL ||
+					message.details === slGlobals.MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW) {
+					handlePrefShowTryOpenLinkInFeedPreview();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -190,6 +197,17 @@
 			}
 		});
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMenusClicked(info) {
+		if(info.menuItemId === MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW) {
+			if(info.modifiers.includes("Shift")) {
+				browser.windows.create({ url: slUtil.getFeedPreviewUrl(info.linkUrl), type: "normal" });	// in new window
+			} else {
+				browser.tabs.create({ url: slUtil.getFeedPreviewUrl(info.linkUrl), active: !(info.modifiers.includes("Ctrl")) });	// in new tab - 'Ctrl' for inactive
+			}
+		}
+	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onWebRequestHeadersReceived(details) {
@@ -393,6 +411,28 @@
 					}
 				});
 			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function handlePrefShowTryOpenLinkInFeedPreview() {
+
+		let showTryOpenLinkInFeedPreview = await prefs.getShowTryOpenLinkInFeedPreview();
+
+		if(showTryOpenLinkInFeedPreview) {
+			browser.menus.create({
+				id: MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW,
+				title: "Try to Open Link in Feed Preview",
+				contexts: ["link"],
+			});
+			browser.menus.onClicked.addListener(onMenusClicked);
+
+		} else if(browser.menus.onClicked.hasListener(onMenusClicked)) {
+
+			// hasListener() will return false if handlePrefShowTryOpenLinkInFeedPreview() was called from webExt loading.
+
+			browser.menus.onClicked.removeListener(onMenusClicked);
+			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);
 		}
 	}
 
