@@ -1,0 +1,81 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+#infoBubble {
+	--width-pointer: 14px;
+	--height-pointer: calc(var(--width-pointer) * 2);
+	--border-radius-bubble: 6px;
+	--margin-inline-pointer: calc(var(--border-radius-bubble) + 2px);
+	--color-normal: #143cdc;
+	--color-alertive: crimson;
+
+	position: absolute;
+	max-width: 92%;
+	background-color: transparent;
+	display: none;
+	pointer-events: none;
+}
+
+#infoBubble.fadeIn {
+	visibility: visible;
+	opacity: 1;
+	transition: visibility 0s linear 0s, opacity 500ms;
+}
+
+#infoBubble.fadeOut {
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s linear 500ms, opacity 500ms;
+}
+
+#infoBubblePointer {
+	background-color: var(--color-normal);
+	width: var(--width-pointer);
+	height: var(--height-pointer);
+	margin: 0 var(--margin-inline-pointer);
+	clip-path: polygon(15% 0%, 0% 100%, 100% 100%);
+	pointer-events: auto;
+}
+
+#infoBubble.alertive #infoBubblePointer {
+	background-color: var(--color-alertive);
+}
+
+#infoBubble.rightPointer #infoBubblePointer {
+	margin-left: calc(100% - (var(--width-pointer) + var(--margin-inline-pointer)));
+	clip-path: polygon(85% 0%, 0% 100%, 100% 100%);
+}
+
+#infoBubble.generalInfo #infoBubblePointer {
+	height: 0;
+}
+
+#infoBubbleBody {
+	padding: 8px 12px 8px 8px;
+	background-color: var(--bk-color-info-window);
+	color: black;
+	border: 2px solid var(--color-normal);
+	border-radius: var(--border-radius-bubble);
+	box-shadow: 8px 8px 5px 0 rgba(0,0,0,0.75);
+	font-weight: normal;
+	pointer-events: auto;
+	display: flex;
+	align-items: flex-start;
+	white-space: pre-wrap;
+}
+
+#infoBubble.alertive #infoBubbleBody {
+	border-color: var(--color-alertive);
+}
+
+#infoBubble .infoBubbleSymbol {
+	--image-size: 16px;
+	min-width: var(--image-size);
+	min-height: var(--image-size);
+	margin-inline-end: 6px;
+	margin-top: calc((var(--line-height) - var(--image-size)) / 2);
+	background: transparent url("/icons/blueInfo.png") no-repeat center/100%;
+}
+
+#infoBubble.alertive .infoBubbleSymbol {
+	background-image: url("/icons/errormsg.png");
+}

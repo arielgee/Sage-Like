@@ -949,17 +949,18 @@
 * replace this: 'IMAGE_SET_VALUES = [0, 1, 2, 3, 4, 5, 6]' with this '[...Array(7).keys()]'
 * const valiables is Global are not const - refactor Global and freeze elements.
 * in slGlobals.IMAGE_SET() freeze result object
+* refactor prefs to a class ??? => NO, DON'T TOUCH
+* move InfoBubble from common.js to own file and add to panel.htm (before panel.js)
 ---
 
 
 ## Now
-* refactor prefs to a class ???
+* create new file '/syndication/helpers.js' with all the small classes relevent to syndication
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* move InfoBubble from common.js to own file and add to panel.htm (before panel.js)
 * move TreeItemType from common.js to own file and add to panel.htm (before contextMenu.js)
 * move PageDataByInjection from common.js to own file and add to panel.htm (before discoveryView.js) - or, since it's small, add to discoveryView.js
 * 'mark all as read' is not consistent when folder has erroneous feeds
