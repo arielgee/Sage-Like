@@ -78,7 +78,7 @@ let syndication = (function() {
 			}
 
 			// array of just the url links (href) as strings for easy filtering of duplicates
-			let linkFeeds = Array.from(doc.querySelectorAll(selector), item => slUtil.replaceMozExtensionOriginURL(item.href.stripHtmlTags(), origin).toString());
+			let linkFeeds = Array.from(doc.querySelectorAll(selector), item => (slUtil.replaceMozExtensionOriginURL(item.href.stripHtmlTags(), origin) || "").toString());	// logical OR expression as short-circuit evaluation
 			let iframeHosts = [];
 
 			// will NOT check in iframes when aggressive level is 0 ('none')
