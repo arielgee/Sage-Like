@@ -71,6 +71,7 @@
 	"background": {
 		"scripts": [
 			"/common.js",
+			"/syndication/helpers.js",
 			"/syndication/feed.js",
 			"/syndication/xmlFeed.js",
 			"/syndication/jsonFeed.js",

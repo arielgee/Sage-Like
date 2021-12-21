@@ -1,38 +1,5 @@
 "use strict";
 
-let g_feed = (function() {
-
-	const domParser = new DOMParser();
-
-	// Regular Expression Constants
-	const regexpXMLFormat = /^\s*<(\?xml|rss|rdf|feed)\b/i;		// XML prolog for RSS/RDF/Atom or xml without prolog
-	const regexpJSONFormat = /^\s*{/i;							// JSON bracket for jsonfeed
-
-	const regexpXMLVersion = /^\s*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/i;
-	const regexpXMLEncoding = /^\s*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/i;
-
-	const regexpXMLWhiteSpaceStart = /^\s+/;														// XML declaration (prolog) not at start of document
-	const regexpJunkAfterXMLDocElement = /(<\/(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\S\s]+/;		// junk after document element
-
-	const regexpXMLParseError = /^(.*)[\s\S]*(line number \d+, column \d+):.*/i;			// the first line and the error location
-
-	const regexpXML10InvalidChars = /[^\u0009\r\n\u0020-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug;	// xml 1.0	-	https://www.w3.org/TR/REC-xml/#charsets
-	const regexpXML11InvalidChars = /[^\u0001-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug;	// xml 1.1	-	https://www.w3.org/TR/2006/REC-xml11-20060816/#charsets
-
-	return {
-		domParser: domParser,
-		regexpXMLFormat: regexpXMLFormat,
-		regexpJSONFormat: regexpJSONFormat,
-		regexpXMLVersion: regexpXMLVersion,
-		regexpXMLEncoding: regexpXMLEncoding,
-		regexpXMLWhiteSpaceStart: regexpXMLWhiteSpaceStart,
-		regexpJunkAfterXMLDocElement: regexpJunkAfterXMLDocElement,
-		regexpXMLParseError: regexpXMLParseError,
-		regexpXML10InvalidChars: regexpXML10InvalidChars,
-		regexpXML11InvalidChars: regexpXML11InvalidChars,
-	}
-})();
-
 class Feed {
 	// publicClassField = 1;		// support starts at Firefox v69
 	constructor(feedUrl) {

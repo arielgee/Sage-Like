@@ -1,37 +1,6 @@
 "use strict";
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-class SigninCredential {
-	constructor(...args) {
-		if(args.length === 0) {
-			this.initialized = false;		// The fetch's `init` object will NOT have an `Authorization` header.
-		} else {
-
-			let singleObj = (args.length === 1) && (typeof(args[0]) === "object");
-
-			if(singleObj && Object.keys(args[0]).length === 0) {
-				this.username = "";
-				this.password = "";
-			} else if(singleObj && args[0].hasOwnProperty("username") && args[0].hasOwnProperty("password")) {
-				this.username = args[0].username;
-				this.password = args[0].password;
-			} else if((args.length === 2) && (typeof(args[0]) === "string") && (typeof(args[1]) === "string")) {
-				this.username = args[0];
-				this.password = args[1];
-			} else {
-				throw Error("Invalid constructor parameter(s).");
-			}
-			this.initialized = true;		// The fetch's `init` object will have an `Authorization` header with provided username/password values.
-		}
-	}
-	setDefault() {
-		this.username = "";
-		this.password = "";
-		this.initialized = true;
-	}
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 let syndication = (function() {
 
 	const STANDARD_DISCOVERY_SELECTOR = "link[rel=\"alternate\" i][type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery

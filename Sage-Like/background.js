@@ -4,6 +4,7 @@
 
 	const INJECTABLE = [
 		{ isScript: true, details: { runAt: "document_idle", file: "/common.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/helpers.js" } },
 		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/feed.js" } },
 		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/xmlFeed.js" } },
 		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/jsonFeed.js" } },
