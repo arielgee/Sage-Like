@@ -947,18 +947,25 @@
 * store username/password locally? + symmetric encryption ??? (see: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt) = ?
 * add context menu item 'Try to Open Link in Feed Preview'; with preference
 * replace this: 'IMAGE_SET_VALUES = [0, 1, 2, 3, 4, 5, 6]' with this '[...Array(7).keys()]'
+* const valiables is Global are not const - refactor Global and freeze elements.
+* in slGlobals.IMAGE_SET() freeze result object
 ---
 
 
 ## Now
-* const valiables is slGlobals are not const - refactor slGlobals to a class and static get members.
-* in slGlobals.IMAGE_SET() freeze result object
+* refactor prefs to a class ???
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* refactor prefs to a class ???
+* move InfoBubble from common.js to own file and add to panel.htm (before panel.js)
+* move TreeItemType from common.js to own file and add to panel.htm (before contextMenu.js)
+* move PageDataByInjection from common.js to own file and add to panel.htm (before discoveryView.js) - or, since it's small, add to discoveryView.js
+* 'mark all as read' is not consistent when folder has erroneous feeds
+* add folder for protected (unauthenticated) feeds to the sage-like_test-feeds.opml
+* address the support post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
+* remove semicolon after classes
 * add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
