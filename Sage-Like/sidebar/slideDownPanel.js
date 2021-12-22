@@ -96,4 +96,4 @@ class SlideDownPanel {
 			this._funcPromiseResolve = null;
 		}
 	}
-};
+}

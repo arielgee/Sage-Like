@@ -954,11 +954,12 @@
 * create new file '/syndication/helpers.js' with all the small classes relevant to syndication and add before /syndication/feed.js where used
 * move PageDataByInjection from common.js to own file and add to panel.htm (before discoveryView.js) - or, since it's small, add just to discoveryView.js
 * move TreeItemType from common.js to own file and add to panel.htm (before contextMenu.js)
+* remove semicolon after classes
 ---
 
 
 ## Now
-* remove semicolon after classes
+* move class PageDataByInjection inside the discoveryView function
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 

@@ -24,7 +24,7 @@ let rssTreeView = (function() {
 		get lingered() {
 			return ((Date.now() - this._startTime) > 900);
 		}
-	};
+	}
 
 	//==================================================================================
 	//=== Variables Declerations

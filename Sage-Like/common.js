@@ -24,7 +24,7 @@ class Locker {
 	get isUnlocked() {
 		return (this._lockRequestCounter === 0);
 	}
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 let Global = (function() {

@@ -14,7 +14,7 @@ class TreeItemType {
 	static isClosed(elm)		{ return this._isElm(elm) && elm.classList.contains("closed"); }	// Use after checking that TreeItemType.isFolder() return true
 	static isError(elm)			{ return this._isElm(elm) && elm.classList.contains("errormsg"); }
 	static isUnauthorized(elm)	{ return this.isFeed(elm) && elm.classList.contains("unauthorized"); }
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class StoredKeyedItems {
@@ -74,7 +74,7 @@ class StoredKeyedItems {
 			})
 		});
 	}
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class OpenTreeFolders extends StoredKeyedItems {
@@ -121,7 +121,7 @@ class OpenTreeFolders extends StoredKeyedItems {
 			}).catch(() => {});
 		});
 	}
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeFeedsData extends StoredKeyedItems {
@@ -202,4 +202,4 @@ class TreeFeedsData extends StoredKeyedItems {
 			}).catch(() => {});
 		});
 	}
-};
+}

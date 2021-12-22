@@ -154,4 +154,4 @@ class InfoBubble {
 			elm.appendChild(node);
 		}
 	}
-};
+}

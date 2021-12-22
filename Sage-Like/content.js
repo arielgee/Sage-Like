@@ -88,6 +88,6 @@ class Content {
 			}
 		});
 	}
-};
+}
 
 const obj = new Content();
