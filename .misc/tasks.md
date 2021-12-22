@@ -953,11 +953,12 @@
 * move InfoBubble from common.js to own file and add to panel.htm (before panel.js)
 * create new file '/syndication/helpers.js' with all the small classes relevant to syndication and add before /syndication/feed.js where used
 * move PageDataByInjection from common.js to own file and add to panel.htm (before discoveryView.js) - or, since it's small, add just to discoveryView.js
+* move TreeItemType from common.js to own file and add to panel.htm (before contextMenu.js)
 ---
 
 
 ## Now
-* move TreeItemType from common.js to own file and add to panel.htm (before contextMenu.js)
+* remove semicolon after classes
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
@@ -966,7 +967,6 @@
 * 'mark all as read' is not consistent when folder has erroneous feeds
 * add folder for protected (unauthenticated) feeds to the sage-like_test-feeds.opml
 * address the support post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
-* remove semicolon after classes
 * add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
