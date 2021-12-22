@@ -2,10 +2,17 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Tue, 17 Aug 2021 12:21:09 GMT</dateCreated>
+		<dateCreated>Wed, 22 Dec 2021 17:04:36 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
+			<outline text="unauthenticated" data-wxsl-open="0">
+				<outline type="rss" text="basic-auth" title="basic-auth" xmlUrl="http://eu.httpbin.org/basic-auth/authfail/authfail" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="digest-auth" title="digest-auth" xmlUrl="http://eu.httpbin.org/digest-auth/qop/authfail/authfail" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="hidden-basic-auth" title="hidden-basic-auth" xmlUrl="http://eu.httpbin.org/hidden-basic-auth/authfail/authfail" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Sage-Like Test Feed" title="Sage-Like Test Feed" xmlUrl="http://localhost/Protected/feed-test.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Sage-Like Test Feed" title="Sage-Like Test Feed" xmlUrl="http://localhost/Protected/feed-test.xml?_SLWxoPenuRl=nOtinFEeDPREVIew" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
 			<outline text="Rapid Update" data-wxsl-open="0">
 				<outline type="rss" text="CNN.com - RSS Channel" title="CNN.com - RSS Channel" xmlUrl="http://rss.cnn.com/rss/cnn_latest.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="World news | The Guardian" title="World news | The Guardian" xmlUrl="https://www.theguardian.com/world/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -46,7 +53,7 @@
 			<outline text="RTL Languages" data-wxsl-open="0">
 				<outline type="rss" text="כלכליסט - ערוץ 24/7" title="כלכליסט - ערוץ 24/7" xmlUrl="https://www.calcalist.co.il/GeneralRSS/0,16335,L-3674,00.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="מידה" title="מידה" xmlUrl="https://feeds.feedburner.com/midaorg" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="https://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="O Facebook Rss Feed" title="O Facebook Rss Feed" xmlUrl="https://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="https://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="editors dashboard HTZ" title="editors dashboard HTZ" xmlUrl="https://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="אינטרנט ישראל" title="אינטרנט ישראל" xmlUrl="https://internet-israel.com/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -54,7 +61,7 @@
 				<outline type="rss" text="عرب 48" title="عرب 48" xmlUrl="https://www.arab48.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="صوت الحق الإخباري" title="صوت الحق الإخباري" xmlUrl="http://www.sawtalhaq.com/?feed=rss2" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="أخبار اليوم | سكاي نيوز عربية" title="أخبار اليوم | سكاي نيوز عربية" xmlUrl="https://www.skynewsarabia.com/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="أخبار العالم | أخبار سكاي نيوز عربية" title="أخبار العالم | أخبار سكاي نيوز عربية" xmlUrl="https://www.skynewsarabia.com/web/rss/world.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="أخبار العالم | سكاي نيوز عربية" title="أخبار العالم | سكاي نيوز عربية" xmlUrl="https://www.skynewsarabia.com/web/rss/world.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="كووورة: الموقع العربي الرياضي الأول" title="كووورة: الموقع العربي الرياضي الأول" xmlUrl="https://feeds.feedburner.com/kooora/Wnpe" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="الجزيرة نت" title="الجزيرة نت" xmlUrl="https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="ہم نیوز" title="ہم نیوز" xmlUrl="https://www.humnews.pk/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -64,7 +71,7 @@
 			</outline>
 			<outline text="attachments (rss,rss,rss,rss,atom,atom,atom,json,json)" data-wxsl-open="0">
 				<outline type="rss" text="Adactio: Articles" title="Adactio: Articles" xmlUrl="https://adactio.com/articles/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="O Facebook Rss Feed" title="O Facebook Rss Feed" xmlUrl="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Developer Facebook RSS" title="Developer Facebook RSS" xmlUrl="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="editors dashboard HTZ" title="editors dashboard HTZ" xmlUrl="http://www.haaretz.co.il/cmlink/editors-dashboard-1.8225589" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Cloudbase Mayhem Podcast" title="Cloudbase Mayhem Podcast" xmlUrl="https://www.cloudbasemayhem.com/feed/podcast/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -222,7 +229,7 @@
 				<outline text="1" data-wxsl-open="0">
 					<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				</outline>
-				<outline type="rss" text="Facebook Rss Feed" title="Facebook Rss Feed" xmlUrl="https://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="O Facebook Rss Feed" title="O Facebook Rss Feed" xmlUrl="https://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="ariel out side" data-wxsl-open="0">
 			</outline>
