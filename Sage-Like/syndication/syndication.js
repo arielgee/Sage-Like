@@ -155,7 +155,7 @@ let syndication = (function() {
 
 				// if valid and visible
 				if( url && (frames[i].style.display !== "none") ) {
-					allFetch.push(fetchWithTimeout(url, init, timeout));
+					allFetch.push(slUtil.fetchWithTimeout(url, init, timeout));
 				}
 			}
 
@@ -257,7 +257,7 @@ let syndication = (function() {
 
 		return new Promise((resolve, reject) => {
 
-			fetchWithTimeout(url, init, timeout).then((response) => {
+			slUtil.fetchWithTimeout(url, init, timeout).then((response) => {
 
 				if (response.ok) {
 
@@ -308,15 +308,6 @@ let syndication = (function() {
 			};
 			xhr.send();
 		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function fetchWithTimeout(url, init, timeout) {
-
-		return Promise.race([
-			fetch(url, init),
-			new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout) ),
-		]);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

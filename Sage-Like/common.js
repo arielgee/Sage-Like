@@ -1565,6 +1565,14 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function fetchWithTimeout(url, init, timeout) {
+		return Promise.race([
+			fetch(url, init),
+			new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout) ),
+		]);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=3) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -1624,6 +1632,7 @@ let slUtil = (function() {
 		getUniqId: getUniqId,
 		setSafeBrowserActionBadgeText: setSafeBrowserActionBadgeText,
 		getStringExportFileName: getStringExportFileName,
+		fetchWithTimeout: fetchWithTimeout,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};
