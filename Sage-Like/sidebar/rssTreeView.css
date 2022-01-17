@@ -30,7 +30,7 @@
 	display: flex;
 }
 #rssTreeView:empty::after {
-	content: "It feels so empty, without feed";
+	content: "It feels so empty, without feeds";
 	font-size: 150%;
 	color: var(--bk-color-window-contrasted);
 	margin: 45px auto auto;
