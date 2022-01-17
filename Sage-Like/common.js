@@ -48,6 +48,8 @@ let Global = (function() {
 		CONTEXTMENU_PAGE_LINK: "cpl",
 	});
 
+	const _HEADER_AUTHORIZATION_BASIC_NULL = Object.freeze({ Authorization: "Basic " + btoa(":") });
+
 	const _IMAGE_SET = (numOfSet) => {
 		// there's 7 image sets in the '/icons' folder: 'open-[0-6].png'
 		numOfSet = parseInt(numOfSet);
@@ -125,6 +127,8 @@ let Global = (function() {
 
 		VIEW_CONTENT_LOAD_FLAG: _VIEW_CONTENT_LOAD_FLAG,
 		FEED_PREVIEW_REQ_SOURCE: _FEED_PREVIEW_REQ_SOURCE,
+
+		HEADER_AUTHORIZATION_BASIC_NULL: _HEADER_AUTHORIZATION_BASIC_NULL,
 
 		IMAGE_SET: _IMAGE_SET,
 	});

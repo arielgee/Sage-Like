@@ -140,9 +140,7 @@ let syndication = (function() {
 			// See comment in getFeedSourceText() about '401 Unauthorized' response.
 			const init = {
 				method: "GET",
-				headers: {
-					Authorization: "Basic " + btoa(":"),
-				},
+				headers: Global.HEADER_AUTHORIZATION_BASIC_NULL,
 				cache: "default",
 			};
 
