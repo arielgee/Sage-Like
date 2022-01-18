@@ -100,7 +100,7 @@ class AbortDiscovery {
 class SigninCredential {
 	constructor(...args) {
 		if(args.length === 0) {
-			this.initialized = false;		// The fetch's `init` object will NOT have an `Authorization` header.
+			this.initialized = false;		// The fetch's `options` object will NOT have an `Authorization` header.
 		} else {
 
 			let singleObj = (args.length === 1) && (typeof(args[0]) === "object");
@@ -117,7 +117,7 @@ class SigninCredential {
 			} else {
 				throw Error("Invalid constructor parameter(s).");
 			}
-			this.initialized = true;		// The fetch's `init` object will have an `Authorization` header with provided username/password values.
+			this.initialized = true;		// The fetch's `options` object will have an `Authorization` header with provided username/password values.
 		}
 	}
 	setDefault() {

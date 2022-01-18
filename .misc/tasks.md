@@ -957,16 +957,23 @@
 * remove semicolon after classes
 * move class PageDataByInjection inside the discoveryView function
 * add folder for protected (unauthenticated) feeds to the sage-like_test-feeds.opml
+* do i support json 1.1 => YES
+* discoveryView: maybe JUST ALWAYES FATCH ???? => NO
 ---
 
 
 ## Now
-* address the support post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
+* detect xml feeds with xslt from address-bar
+* discoveryView: address xml json pages before using PageDataByInjection with `/^application\/(feed+)?(xml|json)$/.test((await (await fetch(tab.url)).blob()).type)`
+* xml feeds with xslt (<?xml-stylesheet href="/skins/pretty-feed-v3.xsl" type="text/xsl"?>) are not detected by discovery (view & addressbar) see: https://adactio.com/journal/rss
+* is there an xslt for json files? see: https://www.educba.com/xslt-json/ , https://www.saxonica.com/papers/xmlprague-2016mhk.pdf
+* move fetchWithTimeout() to slUtil?
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* address the support post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
 * 'mark all as read' is not consistent when folder has erroneous feeds
 * add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`

@@ -138,7 +138,7 @@ let syndication = (function() {
 			// include an 'Authorization' header with empty username and password so that the sign-in
 			// dialog 'Authorization Required - Mozilla Firefox' will not be displayed when performing sidebar discovery.
 			// See comment in getFeedSourceText() about '401 Unauthorized' response.
-			const init = {
+			const options = {
 				method: "GET",
 				headers: Global.HEADER_AUTHORIZATION_BASIC_NULL,
 				cache: "default",
@@ -153,7 +153,7 @@ let syndication = (function() {
 
 				// if valid and visible
 				if( url && (frames[i].style.display !== "none") ) {
-					allFetch.push(slUtil.fetchWithTimeout(url, init, timeout));
+					allFetch.push(slUtil.fetchWithTimeout(url, options, timeout));
 				}
 			}
 
@@ -229,7 +229,7 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFeedSourceText(url, reload = false, timeout = 60000, signinCred = new SigninCredential({}) /* initialized with empty username/password */) {
 
-		const init = {
+		const options = {
 			method: "GET",
 			headers: {},
 			cache: reload ? "reload" : "default",
@@ -241,21 +241,21 @@ let syndication = (function() {
 
 			/*
 				'401 Unauthorized' Response
-					* Behaviour When 'Authorization' header is NOT provided in the init parameter:
+					* Behaviour When 'Authorization' header is NOT provided in the options parameter:
 						+ Fx v93: A login dialog 'Authorization Required - Mozilla Firefox' is displayed. Will not display if fetch is done from background.js.
 						+ Fx v59: No dialog is displayed.
-					* Behaviour When 'Authorization' header IS provided in the init parameter with empty username/password:
+					* Behaviour When 'Authorization' header IS provided in the options parameter with empty username/password:
 						+ Fx v93: No dialog is displayed.
 						+ Fx v59: No dialog is displayed.
 			*/
 
 			// add 'Authorization' header if an initialized SigninCredential was provided
-			init.headers["Authorization"] = "Basic " + btoa(`${signinCred.username}:${signinCred.password}`);
+			options.headers["Authorization"] = "Basic " + btoa(`${signinCred.username}:${signinCred.password}`);
 		}
 
 		return new Promise((resolve, reject) => {
 
-			slUtil.fetchWithTimeout(url, init, timeout).then((response) => {
+			slUtil.fetchWithTimeout(url, options, timeout).then((response) => {
 
 				if (response.ok) {
 

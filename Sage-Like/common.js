@@ -1569,9 +1569,9 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchWithTimeout(url, init, timeout) {
+	function fetchWithTimeout(url, options, timeout) {
 		return Promise.race([
-			fetch(url, init),
+			fetch(url, options),
 			new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout) ),
 		]);
 	}
