@@ -1570,9 +1570,23 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function fetchWithTimeout(url, options, timeout) {
+
+		// Promise.race() will NOT abort Promises that are still excuting after race() is
+		// settled with the first promise that was settled. This means that when the timeout
+		// is reached the fetch is still waiting for a response and all associated resources
+		// are still in use and not freed (see POC: \Sage-Like\.graveyard\debug_test_Promise_race.js).
+		// For this reason the AbortSignal was added. When timed-out, abort the fatch so
+		// resources will be released.
+
+		const ctrl = new AbortController();
+		const timeOutHandler = (reject) => {
+			reject(new Error("timeout"));
+			ctrl.abort();
+		}
+
 		return Promise.race([
-			fetch(url, options),
-			new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout) ),
+			fetch(url, {...options, signal: ctrl.signal}),
+			new Promise((_, reject) => setTimeout(() => timeOutHandler(reject), timeout) ),
 		]);
 	}
 
