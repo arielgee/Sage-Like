@@ -1585,7 +1585,7 @@ let slUtil = (function() {
 		}
 
 		return Promise.race([
-			fetch(url, {...options, signal: ctrl.signal}),
+			fetch(url, Object.assign(options, { signal: ctrl.signal })),
 			new Promise((_, reject) => setTimeout(() => timeOutHandler(reject), timeout) ),
 		]);
 	}
