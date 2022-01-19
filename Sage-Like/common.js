@@ -1578,15 +1578,22 @@ let slUtil = (function() {
 		// For this reason the AbortSignal was added. When timed-out, abort the fatch so
 		// resources will be released.
 
+		let timeoutId;
 		const ctrl = new AbortController();
+		const fetchHandler = (resolve, reject) => {
+			fetch(url, Object.assign(options, { signal: ctrl.signal }))
+				.then((response) => resolve(response) )
+				.catch((error) => reject(error) )
+				.finally(() => clearTimeout(timeoutId) );
+		};
 		const timeOutHandler = (reject) => {
 			reject(new Error("timeout"));
 			ctrl.abort();
-		}
+		};
 
 		return Promise.race([
-			fetch(url, Object.assign(options, { signal: ctrl.signal })),
-			new Promise((_, reject) => setTimeout(() => timeOutHandler(reject), timeout) ),
+			new Promise((resolve, reject) => fetchHandler(resolve, reject) ),
+			new Promise((_, reject) => timeoutId = setTimeout(() => timeOutHandler(reject), timeout) ),
 		]);
 	}
 
