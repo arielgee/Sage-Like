@@ -151,53 +151,56 @@ let discoveryView = (function() {
 
 			if(tab.status === "loading") {
 				setNoFeedsMsg("Current tab is still loading.");
-			} else {
-
-				const pageData = new PageDataByInjection();
-
-				setDiscoverLoadingState(true);
-				emptyDiscoverFeedsList();
-
-				pageData.get(tab.id).then((pd) => {
-
-					if(!!!pd.title) pd.title = Global.STR_TITLE_EMPTY;
-
-					if( (pd.docElmId === "feedHandler" && !!!pd.domainName) || pd.isPlainText ) {
-
-						// Fx v63 build-in Feed Preview OR browser's plaintext
-
-						loadSingleDiscoverFeed(tab.url, (!!pd.domainName ? pd.domainName : pd.title));
-
-					} else if(pd.docElmId === "_sage-LikeFeedPreview") {
-
-						// Fx v64 Sage-Like Feed Preview
-
-						loadSingleDiscoverFeed(slUtil.getURLQueryStringValue(tab.url, "urlFeed"), pd.title);
-
-					} else {
-
-						// For regular web pages
-
-						loadDiscoverFeedsList(pd.txtHTML, (!!pd.domainName ? pd.domainName : pd.title), pd.origin);
-					}
-
-				}).catch((error) => {
-
-					if(tab.url.match(/^(about|view-source|chrome|resource):/)) {
-						setDiscoverLoadingState(false);
-						setNoFeedsMsg("Unable to access current tab.");
-					} else {
-
-						// Code injection failure most likely is due to "Missing host permission for the tab".
-						// This usually happens with built-in browser pages like "about:" or "view-source:".
-						// Since this CAN happend with the browser's devtools.jsonview and that json CAN also
-						// be a feed (jsonfeed), try to acquire the feed from the URL without injection.
-						loadSingleDiscoverFeed(tab.url, tab.title, error);
-					}
-
-					//console.log("[Sage-Like]", error);
-				});
+				return;
 			}
+
+			const gettingPageData = (new PageDataByInjection()).get(tab.id);
+
+			setDiscoverLoadingState(true);
+			emptyDiscoverFeedsList();
+
+			gettingPageData.then((pd) => {
+
+				if(!!!pd.title) pd.title = Global.STR_TITLE_EMPTY;
+
+				if( (pd.docElmId === "feedHandler" && !!!pd.domainName) || pd.isPlainText ) {
+
+					// Fx v63 build-in Feed Preview OR browser's plaintext
+
+					loadSingleDiscoverFeed(tab.url, (!!pd.domainName ? pd.domainName : pd.title));
+
+				} else if(pd.docElmId === "_sage-LikeFeedPreview") {
+
+					// Fx v64 Sage-Like Feed Preview
+
+					loadSingleDiscoverFeed(slUtil.getURLQueryStringValue(tab.url, "urlFeed"), pd.title);
+
+				} else {
+
+					// For regular web pages
+
+					loadDiscoverFeedsList(pd.txtHTML, (!!pd.domainName ? pd.domainName : pd.title), pd.origin, tab.url);
+				}
+			}).catch((error) => {
+
+				// Code injection failure most likely is due to "Missing host permission for the tab".
+				// This usually happens with built-in browser pages like "about:" or "view-source:".
+				// Since this can also happend with browser viewers like devtools.jsonview or XML
+				// viewer for files like JSON or XML, respectively, try to acquire the feed from the
+				// URL without injection.
+
+				if(/^(about|chrome|resource):/i.test(tab.url)) {
+					setDiscoverLoadingState(false);
+					setNoFeedsMsg("Unable to access current tab.");
+				} else {
+
+					// For XML/JSON pages loaded by the browser's viewers
+
+					let url = tab.url.replace(/^view-source:/i, "");	// Discover feed in view-source's url. Ignore Global.EXTRA_URL_PARAM_NO_REDIRECT if any
+					loadSingleDiscoverFeed(url, (new URL(url)).hostname, { injectErr: error });
+				}
+				//console.log("[Sage-Like]", error);
+			});
 		});
 	}
 
@@ -215,8 +218,10 @@ let discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function loadSingleDiscoverFeed(strUrl, domainName, injectErr = undefined) {
+	async function loadSingleDiscoverFeed(strUrl, domainName, details = {}) {
 
+		const { injectErr = undefined } = details;
+		const { sNoFeedsMsg = "No valid feeds were discovered." } = details;
 		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 
 		setStatusbarMessage(domainName, false);
@@ -238,14 +243,14 @@ let discoveryView = (function() {
 				setDiscoverLoadingState(false);
 				// if no feed was added to the list
 				if(m_elmDiscoverFeedsList.children.length === 0) {
-					setNoFeedsMsg("No valid feeds were discovered.");
+					setNoFeedsMsg(sNoFeedsMsg);
 				}
 			}
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function loadDiscoverFeedsList(txtHTML, domainName, origin) {
+	async function loadDiscoverFeedsList(txtHTML, domainName, origin, url) {
 
 		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 		const aggressiveLevel = parseInt(await internalPrefs.getAggressiveDiscoveryLevel());
@@ -269,12 +274,13 @@ let discoveryView = (function() {
 				// if function was called for all founded feeds
 				if(feedCount === ++counter) {
 					m_abortDiscovery = null;
-					setDiscoverLoadingState(false);
 
 					// if none of the feeds was added to the list
 					if(m_elmDiscoverFeedsList.children.length === 0) {
-						setNoFeedsMsg("No valid feeds were discovered.");
+						// See comment below in the handler of syndication.webPageFeedsDiscovery()
+						loadSingleDiscoverFeed(url, domainName, { sNoFeedsMsg: "No valid feeds were discovered." });
 					} else {
+						setDiscoverLoadingState(false);
 						sortDiscoverFeedsList();
 					}
 				}
@@ -286,8 +292,10 @@ let discoveryView = (function() {
 		syndication.webPageFeedsDiscovery(txtHTML, timeout, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveLevel).then((result) => {
 
 			if((feedCount = result.length) === 0) {
-				setNoFeedsMsg("No feeds were discovered.");
-				setDiscoverLoadingState(false);
+				// Since nothing was found, try to discover if the url itself is the feed. This can be an XML with XSLT
+				// that the browser loads into the tab as an HTML page instead as an XML viewer. Afaik JSON hasn't got
+				// anything resembling. Inject into XML/JSON viewers throws an exception.
+				loadSingleDiscoverFeed(url, domainName, { sNoFeedsMsg: "No feeds were discovered." });
 			}
 			iframeHosts = result.iframeHosts;
 			m_abortDiscovery = result.abortObject;
