@@ -1571,30 +1571,30 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function fetchWithTimeout(url, options, timeout) {
 
-		// Promise.race() will NOT abort Promises that are still excuting after race() is
-		// settled with the first promise that was settled. This means that when the timeout
-		// is reached the fetch is still waiting for a response and all associated resources
-		// are still in use and not freed (see POC: \Sage-Like\.graveyard\debug_test_Promise_race.js).
-		// For this reason the AbortSignal was added. When timed-out, abort the fatch so
-		// resources will be released.
+		return new Promise((resolve, reject) => {
 
-		let timeoutId;
-		const ctrl = new AbortController();
-		const fetchHandler = (resolve, reject) => {
-			fetch(url, Object.assign(options, { signal: ctrl.signal }))
-				.then((response) => resolve(response) )
-				.catch((error) => reject(error) )
-				.finally(() => clearTimeout(timeoutId) );
-		};
-		const timeOutHandler = (reject) => {
-			reject(new Error("timeout"));
-			ctrl.abort();
-		};
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => {
+				reject(new Error("timeout"));
+				controller.abort();
+			}, timeout);
 
-		return Promise.race([
-			new Promise((resolve, reject) => fetchHandler(resolve, reject) ),
-			new Promise((_, reject) => timeoutId = setTimeout(() => timeOutHandler(reject), timeout) ),
-		]);
+			fetch(url, Object.assign(options, { signal: controller.signal }))
+				.then((response) => {
+					clearTimeout(timeoutId);
+					resolve(response);
+				})
+				.catch((error) => {
+					clearTimeout(timeoutId);
+					reject(error);
+				});
+
+			// Keeping it clean: A settled fetch() clears the timeout and an expired
+			// timeout aborts the fetch().
+			// Not using finally() for clearTimeout() bc finally() is executed AFTER
+			// resolve()/reject() has terminated and returned. If resolve()/reject()
+			// isn't an asynchronous function, the timeout clearing will needlessly wait.
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
