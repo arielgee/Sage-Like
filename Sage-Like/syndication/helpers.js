@@ -87,9 +87,13 @@ class SyndicationError extends Error {
 class AbortDiscovery {
 	constructor() {
 		this._abort = false;
+		this.fetchControllers = [];
 	}
 	abort() {
 		this._abort = true;
+		for(let i=0, len=this.fetchControllers.length; i<len; i++) {
+			this.fetchControllers[i].abort();
+		}
 	}
 	get isAborted() {
 		return this._abort;

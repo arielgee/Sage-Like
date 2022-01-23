@@ -68,8 +68,9 @@ let syndication = (function() {
 
 				let url = new URL(linkFeeds[index]);
 				let discoveredFeed = createObjectDiscoveredFeed(url.toString(), requestId);
+				objAbort.fetchControllers.push(new AbortController());
 
-				getFeedSourceText(url, reload, timeout).then((feedSrc) => {
+				getFeedSourceText(url, reload, timeout, undefined, objAbort.fetchControllers[index]).then((feedSrc) => {
 
 					if(objAbort.isAborted) return;		// exit immediately if aborted
 
@@ -231,7 +232,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedSourceText(url, reload = false, timeout = 60000, signinCred = new SigninCredential({}) /* initialized with empty username/password */) {
+	function getFeedSourceText(url, reload = false, timeout = 60000, signinCred = new SigninCredential({}) /*empty username/password*/, abortController = null) {
 
 		const options = {
 			method: "GET",
@@ -259,7 +260,7 @@ let syndication = (function() {
 
 		return new Promise((resolve, reject) => {
 
-			slUtil.fetchWithTimeout(url, options, timeout).then((response) => {
+			slUtil.fetchWithTimeout(url, options, timeout, abortController).then((response) => {
 
 				if (response.ok) {
 

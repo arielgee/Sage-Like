@@ -1569,11 +1569,11 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchWithTimeout(url, options, timeout) {
+	function fetchWithTimeout(url, options, timeout, abortController = null) {
 
 		return new Promise((resolve, reject) => {
 
-			const controller = new AbortController();
+			const controller = (abortController instanceof AbortController) ? abortController : new AbortController();
 			const timeoutId = setTimeout(() => {
 				reject(new Error("timeout"));
 				controller.abort();

@@ -966,18 +966,18 @@
 * detect xml feeds with xslt from address-bar
 * is there an xslt for json files? see: https://www.educba.com/xslt-json/ , https://www.saxonica.com/papers/xmlprague-2016mhk.pdf => LOOKS LIKE Fx USES JSON view
 * replace AbortDiscovery() with AbortController() => NO BENEFIT
+* abort fetch() when aborting the discovery view
 ---
 
 
 ## Now
-* abort fetch() when aborting the discovery view
+* 'mark all as read' is not consistent when folder has erroneous feeds
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
 * address the support post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
-* 'mark all as read' is not consistent when folder has erroneous feeds
 * add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
