@@ -965,11 +965,12 @@
 * move fetchWithTimeout() to slUtil
 * detect xml feeds with xslt from address-bar
 * is there an xslt for json files? see: https://www.educba.com/xslt-json/ , https://www.saxonica.com/papers/xmlprague-2016mhk.pdf => LOOKS LIKE Fx USES JSON view
+* replace AbortDiscovery() with AbortController() => NO BENEFIT
 ---
 
 
 ## Now
-* replace AbortDiscovery() with AbortController
+* abort fetch() when aborting the discovery view
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 

@@ -76,7 +76,11 @@ let syndication = (function() {
 					setDiscoveredFeedFromSource(discoveredFeed, feedSrc, url, index);
 
 				}).catch((error) => {
+
+					if(objAbort.isAborted) return;		// exit immediately if aborted
+
 					setDiscoveredFeedError(discoveredFeed, error, index);
+
 				}).finally(() => {
 					// Only if not aborted
 					if(!objAbort.isAborted) callback(discoveredFeed);
