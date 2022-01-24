@@ -969,6 +969,7 @@
 * abort fetch() when aborting the discovery view
 * sage-like_test-feeds.opml: add urls to XML with XSLT
 * sage-like_test-feeds.opml: add urls to feeds that the feed updated time is always set the the time of the web fetching. Are always BOLD
+* setTreeItemTooltipFull()/setTreeItemTooltip() - replace parameter 'thirdLine' with array of additinalLines - add feed format to tooltip
 ---
 
 
@@ -984,6 +985,7 @@
 
 
 ## Next
+* when hovering over a feed the relative time is relative to the time the tooltip was created. not the hover time. its not accurate.
 * 'mark all as read' is not consistent when folder has erroneous feeds
 * add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`

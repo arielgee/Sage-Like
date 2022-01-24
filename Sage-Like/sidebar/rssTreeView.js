@@ -552,7 +552,7 @@ let rssTreeView = (function() {
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
 				setTreeItemUpdateDataAttribute(elmLI, updateTime);
-				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, `Update: ${updateTime.toWebExtensionLocaleString()} (${updateTime.getRelativeShortLocaleString()})`);
+				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, [`Format: ${fetchResult.feedData.standard}`, `Update: ${updateTime.toWebExtensionLocaleString()} (${updateTime.getRelativeShortLocaleString()})`]);
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
 				setFeedErrorState(elmLI, true, error);
@@ -1226,7 +1226,7 @@ let rssTreeView = (function() {
 						updateFeedTitle(elmLI, result.feedData.title);
 						updateFeedStatsFromHistory(elmLI, result.list);
 						setTreeItemUpdateDataAttribute(elmLI, fdDate);
-						setTreeItemTooltipFull(elmLI, result.feedData.title, `Update: ${fdDate.toWebExtensionLocaleString()} (${fdDate.getRelativeShortLocaleString()})`);
+						setTreeItemTooltipFull(elmLI, result.feedData.title, [`Format: ${result.feedData.standard}`, `Update: ${fdDate.toWebExtensionLocaleString()} (${fdDate.getRelativeShortLocaleString()})`]);
 
 						// change the rssListView content only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {
@@ -2147,7 +2147,7 @@ let rssTreeView = (function() {
 		if(isError) {
 			elm.classList.add("error");
 			elm.classList.toggle("unauthorized", syndication.isUnauthorizedError(error));
-			setTreeItemTooltip(elm, "Error: " + error.message);
+			setTreeItemTooltip(elm, ["Error: " + error.message]);
 		} else {
 			elm.classList.remove("error", "unauthorized");
 			setTreeItemTooltip(elm);
@@ -2156,7 +2156,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setTreeItemTooltip(elmLI, thirdLine) {
+	function setTreeItemTooltip(elmLI, additinalLines = []) {
 
 		let tooltipText;
 
@@ -2165,9 +2165,9 @@ let rssTreeView = (function() {
 			tooltipText =
 				"Title: " + getTreeItemText(elmLI) +
 				"\nURL: " + decodeURIComponent(elmLI.getAttribute("href")) +
-				(!!thirdLine ? "\n" + thirdLine : "");
+				(additinalLines.length > 0 ? `\n${additinalLines.join("\n")}` : "");
 
-			tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error'
+			tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error', Format
 
 		} else {
 			tooltipText = getTreeItemText(elmLI);		// folder has only title
@@ -2176,7 +2176,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setTreeItemTooltipFull(elmLI, titleLine, thirdLine) {
+	function setTreeItemTooltipFull(elmLI, titleLine, additinalLines = []) {
 
 		let tooltipText = "Title: ";
 		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
@@ -2190,9 +2190,9 @@ let rssTreeView = (function() {
 
 		tooltipText +=
 			(elmLI.hasAttribute("href") ? ("\nURL: " + decodeURIComponent(elmLI.getAttribute("href"))) : "") +
-			"\n" + thirdLine;
+			"\n" + additinalLines.join("\n");
 
-		tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error'
+		tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error', Format
 		elmLI.title = tooltipText;
 	}
 
