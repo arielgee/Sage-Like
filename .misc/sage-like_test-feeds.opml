@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Mon, 24 Jan 2022 09:18:13 GMT</dateCreated>
+		<dateCreated>Mon, 24 Jan 2022 09:24:39 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
@@ -173,6 +173,24 @@
 				<outline type="rss" text="The JSON Feed for Jonny Barnes’s notes" title="The JSON Feed for Jonny Barnes’s notes" xmlUrl="https://jonnybarnes.uk/notes/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
+			<outline text="Podcasts (attachments)" data-wxsl-open="0">
+				<outline text="enclosure w/o feed-item link" data-wxsl-open="0">
+					<outline type="rss" text="Moonbase Theta, Out" title="Moonbase Theta, Out" xmlUrl="https://rss.art19.com/moonbase-theta-out" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="Stories from Among the Stars" title="Stories from Among the Stars" xmlUrl="https://feeds.megaphone.fm/stealthestars" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="Vega: A Sci-Fi Adventure Podcast!" title="Vega: A Sci-Fi Adventure Podcast!" xmlUrl="https://rss.art19.com/vega" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="A World Where" title="A World Where" xmlUrl="https://feeds.buzzsprout.com/192305.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				</outline>
+				<outline type="rss" text="Intercepted with Jeremy Scahill" title="Intercepted with Jeremy Scahill" xmlUrl="http://feeds.megaphone.fm/intercepted" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Lage der Nation - der Politik-Podcast aus Berlin" title="Lage der Nation - der Politik-Podcast aus Berlin" xmlUrl="https://cdn.kuechenstud.io/feeds/ldn-mp3.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Within the Wires" title="Within the Wires" xmlUrl="http://feeds.nightvalepresents.com/WithinTheWires" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Eyes on Asia" title="Eyes on Asia" xmlUrl="https://podrepo.rfa.org/E-Eyes/E-Eyes.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="CNN Breaking News Alert" title="CNN Breaking News Alert" xmlUrl="https://www.omnycontent.com/d/playlist/d83f52e4-2455-47f4-982e-ab790120b954/183b7d82-f502-4965-a01a-ac6b00f3be8a/2bbde490-903e-4e0d-b13e-ac6b00f4a6c5/podcast.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adventures in New America" title="Adventures in New America" xmlUrl="https://anchor.fm/s/4bd40bfc/podcast/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
+			<outline text="Hang Feeds" data-wxsl-open="0">
+				<outline type="rss" text="PHP.net news &amp; announcements" title="PHP.net news &amp; announcements" xmlUrl="https://www.php.net/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="change url &#039;mmm&#039; to &#039;www&#039;" title="change url &#039;mmm&#039; to &#039;www&#039;" xmlUrl="https://mmm.php.net/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
 			<outline text="Newsletter 2 Feed" data-wxsl-open="0">
 				<outline type="rss" text="adidas" title="adidas" xmlUrl="https://www.kill-the-newsletter.com/feeds/3ewnbuy1qdd8jfci1q6p.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
 				<outline type="rss" text="KillTheNewsletter-01" title="KillTheNewsletter-01" xmlUrl="https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="1"/>
@@ -243,8 +261,6 @@
 				</outline>
 				<outline type="rss" text="O Facebook Rss Feed" title="O Facebook Rss Feed" xmlUrl="https://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="ariel out side" data-wxsl-open="0">
-			</outline>
 			<outline text="ariel inside" data-wxsl-open="0">
 				<outline type="rss" text="窓の杜" title="窓の杜" xmlUrl="https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Total Commander" title="Total Commander" xmlUrl="https://ghisler.ch/board/app.php/feed/forum/3?sid=4194099d351c20aea106eb36e071f731" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -297,24 +313,6 @@
 			</outline>
 			<outline text="links to checkes" data-wxsl-open="0">
 				<outline type="rss" text="Full RSS - Full text rss feed generator 100% success &amp; free" title="Full RSS - Full text rss feed generator 100% success &amp; free" xmlUrl="https://www.freefullrss.com/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-			</outline>
-			<outline text="Hang Feeds" data-wxsl-open="0">
-				<outline type="rss" text="PHP.net news &amp; announcements" title="PHP.net news &amp; announcements" xmlUrl="https://www.php.net/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="change url &#039;mmm&#039; to &#039;www&#039;" title="change url &#039;mmm&#039; to &#039;www&#039;" xmlUrl="https://mmm.php.net/feed.atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-			</outline>
-			<outline text="Podcasts (attachments)" data-wxsl-open="0">
-				<outline text="enclosure w/o feed-item link" data-wxsl-open="0">
-					<outline type="rss" text="Moonbase Theta, Out" title="Moonbase Theta, Out" xmlUrl="https://rss.art19.com/moonbase-theta-out" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-					<outline type="rss" text="Stories from Among the Stars" title="Stories from Among the Stars" xmlUrl="https://feeds.megaphone.fm/stealthestars" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-					<outline type="rss" text="Vega: A Sci-Fi Adventure Podcast!" title="Vega: A Sci-Fi Adventure Podcast!" xmlUrl="https://rss.art19.com/vega" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-					<outline type="rss" text="A World Where" title="A World Where" xmlUrl="https://feeds.buzzsprout.com/192305.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				</outline>
-				<outline type="rss" text="Intercepted with Jeremy Scahill" title="Intercepted with Jeremy Scahill" xmlUrl="http://feeds.megaphone.fm/intercepted" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Lage der Nation - der Politik-Podcast aus Berlin" title="Lage der Nation - der Politik-Podcast aus Berlin" xmlUrl="https://cdn.kuechenstud.io/feeds/ldn-mp3.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Within the Wires" title="Within the Wires" xmlUrl="http://feeds.nightvalepresents.com/WithinTheWires" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Eyes on Asia" title="Eyes on Asia" xmlUrl="https://podrepo.rfa.org/E-Eyes/E-Eyes.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="CNN Breaking News Alert" title="CNN Breaking News Alert" xmlUrl="https://www.omnycontent.com/d/playlist/d83f52e4-2455-47f4-982e-ab790120b954/183b7d82-f502-4965-a01a-ac6b00f3be8a/2bbde490-903e-4e0d-b13e-ac6b00f4a6c5/podcast.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="Adventures in New America" title="Adventures in New America" xmlUrl="https://anchor.fm/s/4bd40bfc/podcast/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline type="rss" text="Sage-Like Test Feed" title="Sage-Like Test Feed" xmlUrl="http://localhost/example/feed-test.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 		</outline>
