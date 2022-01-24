@@ -967,17 +967,24 @@
 * is there an xslt for json files? see: https://www.educba.com/xslt-json/ , https://www.saxonica.com/papers/xmlprague-2016mhk.pdf => LOOKS LIKE Fx USES JSON view
 * replace AbortDiscovery() with AbortController() => NO BENEFIT
 * abort fetch() when aborting the discovery view
+* sage-like_test-feeds.opml: add urls to XML with XSLT
+* sage-like_test-feeds.opml: add urls to feeds that the feed updated time is always set the the time of the web fetching. Are always BOLD
 ---
 
 
 ## Now
-* 'mark all as read' is not consistent when folder has erroneous feeds
+* address the support post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
+	* https://ascraeus.org/jsonfeed/index.json
+	* https://www.reddit.com/original/.rss
+	* https://docs.microsoft.com/en-us/teamblog/feed.xml
+	* http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&feed=atom
+	* https://www.reddit.com/r/worldnews/.rss
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* address the support post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
+* 'mark all as read' is not consistent when folder has erroneous feeds
 * add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 

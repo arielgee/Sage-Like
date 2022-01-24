@@ -2,10 +2,21 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Wed, 22 Dec 2021 17:04:36 GMT</dateCreated>
+		<dateCreated>Mon, 24 Jan 2022 09:18:13 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
+			<outline text="address-bar discovery - XML with XSLT" data-wxsl-open="0">
+				<outline type="rss" text="אלכסון" title="אלכסון" xmlUrl="https://feeds.feedburner.com/alaxon" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Adactio: Journal" title="Adactio: Journal" xmlUrl="https://adactio.com/journal/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
+			<outline text="Updated time is NOW (always bold after refresh)" data-wxsl-open="0">
+				<outline type="rss" text="World News" title="World News" xmlUrl="https://www.reddit.com/r/worldnews/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="explain xkcd - Recent changes [en]" title="explain xkcd - Recent changes [en]" xmlUrl="http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&amp;feed=atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="docs.microsoft.com Team Blog" title="docs.microsoft.com Team Blog" xmlUrl="https://docs.microsoft.com/en-us/teamblog/feed.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+			</outline>
 			<outline text="unauthenticated" data-wxsl-open="0">
 				<outline type="rss" text="basic-auth" title="basic-auth" xmlUrl="http://eu.httpbin.org/basic-auth/authfail/authfail" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="digest-auth" title="digest-auth" xmlUrl="http://eu.httpbin.org/digest-auth/qop/authfail/authfail" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -176,6 +187,7 @@
 				<outline type="rss" text="ynet.co.il - RSS Feeds" title="ynet.co.il - RSS Feeds" xmlUrl="https://www.ynet.co.il/articles/0,7340,L-3369891,00.html" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="haaretz.co.il - RSS Feeds" title="haaretz.co.il - RSS Feeds" xmlUrl="https://www.haaretz.co.il/misc/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Sign Up: Teradata RSS Feeds" title="Sign Up: Teradata RSS Feeds" xmlUrl="https://www.teradata.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="Bad feeds" data-wxsl-open="0">
 				<outline type="rss" text="New Feed" title="New Feed" xmlUrl="file:///C:/Users/arielg/Desktop/israblogl_blog_rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
