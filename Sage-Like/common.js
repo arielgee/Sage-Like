@@ -371,7 +371,7 @@ let slPrototypes = (function() {
 		let oRef = Date.prototype.getRelativeShortLocaleString;
 		let msSpan = Date.now() - this.getTime();
 		let text = msSpan > 0 ? "% ago" : "in %";
-		let o = {};
+		let o = { v: 0 };
 
 		msSpan = Math.abs(msSpan);
 
