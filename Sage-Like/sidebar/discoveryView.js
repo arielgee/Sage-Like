@@ -358,10 +358,10 @@ let discoveryView = (function() {
 		let lastUpdated = undefined;
 		if(feedLastUpdate) {
 			if(feedLastUpdate instanceof Date) {
-				lastUpdated = `${feedLastUpdate.toWebExtensionLocaleString()} (${feedLastUpdate.getRelativeShortLocaleString()})`;
+				lastUpdated = slUtil.getUpdateTimeFormattedString(feedLastUpdate);
 			} else if(typeof(feedLastUpdate) === "string") {
 				let d = new Date(feedLastUpdate);
-				lastUpdated = isNaN(d) ? feedLastUpdate : `${d.toWebExtensionLocaleString()} (${d.getRelativeShortLocaleString()})`;
+				lastUpdated = isNaN(d) ? feedLastUpdate : slUtil.getUpdateTimeFormattedString(d);
 			}
 		}
 

@@ -552,7 +552,7 @@ let rssTreeView = (function() {
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
 				setTreeItemUpdateDataAttribute(elmLI, updateTime);
-				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, [`Format: ${fetchResult.feedData.standard}`, `Update: ${updateTime.toWebExtensionLocaleString()} (${updateTime.getRelativeShortLocaleString()})`]);
+				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, [`Format: ${fetchResult.feedData.standard}`, `Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}`]);
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
 				setFeedErrorState(elmLI, true, error);
@@ -1226,7 +1226,7 @@ let rssTreeView = (function() {
 						updateFeedTitle(elmLI, result.feedData.title);
 						updateFeedStatsFromHistory(elmLI, result.list);
 						setTreeItemUpdateDataAttribute(elmLI, fdDate);
-						setTreeItemTooltipFull(elmLI, result.feedData.title, [`Format: ${result.feedData.standard}`, `Update: ${fdDate.toWebExtensionLocaleString()} (${fdDate.getRelativeShortLocaleString()})`]);
+						setTreeItemTooltipFull(elmLI, result.feedData.title, [`Format: ${result.feedData.standard}`, `Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}`]);
 
 						// change the rssListView content only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {

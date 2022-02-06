@@ -308,7 +308,7 @@
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title.trim().length > 0 ? feedItem.title : feedItem.url;
 		elmFeedItemLastUpdatedTime.dateTime = feedItemDate.toISOString();
-		elmFeedItemLastUpdatedTime.textContent = `${feedItemDate.toWebExtensionLocaleString()} (${feedItemDate.getRelativeShortLocaleString()})`;
+		elmFeedItemLastUpdatedTime.textContent = slUtil.getUpdateTimeFormattedString(feedItemDate);
 		elmFeedItemContent.innerHTML = itemImage + itemContent;
 		elmJumpListItem.textContent = `${idx+1}. ${elmFeedItemTitleText.textContent}`;
 		elmJumpListItem.href = `#${elmFeedItemContainer.id}`;
