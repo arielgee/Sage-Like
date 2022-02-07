@@ -182,7 +182,7 @@ class XmlFeed extends Feed {
 				if(ary[0].querySelector(selectors[i]) !== null) {
 
 					const selector = selectors[i];
-					const nowIfNaN = Date.now();
+					const defaultDate = Date.now();
 					const selectorsList = selectors.join(",");
 
 					ary.sort((a, b) => {
@@ -190,10 +190,10 @@ class XmlFeed extends Feed {
 						let bNode = b.querySelector(selector);
 						if(!!!aNode) aNode = a.querySelector(selectorsList);		// fallback. If element not found look for ANY element
 						if(!!!bNode) bNode = b.querySelector(selectorsList);
-						let d1 = aNode ? Date.parse(aNode.textContent) : nowIfNaN;
-						let d2 = bNode ? Date.parse(bNode.textContent) : nowIfNaN;
-						if(isNaN(d1)) d1 = nowIfNaN;
-						if(isNaN(d2)) d2 = nowIfNaN;
+						let d1 = aNode ? Date.parse(aNode.textContent) : defaultDate;
+						let d2 = bNode ? Date.parse(bNode.textContent) : defaultDate;
+						if(isNaN(d1)) d1 = defaultDate;
+						if(isNaN(d2)) d2 = defaultDate;
 						return d2 - d1;
 					});
 

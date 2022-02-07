@@ -125,12 +125,12 @@ class JsonFeed extends Feed {
 
 		if(!!(ary[0])) {
 
-			let nowIfNaN = Date.now();
+			let defaultDate = Date.now();
 			ary.sort((a, b) => {
 				let v1 = Date.parse(a.date_modified || a.date_published);
 				let v2 = Date.parse(b.date_modified || b.date_published);
-				let d1 = isNaN(v1) ? nowIfNaN : v1;
-				let d2 = isNaN(v2) ? nowIfNaN : v2;
+				let d1 = isNaN(v1) ? defaultDate : v1;
+				let d2 = isNaN(v2) ? defaultDate : v2;
 				return d2 - d1;
 			});
 		}
