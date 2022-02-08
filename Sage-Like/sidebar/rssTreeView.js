@@ -2178,10 +2178,12 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemTooltipFull(elmLI, titleLine, additinalLines = []) {
 
+		const REGEX_LINE_PREFIX = "(^[a-z]{3,6}:) ";	// 'Title', 'URL', 'Update', 'Error', 'Format'
+
 		let tooltipText = "Title: ";
 		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
 
-		// don't use channel title if user unchecked that option for this feed
+		// don't use changed title if user unchecked that option for this feed
 		if(!!treeFeedsData && treeFeedsData.updateTitle && !!titleLine) {
 			tooltipText += titleLine;
 		} else {
@@ -2190,9 +2192,9 @@ let rssTreeView = (function() {
 
 		tooltipText +=
 			(elmLI.hasAttribute("href") ? ("\nURL: " + decodeURIComponent(elmLI.getAttribute("href"))) : "") +
-			"\n" + additinalLines.join("\n");
+			"\n" + additinalLines.filter((ln) => !(new RegExp(REGEX_LINE_PREFIX + "$", "i")).test(ln) ).join("\n");	// filter out lines w/o data
 
-		tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error', Format
+		tooltipText = tooltipText.replace(new RegExp(REGEX_LINE_PREFIX, "gim"), "$1\u2003");
 		elmLI.title = tooltipText;
 	}
 

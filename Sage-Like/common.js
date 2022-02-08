@@ -1599,7 +1599,7 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getUpdateTimeFormattedString(date) {
-		if(date instanceof Date) {
+		if( (date instanceof Date) && (date.getTime() > 0) ) {
 			return `${date.toWebExtensionLocaleString()} (${date.getRelativeShortLocaleString()})`;
 		}
 		return "";
