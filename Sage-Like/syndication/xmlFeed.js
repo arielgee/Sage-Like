@@ -69,7 +69,7 @@ class XmlFeed extends Feed {
 		}
 
 		if(isNaN(dateVal)) {
-			return txtLastUpdateVal.length > 0 ? txtLastUpdateVal : (new Date());	// final fallback
+			return txtLastUpdateVal.length > 0 ? txtLastUpdateVal : Global.DEFAULT_DATE();	// final fallback
 		} else {
 			return dateVal;
 		}
@@ -143,7 +143,7 @@ class XmlFeed extends Feed {
 
 		if(isNaN(dateVal)) {
 			txtLastUpdatedVal = txtLastUpdatedVal.stripHtmlTags();
-			return txtLastUpdatedVal.length > 0 ? txtLastUpdatedVal : (new Date());	// fallback
+			return txtLastUpdatedVal.length > 0 ? txtLastUpdatedVal : Global.DEFAULT_DATE();	// fallback
 		} else {
 			return dateVal;
 		}
@@ -182,7 +182,7 @@ class XmlFeed extends Feed {
 				if(ary[0].querySelector(selectors[i]) !== null) {
 
 					const selector = selectors[i];
-					const defaultDate = Date.now();
+					const defaultDate = Global.DEFAULT_VALUE_OF_DATE;
 					const selectorsList = selectors.join(",");
 
 					ary.sort((a, b) => {

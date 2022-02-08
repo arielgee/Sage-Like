@@ -112,7 +112,7 @@ class JsonFeed extends Feed {
 
 		if(isNaN(dateVal)) {
 			dateVal = new Date(items.reduce((prv, cur) => prv.date_published > cur.date_published ? prv : cur ).date_published);
-			return isNaN(dateVal) ? (new Date()) : dateVal;
+			return isNaN(dateVal) ? Global.DEFAULT_DATE() : dateVal;
 		} else {
 			return dateVal;
 		}
@@ -125,7 +125,7 @@ class JsonFeed extends Feed {
 
 		if(!!(ary[0])) {
 
-			let defaultDate = Date.now();
+			let defaultDate = Global.DEFAULT_VALUE_OF_DATE;
 			ary.sort((a, b) => {
 				let v1 = Date.parse(a.date_modified || a.date_published);
 				let v2 = Date.parse(b.date_modified || b.date_published);
@@ -203,7 +203,7 @@ class JsonFeed extends Feed {
 
 		if(isNaN(dateVal)) {
 			dateVal = new Date(item.date_published);
-			return isNaN(dateVal) ? (new Date()) : dateVal;
+			return isNaN(dateVal) ? Global.DEFAULT_DATE() : dateVal;
 		} else {
 			return dateVal;
 		}

@@ -50,6 +50,9 @@ let Global = (function() {
 
 	const _HEADER_AUTHORIZATION_BASIC_NULL = Object.freeze({ Authorization: "Basic " + btoa(":") });
 
+	const _DEFAULT_VALUE_OF_DATE = 0;
+	const _DEFAULT_DATE = () => new Date(_DEFAULT_VALUE_OF_DATE);
+
 	const _IMAGE_SET = (numOfSet) => {
 		// there's 7 image sets in the '/icons' folder: 'open-[0-6].png'
 		numOfSet = parseInt(numOfSet);
@@ -129,6 +132,9 @@ let Global = (function() {
 		FEED_PREVIEW_REQ_SOURCE: _FEED_PREVIEW_REQ_SOURCE,
 
 		HEADER_AUTHORIZATION_BASIC_NULL: _HEADER_AUTHORIZATION_BASIC_NULL,
+
+		DEFAULT_VALUE_OF_DATE: _DEFAULT_VALUE_OF_DATE,
+		DEFAULT_DATE: _DEFAULT_DATE,
 
 		IMAGE_SET: _IMAGE_SET,
 	});
@@ -1050,7 +1056,7 @@ let slUtil = (function() {
 		}
 
 		// make sure date is valid and save as simple numeric
-		return (!isNaN(safeDate) && (safeDate instanceof Date)) ? safeDate.getTime() : Date.now();
+		return (!isNaN(safeDate) && (safeDate instanceof Date)) ? safeDate.getTime() : Global.DEFAULT_VALUE_OF_DATE;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
