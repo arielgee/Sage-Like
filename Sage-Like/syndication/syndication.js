@@ -21,8 +21,8 @@ let syndication = (function() {
 
 			let discoveredFeed = createObjectDiscoveredFeed(url, requestId);
 
-			getFeedSourceText(url, reload, timeout).then((feedSrc) => {
-				setDiscoveredFeedFromSource(discoveredFeed, feedSrc, (new URL(url)), 0);
+			getFeedSourceText(url, reload, timeout).then((result) => {
+				setDiscoveredFeedFromSource(discoveredFeed, result, (new URL(url)), 0);
 			}).catch((error) => {
 				setDiscoveredFeedError(discoveredFeed, error);
 			}).finally(() => {
@@ -70,11 +70,11 @@ let syndication = (function() {
 				let discoveredFeed = createObjectDiscoveredFeed(url.toString(), requestId);
 				objAbort.fetchControllers.push(new AbortController());
 
-				getFeedSourceText(url, reload, timeout, undefined, objAbort.fetchControllers[index]).then((feedSrc) => {
+				getFeedSourceText(url, reload, timeout, undefined, objAbort.fetchControllers[index]).then((result) => {
 
 					if(objAbort.isAborted) return;		// exit immediately if aborted
 
-					setDiscoveredFeedFromSource(discoveredFeed, feedSrc, url, index);
+					setDiscoveredFeedFromSource(discoveredFeed, result, url, index);
 
 				}).catch((error) => {
 
@@ -95,10 +95,10 @@ let syndication = (function() {
 
 		return new Promise((resolve, reject) => {
 
-			getFeedSourceText(url, reload, timeout, signinCred).then((feedSrc) => {
+			getFeedSourceText(url, reload, timeout, signinCred).then((result) => {
 
 				try {
-					resolve({ feedData: Feed.factoryCreateBySrc(feedSrc.text, url).getFeedData() });
+					resolve({ feedData: Feed.factoryCreateBySrc(result.text, url).getFeedData() });
 				} catch (error) {
 					reject(new SyndicationError("Failed to get feed data.", error));
 				}
