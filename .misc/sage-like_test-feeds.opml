@@ -14,7 +14,7 @@
 				<outline type="rss" text="docs.microsoft.com Team Blog" title="docs.microsoft.com Team Blog" xmlUrl="https://docs.microsoft.com/en-us/teamblog/feed.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="View from Ascraeus" title="View from Ascraeus" xmlUrl="https://ascraeus.org/jsonfeed/index.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
-			<outline text="Updated time is NOW (always bold after refresh)" data-wxsl-open="0">
+			<outline text="Feed updated time set to NOW when retrieved" data-wxsl-open="0">
 				<outline type="rss" text="World News" title="World News" xmlUrl="https://www.reddit.com/r/worldnews/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="explain xkcd - Recent changes [en]" title="explain xkcd - Recent changes [en]" xmlUrl="http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&amp;feed=atom" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Original Content Discovery" title="Original Content Discovery" xmlUrl="https://www.reddit.com/original/.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
