@@ -98,7 +98,7 @@ let syndication = (function() {
 			getFeedSourceText(url, reload, timeout, signinCred).then((result) => {
 
 				try {
-					resolve({ feedData: Feed.factoryCreateBySrc(result.text, url).getFeedData() });
+					resolve({ feedData: Feed.factoryCreateBySrc(result.text, url).getFeedData(), responseHeaderDate: result.responseHeaderDate });
 				} catch (error) {
 					reject(new SyndicationError("Failed to get feed data.", error));
 				}
@@ -119,7 +119,7 @@ let syndication = (function() {
 				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, sortItems, withAttachments);
 
 				if(list.length > 0 || !ifNoItemsReject) {
-					resolve({ list: list, feedData: result.feedData});
+					resolve({ list: list, feedData: result.feedData, responseHeaderDate: result.responseHeaderDate });
 				} else {
 					reject(new SyndicationError("No RSS feed items identified in document."));
 				}
@@ -293,9 +293,9 @@ let syndication = (function() {
 
 							let charset = getXMLNoneUTF8Charset(txt);
 							if(charset === "") {
-								resolve({ text: txt });
+								resolve({ text: txt, responseHeaderDate: response.headers.get("Date") });
 							} else {
-								getResponseTextFromBlob(blob, charset).then((txt) => resolve({ text: txt }) );
+								getResponseTextFromBlob(blob, charset).then((txt) => resolve({ text: txt, responseHeaderDate: response.headers.get("Date") }) );
 							}
 						});
 					}).catch((error) => {
