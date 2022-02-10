@@ -131,6 +131,24 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function getFeedItemsFromFeedData(feedData, url, sortItems = true, ifNoItemsReject = true, withAttachments = false) {
+
+		try {
+
+			let list = Feed.factoryCreateByStd(feedData.standard, url).getFeedItems(feedData, sortItems, withAttachments);
+
+			if(list.length > 0 || !ifNoItemsReject) {
+				return { list: list, feedData: feedData };
+			} else {
+				throw new SyndicationError("No RSS feed items identified in document.");
+			}
+
+		} catch (error) {
+			throw new SyndicationError("Failed to get feed items from feed data.", error);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function isUnauthorizedError(errorObject) {
 		return (!!errorObject && typeof(errorObject.httpResponseStatus) === "function" && errorObject.httpResponseStatus() === 401);
 	}
@@ -328,6 +346,7 @@ let syndication = (function() {
 		webPageFeedsDiscovery: webPageFeedsDiscovery,
 		fetchFeedData: fetchFeedData,
 		fetchFeedItems: fetchFeedItems,
+		getFeedItemsFromFeedData: getFeedItemsFromFeedData,
 		isUnauthorizedError: isUnauthorizedError,
 	};
 
