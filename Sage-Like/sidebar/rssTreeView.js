@@ -2194,8 +2194,7 @@ let rssTreeView = (function() {
 			(elmLI.hasAttribute("href") ? ("\nURL: " + decodeURIComponent(elmLI.getAttribute("href"))) : "") +
 			"\n" + additinalLines.filter((ln) => !(new RegExp(REGEX_LINE_PREFIX + "$", "i")).test(ln) ).join("\n");	// filter out lines w/o data
 
-		tooltipText = tooltipText.replace(new RegExp(REGEX_LINE_PREFIX, "gim"), "$1\u2003");
-		elmLI.title = tooltipText;
+		elmLI.title = tooltipText.replace(new RegExp(REGEX_LINE_PREFIX, "gim"), "$1\u2003");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
