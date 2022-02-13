@@ -970,25 +970,39 @@
 * sage-like_test-feeds.opml: add urls to XML with XSLT
 * sage-like_test-feeds.opml: add urls to feeds that the feed updated time is always set the the time of the web fetching. Are always BOLD
 * setTreeItemTooltipFull()/setTreeItemTooltip() - replace parameter 'thirdLine' with array of additinalLines - add feed format to tooltip
+* why am I updating setTreeItemUpdateDataAttribute() ? -> for the filter
+* fix visited feed state when update-time is invalid or when the update-time is reset to NOW when retrieved
 ---
 
 
 ## Now
-* address the support post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
-	* https://ascraeus.org/jsonfeed/index.json
-	* https://www.reddit.com/original/.rss
-	* https://docs.microsoft.com/en-us/teamblog/feed.xml
-	* http://www.explainxkcd.com/wiki/index.php?title=Special:RecentChanges&feed=atom
-	* https://www.reddit.com/r/worldnews/.rss
+* test who is faster '(headers[i].value' or 'headers.get("content-type")'
+	let headers = null;
+	fetch("https://www.example.com/").then((response) => {
+	headers = response.headers;
+	});
+
+	console.log("T1", headers);
+	if(!!headers)
+		value = headers[2].value;
+
+	console.log("T2", headers);
+	if(!!headers)
+		value = headers.get("Date");
+* in onWebRequestHeadersReceived() replace the use of 'if(headers[i].name.toLowerCase() === "content-type")' with 'headers.get("content-type")'. see: https://developer.mozilla.org/en-US/docs/Web/API/Headers/get#name
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* in getFeedItems() (rdf,rss,atom,json) sort-items is done on the feeder. Wouldn't it be better to do in on the list?
+* make the bold (unread) feed more prominent
 * It is not recommended to use Date.parse as until ES5, parsing of strings was entirely implementation dependent. There are still many differences in how different hosts parse date strings, therefore date strings should be manually parsed
+* when adding feeds to previously empty folder the preferences page needs to be updated to remove the '∅' (empty) emoji.
 * when hovering over a feed the relative time is relative to the time the tooltip was created. not the hover time. its not accurate.
 * 'mark all as read' is not consistent when folder has erroneous feeds
-* add PERMISSION JUSTIFICATION for menus
+* before publishing: answer the post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
+* before publishing: add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

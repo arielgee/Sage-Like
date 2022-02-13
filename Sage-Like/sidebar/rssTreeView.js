@@ -541,14 +541,18 @@ let rssTreeView = (function() {
 
 			timeout *= 1000;	// to milliseconds
 
-			let fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, false, false) : syndication.fetchFeedData(url, timeout, false);
+			const msFetchTime = Date.now();
+			const fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, false, false) : syndication.fetchFeedData(url, timeout, false);
 
 			fetching.then((fetchResult) => {
 
-				let msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
-				let updateTime = new Date(msUpdateTime);
+				let msLastVisited = m_objTreeFeedsData.value(id).lastVisited;
+				let updateTime, msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
-				setFeedVisitedState(elmLI, m_objTreeFeedsData.value(id).lastVisited > msUpdateTime);
+				msUpdateTime = fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
+				updateTime = new Date(msUpdateTime);
+
+				setFeedVisitedState(elmLI, msLastVisited > msUpdateTime);
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
 				setTreeItemUpdateDataAttribute(elmLI, updateTime);
@@ -1218,9 +1222,10 @@ let rssTreeView = (function() {
 
 					if(userInput === UserInput.NONE) signinCred.setDefault(); // set to empty username/password to prevent Fx login dialog
 
+					const msFetchTime = Date.now();
 					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, signinCred).then((result) => {
 
-						let fdDate = new Date(slUtil.asSafeNumericDate(result.feedData.lastUpdated));
+						let fdDate = new Date(fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
 
 						setFeedVisitedState(elmLI, true);
 						updateFeedTitle(elmLI, result.feedData.title);
@@ -2840,6 +2845,35 @@ let rssTreeView = (function() {
 				}
 			});
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime) {
+
+		let msResponseTime = slUtil.asSafeNumericDate(fetchResult.responseHeaderDate);
+
+		// Response Time Adjustments: if response-time is zero, fallback to fatching-time. otherwize, subtract a 2sec threshold for when
+		// feed's update-time is set when retrieved but yet update-time is 1sec less then the response-time. see: https://www.reddit.com/original/.rss
+		msResponseTime = (msResponseTime <= 0) ? msFetchTime : msResponseTime - 2000;
+
+		// When I can't trust the feed's update-time, I try to get a better update-time from the feed's most recent item.
+		// (1) When it looks like the feed's update-time is set to NOW when retrieved from server OR (2) when the feed's update-time is invalid.
+		if(msUpdateTime >= msResponseTime || msUpdateTime === 0) {
+
+			// fetchResult.list is missing when m_bPrefShowFeedStats is false. get the list from the feedData.
+			let list = (!!fetchResult.list) ? fetchResult.list : syndication.getFeedItemsFromFeedData(fetchResult.feedData, url, false, false).list;
+
+			// get most recent item's update-time
+			let mostRecentItem = list.reduce((p, c) => (slUtil.asSafeNumericDate(p.lastUpdated) > slUtil.asSafeNumericDate(c.lastUpdated)) ? p : c );
+			let msRecentItemUpdateTime = slUtil.asSafeNumericDate(mostRecentItem.lastUpdated);
+
+			// make it so
+			if(msRecentItemUpdateTime > 0) {
+				return msRecentItemUpdateTime;
+			}
+		}
+
+		return msUpdateTime;
 	}
 
 	return {
