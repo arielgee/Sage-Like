@@ -972,30 +972,17 @@
 * setTreeItemTooltipFull()/setTreeItemTooltip() - replace parameter 'thirdLine' with array of additinalLines - add feed format to tooltip
 * why am I updating setTreeItemUpdateDataAttribute() ? -> for the filter
 * fix visited feed state when update-time is invalid or when the update-time is reset to NOW when retrieved
+* in onWebRequestHeadersReceived() replace the use of 'headers[i]' with 'headers.get()'. => fetch()'s headers is an object and onWebRequestHeadersReceived()'s headers is an array.
 ---
 
 
 ## Now
-* test who is faster '(headers[i].value' or 'headers.get("content-type")'
-	let headers = null;
-	fetch("https://www.example.com/").then((response) => {
-	headers = response.headers;
-	});
-
-	console.log("T1", headers);
-	if(!!headers)
-		value = headers[2].value;
-
-	console.log("T2", headers);
-	if(!!headers)
-		value = headers.get("Date");
-* in onWebRequestHeadersReceived() replace the use of 'if(headers[i].name.toLowerCase() === "content-type")' with 'headers.get("content-type")'. see: https://developer.mozilla.org/en-US/docs/Web/API/Headers/get#name
+* in getFeedItems() (rdf,rss,atom,json) sort-items is done on the feeder. Wouldn't it be better to do in on the list?
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* in getFeedItems() (rdf,rss,atom,json) sort-items is done on the feeder. Wouldn't it be better to do in on the list?
 * make the bold (unread) feed more prominent
 * It is not recommended to use Date.parse as until ES5, parsing of strings was entirely implementation dependent. There are still many differences in how different hosts parse date strings, therefore date strings should be manually parsed
 * when adding feeds to previously empty folder the preferences page needs to be updated to remove the '∅' (empty) emoji.
