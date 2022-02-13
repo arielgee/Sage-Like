@@ -33,6 +33,8 @@
 				<outline type="rss" text="CNN.com - RSS Channel - World" title="CNN.com - RSS Channel - World" xmlUrl="http://rss.cnn.com/rss/edition_world.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="ynet - מבזקים" title="ynet - מבזקים" xmlUrl="http://www.ynet.co.il/Integration/StoryRss1854.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="BBC News - World" title="BBC News - World" xmlUrl="http://feeds.bbci.co.uk/news/world/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="MediaWiki - Recent changes [en]" title="MediaWiki - Recent changes [en]" xmlUrl="https://www.mediawiki.org/w/api.php?action=feedrecentchanges&amp;days=30" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Wikipedia - Recent changes [en]" title="Wikipedia - Recent changes [en]" xmlUrl="https://en.wikipedia.org/w/api.php?action=feedrecentchanges&amp;format=json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="feed-item order" data-wxsl-open="0">
 				<outline text="RDF" data-wxsl-open="0">
