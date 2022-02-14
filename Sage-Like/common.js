@@ -1050,8 +1050,9 @@ let slUtil = (function() {
 
 		// another try
 		if(isNaN(safeDate) && typeof(dateValue) === "string") {
+			// assume Zulu is seperated, remove separating spaces
 			// assume 'dd/mm/yyyy hh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'
-			let modDateValue = dateValue.replace(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/, "$3-$2-$1T$4");
+			let modDateValue = dateValue.replace(/\ +Z$/, "Z").replace(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/, "$3-$2-$1T$4");
 			safeDate = new Date(modDateValue);
 		}
 
