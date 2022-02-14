@@ -1605,7 +1605,7 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getUpdateTimeFormattedString(date) {
-		if( (date instanceof Date) && (date.getTime() > 0) ) {
+		if( (date instanceof Date) && !isNaN(date) && (date.getTime() > Global.DEFAULT_VALUE_OF_DATE) ) {
 			return `${date.toWebExtensionLocaleString()} (${date.getRelativeShortLocaleString()})`;
 		}
 		return "";
