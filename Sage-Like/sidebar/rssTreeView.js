@@ -2858,7 +2858,7 @@ let rssTreeView = (function() {
 
 		// When I can't trust the feed's update-time, I try to get a better update-time from the feed's most recent item.
 		// (1) When it looks like the feed's update-time is set to NOW when retrieved from server OR (2) when the feed's update-time is invalid.
-		if(msUpdateTime >= msResponseTime || msUpdateTime === 0) {
+		if(msUpdateTime >= msResponseTime || msUpdateTime === Global.DEFAULT_VALUE_OF_DATE) {
 
 			// fetchResult.list is missing when m_bPrefShowFeedStats is false. get the list from the feedData.
 			let list = (!!fetchResult.list) ? fetchResult.list : syndication.getFeedItemsFromFeedData(fetchResult.feedData, url, false, false).list;
