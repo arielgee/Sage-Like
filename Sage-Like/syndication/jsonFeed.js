@@ -199,13 +199,12 @@ class JsonFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedItemLastUpdate(item) {
 
-		let dateVal = new Date(item.date_modified);
+		let numericDateVal = slUtil.asSafeNumericDate(item.date_modified);
 
-		if(isNaN(dateVal)) {
-			dateVal = new Date(item.date_published);
-			return isNaN(dateVal) ? Global.DEFAULT_DATE() : dateVal;
+		if(numericDateVal > Global.DEFAULT_VALUE_OF_DATE) {
+			return new Date(numericDateVal);
 		} else {
-			return dateVal;
+			return new Date(slUtil.asSafeNumericDate(item.date_published));
 		}
 	}
 

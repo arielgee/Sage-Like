@@ -132,20 +132,12 @@ class XmlFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedItemLastUpdate(item) {
 
-		let dateVal = NaN;
-		let txtLastUpdatedVal = "";
 		let elmLastUpdated = item.querySelector("pubDate,modified,updated,published,created,issued,date");
 
 		if(!!elmLastUpdated) {
-			txtLastUpdatedVal = elmLastUpdated.textContent.replace(/\ Z$/, "");
-			dateVal = (new Date(txtLastUpdatedVal));
-		}
-
-		if(isNaN(dateVal)) {
-			txtLastUpdatedVal = txtLastUpdatedVal.stripHtmlTags();
-			return txtLastUpdatedVal.length > 0 ? txtLastUpdatedVal : Global.DEFAULT_DATE();	// fallback
+			return new Date(slUtil.asSafeNumericDate(elmLastUpdated.textContent));
 		} else {
-			return dateVal;
+			return Global.DEFAULT_DATE();	// fallback
 		}
 	}
 
