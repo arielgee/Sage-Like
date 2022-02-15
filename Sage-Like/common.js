@@ -1043,21 +1043,31 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function asSafeNumericDate(dateValue) {
+	function asSafeNumericDate(value) {
 
-		// dateValue could be a string
-		let safeDate = new Date(dateValue);
+		let safeDate = new Date(value);		// value could be a string
 
-		// another try
-		if(isNaN(safeDate) && typeof(dateValue) === "string") {
-			// assume Zulu is seperated, remove separating spaces
-			// assume 'dd/mm/yyyy hh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'
-			let modDateValue = dateValue.replace(/\ +Z$/, "Z").replace(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/, "$3-$2-$1T$4");
-			safeDate = new Date(modDateValue);
+		if(isNaN(safeDate)) {
+
+			// another try
+			if(typeof(value) === "string") {
+
+				const REGEX_SEP_ZULU = /\s+Z$/;
+				const REGEX_EURO_FMT = /^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/;
+				const REGEX_ISO_DD_MM = /^([12]\d{3})-(1[3-9]|[23]\d)-(0[1-9]|1[0-2])(T\d{2}:\d{2}:\d{2}[\.\d+-:Z]*)$/;
+
+				safeDate = new Date( value.replace(REGEX_SEP_ZULU, "Z")						// If Zulu is seperated, remove separating spaces.
+										  .replace(REGEX_EURO_FMT, "$3-$2-$1T$4")			// If Euro format 'dd/mm/yyyy hh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
+										  .replace(REGEX_ISO_DD_MM, "$1-$3-$2$4") );		// If bad ISO format 'yyyy-dd-mmThh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
+
+				return isNaN(safeDate) ? Global.DEFAULT_VALUE_OF_DATE : safeDate.getTime();
+
+			} else {
+				return Global.DEFAULT_VALUE_OF_DATE;
+			}
 		}
 
-		// make sure date is valid and save as simple numeric
-		return (!isNaN(safeDate) && (safeDate instanceof Date)) ? safeDate.getTime() : Global.DEFAULT_VALUE_OF_DATE;
+		return safeDate.getTime();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
