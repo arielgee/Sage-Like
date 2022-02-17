@@ -302,13 +302,11 @@
 			itemImage = "<img src=\"" + feedItem.image + "\" alt=\"" + feedItem.title + "\">";
 		}
 
-		let feedItemDate = new Date(slUtil.asSafeNumericDate(feedItem.lastUpdated));
-
 		elmFeedItemNumber.textContent = idx + 1 + ".";
 		elmFeedItemLink.href = feedItem.url;
 		elmFeedItemTitleText.textContent = feedItem.title.trim().length > 0 ? feedItem.title : feedItem.url;
-		elmFeedItemLastUpdatedTime.dateTime = feedItemDate.toISOString();
-		elmFeedItemLastUpdatedTime.textContent = slUtil.getUpdateTimeFormattedString(feedItemDate);
+		elmFeedItemLastUpdatedTime.dateTime = feedItem.lastUpdated.toISOString();
+		elmFeedItemLastUpdatedTime.textContent = slUtil.getUpdateTimeFormattedString(feedItem.lastUpdated);
 		elmFeedItemContent.innerHTML = itemImage + itemContent;
 		elmJumpListItem.textContent = `${idx+1}. ${elmFeedItemTitleText.textContent}`;
 		elmJumpListItem.href = `#${elmFeedItemContainer.id}`;

@@ -2864,8 +2864,8 @@ let rssTreeView = (function() {
 			let list = (!!fetchResult.list) ? fetchResult.list : syndication.getFeedItemsFromFeedData(fetchResult.feedData, url, false, false).list;
 
 			// get most recent item's update-time
-			let mostRecentItem = list.reduce((p, c) => (slUtil.asSafeNumericDate(p.lastUpdated) > slUtil.asSafeNumericDate(c.lastUpdated)) ? p : c );
-			let msRecentItemUpdateTime = slUtil.asSafeNumericDate(mostRecentItem.lastUpdated);
+			let mostRecentItem = list.reduce((p, c) => (p.lastUpdated.getTime() > c.lastUpdated.getTime()) ? p : c );
+			let msRecentItemUpdateTime = mostRecentItem.lastUpdated.getTime();
 
 			// make it so
 			if(msRecentItemUpdateTime > Global.DEFAULT_VALUE_OF_DATE) {
