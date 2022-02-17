@@ -162,41 +162,6 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_sortFeederByDate(feeder) {
-
-		const selectors = [ "pubDate", "modified", "updated", "published", "created", "issued" ];
-
-		let ary = Array.prototype.slice.call(feeder, 0);
-
-		if(ary[0] !== undefined) {
-
-			for(let i=0, len=selectors.length; i<len; i++) {
-				if(ary[0].querySelector(selectors[i]) !== null) {
-
-					const selector = selectors[i];
-					const defaultDate = Global.DEFAULT_VALUE_OF_DATE;
-					const selectorsList = selectors.join(",");
-
-					ary.sort((a, b) => {
-						let aNode = a.querySelector(selector);
-						let bNode = b.querySelector(selector);
-						if(!!!aNode) aNode = a.querySelector(selectorsList);		// fallback. If element not found look for ANY element
-						if(!!!bNode) bNode = b.querySelector(selectorsList);
-						let d1 = aNode ? Date.parse(aNode.textContent) : defaultDate;
-						let d2 = bNode ? Date.parse(bNode.textContent) : defaultDate;
-						if(isNaN(d1)) d1 = defaultDate;
-						if(isNaN(d2)) d2 = defaultDate;
-						return d2 - d1;
-					});
-
-					break;
-				}
-			}
-		}
-		return ary;
-	}
-
-	//////////////////////////////////////////
 	_createSingleListItemFeed(elmTitle, elmDesc, elmContent, strUrl, valLastUpdated, imageUrl) {
 
 		let oErr = { error: null };

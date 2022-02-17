@@ -29,7 +29,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData, sortItems = true, withAttachments = false) {
+	getFeedItems(feedData, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -39,10 +39,6 @@ class JsonFeed extends Feed {
 		}
 
 		//console.log("[Sage-Like]", "Feed: JSON", "v" + (feedData.jsonVersion.match(/[\d.]+$/) || "?"));
-
-		if(sortItems) {
-			feedData.feeder = this._sortFeederByDate(feedData.feeder);
-		}
 
 		let i, j, iLen, jLen;
 		let item, feedItem, itemAtts, feedItemAtt;
@@ -116,25 +112,6 @@ class JsonFeed extends Feed {
 		} else {
 			return dateVal;
 		}
-	}
-
-	//////////////////////////////////////////
-	_sortFeederByDate(feeder) {
-
-		let ary = Array.prototype.slice.call(feeder, 0);
-
-		if(!!(ary[0])) {
-
-			let defaultDate = Global.DEFAULT_VALUE_OF_DATE;
-			ary.sort((a, b) => {
-				let v1 = Date.parse(a.date_modified || a.date_published);
-				let v2 = Date.parse(b.date_modified || b.date_published);
-				let d1 = isNaN(v1) ? defaultDate : v1;
-				let d2 = isNaN(v2) ? defaultDate : v2;
-				return d2 - d1;
-			});
-		}
-		return ary;
 	}
 
 	//////////////////////////////////////////

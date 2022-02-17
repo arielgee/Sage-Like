@@ -116,9 +116,10 @@ let syndication = (function() {
 
 			fetchFeedData(url, timeout, reload, signinCred).then((result) => {
 
-				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, sortItems, withAttachments);
+				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, withAttachments);
 
 				if(list.length > 0 || !ifNoItemsReject) {
+					if(sortItems) sortFeedItemsByDate(list);
 					resolve({ list: list, feedData: result.feedData, responseHeaderDate: result.responseHeaderDate });
 				} else {
 					reject(new SyndicationError("No RSS feed items identified in document."));
@@ -135,9 +136,10 @@ let syndication = (function() {
 
 		try {
 
-			let list = Feed.factoryCreateByStd(feedData.standard, url).getFeedItems(feedData, sortItems, withAttachments);
+			let list = Feed.factoryCreateByStd(feedData.standard, url).getFeedItems(feedData, withAttachments);
 
 			if(list.length > 0 || !ifNoItemsReject) {
+				if(sortItems) sortFeedItemsByDate(list);
 				return { list: list, feedData: feedData };
 			} else {
 				throw new SyndicationError("No RSS feed items identified in document.");
@@ -338,6 +340,11 @@ let syndication = (function() {
 			return test[1];
 		}
 		return "";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function sortFeedItemsByDate(feedItemList) {
+		feedItemList.sort((a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime() );	// feedItem.lastUpdated is guaranteed to be of type 'Date'
 	}
 
 	//////////////////////////////////////////

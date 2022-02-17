@@ -27,7 +27,7 @@ class AtomFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData, sortItems = true, withAttachments = false) {
+	getFeedItems(feedData, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -38,11 +38,7 @@ class AtomFeed extends XmlFeed {
 
 		//console.log("[Sage-Like]", "Feed: Atom", "v" + (feedData.feeder.getAttribute("version") || "?"));
 
-		if(sortItems) {
-			feedData.feeder = this._sortFeederByDate(feedData.feeder.querySelectorAll("entry"));
-		} else {
-			feedData.feeder = feedData.feeder.querySelectorAll("entry");
-		}
+		feedData.feeder = feedData.feeder.querySelectorAll("entry");
 
 		let i, j, iLen, jLen;
 		let item, feedItemUrl, feedItem, elmLinks, feedItemAtt;
