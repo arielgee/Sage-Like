@@ -973,16 +973,28 @@
 * why am I updating setTreeItemUpdateDataAttribute() ? -> for the filter
 * fix visited feed state when update-time is invalid or when the update-time is reset to NOW when retrieved
 * in onWebRequestHeadersReceived() replace the use of 'headers[i]' with 'headers.get()'. => fetch()'s headers is an object and onWebRequestHeadersReceived()'s headers is an array.
+* in asSafeNumericDate() the test '(safeDate instanceof Date)' is redundent => LEAVE IT! must be 101% sure it's SAFE
+* about dates: removing the Z and removing the spaces before the Z results in different dates => If there is a 'Z' then most likely the bug is the spaces and not the 'Z' => removing he spaces in asSafeNumericDate()
+* use new Date(-8640000000000000) as default date? => NO. the internet was born on 1983-01-01. an update-date from 1970 is a good enough indication that the value is fuckedup. no need to go 250K yerars ago
+* in getFeedItems() (rdf,rss,atom,json) sort-items is done on the feeder. Wouldn't be better to do in on the list. also dispose of the feeder afterwards
+* xmlFeed._getFeedItemLastUpdate() is doing the same as use asSafeNumericDate(). can I combine them? => DONE
+* reduce number of uses of asSafeNumericDate() fixUnreliableUpdateTime() - feed-item.lastUpdated is 'Date', 3 redundent calls, use .getTime()
+* use asSafeNumericDate() in sortFeeder functions => no more relevent
+* in _getFeedItemLastUpdate: why not use asSafeNumericDate(txtLastUpdatedVal) and not save a string in .lastUpdated  => DONE
 ---
 
 
 ## Now
-* in getFeedItems() (rdf,rss,atom,json) sort-items is done on the feeder. Wouldn't it be better to do in on the list?
+* in background.js:checkForNewBookmarkFeeds - should i use fixUnreliableUpdateTime() when checking 'if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(result.feedData.lastUpdated)) {' ???
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* reduce number of uses of asSafeNumericDate()
+* only feed last-update is considered to possibale be a string (pagePopup.js:341, discoveryView.js:362). feed-items are alwayes dates (?)
+* feed.despose is not used
+* filter also folder names
 * make the bold (unread) feed more prominent
 * It is not recommended to use Date.parse as until ES5, parsing of strings was entirely implementation dependent. There are still many differences in how different hosts parse date strings, therefore date strings should be manually parsed
 * when adding feeds to previously empty folder the preferences page needs to be updated to remove the '∅' (empty) emoji.
