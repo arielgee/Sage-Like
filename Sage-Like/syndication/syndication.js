@@ -118,6 +118,8 @@ let syndication = (function() {
 
 				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, withAttachments);
 
+				disposeFeeder(result.feedData);	// feeder has fulfilled its purpose. Clear reference for GC to kickin.
+
 				if(list.length > 0 || !ifNoItemsReject) {
 					if(sortItems) sortFeedItemsByDate(list);
 					resolve({ list: list, feedData: result.feedData, responseHeaderDate: result.responseHeaderDate });
@@ -137,6 +139,8 @@ let syndication = (function() {
 		try {
 
 			let list = Feed.factoryCreateByStd(feedData.standard, url).getFeedItems(feedData, withAttachments);
+
+			disposeFeeder(feedData);	// feeder has fulfilled its purpose. Clear reference for GC to kickin.
 
 			if(list.length > 0 || !ifNoItemsReject) {
 				if(sortItems) sortFeedItemsByDate(list);
@@ -345,6 +349,12 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function sortFeedItemsByDate(feedItemList) {
 		feedItemList.sort((a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime() );	// feedItem.lastUpdated is guaranteed to be of type 'Date'
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function disposeFeeder(feedData) {
+		feedData.feeder = null;
+		delete feedData.feeder;
 	}
 
 	//////////////////////////////////////////
