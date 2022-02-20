@@ -549,7 +549,7 @@ let rssTreeView = (function() {
 				let msLastVisited = m_objTreeFeedsData.value(id).lastVisited;
 				let updateTime, msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
-				msUpdateTime = fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
+				msUpdateTime = slUtil.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
 				updateTime = new Date(msUpdateTime);
 
 				setFeedVisitedState(elmLI, msLastVisited > msUpdateTime);
@@ -1225,7 +1225,7 @@ let rssTreeView = (function() {
 					const msFetchTime = Date.now();
 					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, signinCred).then((result) => {
 
-						let fdDate = new Date(fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
+						let fdDate = new Date(slUtil.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
 
 						setFeedVisitedState(elmLI, true);
 						updateFeedTitle(elmLI, result.feedData.title);
@@ -2845,35 +2845,6 @@ let rssTreeView = (function() {
 				}
 			});
 		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime) {
-
-		let msResponseTime = slUtil.asSafeNumericDate(fetchResult.responseHeaderDate);
-
-		// Response Time Adjustments: if response-time is zero, fallback to fatching-time. otherwize, subtract a 2sec threshold for when
-		// feed's update-time is set when retrieved but yet update-time is 1sec less then the response-time. see: https://www.reddit.com/original/.rss
-		msResponseTime = (msResponseTime <= Global.DEFAULT_VALUE_OF_DATE) ? msFetchTime : msResponseTime - 2000;
-
-		// When I can't trust the feed's update-time, I try to get a better update-time from the feed's most recent item.
-		// (1) When it looks like the feed's update-time is set to NOW when retrieved from server OR (2) when the feed's update-time is invalid.
-		if(msUpdateTime >= msResponseTime || msUpdateTime === Global.DEFAULT_VALUE_OF_DATE) {
-
-			// fetchResult.list is missing when m_bPrefShowFeedStats is false. get the list from the feedData.
-			let list = (!!fetchResult.list) ? fetchResult.list : syndication.getFeedItemsFromFeedData(fetchResult.feedData, url, false, false).list;
-
-			// get most recent item's update-time
-			let mostRecentItem = list.reduce((p, c) => (p.lastUpdated.getTime() > c.lastUpdated.getTime()) ? p : c );
-			let msRecentItemUpdateTime = mostRecentItem.lastUpdated.getTime();
-
-			// make it so
-			if(msRecentItemUpdateTime > Global.DEFAULT_VALUE_OF_DATE) {
-				return msRecentItemUpdateTime;
-			}
-		}
-
-		return msUpdateTime;
 	}
 
 	return {
