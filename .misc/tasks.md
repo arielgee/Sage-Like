@@ -981,11 +981,12 @@
 * reduce number of uses of asSafeNumericDate() fixUnreliableUpdateTime() - feed-item.lastUpdated is 'Date', 3 redundent calls, use .getTime()
 * use asSafeNumericDate() in sortFeeder functions => no more relevent
 * in _getFeedItemLastUpdate: why not use asSafeNumericDate(txtLastUpdatedVal) and not save a string in .lastUpdated  => DONE
+* in background.js:checkForNewBookmarkFeeds - should i use fixUnreliableUpdateTime() when checking 'if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(result.feedData.lastUpdated)) {' ???
+* in background.js:checkForNewBookmarkFeeds - abort process if Badge is already shown ? => NO
 ---
 
 
 ## Now
-* in background.js:checkForNewBookmarkFeeds - should i use fixUnreliableUpdateTime() when checking 'if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(result.feedData.lastUpdated)) {' ???
 >> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
 ---
 

@@ -317,9 +317,13 @@
 				objTreeFeedsData.update(feed.id);
 
 				try {
-					let result = await syndication.fetchFeedData(feed.url, 10000, false);		// minimal timeout
+					const msFetchTime = Date.now();
+					const result = await syndication.fetchFeedData(feed.url, 10000, false);		// minimal timeout
 
-					if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(result.feedData.lastUpdated)) {
+					let msUpdateTime = slUtil.asSafeNumericDate(result.feedData.lastUpdated);
+					msUpdateTime = slUtil.fixUnreliableUpdateTime(msUpdateTime, result, feed.url, msFetchTime);
+
+					if(objTreeFeedsData.value(feed.id).lastVisited <= msUpdateTime) {
 						showNewBadge = !(await browser.sidebarAction.isOpen({ windowId: m_currentWindowId }));
 						break;
 					}
