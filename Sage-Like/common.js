@@ -854,6 +854,10 @@ let prefs = (function() {
 /////////////////////////////////////////////////////////////////////////////////////////////
 let slUtil = (function() {
 
+	const REGEX_SEP_ZULU = /\s+Z$/;																			// Zulu is seperated by white spaces
+	const REGEX_EURO_FMT = /^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/;						// Euro format 'dd/mm/yyyy hh:MM:ss'
+	const REGEX_ISO_DD_MM = /^([12]\d{3})-(1[3-9]|[23]\d)-(0[1-9]|1[0-2])(T\d{2}:\d{2}:\d{2}[\.\d+-:Z]*)$/;	// Bad ISO format 'yyyy-dd-mmThh:MM:ss'
+
 	let m_savedScrollbarWidth = -1;
 	let m_mozExtensionOrigin = "";
 	let	m_mozExtensionExecutionPath = "";
@@ -1045,29 +1049,26 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function asSafeNumericDate(value) {
 
-		let safeDate = new Date(value);		// value could be a string
+		if(typeof(value) === "string") {		// value could be a string
 
-		if(isNaN(safeDate)) {
+			let safeDate = Date.parse(value);
 
-			// another try
-			if(typeof(value) === "string") {
-
-				const REGEX_SEP_ZULU = /\s+Z$/;
-				const REGEX_EURO_FMT = /^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/;
-				const REGEX_ISO_DD_MM = /^([12]\d{3})-(1[3-9]|[23]\d)-(0[1-9]|1[0-2])(T\d{2}:\d{2}:\d{2}[\.\d+-:Z]*)$/;
-
-				safeDate = new Date( value.replace(REGEX_SEP_ZULU, "Z")						// If Zulu is seperated, remove separating spaces.
-										  .replace(REGEX_EURO_FMT, "$3-$2-$1T$4")			// If Euro format 'dd/mm/yyyy hh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
-										  .replace(REGEX_ISO_DD_MM, "$1-$3-$2$4") );		// If bad ISO format 'yyyy-dd-mmThh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
-
-				return isNaN(safeDate) ? Global.DEFAULT_VALUE_OF_DATE : safeDate.getTime();
-
-			} else {
-				return Global.DEFAULT_VALUE_OF_DATE;
+			if(!isNaN(safeDate)) {
+				return safeDate;
 			}
-		}
 
-		return safeDate.getTime();
+			// try harder
+			safeDate = Date.parse( value.replace(REGEX_SEP_ZULU, "Z")					// If Zulu is seperated, remove separating spaces.
+										.replace(REGEX_EURO_FMT, "$3-$2-$1T$4")			// If Euro format 'dd/mm/yyyy hh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
+										.replace(REGEX_ISO_DD_MM, "$1-$3-$2$4") );		// If bad ISO format 'yyyy-dd-mmThh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
+
+			return isNaN(safeDate) ? Global.DEFAULT_VALUE_OF_DATE : safeDate;
+
+		} else {
+
+			let safeDate = new Date(value);
+			return isNaN(safeDate) ? Global.DEFAULT_VALUE_OF_DATE : safeDate.getTime();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
