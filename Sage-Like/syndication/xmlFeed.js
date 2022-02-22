@@ -47,31 +47,29 @@ class XmlFeed extends Feed {
 
 		const selectorSuffixes = [ " > lastBuildDate", " > modified", " > updated", " > date", " > pubDate" ];
 
-		let dateVal = NaN;
+		let numericDateVal = Global.DEFAULT_VALUE_OF_DATE;
 		let elmLastUpdate, txtLastUpdateVal = "";
 
 		let feedSelectorString = selectorSuffixes.map(s => selectorPrefix + s).join(",");
 		elmLastUpdate = doc.querySelector(feedSelectorString);
 
 		if(!!elmLastUpdate) {
-			txtLastUpdateVal = elmLastUpdate.textContent.replace(/\ Z$/, "");
-			dateVal = (new Date(txtLastUpdateVal));
+			numericDateVal = slUtil.asSafeNumericDate( (txtLastUpdateVal = elmLastUpdate.textContent) );
 		}
 
-		if(isNaN(dateVal)) {
-
-			let feedItemSelectorString = selectorSuffixes.map(s => fallbackSelectorPrefix + s).join(",");
-			let dates = Array.from(doc.querySelectorAll(feedItemSelectorString)).map(x => new Date(x.textContent.replace(/\ Z$/, "")));
-
-			if(dates.length > 0) {
-				dateVal = dates.reduce((prv, cur) => prv > cur ? prv : cur);
-			}
+		if(numericDateVal > Global.DEFAULT_VALUE_OF_DATE) {
+			return new Date(numericDateVal);
 		}
 
-		if(isNaN(dateVal)) {
-			return txtLastUpdateVal.length > 0 ? txtLastUpdateVal : Global.DEFAULT_DATE();	// final fallback
+		let feedItemSelectorString = selectorSuffixes.map(s => fallbackSelectorPrefix + s).join(",");
+		numericDateVal = Array.from(doc.querySelectorAll(feedItemSelectorString))
+							  .map(x => slUtil.asSafeNumericDate(x.textContent))
+							  .reduce((prv, cur) => prv > cur ? prv : cur, Global.DEFAULT_VALUE_OF_DATE);
+
+		if(numericDateVal > Global.DEFAULT_VALUE_OF_DATE) {
+			return new Date(numericDateVal);
 		} else {
-			return dateVal;
+			return txtLastUpdateVal.length > 0 ? txtLastUpdateVal : Global.DEFAULT_DATE();	// final fallback
 		}
 	}
 

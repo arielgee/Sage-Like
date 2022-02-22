@@ -104,14 +104,14 @@ class JsonFeed extends Feed {
 	//////////////////////////////////////////
 	_getFeedLastUpdate(items) {
 
-		let dateVal = new Date(items.reduce((prv, cur) => prv.date_modified > cur.date_modified ? prv : cur ).date_modified);
+		let numericDateVal = items.map(x => slUtil.asSafeNumericDate(x.date_modified))
+								  .reduce((prv, cur) => prv > cur ? prv : cur, Global.DEFAULT_VALUE_OF_DATE);
 
-		if(isNaN(dateVal)) {
-			dateVal = new Date(items.reduce((prv, cur) => prv.date_published > cur.date_published ? prv : cur ).date_published);
-			return isNaN(dateVal) ? Global.DEFAULT_DATE() : dateVal;
-		} else {
-			return dateVal;
+		if(numericDateVal === Global.DEFAULT_VALUE_OF_DATE) {
+			numericDateVal = items.map(x => slUtil.asSafeNumericDate(x.date_published))
+								  .reduce((prv, cur) => prv > cur ? prv : cur, Global.DEFAULT_VALUE_OF_DATE);
 		}
+		return new Date(numericDateVal);
 	}
 
 	//////////////////////////////////////////
