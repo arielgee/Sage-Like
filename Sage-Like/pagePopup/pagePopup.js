@@ -344,11 +344,11 @@
 		}
 
 		let titleText = "Title:\u2003" + feed.feedTitle + "\n" +
+			"URL:\u2003" + decodeURIComponent(feed.url) + "\n" +
 			(feed.format ? "Format:\u2003" + feed.format + "\n" : "") +
 			(lastUpdated ? "Update:\u2003" + lastUpdated + "\n" : "") +
 			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
-			"URL:\u2003" + decodeURIComponent(feed.url) +
-			"\n\n\u2731 Use Middle-click to preview this feed.";
+			"\n\u2731 Use Middle-click to preview this feed.";
 		elmListItem.title = titleText;
 
 		elmListItem.appendChild(elmCheckBox);
