@@ -2181,7 +2181,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setTreeItemTooltipFull(elmLI, titleLine, additinalLines = []) {
+	function setTreeItemTooltipFull(elmLI, titleLine, additionalLines = []) {
 
 		const REGEX_LINE_PREFIX = "(^[a-z]{3,6}:) ";	// 'Title', 'URL', 'Update', 'Error', 'Format'
 
@@ -2197,7 +2197,7 @@ let rssTreeView = (function() {
 
 		tooltipText +=
 			(elmLI.hasAttribute("href") ? ("\nURL: " + decodeURIComponent(elmLI.getAttribute("href"))) : "") +
-			"\n" + additinalLines.filter((ln) => !(new RegExp(REGEX_LINE_PREFIX + "$", "i")).test(ln) ).join("\n");	// filter out lines w/o data
+			"\n" + additionalLines.filter((ln) => !(new RegExp(REGEX_LINE_PREFIX + "$", "i")).test(ln) ).join("\n");	// filter out lines w/o data
 
 		elmLI.title = tooltipText.replace(new RegExp(REGEX_LINE_PREFIX, "gim"), "$1\u2003");
 	}
