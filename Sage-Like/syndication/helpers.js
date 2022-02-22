@@ -57,6 +57,7 @@ class JsonFeedData extends FeedData {
 	constructor() {
 		super();
 		this.jsonVersion = "";
+		this.expired = false;
 		super.feeder = [];
 	}
 }

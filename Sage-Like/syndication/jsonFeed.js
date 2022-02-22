@@ -14,6 +14,7 @@ class JsonFeed extends Feed {
 		try {
 			feedData.standard = SyndicationStandard.JSON;					// https://jsonfeed.org/version/1.1
 			feedData.jsonVersion = this._feedJson.version.match(/[\d.]+$/)[0];
+			feedData.expired = (this._feedJson.expired === true);			// boolean, if absence then it's not expired
 			feedData.feeder = this._feedJson.items;
 			feedData.title = (!!this._feedJson.title ? this._feedJson.title.stripHtmlTags() : "").consolidateWhiteSpaces();
 			feedData.imageUrl = (!!this._feedJson.icon ? this._feedJson.icon : (!!this._feedJson.favicon ? this._feedJson.favicon : "")).stripHtmlTags();
