@@ -552,11 +552,16 @@ let rssTreeView = (function() {
 				msUpdateTime = slUtil.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
 				updateTime = new Date(msUpdateTime);
 
+				let additionalLines = [
+					`Format: ${fetchResult.feedData.standard}`,
+					`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}`,
+				];
+
 				setFeedVisitedState(elmLI, msLastVisited > msUpdateTime);
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
 				setTreeItemUpdateDataAttribute(elmLI, updateTime);
-				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, [`Format: ${fetchResult.feedData.standard}`, `Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}`]);
+				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, additionalLines);
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
 				setFeedErrorState(elmLI, true, error);
@@ -1226,12 +1231,16 @@ let rssTreeView = (function() {
 					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, signinCred).then((result) => {
 
 						let fdDate = new Date(slUtil.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
+						let additionalLines = [
+							`Format: ${result.feedData.standard}`,
+							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}`,
+						]
 
 						setFeedVisitedState(elmLI, true);
 						updateFeedTitle(elmLI, result.feedData.title);
 						updateFeedStatsFromHistory(elmLI, result.list);
 						setTreeItemUpdateDataAttribute(elmLI, fdDate);
-						setTreeItemTooltipFull(elmLI, result.feedData.title, [`Format: ${result.feedData.standard}`, `Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}`]);
+						setTreeItemTooltipFull(elmLI, result.feedData.title, additionalLines);
 
 						// change the rssListView content only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {
