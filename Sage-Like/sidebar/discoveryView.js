@@ -369,6 +369,7 @@ let discoveryView = (function() {
 			(feed.format ? "Format:\u2003" + feed.format + "\n" : "") +
 			(lastUpdated ? "Update:\u2003" + lastUpdated + "\n" : "") +
 			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
+			(feed.expired ? "Expired:\u2003Yes\n" : "") +
 			"\n\u2731 Use Middle-click to preview this feed.";
 		elmListItem.title = titleText;
 

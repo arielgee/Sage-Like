@@ -152,6 +152,7 @@
 					getFavIcon(m_URL.origin, (!!m_urlWebPage ? m_urlWebPage.origin : ""));
 
 					m_elmFeedBody.setAttribute("data-syn-std", result.feedData.standard);
+					if(result.feedData.expired) m_elmFeedBody.setAttribute("data-jsonfeed-expired", "");	// set attr only if it's true
 					m_elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
 					m_elmFeedBody.addEventListener("mouseout", onMouseOutAttachment);
 					m_elmJumpListContainer.addEventListener("click", onClickJumpListContainer);

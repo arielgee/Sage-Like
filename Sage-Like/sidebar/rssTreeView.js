@@ -555,6 +555,7 @@ let rssTreeView = (function() {
 				let additionalLines = [
 					`Format: ${fetchResult.feedData.standard}`,
 					`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}`,
+					`Expired: ${fetchResult.feedData.expired ? "Yes": ""}`,		// Display only if it's true
 				];
 
 				setFeedVisitedState(elmLI, msLastVisited > msUpdateTime);
@@ -1234,6 +1235,7 @@ let rssTreeView = (function() {
 						let additionalLines = [
 							`Format: ${result.feedData.standard}`,
 							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}`,
+							`Expired: ${result.feedData.expired ? "Yes": ""}`,		// Display only if it's true
 						]
 
 						setFeedVisitedState(elmLI, true);
@@ -2192,7 +2194,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemTooltipFull(elmLI, titleLine, additionalLines = []) {
 
-		const REGEX_LINE_PREFIX = "(^[a-z]{3,6}:) ";	// 'Title', 'URL', 'Update', 'Error', 'Format'
+		const REGEX_LINE_PREFIX = "(^[a-z]{3,7}:) ";	// 'Title', 'URL', 'Update', 'Error', 'Format', 'Expired'
 
 		let tooltipText = "Title: ";
 		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
