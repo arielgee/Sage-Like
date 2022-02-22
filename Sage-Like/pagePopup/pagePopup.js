@@ -339,8 +339,7 @@
 			if(feedLastUpdate instanceof Date) {
 				lastUpdated = slUtil.getUpdateTimeFormattedString(feedLastUpdate);
 			} else if(typeof(feedLastUpdate) === "string") {
-				let d = new Date(feedLastUpdate);
-				lastUpdated = isNaN(d) ? feedLastUpdate : slUtil.getUpdateTimeFormattedString(d);
+				lastUpdated = feedLastUpdate;
 			}
 		}
 
