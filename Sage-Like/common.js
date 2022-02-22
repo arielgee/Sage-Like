@@ -1626,7 +1626,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime) {
 
-		let msResponseTime = slUtil.asSafeNumericDate(fetchResult.responseHeaderDate);
+		let msResponseTime = asSafeNumericDate(fetchResult.responseHeaderDate);
 
 		// Response Time Adjustments: if response-time is zero, fallback to fatching-time. otherwize, subtract a 2sec threshold for when
 		// feed's update-time is set when retrieved but yet update-time is 1sec less then the response-time. see: https://www.reddit.com/original/.rss
