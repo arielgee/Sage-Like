@@ -34,6 +34,7 @@ let rssTreeView = (function() {
 									" \u25cf Filtering using case-insensitive text. \n" +
 									" \u25cf Filtering using Regular Expression pattern enclosed between two slashes ('/'). \n" +
 									"     Flag 'i' (case-insensitive) is supported when placed after the second slash. \n" +
+									" \u25cf Folder title filtering using text prefixed with a single backslash sign ('\\'). \n" +
 									" \u25cf URL filtering using text prefixed with a single percent sign ('%'). \n" +
 									" \u25cf Update time filtering using Relative Time text prefixed with a single tilde sign ('~'). \n" +
 									"     Relative Time expression pattern: '[number] [time_unit] ago' whereas [time_unit] \n" +
@@ -2453,7 +2454,7 @@ let rssTreeView = (function() {
 		let itemsFiltered = false;		// pessimistic
 
 		notifyAppliedFilter(true);
-		m_elmFilterWidget.classList.remove("filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn", "filterUpdateTimeOn");
+		m_elmFilterWidget.classList.remove("filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn", "filterUpdateTimeOn", "filterFolderTitleOn");
 		m_elmTreeRoot.classList.add("hidden");
 
 		if(txtValue !== "") {
@@ -2480,6 +2481,10 @@ let rssTreeView = (function() {
 
 				itemsFiltered = filterTreeItemUpdateTime(txtValue.substring(1).trim().toLowerCase());
 
+			} else if(txtValue[0] === "\\") {
+
+				itemsFiltered = filterTreeItemFolderTitle(txtValue.substring(1).trim().toLowerCase());
+
 			} else {
 				itemsFiltered = filterTreeItemText(txtValue);
 			}
@@ -2502,7 +2507,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTreeClearFilter() {
 
-		m_elmFilterWidget.classList.remove("opened", "filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn", "filterUpdateTimeOn");
+		m_elmFilterWidget.classList.remove("opened", "filterTextOn", "filterRegExpOn", "filterStatusOn", "filterUrlOn", "filterUpdateTimeOn", "filterFolderTitleOn");
 		m_elmFilterTextBoxContainer.classList.remove("visibleOverflow");
 		m_elmTextFilter.value = "";
 		notifyAppliedFilter(true);
@@ -2629,6 +2634,35 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function filterTreeItemFolderTitle(txtFilter) {
+
+		m_elmFilterWidget.classList.add("filterFolderTitleOn");
+
+		let funcFilter;
+		if(txtFilter.length > 0) {
+
+			// to show feeds from matching folder titles
+			funcFilter = (elm, filter) => {
+				let e = elm.closest("li." + Global.CLS_RTV_LI_TREE_FOLDER);
+				return (!!!e) || !(e.title.toLowerCase().includes(filter));		// (null -> in tree root) OR (match filter - .title holds the folder name)
+			};
+
+		} else {
+
+			// to show feeds only from the root folder
+			funcFilter = (elm, _) => !!(elm.closest("li." + Global.CLS_RTV_LI_TREE_FOLDER));	// closest return null -> in tree root
+		}
+
+		let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);		// select all tree items
+
+		for(let i=0, len=elms.length; i<len; i++) {
+			elms[i].classList.toggle("filtered", funcFilter(elms[i], txtFilter));
+		}
+
+		return true;		// itemsFiltered
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function filterTreeItemText(txtFilter) {
 
 		let funcSimpleFilter = (text, filter) => text.toLowerCase().includes(filter);
@@ -2741,10 +2775,10 @@ let rssTreeView = (function() {
 				m_elmReapplyFilter.title = m_elmReapplyFilter.slSavedTitle;
 			} else {
 
-				// Do NOT notify the filter about changes if the current filter is on feed URLs.
-				// Unlike feed title, feed update time & feed status, a feed's URL is not modified by tree updates.
+				// Do NOT notify the filter about changes if the current filter is on feed URLs or folder title.
+				// Unlike feed title, feed update time & feed status, feed URL or folder title are not modified by tree updates.
 
-				if(!m_elmFilterWidget.classList.contains("filterUrlOn")) {
+				if(!m_elmFilterWidget.classList.contains("filterUrlOn") || m_elmFilterWidget.classList.contains("filterFolderTitleOn") ) {
 
 					m_elmReapplyFilter.classList.add("alert");
 					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\nFilter may require reapplying.";

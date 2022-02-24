@@ -214,6 +214,11 @@ body * {
 	background-color: rgb(177, 227, 255);
 }
 
+#filterWidget.filterFolderTitleOn #imageFilter,
+#filterWidget.filterFolderTitleOn #textFilter {
+	background-color: rgb(255, 203, 193);
+}
+
 #filterWidget.filterUrlOn #imageFilter,
 #filterWidget.filterUrlOn #textFilter {
 	background-color: rgb(255, 190, 255);
