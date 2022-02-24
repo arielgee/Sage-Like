@@ -983,24 +983,30 @@
 * in _getFeedItemLastUpdate: why not use asSafeNumericDate(txtLastUpdatedVal) and not save a string in .lastUpdated  => DONE
 * in background.js:checkForNewBookmarkFeeds - should i use fixUnreliableUpdateTime() when checking 'if(objTreeFeedsData.value(feed.id).lastVisited <= slUtil.asSafeNumericDate(result.feedData.lastUpdated)) {' ???
 * in background.js:checkForNewBookmarkFeeds - abort process if Badge is already shown ? => NO
+* only feed last-update is considered to possibale be a string (pagePopup.js:341, discoveryView.js:362; XML but not json). feed-items are alwayes dates (?)
+* move regexp consts from asSafeNumericDate() to slUtil()
+* look for all new Date(xxx) or Date.parse(xxx)
+* reduce number of uses of asSafeNumericDate()
+* check browser version 100
+* It is not recommended to use Date.parse as until ES5, parsing of strings was entirely implementation dependent. There are still many differences in how different hosts parse date strings, therefore date strings should be manually parsed
+* feed.despose is not used => IT'S OK - TRUST THE GC
+* handle jsonfeed's 'expired' in tooltips and in JsonFeedData class - it's FUN!
+* filter also folder names => DONE
+* filter: rethink the colors system => ITS GOOD
 ---
 
 
 ## Now
->> STANDING TASK: Check the <select> control in the preferences page. Are the colors of the <option> in dark mode are readable when hoverd
+> STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* reduce number of uses of asSafeNumericDate()
-* only feed last-update is considered to possibale be a string (pagePopup.js:341, discoveryView.js:362). feed-items are alwayes dates (?)
-* feed.despose is not used
-* filter also folder names
 * make the bold (unread) feed more prominent
-* It is not recommended to use Date.parse as until ES5, parsing of strings was entirely implementation dependent. There are still many differences in how different hosts parse date strings, therefore date strings should be manually parsed
 * when adding feeds to previously empty folder the preferences page needs to be updated to remove the '∅' (empty) emoji.
 * when hovering over a feed the relative time is relative to the time the tooltip was created. not the hover time. its not accurate.
 * 'mark all as read' is not consistent when folder has erroneous feeds
+* > FIX: BROWSER VERSION 100 - TakeYourTime Extension 'if(version >= "68.0") {' + PREFERENCES + PREFERENCES DARK MODE
 * before publishing: answer the post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
 * before publishing: add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
