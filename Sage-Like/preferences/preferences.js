@@ -998,33 +998,29 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onBookmarksEventModifiedHandler(id, modifyInfo) {
+	async function onBookmarksEventModifiedHandler(id, modifyInfo) {
 
 		if(m_lockBookmarksEventHandler.isUnlocked) {
 
-			/* Initialize the <select> element only if the modified
-			   bookmark item is a folder
-			*/
+			// Initialize the <select> element only if needed
+			if(	((await browser.bookmarks.get(id))[0].type === "folder") ||															// created/moved/changed a folder
+				(!!modifyInfo.parentId && ((await browser.bookmarks.getChildren(modifyInfo.parentId)).length === 1)) ||				// created-in/moved-to an empty folder
+				(!!modifyInfo.oldParentId && ((await browser.bookmarks.getChildren(modifyInfo.oldParentId)).length === 0)) ) {		// moved last item from folder
 
-			// created/moved/changed
-			browser.bookmarks.get(id).then((bmItems) => {
-				if(bmItems[0].type === "folder") {
-					initializeSelectFeedsFolder();
-				}
-			});
+				initializeSelectFeedsFolder();
+			}
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onBookmarksEventRemovedHandler(id, removeInfo) {
+	async function onBookmarksEventRemovedHandler(id, removeInfo) {
 
 		if(m_lockBookmarksEventHandler.isUnlocked) {
 
-			/* Initialize the <select> element only if the deleted
-			   bookmark item is a folder
-			*/
+			// Initialize the <select> element only if needed
+			if( (removeInfo.node.type === "folder") ||																			// deleted a folder
+				(!!removeInfo.parentId && ((await browser.bookmarks.getChildren(removeInfo.parentId)).length === 0)) ) {		// deleted last item from folder
 
-			if(removeInfo.node.type === "folder") {
 				initializeSelectFeedsFolder();
 			}
 		}
