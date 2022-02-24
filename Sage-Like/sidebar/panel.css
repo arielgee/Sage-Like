@@ -214,11 +214,6 @@ body * {
 	background-color: rgb(177, 227, 255);
 }
 
-#filterWidget.filterStatusOn #imageFilter,
-#filterWidget.filterStatusOn #textFilter {
-	background-color: rgb(170, 255, 170);
-}
-
 #filterWidget.filterUrlOn #imageFilter,
 #filterWidget.filterUrlOn #textFilter {
 	background-color: rgb(255, 190, 255);
@@ -227,6 +222,11 @@ body * {
 #filterWidget.filterUpdateTimeOn #imageFilter,
 #filterWidget.filterUpdateTimeOn #textFilter {
 	background-color: rgb(255, 245, 186);
+}
+
+#filterWidget.filterStatusOn #imageFilter,
+#filterWidget.filterStatusOn #textFilter {
+	background-color: rgb(170, 255, 170);
 }
 
 #checkTreeFeeds {
