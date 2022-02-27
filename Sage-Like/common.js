@@ -372,37 +372,22 @@ let slPrototypes = (function() {
 	Date.prototype.toWebExtensionLocaleShortString.options = { day: "numeric", month: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false };
 
 	//////////////////////////////////////////////////////////////////////
-	Date.prototype.getRelativeShortLocaleString = function() {
+	Date.prototype.getRelativeTimeString = function() {
 
-		let oRef = Date.prototype.getRelativeShortLocaleString;
 		let msSpan = Date.now() - this.getTime();
-		let text = msSpan > 0 ? "% ago" : "in %";
-		let o = { v: 0 };
+		let v, str = msSpan > 0 ? "% ago" : "in %";
 
 		msSpan = Math.abs(msSpan);
 
-		if( oRef.relYear(msSpan, o) > 0 ) {
-			return text.replace("%", `${o.v} year${o.v>1?`s`:``}`);
-		} else if( oRef.relMon(msSpan, o) > 0 ) {
-			return text.replace("%", `${o.v} month${o.v>1?`s`:``}`);
-		} else if( oRef.relDay(msSpan, o) > 0 ) {
-			return text.replace("%", `${o.v} day${o.v>1?`s`:``}`);
-		} else if( oRef.relHour(msSpan, o) > 0 ) {
-			return text.replace("%", `${o.v} hour${o.v>1?`s`:``}`);
-		} else if( oRef.relMin(msSpan, o) > 0 ) {
-			return text.replace("%", `${o.v} minute${o.v>1?`s`:``}`);
-		} else if( oRef.relSec(msSpan, o) > 0 ) {
-			return text.replace("%", `${o.v} second${o.v>1?`s`:``}`);
-		} else {
-			return "just now";
-		}
+		// Calc milliseconds in period
+		if(		(v = Math.trunc(msSpan/31536000000)) > 0 ) return str.replace("%", `${v} year${v > 1 ? "s" : ""}`);		// ms in 1 year : 31536000000 (1000*60*60*24*365)
+		else if((v = Math.trunc(msSpan/2592000000))  > 0 ) return str.replace("%", `${v} month${v > 1 ? "s" : ""}`);	// ms in 1 mon  :  2592000000 (1000*60*60*24*30)
+		else if((v = Math.trunc(msSpan/86400000))    > 0 ) return str.replace("%", `${v} day${v > 1 ? "s" : ""}`);		// ms in 1 day  :    86400000 (1000*60*60*24)
+		else if((v = Math.trunc(msSpan/3600000))     > 0 ) return str.replace("%", `${v} hour${v > 1 ? "s" : ""}`);		// ms in 1 hour :     3600000 (1000*60*60)
+		else if((v = Math.trunc(msSpan/60000))       > 0 ) return str.replace("%", `${v} minute${v > 1 ? "s" : ""}`);	// ms in 1 min  :       60000 (1000*60)
+		else if((v = Math.trunc(msSpan/1000))        > 0 ) return str.replace("%", `${v} second${v > 1 ? "s" : ""}`);	// ms in 1 sec  :        1000
+		else return "just now";
 	}
-	Date.prototype.getRelativeShortLocaleString.relYear = (ms, o) => o.v = Math.trunc(ms/31536000000);	// Millisec in 1 year : 31536000000 (1000*60*60*24*365)
-	Date.prototype.getRelativeShortLocaleString.relMon  = (ms, o) => o.v = Math.trunc(ms/2592000000);	// Millisec in 1 mon  :  2592000000 (1000*60*60*24*30)
-	Date.prototype.getRelativeShortLocaleString.relDay  = (ms, o) => o.v = Math.trunc(ms/86400000);		// Millisec in 1 day  :    86400000 (1000*60*60*24)
-	Date.prototype.getRelativeShortLocaleString.relHour = (ms, o) => o.v = Math.trunc(ms/3600000);		// Millisec in 1 hour :     3600000 (1000*60*60)
-	Date.prototype.getRelativeShortLocaleString.relMin  = (ms, o) => o.v = Math.trunc(ms/60000);		// Millisec in 1 min  :       60000 (1000*60)
-	Date.prototype.getRelativeShortLocaleString.relSec  = (ms, o) => o.v = Math.trunc(ms/1000);			// Millisec in 1 sec  :        1000
 
 	//////////////////////////////////////////////////////////////////////
 	Array.prototype.includesAll = function(targetAry) {
@@ -1618,7 +1603,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getUpdateTimeFormattedString(date) {
 		if( (date instanceof Date) && !isNaN(date) && (date.getTime() > Global.DEFAULT_VALUE_OF_DATE) ) {
-			return `${date.toWebExtensionLocaleString()} (${date.getRelativeShortLocaleString()})`;
+			return `${date.toWebExtensionLocaleString()} (${date.getRelativeTimeString()})`;
 		}
 		return "";
 	}
