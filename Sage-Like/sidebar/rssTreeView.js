@@ -2177,7 +2177,7 @@ let rssTreeView = (function() {
 
 		let tooltipText;
 
-		if(elmLI.hasAttribute("href")) {
+		if(TreeItemType.isFeed(elmLI)) {
 
 			tooltipText =
 				"Title: " + getTreeItemText(elmLI) +
