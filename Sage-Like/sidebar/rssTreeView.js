@@ -2184,7 +2184,8 @@ let rssTreeView = (function() {
 				"\nURL: " + decodeURIComponent(elmLI.getAttribute("href")) +
 				(additionalLines.length > 0 ? `\n${additionalLines.join("\n")}` : "");
 
-			tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error', Format
+			tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003") + 			// 'Title', 'URL', 'Update', 'Error', Format
+				`\n\n\u2731 Use Middle-click to preview this feed.`
 
 		} else {
 			tooltipText = getTreeItemText(elmLI);		// folder has only title
@@ -2208,8 +2209,9 @@ let rssTreeView = (function() {
 		}
 
 		tooltipText +=
-			(elmLI.hasAttribute("href") ? ("\nURL: " + decodeURIComponent(elmLI.getAttribute("href"))) : "") +
-			"\n" + additionalLines.filter((ln) => !(new RegExp(REGEX_LINE_PREFIX + "$", "i")).test(ln) ).join("\n");	// filter out lines w/o data
+			"\nURL: " + decodeURIComponent(elmLI.getAttribute("href")) +
+			"\n" + additionalLines.filter((ln) => !(new RegExp(REGEX_LINE_PREFIX + "$", "i")).test(ln) ).join("\n") +	// filter out TITLED lines w/o data
+			`\n\n\u2731 Use Middle-click to preview this feed.`
 
 		elmLI.title = tooltipText.replace(new RegExp(REGEX_LINE_PREFIX, "gim"), "$1\u2003");
 	}
