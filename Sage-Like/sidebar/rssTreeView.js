@@ -2173,7 +2173,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setTreeItemTooltip(elmLI, additinalLines = []) {
+	function setTreeItemTooltip(elmLI, additionalLines = []) {
 
 		let tooltipText;
 
@@ -2182,7 +2182,7 @@ let rssTreeView = (function() {
 			tooltipText =
 				"Title: " + getTreeItemText(elmLI) +
 				"\nURL: " + decodeURIComponent(elmLI.getAttribute("href")) +
-				(additinalLines.length > 0 ? `\n${additinalLines.join("\n")}` : "");
+				(additionalLines.length > 0 ? `\n${additionalLines.join("\n")}` : "");
 
 			tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003");			// 'Title', 'URL', 'Update', 'Error', Format
 
