@@ -993,18 +993,24 @@
 * handle jsonfeed's 'expired' in tooltips and in JsonFeedData class - it's FUN!
 * filter also folder names => DONE
 * filter: rethink the colors system => ITS GOOD
+* when adding feeds to previously empty folder the preferences page needs to be updated to remove the '∅' (empty) emoji.
+* create slUtil.asSafeDate() => NO NO NO
 ---
 
 
 ## Now
+* when hovering over a feed the relative time is relative to the time the tooltip was created. not the hover time. its not accurate.
+	* feedPreview
+	* discoveryView
+	* pagePopup = NO need, it's a popup, it's reloaded and relative time is updated
+
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+
 * make the bold (unread) feed more prominent
-* when adding feeds to previously empty folder the preferences page needs to be updated to remove the '∅' (empty) emoji.
-* when hovering over a feed the relative time is relative to the time the tooltip was created. not the hover time. its not accurate.
 * 'mark all as read' is not consistent when folder has erroneous feeds
 * > FIX: BROWSER VERSION 100 - TakeYourTime Extension 'if(version >= "68.0") {' + PREFERENCES + PREFERENCES DARK MODE
 * before publishing: answer the post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46

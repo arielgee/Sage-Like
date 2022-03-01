@@ -849,8 +849,8 @@ let slUtil = (function() {
 	let m_mimeTypeIcons = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function random1to100() {
-		return Math.floor(Math.random() * (100 - 1) + 1).toString();
+	function randomInteger(min = 1, max = 100) {
+		return Math.floor(Math.random() * (max - min + 1) + min);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1650,7 +1650,7 @@ let slUtil = (function() {
 	}
 
 	return {
-		random1to100: random1to100,
+		randomInteger: randomInteger,
 		disableElementTree: disableElementTree,
 		writeTextToClipboard: writeTextToClipboard,
 		readTextFromClipboard: readTextFromClipboard,
