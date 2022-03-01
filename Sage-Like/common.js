@@ -374,19 +374,21 @@ let slPrototypes = (function() {
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.getRelativeTimeString = function() {
 
+		// using NO-BREAK SPACE instead of regular space so its textual signature will be unique for replacements
+
 		let msSpan = Date.now() - this.getTime();
-		let v, str = msSpan > 0 ? "% ago" : "in %";
+		let v, str = msSpan > 0 ? "%\u00a0ago" : "in\u00a0%";
 
 		msSpan = Math.abs(msSpan);
 
 		// Calc milliseconds in period
-		if(		(v = Math.trunc(msSpan/31536000000)) > 0 ) return str.replace("%", `${v} year${v > 1 ? "s" : ""}`);		// ms in 1 year : 31536000000 (1000*60*60*24*365)
-		else if((v = Math.trunc(msSpan/2592000000))  > 0 ) return str.replace("%", `${v} month${v > 1 ? "s" : ""}`);	// ms in 1 mon  :  2592000000 (1000*60*60*24*30)
-		else if((v = Math.trunc(msSpan/86400000))    > 0 ) return str.replace("%", `${v} day${v > 1 ? "s" : ""}`);		// ms in 1 day  :    86400000 (1000*60*60*24)
-		else if((v = Math.trunc(msSpan/3600000))     > 0 ) return str.replace("%", `${v} hour${v > 1 ? "s" : ""}`);		// ms in 1 hour :     3600000 (1000*60*60)
-		else if((v = Math.trunc(msSpan/60000))       > 0 ) return str.replace("%", `${v} minute${v > 1 ? "s" : ""}`);	// ms in 1 min  :       60000 (1000*60)
-		else if((v = Math.trunc(msSpan/1000))        > 0 ) return str.replace("%", `${v} second${v > 1 ? "s" : ""}`);	// ms in 1 sec  :        1000
-		else return "just now";
+		if(		(v = Math.trunc(msSpan/31536000000)) > 0 ) return str.replace("%", `${v}\u00a0year${v > 1 ? "s" : ""}`);	// ms in 1 year : 31536000000 (1000*60*60*24*365)
+		else if((v = Math.trunc(msSpan/2592000000))  > 0 ) return str.replace("%", `${v}\u00a0month${v > 1 ? "s" : ""}`);	// ms in 1 mon  :  2592000000 (1000*60*60*24*30)
+		else if((v = Math.trunc(msSpan/86400000))    > 0 ) return str.replace("%", `${v}\u00a0day${v > 1 ? "s" : ""}`);		// ms in 1 day  :    86400000 (1000*60*60*24)
+		else if((v = Math.trunc(msSpan/3600000))     > 0 ) return str.replace("%", `${v}\u00a0hour${v > 1 ? "s" : ""}`);	// ms in 1 hour :     3600000 (1000*60*60)
+		else if((v = Math.trunc(msSpan/60000))       > 0 ) return str.replace("%", `${v}\u00a0minute${v > 1 ? "s" : ""}`);	// ms in 1 min  :       60000 (1000*60)
+		else if((v = Math.trunc(msSpan/1000))        > 0 ) return str.replace("%", `${v}\u00a0second${v > 1 ? "s" : ""}`);	// ms in 1 sec  :        1000
+		else return "just\u00a0now";
 	}
 
 	//////////////////////////////////////////////////////////////////////
