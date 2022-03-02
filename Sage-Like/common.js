@@ -1611,6 +1611,15 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function refreshUpdateTimeFormattedString(str) {
+		const found = str.match(/^Update:\u2003(.+?) \(([0-9a-z\u00a0]+)\)$/m);
+		if(!!found && found.length >= 3 && /\b(now|sec|min)/.test(found[2])) {	// update only short time periods 'just now', 'second', 'minute'
+			return str.replace(found[2], (new Date(slUtil.asSafeNumericDate(found[1]))).getRelativeTimeString());
+		}
+		return null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime) {
 
 		let msResponseTime = asSafeNumericDate(fetchResult.responseHeaderDate);
@@ -1701,6 +1710,7 @@ let slUtil = (function() {
 		getStringExportFileName: getStringExportFileName,
 		fetchWithTimeout: fetchWithTimeout,
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,
+		refreshUpdateTimeFormattedString: refreshUpdateTimeFormattedString,
 		fixUnreliableUpdateTime: fixUnreliableUpdateTime,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,

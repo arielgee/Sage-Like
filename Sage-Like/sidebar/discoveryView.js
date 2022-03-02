@@ -56,6 +56,7 @@ let discoveryView = (function() {
 	let m_isLoading = false;
 	let m_nRequestId = 0;
 	let m_abortDiscovery = null;
+	let m_titleUpdateDebouncer = null;
 
 	let m_funcPromiseResolve = null;
 
@@ -444,6 +445,7 @@ let discoveryView = (function() {
 		m_elmButtonCheckmarkAll.addEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.addEventListener("click", onClickButtonRediscover);
 		m_elmDiscoverFeedsList.addEventListener("mousedown", onMouseDownDiscoverFeedsList);
+		m_elmDiscoverFeedsList.addEventListener("mouseover", onMouseOverDiscoverFeedsList);
 		m_elmDiscoverFeedsList.addEventListener("click", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.addEventListener("auxclick", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.addEventListener("keydown", onKeyDownDiscoverFeedsList);
@@ -461,6 +463,7 @@ let discoveryView = (function() {
 		m_elmButtonCheckmarkAll.removeEventListener("click", onClickButtonCheckmarkAll);
 		m_elmButtonRediscover.removeEventListener("click", onClickButtonRediscover);
 		m_elmDiscoverFeedsList.removeEventListener("mousedown", onMouseDownDiscoverFeedsList);
+		m_elmDiscoverFeedsList.removeEventListener("mouseover", onMouseOverDiscoverFeedsList);
 		m_elmDiscoverFeedsList.removeEventListener("click", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.removeEventListener("auxclick", onClickDiscoverFeedsList);
 		m_elmDiscoverFeedsList.removeEventListener("keydown", onKeyDownDiscoverFeedsList);
@@ -539,6 +542,23 @@ let discoveryView = (function() {
 				target.focus();				//  list item is clicked, focus the list item
 			}
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseOverDiscoverFeedsList(event) {
+
+		clearTimeout(m_titleUpdateDebouncer);
+		m_titleUpdateDebouncer = setTimeout((target) => {
+
+			if( (target = target.closest(".dfItem")) ) {
+				let str = slUtil.refreshUpdateTimeFormattedString(target.title);
+				if(str !== null) {
+					target.title = str;
+				}
+			}
+			m_titleUpdateDebouncer = null;
+
+		}, 190, event.target);		// windows default MouseHoverTime is 400
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

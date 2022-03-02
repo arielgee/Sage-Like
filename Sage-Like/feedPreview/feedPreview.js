@@ -21,6 +21,7 @@
 	let m_markUrlsAsVisited = prefs.MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.none;
 	let m_feedItemObserver = null;
 	let m_attContainerObserver = null;
+	let m_refreshInterval = null;
 
 	initialization();
 
@@ -96,6 +97,7 @@
 			m_elmJumpListContainer.removeEventListener("click", onClickJumpListContainer);
 			m_elmJumpListContainer.removeEventListener("blur", onBlurJumpListContainer);
 			m_elmJumpListContainer.removeEventListener("keydown", onKeyDownJumpListContainer);
+			clearInterval(m_refreshInterval);
 		}
 	}
 
@@ -211,6 +213,7 @@
 					document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
 					removeEmptyElementsFromFeedContent();
 					brutallyReinforceSvgStyle();
+					startRefreshInterval();
 				});
 			});
 		});
@@ -308,6 +311,7 @@
 		elmFeedItemTitleText.textContent = feedItem.title.trim().length > 0 ? feedItem.title : feedItem.url;
 		elmFeedItemLastUpdatedTime.dateTime = feedItem.lastUpdated.toISOString();
 		elmFeedItemLastUpdatedTime.textContent = slUtil.getUpdateTimeFormattedString(feedItem.lastUpdated);
+		elmFeedItemLastUpdatedTime.classList.toggle("refresh", (Date.now() - feedItem.lastUpdated.getTime()) < 3600000);	// if smaller then an hour (in milliseconds)
 		elmFeedItemContent.innerHTML = itemImage + itemContent;
 		elmJumpListItem.textContent = `${idx+1}. ${elmFeedItemTitleText.textContent}`;
 		elmJumpListItem.href = `#${elmFeedItemContainer.id}`;
@@ -801,4 +805,31 @@
 		}, (immediately ? 0 : 150));
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function startRefreshInterval() {
+
+		m_refreshInterval = setInterval(() => {
+
+			let elms = m_elmFeedBody.querySelectorAll(".feedItemLastUpdatedTime.refresh");
+
+			if(elms.length > 0) {		// clear interval if there is nothing to refresh
+
+				let dt, nowish = Date.now();
+
+				for(let i=0, len=elms.length; i<len; i++) {
+
+					dt = new Date(elms[i].dateTime);		// safe: it's an ISO date string from Date
+
+					elms[i].textContent = slUtil.getUpdateTimeFormattedString(dt);
+
+					if( (nowish - dt.getTime()) > 3600000 ) {			// if longer then an hour (in milliseconds) stop refreshing
+						elms[i].classList.remove("refresh");
+					}
+				}
+			} else {
+				clearInterval(m_refreshInterval);
+			}
+
+		}, slUtil.randomInteger(27500, 32500)); // 30 sec interval +- 2.5 sec
+	}
 })();

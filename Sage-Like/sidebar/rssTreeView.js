@@ -97,6 +97,7 @@ let rssTreeView = (function() {
 	let m_bPrefShowFeedStats = prefs.DEFAULTS.showFeedStats;
 
 	let m_filterChangeDebouncer = null;
+	let m_titleUpdateDebouncer = null;
 
 	initialization();
 
@@ -206,6 +207,7 @@ let rssTreeView = (function() {
 
 		// treeView event listeners
 		m_elmTreeRoot.addEventListener("mousedown", onMouseDownTreeRoot);
+		m_elmTreeRoot.addEventListener("mouseover", onMouseOverTreeRoot);
 		m_elmTreeRoot.addEventListener("keydown", onKeyDownTreeRoot);
 		m_elmTreeRoot.addEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
 		m_elmTreeRoot.addEventListener("click", onClickTreeItem);
@@ -247,6 +249,7 @@ let rssTreeView = (function() {
 
 		// treeView event listeners
 		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
+		m_elmTreeRoot.removeEventListener("mouseover", onMouseOverTreeRoot);
 		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
 		m_elmTreeRoot.removeEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
 		m_elmTreeRoot.removeEventListener("click", onClickTreeItem);
@@ -591,6 +594,24 @@ let rssTreeView = (function() {
 			setFocus();
 		}
 		InfoBubble.i.dismiss();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseOverTreeRoot(event) {
+
+		clearTimeout(m_titleUpdateDebouncer);
+		if(TreeItemType.isFeed(event.target)) {
+
+			m_titleUpdateDebouncer = setTimeout((elmLI) => {
+
+				let str = slUtil.refreshUpdateTimeFormattedString(elmLI.title);
+				if(str !== null) {
+					elmLI.title = str;
+				}
+				m_titleUpdateDebouncer = null;
+
+			}, 190, event.target);		// windows default MouseHoverTime is 400
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
