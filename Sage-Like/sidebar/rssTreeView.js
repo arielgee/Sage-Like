@@ -2028,7 +2028,7 @@ let rssTreeView = (function() {
 			elmLI = elmLIs[i];
 
 			totalCount = 0;		// elmLI.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
-			unreadCount = elmLI.querySelectorAll(".bold." + Global.CLS_RTV_LI_TREE_FEED).length;
+			unreadCount = elmLI.querySelectorAll(":not(.error).bold." + Global.CLS_RTV_LI_TREE_FEED).length;
 
 			updateTreeItemStats(elmLI, totalCount, unreadCount);
 		}

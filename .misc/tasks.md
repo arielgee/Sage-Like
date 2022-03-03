@@ -1000,6 +1000,10 @@
 	* discoveryView => update using mouseover
 	* pagePopup = NO need, it's a popup, it's reloaded and relative time is updated
 * tab order. not moving ftom toolbar to tree  (workds in v59)
+* 'mark all as read' is not consistent when folder has erroneous feeds
+	* for a folder with with 1 erroneous feed and 2 unread feeds
+		1. when toggling folder read/unread state the stat numbers are: (2) or nothing
+		2. when using the 'mark all as read' botton from toolbar the stat numbers are: (3) or (1)
 ---
 
 
@@ -1010,7 +1014,6 @@
 
 
 ## Next
-* 'mark all as read' is not consistent when folder has erroneous feeds
 * > FIX: BROWSER VERSION 100 - TakeYourTime Extension 'if(version >= "68.0") {' + PREFERENCES + PREFERENCES DARK MODE
 * Font sizes in px is not accessible. User can't change font size in some browsers. when converting, must pay attention to line-height. Values in em may produce unexpected results. https://developer.mozilla.org/en-US/docs/Web/CSS/font-size, https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
 * before publishing: answer the post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
