@@ -638,7 +638,7 @@ let rssTreeView = (function() {
 
 			case "Tab":
 				if(event.shiftKey) {
-					return;		// for shift+tab let the system handle it. exit w/o stop propagation
+					m_elmTreeRoot.parentElement.focus();	// move focus to "top"
 				} else {
 					rssListView.setFocus();
 				}
@@ -916,7 +916,11 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onFocusTreeItem(event) {
-		setFeedSelectionState(event.target);
+		if(TreeItemType.isTree(event.target) && m_elmCurrentlySelected !== null) {
+			setFocus();
+		} else {
+			setFeedSelectionState(event.target);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

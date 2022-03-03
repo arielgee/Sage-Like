@@ -999,11 +999,12 @@
 	* feedPreview => update usinh interval
 	* discoveryView => update using mouseover
 	* pagePopup = NO need, it's a popup, it's reloaded and relative time is updated
+* tab order. not moving ftom toolbar to tree  (workds in v59)
 ---
 
 
 ## Now
-* make the bold (unread) feed more prominent
+* make the bold (unread) feed more prominent => ADDED about 5% TO FONT-SIZE
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
@@ -1011,6 +1012,7 @@
 ## Next
 * 'mark all as read' is not consistent when folder has erroneous feeds
 * > FIX: BROWSER VERSION 100 - TakeYourTime Extension 'if(version >= "68.0") {' + PREFERENCES + PREFERENCES DARK MODE
+* Font sizes in px is not accessible. User can't change font size in some browsers. when converting, must pay attention to line-height. Values in em may produce unexpected results. https://developer.mozilla.org/en-US/docs/Web/CSS/font-size, https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
 * before publishing: answer the post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
 * before publishing: add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`

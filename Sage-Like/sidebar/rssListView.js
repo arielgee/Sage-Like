@@ -433,7 +433,7 @@ let rssListView = (function() {
 				if(event.shiftKey) {
 					rssTreeView.setFocus();
 				} else {
-					return;		// for tab w/o shift let the system handle it. exit w/o stop propagation
+					document.documentElement.focus();	// document's <HTML>
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
