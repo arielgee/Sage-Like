@@ -46,7 +46,7 @@ html, body {
 	width: 16px;
 	height: 16px;
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-	font-size: 14px;
+	font-size: 0.875em;
 	overflow: hidden;
 	color: var(--foreground-color-help-popup);
 	background: transparent url("/icons/notepad-help-popup.png") no-repeat left top;
@@ -77,7 +77,7 @@ html, body {
 
 #helpPopup .caption {
 	color: var(--color-help-popup-caption);
-	font-size: 16px;
+	font-size: 1em;
 	font-weight: bold;
 	padding: 2px 0 14px 2px;
 }
@@ -107,7 +107,7 @@ html, body {
 	color: rgb(0, 0, 0);
 	font-family: 'Courier New', monospace;
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 0.875em;
 	text-align: center;
 }
 #shortcutInfo .key:first-child { margin-right: 5px; }
@@ -134,7 +134,7 @@ body {
 	background-color: var(--background-color-source-editor);
 	color: var(--foreground-color-source-editor);
 	font-family: Consolas, 'Courier New', monospace;
-	font-size: 14px;
+	font-size: 0.875em;
 	font-weight: normal;
 }
 
@@ -143,8 +143,8 @@ body {
 	background-color: rgb(64, 64, 64);
 	color: rgb(255, 255, 255);
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-	font-size: 12px;
-	line-height: 12px;
+	font-size: 0.75em;
+	line-height: 1;
 	font-weight: bold;
 	-moz-user-select: none;
 	user-select: none;

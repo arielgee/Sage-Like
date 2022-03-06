@@ -10,7 +10,7 @@
 
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
-	font-size: 12.8px;
+	font-size: 0.8em;
 }
 
 html {
@@ -386,7 +386,7 @@ body {
 	white-space: pre-wrap;
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
-	font-size: 11px;
+	font-size: 0.859375em;
 }
 
 #attachmentTooltip > p {
