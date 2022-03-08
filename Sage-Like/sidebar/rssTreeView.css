@@ -77,8 +77,10 @@
 	cursor: pointer;
 }
 
+/* this selector string is tested in rssTreeView.js */
 #rssTreeView li.rtvTreeFeed.bold {
 	font-weight: bold;
+	/* font-size: 1.05em;		This rule is set/unset in JS via a preference */
 }
 
 #rssTreeView li.rtvTreeFeed.loading {

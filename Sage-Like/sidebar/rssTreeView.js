@@ -142,6 +142,11 @@ let rssTreeView = (function() {
 					setShowFeedStatsFromPreferences();
 				}
 
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE) {
+					setIncreaseUnvisitedFontSizeFromPreferences();
+				}
+
 				// Entire tree is recreated when: message.details === Global.MSGD_PREF_CHANGE_ALL
 				if (message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC ||
 					message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH ||
@@ -226,6 +231,7 @@ let rssTreeView = (function() {
 		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
 
 		m_bPrefShowFeedStats = await prefs.getShowFeedStats();
+		setIncreaseUnvisitedFontSizeFromPreferences();
 
 		createRSSTree();
 
@@ -289,6 +295,31 @@ let rssTreeView = (function() {
 
 				for(let i=0, len=elms.length; i<len; i++) {
 					elms[i].textContent = "";
+				}
+			}
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setIncreaseUnvisitedFontSizeFromPreferences() {
+
+		prefs.getIncreaseUnvisitedFontSize().then(increase => {
+
+			let sheets = document.styleSheets;
+
+			for(let i=0, len=sheets.length; i<len; i++) {
+
+				if(typeof(sheets[i].href) === "string" && sheets[i].href.includes("rssTreeView.css")) {
+
+					let rules = sheets[i].cssRules;
+
+					for(let j=0, len=rules.length; j<len; j++) {
+						if(typeof(rules[j].selectorText) === "string" && rules[j].selectorText === "#rssTreeView li.rtvTreeFeed.bold") {
+							rules[j].style.cssText = (increase ? "font-weight: bold; font-size: 1.05em;" : "font-weight: bold;");
+							break;
+						}
+					}
+					break;
 				}
 			}
 		});

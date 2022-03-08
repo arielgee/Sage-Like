@@ -61,6 +61,11 @@ let rssListView = (function() {
 				if (message.details === Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY) {
 					setFeedItemDescDelayFromPreferences();
 				}
+
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE) {
+					setIncreaseUnvisitedFontSizeFromPreferences();
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -89,6 +94,7 @@ let rssListView = (function() {
 		m_elmList.addEventListener("auxclick", onClickFeedItem);
 
 		setShowFeedItemDescFromPreferences();
+		setIncreaseUnvisitedFontSizeFromPreferences();
 
 		panel.notifyViewContentLoaded(Global.VIEW_CONTENT_LOAD_FLAG.LIST_VIEW_LOADED);
 	}
@@ -121,6 +127,31 @@ let rssListView = (function() {
 				setFeedItemDescDelayFromPreferences();
 			}
 			handleFeedItemDescEventListeners(m_bPrefShowFeedItemDesc);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setIncreaseUnvisitedFontSizeFromPreferences() {
+
+		prefs.getIncreaseUnvisitedFontSize().then(increase => {
+
+			let sheets = document.styleSheets;
+
+			for(let i=0, len=sheets.length; i<len; i++) {
+
+				if(typeof(sheets[i].href) === "string" && sheets[i].href.includes("rssListView.css")) {
+
+					let rules = sheets[i].cssRules;
+
+					for(let j=0, len=rules.length; j<len; j++) {
+						if(typeof(rules[j].selectorText) === "string" && rules[j].selectorText === "#rssListView li.bold") {
+							rules[j].style.cssText = (increase ? "font-weight: bold; font-size: 1.05em;" : "font-weight: bold;");
+							break;
+						}
+					}
+					break;
+				}
+			}
 		});
 	}
 

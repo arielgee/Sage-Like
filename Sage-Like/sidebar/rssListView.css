@@ -26,8 +26,10 @@
 	text-overflow: ellipsis;
 }
 
+/* this selector string is tested in rssListView.js */
 #rssListView li.bold {
 	font-weight: bold;
+	/* font-size: 1.05em;		This rule is set/unset in JS via a preference */
 }
 
 #rssListView li.selected {
