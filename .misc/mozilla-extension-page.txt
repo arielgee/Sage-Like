@@ -39,6 +39,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● "webRequest" – Intercepting clicks on RSS links to display feed previews.
 &emsp;● "webRequestBlocking" – Intercepting clicks on RSS links to display feed
 &emsp;&emsp;previews.
+&emsp;● "menus" – Try to open page links in Feed Preview from context menu.
 
 ◼ <b>CUSTOM CSS FILES</b>
 &emsp;A few basic custom style sheet files (.css) for the Feed Preview page.
@@ -59,13 +60,15 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added support for feeds that require basic client authentication. Sign in to an unauthorized feed using user/password from its context menu.</li>
-  <li>Improved the page loading performance of the Feed Preview for feeds with media attachments.</li>
-  <li>Added 2 new feed filtering methods - by update time and by error-unauthorized status. To learn more, hover with the mouse over the opened filter in the toolbar.</li>
-  <li>Added a visual notification in the tree as an indicator of hidden feeds due to an applied filter.</li>
-  <li>Added 2 new toolbar buttons for the 'Mark all Tree Feeds as Read/Unread' functionalities.</li>
-  <li>Code improvements</li>
-  <li>UI improvements</li>
+  <li>Fixed an issue where a feed wrongly appears as new (unread) when it has an invalid timestamp or that its timestamp is automatically reset by the server to the timestamp of the retrieval.</li>
+  <li>Added an optional context menu item 'Try to Open Link in Feed Preview' for any page links.</li>
+  <li>Added support for feed filtering by parent folder title.</li>
+  <li>Added a new option to the Options page to improve the prominence of unread items in the sidebar by increasing their font size.</li>
+  <li>Improved feed discovery: Handle XML feeds with XSLT that are loaded as regular HTML pages.</li>
+  <li>Improved feed discovery: Handle feeds loaded as view-source.</li>
+  <li>Improved feed information displayed in the tooltip of the tree feeds. Also added feed format.</li>
+  <li>Under the hood code and performance improvements</li>
+  <li>Code refactoring.</li>
 </ul>
 
 + Version Notes for next time

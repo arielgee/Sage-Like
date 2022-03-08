@@ -1004,20 +1004,19 @@
 	* for a folder with with 1 erroneous feed and 2 unread feeds
 		1. when toggling folder read/unread state the stat numbers are: (2) or nothing
 		2. when using the 'mark all as read' botton from toolbar the stat numbers are: (3) or (1)
+* Use relative units for font-size and unitless number for line-height. https://developer.mozilla.org/en-US/docs/Web/CSS/font-size, https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
+* there is a bk color diff in the preferences page
+* make the bold (unread) feed more prominent => ADDED about 5% TO FONT-SIZE + option
+* before publishing: add PERMISSION JUSTIFICATION for menus
 ---
 
 
 ## Now
-* make the bold (unread) feed more prominent => ADDED about 5% TO FONT-SIZE
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* > FIX: BROWSER VERSION 100 - TakeYourTime Extension 'if(version >= "68.0") {' + PREFERENCES + PREFERENCES DARK MODE
-* Font sizes in px is not accessible. User can't change font size in some browsers. when converting, must pay attention to line-height. Values in em may produce unexpected results. https://developer.mozilla.org/en-US/docs/Web/CSS/font-size, https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
-* before publishing: answer the post https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/46
-* before publishing: add PERMISSION JUSTIFICATION for menus
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
