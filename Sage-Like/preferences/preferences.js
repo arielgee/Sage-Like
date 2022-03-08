@@ -51,6 +51,7 @@ let preferences = (function() {
 	let m_elmRadioImageSet4;
 	let m_elmRadioImageSet5;
 	let m_elmRadioImageSet6;
+	let m_elmIncreaseUnvisitedFontSize;
 	let m_elmShowTryOpenLinkInFeedPreview;
 	let m_elmUseCustomCSSFeedPreview;
 	let m_elmImportCustomCSSSource;
@@ -123,6 +124,7 @@ let preferences = (function() {
 		m_elmRadioImageSet4 = document.getElementById("imageSet4");
 		m_elmRadioImageSet5 = document.getElementById("imageSet5");
 		m_elmRadioImageSet6 = document.getElementById("imageSet6");
+		m_elmIncreaseUnvisitedFontSize = document.getElementById("increaseUnvisitedFontSize");
 		m_elmShowTryOpenLinkInFeedPreview = document.getElementById("showTryOpenLinkInFeedPreview");
 		m_elmUseCustomCSSFeedPreview = document.getElementById("useCustomCSSFeedPreview");
 		m_elmImportCustomCSSSource = document.getElementById("importCustomCSSSource");
@@ -194,6 +196,7 @@ let preferences = (function() {
 		m_elmRadioImageSet4.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet5.removeEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
+		m_elmIncreaseUnvisitedFontSize.removeEventListener("change", onChangeIncreaseUnvisitedFontSize);
 		m_elmShowTryOpenLinkInFeedPreview.removeEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
 		m_elmUseCustomCSSFeedPreview.removeEventListener("change", onChangeUseCustomCSSFeedPreview);
 		m_elmImportCustomCSSSource.removeEventListener("change", onChangeImportCustomCSSSource);
@@ -255,6 +258,7 @@ let preferences = (function() {
 		m_elmRadioImageSet4.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
 		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
+		m_elmIncreaseUnvisitedFontSize.addEventListener("change", onChangeIncreaseUnvisitedFontSize);
 		m_elmShowTryOpenLinkInFeedPreview.addEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
 		m_elmUseCustomCSSFeedPreview.addEventListener("change", onChangeUseCustomCSSFeedPreview);
 		m_elmImportCustomCSSSource.addEventListener("change", onChangeImportCustomCSSSource);
@@ -421,6 +425,10 @@ let preferences = (function() {
 					break;
 				}
 			}
+		});
+
+		prefs.getIncreaseUnvisitedFontSize().then((checked) => {
+			m_elmIncreaseUnvisitedFontSize.checked = checked;
 		});
 
 		prefs.getShowTryOpenLinkInFeedPreview().then((checked) => {
@@ -748,6 +756,13 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeIncreaseUnvisitedFontSize(event) {
+		prefs.setIncreaseUnvisitedFontSize(m_elmIncreaseUnvisitedFontSize.checked).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeShowTryOpenLinkInFeedPreview(event) {
 		prefs.setShowTryOpenLinkInFeedPreview(m_elmShowTryOpenLinkInFeedPreview.checked).then(() => {
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW);
@@ -989,6 +1004,7 @@ let preferences = (function() {
 				break;
 			}
 		}
+		m_elmIncreaseUnvisitedFontSize.checked = defPrefs.increaseUnvisitedFontSize;
 		m_elmShowTryOpenLinkInFeedPreview.checked = defPrefs.showTryOpenLinkInFeedPreview;
 		m_elmUseCustomCSSFeedPreview.checked = defPrefs.useCustomCSSFeedPreview;
 

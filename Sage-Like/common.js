@@ -119,6 +119,7 @@ let Global = (function() {
 		MSGD_PREF_CHANGE_SORT_FEED_ITEMS:						1019,
 		MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES:				1020,
 		MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW:	1021,
+		MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE:			1022,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: "_rootFeedsFolderIdNotSet_",
 		BOOKMARKS_ROOT_GUID: "root________",
@@ -595,6 +596,7 @@ let prefs = (function() {
 		COLOR_SELECT:						{ name: "pref_colorSelect",						default: "#F3C8BA"										},
 		COLOR_TEXT:							{ name: "pref_colorText",						default: "#000000"										},
 		IMAGE_SET:							{ name: "pref_imageSet",						default: 0												},
+		INCREASE_UNVISITED_FONT_SIZE:		{ name: "pref_increaseUnvisitedFontSize",		default: false											},
 		USE_CUSTOM_CSS_FEED_PREVIEW:		{ name: "pref_useCustomCSSFeedPreview",			default: false											},
 		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true											},
 		STRICT_RSS_CONTENT_TYPES:			{ name: "pref_strictRssContentTypes",			default: true											},
@@ -636,6 +638,7 @@ let prefs = (function() {
 	function getColorSelect()					{ return _getPreferenceValue(PREF.COLOR_SELECT); }
 	function getColorText()						{ return _getPreferenceValue(PREF.COLOR_TEXT); }
 	function getImageSet()						{ return _getPreferenceValue(PREF.IMAGE_SET); }
+	function getIncreaseUnvisitedFontSize()		{ return _getPreferenceValue(PREF.INCREASE_UNVISITED_FONT_SIZE); }
 	function getUseCustomCSSFeedPreview()		{ return _getPreferenceValue(PREF.USE_CUSTOM_CSS_FEED_PREVIEW); }
 	function getAnimatedSlideDownPanel()		{ return _getPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL); }
 	function getStrictRssContentTypes()			{ return _getPreferenceValue(PREF.STRICT_RSS_CONTENT_TYPES); }
@@ -669,6 +672,7 @@ let prefs = (function() {
 	function setColorSelect(value)					{ return _setPreferenceValue(PREF.COLOR_SELECT, value); }
 	function setColorText(value)					{ return _setPreferenceValue(PREF.COLOR_TEXT, value); }
 	function setImageSet(value)						{ return _setPreferenceValue(PREF.IMAGE_SET, value); }
+	function setIncreaseUnvisitedFontSize(value)	{ return _setPreferenceValue(PREF.INCREASE_UNVISITED_FONT_SIZE, value); }
 	function setUseCustomCSSFeedPreview(value)		{ return _setPreferenceValue(PREF.USE_CUSTOM_CSS_FEED_PREVIEW, value); }
 	function setAnimatedSlideDownPanel(value)		{ return _setPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL, value); }
 	function setStrictRssContentTypes(value)		{ return _setPreferenceValue(PREF.STRICT_RSS_CONTENT_TYPES, value); }
@@ -791,6 +795,7 @@ let prefs = (function() {
 		getColorSelect: getColorSelect,
 		getColorText: getColorText,
 		getImageSet: getImageSet,
+		getIncreaseUnvisitedFontSize: getIncreaseUnvisitedFontSize,
 		getUseCustomCSSFeedPreview: getUseCustomCSSFeedPreview,
 		getAnimatedSlideDownPanel: getAnimatedSlideDownPanel,
 		getStrictRssContentTypes: getStrictRssContentTypes,
@@ -823,6 +828,7 @@ let prefs = (function() {
 		setColorSelect: setColorSelect,
 		setColorText: setColorText,
 		setImageSet: setImageSet,
+		setIncreaseUnvisitedFontSize: setIncreaseUnvisitedFontSize,
 		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
 		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,
 		setStrictRssContentTypes: setStrictRssContentTypes,
