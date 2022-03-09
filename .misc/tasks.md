@@ -1008,6 +1008,15 @@
 * there is a bk color diff in the preferences page
 * make the bold (unread) feed more prominent => ADDED about 5% TO FONT-SIZE + option
 * before publishing: add PERMISSION JUSTIFICATION for menus
+* feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
+* preferences: When importing options the success message box may not be displayed.		=>	LOOKS LIKE IT WAS RESOLVED
+	* This happends when the bookmark folder ID in the imported options file was deleted from the browser or is _rootFeedsFolderIdNotSet_.
+	* Reason: the import unsets the 'Feed bookmark folder' option and the options page is reloaded from the treeView before the messageBox is displayed.
+* a feed visited state is based on time comparison between last visited time (1) and feed update time (2).	=>	NO LONGER RELEVENT
+	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
+	* Maybe need to use feed items Read/Unread state (alterative option?)
+	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
+	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
 ---
 
 
@@ -1020,10 +1029,6 @@
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
-### file "sl-customFeedPreview-CSS-files.zip" is ahead of the one in https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
-* one extra css file.
-
-
 ### low priority
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must me a sidebar webextension!
@@ -1032,17 +1037,8 @@
 
 
 ### Unresolved
-* preferences: When importing options the success message box may not be displayed.
-	* This happends when the bookmark folder ID in the imported options file was deleted from the browser or is _rootFeedsFolderIdNotSet_.
-	* Reason: the import unsets the 'Feed bookmark folder' option and the options page is reloaded from the treeView before the messageBox is displayed.
-* feedPreview: do not show item time if there isn't one - so to not show all a page where all items are "(Just now)" (https://docs.microsoft.com/en-us/teamblog/feed.xml)
 * a lot of sub folders in the tree view will fuck up the UI
 * Firefox has no support for XML 1.1
-* a feed visited state is based on time comparison between last visited time (1) and feed update time (2).
-	* The menu items (mark/toggle) uses the terms 'Read/Unread' => THAT IS NOT ACCURATE (change?)
-	* Maybe need to use feed items Read/Unread state (alterative option?)
-	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
-	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
 
 
 ### Links for PR work
