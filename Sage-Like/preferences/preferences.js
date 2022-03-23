@@ -21,7 +21,6 @@ let preferences = (function() {
 	let m_elmTimeOfDayBox;
 	let m_elmInputTime;
 	let m_elmCheckFeedsMethod;
-	let m_elmCheckFeedsMethodInfo;
 	let m_elmFetchTimeout;
 	let m_elmSortFeedItems;
 	let m_elmFolderClickAction;
@@ -94,7 +93,6 @@ let preferences = (function() {
 		m_elmTimeOfDayBox = document.getElementById("timeOfDayBox");
 		m_elmInputTime = document.getElementById("inputTime");
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
-		m_elmCheckFeedsMethodInfo = document.getElementById("checkFeedsMethodInfo");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
 		m_elmSortFeedItems = document.getElementById("sortFeedItems");
 		m_elmFolderClickAction = document.getElementById("folderClickAction");
@@ -148,7 +146,7 @@ let preferences = (function() {
 			}
 		});
 
-		m_elmCheckFeedsMethodInfo.title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
+		document.getElementById("checkFeedsMethodInfo").title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
 
 		addEventListeners();
 		getSavedPreferences();
