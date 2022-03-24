@@ -325,19 +325,19 @@ let notepad = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateStatusBar() {
 
-		let m_selStart = m_elmSourceEditor.selectionStart;
-		let m_selEnd = m_elmSourceEditor.selectionEnd;
+		let selStart = m_elmSourceEditor.selectionStart;
+		let selEnd = m_elmSourceEditor.selectionEnd;
 
-		if( (m_saveSelectionStart !== m_selStart) || (m_saveSelectionEnd !== m_selEnd) ) {
+		if( (m_saveSelectionStart !== selStart) || (m_saveSelectionEnd !== selEnd) ) {
 
-			let lines = m_elmSourceEditor.value.substring(0, (m_elmSourceEditor.selectionDirection==="forward" ? m_selEnd : m_selStart)).split("\n");
-			let diff = m_selEnd - m_selStart;
+			let lines = m_elmSourceEditor.value.substring(0, (m_elmSourceEditor.selectionDirection==="forward" ? selEnd : selStart)).split("\n");
+			let diff = selEnd - selStart;
 			//let lfCount = (m_elmSourceEditor.value.substring(m_selStart, m_selEnd).match(/\n/g) || []).length
 
 			m_elmStatusBar.textContent = `Ln ${lines.length}, Col ${lines[lines.length-1].length+1}` + (!!diff ? ` (${Math.abs(diff)} selected)` : ``);
 
-			m_saveSelectionStart = m_selStart;
-			m_saveSelectionEnd = m_selEnd;
+			m_saveSelectionStart = selStart;
+			m_saveSelectionEnd = selEnd;
 		}
 	}
 
