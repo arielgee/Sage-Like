@@ -14,6 +14,8 @@
 	--background-color-input: rgb(121, 121, 121);
 
 	/*******************light theme colors*******************/
+	--background-color-values-body: 255, 255, 255;
+
 	--foreground-color: rgb(0, 0, 0);
 	--background-color-body: transparent;
 	--background-color-select-control: transparent;
@@ -45,8 +47,10 @@
 
 	:root {
 		/********************dark theme colors*******************/
+		--background-color-values-body: 35, 34, 43;
+
 		--foreground-color: rgb(249, 249, 250);
-		--background-color-body: rgb(35, 34, 43);
+		--background-color-body: rgb(var(--background-color-values-body));
 		--background-color-select-control: rgb(50, 50, 54);
 		--background-color-option-control: rgb(43, 42, 51);
 		--background-color-option-user: rgb(16, 16, 16);		/* option[value="-1"] */
@@ -488,7 +492,7 @@ input[type="color"].disabled {
 	left: 0;
 	width: 0;
 	height: 0;
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: rgba(var(--background-color-values-body), 0.7);
 	z-index: 1;
 	cursor: wait;
 	transition: width 0.15s linear 0s, height 0.15s linear 0s;
@@ -548,6 +552,6 @@ body.noCaptionStyleV68 .caption + .prefSeperator {
 	max-width: var(--max-width-preferences-body);
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: rgba(var(--background-color-values-body), 0.7);
 	z-index: 1;
 }
