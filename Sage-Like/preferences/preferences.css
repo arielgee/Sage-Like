@@ -505,7 +505,7 @@ input[type="color"].disabled {
 }
 
 .busyAnimPrefOverlay {
-	--color-image: white;
+	--color-image: var(--foreground-color);
 	display: none;
 	width: var(--size-image);
 	height: var(--size-image);
@@ -531,7 +531,7 @@ input[type="color"].disabled {
 	margin: auto auto auto calc(var(--size-image) + (var(--margin-left-children) * 2));
 	font-weight: bold;
 	letter-spacing: 0.7px;
-	color: white;
+	color: var(--foreground-color);
 	font-size: 115%;
 }
 
