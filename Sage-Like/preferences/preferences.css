@@ -8,7 +8,7 @@
 	--color-control-focused: rgb(10, 133, 255);
 	--color-control-invalid: rgb(255, 0, 0);
 
-	--color-text-block-caption-values: 9, 119, 229;
+	--color-values-text-block-caption: 9, 119, 229;
 
 	--color-control-accent: rgb(0, 96, 223);
 	--background-color-input: rgb(121, 121, 121);
@@ -31,7 +31,7 @@
 	--background-color-disabled-control: rgb(211, 211, 211);
 	--background-color-textarea-control: rgb(240, 240, 240);
 
-	--background-color-button: 6, 6, 5;
+	--background-color-values-button: 6, 6, 5;
 	--background-alpha-button: 0.1;
 	--background-alpha-hover-button: 0.15;
 	--background-alpha-hover-active-button: 0.2;
@@ -62,7 +62,7 @@
 		--background-color-disabled-control: rgb(72, 72, 72);
 		--background-color-textarea-control: rgb(50, 50, 50);
 
-		--background-color-button: 249, 249, 250;
+		--background-color-values-button: 249, 249, 250;
 		--background-alpha-button: 0.1;
 		--background-alpha-hover-button: 0.15;
 		--background-alpha-hover-active-button: 0.2;
@@ -95,12 +95,12 @@ body {
 	--v-font-size: 1.667rem;
 
 	margin: calc(var(--height-preference) * 1.2) 0 10px;
-	background: linear-gradient(to right, transparent 1%, rgba(var(--color-text-block-caption-values), 0.5));
-	color: rgb(var(--color-text-block-caption-values));
+	background: linear-gradient(to right, transparent 1%, rgba(var(--color-values-text-block-caption), 0.5));
+	color: rgb(var(--color-values-text-block-caption));
 	font-size: var(--v-font-size);
 	font-weight: bold;
 	line-height: calc(var(--v-font-size) * 1.45);
-	border-left: 2px solid rgb(var(--color-text-block-caption-values));
+	border-left: 2px solid rgb(var(--color-values-text-block-caption));
 	padding-left: 4px;
 }
 
@@ -305,7 +305,7 @@ input[type="color"]::-moz-focus-inner {
 .preferenceButton {
 	padding: 1px 3px 2px 3px;
 	color: var(--foreground-color);
-	background-color: rgba(var(--background-color-button), var(--background-alpha-button));
+	background-color: rgba(var(--background-color-values-button), var(--background-alpha-button));
 	border: 1px solid rgb(193, 193, 193);
 	border-radius: 2px;
 	height: 22px;
@@ -319,11 +319,11 @@ input[type="color"]::-moz-focus-inner {
 }
 
 .preferenceButton:hover {
-	background-color: rgba(var(--background-color-button), var(--background-alpha-hover-button));
+	background-color: rgba(var(--background-color-values-button), var(--background-alpha-hover-button));
 }
 
 .preferenceButton:active:hover {
-	background-color: rgba(var(--background-color-button), var(--background-alpha-hover-active-button));
+	background-color: rgba(var(--background-color-values-button), var(--background-alpha-hover-active-button));
 }
 
 .controlImage {
@@ -431,7 +431,7 @@ input[type="color"]::-moz-focus-inner {
 /**************************** Elements that will 'flash' ****************************/
 /************************************************************************************/
 .preferenceButton {
-	--color1: rgba(var(--background-color-button), var(--background-alpha-button));
+	--color1: rgba(var(--background-color-values-button), var(--background-alpha-button));
 	background: linear-gradient(to left, var(--color1) 52%, var(--color-flash) 50%);
 }
 
