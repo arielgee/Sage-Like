@@ -1018,19 +1018,20 @@
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
 * Detecting feeds in web pages may result in HTTP 429 'Too Many Requests' due to "rate limiting". https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/50 -> 'Manage Exceptions...' button under 'Detect feeds in web pages and...'.
+* in UI, replace all '...' with '…' => NO
 ---
 
 
 ## Now
+* prefrences.css/html . consolidate box elements from ID's to classes. (class="boxActionButtons")
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* prefrences.css/html . consolidate box elements from ID's to classes. (class="boxActionButtons")
+* Feed Properties Panel, change caption text to 'Feed/Folder'
 * in preferences, lazy initialize for box only elements like getUrlList()
 * prefer toUpperCase() over toLowerCase(). https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/code-quality/ca1308-normalize-strings-to-uppercase?view=vs-2015&redirectedfrom=MSDN
-* in preferences, replace all '...' with '…'
 * in preferences, change 'hideMessageBox()' to 'closeMessageBox()'
 * change User font box and Time of day box. use a hideBox() function like Message Box. only one 'xxxxxBox.style.display = "none"'
 * preferences messageBox. Move button addEventListener to showMessageBox() and the removeEventListener to hideMessageBox()

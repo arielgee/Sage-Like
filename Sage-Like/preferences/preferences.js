@@ -15,12 +15,12 @@ let preferences = (function() {
 											" \u25cf Easy – Feeds are fetched in 10 batches with a 4 seconds pause between each one. \n" +
 											" \u25cf Lazy – Feeds are fetched one by one with a 1.5 seconds pause between each one. \n";
 
-	const TXT_HELP_INFO_DETECT_FEEDS_EXCEPTIONS = "The option 'Detect feeds in web pages…' may interfere with some websites.\n\n" +
+	const TXT_HELP_INFO_DETECT_FEEDS_EXCEPTIONS = "The option 'Detect feeds in web pages...' may interfere with some websites.\n\n" +
 													"When trying to detect feeds in web pages, in certain conditions this setting " +
 													"may perform an additional page request. This extra request sometimes looks " +
 													"suspicious to websites (\"rate limiting\") and may result in unexpected behavior. " +
 													"For instance, when trying to log in to an account.\n\n" +
-													"To avoid this without unchecking the option, select the ‘Manage…’ button and " +
+													"To avoid this without unchecking the option, select the 'Manage...' button and " +
 													"add the web page address to the list.";
 
 	let m_elmRootFeedsFolder;
