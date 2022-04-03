@@ -1017,6 +1017,7 @@
 	* Maybe need to use feed items Read/Unread state (alterative option?)
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
+* Detecting feeds in web pages may result in HTTP 429 'Too Many Requests' due to "rate limiting". https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/50 -> 'Manage Exceptions...' button under 'Detect feeds in web pages and...'.
 ---
 
 
@@ -1026,6 +1027,33 @@
 
 
 ## Next
+* prefrences.css/html . consolidate box elements from ID's to classes. (class="boxActionButtons")
+* in preferences, lazy initialize for box only elements like getUrlList()
+* prefer toUpperCase() over toLowerCase(). https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/code-quality/ca1308-normalize-strings-to-uppercase?view=vs-2015&redirectedfrom=MSDN
+* in preferences, replace all '...' with '…'
+* in preferences, change 'hideMessageBox()' to 'closeMessageBox()'
+* change User font box and Time of day box. use a hideBox() function like Message Box. only one 'xxxxxBox.style.display = "none"'
+* preferences messageBox. Move button addEventListener to showMessageBox() and the removeEventListener to hideMessageBox()
+* disable scrolling when popup boxes are shown in preferences page
+* new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
+* "Improve prominence to unread items" -> "Improve prominence of unread items" ?
+* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49 -> do it like openInFeedPreview (TreeFeedsData properly + preference)
+	Use update time from most recent feed-item
+	Use most recent feed-item as update time
+	Use update time of most recent feed-item
+	Use timestamp of most recent feed-item
+	Feed update time from most recent feed-item
+	update time retrieved from most recent feed-item
+	Most recent feed-item determines feed update time
+	Most recent feed-item determines update time
+	Ignore feed update time and use most recent feed-item
+	Ignore feed update time, use most recent feed-item
+* re-think: preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
+	* add IDs to .prefBlockCaption , add side menu (position: absolute) with .prefBlockCaption names and hrefs to the ID's to navigate
+	* in preferences.css
+		1. :root { font-size: 12px; }
+		2. body { margin: 80px 0 80px 120px; }
+		3. body * { box-sizing: border-box; }
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

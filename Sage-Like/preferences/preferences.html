@@ -96,6 +96,13 @@
 			<input type="checkbox" id="detectFeedsInWebPage"/>
 		</div>
 	</div>
+
+	<div class="preference subPref last">
+		<label for="btnDetectFeedsExceptions" class="preferenceLabel">Feed Detection Exceptions&nbsp;<span id="detectFeedsExceptionsInfo" class="helpInfo">?</span></label>
+		<div class="preferenceControl">
+			<button type="button" id="btnDetectFeedsExceptions" class="preferenceButton">Manage…</button>
+		</div>
+	</div>
 	<div class="prefSeperator"></div>
 
 
@@ -362,6 +369,20 @@
 		<div id="messageBoxButtons">
 			<button type="button" id="btnMessageBoxOK" class="preferenceButton">OK</button>
 		</div>
+	</div>
+
+	<!-- ////////////////////////// URL List Box ////////////////////////// -->
+	<div id="urlListBox" class="popupBox" tabindex="-1">
+		<div id="urlListBoxCaption"></div>
+		<div id="urlListBoxDescription"></div>
+		<div id="urlListBoxText">
+			<textarea id="urlListBoxTextArea" autofocus tabindex="1" spellcheck="false" autocomplete="off"></textarea>
+		</div>
+		<div id="urlListBoxButtons">
+			<button type="button" id="btnUrlListBoxSave" class="preferenceButton">Save</button>
+			<button type="button" id="btnUrlListBoxCancel" class="preferenceButton">Cancel</button>
+		</div>
+		<div id="urlListBoxStatusbar"></div>
 	</div>
 
 	<!-- ////////////////////////// Page Overlay ////////////////////////// -->

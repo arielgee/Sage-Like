@@ -33,6 +33,7 @@
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_CONTENT_TYPES_STRICT, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
+	let m_hrefDetectFeedsExceptionUrls = [];
 
 	initialization();
 
@@ -111,6 +112,10 @@
 					message.details === Global.MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW) {
 					handlePrefShowTryOpenLinkInFeedPreview();
 				}
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_DETECT_FEEDS_EXCEPTIONS) {
+					handlePrefDetectFeedsExceptions();
+				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -185,7 +190,7 @@
 	function onTabsUpdated(tabId, changeInfo, tab) {
 		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
 		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
-		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && tab.url.match(REGEXP_URL_FILTER_TAB_STATE_CHANGE)) {
+		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && IsAllowedForFeedDetection(tab.url) ) {
 			handleTabChangedState(tabId);
 		}
 	}
@@ -193,7 +198,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsAttached(tabId) {
 		browser.tabs.get(tabId).then((tab) => {
-			if (tab.url.match(REGEXP_URL_FILTER_TAB_STATE_CHANGE)) {
+			if (IsAllowedForFeedDetection(tab.url)) {
 				handleTabChangedState(tabId);
 			}
 		});
@@ -344,6 +349,11 @@
 	////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function IsAllowedForFeedDetection(strUrl) {
+		return strUrl.match(REGEXP_URL_FILTER_TAB_STATE_CHANGE) && !m_hrefDetectFeedsExceptionUrls.includes(strUrl);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function handleTabChangedState(tabId) {
 
 		injectContentScripts(tabId).then((result) => {
@@ -397,12 +407,16 @@
 
 		if(detectFeedsInWebPage) {
 
+			handlePrefDetectFeedsExceptions();						// Exceptions to the preference "Detect feeds in..."
+
 			browser.tabs.onUpdated.addListener(onTabsUpdated);		// Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
 			browser.tabs.onAttached.addListener(onTabsAttached);
 
 		} else if(browser.tabs.onUpdated.hasListener(onTabsUpdated)) {
 
 			// hasListener() will return false if handlePrefDetectFeedsInWebPage() was called from webExt loading.
+
+			m_hrefDetectFeedsExceptionUrls = [];					// Clear list of exceptions
 
 			browser.tabs.onUpdated.removeListener(onTabsUpdated);
 			browser.tabs.onAttached.removeListener(onTabsAttached);
@@ -438,6 +452,27 @@
 
 			browser.menus.onClicked.removeListener(onMenusClicked);
 			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function handlePrefDetectFeedsExceptions() {
+
+		const strExcUrls = (await prefs.getDetectFeedsExceptions()).split("\n");
+		let strUrl, url, newLen;
+
+		m_hrefDetectFeedsExceptionUrls = [];
+
+		for(let i=0, len=strExcUrls.length; i<len; i++) {
+
+			strUrl = strExcUrls[i].trim();
+
+			if( (strUrl.length > 0) && (strUrl[0] !== "#") && (url = slUtil.validURL(strUrl)) ) {
+				newLen = m_hrefDetectFeedsExceptionUrls.push(url.href);
+				if(newLen >= Global.MAXIMUM_DETECT_FEEDS_EXCEPTION_URLS) {
+					break;
+				}
+			}
 		}
 	}
 

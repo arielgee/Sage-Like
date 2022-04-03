@@ -15,6 +15,14 @@ let preferences = (function() {
 											" \u25cf Easy – Feeds are fetched in 10 batches with a 4 seconds pause between each one. \n" +
 											" \u25cf Lazy – Feeds are fetched one by one with a 1.5 seconds pause between each one. \n";
 
+	const TXT_HELP_INFO_DETECT_FEEDS_EXCEPTIONS = "The option 'Detect feeds in web pages…' may interfere with some websites.\n\n" +
+													"When trying to detect feeds in web pages, in certain conditions this setting " +
+													"may perform an additional page request. This extra request sometimes looks " +
+													"suspicious to websites (\"rate limiting\") and may result in unexpected behavior. " +
+													"For instance, when trying to log in to an account.\n\n" +
+													"To avoid this without unchecking the option, select the ‘Manage…’ button and " +
+													"add the web page address to the list.";
+
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsInterval;
 	let m_elmCheckFeedsWhenSbClosed;
@@ -34,6 +42,7 @@ let preferences = (function() {
 	let m_elmColorFeedItemDescBackground;
 	let m_elmColorFeedItemDescText;
 	let m_elmDetectFeedsInWebPage;
+	let m_elmBtnDetectFeedsExceptions;
 	let m_elmUIDensity;
 	let m_elmFontName;
 	let m_elmUserFontBox;
@@ -65,6 +74,14 @@ let preferences = (function() {
 	let m_elmMessageBox;
 	let m_funcOnCloseMessageBox;
 	let m_elmBtnMessageBoxOK;
+
+	let m_elmUrlListBox;
+	let m_elmUrlListBoxTextArea;
+	let m_elmBtnUrlListBoxSave;
+	let m_elmBtnUrlListBoxCancel;
+	let m_elmUrlListBoxStatusbar;
+	let m_funcResolveGetUrlList;
+	let m_statusbarupdateDebouncer;
 
 	let m_elmBtnReloadExtension;
 	let m_elmBtnRestoreDefaults;
@@ -106,6 +123,7 @@ let preferences = (function() {
 		m_elmColorFeedItemDescBackground = document.getElementById("colorFeedItemDescBk");
 		m_elmColorFeedItemDescText = document.getElementById("colorFeedItemDescText");
 		m_elmDetectFeedsInWebPage = document.getElementById("detectFeedsInWebPage");
+		m_elmBtnDetectFeedsExceptions = document.getElementById("btnDetectFeedsExceptions");
 		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmFontName = document.getElementById("fontName");
 		m_elmUserFontBox = document.getElementById("userFontBox");
@@ -147,6 +165,7 @@ let preferences = (function() {
 		});
 
 		document.getElementById("checkFeedsMethodInfo").title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
+		document.getElementById("detectFeedsExceptionsInfo").title = TXT_HELP_INFO_DETECT_FEEDS_EXCEPTIONS;
 
 		addEventListeners();
 		getSavedPreferences();
@@ -178,6 +197,7 @@ let preferences = (function() {
 		m_elmColorFeedItemDescBackground.removeEventListener("change", onChangeColorFeedItemDescBackground);
 		m_elmColorFeedItemDescText.removeEventListener("change", onChangeColorFeedItemDescText);
 		m_elmDetectFeedsInWebPage.removeEventListener("change", onChangeDetectFeedsInWebPage);
+		m_elmBtnDetectFeedsExceptions.removeEventListener("click", onClickBtnDetectFeedsExceptions);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
 		m_elmFontName.removeEventListener("change", onChangeFontName);
 		m_elmUserFontBox.removeEventListener("keydown", onKeyDownUserFontBox);
@@ -240,6 +260,7 @@ let preferences = (function() {
 		m_elmColorFeedItemDescBackground.addEventListener("change", onChangeColorFeedItemDescBackground);
 		m_elmColorFeedItemDescText.addEventListener("change", onChangeColorFeedItemDescText);
 		m_elmDetectFeedsInWebPage.addEventListener("change", onChangeDetectFeedsInWebPage);
+		m_elmBtnDetectFeedsExceptions.addEventListener("click", onClickBtnDetectFeedsExceptions);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmFontName.addEventListener("change", onChangeFontName);
 		m_elmUserFontBox.addEventListener("keydown", onKeyDownUserFontBox);
@@ -371,6 +392,7 @@ let preferences = (function() {
 
 		prefs.getDetectFeedsInWebPage().then((checked) => {
 			m_elmDetectFeedsInWebPage.checked = checked;
+			slUtil.disableElementTree(m_elmBtnDetectFeedsExceptions.parentElement.parentElement, !checked);
 		});
 
 		prefs.getUIDensity().then((value) => {
@@ -633,8 +655,25 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeDetectFeedsInWebPage(event) {
 		prefs.setDetectFeedsInWebPage(m_elmDetectFeedsInWebPage.checked).then(() => {
+			slUtil.disableElementTree(m_elmBtnDetectFeedsExceptions.parentElement.parentElement, !m_elmDetectFeedsInWebPage.checked);
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function onClickBtnDetectFeedsExceptions(event) {
+
+		const caption = "Feed Detection Exceptions";
+		const desc = "You can specify which web pages are never allowed to be scanned for feeds. Type the exact address. Letter capitalization matter." +
+						"\u000a\u000aOne URL address per line. Lines prefixed with '#' will be ignored."
+		const value = await prefs.getDetectFeedsExceptions();
+
+		let result = await getUrlList(m_elmBtnDetectFeedsExceptions.parentElement.parentElement, caption, desc, value);
+
+		if(result.saveChanges) {
+			await prefs.setDetectFeedsExceptions(result.value);
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_DETECT_FEEDS_EXCEPTIONS);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -965,6 +1004,7 @@ let preferences = (function() {
 		let defPrefs = prefs.restoreDefaults();
 
 		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, defPrefs.checkFeedsInterval === "0");
+		slUtil.disableElementTree(m_elmBtnDetectFeedsExceptions.parentElement.parentElement, !defPrefs.detectFeedsInWebPage);
 		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !defPrefs.showFeedItemDesc);
@@ -1311,6 +1351,228 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnMessageBoxOK(event) {
 		hideMessageBox();
+	}
+
+	//==================================================================================
+	//=== URL List Box functions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getUrlList(elmPreferenceReference, caption, desc, value = "") {
+
+		return new Promise((resolve) => {
+
+			m_funcResolveGetUrlList = resolve;
+
+			// if never initialized
+			if(!!!m_elmUrlListBox) {
+				m_elmUrlListBox = document.getElementById("urlListBox");
+				m_elmUrlListBoxTextArea = document.getElementById("urlListBoxTextArea");
+				m_elmBtnUrlListBoxSave = document.getElementById("btnUrlListBoxSave");
+				m_elmBtnUrlListBoxCancel = document.getElementById("btnUrlListBoxCancel");
+				m_elmUrlListBoxStatusbar = document.getElementById("urlListBoxStatusbar");
+			}
+
+			document.getElementById("urlListBoxCaption").textContent = caption;
+			document.getElementById("urlListBoxDescription").textContent = desc;
+			m_elmUrlListBoxTextArea.value = value;
+
+			m_elmUrlListBox.addEventListener("keydown", onKeyDownUrlListBox);
+			m_elmUrlListBoxTextArea.addEventListener("input", onInputUrlListBoxTextArea);
+			m_elmBtnUrlListBoxSave.addEventListener("click", onClickBtnUrlListBoxSave);
+			m_elmBtnUrlListBoxCancel.addEventListener("click", onClickBtnUrlListBoxCancel);
+			m_elmUrlListBoxStatusbar.addEventListener("click", onClickUrlListBoxStatusbar);
+
+			m_elmPageOverlay.style.display = "block";
+			m_elmUrlListBox.style.display = "block";
+
+			let rect = slUtil.getElementViewportRect(elmPreferenceReference, window.innerWidth, window.innerHeight);
+
+			const BOX_HEIGHT = m_elmUrlListBox.clientHeight;
+			const BOX_WIDTH_MARGIN = 3;
+
+			m_elmUrlListBox.style.left = BOX_WIDTH_MARGIN + "px";
+			m_elmUrlListBox.style.top = (rect.top - (BOX_HEIGHT - rect.height) / 2) + "px";
+			m_elmUrlListBox.style.width = (rect.width - BOX_WIDTH_MARGIN * 2) + "px";
+
+			m_elmUrlListBoxTextArea.setSelectionRange(0, 0); // move cursor to start
+			m_elmUrlListBoxTextArea.focus();
+
+			urlListValidator();
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function closeUrlListBox(saveChanges = false) {
+
+		m_elmPageOverlay.style.display = "none";
+		m_elmUrlListBox.style.display = "none";
+
+		m_elmUrlListBox.removeEventListener("keydown", onKeyDownUrlListBox);
+		m_elmUrlListBoxTextArea.removeEventListener("input", onInputUrlListBoxTextArea);
+		m_elmBtnUrlListBoxSave.removeEventListener("click", onClickBtnUrlListBoxSave);
+		m_elmBtnUrlListBoxCancel.removeEventListener("click", onClickBtnUrlListBoxCancel);
+		m_elmUrlListBoxStatusbar.removeEventListener("click", onClickUrlListBoxStatusbar);
+
+		if(typeof(m_funcResolveGetUrlList) === "function") {
+			m_funcResolveGetUrlList({
+				saveChanges: saveChanges,
+				value: saveChanges ? m_elmUrlListBoxTextArea.value : null,
+			});
+		}
+		m_funcResolveGetUrlList = null;
+		m_elmUrlListBoxTextArea.value = "";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function urlListValidator() {
+
+		const PFX = "⚠ ";
+		const PFX_CLK = `${PFX}Click Me! – `;
+
+		let urls = m_elmUrlListBoxTextArea.value.split("\n");
+		let totalValidURLs = 0;
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// look for invalid URLs
+
+		let lineNumbers = [];
+		for(let i=0, len=urls.length; i<len; i++) {
+
+			let url = urls[i].trim();
+
+			if(url.length > 0 && url[0] !== "#") {		// valid lines
+				if( !!!slUtil.validURL(url) ) {
+					lineNumbers.push(i+1);
+				} else {
+					totalValidURLs++;
+				}
+			}
+		}
+		if(lineNumbers.length > 0) {
+			m_elmUrlListBoxStatusbar.lineNumbers = lineNumbers;
+			m_elmUrlListBoxStatusbar.lineNumbersIdx = -1;
+			m_elmUrlListBoxStatusbar.textContent = `${PFX_CLK}Invalid URL address(es) at line(s): ${lineNumbers}`;
+			return;
+		}
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// look for duplicates only if all URLs are valid
+
+		lineNumbers = [];
+		for(let i=0, len=urls.length-1; i<len; i++) {
+
+			let src = urls[i].trim();
+
+			if(src.length > 0 && src[0] !== "#") {
+
+				let curLineNum = i+1;
+
+				// if current line number is not already in array (case where there are more then 2 occurrences)
+				if(!!!lineNumbers.find(g => g.includes(curLineNum))) {
+
+					let group = [curLineNum];
+
+					for(let j=i+1, len=urls.length; j<len; j++) {
+
+						let trg = urls[j].trim();
+
+						if(trg.length > 0 && trg[0] !== "#") {		// valid lines
+							if(src === trg) {
+								group.push(j+1);
+							}
+						}
+					}
+					if(group.length > 1) {
+						lineNumbers.push(group);
+					}
+				}
+			}
+		}
+		if(lineNumbers.length > 0) {
+			m_elmUrlListBoxStatusbar.lineNumbers = lineNumbers.reduce((p, c) => p.concat(c));
+			m_elmUrlListBoxStatusbar.lineNumbersIdx = -1;
+			m_elmUrlListBoxStatusbar.textContent = `${PFX_CLK}Duplicates URL address(es) at lines: (${lineNumbers.join("), (")})`;
+			return;
+		}
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// look for too many URLs
+
+		if(totalValidURLs > Global.MAXIMUM_DETECT_FEEDS_EXCEPTION_URLS) {
+			m_elmUrlListBoxStatusbar.lineNumbers = [];
+			m_elmUrlListBoxStatusbar.lineNumbersIdx = undefined;
+			m_elmUrlListBoxStatusbar.textContent = `${PFX}Only the first ${Global.MAXIMUM_DETECT_FEEDS_EXCEPTION_URLS} URL addresses will be used (total: ${totalValidURLs})`;
+			return;
+		}
+
+		m_elmUrlListBoxStatusbar.lineNumbers = [];
+		m_elmUrlListBoxStatusbar.lineNumbersIdx = undefined;
+		m_elmUrlListBoxStatusbar.textContent = `Total: ${totalValidURLs}`;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownUrlListBox(event) {
+		if( ["Enter","NumpadEnter"].includes(event.code) && !!event.target && event.target.id !== m_elmUrlListBoxTextArea.id ) {
+			closeUrlListBox(true);
+		} else if("Escape" === event.code) {
+			closeUrlListBox();
+		} else if(event.ctrlKey && event.code === "KeyS") {
+			closeUrlListBox(true);
+			event.preventDefault();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onInputUrlListBoxTextArea(event) {
+		clearTimeout(m_statusbarupdateDebouncer);
+		m_statusbarupdateDebouncer = setTimeout(() => {
+			urlListValidator();
+			m_statusbarupdateDebouncer = null;
+		}, 550);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickUrlListBoxStatusbar(event) {
+
+		let lineNumbers = m_elmUrlListBoxStatusbar.lineNumbers;
+
+		if(lineNumbers.length > 0) {
+
+			let reverse = event.shiftKey;
+			let idx = m_elmUrlListBoxStatusbar.lineNumbersIdx;
+
+			if(reverse) {
+				idx = idx > 0 ? idx - 1 : lineNumbers.length-1;
+			} else {
+				idx = idx < (lineNumbers.length-1) ? idx + 1 : 0;
+			}
+
+			let lines = m_elmUrlListBoxTextArea.value.split("\n");
+			let start = 0;
+
+			for(let i=0, len=lines.length; i<len; i++) {
+				if(i === (lineNumbers[idx]-1)) break;
+				start += (lines[i].length + 1);
+			}
+
+			m_elmUrlListBoxTextArea.setSelectionRange(start, start + lines[lineNumbers[idx]-1].length);
+			m_elmUrlListBoxStatusbar.lineNumbersIdx = idx;
+			m_elmUrlListBoxTextArea.focus();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnUrlListBoxSave(event) {
+		closeUrlListBox(true);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnUrlListBoxCancel(event) {
+		closeUrlListBox();
 	}
 
 	//==================================================================================
