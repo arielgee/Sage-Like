@@ -108,8 +108,6 @@ let preferences = (function() {
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
 		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
 		m_elmCheckFeedsWhenSbClosed = document.getElementById("checkFeedsWhenSbClosed");
-		m_elmTimeOfDayBox = document.getElementById("timeOfDayBox");
-		m_elmInputTime = document.getElementById("inputTime");
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
 		m_elmSortFeedItems = document.getElementById("sortFeedItems");
@@ -127,8 +125,6 @@ let preferences = (function() {
 		m_elmBtnDetectFeedsExceptions = document.getElementById("btnDetectFeedsExceptions");
 		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmFontName = document.getElementById("fontName");
-		m_elmUserFontBox = document.getElementById("userFontBox");
-		m_elmUserFontName = document.getElementById("userFontName");
 		m_elmFontSizePercent = document.getElementById("fontSizePercent");
 		m_elmColorBackground = document.getElementById("colorBk");
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
@@ -180,8 +176,6 @@ let preferences = (function() {
 		m_elmRootFeedsFolder.removeEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsInterval.removeEventListener("change", onChangeCheckFeedsInterval);
 		m_elmCheckFeedsWhenSbClosed.removeEventListener("change", onChangeCheckFeedsWhenSbClosed);
-		m_elmTimeOfDayBox.removeEventListener("keydown", onKeyDownTimeOfDayBox);
-		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
 		m_elmSortFeedItems.removeEventListener("change", onChangeSortFeedItems);
@@ -199,8 +193,6 @@ let preferences = (function() {
 		m_elmBtnDetectFeedsExceptions.removeEventListener("click", onClickBtnDetectFeedsExceptions);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
 		m_elmFontName.removeEventListener("change", onChangeFontName);
-		m_elmUserFontBox.removeEventListener("keydown", onKeyDownUserFontBox);
-		m_elmUserFontName.removeEventListener("blur", onBlurUserFontName);
 		m_elmFontSizePercent.removeEventListener("change", onChangeFontSizePercent);
 		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
@@ -240,8 +232,6 @@ let preferences = (function() {
 		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
 		m_elmCheckFeedsWhenSbClosed.addEventListener("change", onChangeCheckFeedsWhenSbClosed);
-		m_elmTimeOfDayBox.addEventListener("keydown", onKeyDownTimeOfDayBox);
-		m_elmInputTime.addEventListener("blur", onBlurInputTime);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
 		m_elmSortFeedItems.addEventListener("change", onChangeSortFeedItems);
@@ -259,8 +249,6 @@ let preferences = (function() {
 		m_elmBtnDetectFeedsExceptions.addEventListener("click", onClickBtnDetectFeedsExceptions);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmFontName.addEventListener("change", onChangeFontName);
-		m_elmUserFontBox.addEventListener("keydown", onKeyDownUserFontBox);
-		m_elmUserFontName.addEventListener("blur", onBlurUserFontName);
 		m_elmFontSizePercent.addEventListener("change", onChangeFontSizePercent);
 		m_elmColorBackground.addEventListener("change", onChangeColorBackground);
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
@@ -1192,6 +1180,14 @@ let preferences = (function() {
 
 			m_funcResolveGetUserFontName = resolve;
 
+			if(!!!m_elmUserFontBox) {
+				m_elmUserFontBox = document.getElementById("userFontBox");
+				m_elmUserFontName = document.getElementById("userFontName");
+			}
+
+			m_elmUserFontBox.addEventListener("keydown", onKeyDownUserFontBox);
+			m_elmUserFontName.addEventListener("blur", onBlurUserFontName);
+
 			m_elmUserFontName.value = initValue;
 			m_elmUserFontBox.style.display = "block";
 
@@ -1210,6 +1206,9 @@ let preferences = (function() {
 	function closeUserFontNameBox(value = "") {
 
 		m_elmUserFontBox.style.display = "none";
+
+		m_elmUserFontBox.removeEventListener("keydown", onKeyDownUserFontBox);
+		m_elmUserFontName.removeEventListener("blur", onBlurUserFontName);
 
 		if(typeof(m_funcResolveGetUserFontName) === "function") {
 			m_funcResolveGetUserFontName(value);
@@ -1242,6 +1241,14 @@ let preferences = (function() {
 
 			m_funcResolveGetTimeOfDay = resolve;
 
+			if(!!!m_elmTimeOfDayBox) {
+				m_elmTimeOfDayBox = document.getElementById("timeOfDayBox");
+				m_elmInputTime = document.getElementById("inputTime");
+			}
+
+			m_elmTimeOfDayBox.addEventListener("keydown", onKeyDownTimeOfDayBox);
+			m_elmInputTime.addEventListener("blur", onBlurInputTime);
+
 			m_elmInputTime.value = initValue;
 			m_elmTimeOfDayBox.style.display = "block";
 
@@ -1259,6 +1266,9 @@ let preferences = (function() {
 	function closeTimeOfDayBox(value = "") {
 
 		setTimeout(() => m_elmTimeOfDayBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
+
+		m_elmTimeOfDayBox.removeEventListener("keydown", onKeyDownTimeOfDayBox);
+		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 
 		if(typeof(m_funcResolveGetTimeOfDay) === "function") {
 			m_funcResolveGetTimeOfDay(value);
