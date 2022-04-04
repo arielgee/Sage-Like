@@ -364,25 +364,23 @@
 
 	<!-- ////////////////////////// Message Box ////////////////////////// -->
 	<div id="messageBox" class="popupBox" tabindex="-1">
-		<div id="messageBoxCaption"></div>
-		<div id="messageBoxText"></div>
-		<div id="messageBoxButtons">
+		<div id="messageBoxCaption" class="popupBoxElementMargined popupBoxCaption"></div>
+		<div id="messageBoxText" class="popupBoxElementMargined"></div>
+		<div class="popupBoxElementMargined popupBoxButtons">
 			<button type="button" id="btnMessageBoxOK" class="preferenceButton">OK</button>
 		</div>
 	</div>
 
 	<!-- ////////////////////////// URL List Box ////////////////////////// -->
 	<div id="urlListBox" class="popupBox" tabindex="-1">
-		<div id="urlListBoxCaption"></div>
-		<div id="urlListBoxDescription"></div>
-		<div id="urlListBoxText">
-			<textarea id="urlListBoxTextArea" autofocus tabindex="1" spellcheck="false" autocomplete="off"></textarea>
-		</div>
-		<div id="urlListBoxButtons">
+		<div id="urlListBoxCaption" class="popupBoxElementMargined popupBoxCaption"></div>
+		<div id="urlListBoxDescription" class="popupBoxElementMargined"></div>
+		<textarea id="urlListBoxTextArea" autofocus tabindex="1" spellcheck="false" autocomplete="off"></textarea>
+		<div class="popupBoxElementMargined popupBoxButtons">
 			<button type="button" id="btnUrlListBoxSave" class="preferenceButton">Save</button>
 			<button type="button" id="btnUrlListBoxCancel" class="preferenceButton">Cancel</button>
 		</div>
-		<div id="urlListBoxStatusbar"></div>
+		<div id="urlListBoxStatusbar" class="popupBoxElementMargined"></div>
 	</div>
 
 	<!-- ////////////////////////// Page Overlay ////////////////////////// -->

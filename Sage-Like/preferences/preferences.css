@@ -407,18 +407,17 @@ input[type="color"]::-moz-focus-inner {
 	padding: 2px;
 }
 
-#messageBoxCaption,
-#messageBoxText,
-#messageBoxButtons,
-#urlListBoxCaption,
-#urlListBoxDescription,
-#urlListBoxButtons {
+.popupBoxElementMargined {
 	margin: 6px 8px;
 }
 
-#messageBoxCaption,
-#urlListBoxCaption {
+.popupBoxCaption {
 	font-weight: bold;
+}
+
+.popupBoxButtons {
+	display: flex;
+	justify-content: end;
 }
 
 #messageBoxText {
@@ -428,12 +427,6 @@ input[type="color"]::-moz-focus-inner {
 	white-space: pre-wrap;
 	-moz-user-select: text;
 	user-select: text;
-}
-
-#messageBoxButtons,
-#urlListBoxButtons {
-	display: flex;
-	justify-content: end;
 }
 
 #urlListBoxDescription {
@@ -463,7 +456,7 @@ input[type="color"]::-moz-focus-inner {
 }
 
 #urlListBoxStatusbar {
-	margin: 0 8px;
+	margin-bottom: 0;
 	font-size: 80%;
 	line-height: 1.2;
 	white-space: nowrap;
