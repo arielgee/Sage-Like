@@ -1024,11 +1024,11 @@
 * disable scrolling when popup boxes are shown in preferences page => NO
 * in preferences, lazy initialize for box only elements like getUrlList()
 * preferences messageBox. Move button addEventListener to showMessageBox() and the removeEventListener to closeMessageBox()
+* change User font box and Time of day box. use a closeBox() function like Message Box. only one 'xxxxxBox.style.display = "none"'
 ---
 
 
 ## Now
-* change User font box and Time of day box. use a hideBox() function like Message Box. only one 'xxxxxBox.style.display = "none"'
 * User font box and Time of day box, lazy initialize of child elements and move add/rempoveEventListener()
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---

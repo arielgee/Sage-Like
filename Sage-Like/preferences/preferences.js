@@ -509,8 +509,6 @@ let preferences = (function() {
 
 			getTimeOfDay(initValue).then((timeValue) => {
 
-				m_funcResolveGetTimeOfDay = null;
-
 				if(timeValue === "") {
 
 					// time of day box was dismissed
@@ -689,8 +687,6 @@ let preferences = (function() {
 			}
 
 			getUserFontName(initValue).then((userFontName) => {
-
-				m_funcResolveGetUserFontName = null;
 
 				if(userFontName === "") {
 
@@ -1211,34 +1207,28 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onKeyDownUserFontBox(event) {
+	function closeUserFontNameBox(value = "") {
+
+		m_elmUserFontBox.style.display = "none";
 
 		if(typeof(m_funcResolveGetUserFontName) === "function") {
+			m_funcResolveGetUserFontName(value);
+		}
+		m_funcResolveGetUserFontName = null;
+	}
 
-			switch(event.code) {
-				case "Enter":
-				case "NumpadEnter":
-					m_funcResolveGetUserFontName(m_elmUserFontName.value.trim());
-					break;
-
-				case "Escape":
-					m_funcResolveGetUserFontName("");
-					break;
-
-				default:
-					return;
-			}
-			m_elmUserFontBox.style.display = "none";
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownUserFontBox(event) {
+		if( ["Enter","NumpadEnter"].includes(event.code) ) {
+			closeUserFontNameBox(m_elmUserFontName.value.trim());
+		} else if("Escape" === event.code) {
+			closeUserFontNameBox();
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurUserFontName(event) {
-
-		if(typeof(m_funcResolveGetUserFontName) === "function") {
-			m_funcResolveGetUserFontName("");
-			setTimeout(() => m_elmUserFontBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
-		}
+		closeUserFontNameBox();
 	}
 
 	//==================================================================================
@@ -1266,34 +1256,28 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onKeyDownTimeOfDayBox(event) {
+	function closeTimeOfDayBox(value = "") {
+
+		setTimeout(() => m_elmTimeOfDayBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 
 		if(typeof(m_funcResolveGetTimeOfDay) === "function") {
+			m_funcResolveGetTimeOfDay(value);
+		}
+		m_funcResolveGetTimeOfDay = null;
+	}
 
-			switch(event.code) {
-				case "Enter":
-				case "NumpadEnter":
-					m_funcResolveGetTimeOfDay(m_elmInputTime.value);
-					break;
-
-				case "Escape":
-					m_funcResolveGetTimeOfDay("");
-					break;
-
-				default:
-					return;
-			}
-			m_elmTimeOfDayBox.style.display = "none";
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownTimeOfDayBox(event) {
+		if( ["Enter","NumpadEnter"].includes(event.code) ) {
+			closeTimeOfDayBox(m_elmInputTime.value);
+		} else if("Escape" === event.code) {
+			closeTimeOfDayBox();
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurInputTime(event) {
-
-		if(typeof(m_funcResolveGetTimeOfDay) === "function") {
-			m_funcResolveGetTimeOfDay("");
-			setTimeout(() => m_elmTimeOfDayBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
-		}
+		closeTimeOfDayBox();
 	}
 
 	//==================================================================================
