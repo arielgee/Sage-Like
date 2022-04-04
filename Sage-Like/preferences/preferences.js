@@ -71,9 +71,10 @@ let preferences = (function() {
 	let m_elmExportPreferences;
 
 	let m_elmPageOverlay;
+
 	let m_elmMessageBox;
-	let m_funcOnCloseMessageBox;
 	let m_elmBtnMessageBoxOK;
+	let m_funcOnCloseMessageBox;
 
 	let m_elmUrlListBox;
 	let m_elmUrlListBoxTextArea;
@@ -152,8 +153,6 @@ let preferences = (function() {
 		m_elmExportPreferences = document.getElementById("btnExportPreferences");
 
 		m_elmPageOverlay = document.getElementById("pageOverlay");
-		m_elmMessageBox = document.getElementById("messageBox");
-		m_elmBtnMessageBoxOK = document.getElementById("btnMessageBoxOK");
 
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
@@ -225,9 +224,6 @@ let preferences = (function() {
 		m_elmImportPreferences.removeEventListener("change", onChangeImportPreferences);
 		m_elmExportPreferences.removeEventListener("click", onClickExportPreferences);
 
-		m_elmMessageBox.removeEventListener("keydown", onKeyDownMessageBox);
-		m_elmBtnMessageBoxOK.removeEventListener("click", onClickBtnMessageBoxOK);
-
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
 
@@ -287,9 +283,6 @@ let preferences = (function() {
 		m_elmExportOpml.addEventListener("click", onClickExportOpml);
 		m_elmImportPreferences.addEventListener("change", onChangeImportPreferences);
 		m_elmExportPreferences.addEventListener("click", onClickExportPreferences);
-
-		m_elmMessageBox.addEventListener("keydown", onKeyDownMessageBox);
-		m_elmBtnMessageBoxOK.addEventListener("click", onClickBtnMessageBoxOK);
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
@@ -1312,8 +1305,16 @@ let preferences = (function() {
 
 		m_funcOnCloseMessageBox = callbackOnCloseBox;
 
+		if(!!!m_elmMessageBox) {
+			m_elmMessageBox = document.getElementById("messageBox");
+			m_elmBtnMessageBoxOK = document.getElementById("btnMessageBoxOK");
+		}
+
 		document.getElementById("messageBoxCaption").textContent = msgCaption;
 		document.getElementById("messageBoxText").textContent = msgText;
+
+		m_elmMessageBox.addEventListener("keydown", onKeyDownMessageBox);
+		m_elmBtnMessageBoxOK.addEventListener("click", onClickBtnMessageBoxOK);
 
 		m_elmPageOverlay.style.display = "block";
 		m_elmMessageBox.style.display = "block";
@@ -1333,8 +1334,13 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function closeMessageBox() {
+
 		m_elmPageOverlay.style.display = "none";
 		m_elmMessageBox.style.display = "none";
+
+		m_elmMessageBox.removeEventListener("keydown", onKeyDownMessageBox);
+		m_elmBtnMessageBoxOK.removeEventListener("click", onClickBtnMessageBoxOK);
+
 		if(typeof(m_funcOnCloseMessageBox) === "function") {
 			m_funcOnCloseMessageBox();
 		}

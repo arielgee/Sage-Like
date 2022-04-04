@@ -1022,21 +1022,23 @@
 * prefrences.css/html . consolidate box elements from ID's to classes. (class="boxActionButtons")
 * in preferences, change 'hideMessageBox()' to 'closeMessageBox()'
 * disable scrolling when popup boxes are shown in preferences page => NO
+* in preferences, lazy initialize for box only elements like getUrlList()
+* preferences messageBox. Move button addEventListener to showMessageBox() and the removeEventListener to closeMessageBox()
 ---
 
 
 ## Now
-* in preferences, lazy initialize for box only elements like getUrlList()
-* preferences messageBox. Move button addEventListener to showMessageBox() and the removeEventListener to closeMessageBox()
+* change User font box and Time of day box. use a hideBox() function like Message Box. only one 'xxxxxBox.style.display = "none"'
+* User font box and Time of day box, lazy initialize of child elements and move add/rempoveEventListener()
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* in preferences, convert showMessageBox() with callback to Promise ?
 * new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
 * Feed Properties Panel, change caption text to 'Feed/Folder'
 * prefer toUpperCase() over toLowerCase(). https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/code-quality/ca1308-normalize-strings-to-uppercase?view=vs-2015&redirectedfrom=MSDN
-* change User font box and Time of day box. use a hideBox() function like Message Box. only one 'xxxxxBox.style.display = "none"'
 * "Improve prominence to unread items" -> "Improve prominence of unread items" ?
 * https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49 -> do it like openInFeedPreview (TreeFeedsData properly + preference)
 	Use update time from most recent feed-item
