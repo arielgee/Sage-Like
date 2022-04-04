@@ -1332,7 +1332,7 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function hideMessageBox() {
+	function closeMessageBox() {
 		m_elmPageOverlay.style.display = "none";
 		m_elmMessageBox.style.display = "none";
 		if(typeof(m_funcOnCloseMessageBox) === "function") {
@@ -1344,13 +1344,13 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownMessageBox(event) {
 		if(["Escape","Enter","NumpadEnter","Space"].includes(event.code)) {
-			hideMessageBox();
+			closeMessageBox();
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnMessageBoxOK(event) {
-		hideMessageBox();
+		closeMessageBox();
 	}
 
 	//==================================================================================
