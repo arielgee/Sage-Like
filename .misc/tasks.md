@@ -1028,18 +1028,18 @@
 * "Improve prominence to unread items" -> "Improve prominence of unread items" ?
 * in preferences, convert showMessageBox() with callback to Promise ? => NO
 * User font box and Time of day box, lazy initialize of child elements and move add/removeEventListener()
+* Feed Properties Panel, change caption text to 'Feed/Folder'
 ---
 
 
 ## Now
-* Feed Properties Panel, change caption text to 'Feed/Folder'
+* prefer toUpperCase() over toLowerCase(). https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/code-quality/ca1308-normalize-strings-to-uppercase?view=vs-2015&redirectedfrom=MSDN
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
 * new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
-* prefer toUpperCase() over toLowerCase(). https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/code-quality/ca1308-normalize-strings-to-uppercase?view=vs-2015&redirectedfrom=MSDN
 * https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49 -> do it like openInFeedPreview (TreeFeedsData properly + preference)
 	Use update time from most recent feed-item
 	Use most recent feed-item as update time

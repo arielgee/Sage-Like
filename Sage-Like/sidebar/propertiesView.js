@@ -28,6 +28,7 @@ class PropertiesViewElements {
 	///////////////////////////////////////////////////////////////
 	_getViewElementIds() {
 		this.elmPropertiesPanel = document.getElementById("propertiesPanel");
+		this.elmCaption = document.getElementById("propertiesCaption");
 		this.elmTextTitle = document.getElementById("txtFpTitle");
 		this.elmTextLocation = document.getElementById("txtFpLocation");
 		this.elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
@@ -86,6 +87,7 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_initMembers() {
 		this.m_elmPropertiesPanel = PropertiesViewElements.i.elmPropertiesPanel;
+		this.m_elmCaption = PropertiesViewElements.i.elmCaption;
 		this.m_elmTextTitle = PropertiesViewElements.i.elmTextTitle;
 		this.m_elmTextLocation = PropertiesViewElements.i.elmTextLocation;
 		this.m_elmChkUpdateTitle = PropertiesViewElements.i.elmChkUpdateTitle;
@@ -103,6 +105,7 @@ class PropertiesView {
 		this._onKeyDownPropertiesPanel = this._onKeyDownPropertiesPanel.bind(this);
 
 		this.m_initialProperties = {
+			caption: "",
 			title: "",
 			location: "",
 			updateTitle: false,
@@ -128,6 +131,7 @@ class PropertiesView {
 
 	///////////////////////////////////////////////////////////////
 	_initData(elmFocused) {
+		this.m_elmCaption.textContent = this.m_initialProperties.caption;
 		this.m_elmTextTitle.value = this.m_initialProperties.title;
 		this.m_elmTextLocation.value = this.m_initialProperties.location;
 		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
@@ -230,6 +234,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			this._showNoneTitleProperties(true);
 			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER));
 
+			this.m_initialProperties.caption = "Feed";
 			this.m_initialProperties.title = title;
 			this.m_initialProperties.location = location;
 			this.m_initialProperties.updateTitle = true;
@@ -287,6 +292,7 @@ class NewFolderPropertiesView extends PropertiesView {
 			this._showNoneTitleProperties(false);
 			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER));
 
+			this.m_initialProperties.caption = "Folder";
 			this.m_initialProperties.title = title;
 
 			this._initData(this.m_elmTextTitle);
@@ -332,6 +338,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			this._showNoneTitleProperties(true);
 			this._showOptionInsertInsideFolder(false);
 
+			this.m_initialProperties.caption = "Feed";
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
 			this.m_initialProperties.updateTitle = updateTitleValue;
@@ -397,6 +404,7 @@ class EditFolderPropertiesView extends PropertiesView {
 			this._showNoneTitleProperties(false);
 			this._showOptionInsertInsideFolder(false);
 
+			this.m_initialProperties.caption = "Folder";
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 
 			this._initData(this.m_elmTextTitle);
