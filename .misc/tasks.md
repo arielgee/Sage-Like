@@ -1018,6 +1018,9 @@
 	> (1) rssTreeView.openTreeFeed(): "lastVisited: slUtil.getCurrentLocaleDate().getTime()"
 	> (2) xxxFeed.getFeedData(): "feedData.lastUpdated = this._getFeedLastUpdate(this._xxx"
 * Detecting feeds in web pages may result in HTTP 429 'Too Many Requests' due to "rate limiting". https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/50 -> 'Manage Exceptions...' button under 'Detect feeds in web pages and...'.
+	* https://www.cloudflare.com/learning/bots/what-is-rate-limiting/
+	* https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+	* https://www.tvmaze.com/account/login
 * in UI, replace all '...' with '…' => NO
 * prefrences.css/html . consolidate box elements from ID's to classes. (class="boxActionButtons")
 * in preferences, change 'hideMessageBox()' to 'closeMessageBox()'
@@ -1029,17 +1032,19 @@
 * in preferences, convert showMessageBox() with callback to Promise ? => NO
 * User font box and Time of day box, lazy initialize of child elements and move add/removeEventListener()
 * Feed Properties Panel, change caption text to 'Feed/Folder'
+* prefer toUpperCase() over toLowerCase(). => NO. https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/code-quality/ca1308-normalize-strings-to-uppercase?view=vs-2015&redirectedfrom=MSDN
+* detecting XMLs with XLST from addressbar is removed due to issues like "HTTP 429 'Too Many Requests'" and "rate limiting". DETECT_FEEDS_EXCEPTIONS also removed. Functionality still exists in the discovery-view
+	* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/50
+	* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/54
 ---
 
 
 ## Now
-* prefer toUpperCase() over toLowerCase(). https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/code-quality/ca1308-normalize-strings-to-uppercase?view=vs-2015&redirectedfrom=MSDN
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
 * https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49 -> do it like openInFeedPreview (TreeFeedsData properly + preference)
 	Use update time from most recent feed-item
 	Use most recent feed-item as update time
@@ -1061,6 +1066,7 @@
 
 
 ### low priority
+* new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must me a sidebar webextension!
 * Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
