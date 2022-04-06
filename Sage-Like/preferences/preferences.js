@@ -15,14 +15,6 @@ let preferences = (function() {
 											" \u25cf Easy – Feeds are fetched in 10 batches with a 4 seconds pause between each one. \n" +
 											" \u25cf Lazy – Feeds are fetched one by one with a 1.5 seconds pause between each one. \n";
 
-	const TXT_HELP_INFO_DETECT_FEEDS_EXCEPTIONS = "The option 'Detect feeds in web pages...' may interfere with some websites.\n\n" +
-													"When trying to detect feeds in web pages, in certain conditions this setting " +
-													"may perform an additional page request. This extra request sometimes looks " +
-													"suspicious to websites (\"rate limiting\") and may result in unexpected behavior. " +
-													"For instance, when trying to log in to an account.\n\n" +
-													"To avoid this without unchecking the option, select the 'Manage...' button and " +
-													"add the web page address to the list.";
-
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsInterval;
 	let m_elmCheckFeedsWhenSbClosed;
@@ -42,7 +34,6 @@ let preferences = (function() {
 	let m_elmColorFeedItemDescBackground;
 	let m_elmColorFeedItemDescText;
 	let m_elmDetectFeedsInWebPage;
-	let m_elmBtnDetectFeedsExceptions;
 	let m_elmUIDensity;
 	let m_elmFontName;
 	let m_elmUserFontBox;
@@ -122,7 +113,6 @@ let preferences = (function() {
 		m_elmColorFeedItemDescBackground = document.getElementById("colorFeedItemDescBk");
 		m_elmColorFeedItemDescText = document.getElementById("colorFeedItemDescText");
 		m_elmDetectFeedsInWebPage = document.getElementById("detectFeedsInWebPage");
-		m_elmBtnDetectFeedsExceptions = document.getElementById("btnDetectFeedsExceptions");
 		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmFontName = document.getElementById("fontName");
 		m_elmFontSizePercent = document.getElementById("fontSizePercent");
@@ -160,7 +150,6 @@ let preferences = (function() {
 		});
 
 		document.getElementById("checkFeedsMethodInfo").title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
-		document.getElementById("detectFeedsExceptionsInfo").title = TXT_HELP_INFO_DETECT_FEEDS_EXCEPTIONS;
 
 		addEventListeners();
 		getSavedPreferences();
@@ -190,7 +179,6 @@ let preferences = (function() {
 		m_elmColorFeedItemDescBackground.removeEventListener("change", onChangeColorFeedItemDescBackground);
 		m_elmColorFeedItemDescText.removeEventListener("change", onChangeColorFeedItemDescText);
 		m_elmDetectFeedsInWebPage.removeEventListener("change", onChangeDetectFeedsInWebPage);
-		m_elmBtnDetectFeedsExceptions.removeEventListener("click", onClickBtnDetectFeedsExceptions);
 		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
 		m_elmFontName.removeEventListener("change", onChangeFontName);
 		m_elmFontSizePercent.removeEventListener("change", onChangeFontSizePercent);
@@ -246,7 +234,6 @@ let preferences = (function() {
 		m_elmColorFeedItemDescBackground.addEventListener("change", onChangeColorFeedItemDescBackground);
 		m_elmColorFeedItemDescText.addEventListener("change", onChangeColorFeedItemDescText);
 		m_elmDetectFeedsInWebPage.addEventListener("change", onChangeDetectFeedsInWebPage);
-		m_elmBtnDetectFeedsExceptions.addEventListener("click", onClickBtnDetectFeedsExceptions);
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmFontName.addEventListener("change", onChangeFontName);
 		m_elmFontSizePercent.addEventListener("change", onChangeFontSizePercent);
@@ -373,7 +360,6 @@ let preferences = (function() {
 
 		prefs.getDetectFeedsInWebPage().then((checked) => {
 			m_elmDetectFeedsInWebPage.checked = checked;
-			slUtil.disableElementTree(m_elmBtnDetectFeedsExceptions.parentElement.parentElement, !checked);
 		});
 
 		prefs.getUIDensity().then((value) => {
@@ -634,25 +620,8 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeDetectFeedsInWebPage(event) {
 		prefs.setDetectFeedsInWebPage(m_elmDetectFeedsInWebPage.checked).then(() => {
-			slUtil.disableElementTree(m_elmBtnDetectFeedsExceptions.parentElement.parentElement, !m_elmDetectFeedsInWebPage.checked);
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
 		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	async function onClickBtnDetectFeedsExceptions(event) {
-
-		const caption = "Feed Detection Exceptions";
-		const desc = "You can specify which web pages are never allowed to be scanned for feeds. Type the exact address. Letter capitalization matter." +
-						"\u000a\u000aOne URL address per line. Lines prefixed with '#' will be ignored."
-		const value = await prefs.getDetectFeedsExceptions();
-
-		let result = await getUrlList(m_elmBtnDetectFeedsExceptions.parentElement.parentElement, caption, desc, value);
-
-		if(result.saveChanges) {
-			await prefs.setDetectFeedsExceptions(result.value);
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_DETECT_FEEDS_EXCEPTIONS);
-		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -981,7 +950,6 @@ let preferences = (function() {
 		let defPrefs = prefs.restoreDefaults();
 
 		slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, defPrefs.checkFeedsInterval === "0");
-		slUtil.disableElementTree(m_elmBtnDetectFeedsExceptions.parentElement.parentElement, !defPrefs.detectFeedsInWebPage);
 		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !defPrefs.showFeedItemDesc);
 		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !defPrefs.showFeedItemDesc);
@@ -1359,6 +1327,11 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getUrlList(elmPreferenceReference, caption, desc, value = "") {
+
+		if("FFU") {
+			console.log("[Sage-Like]", "FFU", "Preparation for air-conditioner");
+			return null;
+		}
 
 		return new Promise((resolve) => {
 

@@ -120,7 +120,6 @@ let Global = (function() {
 		MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES:				1020,
 		MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW:	1021,
 		MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE:			1022,
-		MSGD_PREF_CHANGE_DETECT_FEEDS_EXCEPTIONS:				1023,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: "_rootFeedsFolderIdNotSet_",
 		BOOKMARKS_ROOT_GUID: "root________",
@@ -139,8 +138,6 @@ let Global = (function() {
 		DEFAULT_DATE: _DEFAULT_DATE,
 
 		IMAGE_SET: _IMAGE_SET,
-
-		MAXIMUM_DETECT_FEEDS_EXCEPTION_URLS: 128,
 	});
 })();
 
@@ -591,7 +588,6 @@ let prefs = (function() {
 		COLOR_FEED_ITEM_DESC_BACKGROUND:	{ name: "pref_colorFeedItemDescBk",				default: "#FFFDAC"										},
 		COLOR_FEED_ITEM_DESC_TEXT:			{ name: "pref_colorFeedItemDescText",			default: "#000000"										},
 		DETECT_FEEDS_IN_WEB_PAGE:			{ name: "pref_detectFeedsInWebPage",			default: true											},
-		DETECT_FEEDS_EXCEPTIONS:			{ name: "pref_detectFeedsExceptions",			default: ""												},
 		UI_DENSITY:							{ name: "pref_UIDensity",						default: "19;18"										},
 		FONT_NAME:							{ name: "perf_fontName",						default: "(Browser Default)"							},	// typo in the name
 		FONT_SIZE_PERCENT:					{ name: "perf_fontSizePercent",					default: "100"											},	// typo in the name
@@ -634,7 +630,6 @@ let prefs = (function() {
 	function getColorFeedItemDescBackground()	{ return _getPreferenceValue(PREF.COLOR_FEED_ITEM_DESC_BACKGROUND); }
 	function getColorFeedItemDescText()			{ return _getPreferenceValue(PREF.COLOR_FEED_ITEM_DESC_TEXT); }
 	function getDetectFeedsInWebPage()			{ return _getPreferenceValue(PREF.DETECT_FEEDS_IN_WEB_PAGE); }
-	function getDetectFeedsExceptions()			{ return _getPreferenceValue(PREF.DETECT_FEEDS_EXCEPTIONS); }
 	function getUIDensity()						{ return _getPreferenceValue(PREF.UI_DENSITY); }
 	function getFontName()						{ return _getPreferenceValue(PREF.FONT_NAME); }
 	function getFontSizePercent()				{ return _getPreferenceValue(PREF.FONT_SIZE_PERCENT); }
@@ -669,7 +664,6 @@ let prefs = (function() {
 	function setColorFeedItemDescBackground(value)	{ return _setPreferenceValue(PREF.COLOR_FEED_ITEM_DESC_BACKGROUND, value); }
 	function setColorFeedItemDescText(value)		{ return _setPreferenceValue(PREF.COLOR_FEED_ITEM_DESC_TEXT, value); }
 	function setDetectFeedsInWebPage(value)			{ return _setPreferenceValue(PREF.DETECT_FEEDS_IN_WEB_PAGE, value); }
-	function setDetectFeedsExceptions(value)		{ return _setPreferenceValue(PREF.DETECT_FEEDS_EXCEPTIONS, value); }
 	function setUIDensity(value)					{ return _setPreferenceValue(PREF.UI_DENSITY, value); }
 	function setFontName(value)						{ return _setPreferenceValue(PREF.FONT_NAME, value); }
 	function setFontSizePercent(value)				{ return _setPreferenceValue(PREF.FONT_SIZE_PERCENT, value); }
@@ -793,7 +787,6 @@ let prefs = (function() {
 		getColorFeedItemDescBackground: getColorFeedItemDescBackground,
 		getColorFeedItemDescText: getColorFeedItemDescText,
 		getDetectFeedsInWebPage: getDetectFeedsInWebPage,
-		getDetectFeedsExceptions: getDetectFeedsExceptions,
 		getUIDensity: getUIDensity,
 		getFontName: getFontName,
 		getFontSizePercent: getFontSizePercent,
@@ -827,7 +820,6 @@ let prefs = (function() {
 		setColorFeedItemDescBackground: setColorFeedItemDescBackground,
 		setColorFeedItemDescText: setColorFeedItemDescText,
 		setDetectFeedsInWebPage: setDetectFeedsInWebPage,
-		setDetectFeedsExceptions: setDetectFeedsExceptions,
 		setUIDensity: setUIDensity,
 		setFontName: setFontName,
 		setFontSizePercent: setFontSizePercent,

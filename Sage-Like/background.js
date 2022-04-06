@@ -33,7 +33,6 @@
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_CONTENT_TYPES_STRICT, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
-	let m_hrefDetectFeedsExceptionUrls = [];
 
 	initialization();
 
@@ -111,10 +110,6 @@
 				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
 					message.details === Global.MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW) {
 					handlePrefShowTryOpenLinkInFeedPreview();
-				}
-				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
-					message.details === Global.MSGD_PREF_CHANGE_DETECT_FEEDS_EXCEPTIONS) {
-					handlePrefDetectFeedsExceptions();
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -350,7 +345,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function IsAllowedForFeedDetection(strUrl) {
-		return strUrl.match(REGEXP_URL_FILTER_TAB_STATE_CHANGE) && !m_hrefDetectFeedsExceptionUrls.includes(strUrl);
+		return strUrl.match(REGEXP_URL_FILTER_TAB_STATE_CHANGE);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -407,16 +402,12 @@
 
 		if(detectFeedsInWebPage) {
 
-			handlePrefDetectFeedsExceptions();						// Exceptions to the preference "Detect feeds in..."
-
 			browser.tabs.onUpdated.addListener(onTabsUpdated);		// Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
 			browser.tabs.onAttached.addListener(onTabsAttached);
 
 		} else if(browser.tabs.onUpdated.hasListener(onTabsUpdated)) {
 
 			// hasListener() will return false if handlePrefDetectFeedsInWebPage() was called from webExt loading.
-
-			m_hrefDetectFeedsExceptionUrls = [];					// Clear list of exceptions
 
 			browser.tabs.onUpdated.removeListener(onTabsUpdated);
 			browser.tabs.onAttached.removeListener(onTabsAttached);
@@ -452,27 +443,6 @@
 
 			browser.menus.onClicked.removeListener(onMenusClicked);
 			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	async function handlePrefDetectFeedsExceptions() {
-
-		const strExcUrls = (await prefs.getDetectFeedsExceptions()).split("\n");
-		let strUrl, url, newLen;
-
-		m_hrefDetectFeedsExceptionUrls = [];
-
-		for(let i=0, len=strExcUrls.length; i<len; i++) {
-
-			strUrl = strExcUrls[i].trim();
-
-			if( (strUrl.length > 0) && (strUrl[0] !== "#") && (url = slUtil.validURL(strUrl)) ) {
-				newLen = m_hrefDetectFeedsExceptionUrls.push(url.href);
-				if(newLen >= Global.MAXIMUM_DETECT_FEEDS_EXCEPTION_URLS) {
-					break;
-				}
-			}
 		}
 	}
 
