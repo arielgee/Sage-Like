@@ -82,7 +82,7 @@ let preferences = (function() {
 	let m_elmBtnUrlListBoxCancel;
 	let m_elmUrlListBoxStatusbar;
 	let m_funcResolveGetUrlList;
-	let m_statusbarupdateDebouncer;
+	let m_statusbarUpdateDebouncer;
 
 	let m_elmBtnReloadExtension;
 	let m_elmBtnRestoreDefaults;
@@ -1528,10 +1528,10 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onInputUrlListBoxTextArea(event) {
-		clearTimeout(m_statusbarupdateDebouncer);
-		m_statusbarupdateDebouncer = setTimeout(() => {
+		clearTimeout(m_statusbarUpdateDebouncer);
+		m_statusbarUpdateDebouncer = setTimeout(() => {
 			urlListValidator();
-			m_statusbarupdateDebouncer = null;
+			m_statusbarUpdateDebouncer = null;
 		}, 550);
 	}
 
