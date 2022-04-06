@@ -82,16 +82,10 @@ class Content {
 				// For regular web pages
 
 				syndication.webPageFeedsDiscovery(docElement.outerHTML, timeout, winLocation.origin, 0, (fd) => this._feeds.push(fd)).then((result) => {
-					if(result.length > 0) {
-						this._feedCount = result.length;
-						resolve(this._feedCount);
-					} else {
-						// if none was found, try url itself in case the page is an XML with XSLT
-						syndication.feedDiscovery(winLocation.toString(), timeout).then((feedData) => {
-							resolve(this._feedCount = (feedData.status === "OK" ? 1 : 0));
-							if(this._feedCount > 0) this._feeds.push(feedData);
-						});
-					}
+					resolve( (this._feedCount = result.length) );
+					// Due to issues resulting from the additional patch of the page (rate limiting), the
+					// attempt to discover feeds in case where the page is an XML with XSLT was removed.
+					// XML with XSLT is still discoverable from the discovery view.
 				});
 			}
 		});
