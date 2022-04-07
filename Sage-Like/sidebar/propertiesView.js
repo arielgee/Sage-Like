@@ -329,7 +329,10 @@ class EditFeedPropertiesView extends PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	open(elmLI, updateTitleValue, openInFeedPreviewValue) {
+	open(elmLI, details = {}) {
+
+		const { updateTitle = true } = details;
+		const { openInFeedPreview = false } = details;
 
 		return new Promise((resolve) => {
 
@@ -341,8 +344,8 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.caption = "Feed";
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
-			this.m_initialProperties.updateTitle = updateTitleValue;
-			this.m_initialProperties.openInFeedPreview = openInFeedPreviewValue;
+			this.m_initialProperties.updateTitle = updateTitle;
+			this.m_initialProperties.openInFeedPreview = openInFeedPreview;
 
 			this._initData(this.m_elmTextTitle);
 		});

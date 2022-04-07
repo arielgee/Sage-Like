@@ -1960,8 +1960,14 @@ let rssTreeView = (function() {
 		} else if (TreeItemType.isFeed(elmLI)) {
 
 			m_objTreeFeedsData.setIfNotExist(elmLI.id);
+
 			let treeFeed = m_objTreeFeedsData.value(elmLI.id);
-			EditFeedPropertiesView.i.open(elmLI, treeFeed.updateTitle, treeFeed.openInFeedPreview).then((result) => {
+			let details = {
+				updateTitle: treeFeed.updateTitle,
+				openInFeedPreview: treeFeed.openInFeedPreview,
+			}
+
+			EditFeedPropertiesView.i.open(elmLI, details).then((result) => {
 				updateFeedProperties(result.elmLI, result.title, result.url, result.updateTitle, result.openInFeedPreview);
 			});
 		}
