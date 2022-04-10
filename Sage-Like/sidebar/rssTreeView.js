@@ -1656,7 +1656,11 @@ let rssTreeView = (function() {
 					updateLayoutWidth();
 					setFeedVisitedState(newElm, false);
 					updateTreeBranchFoldersStats(newElm);
-					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle, openInFeedPreview: openInFeedPreview });
+					let properties = {
+						updateTitle: updateTitle,
+						openInFeedPreview: openInFeedPreview,
+					};
+					m_objTreeFeedsData.set(created.id, properties);
 					newElm.focus();
 				});
 			});
@@ -1692,7 +1696,11 @@ let rssTreeView = (function() {
 
 					updateLayoutWidth();
 					setFeedVisitedState(newElm, false);
-					m_objTreeFeedsData.set(created.id, { updateTitle: updateTitle, openInFeedPreview: openInFeedPreview });
+					let properties = {
+						updateTitle: updateTitle,
+						openInFeedPreview: openInFeedPreview,
+					};
+					m_objTreeFeedsData.set(created.id, properties);
 					newElm.focus();
 				});
 			});
@@ -1983,7 +1991,7 @@ let rssTreeView = (function() {
 			let details = {
 				updateTitle: treeFeed.updateTitle,
 				openInFeedPreview: treeFeed.openInFeedPreview,
-			}
+			};
 
 			EditFeedPropertiesView.i.open(elmLI, details).then((result) => {
 				let updateDetails = {
