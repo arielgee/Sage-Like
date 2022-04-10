@@ -1217,7 +1217,7 @@ let rssTreeView = (function() {
 				let url = stripFeedPreviewUrl(mozUrl[0]);
 
 				if( !!slUtil.validURL(url) ) {
-					createNewFeedExtended(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), url, true, false, event.shiftKey);
+					createNewFeedExtended(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), url, event.shiftKey);
 				} else {
 					InfoBubble.i.show("The dropped url is not valid.");
 					console.log("[Sage-Like]", "Drop text/x-moz-url invalid URL error", "'" + url + "'");
@@ -1228,7 +1228,7 @@ let rssTreeView = (function() {
 				let url = stripFeedPreviewUrl(transfer.getData("URL"));
 
 				if( !!slUtil.validURL(url) ) {
-					createNewFeedExtended(elmDropTarget, "New Feed", url, true, false, event.shiftKey);
+					createNewFeedExtended(elmDropTarget, "New Feed", url, event.shiftKey);
 				} else {
 					InfoBubble.i.show("The dropped url is not valid.");
 					console.log("[Sage-Like]", "Drop text/uri-list invalid URL error", "'" + url + "'");
@@ -1239,7 +1239,7 @@ let rssTreeView = (function() {
 				let data = stripFeedPreviewUrl(transfer.getData("text/plain"));
 
 				if( !!slUtil.validURL(data) ) {
-					createNewFeedExtended(elmDropTarget, "New Feed", data, true, false, event.shiftKey);
+					createNewFeedExtended(elmDropTarget, "New Feed", data, event.shiftKey);
 				} else {
 					InfoBubble.i.show("The dropped text is not a valid URL.");
 					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
@@ -1595,22 +1595,37 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFeedProperties(elmLI) {
 		NewFeedPropertiesView.i.open(elmLI, "New Feed", "").then((result) => {
-			createNewFeedExtended(result.elmLI, result.title, result.url, result.updateTitle, result.openInFeedPreview, result.inFolder);
+			let exDetails = {
+				updateTitle: result.updateTitle,
+				openInFeedPreview: result.openInFeedPreview,
+			};
+			createNewFeedExtended(result.elmLI, result.title, result.url, result.inFolder, exDetails);
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeedExtended(elmItem, title, url, updateTitle, openInFeedPreview, inFolder) {
+	function createNewFeedExtended(elmItem, title, url, inFolder, exDetails = {}) {
+
+		const { updateTitle = true } = exDetails;
+		const { openInFeedPreview = false } = exDetails;
+
+		let details = {
+			updateTitle: updateTitle,
+			openInFeedPreview: openInFeedPreview,
+		};
 
 		if (TreeItemType.isTree(elmItem)) {
-			createNewFeedInRootFolder(title, url, updateTitle, openInFeedPreview);
+			createNewFeedInRootFolder(title, url, details);
 		} else {
-			createNewFeed(elmItem, title, url, updateTitle, openInFeedPreview, inFolder);
+			createNewFeed(elmItem, title, url, inFolder, details);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeed(elmLI, title, url, updateTitle, openInFeedPreview, inFolder) {
+	function createNewFeed(elmLI, title, url, inFolder, details = {}) {
+
+		const { updateTitle } = details;
+		const { openInFeedPreview } = details;
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
@@ -1649,7 +1664,10 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createNewFeedInRootFolder(title, url, updateTitle, openInFeedPreview) {
+	function createNewFeedInRootFolder(title, url, details = {}) {
+
+		const { updateTitle } = details;
+		const { openInFeedPreview } = details;
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
@@ -1775,7 +1793,7 @@ let rssTreeView = (function() {
 		slUtil.readTextFromClipboard().then((text) => {
 			if( !!slUtil.validURL( (text = stripFeedPreviewUrl(text)) ) ) {
 				setFolderState(elmLI, true);		// will do nothing if it's a feed
-				createNewFeedExtended(elmLI, "New Feed", text, true, false, true);
+				createNewFeedExtended(elmLI, "New Feed", text, true);
 			} else {
 				InfoBubble.i.show("The pasted text is not a valid URL.");
 				console.log("[Sage-Like]", "Pasted text invalid URL error", "'" + text + "'");
@@ -1968,13 +1986,20 @@ let rssTreeView = (function() {
 			}
 
 			EditFeedPropertiesView.i.open(elmLI, details).then((result) => {
-				updateFeedProperties(result.elmLI, result.title, result.url, result.updateTitle, result.openInFeedPreview);
+				let updateDetails = {
+					newUpdateTitle: result.updateTitle,
+					newOpenInFeedPreview: result.openInFeedPreview,
+				};
+				updateFeedProperties(result.elmLI, result.title, result.url, updateDetails);
 			});
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function updateFeedProperties(elmLI, newTitle, newUrl, newUpdateTitle, newOpenInFeedPreview) {
+	function updateFeedProperties(elmLI, newTitle, newUrl, details = {}) {
+
+		const { newUpdateTitle } = details;
+		const { newOpenInFeedPreview } = details;
 
 		let changes = {
 			title: newTitle,
@@ -1994,7 +2019,11 @@ let rssTreeView = (function() {
 					setFeedVisitedState(elmLI, false);
 				}
 				setTreeItemTooltip(elmLI);
-				m_objTreeFeedsData.set(updated.id, { updateTitle: newUpdateTitle, openInFeedPreview: newOpenInFeedPreview });
+				let properties = {
+					updateTitle: newUpdateTitle,
+					openInFeedPreview: newOpenInFeedPreview,
+				};
+				m_objTreeFeedsData.set(updated.id, properties);
 			});
 		});
 	}
