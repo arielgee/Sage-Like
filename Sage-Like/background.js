@@ -132,12 +132,16 @@
 		if(details.reason === "update") {
 
 			let parts = details.previousVersion.split(".").map((x) => parseInt(x)).filter((x) => !isNaN(x));
-			let major = parts[0] || 0;
-			let minor = parts[1] || 0;
+			let prevVer = parseFloat((parts[0] || 0) + ((parts[1] || 0) / 10));
 
-			// version 1.9 added openInFeedPreview to TreeFeedsData and lastChecked to OpenTreeFolders
-			if(major < 1 || (major === 1 && minor < 9) ) {
+			// version 1.9 added lastChecked to OpenTreeFolders
+			if(prevVer < 1.9) {
 				(new OpenTreeFolders()).maintenance();
+			}
+
+			// version 1.9 added openInFeedPreview to TreeFeedsData
+			// version 2.9 added ignoreUpdates to TreeFeedsData
+			if(prevVer < 1.9 || prevVer < 2.9) {
 				(new TreeFeedsData()).maintenance();
 			}
 		}

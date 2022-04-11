@@ -33,6 +33,7 @@ class PropertiesViewElements {
 		this.elmTextLocation = document.getElementById("txtFpLocation");
 		this.elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
 		this.elmChkOpenInFeedPreview = document.getElementById("chkFpOpenInFeedPreview");
+		this.elmChkIgnoreUpdates = document.getElementById("chkFpIgnoreUpdates");
 		this.elmInsertInsideFolderContainer = document.getElementById("insertInsideFolderContainer");
 		this.elmChkInsertInsideFolder = document.getElementById("chkInsertInsideFolder");
 		this.elmButtonSave = document.getElementById("btnPropertiesSave");
@@ -92,6 +93,7 @@ class PropertiesView {
 		this.m_elmTextLocation = PropertiesViewElements.i.elmTextLocation;
 		this.m_elmChkUpdateTitle = PropertiesViewElements.i.elmChkUpdateTitle;
 		this.m_elmChkOpenInFeedPreview = PropertiesViewElements.i.elmChkOpenInFeedPreview;
+		this.m_elmChkIgnoreUpdates = PropertiesViewElements.i.elmChkIgnoreUpdates;
 		this.m_elmInsertInsideFolderContainer = PropertiesViewElements.i.elmInsertInsideFolderContainer;
 		this.m_elmChkInsertInsideFolder = PropertiesViewElements.i.elmChkInsertInsideFolder;
 		this.m_elmButtonSave = PropertiesViewElements.i.elmButtonSave;
@@ -110,6 +112,7 @@ class PropertiesView {
 			location: "",
 			updateTitle: false,
 			openInFeedPreview: false,
+			ignoreUpdates: false,
 		};
 
 		this.m_isOpen = false;
@@ -136,6 +139,7 @@ class PropertiesView {
 		this.m_elmTextLocation.value = this.m_initialProperties.location;
 		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
 		this.m_elmChkOpenInFeedPreview.checked = this.m_initialProperties.openInFeedPreview;
+		this.m_elmChkIgnoreUpdates.checked = this.m_initialProperties.ignoreUpdates;
 		this.m_elmChkInsertInsideFolder.checked = false;
 		this.m_elmLabelErrorMsgs.textContent = "";
 
@@ -239,6 +243,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.location = location;
 			this.m_initialProperties.updateTitle = true;
 			this.m_initialProperties.openInFeedPreview = false;
+			this.m_initialProperties.ignoreUpdates = false;
 
 			this._initData(this.m_elmTextLocation);
 		});
@@ -253,6 +258,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			url: this.m_elmTextLocation.value,
 			updateTitle: this.m_elmChkUpdateTitle.checked,
 			openInFeedPreview: this.m_elmChkOpenInFeedPreview.checked,
+			ignoreUpdates: this.m_elmChkIgnoreUpdates.checked,
 			inFolder: this.m_elmChkInsertInsideFolder.checked,
 		}
 
@@ -333,6 +339,7 @@ class EditFeedPropertiesView extends PropertiesView {
 
 		const { updateTitle = true } = details;
 		const { openInFeedPreview = false } = details;
+		const { ignoreUpdates = false } = details;
 
 		return new Promise((resolve) => {
 
@@ -346,6 +353,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
 			this.m_initialProperties.updateTitle = updateTitle;
 			this.m_initialProperties.openInFeedPreview = openInFeedPreview;
+			this.m_initialProperties.ignoreUpdates = ignoreUpdates;
 
 			this._initData(this.m_elmTextTitle);
 		});
@@ -360,13 +368,15 @@ class EditFeedPropertiesView extends PropertiesView {
 			url: this.m_elmTextLocation.value,
 			updateTitle: this.m_elmChkUpdateTitle.checked,
 			openInFeedPreview: this.m_elmChkOpenInFeedPreview.checked,
+			ignoreUpdates: this.m_elmChkIgnoreUpdates.checked,
 		}
 
 		// Any value was modified
 		if (this.m_initialProperties.title === result.title &&
 			this.m_initialProperties.location === result.url &&
 			this.m_initialProperties.updateTitle === result.updateTitle &&
-			this.m_initialProperties.openInFeedPreview === result.openInFeedPreview) {
+			this.m_initialProperties.openInFeedPreview === result.openInFeedPreview &&
+			this.m_initialProperties.ignoreUpdates === result.ignoreUpdates) {
 			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify."
 			return;
 		}

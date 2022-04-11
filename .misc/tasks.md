@@ -1036,32 +1036,29 @@
 * detecting XMLs with XLST from addressbar is removed due to issues like "HTTP 429 'Too Many Requests'" and "rate limiting". DETECT_FEEDS_EXCEPTIONS also removed. Functionality still exists in the discovery-view
 	* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/50
 	* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/54
+* add inFolder to details => NO
+* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49 -> do it like openInFeedPreview (TreeFeedsData properly + preference)
+* sidebar tree menu item 'Set as Feed Bookmark Root Folder' => NO
 ---
 
 
 ## Now
+* replace blinkElement() with some CSS animation - check version compatibility
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49 -> do it like openInFeedPreview (TreeFeedsData properly + preference)
-	Use update time from most recent feed-item
-	Use most recent feed-item as update time
-	Use update time of most recent feed-item
-	Use timestamp of most recent feed-item
-	Feed update time from most recent feed-item
-	update time retrieved from most recent feed-item
-	Most recent feed-item determines feed update time
-	Most recent feed-item determines update time
-	Ignore feed update time and use most recent feed-item
-	Ignore feed update time, use most recent feed-item
 * re-think: preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
 	* add IDs to .prefBlockCaption , add side menu (position: absolute) with .prefBlockCaption names and hrefs to the ID's to navigate
 	* in preferences.css
 		1. :root { font-size: 12px; }
 		2. body { margin: 80px 0 80px 120px; }
 		3. body * { box-sizing: border-box; }
+* add special patch for youtube feed Discovery
+* reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49
+* reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/54
+* PR images; add feed propertiesView
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

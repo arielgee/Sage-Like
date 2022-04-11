@@ -133,6 +133,7 @@ class TreeFeedsData extends StoredKeyedItems {
 			lastVisited: 0,
 			updateTitle: true,
 			openInFeedPreview: false,
+			ignoreUpdates: false,
 		});
 	}
 

@@ -581,6 +581,7 @@ let rssTreeView = (function() {
 
 			fetching.then((fetchResult) => {
 
+				let ignoreFeedUpdates = m_objTreeFeedsData.value(id).ignoreUpdates;
 				let msLastVisited = m_objTreeFeedsData.value(id).lastVisited;
 				let updateTime, msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
@@ -589,11 +590,11 @@ let rssTreeView = (function() {
 
 				let additionalLines = [
 					`Format: ${fetchResult.feedData.standard}`,
-					`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}`,
+					`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}${ignoreFeedUpdates ? ", ignored" : ""}`,
 					`Expired: ${fetchResult.feedData.expired ? "Yes": ""}`,		// Display only if it's true
 				];
 
-				setFeedVisitedState(elmLI, msLastVisited > msUpdateTime);
+				setFeedVisitedState(elmLI, ignoreFeedUpdates || (msLastVisited > msUpdateTime));
 				updateFeedTitle(elmLI, fetchResult.feedData.title);
 				updateFeedStatsFromHistory(elmLI, fetchResult.list);
 				setTreeItemUpdateDataAttribute(elmLI, updateTime);
@@ -1291,7 +1292,7 @@ let rssTreeView = (function() {
 						let fdDate = new Date(slUtil.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
 						let additionalLines = [
 							`Format: ${result.feedData.standard}`,
-							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}`,
+							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}${m_objTreeFeedsData.value(elmLI.id).ignoreUpdates ? ", ignored" : ""}`,
 							`Expired: ${result.feedData.expired ? "Yes": ""}`,		// Display only if it's true
 						]
 
@@ -1598,6 +1599,7 @@ let rssTreeView = (function() {
 			let exDetails = {
 				updateTitle: result.updateTitle,
 				openInFeedPreview: result.openInFeedPreview,
+				ignoreUpdates: result.ignoreUpdates,
 			};
 			createNewFeedExtended(result.elmLI, result.title, result.url, result.inFolder, exDetails);
 		});
@@ -1608,10 +1610,12 @@ let rssTreeView = (function() {
 
 		const { updateTitle = true } = exDetails;
 		const { openInFeedPreview = false } = exDetails;
+		const { ignoreUpdates = false } = exDetails;
 
 		let details = {
 			updateTitle: updateTitle,
 			openInFeedPreview: openInFeedPreview,
+			ignoreUpdates: ignoreUpdates,
 		};
 
 		if (TreeItemType.isTree(elmItem)) {
@@ -1626,6 +1630,7 @@ let rssTreeView = (function() {
 
 		const { updateTitle } = details;
 		const { openInFeedPreview } = details;
+		const { ignoreUpdates } = details;
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
@@ -1654,11 +1659,12 @@ let rssTreeView = (function() {
 					}
 
 					updateLayoutWidth();
-					setFeedVisitedState(newElm, false);
+					setFeedVisitedState(newElm, ignoreUpdates);	// if feed should ignore updates then set as visited
 					updateTreeBranchFoldersStats(newElm);
 					let properties = {
 						updateTitle: updateTitle,
 						openInFeedPreview: openInFeedPreview,
+						ignoreUpdates: ignoreUpdates,
 					};
 					m_objTreeFeedsData.set(created.id, properties);
 					newElm.focus();
@@ -1672,6 +1678,7 @@ let rssTreeView = (function() {
 
 		const { updateTitle } = details;
 		const { openInFeedPreview } = details;
+		const { ignoreUpdates } = details;
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
@@ -1695,10 +1702,11 @@ let rssTreeView = (function() {
 					m_elmTreeRoot.appendChild(newElm);
 
 					updateLayoutWidth();
-					setFeedVisitedState(newElm, false);
+					setFeedVisitedState(newElm, ignoreUpdates);	// if feed should ignore updates then set as visited
 					let properties = {
 						updateTitle: updateTitle,
 						openInFeedPreview: openInFeedPreview,
+						ignoreUpdates: ignoreUpdates,
 					};
 					m_objTreeFeedsData.set(created.id, properties);
 					newElm.focus();
@@ -1991,12 +1999,14 @@ let rssTreeView = (function() {
 			let details = {
 				updateTitle: treeFeed.updateTitle,
 				openInFeedPreview: treeFeed.openInFeedPreview,
+				ignoreUpdates: treeFeed.ignoreUpdates,
 			};
 
 			EditFeedPropertiesView.i.open(elmLI, details).then((result) => {
 				let updateDetails = {
 					newUpdateTitle: result.updateTitle,
 					newOpenInFeedPreview: result.openInFeedPreview,
+					newIgnoreUpdates: result.ignoreUpdates,
 				};
 				updateFeedProperties(result.elmLI, result.title, result.url, updateDetails);
 			});
@@ -2008,6 +2018,7 @@ let rssTreeView = (function() {
 
 		const { newUpdateTitle } = details;
 		const { newOpenInFeedPreview } = details;
+		const { newIgnoreUpdates } = details;
 
 		let changes = {
 			title: newTitle,
@@ -2024,12 +2035,15 @@ let rssTreeView = (function() {
 
 				if(urlChanged) {
 					elmLI.setAttribute("href", updated.url);
-					setFeedVisitedState(elmLI, false);
+					setFeedVisitedState(elmLI, newIgnoreUpdates);	// if feed should ignore updates then set as visited
+				} else if(newIgnoreUpdates) {
+					setFeedVisitedState(elmLI, true);
 				}
 				setTreeItemTooltip(elmLI);
 				let properties = {
 					updateTitle: newUpdateTitle,
 					openInFeedPreview: newOpenInFeedPreview,
+					ignoreUpdates: newIgnoreUpdates,
 				};
 				m_objTreeFeedsData.set(updated.id, properties);
 			});
