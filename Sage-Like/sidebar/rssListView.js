@@ -750,6 +750,7 @@ let rssListView = (function() {
 	function disposeList() {
 
 		m_elmCurrentlySelected = null;
+		hideFeedItemDescPanel();
 
 		m_observerElmLITreeFeed.takeRecords();
 		m_observerElmLITreeFeed.disconnect();

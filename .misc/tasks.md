@@ -1039,11 +1039,15 @@
 * add inFolder to details => NO
 * https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49 -> do it like openInFeedPreview (TreeFeedsData properly + preference)
 * sidebar tree menu item 'Set as Feed Bookmark Root Folder' => NO
+* replace blinkElement() with some CSS animation => NO
+* listView tooltip visible after feed deleted
 ---
 
 
 ## Now
-* replace blinkElement() with some CSS animation - check version compatibility
+* add special patch for youtube feed Discovery
+	* https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube
+	* https://danielmiessler.com/blog/rss-feed-youtube-channel/
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
@@ -1055,7 +1059,6 @@
 		1. :root { font-size: 12px; }
 		2. body { margin: 80px 0 80px 120px; }
 		3. body * { box-sizing: border-box; }
-* add special patch for youtube feed Discovery
 * reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49
 * reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/54
 * PR images; add feed propertiesView
