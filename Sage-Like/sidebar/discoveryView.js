@@ -290,7 +290,7 @@ let discoveryView = (function() {
 
 		setStatusbarMessage(domainName, false);
 
-		syndication.webPageFeedsDiscovery(txtHTML, timeout, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveLevel).then((result) => {
+		syndication.webPageFeedsDiscovery({ txtHTML: txtHTML }, timeout, origin, m_nRequestId, funcHandleDiscoveredFeed, aggressiveLevel).then((result) => {
 
 			if((feedCount = result.length) === 0) {
 				// Since nothing was found, try to discover if the url itself is the feed. This can be an XML with XSLT

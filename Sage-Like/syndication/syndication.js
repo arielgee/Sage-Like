@@ -32,11 +32,14 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function webPageFeedsDiscovery(txtHTML, timeout, origin, requestId, callback, aggressiveLevel = 0, reload = false) {
+	function webPageFeedsDiscovery(source = {}, timeout, origin, requestId, callback, aggressiveLevel = 0, reload = false) {
+
+		const { objDoc = null } = source;
+		const { txtHTML = "" } = source;	// create empty HTMLDocument ("<html><head></head><body></body></html>")
 
 		return new Promise(async (resolve) => {
 
-			let doc = g_feed.domParser.parseFromString(txtHTML, "text/html");
+			let doc = objDoc ? objDoc : g_feed.domParser.parseFromString(txtHTML, "text/html");
 
 			let selector = STANDARD_DISCOVERY_SELECTOR;								// standard publicized RSS for discovery
 

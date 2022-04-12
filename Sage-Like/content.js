@@ -81,7 +81,7 @@ class Content {
 
 				// For regular web pages
 
-				syndication.webPageFeedsDiscovery(docElement.outerHTML, timeout, winLocation.origin, 0, (fd) => this._feeds.push(fd)).then((result) => {
+				syndication.webPageFeedsDiscovery({ objDoc: document }, timeout, winLocation.origin, 0, (fd) => this._feeds.push(fd)).then((result) => {
 					resolve( (this._feedCount = result.length) );
 					// Due to issues resulting from the additional patch of the page (rate limiting), the
 					// attempt to discover feeds in case where the page is an XML with XSLT was removed.
