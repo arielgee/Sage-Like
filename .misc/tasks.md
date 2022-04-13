@@ -1041,11 +1041,11 @@
 * sidebar tree menu item 'Set as Feed Bookmark Root Folder' => NO
 * replace blinkElement() with some CSS animation => NO
 * listView tooltip visible after feed deleted
+* why using winLocation.toString() instaed of window.location.href => window.location.toString() is faster then window.location.href
 ---
 
 
 ## Now
-* why using winLocation.toString() instaed of window.location.href
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
