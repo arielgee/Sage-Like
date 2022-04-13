@@ -1042,6 +1042,9 @@
 * replace blinkElement() with some CSS animation => NO
 * listView tooltip visible after feed deleted
 * why using winLocation.toString() instaed of window.location.href => window.location.toString() is faster then window.location.href
+* reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49
+* reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/54
+* PR images; add feed propertiesView
 ---
 
 
@@ -1060,16 +1063,13 @@
 		1. :root { font-size: 12px; }
 		2. body { margin: 80px 0 80px 120px; }
 		3. body * { box-sizing: border-box; }
-* reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49
-* reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/54
-* PR images; add feed propertiesView
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
 ### low priority
 * new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
-	* make a POC and post in somewhere. must me a sidebar webextension!
+	* make a POC and post in somewhere. must be a sidebar webextension!
 * Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 	* for now there is a bug workaround using *Connection-based messaging* mecanizem.   => VERY good solution
 

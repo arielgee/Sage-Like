@@ -60,15 +60,12 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Fixed an issue where a feed wrongly appears as new (unread) when it has an invalid timestamp or that its timestamp is automatically reset by the server to the timestamp of the retrieval.</li>
-  <li>Added an optional context menu item 'Try to Open Link in Feed Preview' for any page links.</li>
-  <li>Added support for feed filtering by parent folder title.</li>
-  <li>Added a new option to the Options page to improve the prominence of unread items in the sidebar by increasing their font size.</li>
-  <li>Improved feed discovery: Handle XML feeds with XSLT that are loaded as regular HTML pages.</li>
-  <li>Improved feed discovery: Handle feeds loaded as view-source.</li>
-  <li>Improved feed information displayed in the tooltip of the tree feeds. Also added feed format.</li>
-  <li>Under the hood code and performance improvements</li>
-  <li>Code refactoring.</li>
+  <li>Removed feed detection from the address bar for XML feeds with XSLT (added in 2.8) due to issues with the additional fetch of the page (HTTP error 429 and "rate limiting").</li>
+    <ul>
+      <li>XML feeds with XSLT are still discoverable from the sidebar.</li>
+    </ul>
+  <li>Added a feed property to ignore updates to apply to feeds that modify their timestamp while no new item was added.</li>
+  <li>Minor fixes, changes and code refactoring.</li>
 </ul>
 
 + Version Notes for next time
