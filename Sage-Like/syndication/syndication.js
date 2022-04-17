@@ -53,7 +53,7 @@ let syndication = (function() {
 			}
 
 			// array of just the url links (href) as strings for easy filtering of duplicates
-			let linkFeeds = Array.from(doc.querySelectorAll(selector), item => (slUtil.replaceMozExtensionOriginURL(item.href.stripHtmlTags(), origin) || "").toString());	// logical OR expression as short-circuit evaluation
+			const linkFeeds = Array.from(doc.querySelectorAll(selector), item => (slUtil.replaceMozExtensionOriginURL(item.href.stripHtmlTags(), origin) || "").toString());	// logical OR expression as short-circuit evaluation
 			let iframeHosts = [];
 
 			// will NOT check in iframes when aggressive level is 0 ('none')
@@ -67,7 +67,7 @@ let syndication = (function() {
 			linkFeeds.push(...((new WebsiteSpecificDiscovery({ href: url, doc: doc })).discover()));	// discover() return empty array if none was found
 
 			// filter out duplicates and invalid urls
-			linkFeeds = linkFeeds.filter((item, idx) => ( (linkFeeds.indexOf(item) === idx) && !!slUtil.validURL(item) ) );
+			linkFeeds.filterInPlace((item, idx, ary) => ( (ary.indexOf(item) === idx) && !!slUtil.validURL(item) ) );
 
 			const objAbort = linkFeeds.length > 0 ? new AbortDiscovery() : null;
 
@@ -220,7 +220,7 @@ let syndication = (function() {
 						}
 					}
 				}
-				hosts = hosts.filter((item, idx, ary) => ary.indexOf(item) === idx); // filter duplicates
+				hosts.filterInPlace((item, idx, ary) => ary.indexOf(item) === idx); // filter duplicates
 				resolve({ linkFeeds: linkFeeds, hosts: hosts });
 			});
 		});

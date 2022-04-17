@@ -410,6 +410,19 @@ let slPrototypes = (function() {
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	Array.prototype.filterInPlace = function(callbackFn) {
+		let i = 0, j = 0;
+		while(i < this.length) {
+			if(callbackFn(this[i], i, this)) {
+				this[j++] = this[i];
+			}
+			i++;
+		}
+		this.length = j;
+		return this;
+	}
+
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////

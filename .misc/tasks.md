@@ -1050,6 +1050,7 @@
 	* https://danielmiessler.com/blog/rss-feed-youtube-channel/
 * check what is better: [].concat([]) OR [].push(...[]) [].push(...[]) is FASTER
 * replace [].concat([]) with [].push(...[]) (in webPageFeedsDiscovery())
+* use filterInPlace() more; [].filterInPlace((item, idx, ary) => ary.indexOf(item) === idx)
 ---
 
 
@@ -1061,7 +1062,6 @@
 
 ## Next
 * semicolon after function expression: common *.prototype.* {...};
-* use filterInPlace() more; [].filterInPlace((item, idx, ary) => ary.indexOf(item) === idx)
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 * Array.prototype.includesAll and Array.prototype.includesSome not using this
 * Array.prototype.includesAll not used at all
