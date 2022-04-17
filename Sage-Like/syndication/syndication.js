@@ -34,8 +34,11 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function webPageFeedsDiscovery(source = {}, timeout, origin, requestId, callback, aggressiveLevel = 0, reload = false) {
 
-		const { objDoc = null } = source;
-		const { txtHTML = "" } = source;	// create empty HTMLDocument ("<html><head></head><body></body></html>")
+		const {
+			url,
+			objDoc = null,
+			txtHTML = "",		// create empty HTMLDocument ("<html><head></head><body></body></html>")
+		} = source;
 
 		return new Promise(async (resolve) => {
 
@@ -59,6 +62,9 @@ let syndication = (function() {
 				linkFeeds = linkFeeds.concat(result.linkFeeds);
 				iframeHosts = result.hosts;
 			}
+
+			// add website specific discovery methods
+			linkFeeds.push(...((new WebsiteSpecificDiscovery({ href: url, doc: doc })).discover()));	// discover() return empty array if none was found
 
 			// filter out duplicates and invalid urls
 			linkFeeds = linkFeeds.filter((item, idx) => ( (linkFeeds.indexOf(item) === idx) && !!slUtil.validURL(item) ) );

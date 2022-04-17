@@ -11,6 +11,7 @@
 		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/rssFeed.js" } },
 		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/rdfFeed.js" } },
 		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/atomFeed.js" } },
+		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/WebsiteSpecificDiscovery.js" } },
 		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/syndication.js" } },
 		{ isScript: true, details: { runAt: "document_idle", file: "/content.js" } },
 	];

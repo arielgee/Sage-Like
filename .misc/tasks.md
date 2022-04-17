@@ -1045,13 +1045,14 @@
 * reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/49
 * reply to https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/54
 * PR images; add feed propertiesView
+* add special patch for youtube feed Discovery
+	* https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube
+	* https://danielmiessler.com/blog/rss-feed-youtube-channel/
 ---
 
 
 ## Now
-* add special patch for youtube feed Discovery + attachments (videos)
-	* https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube
-	* https://danielmiessler.com/blog/rss-feed-youtube-channel/
+* add support for attachments in youtube feeds
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
