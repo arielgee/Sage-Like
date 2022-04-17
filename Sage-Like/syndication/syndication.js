@@ -59,7 +59,7 @@ let syndication = (function() {
 			// will NOT check in iframes when aggressive level is 0 ('none')
 			if(aggressiveLevel > 0) {
 				let result = await discoverFeedLinksInFrames(doc, selector, timeout);
-				linkFeeds = linkFeeds.concat(result.linkFeeds);
+				linkFeeds.push(...(result.linkFeeds));
 				iframeHosts = result.hosts;
 			}
 
@@ -215,8 +215,8 @@ let syndication = (function() {
 							let txt = await getResponseTextFromBlob(blob, "UTF-8");
 							let doc = g_feed.domParser.parseFromString(txt, "text/html");
 							let links = Array.from(doc.querySelectorAll(selector), n => slUtil.replaceMozExtensionOriginURL(n.href.stripHtmlTags(), url.origin).toString()); // array of string urls
-							linkFeeds = linkFeeds.concat(links);
-							hosts = hosts.concat(url.host);
+							linkFeeds.push(...links);
+							hosts.push(url.host);
 						}
 					}
 				}

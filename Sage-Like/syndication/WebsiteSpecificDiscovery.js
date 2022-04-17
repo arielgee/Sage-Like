@@ -71,7 +71,7 @@ class YouTubeSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 //////////////////////////////////////////////////////////////////////
 class TestSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 	constructor(source) {
-		super(source, /\/localhost\/.*?\/discovery-test\.html$/);
+		super(source, /\/localhost\/.*?\/?discovery-test\.html$/);
 	}
 
 	//////////////////////////////////////////////////////////////////////

@@ -1048,6 +1048,8 @@
 * add special patch for youtube feed Discovery
 	* https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube
 	* https://danielmiessler.com/blog/rss-feed-youtube-channel/
+* check what is better: [].concat([]) OR [].push(...[]) [].push(...[]) is FASTER
+* replace [].concat([]) with [].push(...[]) (in webPageFeedsDiscovery())
 ---
 
 
@@ -1058,10 +1060,12 @@
 
 
 ## Next
+* semicolon after function expression: common *.prototype.* {...};
+* use filterInPlace() more; [].filterInPlace((item, idx, ary) => ary.indexOf(item) === idx)
+* in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 * Array.prototype.includesAll and Array.prototype.includesSome not using this
 * Array.prototype.includesAll not used at all
 * for default function parameter object members, do like in NonStandardDiscoveryBase.constructor
-* replace [].concat([]) with [].push(...[]) (in webPageFeedsDiscovery())
 * re-think: preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
 	* add IDs to .prefBlockCaption , add side menu (position: absolute) with .prefBlockCaption names and hrefs to the ID's to navigate
 	* in preferences.css
