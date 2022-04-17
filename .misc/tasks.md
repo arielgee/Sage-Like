@@ -1049,6 +1049,9 @@
 
 
 ## Now
+* add special patch for youtube feed Discovery + attachments (videos)
+	* https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube
+	* https://danielmiessler.com/blog/rss-feed-youtube-channel/
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
@@ -1058,9 +1061,6 @@
 * Array.prototype.includesAll not used at all
 * for default function parameter object members, do like in NonStandardDiscoveryBase.constructor
 * replace [].concat([]) with [].push(...[]) (in webPageFeedsDiscovery())
-* add special patch for youtube feed Discovery
-	* https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube
-	* https://danielmiessler.com/blog/rss-feed-youtube-channel/
 * re-think: preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
 	* add IDs to .prefBlockCaption , add side menu (position: absolute) with .prefBlockCaption names and hrefs to the ID's to navigate
 	* in preferences.css
