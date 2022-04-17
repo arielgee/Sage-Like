@@ -1052,6 +1052,7 @@
 * replace [].concat([]) with [].push(...[]) (in webPageFeedsDiscovery())
 * use filterInPlace() more; [].filterInPlace((item, idx, ary) => ary.indexOf(item) === idx)
 * semicolon after function expression: common *.prototype.* {...};
+* Array.prototype.includesAll not used at all => removed
 ---
 
 
@@ -1063,8 +1064,6 @@
 
 ## Next
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
-* Array.prototype.includesAll and Array.prototype.includesSome not using this
-* Array.prototype.includesAll not used at all
 * for default function parameter object members, do like in NonStandardDiscoveryBase.constructor
 * re-think: preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
 	* add IDs to .prefBlockCaption , add side menu (position: absolute) with .prefBlockCaption names and hrefs to the ID's to navigate

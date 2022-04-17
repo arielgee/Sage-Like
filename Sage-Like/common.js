@@ -393,15 +393,6 @@ let slPrototypes = (function() {
 	};
 
 	//////////////////////////////////////////////////////////////////////
-	Array.prototype.includesAll = function(targetAry) {
-		if(Array.isArray(targetAry)) {
-			return targetAry.every((n) => this.includes(n));
-		} else {
-			throw "Not an instance of Array";
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////
 	Array.prototype.includesSome = function(targetAry) {
 		if(Array.isArray(targetAry)) {
 			return targetAry.some((n) => this.includes(n));
