@@ -29,43 +29,42 @@ class YouTubeSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 
 		const URL_CHANNEL = "https://www.youtube.com/feeds/videos.xml?channel_id=";
 		const URL_PLAYLIST = "https://www.youtube.com/feeds/videos.xml?playlist_id=";
-		const RE_CHANNEL_ID = new RegExp("\"externalId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"");
-		const RE_CHANNEL_ID_FB = new RegExp("\"channelId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"");
-		const RE_PLAYLIST_ID = new RegExp("\"playlistId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"");
+		const RE_EXTERNAL_ID = new RegExp("\"externalId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"");
+		const RE_CHANNEL_IDS = new RegExp("\"channelId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"", "g");
+		const RE_PLAYLIST_IDS = new RegExp("\"playlistId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"", "g");
+		const RE_ID = new RegExp("\"([a-zA-Z0-9_-]+)\"$");
 
-		let found, channelId, channelIdFallback, playlistId;
-		let scriptElements = this._document.getElementsByTagName("script");
+		let found, externalId, urls = [];
+		let elmScripts = this._document.getElementsByTagName("script");
 
-		for(let i=0, len=scriptElements.length; i<len; i++) {
+		for(let i=0, len=elmScripts.length; i<len; i++) {
 
-			if( !!!channelId && (found = scriptElements[i].textContent.match(RE_CHANNEL_ID)) ) {
-				channelId = URL_CHANNEL + found[1];
-			} else if( !!!channelId && !!!channelIdFallback && (found = scriptElements[i].textContent.match(RE_CHANNEL_ID_FB)) ) {
-				channelIdFallback = URL_CHANNEL + found[1];
-			} else if( !!!playlistId && (found = scriptElements[i].textContent.match(RE_PLAYLIST_ID)) ) {
-				playlistId = URL_PLAYLIST + found[1];
+			if( !!!externalId && (found = elmScripts[i].textContent.match(RE_EXTERNAL_ID)) ) {
+				urls.push( (externalId = URL_CHANNEL + found[1]) );
 			}
 
-			if( !!channelId && !!playlistId ) break;
+			if( (found = elmScripts[i].textContent.match(RE_CHANNEL_IDS)) ) {
+				for(let j=0, len=found.length; j<len; j++) {
+					urls.push(URL_CHANNEL + (found[j].match(RE_ID)[1]));
+				}
+			}
+
+			if( (found = elmScripts[i].textContent.match(RE_PLAYLIST_IDS)) ) {
+				for(let j=0, len=found.length; j<len; j++) {
+					urls.push(URL_PLAYLIST + (found[j].match(RE_ID)[1]));
+				}
+			}
 		}
 
-		let urls = [];
-
-		if(!!channelId) {
-			urls.push(channelId);
-		} else if(!!channelIdFallback) {
-			urls.push(channelIdFallback);
-		} else if( (found = this._href.match(/\/channel\/([a-zA-Z0-9_-]+)/)) ) {
+		if( (found = this._href.match(/\/channel\/([a-zA-Z0-9_-]+)/)) ) {
 			urls.push(URL_CHANNEL + found[1]);
 		}
 
-		if(!!playlistId) {
-			urls.push(playlistId);
-		} else if( (found = this._href.match(/[?&]list=([a-zA-Z0-9_-]+)/)) ) {
+		if( (found = this._href.match(/[?&]list=([a-zA-Z0-9_-]+)/)) ) {
 			urls.push(URL_PLAYLIST + found[1]);
 		}
 
-		return urls;
+		return urls;	// duplicates are filtered out in syndication.webPageFeedsDiscovery()
 	}
 }
 
