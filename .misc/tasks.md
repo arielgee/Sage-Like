@@ -1054,6 +1054,9 @@
 
 
 ## Next
+* Array.prototype.includesAll and Array.prototype.includesSome not using this
+* Array.prototype.includesAll not used at all
+* for default function parameter object members, do like in NonStandardDiscoveryBase.constructor
 * add special patch for youtube feed Discovery
 	* https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube
 	* https://danielmiessler.com/blog/rss-feed-youtube-channel/
