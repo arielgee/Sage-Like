@@ -221,8 +221,10 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function loadSingleDiscoverFeed(strUrl, domainName, details = {}) {
 
-		const { injectErr = undefined } = details;
-		const { sNoFeedsMsg = "No valid feeds were discovered." } = details;
+		const {
+			injectErr = undefined,
+			sNoFeedsMsg = "No valid feeds were discovered.",
+		} = details;
 		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 
 		setStatusbarMessage(domainName, false);

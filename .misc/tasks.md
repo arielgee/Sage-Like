@@ -1053,11 +1053,11 @@
 * use filterInPlace() more; [].filterInPlace((item, idx, ary) => ary.indexOf(item) === idx)
 * semicolon after function expression: common *.prototype.* {...};
 * Array.prototype.includesAll not used at all => removed
+* for default function parameter object members, do like in NonStandardDiscoveryBase.constructor
 ---
 
 
 ## Now
-* for default function parameter object members, do like in NonStandardDiscoveryBase.constructor
 * add support for attachments in youtube feeds
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---

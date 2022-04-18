@@ -337,9 +337,11 @@ class EditFeedPropertiesView extends PropertiesView {
 	///////////////////////////////////////////////////////////////
 	open(elmLI, details = {}) {
 
-		const { updateTitle = true } = details;
-		const { openInFeedPreview = false } = details;
-		const { ignoreUpdates = false } = details;
+		const {
+			updateTitle = true,
+			openInFeedPreview = false,
+			ignoreUpdates = false,
+		} = details;
 
 		return new Promise((resolve) => {
 

@@ -1608,9 +1608,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function createNewFeedExtended(elmItem, title, url, inFolder, exDetails = {}) {
 
-		const { updateTitle = true } = exDetails;
-		const { openInFeedPreview = false } = exDetails;
-		const { ignoreUpdates = false } = exDetails;
+		const {
+			updateTitle = true,
+			openInFeedPreview = false,
+			ignoreUpdates = false,
+		} = exDetails;
 
 		let details = {
 			updateTitle: updateTitle,
@@ -1628,9 +1630,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function createNewFeed(elmLI, title, url, inFolder, details = {}) {
 
-		const { updateTitle } = details;
-		const { openInFeedPreview } = details;
-		const { ignoreUpdates } = details;
+		const {
+			updateTitle,
+			openInFeedPreview,
+			ignoreUpdates,
+		} = details;
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
 
@@ -1676,9 +1680,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function createNewFeedInRootFolder(title, url, details = {}) {
 
-		const { updateTitle } = details;
-		const { openInFeedPreview } = details;
-		const { ignoreUpdates } = details;
+		const {
+			updateTitle,
+			openInFeedPreview,
+			ignoreUpdates,
+		} = details;
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
@@ -2016,9 +2022,11 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateFeedProperties(elmLI, newTitle, newUrl, details = {}) {
 
-		const { newUpdateTitle } = details;
-		const { newOpenInFeedPreview } = details;
-		const { newIgnoreUpdates } = details;
+		const {
+			newUpdateTitle,
+			newOpenInFeedPreview,
+			newIgnoreUpdates,
+		} = details;
 
 		let changes = {
 			title: newTitle,
