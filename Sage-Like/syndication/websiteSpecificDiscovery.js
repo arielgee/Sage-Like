@@ -40,7 +40,7 @@ class YouTubeSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 		for(let i=0, len=elmScripts.length; i<len; i++) {
 
 			if( !!!externalId && (found = elmScripts[i].textContent.match(RE_EXTERNAL_ID)) ) {
-				urls.push( (externalId = URL_CHANNEL + found[1]) );
+				urls.push( URL_CHANNEL + (externalId = found[1]) );
 			}
 
 			if( (found = elmScripts[i].textContent.match(RE_CHANNEL_IDS)) ) {
