@@ -1059,18 +1059,18 @@
 
 
 ## Now
-* in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
-> STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
----
-
-
-## Next
 * re-think: preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
 	* add IDs to .prefBlockCaption , add side menu (position: absolute) with .prefBlockCaption names and hrefs to the ID's to navigate
 	* in preferences.css
 		1. :root { font-size: 12px; }
 		2. body { margin: 80px 0 80px 120px; }
 		3. body * { box-sizing: border-box; }
+> STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
+---
+
+
+## Next
+* in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
