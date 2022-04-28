@@ -60,12 +60,8 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Removed feed detection from the address bar for XML feeds with XSLT (added in 2.8) due to issues with the additional fetch of the page (HTTP error 429 and "rate limiting").</li>
-    <ul>
-      <li>XML feeds with XSLT are still discoverable from the sidebar.</li>
-    </ul>
-  <li>Added a feed property to ignore updates to apply to feeds that modify their timestamp while no new item was added.</li>
-  <li>Minor fixes, changes and code refactoring.</li>
+  <li>Added support for YouTube feed discovery.</li>
+  <li>Modifed the Options page to be opened in a normal tab rather than integrated into the browser's add-ons manager.</li>
 </ul>
 
 + Version Notes for next time

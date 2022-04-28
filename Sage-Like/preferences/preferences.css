@@ -171,7 +171,7 @@ body * {
 }
 
 .mainContent {
-	min-width: 600px;
+	min-width: 640px;
 	max-width: var(--max-width-preferences-body);
 	margin-left: calc(var(--width-navigation-bar) + 10px);
 }

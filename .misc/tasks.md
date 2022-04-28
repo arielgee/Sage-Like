@@ -1057,16 +1057,18 @@
 * add support for attachments in youtube feeds = YouTube feeds don't have valid enclosures; the element link[rel=alternate] instead or enclosure/related and no [type]. There's a <media:content> with [type] but with [url] instaed of [href].
 * preferences in own tab => DONE
 * go to options from the browser_action conext menu => NO
+* deleting a BIG tree when the feeds are refreshed takes a long time => noting to do
 ---
 
 
 ## Now
+* new version: upload version changes from mozilla-extension-page.txt
+* new version: upload new screenshot-2.png
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* deleting a BIG tree when the feeds are refreshed takes a long time
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
