@@ -1055,21 +1055,18 @@
 * Array.prototype.includesAll not used at all => removed
 * for default function parameter object members, do like in NonStandardDiscoveryBase.constructor
 * add support for attachments in youtube feeds = YouTube feeds don't have valid enclosures; the element link[rel=alternate] instead or enclosure/related and no [type]. There's a <media:content> with [type] but with [url] instaed of [href].
+* preferences in own tab => DONE
+* go to options from the browser_action conext menu => NO
 ---
 
 
 ## Now
-* re-think: preferences in own tab ('"open_in_tab": true' in manifest.options_ui)
-	* add IDs to .prefBlockCaption , add side menu (position: absolute) with .prefBlockCaption names and hrefs to the ID's to navigate
-	* in preferences.css
-		1. :root { font-size: 12px; }
-		2. body { margin: 80px 0 80px 120px; }
-		3. body * { box-sizing: border-box; }
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* deleting a BIG tree when the feeds are refreshed takes a long time
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 

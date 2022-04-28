@@ -1,7 +1,14 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-	--height-preference: 40px;
+	font-size: 12px;
+	user-select: none;
+	-moz-user-select: none;
+	cursor: default;
+
+	--width-navigation-bar: 260px;
+	--height-preference: 48px;
+	--padding-top-pref-block: calc(var(--height-preference) * 1.333333);
 	--max-width-preferences-body: 700px;
 	--bottom-left-radius-last-sub-perf: 15px;
 
@@ -41,6 +48,7 @@
 	--color-preference-hover: rgb(242, 242, 242);
 	--color-border-sub-perf: rgb(51, 51, 51);
 	--color-flash: rgb(255, 192, 192);
+	--filter-brightness-navigation-item: brightness(100%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,31 +82,108 @@
 		--color-preference-hover: rgb(52, 52, 55);
 		--color-border-sub-perf: rgb(221, 221, 221);
 		--color-flash: rgb(255, 88, 88);
+		--filter-brightness-navigation-item: brightness(150%);
 	}
 }
 
 body {
-	font-family: inherit;
-	font-size: 1.273rem;
-	font-weight: normal;
-	min-width: 600px;
-	max-width: var(--max-width-preferences-body);
-	line-height: 21px;
-	white-space: nowrap;
+	box-sizing: border-box;
+	margin: 0 0 calc(100vh - 140px);	/* 245px - Manually measured height from the top of #prefBlockMiscellaneous to the buttom of .mainContent. Minus 100px for safety margin. */
 	color: var(--foreground-color);
 	background-color: var(--background-color-body);
+	font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+	font-size: 1.273rem;
+	font-weight: normal;
+	line-height: 21px;
+	white-space: nowrap;
 }
 
-.caption {
-	font-size: 2rem;
-	font-weight: bold;
-	margin-bottom: 35px;
+body * {
+	box-sizing: border-box;
+}
+
+#webExtVersion {
+	position: fixed;
+	right: 4px;
+	bottom: 3px;
+	height: 16px;
+	padding-right: 20px;
+	background: transparent url("/icons/sageLike-16.png") no-repeat right top;
+	background-size: 14px 14px;
+	font-size: 1rem;
+	line-height: 1;
+	opacity: 0.4;
+}
+#webExtVersion:hover {
+	opacity: 1;
+}
+
+.navigationBar {
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: var(--width-navigation-bar);
+	padding: calc(var(--padding-top-pref-block) - 8px) 0 20px 25px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#navigationFooter {
+	margin-top: auto;
+}
+
+.navigationItem {
+	display: flex;
+	border-radius: 4px;
+	line-height: 2.25;
+	color: rgb(var(--color-values-text-block-caption));
+	filter: var(--filter-brightness-navigation-item);
+	cursor: pointer;
+}
+.navigationItem.internal {
+	height: 48px;
+	font-size: 1.667rem;
+}
+.navigationItem.external {
+	height: 32px;
+	font-size: 1.167rem;
+}
+.navigationItem:hover {
+	background-color: var(--color-preference-hover);
+}
+
+.navigationItemBullet,
+.navigationItemText {
+	pointer-events: none;
+}
+
+.navigationItem.internal > .navigationItemBullet {
+	position: relative;
+	top: -1rem;
+	margin: 0 7px;
+	font-size: 150%;
+}
+.navigationItem.external > .navigationItemBullet {
+	margin: 0 4px 0 9px;
+}
+
+.mainContent {
+	min-width: 600px;
+	max-width: var(--max-width-preferences-body);
+	margin-left: calc(var(--width-navigation-bar) + 10px);
+}
+
+.prefBlock {
+	padding-top: var(--padding-top-pref-block);
 }
 
 .prefBlockCaption {
 	--v-font-size: 1.667rem;
 
-	margin: calc(var(--height-preference) * 1.2) 0 10px;
+	margin-bottom: 10px;
 	background: linear-gradient(to right, transparent 1%, rgba(var(--color-values-text-block-caption), 0.5));
 	color: rgb(var(--color-values-text-block-caption));
 	font-size: var(--v-font-size);
@@ -108,29 +193,23 @@ body {
 	padding-left: 4px;
 }
 
-.prefBlockCaption.first {
-	margin-top: 10px;
-}
-
 .preference {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 9px 3px;
 	height: var(--height-preference);
 	min-height: var(--height-preference);
 	max-height: var(--height-preference);
 }
-
 .preference:hover {
 	background-color: var(--color-preference-hover);
 }
-
 .preference.subPref {
 	margin-left: 3px;
 	padding-left: 16px;
 	border-left: 4px solid var(--color-border-sub-perf);
 }
-
 .preference.subPref.last{
 	border-bottom-left-radius: var(--bottom-left-radius-last-sub-perf);
 }
@@ -138,7 +217,6 @@ body {
 .prefSeperator {
 	border-bottom: 1px solid rgb(211, 211, 211);
 }
-
 .preference.subPref + .prefSeperator {
 	margin-left: var(--bottom-left-radius-last-sub-perf);
 }
@@ -150,19 +228,13 @@ body {
 .controlLabel {
 	padding-left: 5px;
 }
-
 .controlLabel:not(:last-child) {
 	padding-right: 5px;
 	margin-right: 10px;
 }
 
 .precedingControlLabel {
-	padding-right: 5px;
-}
-
-.precedingControlLabel {
-	padding-right: 5px;
-	padding-left: 5px;
+	padding: 0 5px;
 	margin-left: 10px;
 }
 
@@ -177,6 +249,7 @@ input {
 select {
 	max-width: calc(var(--max-width-preferences-body) * 0.4);
 	border: 1px solid #7a7a7a;
+	padding: 3px 1px;
 	color: var(--foreground-color);
 	background-color: var(--background-color-select-control);
 }
@@ -292,15 +365,13 @@ input[type="color"]::-moz-focus-inner {
 .numericInput {
 	border: 1px solid #7a7a7a;
 	padding: 2px;
-	height: 21px;
+	height: 22px;
 	width: 50px;
 }
-
 .numericInput:focus {
 	border-color: var(--color-control-focused);
 	box-shadow: 0 0 2.5px 1px var(--color-control-focused);
 }
-
 .numericInput:invalid {
 	border-color: var(--color-control-invalid);
 	box-shadow: 0 0 2.5px 1px var(--color-control-invalid);
@@ -321,11 +392,9 @@ input[type="color"]::-moz-focus-inner {
 	line-height: 17px;
 	outline-offset: -3px;
 }
-
 .preferenceButton:hover {
 	background-color: rgba(var(--background-color-values-button), var(--background-alpha-hover-button));
 }
-
 .preferenceButton:active:hover {
 	background-color: rgba(var(--background-color-values-button), var(--background-alpha-hover-active-button));
 }
@@ -338,11 +407,9 @@ input[type="color"]::-moz-focus-inner {
 	background: transparent no-repeat 4px top/20px 20px;
 	filter: drop-shadow(0 0 2px var(--drop-shadow-control-image));
 }
-
 .controlImage:not(:last-child) {
 	margin-right: 18px;
 }
-
 #imageSet0 + .controlImage { background-image: url("/icons/open-0.png"); }
 #imageSet1 + .controlImage { background-image: url("/icons/open-1.png"); }
 #imageSet2 + .controlImage { background-image: url("/icons/open-2.png"); }
@@ -376,7 +443,6 @@ input[type="color"]::-moz-focus-inner {
 	cursor: help;
 	margin-top: 2px;
 }
-
 .helpInfo:hover {
 	background-color: var(--background-color-hover-help-info);
 }
@@ -390,7 +456,6 @@ input[type="color"]::-moz-focus-inner {
 /*** User font box and Time of day box ***/
 .popupBox {
 	display: none;
-	position: absolute;
 	border: 1px solid var(--border-color-popup-box);
 	border-radius: 8px;
 	padding: 12px;
@@ -399,6 +464,15 @@ input[type="color"]::-moz-focus-inner {
 	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
 	z-index: 2;
 	white-space: nowrap;
+}
+.popupBox.preferenceReferenced {
+	position: absolute;
+}
+.popupBox.pageCentered {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -100%);
 }
 
 .inputPopupBox {
@@ -427,6 +501,11 @@ input[type="color"]::-moz-focus-inner {
 	white-space: pre-wrap;
 	-moz-user-select: text;
 	user-select: text;
+}
+
+#urlListBox {
+	width: 80%;
+	min-width: 600px;
 }
 
 #urlListBoxDescription {
@@ -462,6 +541,7 @@ input[type="color"]::-moz-focus-inner {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	cursor: pointer;
 }
 
 /************************************************************************************/
@@ -531,7 +611,6 @@ input[type="color"].disabled {
 	transition: width 0.15s linear 0s, height 0.15s linear 0s;
 	overflow: hidden;
 }
-
 .preferenceOverlay.processing {
 	width: 100%;
 	height: 100%;
@@ -554,7 +633,6 @@ input[type="color"].disabled {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
-
 .preferenceOverlay.processing .busyAnimPrefOverlay {
 	display: block;
 }
@@ -567,24 +645,17 @@ input[type="color"].disabled {
 	color: var(--foreground-color);
 	font-size: 115%;
 }
-
 .preferenceOverlay.processing .processingMsgPrefOverlay {
 	display: block;
 }
 
-body.noCaptionStyleV68 .caption,
-body.noCaptionStyleV68 .caption + .prefSeperator {
-	display: none;
-}
-
 #pageOverlay {
 	display: none;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
-	max-width: var(--max-width-preferences-body);
-	width: 100%;
-	height: 100%;
+	right: 0;
+	bottom: 0;
 	background-color: rgba(var(--background-color-values-body), 0.7);
 	z-index: 1;
 }

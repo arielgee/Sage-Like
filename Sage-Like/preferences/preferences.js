@@ -15,6 +15,8 @@ let preferences = (function() {
 											" \u25cf Easy – Feeds are fetched in 10 batches with a 4 seconds pause between each one. \n" +
 											" \u25cf Lazy – Feeds are fetched one by one with a 1.5 seconds pause between each one. \n";
 
+	let m_elmNavigationItems;
+	let m_elmNavigationFooterItems;
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsInterval;
 	let m_elmCheckFeedsWhenSbClosed;
@@ -85,6 +87,8 @@ let preferences = (function() {
 
 	let m_lockBookmarksEventHandler = new Locker();
 
+	let m_singleBlockMode = false;
+
 	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +100,8 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
+		m_elmNavigationItems = document.getElementById("navigationItems");
+		m_elmNavigationFooterItems = document.getElementById("navigationFooter");
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
 		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
 		m_elmCheckFeedsWhenSbClosed = document.getElementById("checkFeedsWhenSbClosed");
@@ -143,12 +149,7 @@ let preferences = (function() {
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
 
-		slUtil.getBrowserVersion().then((version) => {
-			if(parseInt(version) >= 68) {
-				document.body.classList.add("noCaptionStyleV68");
-			}
-		});
-
+		document.getElementById("webExtVersion").textContent = `Sage-Like v${browser.runtime.getManifest().version}`;
 		document.getElementById("checkFeedsMethodInfo").title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
 
 		addEventListeners();
@@ -159,6 +160,9 @@ let preferences = (function() {
 	function onUnload(event) {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+
+		m_elmNavigationItems.removeEventListener("click", onClickNavigationItem);
+		m_elmNavigationFooterItems.removeEventListener("click", onClickNavigationFooterItem);
 
 		document.documentElement.removeEventListener("click", onClickPreference);
 
@@ -213,10 +217,12 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function addEventListeners() {
 
+		m_elmNavigationItems.addEventListener("click", onClickNavigationItem);
+		m_elmNavigationFooterItems.addEventListener("click", onClickNavigationFooterItem);
+
 		// handle check boxs and text boxs
 		document.documentElement.addEventListener("click", onClickPreference);
 
-		// save preferences when changed
 		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
 		m_elmCheckFeedsWhenSbClosed.addEventListener("change", onChangeCheckFeedsWhenSbClosed);
@@ -283,6 +289,13 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getSavedPreferences() {
+
+		prefs.getSingleBlockModeInPrefsPage().then((singleBlockMode) => {
+			if( (m_singleBlockMode = singleBlockMode) ) {
+				document.body.style.marginBottom = "0";	// Remove margin-bottom. Its size is to enable scrolling the Miscellaneous block to the top.
+				setSingleBlockMode("prefBlockFeeds");
+			}
+		});
 
 		initializeSelectFeedsFolder();
 		initializeCheckFeedsMethodTitles();
@@ -439,6 +452,26 @@ let preferences = (function() {
 	//==================================================================================
 	//=== Event Listeners
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function onClickNavigationItem(event) {
+		let jumpTargetId = event.target.getAttribute("data-jumpTargetId");
+		if(!!jumpTargetId) {
+			if(m_singleBlockMode) {
+				setSingleBlockMode(jumpTargetId);
+			} else {
+				document.getElementById(jumpTargetId).scrollIntoView(true);
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickNavigationFooterItem(event) {
+		let url = event.target.getAttribute("data-url");
+		if(!!url) {
+			browser.tabs.create({ url: url });
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickPreference(event) {
@@ -793,11 +826,11 @@ let preferences = (function() {
 				flashCustomCSSImportButton();
 
 				if(!!result.warning) {
-					showMessageBox("Warning", result.warning, m_elmImportCustomCSSSource.parentElement.parentElement);
+					showMessageBox("Warning", result.warning);
 				}
 
 			}).catch((error) => {
-				showMessageBox("Error", error.message, m_elmImportCustomCSSSource.parentElement.parentElement);
+				showMessageBox("Error", error.message);
 				console.log("[Sage-Like]", "CSS file validation error", error.message);
 			});
 		}).catch(() => { /* if open do nothing */ });
@@ -858,10 +891,10 @@ let preferences = (function() {
 			if(skipped > 0) {
 				msg += "\n\n" + skipped +" file " + (skipped>1 ? "entries were" : "entry was") + " skipped.";
 			}
-			showMessageBox("Import", msg, elmPref);
+			showMessageBox("Import", msg);
 
 		}).catch((error) => {
-			showMessageBox("Error", error, elmPref);
+			showMessageBox("Error", error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			browser.runtime.sendMessage({ id: Global.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
@@ -883,11 +916,11 @@ let preferences = (function() {
 			// fileName is missing when download was canceled by user
 			if(!!result.fileName) {
 				let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully exported.\n\nFile: " + result.fileName;
-				showMessageBox("Export", msg, elmPref);
+				showMessageBox("Export", msg);
 			}
 
 		}).catch((error) => {
-			showMessageBox("Error", error, elmPref);
+			showMessageBox("Error", error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			slUtil.disableElementTree(elmPref, false);
@@ -907,10 +940,10 @@ let preferences = (function() {
 
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ALL);
 			let msg = "File was successfully imported.\n\nThis page will now be reloaded to reflect imported options.";
-			showMessageBox("Import", msg, elmPref, () => browser.tabs.reload({ bypassCache: true }) );
+			showMessageBox("Import", msg, () => browser.tabs.reload({ bypassCache: true }) );
 
 		}).catch((error) => {
-			showMessageBox("Error", error, elmPref);
+			showMessageBox("Error", error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			elmPrefOverlay.classList.remove("processing");
@@ -928,11 +961,11 @@ let preferences = (function() {
 
 			// fileName is missing when download was canceled by user
 			if(!!result.fileName) {
-				showMessageBox("Export", `Options were successfully exported.\n\nFile: ${result.fileName}`, elmPref);
+				showMessageBox("Export", `Options were successfully exported.\n\nFile: ${result.fileName}`);
 			}
 
 		}).catch((error) => {
-			showMessageBox("Error", error, elmPref);
+			showMessageBox("Error", error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			slUtil.disableElementTree(elmPref, false);
@@ -941,7 +974,7 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnReloadExtension(event) {
-		slUtil.reloadSageLikeWebExtensionAndTab();
+		browser.runtime.reload();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1263,7 +1296,7 @@ let preferences = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showMessageBox(msgCaption, msgText, elmPreferenceReference, callbackOnCloseBox = null) {
+	function showMessageBox(msgCaption, msgText, callbackOnCloseBox = null) {
 
 		m_funcOnCloseMessageBox = callbackOnCloseBox;
 
@@ -1280,16 +1313,8 @@ let preferences = (function() {
 
 		m_elmPageOverlay.style.display = "block";
 		m_elmMessageBox.style.display = "block";
+		document.documentElement.style.overflow = "hidden";
 		m_elmMessageBox.style.color = (["Error", "Warning"].includes(msgCaption) ? "#db0000" : "");
-
-		let rect = slUtil.getElementViewportRect(elmPreferenceReference, window.innerWidth, window.innerHeight);
-
-		const OFFSET = 8;
-		let x = (rect.width - m_elmMessageBox.offsetWidth) / 2;
-		let y = rect.top - m_elmMessageBox.offsetHeight - 80;
-
-		m_elmMessageBox.style.left = (x<1 ? OFFSET : x) + "px";
-		m_elmMessageBox.style.top = (y<OFFSET ? OFFSET : y) + "px";
 
 		m_elmBtnMessageBoxOK.focus();
 	}
@@ -1299,6 +1324,7 @@ let preferences = (function() {
 
 		m_elmPageOverlay.style.display = "none";
 		m_elmMessageBox.style.display = "none";
+		document.documentElement.style.overflow = "";
 
 		m_elmMessageBox.removeEventListener("keydown", onKeyDownMessageBox);
 		m_elmBtnMessageBoxOK.removeEventListener("click", onClickBtnMessageBoxOK);
@@ -1326,7 +1352,7 @@ let preferences = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getUrlList(elmPreferenceReference, caption, desc, value = "") {
+	function getUrlList(caption, desc, value = "") {
 
 		if("FFU") {
 			console.log("[Sage-Like]", "FFU", "Preparation for air-conditioner");
@@ -1358,15 +1384,7 @@ let preferences = (function() {
 
 			m_elmPageOverlay.style.display = "block";
 			m_elmUrlListBox.style.display = "block";
-
-			let rect = slUtil.getElementViewportRect(elmPreferenceReference, window.innerWidth, window.innerHeight);
-
-			const BOX_HEIGHT = m_elmUrlListBox.clientHeight;
-			const BOX_WIDTH_MARGIN = 3;
-
-			m_elmUrlListBox.style.left = BOX_WIDTH_MARGIN + "px";
-			m_elmUrlListBox.style.top = (rect.top - (BOX_HEIGHT - rect.height) / 2) + "px";
-			m_elmUrlListBox.style.width = (rect.width - BOX_WIDTH_MARGIN * 2) + "px";
+			document.documentElement.style.overflow = "hidden";
 
 			m_elmUrlListBoxTextArea.setSelectionRange(0, 0); // move cursor to start
 			m_elmUrlListBoxTextArea.focus();
@@ -1380,6 +1398,7 @@ let preferences = (function() {
 
 		m_elmPageOverlay.style.display = "none";
 		m_elmUrlListBox.style.display = "none";
+		document.documentElement.style.overflow = "";
 
 		m_elmUrlListBox.removeEventListener("keydown", onKeyDownUrlListBox);
 		m_elmUrlListBoxTextArea.removeEventListener("input", onInputUrlListBoxTextArea);
@@ -1656,12 +1675,20 @@ let preferences = (function() {
 			browser.windows.get(m_winIdNotepad[0]).then(() => {
 				let msg = "The Operation cannot be completed while the notepad CSS source code editor is open.\n\nClose the editor.";
 				let funcOnCloseBox = () => browser.windows.update(m_winIdNotepad[0], { focused: true }).catch(() => {});
-				showMessageBox("Error", msg, m_elmImportCustomCSSSource.parentElement.parentElement, funcOnCloseBox);
+				showMessageBox("Error", msg, funcOnCloseBox);
 				reject();
 			}).catch(() => {
 				resolve();
 			});
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setSingleBlockMode(idPrefBlock) {
+		let blocks = document.getElementsByClassName("prefBlock");
+		for(let i=0, len=blocks.length; i<len; i++) {
+			blocks[i].style.display = (blocks[i].id === idPrefBlock) ? "block" : "none";
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1685,8 +1712,14 @@ let preferences = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function hidden_pref_single_block_mode_in_prefs_page(singleBlockMode = false) {
+		prefs.setSingleBlockModeInPrefsPage(!!singleBlockMode).then(() => browser.tabs.reload() );
+	}
+
 	return {
 		hidden_pref_animated_slide_down_panel: hidden_pref_animated_slide_down_panel,
 		hidden_pref_strict_rss_content_types: hidden_pref_strict_rss_content_types,
+		hidden_pref_single_block_mode_in_prefs_page: hidden_pref_single_block_mode_in_prefs_page,
 	}
 })();

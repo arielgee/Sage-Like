@@ -606,13 +606,15 @@ let prefs = (function() {
 		STRICT_RSS_CONTENT_TYPES:			{ name: "pref_strictRssContentTypes",			default: true											},
 		MARK_FEED_PREVIEW_URLS_AS_VISITED:	{ name: "pref_markFeedPreviewUrlsAsVisited",	default: MARK_FEED_PREVIEW_URLS_AS_VISITED_VALUES.none	},
 		SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW:	{ name: "pref_showTryOpenLinkInFeedPreview",	default: false											},
+		SINGLE_BLOCK_MODE_IN_PREFS_PAGE:	{ name: "pref_singleBlockModeInPrefsPage",		default: false											},
 		CUSTOM_CSS_SOURCE_HASH:				{ name: "pref_customCSSSourceHash",				default: ""												},
 		CUSTOM_CSS_SOURCE:					{ name: "pref_customCSSSource",					default: ""												},
 	});
 
 	const PREFS_BANNED_FROM_EXPORT = [
 		PREF.ANIMATED_SLIDE_DOWN_PANEL.name,
-		PREF.STRICT_RSS_CONTENT_TYPES.name
+		PREF.STRICT_RSS_CONTENT_TYPES.name,
+		PREF.SINGLE_BLOCK_MODE_IN_PREFS_PAGE.name,
 	];
 
 	let m_localStorage = browser.storage.local;
@@ -648,6 +650,7 @@ let prefs = (function() {
 	function getStrictRssContentTypes()			{ return _getPreferenceValue(PREF.STRICT_RSS_CONTENT_TYPES); }
 	function getMarkFeedPreviewUrlsAsVisited()	{ return _getPreferenceValue(PREF.MARK_FEED_PREVIEW_URLS_AS_VISITED); }
 	function getShowTryOpenLinkInFeedPreview()	{ return _getPreferenceValue(PREF.SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW); }
+	function getSingleBlockModeInPrefsPage()	{ return _getPreferenceValue(PREF.SINGLE_BLOCK_MODE_IN_PREFS_PAGE); }
 	function getCustomCSSSourceHash()			{ return _getPreferenceValue(PREF.CUSTOM_CSS_SOURCE_HASH); }
 	function getCustomCSSSource()				{ return _getPreferenceValue(PREF.CUSTOM_CSS_SOURCE); }
 
@@ -682,6 +685,7 @@ let prefs = (function() {
 	function setStrictRssContentTypes(value)		{ return _setPreferenceValue(PREF.STRICT_RSS_CONTENT_TYPES, value); }
 	function setMarkFeedPreviewUrlsAsVisited(value)	{ return _setPreferenceValue(PREF.MARK_FEED_PREVIEW_URLS_AS_VISITED, value); }
 	function setShowTryOpenLinkInFeedPreview(value)	{ return _setPreferenceValue(PREF.SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW, value); }
+	function setSingleBlockModeInPrefsPage(value)	{ return _setPreferenceValue(PREF.SINGLE_BLOCK_MODE_IN_PREFS_PAGE, value); }
 	function setCustomCSSSource(value) {
 		return new Promise(async (resolve) => {
 
@@ -805,6 +809,7 @@ let prefs = (function() {
 		getStrictRssContentTypes: getStrictRssContentTypes,
 		getMarkFeedPreviewUrlsAsVisited: getMarkFeedPreviewUrlsAsVisited,
 		getShowTryOpenLinkInFeedPreview: getShowTryOpenLinkInFeedPreview,
+		getSingleBlockModeInPrefsPage: getSingleBlockModeInPrefsPage,
 		getCustomCSSSourceHash: getCustomCSSSourceHash,
 		getCustomCSSSource: getCustomCSSSource,
 
@@ -838,6 +843,7 @@ let prefs = (function() {
 		setStrictRssContentTypes: setStrictRssContentTypes,
 		setMarkFeedPreviewUrlsAsVisited: setMarkFeedPreviewUrlsAsVisited,
 		setShowTryOpenLinkInFeedPreview: setShowTryOpenLinkInFeedPreview,
+		setSingleBlockModeInPrefsPage: setSingleBlockModeInPrefsPage,
 		setCustomCSSSource: setCustomCSSSource,
 
 		getAllPreferences: getAllPreferences,
@@ -1250,14 +1256,6 @@ let slUtil = (function() {
 				}).catch((error) => reject(error));
 			}).catch((error) => reject(error));
 		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function reloadSageLikeWebExtensionAndTab() {
-		setTimeout(() => {
-			browser.tabs.reload({ bypassCache: true });
-			browser.runtime.reload();
-		}, 10);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1692,7 +1690,6 @@ let slUtil = (function() {
 		bookmarksFoldersAsCollection: bookmarksFoldersAsCollection,
 		bookmarksFeedsAsCollection: bookmarksFeedsAsCollection,
 		isDescendantOfRoot: isDescendantOfRoot,
-		reloadSageLikeWebExtensionAndTab: reloadSageLikeWebExtensionAndTab,
 		replaceMozExtensionOriginURL: replaceMozExtensionOriginURL,
 		invertColor: invertColor,
 		contrastColor: contrastColor,
