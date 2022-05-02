@@ -9,7 +9,8 @@
 	--width-navigation-bar: 260px;
 	--height-preference: 48px;
 	--padding-top-pref-block: calc(var(--height-preference) * 1.333333);
-	--max-width-preferences-body: 700px;
+	--min-width-main-content: 630px;
+	--max-width-main-content: 700px;
 	--bottom-left-radius-last-sub-perf: 15px;
 
 	--color-control-focused: rgb(10, 133, 255);
@@ -88,6 +89,8 @@
 
 body {
 	box-sizing: border-box;
+	min-width: calc(var(--width-navigation-bar) + var(--min-width-main-content));
+	overflow-x: hidden;
 	margin: 0 0 calc(100vh - 140px);	/* 245px - Manually measured height from the top of #prefBlockMiscellaneous to the buttom of .mainContent. Minus 100px for safety margin. */
 	color: var(--foreground-color);
 	background-color: var(--background-color-body);
@@ -126,7 +129,7 @@ body * {
 	left: 0;
 	bottom: 0;
 	width: var(--width-navigation-bar);
-	padding: calc(var(--padding-top-pref-block) - 8px) 0 20px 25px;
+	padding: calc(var(--padding-top-pref-block) - 8px) 10px 20px 22px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
@@ -145,35 +148,22 @@ body * {
 }
 .navigationItem.internal {
 	height: 48px;
+	padding-left: 9px;
 	font-size: 1.667rem;
 }
 .navigationItem.external {
 	height: 32px;
+	padding-left: 12px;
 	font-size: 1.167rem;
 }
 .navigationItem:hover {
 	background-color: var(--color-preference-hover);
 }
 
-.navigationItemBullet,
-.navigationItemText {
-	pointer-events: none;
-}
-
-.navigationItem.internal > .navigationItemBullet {
-	position: relative;
-	top: -1rem;
-	margin: 0 7px;
-	font-size: 150%;
-}
-.navigationItem.external > .navigationItemBullet {
-	margin: 0 4px 0 9px;
-}
-
 .mainContent {
-	min-width: 640px;
-	max-width: var(--max-width-preferences-body);
-	margin-left: calc(var(--width-navigation-bar) + 10px);
+	min-width: var(--min-width-main-content);
+	max-width: var(--max-width-main-content);
+	margin-left: calc(var(--width-navigation-bar));
 }
 
 .prefBlock {
@@ -247,7 +237,7 @@ input {
 }
 
 select {
-	max-width: calc(var(--max-width-preferences-body) * 0.4);
+	max-width: calc(var(--max-width-main-content) * 0.4);
 	border: 1px solid #7a7a7a;
 	padding: 3px 1px;
 	color: var(--foreground-color);

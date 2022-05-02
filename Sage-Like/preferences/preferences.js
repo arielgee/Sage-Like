@@ -461,6 +461,7 @@ let preferences = (function() {
 				setSingleBlockMode(jumpTargetId);
 			} else {
 				document.getElementById(jumpTargetId).scrollIntoView(true);
+				window.scrollTo({ left: 0 });
 			}
 		}
 	}
