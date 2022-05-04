@@ -163,7 +163,7 @@ body * {
 .mainContent {
 	min-width: var(--min-width-main-content);
 	max-width: var(--max-width-main-content);
-	margin-left: calc(var(--width-navigation-bar));
+	margin-left: var(--width-navigation-bar);
 }
 
 .prefBlock {
