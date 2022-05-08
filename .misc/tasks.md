@@ -1058,6 +1058,7 @@
 * preferences in own tab => DONE
 * go to options from the browser_action conext menu => NO
 * deleting a BIG tree when the feeds are refreshed takes a long time => noting to do
+* messagesView: when displaying "extension is not allowed in private windows" the link opens the new Options tab and not the addon's manage extension tab
 ---
 
 

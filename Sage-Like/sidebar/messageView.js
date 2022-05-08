@@ -48,7 +48,7 @@ let messageView = (function () {
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
 
-			m_elmOptionsHref = document.getElementById("incognitoMsgOptionsHref");
+			m_elmOptionsHref = document.getElementById("messageViewOptionsHref");
 			if(!!m_elmOptionsHref) {
 				prefs.getColorDialogBackground().then(color => {
 					if(color < "#888888") {		// quick fix - on dark bk anchor will invert from blue to yellow. Will not adapt if bk color changes while messageView is open

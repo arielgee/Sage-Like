@@ -1431,7 +1431,17 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function incognitoErrorMessage(nativeError) {
 		if(!!(nativeError.toString().match(/\bpermission for incognito mode\b/))) {
-			return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' id='incognitoMsgOptionsHref'>Options page</a>.";
+			return "Sage-Like extension is not allowed to run in private windows.<br>" +
+					"If you're interested, here's how you can change that:" +
+					"<ol style=\"margin-top:5px;padding-left:30px;\">" +
+						"<li>Click the menu button (3 horizontal lines).</li>" +
+						"<li>Select \"Add-ons\" from the menu.</li>" +
+						"<li>Select \"Extensions\" on the left side.</li>" +
+						"<li>Click on the Sage-Like extension.</li>" +
+						"<li>Scroll down to \"Run in Private Windows\" option.</li>" +
+						"<li>Click the \"Allow\" radio button.</li>" +
+					"</ol>";
+			/* messageView supports an <a href='#' id='messageViewOptionsHref'> element to open the extension's Options page. */
 		}
 		return nativeError.toString().escapeMarkup();
 	}
