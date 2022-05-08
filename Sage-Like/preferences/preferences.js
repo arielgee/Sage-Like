@@ -468,8 +468,8 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickNavigationFooterItem(event) {
-		let url = event.target.getAttribute("data-url");
-		if(!!url) {
+		let url = event.target.title;
+		if(slUtil.validURL(url)) {
 			browser.tabs.create({ url: url });
 		}
 	}
