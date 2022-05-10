@@ -4,7 +4,7 @@
 	--toolbar-height: 31px;
 	--toolbar-button-size: 18px;
 	--top-height: 60%;
-	--splitter-height: 7px;
+	--splitter-height: 5px;
 	--line-height: 19px;
 
 	--line-height-rss-view: var(--line-height);	/* UI density: Comfortable */
@@ -73,9 +73,9 @@ body * {
 	width: 100%;
 	height: var(--splitter-height);
 	background-color: var(--bk-color-dialog);
-	cursor: n-resize;
-	border-top: 1px #7f7f7f solid;
-	border-bottom: 1px #7f7f7f solid;
+	cursor: ns-resize;
+	border: solid #7f7f7f;
+	border-width: 1px 0;
 }
 
 .toolbar {

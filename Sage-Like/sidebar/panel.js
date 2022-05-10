@@ -231,7 +231,7 @@ let panel = (function() {
 		let reduseH, sbWidth = slUtil.getScrollbarWidth();
 		let splitterMargin = m_elmToolbar.offsetHeight;
 
-		// is splitter is bellow the total height
+		// if splitter is bellow the total height
 		if((m_elmBody.offsetHeight - splitterTop) <= splitterMargin) {
 			splitterTop = m_elmBody.offsetHeight - splitterMargin - 1;
 		}
@@ -308,12 +308,19 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseMove_dragSplitter(event) {
 
-		if(!m_panelLayoutThrottler) {
-			m_panelLayoutThrottler = true;
-			window.requestAnimationFrame(() => {
-				setPanelLayout(m_elmSplitter.offsetTop + event.movementY);
-				m_panelLayoutThrottler = false;
-			});
+		let pageY = event.pageY;
+		let marginHeight = m_elmToolbar.offsetHeight;
+
+		// limit calls to setPanelLayout() for when the mouse is in the splitter allowed range
+		if(pageY >= marginHeight && pageY <= (m_elmBody.offsetHeight - marginHeight)) {
+
+			if(!m_panelLayoutThrottler) {
+				m_panelLayoutThrottler = true;
+				window.requestAnimationFrame(() => {
+					setPanelLayout(pageY);
+					m_panelLayoutThrottler = false;
+				});
+			}
 		}
 	}
 
