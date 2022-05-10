@@ -224,7 +224,7 @@
 * same redius in feed previewing for title and body     => NO
 * apply same tab size standerd on all files.
 * are Prefs names (internalPrefs, prefs) must be strings and not numbers like in slGlobals?     => NO
-* discovery is taking too long: http://feeds.tomercohen.com/tomercohen      => BUGFIX: discovery did not handle url feeds that returned with netwrok error
+* discovery is taking too long: http://feeds.tomercohen.com/tomercohen      => BUGFIX: discovery did not handle url feeds that returned with network error
 * buttons in the feed preview? toggle read/unread mark all as un/read           => NO.
 * get to the bottom of getCurrentLocaleDate(). Needed or can I use Date.toLocaleString()        ==> NEEDED
 * try to change the mozilla Extensions feed with something that WORKS!!!            => COULD NOT FIND ONE - LINK DELETED
@@ -1074,12 +1074,15 @@
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
-### low priority
+### low priority (bellow zero priority)
 * new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must be a sidebar webextension!
 * Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
 	* for now there is a bug workaround using *Connection-based messaging* mecanizem.   => VERY good solution
+* support for microformats2 feeds. Items are HTML elements that are markup using the class attribute (class="h-feed", class="h-entry" etc.).
+	* http://microformats.org/2014/03/05/getting-started-with-microformats2
+	* https://indieweb.org/h-feed
 
 
 ### Unresolved
@@ -1095,6 +1098,7 @@
 ### wird feeds
 * https://ascraeus.org/jsonfeed/index.json ==> Date Format is bad ISO ==> "date_published": "2020-29-02T21:42:52+00:00" ==> month and day switched places.
 * https://www.php.net/feed.atom ==> entry `Southeast PHP Conference` has 2 <published> tags whereas all other entries have an <updated> tag. (<updated> is prefered to <published>).
+* https://feeds.feedblitz.com/thetyee ==> Sometime I get HTML page, other I get redirected (HTTP 301 moved) to https://thetyee.ca/rss2.xml (Reload button from the F12 network tab). I think the server's wird behavior is the reason.
 
 
 # node.js / npm / web-ext

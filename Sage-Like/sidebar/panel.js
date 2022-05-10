@@ -285,11 +285,11 @@ let panel = (function() {
 	function onDoubleClickSetSplitterPosition(event) {
 
 		if(event.shiftKey) {
-			setPanelLayout(m_elmBody.offsetHeight * 0.333);
+			setPanelLayout( (m_elmBody.offsetHeight*0.3) + (m_elmToolbar.offsetHeight/2) - (m_elmSplitter.offsetHeight/2) );
 		} else if(event.ctrlKey) {
-			setPanelLayout(m_elmBody.offsetHeight * 0.666);
+			setPanelLayout( (m_elmBody.offsetHeight*0.7) + (m_elmToolbar.offsetHeight/2) - (m_elmSplitter.offsetHeight/2) );
 		} else {
-			setPanelLayout(m_elmBody.offsetHeight * 0.5);
+			setPanelLayout( (m_elmBody.offsetHeight*0.5) + (m_elmToolbar.offsetHeight/2) - (m_elmSplitter.offsetHeight/2) );
 		}
 	}
 
