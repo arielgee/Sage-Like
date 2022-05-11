@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<!-- ################################## style ################################## -->
+	<style>
+
+		* { box-sizing: border-box; }
+
+		html,
+		body {
+			height: 100%;
+			margin:0;
+			padding: 0;
+			font-family: "Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-sans;
+			user-select: none;
+		}
+
+		.container {
+			height: 100%;
+			width: 100%;
+		}
+
+		.column {
+			padding-top: 25px;
+			text-align: center;
+			overflow: auto;
+		}
+		.column.top {
+			background-color: #d2b0d2;
+		}
+		.column.bottom {
+			border-top: 1px solid blue;
+			background-color: #76b376;
+		}
+
+		.splitter {
+			position: fixed;
+			left: 0;
+			width: 100%;
+			height: 9px;
+			z-index: 9;
+			cursor: ns-resize;
+			/* border: 1px solid blue; */
+		}
+	</style>
+
+</head>
+
+<body>
+	<div class="container">
+		<div id="top" class="column top">Top<br>.<br>Drag the thin blue line.<br>.<br>.<br>.<br>.<br>.<br></div>
+		<div id="bottom" class="column bottom">Bottom<br>.<br>.<br>.<br>.<br>.<br></div>
+		<div id="splitter" class="splitter"></div>
+	</div>
+
+	<!-- ################################## script ################################## -->
+	<script>
+
+		let dragMarginSize = 30;
+		let elmBody = document.body;
+		let elmTop = document.getElementById("top");
+		let elmBottom = document.getElementById("bottom");
+		let elmSplitter = document.getElementById("splitter");
+
+		elmSplitter.addEventListener("dblclick", onDoubleClick_setSplitterPosition, false);
+		elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
+
+		layout(250);
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function onDoubleClick_setSplitterPosition(event) {
+			if(event.shiftKey) {
+				layout( (elmBody.offsetHeight*0.3) - (elmSplitter.offsetHeight/2) );
+			} else if(event.ctrlKey) {
+				layout( (elmBody.offsetHeight*0.7) - (elmSplitter.offsetHeight/2) );
+			} else {
+				layout( (elmBody.offsetHeight*0.5) - (elmSplitter.offsetHeight/2) );
+			}
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function onMouseDown_startSplitterDrag() {
+			window.addEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
+			window.addEventListener("mousemove", onMouseMove_dragSplitter, true);
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function onMouseUp_stopSplitterDrag() {
+			window.removeEventListener("mousemove", onMouseMove_dragSplitter, true);
+			window.removeEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function onMouseMove_dragSplitter(event) {
+			layout(event.pageY);
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		function layout(splitPos) {
+			if(splitPos >= dragMarginSize && splitPos <= (elmBody.offsetHeight - dragMarginSize)) {
+				elmTop.style.height = splitPos + "px";
+				elmBottom.style.top = splitPos + "px";
+				elmBottom.style.height = (elmBody.offsetHeight - splitPos) + "px";
+				elmSplitter.style.top = (elmTop.offsetHeight - (elmSplitter.offsetHeight/2)) + "px";
+			}
+		}
+	</script>
+
+</body>
+</html>
