@@ -226,10 +226,9 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setPanelLayout(splitPos) {
 
-		splitPos = splitPos || m_elmSplitter.offsetTop;
-
 		const splitPosLimit = 30;
 		const sbWidth = slUtil.getScrollbarWidth();
+
 		let reduseH;
 
 		// reset position if it's bellow the limit
@@ -330,7 +329,7 @@ let panel = (function() {
 		if(!m_panelLayoutThrottler) {
 			m_panelLayoutThrottler = true;
 			window.requestAnimationFrame(() => {
-				setPanelLayout();
+				setPanelLayout(m_elmSplitter.offsetTop);
 				m_panelLayoutThrottler = false;
 			});
 		}
