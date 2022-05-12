@@ -224,20 +224,22 @@ let panel = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setPanelLayout(splitterTop) {
+	function setPanelLayout(splitPos) {
 
-		splitterTop = splitterTop || m_elmSplitter.offsetTop;
+		splitPos = splitPos || m_elmSplitter.offsetTop;
 
-		let reduseH, sbWidth = slUtil.getScrollbarWidth();
-		let splitterMargin = m_elmToolbar.offsetHeight;
+		const splitPosLimit = 30;
+		const sbWidth = slUtil.getScrollbarWidth();
+		let reduseH;
 
-		// if splitter is bellow the total height
-		if((m_elmBody.offsetHeight - splitterTop) <= splitterMargin) {
-			splitterTop = m_elmBody.offsetHeight - splitterMargin - 1;
+		// reset position if it's bellow the limit
+		if(splitPos >= (m_elmBody.offsetHeight - splitPosLimit)) {
+			splitPos = m_elmBody.offsetHeight - splitPosLimit - 1;
 		}
 
-		if (splitterTop > splitterMargin && (m_elmBody.offsetHeight - splitterTop) > splitterMargin) {
-			m_elmSplitter.style.top = splitterTop + "px";
+		// if position is in range
+		if( splitPos > (m_elmToolbar.offsetHeight + splitPosLimit) && splitPos < (m_elmBody.offsetHeight - splitPosLimit) ) {
+			m_elmSplitter.style.top = splitPos + "px";
 			m_elmTop.style.height = (m_elmSplitter.offsetTop - m_elmToolbar.offsetHeight) + "px";
 			m_elmBottom.style.top = (m_elmSplitter.offsetTop + m_elmSplitter.offsetHeight) + "px";
 			m_elmBottom.style.height = (m_elmBody.offsetHeight - (m_elmSplitter.offsetTop + m_elmSplitter.offsetHeight)) + "px";
@@ -249,7 +251,7 @@ let panel = (function() {
 			reduseH = slUtil.hasHScroll(m_elmList) ? sbWidth : 0;
 			m_elmList.style.height = (m_elmBottom.offsetHeight - reduseH) + "px";
 
-			internalPrefs.setSplitterTop(splitterTop);
+			internalPrefs.setSplitterTop(splitPos);
 		}
 
 		// set CSS variables accordingly depending if has VScroll
@@ -309,11 +311,9 @@ let panel = (function() {
 	function onMouseMove_dragSplitter(event) {
 
 		let pageY = event.pageY;
-		let marginHeight = m_elmToolbar.offsetHeight;
 
-		// limit calls to setPanelLayout() for when the mouse is in the splitter allowed range
-		if(pageY >= marginHeight && pageY <= (m_elmBody.offsetHeight - marginHeight)) {
-
+		// limit calls to setPanelLayout() for when the mouse Y coordinate is in the window rect
+		if(pageY > 0 && pageY < m_elmBody.offsetHeight) {
 			if(!m_panelLayoutThrottler) {
 				m_panelLayoutThrottler = true;
 				window.requestAnimationFrame(() => {
