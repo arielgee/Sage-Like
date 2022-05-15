@@ -79,7 +79,7 @@
 			"/syndication/rssFeed.js",
 			"/syndication/rdfFeed.js",
 			"/syndication/atomFeed.js",
-			"/syndication/WebsiteSpecificDiscovery.js",
+			"/syndication/websiteSpecificDiscovery.js",
 			"/syndication/syndication.js",
 			"/background.js"
 		]
