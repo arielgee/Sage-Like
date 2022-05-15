@@ -1060,6 +1060,7 @@
 * deleting a BIG tree when the feeds are refreshed takes a long time => noting to do
 * messagesView: when displaying "extension is not allowed in private windows" the link opens the new Options tab and not the addon's manage extension tab
 * <link> after the <script>s tags in the preferences.html's <head>
+* in browser console 'TypeError: browser.browserAction.setBadgeBackgrounColor is not a function' when opening 'inspect' => not repreduced.
 ---
 
 
@@ -1071,7 +1072,6 @@
 
 
 ## Next
-* in browser console 'TypeError: browser.browserAction.setBadgeBackgrounColor is not a function' when opening 'inspect'
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
