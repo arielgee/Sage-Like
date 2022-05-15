@@ -361,7 +361,7 @@ let panel = (function() {
 
 		// set panel layout only after the content of rssTreeView & rssListView was loaded
 		if(m_viewsLoadedContentFlags === Global.VIEW_CONTENT_LOAD_FLAG.ALL_VIEWS_LOADED) {
-			internalPrefs.getSplitterTop().then((splitterTop) => setPanelLayout(splitterTop));
+			internalPrefs.getSplitterTop().then((splitterTop) => setPanelLayout(!!splitterTop ? splitterTop : m_elmSplitter.offsetTop));
 		}
 	}
 
