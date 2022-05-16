@@ -46,28 +46,27 @@
 		}
 	</style>
 
-</head>
-
-<body>
-	<div class="container">
-		<div id="top" class="column top">Top<br>.<br>Drag the thin blue line.<br>.<br>.<br>.<br>.<br>.<br></div>
-		<div id="bottom" class="column bottom">Bottom<br>.<br>.<br>.<br>.<br>.<br></div>
-		<div id="splitter" class="splitter"></div>
-	</div>
-
 	<!-- ################################## script ################################## -->
 	<script>
 
 		let dragMarginSize = 30;
-		let elmBody = document.body;
-		let elmTop = document.getElementById("top");
-		let elmBottom = document.getElementById("bottom");
-		let elmSplitter = document.getElementById("splitter");
+		let elmBody, elmTop, elmBottom, elmSplitter;
 
-		elmSplitter.addEventListener("dblclick", onDoubleClick_setSplitterPosition, false);
-		elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
+		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 
-		layout(250);
+		////////////////////////////////////////////////////////////////////////////////////
+		function onDOMContentLoaded() {
+
+			elmBody = document.body;
+			elmTop = document.getElementById("top");
+			elmBottom = document.getElementById("bottom");
+			elmSplitter = document.getElementById("splitter");
+
+			elmSplitter.addEventListener("dblclick", onDoubleClick_setSplitterPosition, false);
+			elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
+
+			layout(250);
+		}
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function onDoubleClick_setSplitterPosition(event) {
@@ -82,8 +81,8 @@
 
 		////////////////////////////////////////////////////////////////////////////////////
 		function onMouseDown_startSplitterDrag() {
-			window.addEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
 			window.addEventListener("mousemove", onMouseMove_dragSplitter, true);
+			window.addEventListener("mouseup", onMouseUp_stopSplitterDrag, false);
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
@@ -108,5 +107,13 @@
 		}
 	</script>
 
+</head>
+
+<body>
+	<div class="container">
+		<div id="top" class="column top">Top<br><br><br><br><br><br><br><br>Drag the thin blue line.</div>
+		<div id="bottom" class="column bottom">Bottom<br><br><br><br><br><br><br><br></div>
+		<div id="splitter" class="splitter"></div>
+	</div>
 </body>
 </html>
