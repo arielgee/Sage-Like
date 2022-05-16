@@ -1061,12 +1061,12 @@
 * messagesView: when displaying "extension is not allowed in private windows" the link opens the new Options tab and not the addon's manage extension tab
 * <link> after the <script>s tags in the preferences.html's <head>
 * in browser console 'TypeError: browser.browserAction.setBadgeBackgrounColor is not a function' when opening 'inspect' => not repreduced.
+* new version: upload new screenshot-2.png =>  NO need
+* new version: upload version changes from mozilla-extension-page.txt
 ---
 
 
 ## Now
-* new version: upload version changes from mozilla-extension-page.txt
-* new version: upload new screenshot-2.png
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

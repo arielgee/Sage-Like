@@ -63,6 +63,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
   <li>Added support for YouTube feed discovery.</li>
   <li>Modifed the Options page to be opened in a normal tab rather than integrated into the browser's add-ons manager.</li>
   <li>Fixed an issue where a style sheet file failed to load into the sidebar due to case mismatch.</li>
+  <li>Improved sidebar splitter dragging.</li>
 </ul>
 
 + Version Notes for next time
