@@ -1064,6 +1064,7 @@
 * new version: upload new screenshot-2.png =>  NO need
 * new version: upload version changes from mozilla-extension-page.txt
 * feedPreview.css: handle <figure> elements with negative margin in `https://thepcspy.com/feeds/full.xml`
+* feedPreview.css: make all <H> tags have bold text.
 ---
 
 
