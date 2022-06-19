@@ -210,6 +210,7 @@ body {
 .feedItemContent audio,
 .feedItemContent video,
 .feedItemContent svg,
+.feedItemContent figure,
 .feedItemContent img {
 	max-width: 400px !important;
 	max-height: 400px !important;

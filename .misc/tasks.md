@@ -1063,6 +1063,7 @@
 * in browser console 'TypeError: browser.browserAction.setBadgeBackgrounColor is not a function' when opening 'inspect' => not repreduced.
 * new version: upload new screenshot-2.png =>  NO need
 * new version: upload version changes from mozilla-extension-page.txt
+* feedPreview.css: handle <figure> elements with negative margin in `https://thepcspy.com/feeds/full.xml`
 ---
 
 
