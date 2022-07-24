@@ -1074,6 +1074,7 @@
 
 
 ## Next
+* support dragANDdrop a feed from the pagePopup to the treeView
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
