@@ -51,6 +51,7 @@
 		m_elmPageFeedsList.addEventListener("click", onClickPageFeedsList);
 		m_elmPageFeedsList.addEventListener("auxclick", onClickPageFeedsList);
 		m_elmPageFeedsList.addEventListener("keydown", onKeyDownPageFeedsList);
+		m_elmPageFeedsList.addEventListener("dragstart", onDragStartPageFeedsList);
 		m_elmButtonAddFeeds.addEventListener("click", onClickButtonAdd);
 
 		browser.windows.getCurrent().then((winInfo) => {
@@ -79,6 +80,7 @@
 		m_elmPageFeedsList.removeEventListener("click", onClickPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("auxclick", onClickPageFeedsList);
 		m_elmPageFeedsList.removeEventListener("keydown", onKeyDownPageFeedsList);
+		m_elmPageFeedsList.removeEventListener("dragstart", onDragStartPageFeedsList);
 		m_elmButtonAddFeeds.removeEventListener("click", onClickButtonAdd);
 		if(!!m_elmOptionsHref) {
 			m_elmOptionsHref.removeEventListener("click", onClickOptionsPage);
@@ -205,6 +207,24 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onDragStartPageFeedsList(event) {
+
+		event.stopPropagation();
+
+		let target = event.target;
+
+		if(target.classList.contains("feedItem")) {
+
+			let transfer = event.dataTransfer;
+			let url = target.getAttribute("href");
+
+			transfer.effectAllowed = "copy";
+			transfer.setData("text/x-moz-url", url + "\n" + target.getAttribute("name"));
+			transfer.setData("text/uri-list", url);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function onClickButtonAdd(event) {
 
 		let newFeedsList = collectSelectedFeeds();
@@ -327,6 +347,7 @@
 
 		elmListItem.className = "feedItem";
 		elmListItem.tabIndex = 0;						// can get the focus
+		elmListItem.draggable = true;
 		elmListItem.setAttribute("name", elmLabel.textContent);
 		elmListItem.setAttribute("href", feed.url);
 
