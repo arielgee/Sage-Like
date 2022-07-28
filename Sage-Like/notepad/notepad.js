@@ -346,7 +346,7 @@ let notepad = (function() {
 		internalPrefs.getPopupShowCountNotepadHelp().then((count) => {
 			if(count>0) {
 				m_elmHelpPopup.classList.add("show");
-				internalPrefs.setPopupShowCountNotepadHelp(--count);
+				internalPrefs.setPopupShowCountNotepadHelp(count-1);
 			}
 		});
 	}
