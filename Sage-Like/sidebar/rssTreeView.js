@@ -81,6 +81,7 @@ let rssTreeView = (function() {
 	let m_elmCurrentlySelected;
 	let m_rssTreeCreatedOK = false;
 	let m_elmCurrentlyDragged = null;
+	let m_dropInsideFolderLastShowMsgTime = 0;
 
 	let m_prioritySelectedItemId = null;
 
@@ -1031,13 +1032,6 @@ let rssTreeView = (function() {
 
 		m_elmCurrentlyDragged = event.target;
 
-		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
-			if(count > 0) {
-				InfoBubble.i.show("Press the Shift key to drop item <b>inside</b> folder.", undefined, false);
-				internalPrefs.setDropInsideFolderShowMsgCount(--count);
-			}
-		});
-
 		let transfer = event.dataTransfer;
 
 		transfer.effectAllowed = "move";
@@ -1053,6 +1047,16 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDragEnterTreeItem(event) {
+
+		event.stopPropagation();
+
+		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
+			if(count > 0 && (m_dropInsideFolderLastShowMsgTime + 7000) < Date.now()) {	// Event is triggered repeatedly. Set 7s between messages to conserve counter.
+				m_dropInsideFolderLastShowMsgTime = Date.now();
+				InfoBubble.i.show("Press the Shift key to drop item <b>inside</b> folder.", undefined, false);
+				internalPrefs.setDropInsideFolderShowMsgCount(count-1);
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

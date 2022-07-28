@@ -1066,6 +1066,7 @@
 * feedPreview.css: handle <figure> elements with negative margin in `https://thepcspy.com/feeds/full.xml`
 * feedPreview.css: make all <H> tags have bold text.
 * support dragANDdrop a feed from the pagePopup to the treeView
+* move the (set|get)DropInsideFolderShowMsgCount code block from onDragStartTreeItem() to onDragEnterTreeItem() to support InfoBubble for drags from outside the tree (url, links, popup, etc). do not forget event.stopPropagation();
 ---
 
 
@@ -1075,7 +1076,6 @@
 
 
 ## Next
-* move the (set|get)DropInsideFolderShowMsgCount code block from onDragStartTreeItem() to onDragEnterTreeItem() to support InfoBubble for drags from outside the tree (url, links, popup, etc). do not forget event.stopPropagation();
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
