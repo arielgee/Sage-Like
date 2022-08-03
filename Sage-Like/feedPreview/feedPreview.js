@@ -504,10 +504,15 @@
 		clearTimeout(m_timeoutMouseOver);
 
 		let mediaObject = elmAtt.querySelector(".feedItemAttachmentMediaObject");
-		if(!!mediaObject && (event.shiftKey || mediaObject.readyState < 2)) {
-			const READY_STATES = ["HAVE_NOTHING", "HAVE_METADATA", "HAVE_CURRENT_DATA", "HAVE_FUTURE_DATA", "HAVE_ENOUGH_DATA"];
-			const NETWORK_STATES = ["NETWORK_EMPTY", "NETWORK_IDLE", "NETWORK_LOADING", "NETWORK_NO_SOURCE"];
-			console.log("[Sage-Like]", `Media object status:  readyState='${READY_STATES[mediaObject.readyState]}',  networkState='${NETWORK_STATES[mediaObject.networkState]}'`);
+		if(!!mediaObject) {
+
+			mediaObject.style.cursor = (mediaObject.readyState < 2 && mediaObject.error === null) ? "wait" : "";
+
+			if((event.shiftKey || mediaObject.readyState < 2)) {
+				const READY_STATES = ["HAVE_NOTHING", "HAVE_METADATA", "HAVE_CURRENT_DATA", "HAVE_FUTURE_DATA", "HAVE_ENOUGH_DATA"];
+				const NETWORK_STATES = ["NETWORK_EMPTY", "NETWORK_IDLE", "NETWORK_LOADING", "NETWORK_NO_SOURCE"];
+				console.log("[Sage-Like]", `Media object status:  readyState='${READY_STATES[mediaObject.readyState]}',  networkState='${NETWORK_STATES[mediaObject.networkState]}'`);
+			}
 		}
 
 		m_elmAttachmentTooltip.innerHTML = elmAtt.getAttribute("data-title").unescapeMarkup();
