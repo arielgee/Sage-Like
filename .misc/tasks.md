@@ -1066,11 +1066,11 @@
 * feedPreview.css: handle <figure> elements with negative margin in `https://thepcspy.com/feeds/full.xml`
 * feedPreview.css: make all <H> tags have bold text.
 * support dragANDdrop a feed from the pagePopup to the treeView
+* move the (set|get)DropInsideFolderShowMsgCount code block from onDragStartTreeItem() to onDragEnterTreeItem() to support InfoBubble for drags from outside the tree (url, links, popup, etc). do not forget event.stopPropagation();
 ---
 
 
 ## Now
-* move the (set|get)DropInsideFolderShowMsgCount code block from onDragStartTreeItem() to onDragEnterTreeItem() to support InfoBubble for drags from outside the tree (url, links, popup, etc). do not forget event.stopPropagation();
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
