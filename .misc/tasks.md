@@ -1069,6 +1069,7 @@
 
 
 ## Now
+* support dragANDdrop a feed from the pagePopup to the treeView
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
