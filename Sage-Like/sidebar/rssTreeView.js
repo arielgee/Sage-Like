@@ -2559,7 +2559,7 @@ let rssTreeView = (function() {
 		internalPrefs.getMsgShowCountHoverFilterTextBox().then((count) => {
 			if(count > 0) {
 				InfoBubble.i.show("Hover over the filter text box for vital information.", m_elmFilterWidget, false, false, 4000);
-				internalPrefs.setMsgShowCountHoverFilterTextBox(--count);
+				internalPrefs.setMsgShowCountHoverFilterTextBox(count-1);
 			}
 			m_elmTextFilter.focus();
 		}).finally(() => {
@@ -2908,7 +2908,7 @@ let rssTreeView = (function() {
 
 					if(m_msgShowCountReapplyFilter > 0) {
 						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
-						internalPrefs.setMsgShowCountReapplyFilter(--m_msgShowCountReapplyFilter);
+						internalPrefs.setMsgShowCountReapplyFilter(m_msgShowCountReapplyFilter-1);
 						m_msgShowCountReapplyFilter = 0;	// show only once per widget session
 					}
 				}
@@ -3009,7 +3009,7 @@ let rssTreeView = (function() {
 			internalPrefs.getMsgShowCountUnauthorizedFeed().then((count) => {
 				if(count > 0) {
 					InfoBubble.i.show("Unauthenticated. Right-click the locked feed and select <b>Sign\u00a0in...</b> from the menu, or use the <b>L</b> key.", refElm, false, m_elmTreeRoot.style.direction === "rtl", 8000, true);
-					internalPrefs.setMsgShowCountUnauthorizedFeed(--count);
+					internalPrefs.setMsgShowCountUnauthorizedFeed(count-1);
 				}
 			});
 		}
