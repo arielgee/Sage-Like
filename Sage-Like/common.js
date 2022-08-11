@@ -1406,17 +1406,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setLimitedInterval(callback, interval, repeats) {
-
-		let intId = setInterval(() => {
-			callback();
-			if(--repeats === 0) {
-				clearInterval(intId);
-			}
-		}, interval);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function validURL(url, objRetErr) {
 		try {
 			let oUrl = new URL(url);
@@ -1711,7 +1700,6 @@ let slUtil = (function() {
 		getFeedPreviewUrl: getFeedPreviewUrl,
 		getFeedPreviewUrlByBrowserVersion: getFeedPreviewUrlByBrowserVersion,
 		isRegExpValid: isRegExpValid,
-		setLimitedInterval: setLimitedInterval,
 		validURL: validURL,
 		incognitoErrorMessage: incognitoErrorMessage,
 		getElementViewportRect: getElementViewportRect,
