@@ -1693,7 +1693,7 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function hidden_pref_animated_slide_down_panel(animate = true) {
+	function hiddenPref_animatedSlideDownPanel(animate = true) {
 		// do not change this preference while any slide-down panel is visible (down)
 		browser.runtime.sendMessage({ id: Global.MSG_ID_CLOSE_ALL_SIDEBAR_PANELS }).then(() => {
 			// wait a little to make sure all transitions were completed
@@ -1706,7 +1706,7 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function hidden_pref_strict_rss_content_types(strict = true) {
+	function hiddenPref_strictRSSContentTypes(strict = true) {
 		console.log("[Sage-Like]", "WARNING: The result of setting this preference to 'False' is that Sage-Like will treat nearly any XML file as an RSS feed and attempt to display it with Feed Preview.");
 		prefs.setStrictRssContentTypes(!!strict).then(() => {
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES);
@@ -1714,13 +1714,18 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function hidden_pref_single_block_mode_in_prefs_page(singleBlockMode = false) {
+	function hiddenPref_singleBlockModeInPrefsPage(singleBlockMode = false) {
 		prefs.setSingleBlockModeInPrefsPage(!!singleBlockMode).then(() => browser.tabs.reload() );
 	}
 
 	return {
-		hidden_pref_animated_slide_down_panel: hidden_pref_animated_slide_down_panel,
-		hidden_pref_strict_rss_content_types: hidden_pref_strict_rss_content_types,
-		hidden_pref_single_block_mode_in_prefs_page: hidden_pref_single_block_mode_in_prefs_page,
+		set animated_slide_down_panel(val) { hiddenPref_animatedSlideDownPanel(val); },
+		get animated_slide_down_panel() { prefs.getAnimatedSlideDownPanel().then(val => console.log("animated_slide_down_panel =", val)); },
+
+		set strict_rss_content_types(val) { hiddenPref_strictRSSContentTypes(val); },
+		get strict_rss_content_types() { prefs.getStrictRssContentTypes().then(val => console.log("strict_rss_content_types =", val)); },
+
+		set single_block_mode_in_prefs_page(val) { hiddenPref_singleBlockModeInPrefsPage(val); },
+		get single_block_mode_in_prefs_page() { prefs.getSingleBlockModeInPrefsPage().then(val => console.log("single_block_mode_in_prefs_page =", val)); },
 	}
 })();
