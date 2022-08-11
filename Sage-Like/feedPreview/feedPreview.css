@@ -207,6 +207,15 @@ body {
 	width: auto !important;
 }
 
+.feedItemContent h1,
+.feedItemContent h2,
+.feedItemContent h3,
+.feedItemContent h4,
+.feedItemContent h5,
+.feedItemContent h6 {
+	font-weight: bold !important;
+}
+
 .feedItemContent audio,
 .feedItemContent video,
 .feedItemContent svg,
