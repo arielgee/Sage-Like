@@ -55,7 +55,7 @@
 		m_elmButtonAddFeeds.addEventListener("click", onClickButtonAdd);
 
 		browser.windows.getCurrent().then((winInfo) => {
-			m_windowId = winInfo.id
+			m_windowId = winInfo.id;
 			browser.runtime.sendMessage({ id: Global.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW, winId: m_windowId }).then((isOpen) => {
 				m_isSidebarOpen = isOpen;
 			});
