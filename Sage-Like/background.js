@@ -2,19 +2,23 @@
 
 (function() {
 
-	const INJECTABLE = [
-		{ isScript: true, details: { runAt: "document_idle", file: "/common.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/helpers.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/feed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/xmlFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/jsonFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/rssFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/rdfFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/atomFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/websiteSpecificDiscovery.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/syndication.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/content.js" } },
-	];
+	const INJECTABLE = {
+		injectImmediately: false,
+		target: { tabId: null },
+		files: [
+			"/common.js",
+			"/syndication/helpers.js",
+			"/syndication/feed.js",
+			"/syndication/xmlFeed.js",
+			"/syndication/jsonFeed.js",
+			"/syndication/rssFeed.js",
+			"/syndication/rdfFeed.js",
+			"/syndication/atomFeed.js",
+			"/syndication/websiteSpecificDiscovery.js",
+			"/syndication/syndication.js",
+			"/content.js",
+		],
+	};
 
 	/*** Content-Type Default Strict Behavior ***/
 	// Top-level documents loaded into a tab web requests for files with MIMEs that include semantics.
@@ -29,66 +33,45 @@
 	const REGEXP_URL_FILTER_TAB_STATE_CHANGE = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrlPrefix().escapeRegExp());
 
 	const MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW = "mnu-try-open-link-in-feed-preview";
+	const ALARM_NAME_MONITOR_BOOKMARK_FEEDS = "alarm-monitorBookmarkFeeds";
 
-	let m_windowIds = [];
 	let m_currentWindowId = null;
-	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_CONTENT_TYPES_STRICT, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
 
 	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initialization() {
+	async function initialization() {
 
-		browser.runtime.onConnect.addListener(onRuntimeConnect);				// Handle connection from panel.js
 		browser.runtime.onMessage.addListener(onRuntimeMessage);				// Messages handler
 		browser.runtime.onInstalled.addListener(onRuntimeInstalled);			// Sage-Like was installed
-		//browser.commands.onCommand.addListener((command) => {	});				// firefox commands (keyboard)
-		browser.browserAction.onClicked.addListener(onBrowserActionClicked);	// Sage-Like Toolbar button - toggle sidebar
-		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
-		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
+		// browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
+		browser.tabs.onUpdated.addListener(onTabsUpdated);						// Detect feeds in web pages	- Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
+		browser.tabs.onAttached.addListener(onTabsAttached);					// Detect feeds in web pages
+		browser.action.onClicked.addListener(onBrowserActionClicked);			// Sage-Like Toolbar button - toggle sidebar
+		browser.menus.onClicked.addListener(onMenusClicked);					// context menu 'Try to Open Link in Feed Preview'
+		browser.alarms.onAlarm.addListener(onAlarm);							// monitor bookmark feeds
 
-		browser.webRequest.onHeadersReceived.addListener(						// redirect some URL feeds to feedPreview
-			onWebRequestHeadersReceived,
-			{ urls: ["http://*/*", "https://*/*"], types: ["main_frame"] },		// filter: only HTTP web pages that are top-level documents loaded into a tab.
-			["blocking", "responseHeaders"]
-		);
+		// browser.webRequest.onHeadersReceived.addListener(						// redirect some URL feeds to feedPreview
+		// 	onWebRequestHeadersReceived,
+		// 	{ urls: ["http://*/*", "https://*/*"], types: ["main_frame"] },		// filter: only HTTP web pages that are top-level documents loaded into a tab.
+		// 	["blocking", "responseHeaders"]
+		// );
 
 		handlePrefStrictRssContentTypes();										// Check if web response can be displayed as feedPreview
-		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for pageAction
 		handlePrefShowTryOpenLinkInFeedPreview();								// Try to open a link as a feed in the feedPreview
 
-		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
+		browser.action.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
 
 		// start the first bookmark feeds check after 2 seconds to allow the browser's
 		// initialization to terminate and possibly the sidebar to be displayed.
-		m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, 2000);
+		browser.alarms.create(ALARM_NAME_MONITOR_BOOKMARK_FEEDS, { delayInMinutes: 1/30 });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//		Event listener handlers
 	////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onRuntimeConnect(port) {
-
-		// Handle connection opened from panel.js
-
-		// + NOTE: port.name is the window ID
-		if(port.sender.id === browser.runtime.id) {
-
-			// Connection is open from panel.js. Meaning sidebar is opened. Save ID of new window in array
-			m_windowIds.push(parseInt(port.name));
-
-			// Connection is closed. Meaning the sidebar was closed. Remove window ID from array
-			// It will not be called when the browser's window is closed by the user. This is handled by onWindowsRemoved()
-			port.onDisconnect.addListener((p) => {
-				let winId = parseInt(p.name);
-				m_windowIds = m_windowIds.filter((id) => winId !== id);
-			});
-		}
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onRuntimeMessage(message) {
@@ -119,10 +102,6 @@
 				setTimeout(() => hidePageAction(message.tabId), message.msWait);
 				break;
 				/////////////////////////////////////////////////////////////////////////
-
-			case Global.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:
-				return Promise.resolve(m_windowIds.includes(message.winId));
-				/////////////////////////////////////////////////////////////////////////
 		}
 	}
 
@@ -150,33 +129,14 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBrowserActionClicked() {
-
-		if(m_windowIds.includes(m_currentWindowId)) {
-			browser.sidebarAction.close();		// supported in 57.0
-		} else {
-			browser.sidebarAction.open();		// supported in 57.0
-		}
-
-		//#region Bug 1398833
-		/*
-			+ Bug 1398833: https://bugzilla.mozilla.org/show_bug.cgi?id=1398833
-			+ Bug 1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
-			+ sidebarAction.open/close may only be called from a user input handler
-
-		browser.sidebarAction.isOpen({}).then((isOpen) => {		// supported in 59.0
-			if(isOpen) {
-				browser.sidebarAction.close();		// supported in 57.0
-			} else {
-				browser.sidebarAction.open();		// supported in 57.0
-			}
-		});
-		*/
-		//#endregion
+		browser.sidebarAction.toggle();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onWindowsRemoved(removedWinId) {
-		m_windowIds = m_windowIds.filter((id) => removedWinId !== id);
+	function onAlarm(alarmInfo) {
+		if(alarmInfo.name === ALARM_NAME_MONITOR_BOOKMARK_FEEDS) {
+			monitorBookmarkFeeds();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -188,18 +148,26 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsUpdated(tabId, changeInfo, tab) {
-		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
-		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
-		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && IsAllowedForFeedDetection(tab.url) ) {
-			handleTabChangedState(tabId);
-		}
+		prefs.getDetectFeedsInWebPage().then((detect) => {
+			if(detect) {
+				// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
+				// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
+				if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && IsAllowedForFeedDetection(tab.url) ) {
+					handleTabChangedState(tabId);
+				}
+			}
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsAttached(tabId) {
-		browser.tabs.get(tabId).then((tab) => {
-			if (IsAllowedForFeedDetection(tab.url)) {
-				handleTabChangedState(tabId);
+		prefs.getDetectFeedsInWebPage().then((detect) => {
+			if(detect) {
+				browser.tabs.get(tabId).then((tab) => {
+					if (IsAllowedForFeedDetection(tab.url)) {
+						handleTabChangedState(tabId);
+					}
+				});
 			}
 		});
 	}
@@ -277,15 +245,15 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function monitorBookmarkFeeds() {
 
-		// first clear the current timeout if called from preference change to
-		// set a new interval value or to have no background monitoring at all
-		clearTimeout(m_timeoutIdMonitorBookmarkFeeds);
-		m_timeoutIdMonitorBookmarkFeeds = null;
+		// It will replace the current alarm if called due to a preference change to set a new
+		// interval value or it will clear the current alarm to have no background monitoring at all.
 
 		let nextInterval = await prefs.getCheckFeedsInterval().catch(() => nextInterval = prefs.DEFAULTS.checkFeedsInterval);
 
-		// if interval is zero then do not perform background monitoring
-		if(nextInterval !== "0") {
+		// if interval is zero then clear alarm and do not perform background monitoring
+		if(nextInterval === "0") {
+			browser.alarms.clear(ALARM_NAME_MONITOR_BOOKMARK_FEEDS);
+		} else {
 
 			let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));		// supported in 59.0
 			let checkWhenSbClosed = await prefs.getCheckFeedsWhenSbClosed().catch(() => checkWhenSbClosed = prefs.DEFAULTS.checkFeedsWhenSbClosed);
@@ -296,11 +264,10 @@
 				await checkForNewBookmarkFeeds();
 			}
 
-			// Repeat a new timeout session.
 			if(nextInterval.includes(":")) {
 				nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
 			}
-			m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, parseInt(nextInterval));
+			browser.alarms.create(ALARM_NAME_MONITOR_BOOKMARK_FEEDS, { when: Date.now()+parseInt(nextInterval) });	// create/replace an alarm.
 		}
 	}
 
@@ -336,7 +303,7 @@
 					console.log("[Sage-Like]", error.message);
 				}
 			}
-			slUtil.setSafeBrowserActionBadgeText({ text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
+			browser.action.setBadgeText({ text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
 			//console.log("[Sage-Like]", "Periodic check for new feeds performed in background.");
 
 		}).catch((error) => {
@@ -378,17 +345,15 @@
 
 		return new Promise(async (resolve, reject) => {
 
-			let idx, len;
+			INJECTABLE.target.tabId = tabId;
 
 			try {
 
-				for(idx=0, len=INJECTABLE.length; idx<len; idx++) {
-					await browser.tabs.executeScript(tabId, INJECTABLE[idx].details);
-				}
+				await browser.scripting.executeScript(INJECTABLE);
 				resolve({});
 
-			} catch (err) {
-				err.message.startsWith("redeclaration") ? resolve({ errorIndex: idx }) : reject(new Error(`Error index: ${idx}, ${err.message}`));
+			} catch(error) {
+				error.message.startsWith("redeclaration") ? resolve({ redeclarationMsg: error.message }) : reject(error);
 			}
  		});
 	}
@@ -405,17 +370,7 @@
 
 		let detectFeedsInWebPage = await prefs.getDetectFeedsInWebPage();
 
-		if(detectFeedsInWebPage) {
-
-			browser.tabs.onUpdated.addListener(onTabsUpdated);		// Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
-			browser.tabs.onAttached.addListener(onTabsAttached);
-
-		} else if(browser.tabs.onUpdated.hasListener(onTabsUpdated)) {
-
-			// hasListener() will return false if handlePrefDetectFeedsInWebPage() was called from webExt loading.
-
-			browser.tabs.onUpdated.removeListener(onTabsUpdated);
-			browser.tabs.onAttached.removeListener(onTabsAttached);
+		if(!detectFeedsInWebPage) {
 
 			let tabs = await browser.tabs.query({});
 
@@ -440,14 +395,8 @@
 				title: "Try to Open Link in Feed Preview",
 				contexts: ["link"],
 			});
-			browser.menus.onClicked.addListener(onMenusClicked);
-
-		} else if(browser.menus.onClicked.hasListener(onMenusClicked)) {
-
-			// hasListener() will return false if handlePrefShowTryOpenLinkInFeedPreview() was called from webExt loading.
-
-			browser.menus.onClicked.removeListener(onMenusClicked);
-			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);
+		} else {
+			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);	// if called from initialization(), the remove() will not find the menu.
 		}
 	}
 

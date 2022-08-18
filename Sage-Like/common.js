@@ -92,10 +92,9 @@ let Global = (function() {
 		MSG_ID_GET_PAGE_DATA:							106,
 		MSG_ID_WAIT_AND_HIDE_POPUP:						107,
 		MSG_ID_ADD_NEW_DISCOVERED_FEEDS:				108,
-		MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:			109,
-		MSG_ID_RSS_TREE_CREATED_OK:						110,
-		MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:				111,
-		MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:	112,
+		MSG_ID_RSS_TREE_CREATED_OK:						109,
+		MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:				110,
+		MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:	111,
 
 		// Message Details IDs
 		MSGD_PREF_CHANGE_ALL:									1001,
@@ -1560,16 +1559,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function setSafeBrowserActionBadgeText(details) {
-
-		// Fx v59 has no support for windowId
-		if(parseInt(await getBrowserVersion()) <= 59) {
-			delete details.windowId;
-		}
-		browser.browserAction.setBadgeText(details);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function getStringExportFileName(dateVal, prefix, ext) {
 		let dateValStr = dateVal.getFullYear() +
 			(dateVal.getMonth()+1).toLocaleString('en', {minimumIntegerDigits:2}) +
@@ -1711,7 +1700,6 @@ let slUtil = (function() {
 		nbAlert: nbAlert,
 		getLanguageDir: getLanguageDir,
 		getUniqId: getUniqId,
-		setSafeBrowserActionBadgeText: setSafeBrowserActionBadgeText,
 		getStringExportFileName: getStringExportFileName,
 		fetchWithTimeout: fetchWithTimeout,
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,

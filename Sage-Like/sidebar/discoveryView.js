@@ -8,23 +8,25 @@ let discoveryView = (function() {
 
 	class PageDataByInjection {
 		constructor() {
-			this._CODE_INJECTION = "( {" +
-										"docElmId: document.documentElement.id," +
-										"title: document.title," +
-										"domainName: document.domain," +
-										"origin: window.location.origin," +
-										"isPlainText: document.body.children.length === 1 && " +
-														 "document.body.firstElementChild.tagName === \"PRE\" && " +
-														 "document.body.firstElementChild.children.length === 0," +
-										"txtHTML: document.documentElement.outerHTML } );";
+			this._funcInjection = () => {
+				let b = document.body;
+				return {
+					docElmId: document.documentElement.id,
+					title: document.title,
+					domainName: document.domain,
+					origin: window.location.origin,
+					isPlainText: b.children.length === 1 && b.firstElementChild.tagName === "PRE" && b.firstElementChild.children.length === 0,
+					txtHTML: document.documentElement.outerHTML,
+				};
+			}
 		}
 		get(tabId) {
 			return new Promise((resolve, reject) => this._injectCode(tabId, resolve, reject) );
 		}
 		_injectCode(tabId, resolve, reject) {
-			browser.tabs.executeScript(tabId, { code: this._CODE_INJECTION, runAt: "document_end" }).then((result) => {
-				if( !!result && result.length > 0 && result[0].hasOwnProperty("docElmId") ) { // ensure code was executed. Fx76 don't reject executeScript() on built-in pages. Bugzilla bug 1639529 was filed
-					resolve(result[0]);
+			browser.scripting.executeScript({ target: { tabId: tabId }, func: this._funcInjection } ).then((results) => {
+				if( !!results && results.length > 0 && results[0].result.hasOwnProperty("docElmId") ) {
+					resolve(results[0].result);
 				} else {
 					reject({ errorMsg: "Code injection failed." });
 				}
