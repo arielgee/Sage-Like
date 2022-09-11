@@ -88,14 +88,16 @@ let Global = (function() {
 		MSG_ID_SET_PRIORITY_SELECTED_ITEM_ID:			102,
 		MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER:		103,
 		MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER:		104,
-		MSG_ID_GET_PAGE_FEED_COUNT:						105,
-		MSG_ID_GET_PAGE_DATA:							106,
-		MSG_ID_WAIT_AND_HIDE_POPUP:						107,
-		MSG_ID_ADD_NEW_DISCOVERED_FEEDS:				108,
-		MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:			109,
-		MSG_ID_RSS_TREE_CREATED_OK:						110,
-		MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:				111,
-		MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:	112,
+		MSG_ID_SET_CONFIRMED_PAGE_FEEDS:				105,
+		MSG_ID_GET_CONFIRMED_PAGE_FEEDS:				106,
+		MSG_ID_GET_PAGE_DATA:							107,
+		MSG_ID_WAIT_AND_HIDE_POPUP:						108,
+		MSG_ID_ADD_NEW_DISCOVERED_FEEDS:				109,
+		MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:			110,
+		MSG_ID_RSS_TREE_CREATED_OK:						111,
+		MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:				112,
+		MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:	113,
+		MSG_ID_QUERY_INJECTED_CONTENT:					114,
 
 		// Message Details IDs
 		MSGD_PREF_CHANGE_ALL:									1001,
@@ -851,6 +853,63 @@ let prefs = (function() {
 
 		restoreDefaults: restoreDefaults,
 	}
+
+})();
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+let contentHandler = (function() {
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function queryInjectedContent(tabId) {
+		try {
+			let response = await browser.tabs.sendMessage(tabId, { id: Global.MSG_ID_QUERY_INJECTED_CONTENT });
+			return (response.reply === "YES");
+		} catch {
+			return false;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function injectContentScripts(tabId) {
+
+		const INJECTABLE = [
+			{ isScript: true, details: { runAt: "document_idle", file: "/common.js" } },
+			{ isScript: true, details: { runAt: "document_idle", file: "/content.js" } },
+		];
+
+		for(let idx=0, len=INJECTABLE.length; idx<len; idx++) {
+			await browser.tabs.executeScript(tabId, INJECTABLE[idx].details);
+		}
+		return {};
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getPageData(tabId) {
+
+		return new Promise(async (resolve, reject) => {
+
+			try {
+
+				if( !(await queryInjectedContent(tabId)) ) {
+					await injectContentScripts(tabId);			// Inject only if not already injected
+				}
+
+				let response = await browser.tabs.sendMessage(tabId, { id: Global.MSG_ID_GET_PAGE_DATA });
+				if(response.hasOwnProperty("pageData")) {
+					resolve(response.pageData);
+				} else {
+					reject(new Error("Not a pageData object."));
+				}
+
+			} catch (error) {
+				reject(error);
+			}
+		});
+	}
+
+	return {
+		getPageData: getPageData,
+	};
 
 })();
 

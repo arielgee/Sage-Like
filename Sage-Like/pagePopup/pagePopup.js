@@ -255,7 +255,7 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function createFeedList() {
+	function createFeedList(maxRepeatedCalls = 15) {
 
 		// empty list if it was filled (leave the busyContainer)
 		emptyFeedList(false);
@@ -264,17 +264,17 @@
 
 			let currentTabId = tabs[0].id;
 
-			browser.tabs.sendMessage(currentTabId, { id: Global.MSG_ID_GET_PAGE_DATA }).then((response) => {
+			browser.tabs.sendMessage(currentTabId, { id: Global.MSG_ID_GET_CONFIRMED_PAGE_FEEDS }).then((response) => {
 
 				document.getElementById("popupSubCaption").textContent = response.title;
 
-				const feeds = response.feeds;
-				const feedsLen = feeds.length;
-
-				if(feedsLen < response.feedCount) {
-					setTimeout(createFeedList, 2000);
+				if(!response.isFeedsArraySet) {
+					if(maxRepeatedCalls === 0) throw new Error("[Sage-Like] Max repeated calls to createFeedList() was reached");
+					setTimeout(createFeedList, 2000, maxRepeatedCalls-1);
 					return;
 				}
+
+				const feeds = response.feeds;
 
 				// sort by index - when feed.status is "error" there is no "index". So this always result to FALSE (comparing with undefined)
 				feeds.sort((a, b) => a.index > b.index ? 1 : -1);
@@ -284,7 +284,7 @@
 				let isListEmpty = true;
 				let frag = document.createDocumentFragment();
 
-				for (let idx=0; idx<feedsLen; idx++) {
+				for (let idx=0, len=feeds.length; idx<len; idx++) {
 
 					const feed = feeds[idx];
 

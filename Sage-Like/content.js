@@ -5,88 +5,71 @@ class Content {
 	//////////////////////////////////////////////////////////////////////
 	constructor() {
 		this._feeds = [];
-		this._feedCount = 0;
-
+		this._isFeedsArraySet = false;
+		this._pageData = this._getPageData();
 		this._onRuntimeMessage = this._onRuntimeMessage.bind(this);
-
 		browser.runtime.onMessage.addListener(this._onRuntimeMessage);
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	_onRuntimeMessage(message, sender) {
+	_getPageData() {
 
-		return new Promise((resolve, reject) => {
+		let docType = document.doctype;
+		let sDocType = "";
+		let docBody = document.body;
+
+		if(!!docType) {
+			sDocType = `<!DOCTYPE ${docType.name}`;
+			if(docType.publicId) {
+				sDocType += ` PUBLIC "${docType.publicId}"`;
+			} else if(docType.systemId) {
+				sDocType += ` SYSTEM "${docType.systemId}"`;
+			}
+			sDocType += ">\n";
+		}
+
+		return {
+			docElmId: document.documentElement.id,
+			title: document.title,
+			contentType: document.contentType,
+			domainName: document.domain,
+			location: window.location.toString(),
+			origin: window.location.origin,
+			isPlainText: !!docBody && docBody.children.length === 1 && docBody.firstElementChild.tagName === "PRE" && docBody.firstElementChild.children.length === 0,
+			txtHTML: sDocType + document.documentElement.outerHTML,
+		};
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	_onRuntimeMessage(message) {
+
+		return new Promise((resolve) => {
 
 			switch (message.id) {
 
-				case Global.MSG_ID_GET_PAGE_FEED_COUNT:
-					this._collectPageFeeds().then((count) => resolve({ feedCount: count }));
+				case Global.MSG_ID_QUERY_INJECTED_CONTENT:
+					resolve({ reply: "YES" });
+					break;
+					//////////////////////////////////////////////////////////////
+
+				case Global.MSG_ID_SET_CONFIRMED_PAGE_FEEDS:
+					if(message.confirmedFeeds instanceof Array) {
+						this._feeds.push(...(message.confirmedFeeds));
+					}
+					this._isFeedsArraySet = true;
+					resolve({ feedCount: this._feeds.length });
+					break;
+					//////////////////////////////////////////////////////////////
+
+				case Global.MSG_ID_GET_CONFIRMED_PAGE_FEEDS:
+					resolve({ isFeedsArraySet: this._isFeedsArraySet, title: document.title, feeds: this._feeds });
 					break;
 					//////////////////////////////////////////////////////////////
 
 				case Global.MSG_ID_GET_PAGE_DATA:
-					resolve({ title: document.title, feeds: this._feeds, feedCount: this._feedCount });
+					resolve({ pageData: this._pageData });
 					break;
 					//////////////////////////////////////////////////////////////
-
-				default:
-					reject();
-					break;
-					//////////////////////////////////////////////////////////////
-			}
-		});
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	_collectPageFeeds() {
-
-		return new Promise(async (resolve) => {
-
-			const timeout = await prefs.getFetchTimeout() * 1000;	// to millisec
-			const docElement = document.documentElement;
-			const winLocation = window.location;
-
-			this._feeds = [];
-			this._feedCount = 0;
-
-			if(docElement.id === "feedHandler" && !!!document.domain) {
-
-				// Fx v63 build-in Feed Preview
-
-				resolve(this._feedCount = 1);
-				syndication.feedDiscovery(winLocation.toString(), timeout).then((feedData) => {
-					this._feeds.push(feedData);
-				});
-
-			} else if(docElement.id === "_sage-LikeFeedPreview") {
-
-				// Fx v64 Sage-Like Feed Preview
-
-				resolve(this._feedCount = 1);
-				let url = slUtil.getURLQueryStringValue(winLocation.toString(), "urlFeed");
-				syndication.feedDiscovery(url, timeout).then((feedData) => {
-					this._feeds.push(feedData);
-				});
-
-			} else if(docElement.nodeName !== "HTML") {
-
-				// Fx XML viewer (most likely be Fx v64 and above. Before that will be handled by v63 build-in Feed Preview)
-
-				syndication.feedDiscovery(winLocation.toString(), timeout).then((feedData) => {
-					resolve(this._feedCount = (feedData.status === "OK" ? 1 : 0));
-					if(this._feedCount > 0) this._feeds.push(feedData);
-				});
-
-			} else {
-
-				// For regular web pages
-
-				syndication.webPageFeedsDiscovery({ objDoc: document }, timeout, winLocation.origin, 0, (fd) => this._feeds.push(fd)).then((result) => {
-					resolve( (this._feedCount = result.length) );
-					// XML feeds with XSLT: Due to issues from the additional fetching of the page (rate limiting),
-					// the attempt to discover feeds in case where the page is an XML with XSLT was removed.
-					// XML with XSLT is still discoverable from the discovery view.
-				});
 			}
 		});
 	}

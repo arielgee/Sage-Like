@@ -2,20 +2,6 @@
 
 (function() {
 
-	const INJECTABLE = [
-		{ isScript: true, details: { runAt: "document_idle", file: "/common.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/helpers.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/feed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/xmlFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/jsonFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/rssFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/rdfFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/atomFeed.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/websiteSpecificDiscovery.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/syndication/syndication.js" } },
-		{ isScript: true, details: { runAt: "document_idle", file: "/content.js" } },
-	];
-
 	/*** Content-Type Default Strict Behavior ***/
 	// Top-level documents loaded into a tab web requests for files with MIMEs that include semantics.
 	// For example, "Content-Type: application/xml" will be ignored and handled by the browser.
@@ -356,41 +342,97 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handleTabChangedState(tabId) {
 
-		injectContentScripts(tabId).then((result) => {
+		contentHandler.getPageData(tabId).then((pageData) => {
 
-			browser.tabs.sendMessage(tabId, { id: Global.MSG_ID_GET_PAGE_FEED_COUNT }).then((response) => {
-				if(response.feedCount > 0) {
+			discoverFeeds(pageData).then((result) => {
+
+				if(result.expectedFeedCount > 0) {
+					copyConfirmedFeedsToPage(tabId, result.expectedFeedCount, result.feeds);
 					showPageAction(tabId);
 				} else {
 					hidePageAction(tabId);
 				}
-			}).catch(async (error) => console.log("[Sage-Like]", "send message at " + (await browser.tabs.get(tabId)).url, error));
+
+			});
 
 		}).catch(async (error) => {
 			if( !error.message.toLowerCase().includes("missing host permission for the tab") ) {
-				console.log("[Sage-Like]", "inject content scripts at " + (await browser.tabs.get(tabId)).url, error);
+				console.log("[Sage-Like]", `Failure to get page data by injection at ${(await browser.tabs.get(tabId)).url}`, error);
 			}
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function injectContentScripts(tabId) {
+	function discoverFeeds(pageData) {
 
-		return new Promise(async (resolve, reject) => {
+		return new Promise(async (resolve) => {
 
-			let idx, len;
+			const timeout = await prefs.getFetchTimeout() * 1000;	// to millisec
+			const doc = (new DOMParser()).parseFromString(pageData.txtHTML, pageData.contentType);
+			const docElement = doc.documentElement;
+			const winLocation = pageData.location;
+			const discoverResult = {
+				feeds: [],
+				expectedFeedCount: 0,
+			};
 
-			try {
+			if(docElement.id === "feedHandler" && !!!pageData.domainName) {
 
-				for(idx=0, len=INJECTABLE.length; idx<len; idx++) {
-					await browser.tabs.executeScript(tabId, INJECTABLE[idx].details);
-				}
-				resolve({});
+				// Fx v63 build-in Feed Preview
 
-			} catch (err) {
-				err.message.startsWith("redeclaration") ? resolve({ errorIndex: idx }) : reject(new Error(`Error index: ${idx}, ${err.message}`));
+				discoverResult.expectedFeedCount = 1;
+				resolve(discoverResult);
+				syndication.feedDiscovery(winLocation, timeout).then((feedData) => {
+					discoverResult.feeds.push(feedData);
+				});
+
+			} else if(docElement.id === "_sage-LikeFeedPreview") {
+
+				// Fx v64 Sage-Like Feed Preview
+
+				discoverResult.expectedFeedCount = 1;
+				resolve(discoverResult);
+				let url = slUtil.getURLQueryStringValue(winLocation, "urlFeed");
+				syndication.feedDiscovery(url, timeout).then((feedData) => {
+					discoverResult.feeds.push(feedData);
+				});
+
+			} else if(docElement.nodeName !== "HTML") {
+
+				// Fx XML viewer (most likely be Fx v64 and above. Before that will be handled by v63 build-in Feed Preview)
+
+				syndication.feedDiscovery(winLocation, timeout).then((feedData) => {
+					discoverResult.expectedFeedCount = (feedData.status === "OK" ? 1 : 0);
+					resolve(discoverResult);
+					if(discoverResult.expectedFeedCount > 0) discoverResult.feeds.push(feedData);
+				});
+
+			} else {
+
+				// For regular web pages
+
+				syndication.webPageFeedsDiscovery({ objDoc: doc }, timeout, pageData.origin, 0, (fd) => discoverResult.feeds.push(fd)).then((result) => {
+					discoverResult.expectedFeedCount = result.length;
+					resolve(discoverResult);
+					// XML feeds with XSLT: Due to issues from the additional fetching of the page (rate limiting),
+					// the attempt to discover feeds in case where the page is an XML with XSLT was removed.
+					// XML with XSLT is still discoverable from the discovery view.
+				});
 			}
- 		});
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function copyConfirmedFeedsToPage(tabId, expectedFeedCount, feeds, maxRepeatedCalls = 15) {
+
+		if(feeds.length < expectedFeedCount) {
+			if(maxRepeatedCalls === 0) throw new Error("[Sage-Like] Max repeated calls to copyConfirmedFeedsToPage() was reached");
+			setTimeout(copyConfirmedFeedsToPage, 2000, tabId, expectedFeedCount, feeds, maxRepeatedCalls-1);
+			return;
+		}
+
+		browser.tabs.sendMessage(tabId, { id: Global.MSG_ID_SET_CONFIRMED_PAGE_FEEDS, confirmedFeeds: feeds })
+			.catch(async (error) => console.log("[Sage-Like]", `Failure to send SET_CONFIRMED_PAGE_FEEDS to ${(await browser.tabs.get(tabId)).url}`, error));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

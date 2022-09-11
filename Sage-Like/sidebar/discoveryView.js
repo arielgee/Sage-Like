@@ -3,36 +3,6 @@
 let discoveryView = (function() {
 
 	//==================================================================================
-	//=== Class Declerations
-	//==================================================================================
-
-	class PageDataByInjection {
-		constructor() {
-			this._CODE_INJECTION = "( {" +
-										"docElmId: document.documentElement.id," +
-										"title: document.title," +
-										"domainName: document.domain," +
-										"origin: window.location.origin," +
-										"isPlainText: document.body.children.length === 1 && " +
-														 "document.body.firstElementChild.tagName === \"PRE\" && " +
-														 "document.body.firstElementChild.children.length === 0," +
-										"txtHTML: document.documentElement.outerHTML } );";
-		}
-		get(tabId) {
-			return new Promise((resolve, reject) => this._injectCode(tabId, resolve, reject) );
-		}
-		_injectCode(tabId, resolve, reject) {
-			browser.tabs.executeScript(tabId, { code: this._CODE_INJECTION, runAt: "document_end" }).then((result) => {
-				if( !!result && result.length > 0 && result[0].hasOwnProperty("docElmId") ) { // ensure code was executed. Fx76 don't reject executeScript() on built-in pages. Bugzilla bug 1639529 was filed
-					resolve(result[0]);
-				} else {
-					reject({ errorMsg: "Code injection failed." });
-				}
-			}).catch((error) => reject({ errorMsg: "Code injection rejected.", nativeError: error }) );
-		}
-	}
-
-	//==================================================================================
 	//=== Variables Declerations
 	//==================================================================================
 
@@ -155,7 +125,7 @@ let discoveryView = (function() {
 				return;
 			}
 
-			const gettingPageData = (new PageDataByInjection()).get(tab.id);
+			const gettingPageData = contentHandler.getPageData(tab.id)
 
 			setDiscoverLoadingState(true);
 			emptyDiscoverFeedsList();
@@ -175,6 +145,12 @@ let discoveryView = (function() {
 					// Fx v64 Sage-Like Feed Preview
 
 					loadSingleDiscoverFeed(slUtil.getURLQueryStringValue(tab.url, "urlFeed"), pd.title);
+
+				} else if(pd.contentType.toLowerCase() !== "text/html") {
+
+					// Fx XML viewer (most likely be Fx v64 and above. Before that will be handled by v63 build-in Feed Preview)
+
+					loadSingleDiscoverFeed(tab.url, (!!pd.domainName ? pd.domainName : pd.title));
 
 				} else {
 
@@ -238,7 +214,7 @@ let discoveryView = (function() {
 					m_elmDiscoverFeedsList.appendChild(createTagLI(feedData));
 					setStatusbarMessage(domainName + "\u2002(" + m_elmDiscoverFeedsList.children.length + ")", false);
 				} else if(feedData.status === "error") {
-					if( !!!injectErr || !(injectErr.nativeError instanceof Error) || !(injectErr.nativeError.message.toLowerCase().startsWith("missing host permission for the tab")) ) {
+					if( !!!injectErr || !(injectErr instanceof Error) || !(injectErr.message.toLowerCase().includes("missing host permission for the tab")) ) {
 						console.log("[Sage-Like]", feedData.url, feedData.message, ...(!!injectErr ? ["[ Inject error: ", injectErr, "]"] : []));
 					}
 				}
@@ -281,7 +257,7 @@ let discoveryView = (function() {
 					// if none of the feeds was added to the list
 					if(m_elmDiscoverFeedsList.children.length === 0) {
 						// See comment below in the handler of syndication.webPageFeedsDiscovery()
-						loadSingleDiscoverFeed(url, domainName, { sNoFeedsMsg: "No valid feeds were discovered." });
+						loadSingleDiscoverFeed(url, domainName);
 					} else {
 						setDiscoverLoadingState(false);
 						sortDiscoverFeedsList();
