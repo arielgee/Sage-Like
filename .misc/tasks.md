@@ -1068,6 +1068,7 @@
 * support dragANDdrop a feed from the pagePopup to the treeView
 * move the (set|get)DropInsideFolderShowMsgCount code block from onDragStartTreeItem() to onDragEnterTreeItem() to support InfoBubble for drags from outside the tree (url, links, popup, etc). do not forget event.stopPropagation();
 * feedPreview media attachments: wait cursor when data is loading
+* set none for effectAllowed/dropEffect in onDragOverTreeItem when hovering list view or discoveryView
 ---
 
 
