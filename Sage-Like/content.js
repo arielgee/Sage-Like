@@ -54,7 +54,7 @@ class Content {
 
 				case Global.MSG_ID_SET_CONFIRMED_PAGE_FEEDS:
 					if(message.confirmedFeeds instanceof Array) {
-						this._feeds.push(...(message.confirmedFeeds));
+						this._feeds = message.confirmedFeeds;
 					}
 					this._isFeedsArraySet = true;
 					resolve({ feedCount: this._feeds.length });
