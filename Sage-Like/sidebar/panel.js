@@ -99,6 +99,7 @@ let panel = (function() {
 
 		window.addEventListener("resize", onResize, false);
 		m_elmBody.addEventListener("keydown", onKeyDownBody);
+		m_elmBody.addEventListener("dragover", onDragOverBody);
 		m_elmTop.addEventListener("scroll", onScrollTop);
 		m_elmSplitter.addEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
 		m_elmSplitter.addEventListener("mousedown", onMouseDown_startSplitterDrag, false);
@@ -267,6 +268,12 @@ let panel = (function() {
 		if(event.code === "Escape") {
 			closeAllSidebarPanels();
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onDragOverBody(event) {
+		event.dataTransfer.effectAllowed = event.dataTransfer.dropEffect = "none";
+		return false;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
