@@ -6,26 +6,26 @@
 	<meta charset="utf-8" />
 	<title>Discovery Tester</title>
 
-	<link id="lk99990" rel="alternate" type="application/atom+xml"	href="https://ghisler.ch/board/app.php/smartfeed/feed"					title="ATOM" />
-	<link id="lk99991" rel="alternate" type="application/rss+xml"	href="https://ghisler.ch/board/app.php/smartfeed/feed?y=2"				title="RSS" />
-	<link id="lk99992" rel="alternate" type="application/atom+xml"	href="https://ghisler.ch//board/app.php/feed"							title="Feed - Total Commander" />
-	<link rel="alternate" type="application/atom+xml"	href="https://ghisler.ch//board/app.php/feed/topics"					title="Feed - New Topics" />
-	<link rel="alternate" type="application/atom+xml"	href="https://ghisler.ch/board/app.php/feed/forum/3"					title="Feed - Forum - Total Commander (English)" />
-	<link rel="alternate" type="application/rss+xml"	href="http://www.haaretz.co.il/cmlink/developer-facebook-rss-1.2900942"	title="Developer Facebook RSS" />
+	<link id="lk99990" rel="alternate" type="application/atom+xml"	href="https://ghisler.ch/board/app.php/smartfeed/feed"		title="ATOM" />
+	<link rel="alternate" type="application/rss+xml"	href="https://www.haaretz.co.il/srv/htz---culture---rss"				title="Developer Facebook RSS" />
+	<link rel="alternate" type="application/rss+xml"	href="https://www.haaretz.co.il/srv/rss---feedly"						title="Facebook Rss Feed" />
+	<link id="lk99991" rel="alternate" type="application/rss+xml"	href="http://www.titanic-magazin.de/dsda.rss"				title="Titanic - Das schreiben die anderen Feed" />
+	<link id="lk99992" rel="alternate" type="application/rss+xml"	href="http://www.ynet.co.il/Integration/StoryRss5363.xml"	title="FEED-TEST" />
+	<link rel="alternate" type="application/rss+xml"	href="https://www.theverge.com/rss/index.xml"							title="The Verge" />
 	<!--
-	<link rel="alternate" type="application/rss+xml"	href="http://www.haaretz.co.il/cmlink/facebook-rss-feed-1.2884490"		title="Facebook Rss Feed" />
+	<link rel="alternate" type="application/atom+xml"	href="https://ghisler.ch/board/app.php/feed/forum/3"					title="Feed - Forum - Total Commander (English)" />
 	<link rel="alternate" type="application/rss+xml"	href="http://www.titanic-magazin.de/ich.war.bei.der.waffen.rss"			title="Titanic RSS - der endgültige Feed" />
 	<link rel="alternate" type="application/rss+xml"	href="http://www.titanic-magazin.de/badl.rss"							title="Titanic - Briefe an die Leser Feed" />
 	<link rel="alternate" type="application/rss+xml"	href="http://www.titanic-magazin.de/vffk.rss"							title="Titanic - Vom Fachmann für Kenner Feed" />
-	<link rel="alternate" type="application/rss+xml"	href="http://www.titanic-magazin.de/dsda.rss"							title="Titanic - Das schreiben die anderen Feed" />
-	<link rel="alternate" type="application/rss+xml"	href="https://www.theverge.com/rss/index.xml"							title="The Verge" />
+	<link rel="alternate" type="application/rss+xml"	href="https://ghisler.ch/board/app.php/smartfeed/feed?y=2"				title="RSS" />
+	<link rel="alternate" type="application/atom+xml"	href="https://ghisler.ch//board/app.php/feed/topics"					title="Feed - New Topics" />
 	<link rel="alternate" type="application/rss+xml"	href="https://www.theverge.com/rss/front-page/index.xml"				title="Front Page" />
 	<link rel="alternate" type="application/rss+xml"	href="http://localhost/Example/feed-test.xml"							title="FEED-TEST" />
 	<link rel="alternate" type="application/rss+xml"	href="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3443/"		title="ynetnews" />
 	<link rel="alternate" type="application/rss+xml"	href="http://eu.httpbin.org/digest-auth/qop/authfail/authfail"			title="FEED-TEST-AUTH" />
 	<link rel="alternate" type="application/rss+xml"	href="http://localhost/Protected/feed-test.xml"							title="FEED-TEST" />
 	<link rel="alternate" type="application/rss+xml"	href="http://www.ynet.co.il/Integration/StoryRss2.xml"					title="FEED-TEST" />
-	<link rel="alternate" type="application/rss+xml"	href="http://www.ynet.co.il/Integration/StoryRss5363.xml"				title="FEED-TEST" />
+	<link rel="alternate" type="application/atom+xml"	href="https://ghisler.ch//board/app.php/feed"							title="Feed - Total Commander" />
 	<link rel="alternate" type="application/rss+xml"	href="http://www.ynet.co.il/Integration/StoryRss4540.xml"				title="FEED-TEST" />
 	<link rel="alternate" type="application/rss+xml"	href="http://www.ynet.co.il/Integration/StoryRss550.xml"				title="FEED-TEST" />
 	<link rel="alternate" type="application/rss+xml"	href="https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3082/"		title="FEED-TEST" />
@@ -43,9 +43,9 @@
 <body>
 	<h1 id="daHead">Discovery Tester <span id="linkCount" style="font-size:50%;"></span></h1>
 
-	<button onclick="modDoc()">Mod Doc</button>
+	<button onclick="removeFeeds()">Remove discoverable feed links*</button><span style="font-size:75%;"> (Has no affect on discovery)</span>
 	<script>
-		function modDoc() {
+		function removeFeeds() {
 			for(let i=0; i<6; i++) {
 				const elm = document.getElementById("lk9999" + i.toString());
 				elm.parentNode.removeChild(elm);
@@ -75,22 +75,23 @@
 	<p><b>links with 'rss' (low):</b></p>
 	<ol>
 		<li><a id="lk99993" href="http://www.ynet.co.il/Integration/StoryRss786.xml" 	>http://www.ynet.co.il/Integration/StoryRss786.xml</a></li>
-		<li><a id="lk99994" href="http://www.ynet.co.il/Integration/StoryRss544.xml"		>http://www.ynet.co.il/Integration/StoryRss544.xml</a></li>
+		<li><a id="lk99994" href="http://www.ynet.co.il/Integration/StoryRss544.xml"	>http://www.ynet.co.il/Integration/StoryRss544.xml</a></li>
 		<li><a id="lk99995" href="http://www.ynet.co.il/Integration/StoryRss2424.xml"	>http://www.ynet.co.il/Integration/StoryRss2424.xml</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss546.xml" 	>http://www.ynet.co.il/Integration/StoryRss546.xml</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss571.xml" 	>http://www.ynet.co.il/Integration/StoryRss571.xml</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss1694.xml" 	>http://www.ynet.co.il/Integration/StoryRss1694.xml</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss545.xml" 	>http://www.ynet.co.il/Integration/StoryRss545.xml</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss4541.xml" 	>http://www.ynet.co.il/Integration/StoryRss4541.xml</a></li>
-		<li><a href="http://www.ynet.co.il/Integration/StoryRss538.xml"		>http://www.ynet.co.il/Integration/StoryRss538.xml</a></li>
-		<li><a href="http://www.titanic-magazin.de/sc.rss" 					>http://www.titanic-magazin.de/sc.rss</a></li>
-		<li><a href="http://localhost/Protected/feed-test-1.xml"			>http://localhost/Protected/feed-test-1.xml</a> *</li>
-		<li><a href="http://localhost/Example/feed-test-1.xml"				>http://localhost/Example/feed-test-1.xml</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss546.xml" 				>http://www.ynet.co.il/Integration/StoryRss546.xml</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss571.xml" 				>http://www.ynet.co.il/Integration/StoryRss571.xml</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss1694.xml" 				>http://www.ynet.co.il/Integration/StoryRss1694.xml</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss545.xml" 				>http://www.ynet.co.il/Integration/StoryRss545.xml</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss4541.xml" 				>http://www.ynet.co.il/Integration/StoryRss4541.xml</a></li>
+		<li><a href="http://www.ynet.co.il/Integration/StoryRss538.xml"					>http://www.ynet.co.il/Integration/StoryRss538.xml</a></li>
+		<li><a href="http://www.titanic-magazin.de/sc.rss" 								>http://www.titanic-magazin.de/sc.rss</a></li>
+		<li><a href="http://localhost/Protected/feed-test-1.xml"						>http://localhost/Protected/feed-test-1.xml</a> *</li>
+		<li><a href="http://localhost/Example/feed-test-1.xml"							>http://localhost/Example/feed-test-1.xml</a></li>
+		<li><a href="https://www.haaretz.co.il/srv/rss-opinion"							>https://www.haaretz.co.il/srv/rss-opinion</a></li>
 	</ol>
 
 
 	<p></p>
-	<p><b>links with unauthorized 'feed' (low):</b></p>
+	<p><b>links unauthorized (low):</b></p>
 	<ol>
 		<li><a href="http://localhost/Protected/feed-test.xml" 	 >http://localhost/Protected/feed-test-2.xml</a> *</li>
 		<li><a href="http://eu.httpbin.org/basic-auth/feed/feed" >http://eu.httpbin.org/basic-auth/feed/feed</a> *</li>
@@ -98,19 +99,17 @@
 
 
 	<p></p>
-	<p><b>links with OUT 'rss' (high):</b></p>
+	<p><b>links to feeds withOUT 'rss' (high):</b></p>
 	<ol>
-		<li><a href="http://www.haaretz.co.il/cmlink/editors-dashboard-htz-1.8225589"    >http://www.haaretz.co.il/cmlink/editors-dashboard-htz-1.8225589</a></li>
-		<li><a href="http://www.haaretz.co.il/cmlink/אולי-פספסתם-1.9245472"             ></a>http://www.haaretz.co.il/cmlink/אולי-פספסתם-1.9245472</a></li>
-		<li><a href="http://www.haaretz.co.il/cmlink//סביבה-ובעלי-חיים-1.9243353"       >http://www.haaretz.co.il/cmlink//סביבה-ובעלי-חיים-1.9243353</a></li>
+		<li><a href="https://www.haaretz.co.il/srv/htz---all-articles"    					>https://www.haaretz.co.il/srv/htz---all-articles</a></li>
 	</ol>
 
 
 	<p></p>
-	<p><b>links to not feeds:</b></p>
+	<p><b>links to none-feeds:</b></p>
 	<ol>
-		<li><a href="http://www.haaretz.co.il/" >http://www.haaretz.co.il/</a></li>
-		<li><a href="http://www.ynet.co.il/" 	>http://www.ynet.co.il/</a></li>
+		<li><a href="http://www.haaretz.co.il/?val=rss" >http://www.haaretz.co.il/?val=rss</a></li>
+		<li><a href="http://www.ynet.co.il/?mark=feed" 	>http://www.ynet.co.il/?mark=feed</a></li>
 		<li><a href="http://www.cnn.com/" 	 	>http://www.cnn.com/</a></li>
 		<li><a href="http://www.bbc.co.uk/" 	>http://www.bbc.co.uk/</a></li>
 	</ol>
@@ -134,7 +133,7 @@
 			<td><iframe src="https://www.ynet.co.il/articles/0,7340,L-3369891,00.html" style='height:700px;width:400px;'></iframe></td>
 		</tr>
 	</table>
--->
+ -->
 	<br><br><br><br>
 
 
