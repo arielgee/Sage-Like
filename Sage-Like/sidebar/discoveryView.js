@@ -125,7 +125,7 @@ let discoveryView = (function() {
 				return;
 			}
 
-			const gettingPageData = contentHandler.getPageData(tab.id)
+			const gettingPageData = contentHandler.getPageData(tab.id);
 
 			setDiscoverLoadingState(true);
 			emptyDiscoverFeedsList();

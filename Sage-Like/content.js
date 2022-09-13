@@ -6,7 +6,6 @@ class Content {
 	constructor() {
 		this._feeds = [];
 		this._isFeedsArraySet = false;
-		this._pageData = this._getPageData();
 		this._onRuntimeMessage = this._onRuntimeMessage.bind(this);
 		browser.runtime.onMessage.addListener(this._onRuntimeMessage);
 	}
@@ -67,7 +66,7 @@ class Content {
 					//////////////////////////////////////////////////////////////
 
 				case Global.MSG_ID_GET_PAGE_DATA:
-					resolve({ pageData: this._pageData });
+					resolve({ pageData: this._getPageData() });
 					break;
 					//////////////////////////////////////////////////////////////
 			}
