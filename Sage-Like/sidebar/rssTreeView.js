@@ -861,7 +861,7 @@ let rssTreeView = (function() {
 						url: getFeedPreviewUrl(elmTarget.getAttribute("href")),
 						type: "normal",
 						incognito: true,
-					}).catch((error) => messageView.open(slUtil.incognitoErrorMessage(error)) );
+					}).catch((error) => messageView.open({ text: slUtil.incognitoErrorMessage(error) }) );
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -1324,7 +1324,7 @@ let rssTreeView = (function() {
 
 						// UserInput.DIALOG indicates that this call is a result of an interaction with a dialog (signinView)
 						if(userInput === UserInput.DIALOG) {
-							messageView.open(error.message, messageView.ButtonSet.setOK, "Sign in Failed");
+							messageView.open({ text: error.message, caption: "Sign in Failed" });
 						}
 					}).finally(() => {	// wait for Fx v58
 
@@ -1841,7 +1841,7 @@ let rssTreeView = (function() {
 			text += "feed <b title=\"" + elmLI.getAttribute("href") + "\">'" + getTreeItemText(elmLI).escapeMarkup() + "'</b> from your bookmarks?"
 		}
 
-		messageView.open(text, messageView.ButtonSet.setYesNo, "Delete " + (isFolder ? "Folder" : "Feed")).then((result) => {
+		messageView.open({ text: text, btnSet: messageView.ButtonSet.setYesNo, caption: "Delete " + (isFolder ? "Folder" : "Feed") }).then((result) => {
 
 			if(result === messageView.ButtonCode.Yes) {
 

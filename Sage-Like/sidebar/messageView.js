@@ -29,7 +29,15 @@ let messageView = (function () {
 	let m_slideDownPanel = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function open(text, btnSet = messageView.ButtonSet.setOK, caption = "Attention!", isAlertive = true, isTextLeftAlign = false) {
+	function open(details) {
+
+		const {
+			text = "",
+			btnSet = messageView.ButtonSet.setOK,
+			caption = "Attention!",
+			isAlertive = true,
+			isTextLeftAlign = false,
+		} = details;
 
 		return new Promise((resolve) => {
 
