@@ -405,7 +405,7 @@ let rssListView = (function() {
 			case URLOpenMethod.IN_NEW_WIN:			browser.windows.create({ url: url, type: "normal" });	break;
 			case URLOpenMethod.IN_NEW_PRIVATE_WIN:
 				browser.windows.create({ url: url, type: "normal", incognito: true })
-					.catch((error) => messageView.open(slUtil.incognitoErrorMessage(error)) );
+					.catch((error) => messageView.open({ text: slUtil.incognitoErrorMessage(error) }) );
 				break;
 		}
 
