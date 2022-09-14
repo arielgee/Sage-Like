@@ -1489,7 +1489,6 @@ let slUtil = (function() {
 						"<li>Scroll down to \"Run in Private Windows\" option.</li>" +
 						"<li>Click the \"Allow\" radio button.</li>" +
 					"</ol>";
-			/* messageView supports an <a href='#' id='messageViewOptionsHref'> element to open the extension's Options page. */
 		}
 		return nativeError.toString().escapeMarkup();
 	}

@@ -20,7 +20,8 @@ let messageView = (function () {
 	let m_elmButtonOK;
 	let m_elmButtonYes;
 	let m_elmButtonNo;
-	let m_elmOptionsHref;
+	let m_elmAnchor;
+	let m_funcOnClickAnchor;
 
 	let m_buttonSet;
 	let m_buttonCodeResult = ButtonCode.none;
@@ -37,6 +38,8 @@ let messageView = (function () {
 			caption = "Attention!",
 			isAlertive = true,
 			isTextLeftAlign = false,
+			anchorElementId = "",
+			funcOnClickAnchorCallback = undefined,
 		} = details;
 
 		return new Promise((resolve) => {
@@ -56,14 +59,17 @@ let messageView = (function () {
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
 
-			m_elmOptionsHref = document.getElementById("messageViewOptionsHref");
-			if(!!m_elmOptionsHref) {
-				prefs.getColorDialogBackground().then(color => {
-					if(color < "#888888") {		// quick fix - on dark bk anchor will invert from blue to yellow. Will not adapt if bk color changes while messageView is open
-						m_elmOptionsHref.style.filter = "invert(100%)";
-					}
-				});
-				m_elmOptionsHref.addEventListener("click", onClickOptionsPage);
+			if(!!anchorElementId && typeof(funcOnClickAnchorCallback) === "function") {
+				m_elmAnchor = document.getElementById(anchorElementId);
+				if(!!m_elmAnchor) {
+					prefs.getColorDialogBackground().then(color => {
+						if(color < "#888888") {		// quick fix - on dark bk anchor will invert from blue to yellow. Will not adapt if bk color changes while messageView is open
+							m_elmAnchor.style.filter = "invert(100%)";
+						}
+					});
+					m_funcOnClickAnchor = funcOnClickAnchorCallback;
+					m_elmAnchor.addEventListener("click", m_funcOnClickAnchor);
+				}
 			}
 
 			m_slideDownPanel.pull(true).then(() => {
@@ -111,7 +117,7 @@ let messageView = (function () {
 
 			m_slideDownPanel = new SlideDownPanel(m_elmMessagePanel);
 		}
-		m_elmOptionsHref = null;		// re-initialize in each display
+		m_elmAnchor = null;		// re-initialize in each display
 
 		m_buttonCodeResult = ButtonCode.none;
 	}
@@ -134,7 +140,7 @@ let messageView = (function () {
 		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
 		m_elmButtonYes.removeEventListener("click", onClickButtonYes);
 		m_elmButtonNo.removeEventListener("click", onClickButtonNo);
-		if(!!m_elmOptionsHref) m_elmOptionsHref.removeEventListener("click", onClickOptionsPage);
+		if(!!m_elmAnchor) m_elmAnchor.removeEventListener("click", m_funcOnClickAnchor);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
