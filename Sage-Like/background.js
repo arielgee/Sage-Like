@@ -28,6 +28,8 @@
 		browser.runtime.onMessage.addListener(onRuntimeMessage);				// Messages handler
 		browser.runtime.onInstalled.addListener(onRuntimeInstalled);			// Sage-Like was installed
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
+		browser.tabs.onUpdated.addListener(onTabsUpdated);						// Detect feeds in web pages	- Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
+		browser.tabs.onAttached.addListener(onTabsAttached);					// Detect feeds in web pages
 		browser.action.onClicked.addListener(onBrowserActionClicked);			// Sage-Like Toolbar button - toggle sidebar
 		browser.menus.onClicked.addListener(onMenusClicked);					// context menu 'Try to Open Link in Feed Preview'
 		browser.alarms.onAlarm.addListener(onAlarm);							// monitor bookmark feeds
@@ -39,7 +41,6 @@
 		);
 
 		handlePrefStrictRssContentTypes();										// Check if web response can be displayed as feedPreview
-		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for pageAction
 		handlePrefShowTryOpenLinkInFeedPreview();								// Try to open a link as a feed in the feedPreview
 
 		browser.action.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
@@ -128,21 +129,25 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onTabsUpdated(tabId, changeInfo, tab) {
-		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
-		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
-		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && IsAllowedForFeedDetection(tab.url) ) {
-			handleTabChangedState(tabId);
+	async function onTabsUpdated(tabId, changeInfo, tab) {
+		if(await prefs.getDetectFeedsInWebPage()) {
+			// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
+			// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
+			if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && IsAllowedForFeedDetection(tab.url) ) {
+				handleTabChangedState(tabId);
+			}
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onTabsAttached(tabId) {
-		browser.tabs.get(tabId).then((tab) => {
-			if (IsAllowedForFeedDetection(tab.url)) {
-				handleTabChangedState(tabId);
-			}
-		});
+	async function onTabsAttached(tabId) {
+		if(await prefs.getDetectFeedsInWebPage()) {
+			browser.tabs.get(tabId).then((tab) => {
+				if (IsAllowedForFeedDetection(tab.url)) {
+					handleTabChangedState(tabId);
+				}
+			});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -401,17 +406,7 @@
 
 		let detectFeedsInWebPage = await prefs.getDetectFeedsInWebPage();
 
-		if(detectFeedsInWebPage) {
-
-			browser.tabs.onUpdated.addListener(onTabsUpdated);		// Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
-			browser.tabs.onAttached.addListener(onTabsAttached);
-
-		} else if(browser.tabs.onUpdated.hasListener(onTabsUpdated)) {
-
-			// hasListener() will return false if handlePrefDetectFeedsInWebPage() was called from webExt loading.
-
-			browser.tabs.onUpdated.removeListener(onTabsUpdated);
-			browser.tabs.onAttached.removeListener(onTabsAttached);
+		if(!detectFeedsInWebPage) {
 
 			let tabs = await browser.tabs.query({});
 
