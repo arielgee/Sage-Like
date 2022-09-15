@@ -15,9 +15,9 @@
 	const REGEXP_URL_FILTER_TAB_STATE_CHANGE = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrlPrefix().escapeRegExp());
 
 	const MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW = "mnu-try-open-link-in-feed-preview";
+	const ALARM_NAME_MONITOR_BOOKMARK_FEEDS = "alarm-monitorBookmarkFeeds";
 
 	let m_currentWindowId = null;
-	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_CONTENT_TYPES_STRICT, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
 
 	initialization();
@@ -29,6 +29,7 @@
 		browser.runtime.onInstalled.addListener(onRuntimeInstalled);			// Sage-Like was installed
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
 		browser.action.onClicked.addListener(onBrowserActionClicked);			// Sage-Like Toolbar button - toggle sidebar
+		browser.alarms.onAlarm.addListener(onAlarm);							// monitor bookmark feeds
 
 		browser.webRequest.onHeadersReceived.addListener(						// redirect some URL feeds to feedPreview
 			onWebRequestHeadersReceived,
@@ -45,7 +46,7 @@
 
 		// start the first bookmark feeds check after 2 seconds to allow the browser's
 		// initialization to terminate and possibly the sidebar to be displayed.
-		m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, 2000);
+		browser.alarms.create(ALARM_NAME_MONITOR_BOOKMARK_FEEDS, { delayInMinutes: 1/30 });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +113,11 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onAlarm(alarmInfo) {
+		if(alarmInfo.name === ALARM_NAME_MONITOR_BOOKMARK_FEEDS) {
+			monitorBookmarkFeeds();
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onWindowsFocusChanged(winId) {
@@ -211,15 +217,15 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function monitorBookmarkFeeds() {
 
-		// first clear the current timeout if called from preference change to
-		// set a new interval value or to have no background monitoring at all
-		clearTimeout(m_timeoutIdMonitorBookmarkFeeds);
-		m_timeoutIdMonitorBookmarkFeeds = null;
+		// It will replace the current alarm if called due to a preference change to set a new
+		// interval value or it will clear the current alarm to have no background monitoring at all.
 
 		let nextInterval = await prefs.getCheckFeedsInterval().catch(() => nextInterval = prefs.DEFAULTS.checkFeedsInterval);
 
-		// if interval is zero then do not perform background monitoring
-		if(nextInterval !== "0") {
+		// if interval is zero then clear alarm and do not perform background monitoring
+		if(nextInterval === "0") {
+			browser.alarms.clear(ALARM_NAME_MONITOR_BOOKMARK_FEEDS);
+		} else {
 
 			let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));		// supported in 59.0
 			let checkWhenSbClosed = await prefs.getCheckFeedsWhenSbClosed().catch(() => checkWhenSbClosed = prefs.DEFAULTS.checkFeedsWhenSbClosed);
@@ -230,11 +236,10 @@
 				await checkForNewBookmarkFeeds();
 			}
 
-			// Repeat a new timeout session.
 			if(nextInterval.includes(":")) {
 				nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
 			}
-			m_timeoutIdMonitorBookmarkFeeds = setTimeout(monitorBookmarkFeeds, parseInt(nextInterval));
+			browser.alarms.create(ALARM_NAME_MONITOR_BOOKMARK_FEEDS, { when: Date.now()+parseInt(nextInterval) });	// create/replace an alarm.
 		}
 	}
 
