@@ -29,6 +29,7 @@
 		browser.runtime.onInstalled.addListener(onRuntimeInstalled);			// Sage-Like was installed
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
 		browser.action.onClicked.addListener(onBrowserActionClicked);			// Sage-Like Toolbar button - toggle sidebar
+		browser.menus.onClicked.addListener(onMenusClicked);					// context menu 'Try to Open Link in Feed Preview'
 		browser.alarms.onAlarm.addListener(onAlarm);							// monitor bookmark feeds
 
 		browser.webRequest.onHeadersReceived.addListener(						// redirect some URL feeds to feedPreview
@@ -435,14 +436,10 @@
 				title: "Try to Open Link in Feed Preview",
 				contexts: ["link"],
 			});
-			browser.menus.onClicked.addListener(onMenusClicked);
-
-		} else if(browser.menus.onClicked.hasListener(onMenusClicked)) {
-
-			// hasListener() will return false if handlePrefShowTryOpenLinkInFeedPreview() was called from webExt loading.
-
-			browser.menus.onClicked.removeListener(onMenusClicked);
-			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);
+			// The S.O.B. throws: 'Unchecked lastError value: Error: The menu id mnu-try-open-link-in-feed-preview already exists in menus.create.' to
+			// the browser console and browser.menus has no browser.menus.get() or browser.menus.exists(). Even browser.menus.update() is useless.
+		} else {
+			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);	// if called from initialization(), the remove() will not find the menu.
 		}
 	}
 
