@@ -31,10 +31,7 @@ let panel = (function() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 
-		browser.windows.getCurrent().then((winInfo) => {
-			m_windowId = winInfo.id;
-			browser.runtime.connect({name: "" + winInfo.id});	// port.name is the window ID
-		});
+		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID
 
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 	}

@@ -16,7 +16,6 @@
 
 	const MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW = "mnu-try-open-link-in-feed-preview";
 
-	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
 	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_CONTENT_TYPES_STRICT, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
@@ -26,10 +25,8 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
 
-		browser.runtime.onConnect.addListener(onRuntimeConnect);				// Handle connection from panel.js
 		browser.runtime.onMessage.addListener(onRuntimeMessage);				// Messages handler
 		browser.runtime.onInstalled.addListener(onRuntimeInstalled);			// Sage-Like was installed
-		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
 		browser.action.onClicked.addListener(onBrowserActionClicked);			// Sage-Like Toolbar button - toggle sidebar
 
@@ -54,26 +51,6 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	//		Event listener handlers
 	////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onRuntimeConnect(port) {
-
-		// Handle connection opened from panel.js
-
-		// + NOTE: port.name is the window ID
-		if(port.sender.id === browser.runtime.id) {
-
-			// Connection is open from panel.js. Meaning sidebar is opened. Save ID of new window in array
-			m_windowIds.push(parseInt(port.name));
-
-			// Connection is closed. Meaning the sidebar was closed. Remove window ID from array
-			// It will not be called when the browser's window is closed by the user. This is handled by onWindowsRemoved()
-			port.onDisconnect.addListener((p) => {
-				let winId = parseInt(p.name);
-				m_windowIds = m_windowIds.filter((id) => winId !== id);
-			});
-		}
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onRuntimeMessage(message) {
@@ -131,34 +108,10 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBrowserActionClicked() {
-
-		if(m_windowIds.includes(m_currentWindowId)) {
-			browser.sidebarAction.close();		// supported in 57.0
-		} else {
-			browser.sidebarAction.open();		// supported in 57.0
-		}
-
-		//#region Bug 1398833
-		/*
-			+ Bug 1398833: https://bugzilla.mozilla.org/show_bug.cgi?id=1398833
-			+ Bug 1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
-			+ sidebarAction.open/close may only be called from a user input handler
-
-		browser.sidebarAction.isOpen({}).then((isOpen) => {		// supported in 59.0
-			if(isOpen) {
-				browser.sidebarAction.close();		// supported in 57.0
-			} else {
-				browser.sidebarAction.open();		// supported in 57.0
-			}
-		});
-		*/
-		//#endregion
+		browser.sidebarAction.toggle();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onWindowsRemoved(removedWinId) {
-		m_windowIds = m_windowIds.filter((id) => removedWinId !== id);
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onWindowsFocusChanged(winId) {
