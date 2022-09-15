@@ -104,10 +104,6 @@
 				setTimeout(() => hidePageAction(message.tabId), message.msWait);
 				break;
 				/////////////////////////////////////////////////////////////////////////
-
-			case Global.MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:
-				return Promise.resolve(m_windowIds.includes(message.winId));
-				/////////////////////////////////////////////////////////////////////////
 		}
 	}
 
