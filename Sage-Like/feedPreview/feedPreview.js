@@ -621,7 +621,7 @@
 						prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
 
 						browser.tabs.getCurrent().then((tab) => {
-							browser.tabs.insertCSS(tab.id, { code: source, runAt: "document_start" }).catch((err) => {
+							browser.scripting.insertCSS({ target: { tabId: tab.id }, css: source }).catch((err) => {
 								console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
 							});
 						});
@@ -647,7 +647,7 @@
 
 		if(changed && !!prev.source) {
 			try {
-				await browser.tabs.removeCSS(tabId, { code: prev.source });
+				await browser.scripting.removeCSS({ target: { tabId: tabId }, css: prev.source });
 			} catch (error) {
 				console.log("[Sage-Like]", "Removing injected custom CSS source generated an error", error);
 			}
@@ -658,7 +658,7 @@
 			let source = await prefs.getCustomCSSSource();
 			if(source.length > 0) {
 				prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
-				browser.tabs.insertCSS(tabId, { code: source, runAt: "document_start" }).catch((err) => {
+				browser.scripting.insertCSS({ target: { tabId: tabId }, css: source }).catch((err) => {
 					console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
 				});
 			}
