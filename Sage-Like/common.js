@@ -1618,16 +1618,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function setSafeBrowserActionBadgeText(details) {
-
-		// Fx v59 has no support for windowId
-		if(parseInt(await getBrowserVersion()) <= 59) {
-			delete details.windowId;
-		}
-		browser.browserAction.setBadgeText(details);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function getStringExportFileName(dateVal, prefix, ext) {
 		let dateValStr = dateVal.getFullYear() +
 			(dateVal.getMonth()+1).toLocaleString('en', {minimumIntegerDigits:2}) +
@@ -1769,7 +1759,6 @@ let slUtil = (function() {
 		nbAlert: nbAlert,
 		getLanguageDir: getLanguageDir,
 		getUniqId: getUniqId,
-		setSafeBrowserActionBadgeText: setSafeBrowserActionBadgeText,
 		getStringExportFileName: getStringExportFileName,
 		fetchWithTimeout: fetchWithTimeout,
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,

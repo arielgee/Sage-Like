@@ -29,10 +29,9 @@
 		browser.runtime.onConnect.addListener(onRuntimeConnect);				// Handle connection from panel.js
 		browser.runtime.onMessage.addListener(onRuntimeMessage);				// Messages handler
 		browser.runtime.onInstalled.addListener(onRuntimeInstalled);			// Sage-Like was installed
-		//browser.commands.onCommand.addListener((command) => {	});				// firefox commands (keyboard)
-		browser.browserAction.onClicked.addListener(onBrowserActionClicked);	// Sage-Like Toolbar button - toggle sidebar
 		browser.windows.onRemoved.addListener(onWindowsRemoved);				// Remove closed windows ID from array
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
+		browser.action.onClicked.addListener(onBrowserActionClicked);			// Sage-Like Toolbar button - toggle sidebar
 
 		browser.webRequest.onHeadersReceived.addListener(						// redirect some URL feeds to feedPreview
 			onWebRequestHeadersReceived,
@@ -44,7 +43,7 @@
 		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for pageAction
 		handlePrefShowTryOpenLinkInFeedPreview();								// Try to open a link as a feed in the feedPreview
 
-		browser.browserAction.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
+		browser.action.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
 
 		// start the first bookmark feeds check after 2 seconds to allow the browser's
@@ -322,7 +321,7 @@
 					console.log("[Sage-Like]", error.message);
 				}
 			}
-			slUtil.setSafeBrowserActionBadgeText({ text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
+			browser.action.setBadgeText({ text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
 			//console.log("[Sage-Like]", "Periodic check for new feeds performed in background.");
 
 		}).catch((error) => {
