@@ -77,8 +77,8 @@ let rssTreeView = (function() {
 
 	let m_elmTreeRoot;
 
-	let m_elmCurrentlyLoading;
-	let m_elmCurrentlySelected;
+	let m_elmCurrentlyLoading = null;
+	let m_elmCurrentlySelected = null;
 	let m_rssTreeCreatedOK = false;
 	let m_elmCurrentlyDragged = null;
 	let m_dropInsideFolderLastShowMsgTime = 0;
