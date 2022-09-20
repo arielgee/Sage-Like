@@ -189,7 +189,6 @@ sl-tri-toggler#triTglAggressiveLevel {
 sl-tri-toggler:focus {
 	outline: 1px dotted gray;
 	outline-offset: -2px;
-	-moz-outline-radius: var(--border-radius);
 }
 
 sl-tri-toggler * {
