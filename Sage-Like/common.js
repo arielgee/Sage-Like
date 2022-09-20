@@ -1449,12 +1449,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedPreviewUrlByBrowserVersion(url, browserVersion) {
-		// V64 RSS support dropped
-		return browserVersion >= "64" ? getFeedPreviewUrl(url) : url;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function isRegExpValid(pattern, flags) {
 		try {
 			new RegExp(pattern, flags);
@@ -1756,7 +1750,6 @@ let slUtil = (function() {
 		getParkedTabUrl: getParkedTabUrl,
 		getFeedPreviewUrlPrefix: getFeedPreviewUrlPrefix,
 		getFeedPreviewUrl: getFeedPreviewUrl,
-		getFeedPreviewUrlByBrowserVersion: getFeedPreviewUrlByBrowserVersion,
 		isRegExpValid: isRegExpValid,
 		validURL: validURL,
 		incognitoErrorMessage: incognitoErrorMessage,
