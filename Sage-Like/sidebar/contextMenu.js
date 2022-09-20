@@ -408,18 +408,17 @@ let contextMenu = (function() {
 			m_bActivePanelOpened = true;
 		}
 
-		// V64 RSS support dropped
-		let noSupportOpenRssFeedActions = [
+		let openInFeedPreviewActions = [
 			ContextAction.treeOpen,
 			ContextAction.treeOpenNewTab,
 			ContextAction.treeOpenNewWin,
 			ContextAction.treeOpenNewPrivateWin,
-			ContextAction.treeOpenAllInTabs,
+			// ContextAction.treeOpenAllInTabs, Calls rssTreeView.openAllFeedsInTabs() so url is handled there
 		];
 
 		let actionData = { url: "" };
 
-		if(noSupportOpenRssFeedActions.includes(menuAction)) {
+		if(openInFeedPreviewActions.includes(menuAction)) {
 			actionData.url = slUtil.getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"), Global.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW);
 		} else {
 			actionData.url = m_elmEventTarget.getAttribute("href");
