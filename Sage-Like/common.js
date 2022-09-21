@@ -1644,6 +1644,19 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function setActionBadge(mode = 0, details = {}) {
+
+		if(mode === 0) {
+			return browser.action.setBadgeText({ text: "" });						// init all windows with no badge
+		} else if(mode === 1) {
+			browser.action.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });	// set a window with green badge
+		} else if (mode === 2) {
+			browser.action.setBadgeBackgroundColor({ color: [192, 0, 0, 255] });	// set a window with red badge
+		}
+		return browser.action.setBadgeText({ text: details.text, windowId: details.windowId });
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=3) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -1703,6 +1716,7 @@ let slUtil = (function() {
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,
 		refreshUpdateTimeFormattedString: refreshUpdateTimeFormattedString,
 		fixUnreliableUpdateTime: fixUnreliableUpdateTime,
+		setActionBadge: setActionBadge,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};

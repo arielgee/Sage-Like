@@ -30,6 +30,7 @@
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
+		RequiredPermissions.i.init();
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 
 		injectCustomCSSSource();
@@ -472,6 +473,15 @@
 		document.getElementById("errorContainer").classList.add("withMessage");
 		document.getElementById("errorMessage").textContent = errorMessage;
 		document.getElementById("errorMessageLink").href = url.toString();
+
+		if(!RequiredPermissions.i.granted) {
+			document.getElementById("requiredPermissionsMsg").style.display = "block";
+			document.getElementById("requestPermissionsLink").addEventListener("click", async () => {
+				if(await RequiredPermissions.i.request()) {
+					window.location.reload();
+				};
+			});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

@@ -170,6 +170,17 @@ body {
 	padding-left: 20px;
 }
 
+#requiredPermissionsMsg {
+	display: none;
+	border: 1px solid crimson;
+	margin-top: 20px;
+	padding: 12px 14px;
+	background-color: rgb(255, 255, 220);
+	color: crimson;
+	font-family: sans-serif;
+	font-size: 110%;
+}
+
 .feedItemContainer {
 	display: flex;
 	align-items: flex-start;

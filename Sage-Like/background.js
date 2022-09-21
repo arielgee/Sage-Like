@@ -43,7 +43,8 @@
 		handlePrefStrictRssContentTypes();										// Check if web response can be displayed as feedPreview
 		handlePrefShowTryOpenLinkInFeedPreview();								// Try to open a link as a feed in the feedPreview
 
-		browser.action.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });
+		slUtil.setActionBadge();
+		RequiredPermissions.i.init();
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
 
 		// start the first bookmark feeds check after 2 seconds to allow the browser's
@@ -239,7 +240,11 @@
 			// background monitoring from the background page is done solely for
 			// the purpose of updating the action button when the sidebar is closed
 			if (isClosed && checkWhenSbClosed) {
-				await checkForNewBookmarkFeeds();
+				if(RequiredPermissions.i.granted) {
+					await checkForNewBookmarkFeeds();
+				} else {
+					slUtil.setActionBadge(2, { text: "E", windowId: m_currentWindowId });
+				}
 			}
 
 			if(nextInterval.includes(":")) {
@@ -281,7 +286,7 @@
 					console.log("[Sage-Like]", error.message);
 				}
 			}
-			browser.action.setBadgeText({ text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
+			slUtil.setActionBadge(1, { text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
 			//console.log("[Sage-Like]", "Periodic check for new feeds performed in background.");
 
 		}).catch((error) => {

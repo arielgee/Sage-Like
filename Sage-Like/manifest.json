@@ -92,6 +92,7 @@
 			"/syndication/atomFeed.js",
 			"/syndication/websiteSpecificDiscovery.js",
 			"/syndication/syndication.js",
+			"/permissions/requiredPermissions.js",
 			"/background.js"
 		]
 	},

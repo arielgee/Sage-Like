@@ -14,6 +14,7 @@
 	<script type="text/javascript" src="/syndication/atomFeed.js"></script>
 	<script type="text/javascript" src="/syndication/websiteSpecificDiscovery.js"></script>
 	<script type="text/javascript" src="/syndication/syndication.js"></script>
+	<script type="text/javascript" src="/permissions/requiredPermissions.js"></script>
 	<script type="text/javascript" src="feedPreview.js"></script>
 	<link rel="stylesheet" type="text/css" href="feedPreview.css" />
 	<link rel="shortcut icon" type="image/png" href="/icons/sageLike-16.png" id="favicon" />
@@ -37,6 +38,12 @@
 		<div id="busyAnimLoading"></div>
 		<div id="errorContainer">
 			<div id="errorMessage"></div>
+			<div id="requiredPermissionsMsg">
+				The required permission <b>Access your data for all websites</b> is not allowed by the browser.
+				<br>
+				<br>
+				To modify this, select the following link:&emsp;<a href="#" id="requestPermissionsLink">Request Permissions</a>
+			</div>
 			<br>
 			<a id="errorMessageLink">Open with browser</a>
 		</div>

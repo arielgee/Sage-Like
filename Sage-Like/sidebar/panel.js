@@ -31,6 +31,7 @@ let panel = (function() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 
+		RequiredPermissionsPanel.i.init();
 		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID
 
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
@@ -351,6 +352,12 @@ let panel = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function discoverFeed(event) {
+
+		// Do not proceed if permissions are not granted
+		if(!RequiredPermissionsPanel.i.assert()) {
+			return;
+		}
+
 		event.stopPropagation();
 
 		discoveryView.open().then((newFeedsList) => {

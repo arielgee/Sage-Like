@@ -1069,6 +1069,9 @@
 * move the (set|get)DropInsideFolderShowMsgCount code block from onDragStartTreeItem() to onDragEnterTreeItem() to support InfoBubble for drags from outside the tree (url, links, popup, etc). do not forget event.stopPropagation();
 * feedPreview media attachments: wait cursor when data is loading
 * set none for effectAllowed/dropEffect in onDragOverTreeItem when hovering list view or discoveryView
+* Simplify writeTextToClipboard()/readTextFromClipboard()  ; strict_min_version is now 101
+* MV3 affect `browser_specific_settings.gecko.strict_min_version`. set to 101.
+* optional host_permissions
 ---
 
 
@@ -1077,16 +1080,16 @@
 ---
 
 ## Manifest-V3-Migration
+* MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2 ?
 * validate that mesages are sent to Bk script when it is not running
-* MV3 will affect `browser_specific_settings.gecko.strict_min_version`. Still don't know what to do. `strict_min_version` will be set to the version that will remove support for MV2 ?
 * slUtil.setSafeBrowserActionBadgeText: removed since `browser_specific_settings.gecko.strict_min_version` was bumped to 101. (browser.sidebarAction.toggle() is supported since v73)
 * check all calls to getBrowserVersion() / getFeedPreviewUrlByBrowserVersion(). are they still needed since MV3 is from Fx version 101.
 * search project with `(v\d|\d\d\.\d+(\s|$)|Fx\d\d)` (regexp) for version depended code that may be removed.
+* look into declarativeNetRequest
 
 ## Next
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 * extension.getBackgroundPage() ???
-* optional_permissions `browser.permissions.request({ origins: ["<all_urls>"] }).then((response) => { console.log("[Sage-Like]", response); });` - request may only be called from a user input handler
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
