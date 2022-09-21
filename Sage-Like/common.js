@@ -966,70 +966,17 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function writeTextToClipboard(text) {
-
-		getBrowserVersion().then(async (version) => {
-
-			if(parseInt(version) >= 63) {
-
-				try {
-					await navigator.clipboard.writeText(text);
-					return;
-				} catch (error) {
-					console.log("[Sage-Like]", "navigator.clipboard.writeText()", error);
-				}
-			}
-
-			// fallback
-			try {
-				let restoreFocus = document.activeElement;
-				let input = document.createElement("textarea");
-				let style = input.style;
-				style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
-				input.value = text;
-				document.body.appendChild(input);
-				input.select();
-				document.execCommand("copy");
-				document.body.removeChild(input);
-				restoreFocus.focus();
-			} catch (error) {
-				console.log("[Sage-Like]", "document.execCommand('copy');", error);
-			}
-		});
+		navigator.clipboard.writeText(text).catch((error) => console.log("[Sage-Like]", "navigator.clipboard.writeText()", error) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function readTextFromClipboard() {
-
 		return new Promise((resolve, reject) => {
-
-			getBrowserVersion().then((version) => {
-
-				if(parseInt(version) >= 63) {
-
-					navigator.clipboard.readText().then((text) => {
-						return resolve(text);
-					}).catch((error) => {
-						console.log("[Sage-Like]", "navigator.clipboard.readText()", error);
-					});
-				}
-
-				// fallback
-				try {
-					let restoreFocus = document.activeElement;
-					let input = document.createElement("textarea");
-					let style = input.style;
-					style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
-					input.contentEditable = true;
-					document.body.appendChild(input);
-					input.focus();
-					document.execCommand("paste");
-					restoreFocus.focus();
-					resolve(input.value);
-					document.body.removeChild(input);
-				} catch (error) {
-					console.log("[Sage-Like]", "document.execCommand('paste');", error);
-					reject(new Error("Failed to read data from clipboard"));
-				}
+			navigator.clipboard.readText().then((text) => {
+				resolve(text);
+			}).catch((error) => {
+				console.log("[Sage-Like]", "navigator.clipboard.readText()", error);
+				reject(new Error("Failed to read data from clipboard"));
 			});
 		});
 	}
