@@ -134,21 +134,21 @@ let discoveryView = (function() {
 
 				if(!!!pd.title) pd.title = Global.STR_TITLE_EMPTY;
 
-				if( (pd.docElmId === "feedHandler" && !!!pd.domainName) || pd.isPlainText ) {
+				if(pd.isPlainText) {
 
-					// Fx v63 build-in Feed Preview OR browser's plaintext
+					// Browser's plaintext
 
 					loadSingleDiscoverFeed(tab.url, (!!pd.domainName ? pd.domainName : pd.title));
 
 				} else if(pd.docElmId === "_sage-LikeFeedPreview") {
 
-					// Fx v64 Sage-Like Feed Preview
+					// Sage-Like Feed Preview
 
 					loadSingleDiscoverFeed(slUtil.getURLQueryStringValue(tab.url, "urlFeed"), pd.title);
 
 				} else if(pd.contentType.toLowerCase() !== "text/html") {
 
-					// Fx XML viewer (most likely be Fx v64 and above. Before that will be handled by v63 build-in Feed Preview)
+					// Fx XML viewer
 
 					loadSingleDiscoverFeed(tab.url, (!!pd.domainName ? pd.domainName : pd.title));
 

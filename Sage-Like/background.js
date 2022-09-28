@@ -234,7 +234,7 @@
 			browser.alarms.clear(ALARM_NAME_MONITOR_BOOKMARK_FEEDS);
 		} else {
 
-			let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));		// supported in 59.0
+			let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));
 			let checkWhenSbClosed = await prefs.getCheckFeedsWhenSbClosed().catch(() => checkWhenSbClosed = prefs.DEFAULTS.checkFeedsWhenSbClosed);
 
 			// background monitoring from the background page is done solely for
@@ -340,19 +340,9 @@
 				expectedFeedCount: 0,
 			};
 
-			if(docElement.id === "feedHandler" && !!!pageData.domainName) {
+			if(docElement.id === "_sage-LikeFeedPreview") {
 
-				// Fx v63 build-in Feed Preview
-
-				discoverResult.expectedFeedCount = 1;
-				resolve(discoverResult);
-				syndication.feedDiscovery(winLocation, timeout).then((feedData) => {
-					discoverResult.feeds.push(feedData);
-				});
-
-			} else if(docElement.id === "_sage-LikeFeedPreview") {
-
-				// Fx v64 Sage-Like Feed Preview
+				// Sage-Like Feed Preview
 
 				discoverResult.expectedFeedCount = 1;
 				resolve(discoverResult);
@@ -363,7 +353,7 @@
 
 			} else if(docElement.nodeName !== "HTML") {
 
-				// Fx XML viewer (most likely be Fx v64 and above. Before that will be handled by v63 build-in Feed Preview)
+				// Fx XML viewer
 
 				syndication.feedDiscovery(winLocation, timeout).then((feedData) => {
 					discoverResult.expectedFeedCount = (feedData.status === "OK" ? 1 : 0);
