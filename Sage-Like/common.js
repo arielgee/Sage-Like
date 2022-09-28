@@ -1374,7 +1374,6 @@ let slUtil = (function() {
 		return new Promise((resolve) => {
 			browser.runtime.getBrowserInfo().then((result) => {
 				resolve(result.version);
-				//resolve("64"); alert("always v64");
 			});
 		});
 	}

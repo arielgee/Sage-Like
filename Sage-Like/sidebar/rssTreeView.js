@@ -604,7 +604,7 @@ let rssTreeView = (function() {
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
 				setFeedErrorState(elmLI, true, error);
-			}).finally(() => {	// wait for Fx v58
+			}).finally(() => {
 				setFeedLoadingState(elmLI, false);
 			});
 		});
@@ -1337,7 +1337,7 @@ let rssTreeView = (function() {
 						if(userInput === UserInput.DIALOG) {
 							messageView.open({ text: error.message, caption: "Sign in Failed" });
 						}
-					}).finally(() => {	// wait for Fx v58
+					}).finally(() => {
 
 						// change loading state only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {

@@ -1155,9 +1155,6 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function initializeCheckFeedsMethodTitles() {
 
-		/*	The titles (tooltips) are not displayed in Fx v76 unless the
-			"options_ui" in manifest.json has the "open_in_tab" set to true. */
-
 		let re, found, items = m_elmCheckFeedsMethod.children;
 
 		for(let i=0, len=items.length; i<len; i++) {
