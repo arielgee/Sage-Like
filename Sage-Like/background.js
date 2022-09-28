@@ -25,14 +25,14 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
 
-		browser.runtime.onMessage.addListener(onRuntimeMessage);				// Messages handler
-		browser.runtime.onInstalled.addListener(onRuntimeInstalled);			// Sage-Like was installed
-		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);		// Change browser's current window ID
-		browser.tabs.onUpdated.addListener(onTabsUpdated);						// Detect feeds in web pages	- Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
-		browser.tabs.onAttached.addListener(onTabsAttached);					// Detect feeds in web pages
-		browser.action.onClicked.addListener(onBrowserActionClicked);			// Sage-Like Toolbar button - toggle sidebar
-		browser.menus.onClicked.addListener(onMenusClicked);					// context menu 'Try to Open Link in Feed Preview'
-		browser.alarms.onAlarm.addListener(onAlarm);							// monitor bookmark feeds
+		browser.runtime.onMessage.addListener(onRuntimeMessage);						// Messages handler
+		browser.runtime.onInstalled.addListener(onRuntimeInstalled);					// Sage-Like was installed
+		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);				// Change browser's current window ID
+		browser.tabs.onUpdated.addListener(onTabsUpdated, { properties: ["status"] });	// Detect feeds in web pages
+		browser.tabs.onAttached.addListener(onTabsAttached);							// Detect feeds in web pages
+		browser.action.onClicked.addListener(onBrowserActionClicked);					// Sage-Like Toolbar button - toggle sidebar
+		browser.menus.onClicked.addListener(onMenusClicked);							// context menu 'Try to Open Link in Feed Preview'
+		browser.alarms.onAlarm.addListener(onAlarm);									// monitor bookmark feeds
 
 		browser.webRequest.onHeadersReceived.addListener(						// redirect some URL feeds to feedPreview
 			onWebRequestHeadersReceived,

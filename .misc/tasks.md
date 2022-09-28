@@ -1072,18 +1072,18 @@
 * Simplify writeTextToClipboard()/readTextFromClipboard()  ; strict_min_version is now 101
 * MV3 affect `browser_specific_settings.gecko.strict_min_version`. set to 101.
 * optional host_permissions
+* check all calls to getBrowserVersion() / getFeedPreviewUrlByBrowserVersion(). are they still needed since MV3 is from Fx version 101.
 ---
 
 
 ## Now
+* Public class fields in Feed class (see; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields)
+* Private class fields (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields)
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 ## Manifest-V3-Migration
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2 ?
-* validate that mesages are sent to Bk script when it is not running
-* slUtil.setSafeBrowserActionBadgeText: removed since `browser_specific_settings.gecko.strict_min_version` was bumped to 101. (browser.sidebarAction.toggle() is supported since v73)
-* check all calls to getBrowserVersion() / getFeedPreviewUrlByBrowserVersion(). are they still needed since MV3 is from Fx version 101.
 * search project with `(v\d|\d\d\.\d+(\s|$)|Fx\d\d)` (regexp) for version depended code that may be removed.
 * look into declarativeNetRequest
 
