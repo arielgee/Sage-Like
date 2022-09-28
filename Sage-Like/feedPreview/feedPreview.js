@@ -713,28 +713,25 @@
 			});
 		}
 
-		let anyPromiseFulfilled = false;		// Support for Promise.any() started at Fx v79
+		let promises = [];
 
 		for(let i=0, lenO=urlDomainOrigins.length; i<lenO; i++) {
-
 			for(let j=0, lenF=favicons.length; j<lenF; j++) {
-
-				fetchFavIcon(urlDomainOrigins[i] + favicons[j]).then((blob) => {
-
-					if(!anyPromiseFulfilled) {
-						anyPromiseFulfilled = true;
-
-						let reader = new FileReader();
-						reader.addEventListener("load", () => {
-							let elmLink = document.getElementById("favicon");
-							elmLink.type = blob.type;
-							elmLink.href = reader.result;
-						}, false);
-						reader.readAsDataURL(blob);	// base64 image data
-					}
-				}).catch(() => { /* Ignore errors, fallback favicon */ });
+				promises.push(fetchFavIcon(urlDomainOrigins[i] + favicons[j]));
 			}
 		}
+
+		Promise.any(promises).then((blob) => {
+
+			let reader = new FileReader();
+			reader.addEventListener("load", () => {
+				let elmLink = document.getElementById("favicon");
+				elmLink.type = blob.type;
+				elmLink.href = reader.result;
+			}, false);
+			reader.readAsDataURL(blob);	// base64 image data
+
+		}).catch(() => { /* Ignore errors, fallback favicon */ });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
