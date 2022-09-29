@@ -274,7 +274,7 @@
 		let elmFeedItemAttachmentsContainer;
 		let elmJumpListItem = document.createElement("a");
 
-		elmFeedItemContainer.id = slUtil.getUniqId("sl");
+		elmFeedItemContainer.id = slUtil.getUniqId({ prefix: "sl" });
 		elmFeedItemContainer.className = "feedItemContainer";
 		elmFeedItemNumber.className = "feedItemNumber feedItemBigFont";
 		elmFeedItem.className = "feedItem";
