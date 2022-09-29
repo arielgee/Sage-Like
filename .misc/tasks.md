@@ -1078,6 +1078,7 @@
 
 
 ## Next - cherry-pick to Manifest-v3-migration-Px
+* InfoBubble shows "Feed is erroneous." for Unauthorized feed
 * new status filter '>responsive'
 * in the sign-in view, add to the caption " to <feed_name>"
 * feed preview: right to left jump list
