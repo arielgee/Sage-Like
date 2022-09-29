@@ -1077,7 +1077,10 @@
 ---
 
 
-## Next
+## Next - cherry-pick to Manifest-v3-migration-Px
+* new status filter '>responsive'
+* in the sign-in view, add to the caption " to <feed_name>"
+* feed preview: right to left jump list
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
