@@ -14,6 +14,7 @@ class RequiredPermissions {
 		if(RequiredPermissions.#m_construct === false) {
 			throw new Error("constructor: Don't do that, it's a singleton.");
 		}
+		RequiredPermissions.#m_construct = false;
 		this.#addEventListeners();
 	}
 
@@ -22,7 +23,6 @@ class RequiredPermissions {
 		if (RequiredPermissions.#m_instance === null) {
 			RequiredPermissions.#m_construct = true;
 			RequiredPermissions.#m_instance = new this();
-			RequiredPermissions.#m_construct = false;
 		}
 		return RequiredPermissions.#m_instance;
 	}

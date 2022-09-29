@@ -15,6 +15,7 @@ class InfoBubble {
 		if(InfoBubble.#m_construct === false) {
 			throw new Error("constructor: Don't do that, it's a singleton.");
 		}
+		InfoBubble.#m_construct = false;
 	}
 
 	//////////////////////////////////////////
@@ -22,7 +23,6 @@ class InfoBubble {
 		if (InfoBubble.#m_instance === null) {
 			InfoBubble.#m_construct = true;
 			InfoBubble.#m_instance = new this();
-			InfoBubble.#m_construct = false;
 		}
 		return InfoBubble.#m_instance;
 	}
