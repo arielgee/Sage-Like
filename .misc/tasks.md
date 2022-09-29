@@ -1083,6 +1083,13 @@
 ---
 
 ## Manifest-V3-Migration
+* MUST modify RequiredPermissions.
+  	* Some feeds are properlly configured to work without the host permission <all_urls>
+	* In order for a feed to be fetched without the host permission <all_urls> the server must have the following HTTP Response Headers (see: localhost IIS):
+		1. `Access-Control-Allow-Origin: *` - to allow the extension to avoid error "Cross-Origin Request Blocked ... Reason: CORS header ‘Access-Control-Allow-Origin’ missing"
+		2. `Access-Control-Allow-Headers: Authorization` - to allow the extension to use the header `Authorization: Basic Og==` and avoid error "Cross-Origin Request Blocked ... Reason: header ‘authorization’ is not allowed"
+	* Maybe allow all progress but show message is permission is missing? plus a checkbox to stop showing message?
+	* rewrite the message to reflect that most feeds will require the permission?
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2 ?
 * search project with `(v\d|\d\d\.\d+(\s|$)|Fx\d\d)` (regexp) for version depended code that may be removed.
 * look into declarativeNetRequest
