@@ -1602,7 +1602,12 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getUniqId(prefix = "", length = 32) {
+	function getUniqId(details = {}) {
+
+		const {
+			prefix = "",
+			length = 32,
+		} = details;
 
 		let dec2hex = (d) => ( (d < 10) ? "0" + String(d) : d.toString(16) );
 		let values = new Uint8Array(length / 2);
