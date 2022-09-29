@@ -1078,6 +1078,7 @@
 
 
 ## Next - cherry-pick to Manifest-v3-migration-Px
+* dropping a url from the addressbar into a deleted bookmark folder do not display InfoBubble message "Bookmarks error: Drop target may have been removed."
 * InfoBubble shows "Feed is erroneous." for Unauthorized feed
 * new status filter '>responsive'
 * in the sign-in view, add to the caption " to <feed_name>"
