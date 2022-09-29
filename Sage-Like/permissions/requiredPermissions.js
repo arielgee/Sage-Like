@@ -2,49 +2,65 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class RequiredPermissions {
+
+	static #m_construct = false;
+	static #m_instance = null;
+
+	#m_permissions = { origins: ["<all_urls>"] };
+	#m_granted = null;
+	#onPermissionsChangedBound;
+
 	constructor() {
-		this.m_requiredPermissions = { origins: ["<all_urls>"] };
-		this.m_granted = null;
-		this._addEventListeners();
+		if(RequiredPermissions.#m_construct === false) {
+			throw new Error("constructor: Don't do that, it's a singleton.");
+		}
+		this.#addEventListeners();
 	}
 
 	//////////////////////////////////////////
 	static get i() {
-		if (this.m_instance === undefined) {
-			this.m_instance = new this();
+		if (RequiredPermissions.#m_instance === null) {
+			RequiredPermissions.#m_construct = true;
+			RequiredPermissions.#m_instance = new this();
+			RequiredPermissions.#m_construct = false;
 		}
-		return this.m_instance;
+		return RequiredPermissions.#m_instance;
 	}
 
 	//////////////////////////////////////////
-	async init() {
-		await this._checkPermissions();
+	get permissions() {
+		return this.#m_permissions;
 	}
 
 	//////////////////////////////////////////
 	get granted() {
-		return this.m_granted;
+		return this.#m_granted;
+	}
+
+	//////////////////////////////////////////
+	async init() {
+		await this.#checkPermissions();
 	}
 
 	//////////////////////////////////////////
 	request() {
-		return browser.permissions.request(this.m_requiredPermissions);
+		return browser.permissions.request(this.#m_permissions);
 	}
 
 	//////////////////////////////////////////
-	async _checkPermissions() {
-		this.m_granted = await browser.permissions.contains(this.m_requiredPermissions);
+	#onPermissionsChanged() {
+		this.#checkPermissions();
 	}
 
 	//////////////////////////////////////////
-	_onPermissionsChanged() {
-		this._checkPermissions();
+	#addEventListeners() {
+		this.#onPermissionsChangedBound = this.#onPermissionsChanged.bind(this);
+		browser.permissions.onAdded.addListener(this.#onPermissionsChangedBound);
+		browser.permissions.onRemoved.addListener(this.#onPermissionsChangedBound);
 	}
 
 	//////////////////////////////////////////
-	_addEventListeners() {
-		this._onPermissionsChanged = this._onPermissionsChanged.bind(this);
-		browser.permissions.onAdded.addListener(this._onPermissionsChanged);
-		browser.permissions.onRemoved.addListener(this._onPermissionsChanged);
+	async #checkPermissions() {
+		this.#m_granted = await browser.permissions.contains(this.#m_permissions);
 	}
 }

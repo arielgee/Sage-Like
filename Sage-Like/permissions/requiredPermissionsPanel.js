@@ -5,23 +5,23 @@ class RequiredPermissionsPanel extends RequiredPermissions {
 
 	//////////////////////////////////////////
 	assert() {
-		return (this.m_granted ? true : this._assertRequestPermissions());
+		return (super.granted ? true : this.#assertRequestPermissions());
 	}
 
 	//////////////////////////////////////////
-	_assertRequestPermissions() {
+	#assertRequestPermissions() {
 
 		let onRequestPermissions = async function onClickRequestPermissions() {
 			messageView.close();
-			if(await browser.permissions.request(this.m_requiredPermissions)) {
+			if(await browser.permissions.request(reqPermissions)) {
 				window.location.reload();	// reload entire sidebar
 			} else {
 				messageDetails.text = "I apologize, but the Sage-Like sidebar can't function without your authorization of the requested permissions." + htmlTagsRequest;
 				messageView.open(messageDetails);
 			}
 		};
-		onRequestPermissions = onRequestPermissions.bind(this);
 
+		const reqPermissions = super.permissions;
 		const htmlTagsRequest = "<br><br>Select the link below to allow the required permissions.<br><br><a href='#' id='messageViewRequestPermissions'>Request Permissions</a>";
 		const messageDetails = {
 			text: "The functionality of fetching any feed from the web requires the <b>Access your data for all websites</b> permission.<br><br>" +
@@ -32,6 +32,6 @@ class RequiredPermissionsPanel extends RequiredPermissions {
 		};
 
 		messageView.open(messageDetails);
-		return this.m_granted;
+		return super.granted;
 	}
 }

@@ -1090,6 +1090,7 @@
 		2. `Access-Control-Allow-Headers: Authorization` - to allow the extension to use the header `Authorization: Basic Og==` and avoid error "Cross-Origin Request Blocked ... Reason: header ‘authorization’ is not allowed"
 	* Maybe allow all progress but show message is permission is missing? plus a checkbox to stop showing message?
 	* rewrite the message to reflect that most feeds will require the permission?
+	* detect the errors in 1. and/or 2. and show the message?
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2 ?
 * search project with `(v\d|\d\d\.\d+(\s|$)|Fx\d\d)` (regexp) for version depended code that may be removed.
 * look into declarativeNetRequest
