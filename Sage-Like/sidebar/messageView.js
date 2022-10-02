@@ -161,9 +161,6 @@ let messageView = (function () {
 				close();
 				break;
 				//////////////////////////////
-			default:
-				break;
-				//////////////////////////////
 		}
 	}
 

@@ -469,9 +469,6 @@ let discoveryView = (function() {
 				close();
 				break;
 				//////////////////////////////
-			default:
-				break;
-				//////////////////////////////
 		}
 	}
 

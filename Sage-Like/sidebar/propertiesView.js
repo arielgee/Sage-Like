@@ -213,9 +213,6 @@ class PropertiesView {
 				this._close();
 				break;
 				//////////////////////////////
-			default:
-				break;
-				//////////////////////////////
 		}
 	}
 }
