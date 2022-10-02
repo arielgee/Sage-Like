@@ -201,7 +201,7 @@ class PropertiesView {
 		switch (event.code) {
 			case "Enter":
 			case "NumpadEnter":
-				if(document.activeElement === this._onClickButtonCancel) {
+				if(document.activeElement === PropertiesViewElements.i.elmButtonCancel) {
 					this._close();
 				} else {
 					this._saveAndClose();
