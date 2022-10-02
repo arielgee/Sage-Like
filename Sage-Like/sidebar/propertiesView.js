@@ -87,6 +87,50 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
+	_close() {
+
+		if (this.#m_isOpen === false) {
+			return;
+		}
+
+		this.m_slideDownPanel.pull(false);
+		panel.disable(false);
+
+		this.#removeEventListeners();
+
+		rssTreeView.setFocus();
+		this.#m_isOpen = false;
+	}
+
+	///////////////////////////////////////////////////////////////
+	_initData(elmFocused) {
+		this.m_elmCaption.textContent = this.m_initialProperties.caption;
+		this.m_elmTextTitle.value = this.m_initialProperties.title;
+		this.m_elmTextLocation.value = this.m_initialProperties.location;
+		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
+		this.m_elmChkOpenInFeedPreview.checked = this.m_initialProperties.openInFeedPreview;
+		this.m_elmChkIgnoreUpdates.checked = this.m_initialProperties.ignoreUpdates;
+		this.m_elmChkInsertInsideFolder.checked = false;
+		this.m_elmLabelErrorMsgs.textContent = "";
+
+		elmFocused.focus();
+		elmFocused.setSelectionRange(0, -1); // select all
+	}
+
+	///////////////////////////////////////////////////////////////
+	_showNoneTitleProperties(show) {
+
+		// all none title properties
+		let propsContainer = this.m_elmPropertiesPanel.querySelector(".propertiesContainer");
+		propsContainer.classList.toggle("showFirstOnly", !show)
+	}
+
+	///////////////////////////////////////////////////////////////
+	_showOptionInsertInsideFolder(show) {
+		this.m_elmInsertInsideFolderContainer.style.display = (show ? "" : "none");
+	}
+
+	///////////////////////////////////////////////////////////////
 	#initMembers() {
 		this.m_elmPropertiesPanel = PropertiesViewElements.i.elmPropertiesPanel;
 		this.m_elmCaption = PropertiesViewElements.i.elmCaption;
@@ -121,56 +165,12 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	_showNoneTitleProperties(show) {
-
-		// all none title properties
-		let propsContainer = this.m_elmPropertiesPanel.querySelector(".propertiesContainer");
-		propsContainer.classList.toggle("showFirstOnly", !show)
-	}
-
-	///////////////////////////////////////////////////////////////
-	_showOptionInsertInsideFolder(show) {
-		this.m_elmInsertInsideFolderContainer.style.display = (show ? "" : "none");
-	}
-
-	///////////////////////////////////////////////////////////////
-	_initData(elmFocused) {
-		this.m_elmCaption.textContent = this.m_initialProperties.caption;
-		this.m_elmTextTitle.value = this.m_initialProperties.title;
-		this.m_elmTextLocation.value = this.m_initialProperties.location;
-		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
-		this.m_elmChkOpenInFeedPreview.checked = this.m_initialProperties.openInFeedPreview;
-		this.m_elmChkIgnoreUpdates.checked = this.m_initialProperties.ignoreUpdates;
-		this.m_elmChkInsertInsideFolder.checked = false;
-		this.m_elmLabelErrorMsgs.textContent = "";
-
-		elmFocused.focus();
-		elmFocused.setSelectionRange(0, -1); // select all
-	}
-
-	///////////////////////////////////////////////////////////////
 	#showPanel() {
 
 		this.m_slideDownPanel.pull(true).then(() => {
 			this.#addEventListeners();
 		});
 		panel.disable(true);
-	}
-
-	///////////////////////////////////////////////////////////////
-	_close() {
-
-		if (this.#m_isOpen === false) {
-			return;
-		}
-
-		this.m_slideDownPanel.pull(false);
-		panel.disable(false);
-
-		this.#removeEventListeners();
-
-		rssTreeView.setFocus();
-		this.#m_isOpen = false;
 	}
 
 	///////////////////////////////////////////////////////////////
