@@ -11,7 +11,7 @@ class WebsiteSpecificDiscoveryBase {
 			href: this._href = window.location.href,
 			doc: this._document = window.document,
 		} = source);
-		this._hrefMatch = regExpMatch.test(this._href);
+		this.isHRefMatch = regExpMatch.test(this._href);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -83,7 +83,7 @@ class WebsiteSpecificDiscovery {
 	discover() {
 		let urls = [];
 		for(let i=0, len=this._specificDiscoveries.length; i<len; i++) {
-			if(this._specificDiscoveries[i]._hrefMatch) {
+			if(this._specificDiscoveries[i].isHRefMatch) {
 				urls.push(...(this._specificDiscoveries[i].discover()))
 			}
 		}
