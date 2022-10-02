@@ -1,7 +1,6 @@
 "use strict";
 
 class Feed {
-	// publicClassField = 1;		// support starts at Firefox v69
 	constructor(feedUrl) {
 		if (new.target.name === "Feed") {
 			throw new Error(new.target.name + ".constructor: Don't do that");

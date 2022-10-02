@@ -1,8 +1,6 @@
 "use strict";
 
 class Content {
-
-	//////////////////////////////////////////////////////////////////////
 	constructor() {
 		this._feeds = [];
 		this._isFeedsArraySet = false;

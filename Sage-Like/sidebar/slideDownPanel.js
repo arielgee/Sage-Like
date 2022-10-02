@@ -1,7 +1,6 @@
 "use strict";
 
 class SlideDownPanel {
-	///////////////////////////////////////////////////////////////
 	constructor(elmPanel) {
 		if( !!!elmPanel || !(elmPanel instanceof Element) || !elmPanel.classList.contains("slideDownPanel")) {
 			throw new Error(new.target.name + ".constructor: Not a slide-down-panel element");
