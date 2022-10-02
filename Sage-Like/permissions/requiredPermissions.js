@@ -3,26 +3,25 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 class RequiredPermissions {
 
-	static #m_construct = false;
+	static #m_constructId = null;
 	static #m_instance = null;
 
 	#m_permissions = { origins: ["<all_urls>"] };
 	#m_granted = null;
 	#onPermissionsChangedBound;
 
-	constructor() {
-		if(RequiredPermissions.#m_construct === false) {
-			throw new Error("constructor: Don't do that, it's a singleton.");
+	constructor(id) {
+		if(RequiredPermissions.#m_constructId !== parseInt(id)) {
+			throw new Error(`${new.target.name}.constructor: Don't do that, it's a singleton.`);
 		}
-		RequiredPermissions.#m_construct = false;
+		RequiredPermissions.#m_constructId = null;
 		this.#addEventListeners();
 	}
 
 	//////////////////////////////////////////
 	static get i() {
 		if (RequiredPermissions.#m_instance === null) {
-			RequiredPermissions.#m_construct = true;
-			RequiredPermissions.#m_instance = new this();
+			RequiredPermissions.#m_instance = new this(RequiredPermissions.#m_constructId = Math.floor(Math.random() *  Number.MAX_SAFE_INTEGER));
 		}
 		return RequiredPermissions.#m_instance;
 	}

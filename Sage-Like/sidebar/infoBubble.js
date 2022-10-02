@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 class InfoBubble {
 
-	static #m_construct = false;
+	static #m_constructId = null;
 	static #m_instance = null;
 
 	#m_elmInfoBubble = null;
@@ -11,18 +11,17 @@ class InfoBubble {
 	#onClickInfoBubbleBound;
 	#onTransitionEndInfoBubbleBound;
 
-	constructor() {
-		if(InfoBubble.#m_construct === false) {
-			throw new Error("constructor: Don't do that, it's a singleton.");
+	constructor(id) {
+		if(InfoBubble.#m_constructId !== parseInt(id)) {
+			throw new Error(`${new.target.name}.constructor: Don't do that, it's a singleton.`);
 		}
-		InfoBubble.#m_construct = false;
+		InfoBubble.#m_constructId = null;
 	}
 
 	//////////////////////////////////////////
 	static get i() {
 		if (InfoBubble.#m_instance === null) {
-			InfoBubble.#m_construct = true;
-			InfoBubble.#m_instance = new this();
+			InfoBubble.#m_instance = new this(InfoBubble.#m_constructId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
 		}
 		return InfoBubble.#m_instance;
 	}

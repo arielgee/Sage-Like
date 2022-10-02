@@ -4,29 +4,27 @@
 /*****************************************************************************************************************/
 class PropertiesViewElements {
 
+	static #m_constructId = null;
+	static #m_instance = null;
+
+	constructor(id) {
+		if (PropertiesViewElements.#m_constructId !== parseInt(id)) {
+			throw new Error(`${new.target.name}.constructor: Don't do that, it's a singleton.`);
+		}
+		PropertiesViewElements.#m_constructId = null;
+		this.#getViewElementIds();
+	}
+
 	///////////////////////////////////////////////////////////////
-	//
 	static get i() {
-		if (this.m_instance === undefined) {
-
-			// PropertiesViewElements.m_instanceID is a static value, refers to the class, not to the instance of the class
-			PropertiesViewElements.m_instanceID = Date.now() * Math.random();
-			this.m_instance = new this(PropertiesViewElements.m_instanceID);
+		if (PropertiesViewElements.#m_instance === null) {
+			PropertiesViewElements.#m_instance = new this(PropertiesViewElements.#m_constructId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
 		}
-		return this.m_instance;
+		return PropertiesViewElements.#m_instance;
 	}
 
 	///////////////////////////////////////////////////////////////
-	constructor(instanceID) {
-		if (PropertiesViewElements.m_instanceID === undefined || PropertiesViewElements.m_instanceID !== instanceID){
-			throw new Error(new.target.name + ".constructor: Don't do that");
-		}
-		PropertiesViewElements.m_instanceID = undefined;
-		this._getViewElementIds();
-	}
-
-	///////////////////////////////////////////////////////////////
-	_getViewElementIds() {
+	#getViewElementIds() {
 		this.elmPropertiesPanel = document.getElementById("propertiesPanel");
 		this.elmCaption = document.getElementById("propertiesCaption");
 		this.elmTextTitle = document.getElementById("txtFpTitle");
@@ -46,21 +44,24 @@ class PropertiesViewElements {
 /*****************************************************************************************************************/
 class PropertiesView {
 
+	#m_isOpen = false;
+	#onClickButtonSaveBound;
+	#onClickButtonCancelBound;
+	#onKeyDownPropertiesPanelBound;
+
+	constructor() {
+		if (new.target.name === "PropertiesView") {
+			throw new Error(`${new.target.name}.constructor: Don't do that`);
+		}
+		this.#initMembers();
+	}
+
 	///////////////////////////////////////////////////////////////
-	//
 	static get i() {
 		if (this.m_instance === undefined) {
 			this.m_instance = new this();
 		}
 		return this.m_instance;
-	}
-
-	///////////////////////////////////////////////////////////////
-	constructor() {
-		if (new.target.name === "PropertiesView") {
-			throw new Error(new.target.name + ".constructor: Don't do that");
-		}
-		this._initMembers();
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -74,8 +75,8 @@ class PropertiesView {
 		// the promise resolve function
 		this.m_funcPromiseResolve = funcPromiseResolve;
 
-		this._showPanel();
-		this.m_isOpen = true;
+		this.#showPanel();
+		this.#m_isOpen = true;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -86,7 +87,7 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	_initMembers() {
+	#initMembers() {
 		this.m_elmPropertiesPanel = PropertiesViewElements.i.elmPropertiesPanel;
 		this.m_elmCaption = PropertiesViewElements.i.elmCaption;
 		this.m_elmTextTitle = PropertiesViewElements.i.elmTextTitle;
@@ -102,9 +103,9 @@ class PropertiesView {
 
 		this.m_slideDownPanel = new SlideDownPanel(this.m_elmPropertiesPanel);
 
-		this._onClickButtonSave = this._onClickButtonSave.bind(this);
-		this._onClickButtonCancel = this._onClickButtonCancel.bind(this);
-		this._onKeyDownPropertiesPanel = this._onKeyDownPropertiesPanel.bind(this);
+		this.#onClickButtonSaveBound = this.#onClickButtonSave.bind(this);
+		this.#onClickButtonCancelBound = this.#onClickButtonCancel.bind(this);
+		this.#onKeyDownPropertiesPanelBound = this.#onKeyDownPropertiesPanel.bind(this);
 
 		this.m_initialProperties = {
 			caption: "",
@@ -115,7 +116,7 @@ class PropertiesView {
 			ignoreUpdates: false,
 		};
 
-		this.m_isOpen = false;
+		this.#m_isOpen = false;
 		this.m_funcPromiseResolve = null;
 	}
 
@@ -148,10 +149,10 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	_showPanel() {
+	#showPanel() {
 
 		this.m_slideDownPanel.pull(true).then(() => {
-			this._addEventListeners();
+			this.#addEventListeners();
 		});
 		panel.disable(true);
 	}
@@ -159,45 +160,45 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_close() {
 
-		if (this.m_isOpen === false) {
+		if (this.#m_isOpen === false) {
 			return;
 		}
 
 		this.m_slideDownPanel.pull(false);
 		panel.disable(false);
 
-		this._removeEventListeners();
+		this.#removeEventListeners();
 
 		rssTreeView.setFocus();
-		this.m_isOpen = false;
+		this.#m_isOpen = false;
 	}
 
 	///////////////////////////////////////////////////////////////
-	_addEventListeners() {
-		this.m_elmButtonSave.addEventListener("click", this._onClickButtonSave);
-		this.m_elmButtonCancel.addEventListener("click", this._onClickButtonCancel);
-		this.m_elmPropertiesPanel.addEventListener("keydown", this._onKeyDownPropertiesPanel);
+	#addEventListeners() {
+		this.m_elmButtonSave.addEventListener("click", this.#onClickButtonSaveBound);
+		this.m_elmButtonCancel.addEventListener("click", this.#onClickButtonCancelBound);
+		this.m_elmPropertiesPanel.addEventListener("keydown", this.#onKeyDownPropertiesPanelBound);
 	}
 
 	///////////////////////////////////////////////////////////////
-	_removeEventListeners() {
-		this.m_elmButtonSave.removeEventListener("click", this._onClickButtonSave);
-		this.m_elmButtonCancel.removeEventListener("click", this._onClickButtonCancel);
-		this.m_elmPropertiesPanel.removeEventListener("keydown", this._onKeyDownPropertiesPanel);
+	#removeEventListeners() {
+		this.m_elmButtonSave.removeEventListener("click", this.#onClickButtonSaveBound);
+		this.m_elmButtonCancel.removeEventListener("click", this.#onClickButtonCancelBound);
+		this.m_elmPropertiesPanel.removeEventListener("keydown", this.#onKeyDownPropertiesPanelBound);
 	}
 
 	///////////////////////////////////////////////////////////////
-	_onClickButtonSave(event) {
+	#onClickButtonSave() {
 		this._saveAndClose();
 	}
 
 	///////////////////////////////////////////////////////////////
-	_onClickButtonCancel(event) {
+	#onClickButtonCancel() {
 		this._close();
 	}
 
 	///////////////////////////////////////////////////////////////
-	_onKeyDownPropertiesPanel(event) {
+	#onKeyDownPropertiesPanel(event) {
 		switch (event.code) {
 			case "Enter":
 			case "NumpadEnter":
@@ -222,8 +223,6 @@ class PropertiesView {
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 class NewFeedPropertiesView extends PropertiesView {
-
-	///////////////////////////////////////////////////////////////
 	constructor() {
 		super();
 	}
@@ -282,8 +281,6 @@ class NewFeedPropertiesView extends PropertiesView {
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 class NewFolderPropertiesView extends PropertiesView {
-
-	///////////////////////////////////////////////////////////////
 	constructor() {
 		super();
 	}
@@ -328,8 +325,6 @@ class NewFolderPropertiesView extends PropertiesView {
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 class EditFeedPropertiesView extends PropertiesView {
-
-	///////////////////////////////////////////////////////////////
 	constructor() {
 		super();
 	}
@@ -403,8 +398,6 @@ class EditFeedPropertiesView extends PropertiesView {
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 class EditFolderPropertiesView extends PropertiesView {
-
-	///////////////////////////////////////////////////////////////
 	constructor() {
 		super();
 	}
