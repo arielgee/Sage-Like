@@ -103,7 +103,12 @@ let signinView = (function () {
 		switch (event.code) {
 			case "Enter":
 			case "NumpadEnter":
-				onClickButtonSignin()
+				if(document.activeElement === m_elmButtonCancel) {
+					close();
+				} else {
+					onClickButtonSignin();
+				}
+
 				break;
 				//////////////////////////////
 			case "Escape":
