@@ -1298,7 +1298,7 @@ let rssTreeView = (function() {
 							`Format: ${result.feedData.standard}`,
 							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}${m_objTreeFeedsData.value(elmLI.id).ignoreUpdates ? ", ignored" : ""}`,
 							`Expired: ${result.feedData.expired ? "Yes": ""}`,		// Display only if it's true
-						]
+						];
 
 						setFeedVisitedState(elmLI, true);
 						updateFeedTitle(elmLI, result.feedData.title);
