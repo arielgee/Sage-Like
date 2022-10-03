@@ -1066,7 +1066,8 @@ let slUtil = (function() {
 			// try harder
 			safeDate = Date.parse( value.replace(REGEX_SEP_ZULU, "Z")					// If Zulu is seperated, remove separating spaces.
 										.replace(REGEX_EURO_FMT, "$3-$2-$1T$4")			// If Euro format 'dd/mm/yyyy hh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
-										.replace(REGEX_ISO_DD_MM, "$1-$3-$2$4") );		// If bad ISO format 'yyyy-dd-mmThh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
+										.replace(REGEX_ISO_DD_MM, "$1-$3-$2$4")			// If bad ISO format 'yyyy-dd-mmThh:MM:ss', modify to 'yyyy-mm-ddThh:MM:ss'.
+										.replace(" at ", ", ") );						// If long format includes 'at' before 'hh:mm', modify to 'DDDDD, dd MMMMM yyyy, hh:mm'.
 
 			return isNaN(safeDate) ? Global.DEFAULT_VALUE_OF_DATE : safeDate;
 
