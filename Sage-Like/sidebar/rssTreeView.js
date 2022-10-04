@@ -45,6 +45,7 @@ let rssTreeView = (function() {
 									" \u25cf Status filtering using special commands prefixed with a single greater-than sign ('>'): \n" +
 									"    \u2022 Use '>unread' for unvisited feeds. \n" +
 									"    \u2022 Use '>read' for visited feeds. \n" +
+									"    \u2022 Use '>ok' for feeds that updated just fine. \n" +
 									"    \u2022 Use '>error' for feeds that failed to update. \n" +
 									"    \u2022 Use '>error-ua' for feeds that failed to update due to lack of client authentication. \n" +
 									"    \u2022 Use '>load' for feeds that are still loading. \n\n" +
@@ -58,6 +59,7 @@ let rssTreeView = (function() {
 		LOADING: 3,
 		EMPTY: 4,
 		ERROR_UNAUTHORIZED: 5,
+		RESPONSIVE: 6,
 	});
 
 	// indicates from where the call has originated from
@@ -2620,6 +2622,7 @@ let rssTreeView = (function() {
 					case ">error":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.ERROR);					break;
 					case ">load":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.LOADING);				break;
 					case ">error-ua":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.ERROR_UNAUTHORIZED);	break;
+					case ">ok":			itemsFiltered = filterTreeItemStatus(TreeItemStatus.RESPONSIVE);			break;
 					default:			itemsFiltered = filterTreeItemStatus(TreeItemStatus.UNDEFINED);				break;
 				}
 
@@ -2703,6 +2706,11 @@ let rssTreeView = (function() {
 		} else if(status === TreeItemStatus.LOADING) {
 			for(let i=0, len=elms.length; i<len; i++) {
 				elms[i].classList.toggle("filtered", !elms[i].classList.contains("loading"));
+			}
+		} else if(status === TreeItemStatus.RESPONSIVE) {
+			for(let i=0, len=elms.length; i<len; i++) {
+				const cList = elms[i].classList;
+				elms[i].classList.toggle("filtered", cList.contains("error") || cList.contains("loading"));
 			}
 		} else if(status === TreeItemStatus.UNDEFINED) {
 			for(let i=0, len=elms.length; i<len; i++) {
