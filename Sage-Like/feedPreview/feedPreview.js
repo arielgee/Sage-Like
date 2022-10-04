@@ -340,7 +340,7 @@
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
 		m_elmJumpList.appendChild(elmJumpListItem);
 
-		elmFeedItemContainer.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
+		elmFeedItemContainer.style.direction = elmJumpListItem.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
 
 		// only if IntersectionObserver object was created
 		if(!!m_feedItemObserver) {
