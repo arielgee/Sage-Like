@@ -1915,7 +1915,7 @@ let rssTreeView = (function() {
 	function signinFeed(elmLI) {
 
 		if(TreeItemType.isUnauthorized(elmLI)) {
-			signinView.open().then((signinCredential) => {
+			signinView.open(getTreeItemText(elmLI)).then((signinCredential) => {
 				if(!!signinCredential && signinCredential.initialized) {
 					openTreeFeed(elmLI, false, UserInput.DIALOG, signinCredential);
 				}

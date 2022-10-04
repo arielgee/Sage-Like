@@ -3,6 +3,7 @@
 let signinView = (function () {
 
 	let m_elmSigninPanel = null;
+	let m_elmFeedName;
 	let m_elmUserName;
 	let m_elmPassword;
 	let m_elmButtonSignin;
@@ -15,11 +16,11 @@ let signinView = (function () {
 	let m_slideDownPanel = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function open() {
+	function open(feedName) {
 
 		return new Promise((resolve) => {
 
-			initMembers();
+			initMembers(feedName);
 
 			if(m_slideDownPanel.isDown) return;
 
@@ -44,6 +45,7 @@ let signinView = (function () {
 		m_slideDownPanel.pull(false);
 		panel.disable(false);
 
+		m_elmFeedName.textContent = "";
 		m_elmUserName.value = m_elmPassword.value = "";
 		m_elmStatusbar.textContent = "";
 
@@ -59,10 +61,11 @@ let signinView = (function () {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initMembers() {
+	function initMembers(feedName) {
 
 		if(m_elmSigninPanel === null) {
 			m_elmSigninPanel = document.getElementById("signinPanel");
+			m_elmFeedName = document.getElementById("signinFeedName");
 			m_elmUserName = document.getElementById("userName");
 			m_elmPassword = document.getElementById("password");
 			m_elmButtonSignin = document.getElementById("btnSigninSignin");
@@ -71,6 +74,7 @@ let signinView = (function () {
 
 			m_slideDownPanel = new SlideDownPanel(m_elmSigninPanel);
 		}
+		m_elmFeedName.textContent = ` - ${feedName}`;
 		m_elmUserName.value = m_elmPassword.value = "";
 		m_elmStatusbar.textContent = "";
 		m_signinCredentialResult = null;

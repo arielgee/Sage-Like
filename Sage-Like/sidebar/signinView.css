@@ -16,11 +16,15 @@
 	background: transparent url("/icons/unauthorized.png") no-repeat center center;
 	width: 16px;
 	height: 16px;
+	min-width: 16px;
+	min-height: 16px;
 	margin: auto 8px auto 0;
 }
 
 #signinPanel .caption {
 	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .signinInfoContainer {
