@@ -2,7 +2,7 @@
 <opml version="1.0">
 	<head>
 		<title>Sage-Like Feeds Export</title>
-		<dateCreated>Tue, 08 Feb 2022 10:01:22 GMT</dateCreated>
+		<dateCreated>Tue, 04 Oct 2022 16:50:06 GMT</dateCreated>
 	</head>
 	<body>
 		<outline text="Sage-Like TEST-Feeds" data-wxsl-open="1">
@@ -93,7 +93,7 @@
 				<outline type="rss" text="OCaml Planet" title="OCaml Planet" xmlUrl="https://raw.githubusercontent.com/Cumulus/Syndic/master/test/003.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="shp&#039;s timeline" title="shp&#039;s timeline" xmlUrl="https://git.eummena.org/eummena/dev/moodlenet/moodlenet-server/raw/3623504e5d7b4dd6dd250151685343109de1e889/test/fixtures/httpoison_mock/shp@pleroma.soykaf.com.feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="PHP.net releases" title="PHP.net releases" xmlUrl="https://www.php.net/releases/feed.php" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="It&#039;s Been a Minute" title="It&#039;s Been a Minute" xmlUrl="https://www.npr.org/feeds/510317/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="iOS Icon Gallery" title="iOS Icon Gallery" xmlUrl="https://www.iosicongallery.com/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Adventures in New America" title="Adventures in New America" xmlUrl="https://anchor.fm/s/4bd40bfc/podcast/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Within the Wires" title="Within the Wires" xmlUrl="http://feeds.nightvalepresents.com/WithinTheWires" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -131,7 +131,7 @@
 				<outline type="rss" text="The Mozilla Blog" title="The Mozilla Blog" xmlUrl="https://developer.mozilla.org/devnews/index.php/feed/atom/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Mozilla Press Center" title="Mozilla Press Center" xmlUrl="https://blog.mozilla.org/press/feed/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="BBC News - World" title="BBC News - World" xmlUrl="http://feeds.bbci.co.uk/news/world/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="TechCrunch" title="TechCrunch" xmlUrl="http://feeds.feedburner.com/TechCrunch" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="Crunch Hype" title="Crunch Hype" xmlUrl="http://feeds.feedburner.com/TechCrunch" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="MIT Technology Review" title="MIT Technology Review" xmlUrl="https://www.technologyreview.com/topnews.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="מגפון ניוז Megafon News" title="מגפון ניוז Megafon News" xmlUrl="http://megafon-news.co.il/asys/feed" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="ynet - מדע" title="ynet - מדע" xmlUrl="https://www.freefullrss.com/feed.php?url=http%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2142.xml&amp;max=5&amp;links=preserve&amp;exc=&amp;submit=Create+Full+Text+RSS" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -166,7 +166,7 @@
 				<outline type="rss" text="Daring Fireball" title="Daring Fireball" xmlUrl="https://daringfireball.net/feeds/json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Hipster Pixel" title="Hipster Pixel" xmlUrl="https://hipsterpixel.co/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="inessential" title="inessential" xmlUrl="https://inessential.com/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="It&#039;s Been a Minute with Sam Sanders" title="It&#039;s Been a Minute with Sam Sanders" xmlUrl="https://www.npr.org/feeds/510317/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="It&#039;s Been a Minute" title="It&#039;s Been a Minute" xmlUrl="https://www.npr.org/feeds/510317/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Jamie Tanna | Software Engineer" title="Jamie Tanna | Software Engineer" xmlUrl="https://www.jvt.me/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="JSON Feed" title="JSON Feed" xmlUrl="https://jsonfeed.org/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Manton Reece" title="Manton Reece" xmlUrl="https://manton.org/feed.json" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
@@ -188,7 +188,7 @@
 				<outline type="rss" text="Lage der Nation - der Politik-Podcast aus Berlin" title="Lage der Nation - der Politik-Podcast aus Berlin" xmlUrl="https://cdn.kuechenstud.io/feeds/ldn-mp3.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Within the Wires" title="Within the Wires" xmlUrl="http://feeds.nightvalepresents.com/WithinTheWires" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Eyes on Asia" title="Eyes on Asia" xmlUrl="https://podrepo.rfa.org/E-Eyes/E-Eyes.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
-				<outline type="rss" text="CNN Breaking News Alert" title="CNN Breaking News Alert" xmlUrl="https://www.omnycontent.com/d/playlist/d83f52e4-2455-47f4-982e-ab790120b954/183b7d82-f502-4965-a01a-ac6b00f3be8a/2bbde490-903e-4e0d-b13e-ac6b00f4a6c5/podcast.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				<outline type="rss" text="CNN Breaking News Alerts" title="CNN Breaking News Alerts" xmlUrl="https://www.omnycontent.com/d/playlist/d83f52e4-2455-47f4-982e-ab790120b954/183b7d82-f502-4965-a01a-ac6b00f3be8a/2bbde490-903e-4e0d-b13e-ac6b00f4a6c5/podcast.rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="Adventures in New America" title="Adventures in New America" xmlUrl="https://anchor.fm/s/4bd40bfc/podcast/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="Hang Feeds" data-wxsl-open="0">
@@ -205,6 +205,16 @@
 				<outline type="rss" text="@ariel__gee" title="@ariel__gee" xmlUrl="https://bibliogram.ggc-project.de/u/ariel__gee/rss.xml" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 			</outline>
 			<outline text="discovery" data-wxsl-open="0">
+				<outline text="youtube" data-wxsl-open="0">
+					<outline type="rss" text="HONEST GUIDE - YouTube" title="HONEST GUIDE - YouTube" xmlUrl="https://www.youtube.com/c/HONESTGUIDE/playlists" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="100 Cello - Classical Music - YouTube" title="100 Cello - Classical Music - YouTube" xmlUrl="https://www.youtube.com/watch?v=LFsfZ2RdKuk" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="Spotify chill playlist ~ Viral songs latest ~ New Tiktok songs - YouTube" title="Spotify chill playlist ~ Viral songs latest ~ New Tiktok songs - YouTube" xmlUrl="https://www.youtube.com/watch?v=6PxOZVgT_g4" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="Deep Chill Mix - YouTube" title="Deep Chill Mix - YouTube" xmlUrl="https://www.youtube.com/c/DeepChillMix/playlists" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="Mellow Sounds - YouTube" title="Mellow Sounds - YouTube" xmlUrl="https://www.youtube.com/channel/UCmK4gbkHU_afGKdB9RARcqA/playlists" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="Non-Fungible Planet | YouTube - YouTube" title="Non-Fungible Planet | YouTube - YouTube" xmlUrl="https://www.youtube.com/watch?v=pn4XSDnaiPY&amp;list=PLbpi6ZahtOH52gc6K5nH46dbD55DxH3a1" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="ThrasherMagazine - YouTube" title="ThrasherMagazine - YouTube" xmlUrl="https://www.youtube.com/user/ThrasherMagazine" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+					<outline type="rss" text="minutephysics - YouTube" title="minutephysics - YouTube" xmlUrl="https://www.youtube.com/c/minutephysics/playlists" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
+				</outline>
 				<outline type="rss" text="CNN.com - RSS Feeds" title="CNN.com - RSS Feeds" xmlUrl="https://edition.cnn.com/services/rss/" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="ynet.co.il - RSS Feeds" title="ynet.co.il - RSS Feeds" xmlUrl="https://www.ynet.co.il/articles/0,7340,L-3369891,00.html" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
 				<outline type="rss" text="buzzfeed.com - RSS Feeds" title="buzzfeed.com - RSS Feeds" xmlUrl="https://www.buzzfeed.com/rss" data-wxsl-updateTitle="1" data-wxsl-openPreview="0"/>
