@@ -1940,7 +1940,8 @@ let rssTreeView = (function() {
 	function toggleFeedVisitedState(elmLI) {
 
 		if(elmLI.classList.contains("error")) {
-			InfoBubble.i.show("Feed is erroneous.", elmLI, true, m_elmTreeRoot.style.direction === "rtl", 3500, true);
+			let text = elmLI.classList.contains("unauthorized") ? "requires signing in." : "is erroneous.";
+			InfoBubble.i.show(`Feed ${text}`, elmLI, true, m_elmTreeRoot.style.direction === "rtl", 3500, true);
 			return;
 		}
 
