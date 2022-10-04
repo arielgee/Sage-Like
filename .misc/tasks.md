@@ -1094,7 +1094,7 @@
 	* rewrite the message to reflect that most feeds will require the permission?
 	* detect the errors in 1. and/or 2. and show the message?
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2 ?
-* look into declarativeNetRequest - stil not implemented. not relevent as long as webRequestBlocking is stil supported
+* look into declarativeNetRequest - still not implemented by mozilla. not relevent as long as webRequestBlocking is stil supported
 
 ## Next
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
