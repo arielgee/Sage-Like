@@ -1089,11 +1089,12 @@
 	* In order for a feed to be fetched without the host permission <all_urls> the server must have the following HTTP Response Headers (see: localhost IIS):
 		1. `Access-Control-Allow-Origin: *` - to allow the extension to avoid error "Cross-Origin Request Blocked ... Reason: CORS header ‘Access-Control-Allow-Origin’ missing"
 		2. `Access-Control-Allow-Headers: Authorization` - to allow the extension to use the header `Authorization: Basic Og==` and avoid error "Cross-Origin Request Blocked ... Reason: header ‘authorization’ is not allowed"
+		3. FUCK!!! At the IIS at home i get "Cross-Origin Request Blocked ... Reason: CORS preflight response did not succeed" for protected page. STILL NOT RESOLVED
 	* Maybe allow all progress but show message is permission is missing? plus a checkbox to stop showing message?
 	* rewrite the message to reflect that most feeds will require the permission?
 	* detect the errors in 1. and/or 2. and show the message?
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2 ?
-* look into declarativeNetRequest
+* look into declarativeNetRequest - stil not implemented. not relevent as long as webRequestBlocking is stil supported
 
 ## Next
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
