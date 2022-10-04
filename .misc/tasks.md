@@ -1069,6 +1069,11 @@
 * move the (set|get)DropInsideFolderShowMsgCount code block from onDragStartTreeItem() to onDragEnterTreeItem() to support InfoBubble for drags from outside the tree (url, links, popup, etc). do not forget event.stopPropagation();
 * feedPreview media attachments: wait cursor when data is loading
 * set none for effectAllowed/dropEffect in onDragOverTreeItem when hovering list view or discoveryView
+* dropping a url from the addressbar into a deleted bookmark folder do not display InfoBubble message "Bookmarks error: Drop target may have been removed."
+* InfoBubble shows "Feed is erroneous." for Unauthorized feed
+* in the sign-in view, add to the caption " to <feed_name>"
+* new status filter '>ok' for responsive feeds
+* feed preview: right to left jump list
 ---
 
 
@@ -1078,11 +1083,6 @@
 
 
 ## Next - cherry-pick to Manifest-v3-migration-Px
-* dropping a url from the addressbar into a deleted bookmark folder do not display InfoBubble message "Bookmarks error: Drop target may have been removed."
-* InfoBubble shows "Feed is erroneous." for Unauthorized feed
-* new status filter '>responsive'
-* in the sign-in view, add to the caption " to <feed_name>"
-* feed preview: right to left jump list
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
