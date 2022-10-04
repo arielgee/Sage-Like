@@ -4,27 +4,27 @@
 /*****************************************************************************************************************/
 class PropertiesViewElements {
 
-	static #m_constructId = null;
-	static #m_instance = null;
+	static #_constructId = null;
+	static #_instance = null;
 
 	constructor(id) {
-		if (PropertiesViewElements.#m_constructId !== parseInt(id)) {
+		if (PropertiesViewElements.#_constructId !== parseInt(id)) {
 			throw new Error(`${new.target.name}.constructor: Don't do that, it's a singleton.`);
 		}
-		PropertiesViewElements.#m_constructId = null;
-		this.#getViewElementIds();
+		PropertiesViewElements.#_constructId = null;
+		this.#_getViewElementIds();
 	}
 
 	///////////////////////////////////////////////////////////////
 	static get i() {
-		if (PropertiesViewElements.#m_instance === null) {
-			PropertiesViewElements.#m_instance = new this(PropertiesViewElements.#m_constructId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
+		if (PropertiesViewElements.#_instance === null) {
+			PropertiesViewElements.#_instance = new this(PropertiesViewElements.#_constructId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
 		}
-		return PropertiesViewElements.#m_instance;
+		return PropertiesViewElements.#_instance;
 	}
 
 	///////////////////////////////////////////////////////////////
-	#getViewElementIds() {
+	#_getViewElementIds() {
 		this.elmPropertiesPanel = document.getElementById("propertiesPanel");
 		this.elmCaption = document.getElementById("propertiesCaption");
 		this.elmTextTitle = document.getElementById("txtFpTitle");
@@ -44,16 +44,16 @@ class PropertiesViewElements {
 /*****************************************************************************************************************/
 class PropertiesView {
 
-	#m_isOpen = false;
-	#onClickButtonSaveBound;
-	#onClickButtonCancelBound;
-	#onKeyDownPropertiesPanelBound;
+	#_isOpen = false;
+	#_onClickButtonSaveBound;
+	#_onClickButtonCancelBound;
+	#_onKeyDownPropertiesPanelBound;
 
 	constructor() {
 		if (new.target.name === "PropertiesView") {
 			throw new Error(`${new.target.name}.constructor: Don't do that`);
 		}
-		this.#initMembers();
+		this.#_initMembers();
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -75,8 +75,8 @@ class PropertiesView {
 		// the promise resolve function
 		this.m_funcPromiseResolve = funcPromiseResolve;
 
-		this.#showPanel();
-		this.#m_isOpen = true;
+		this.#_showPanel();
+		this.#_isOpen = true;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -89,17 +89,17 @@ class PropertiesView {
 	///////////////////////////////////////////////////////////////
 	_close() {
 
-		if (this.#m_isOpen === false) {
+		if (this.#_isOpen === false) {
 			return;
 		}
 
 		this.m_slideDownPanel.pull(false);
 		panel.disable(false);
 
-		this.#removeEventListeners();
+		this.#_removeEventListeners();
 
 		rssTreeView.setFocus();
-		this.#m_isOpen = false;
+		this.#_isOpen = false;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -131,7 +131,7 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
-	#initMembers() {
+	#_initMembers() {
 		this.m_elmPropertiesPanel = PropertiesViewElements.i.elmPropertiesPanel;
 		this.m_elmCaption = PropertiesViewElements.i.elmCaption;
 		this.m_elmTextTitle = PropertiesViewElements.i.elmTextTitle;
@@ -147,9 +147,9 @@ class PropertiesView {
 
 		this.m_slideDownPanel = new SlideDownPanel(this.m_elmPropertiesPanel);
 
-		this.#onClickButtonSaveBound = this.#onClickButtonSave.bind(this);
-		this.#onClickButtonCancelBound = this.#onClickButtonCancel.bind(this);
-		this.#onKeyDownPropertiesPanelBound = this.#onKeyDownPropertiesPanel.bind(this);
+		this.#_onClickButtonSaveBound = this.#_onClickButtonSave.bind(this);
+		this.#_onClickButtonCancelBound = this.#_onClickButtonCancel.bind(this);
+		this.#_onKeyDownPropertiesPanelBound = this.#_onKeyDownPropertiesPanel.bind(this);
 
 		this.m_initialProperties = {
 			caption: "",
@@ -160,45 +160,45 @@ class PropertiesView {
 			ignoreUpdates: false,
 		};
 
-		this.#m_isOpen = false;
+		this.#_isOpen = false;
 		this.m_funcPromiseResolve = null;
 	}
 
 	///////////////////////////////////////////////////////////////
-	#showPanel() {
+	#_showPanel() {
 
 		this.m_slideDownPanel.pull(true).then(() => {
-			this.#addEventListeners();
+			this.#_addEventListeners();
 		});
 		panel.disable(true);
 	}
 
 	///////////////////////////////////////////////////////////////
-	#addEventListeners() {
-		this.m_elmButtonSave.addEventListener("click", this.#onClickButtonSaveBound);
-		this.m_elmButtonCancel.addEventListener("click", this.#onClickButtonCancelBound);
-		this.m_elmPropertiesPanel.addEventListener("keydown", this.#onKeyDownPropertiesPanelBound);
+	#_addEventListeners() {
+		this.m_elmButtonSave.addEventListener("click", this.#_onClickButtonSaveBound);
+		this.m_elmButtonCancel.addEventListener("click", this.#_onClickButtonCancelBound);
+		this.m_elmPropertiesPanel.addEventListener("keydown", this.#_onKeyDownPropertiesPanelBound);
 	}
 
 	///////////////////////////////////////////////////////////////
-	#removeEventListeners() {
-		this.m_elmButtonSave.removeEventListener("click", this.#onClickButtonSaveBound);
-		this.m_elmButtonCancel.removeEventListener("click", this.#onClickButtonCancelBound);
-		this.m_elmPropertiesPanel.removeEventListener("keydown", this.#onKeyDownPropertiesPanelBound);
+	#_removeEventListeners() {
+		this.m_elmButtonSave.removeEventListener("click", this.#_onClickButtonSaveBound);
+		this.m_elmButtonCancel.removeEventListener("click", this.#_onClickButtonCancelBound);
+		this.m_elmPropertiesPanel.removeEventListener("keydown", this.#_onKeyDownPropertiesPanelBound);
 	}
 
 	///////////////////////////////////////////////////////////////
-	#onClickButtonSave() {
+	#_onClickButtonSave() {
 		this._saveAndClose();
 	}
 
 	///////////////////////////////////////////////////////////////
-	#onClickButtonCancel() {
+	#_onClickButtonCancel() {
 		this._close();
 	}
 
 	///////////////////////////////////////////////////////////////
-	#onKeyDownPropertiesPanel(event) {
+	#_onKeyDownPropertiesPanel(event) {
 		switch (event.code) {
 			case "Enter":
 			case "NumpadEnter":

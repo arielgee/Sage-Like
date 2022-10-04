@@ -1,9 +1,12 @@
 "use strict";
 
 class JsonFeed extends Feed {
+
+	#_feedJson = null;
+
 	constructor(feedUrl, feedJson) {
 		super(feedUrl);
-		this._feedJson = feedJson;
+		this.#_feedJson = feedJson;
 	}
 
 	//////////////////////////////////////////
@@ -13,15 +16,15 @@ class JsonFeed extends Feed {
 
 		try {
 			feedData.standard = SyndicationStandard.JSON;					// https://jsonfeed.org/version/1.1
-			feedData.jsonVersion = this._feedJson.version.match(/[\d.]+$/)[0];
-			feedData.expired = (this._feedJson.expired === true);			// boolean, if absence then it's not expired
-			feedData.feeder = this._feedJson.items;
-			feedData.title = (!!this._feedJson.title ? this._feedJson.title.stripHtmlTags() : "").consolidateWhiteSpaces();
-			feedData.imageUrl = (!!this._feedJson.icon ? this._feedJson.icon : (!!this._feedJson.favicon ? this._feedJson.favicon : "")).stripHtmlTags();
-			feedData.description = (!!this._feedJson.description ? this._feedJson.description.stripHtmlTags() : "");
-			feedData.lastUpdated = this._getFeedLastUpdate(this._feedJson.items);
-			feedData.itemCount = this._feedJson.items.length;
-			feedData.webPageUrl = (!!this._feedJson.home_page_url ? this._feedJson.home_page_url.stripHtmlTags() : "");
+			feedData.jsonVersion = this.#_feedJson.version.match(/[\d.]+$/)[0];
+			feedData.expired = (this.#_feedJson.expired === true);			// boolean, if absence then it's not expired
+			feedData.feeder = this.#_feedJson.items;
+			feedData.title = (!!this.#_feedJson.title ? this.#_feedJson.title.stripHtmlTags() : "").consolidateWhiteSpaces();
+			feedData.imageUrl = (!!this.#_feedJson.icon ? this.#_feedJson.icon : (!!this.#_feedJson.favicon ? this.#_feedJson.favicon : "")).stripHtmlTags();
+			feedData.description = (!!this.#_feedJson.description ? this.#_feedJson.description.stripHtmlTags() : "");
+			feedData.lastUpdated = this.#_getFeedLastUpdate(this.#_feedJson.items);
+			feedData.itemCount = this.#_feedJson.items.length;
+			feedData.webPageUrl = (!!this.#_feedJson.home_page_url ? this.#_feedJson.home_page_url.stripHtmlTags() : "");
 		} catch (error) {
 			console.log("[Sage-Like]", "getFeedData error", error);
 			feedData.errorMsg = error.message;
@@ -46,7 +49,7 @@ class JsonFeed extends Feed {
 		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
-			feedItem = this._createSingleListItemFeed(item);
+			feedItem = this.#_createSingleListItemFeed(item);
 
 			if(!!feedItem) {
 
@@ -55,7 +58,7 @@ class JsonFeed extends Feed {
 					itemAtts = item.attachments || [];		// if attachments is missing then atts is empty array
 
 					for(j=0, jLen=itemAtts.length; j<jLen; j++) {
-						if( !!(feedItemAtt = this._getFeedItemAttachmentAsAttObject(itemAtts[j])) ) {
+						if( !!(feedItemAtt = this.#_getFeedItemAttachmentAsAttObject(itemAtts[j])) ) {
 							feedItem.attachments.push(feedItemAtt);
 						}
 					}
@@ -70,11 +73,11 @@ class JsonFeed extends Feed {
 	//////////////////////////////////////////
 	dispose() {
 		super.dispose();
-		this._feedJson = null;
+		this.#_feedJson = null;
 	}
 
 	//////////////////////////////////////////
-	_createSingleListItemFeed(item) {
+	#_createSingleListItemFeed(item) {
 
 		// first attempt.
 		// Ideally, the id is the full URL of the resource described by the item
@@ -94,16 +97,16 @@ class JsonFeed extends Feed {
 			}
 		}
 
-		return this._createFeedItemObject(	this._getFeedItemTitle(item).stripHtmlTags(),
-											this._getFeedItemDescription(item).stripUnsafeHtmlComponents(),
-											this._getFeedItemHtmlContent(item).stripUnsafeHtmlComponents(),
+		return this._createFeedItemObject(	this.#_getFeedItemTitle(item).stripHtmlTags(),
+											this.#_getFeedItemDescription(item).stripUnsafeHtmlComponents(),
+											this.#_getFeedItemHtmlContent(item).stripUnsafeHtmlComponents(),
 											itemUrl.stripHtmlTags(),
-											this._getFeedItemLastUpdate(item),
+											this.#_getFeedItemLastUpdate(item),
 											(!!item.image && slUtil.validURL(item.image)) ? item.image : "");
 	}
 
 	//////////////////////////////////////////
-	_getFeedLastUpdate(items) {
+	#_getFeedLastUpdate(items) {
 
 		let numericDateVal = items.map(x => slUtil.asSafeNumericDate(x.date_modified))
 								  .reduce((prv, cur) => prv > cur ? prv : cur, Global.DEFAULT_VALUE_OF_DATE);
@@ -116,7 +119,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemTitle(item) {
+	#_getFeedItemTitle(item) {
 
 		let retVal;
 
@@ -133,7 +136,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemDescription(item) {
+	#_getFeedItemDescription(item) {
 
 		let prop;
 		let itemAllDescProperties = [item.summary, item.content_text, item.content_html];
@@ -151,7 +154,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemHtmlContent(item) {
+	#_getFeedItemHtmlContent(item) {
 
 		let prop;
 		let acquired = null;
@@ -175,7 +178,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemLastUpdate(item) {
+	#_getFeedItemLastUpdate(item) {
 
 		let numericDateVal = slUtil.asSafeNumericDate(item.date_modified);
 
@@ -187,7 +190,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemAttachmentAsAttObject(att) {
+	#_getFeedItemAttachmentAsAttObject(att) {
 
 		let url = slUtil.validURL(new URL(att.url, this._feedUrl));
 

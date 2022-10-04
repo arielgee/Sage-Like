@@ -73,8 +73,9 @@ class YouTubeSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 
 //////////////////////////////////////////////////////////////////////
 class WebsiteSpecificDiscovery {
+	#_specificDiscoveries = null;
 	constructor(source) {
-		this._specificDiscoveries = [
+		this.#_specificDiscoveries = [
 			new YouTubeSpecificDiscovery(source),
 		];
 	}
@@ -82,9 +83,9 @@ class WebsiteSpecificDiscovery {
 	//////////////////////////////////////////////////////////////////////
 	discover() {
 		let urls = [];
-		for(let i=0, len=this._specificDiscoveries.length; i<len; i++) {
-			if(this._specificDiscoveries[i].isHRefMatch) {
-				urls.push(...(this._specificDiscoveries[i].discover()))
+		for(let i=0, len=this.#_specificDiscoveries.length; i<len; i++) {
+			if(this.#_specificDiscoveries[i].isHRefMatch) {
+				urls.push(...(this.#_specificDiscoveries[i].discover()))
 			}
 		}
 		return urls;

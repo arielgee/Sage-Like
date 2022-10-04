@@ -5,11 +5,11 @@ class RequiredPermissionsPanel extends RequiredPermissions {
 
 	//////////////////////////////////////////
 	assert() {
-		return (super.granted ? true : this.#assertRequestPermissions());
+		return (super.granted ? true : this.#_assertRequestPermissions());
 	}
 
 	//////////////////////////////////////////
-	#assertRequestPermissions() {
+	#_assertRequestPermissions() {
 
 		let onRequestPermissions = async function onClickRequestPermissions() {
 			messageView.close();
@@ -21,7 +21,7 @@ class RequiredPermissionsPanel extends RequiredPermissions {
 			}
 		};
 
-		const reqPermissions = super.permissions;
+		const reqPermissions = this._permissions;
 		const htmlTagsRequest = "<br><br>Select the link below to allow the required permissions.<br><br><a href='#' id='messageViewRequestPermissions'>Request Permissions</a>";
 		const messageDetails = {
 			text: "The functionality of fetching any feed from the web requires the <b>Access your data for all websites</b> permission.<br><br>" +

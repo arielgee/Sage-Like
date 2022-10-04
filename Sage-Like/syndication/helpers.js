@@ -64,6 +64,7 @@ class JsonFeedData extends FeedData {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class SyndicationError extends Error {
+	#_httpResponseStatus = 0;
 	constructor(message, errInfo = undefined) {
 		let status = 0;
 		if(!!errInfo) {
@@ -77,27 +78,25 @@ class SyndicationError extends Error {
 			}
 		}
 		super(message);
-		this._httpResponseStatus = status;
+		this.#_httpResponseStatus = status;
 	}
 	httpResponseStatus() {
-		return this._httpResponseStatus;
+		return this.#_httpResponseStatus;
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class AbortDiscovery {
-	constructor() {
-		this._abort = false;
-		this.fetchControllers = [];
-	}
+	#_abort = false;
+	fetchControllers = [];
 	abort() {
-		this._abort = true;
+		this.#_abort = true;
 		for(let i=0, len=this.fetchControllers.length; i<len; i++) {
 			this.fetchControllers[i].abort();
 		}
 	}
 	get isAborted() {
-		return this._abort;
+		return this.#_abort;
 	}
 }
 

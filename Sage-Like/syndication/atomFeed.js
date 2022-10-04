@@ -18,7 +18,7 @@ class AtomFeed extends XmlFeed {
 			this._feedData.description = this._getNodeTextContent(this._feedXmlDoc, "feed > subtitle");
 			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "feed", "feed > entry");
 			this._feedData.itemCount = this._feedData.feeder.querySelectorAll("entry").length;
-			this._feedData.webPageUrl = this._getWebPageUrl(this._feedXmlDoc);
+			this._feedData.webPageUrl = this.#_getWebPageUrl(this._feedXmlDoc);
 		} catch (error) {
 			console.log("[Sage-Like]", "getFeedData error", error);
 			this._feedData.errorMsg = error.message;
@@ -45,7 +45,7 @@ class AtomFeed extends XmlFeed {
 		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
-			feedItemUrl = this._getFeedItemUrl(item);
+			feedItemUrl = this.#_getFeedItemUrl(item);
 
 			if(!!feedItemUrl) {
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
@@ -59,10 +59,10 @@ class AtomFeed extends XmlFeed {
 
 					if(withAttachments) {
 
-						elmLinks = item.querySelectorAll("link[href][rel=enclosure],link[href][rel=related]");	// selector duplicated in _getFeedItemUrl()
+						elmLinks = item.querySelectorAll("link[href][rel=enclosure],link[href][rel=related]");	// selector duplicated in #_getFeedItemUrl()
 
 						for(j=0, jLen=elmLinks.length; j<jLen; j++) {
-							if( !!(feedItemAtt = this._getFeedItemLinkAsAttObject(elmLinks[j])) ) {
+							if( !!(feedItemAtt = this.#_getFeedItemLinkAsAttObject(elmLinks[j])) ) {
 								feedItem.attachments.push(feedItemAtt);
 							}
 						}
@@ -76,7 +76,7 @@ class AtomFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	_getWebPageUrl(doc) {
+	#_getWebPageUrl(doc) {
 
 		let url = null;
 		let node = doc.querySelector("feed > link[href][rel=alternate]") ||
@@ -90,7 +90,7 @@ class AtomFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemUrl(item) {
+	#_getFeedItemUrl(item) {
 
 		let elm = item.querySelector("link[href]:not([rel])") ||
 					item.querySelector("link[href][rel=alternate]") ||
@@ -112,7 +112,7 @@ class AtomFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemLinkAsAttObject(elm) {
+	#_getFeedItemLinkAsAttObject(elm) {
 
 		let url = slUtil.validURL(new URL(elm.getAttribute("href"), this._feedUrl));
 

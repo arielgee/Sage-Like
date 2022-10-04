@@ -2,25 +2,17 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class Locker {
-	constructor() {
-		this._lockRequestCounter = 0;
-	}
-
-	//////////////////////////////////////////
+	#_lockRequestCounter = 0
 	lock() {
-		this._lockRequestCounter++;
+		this.#_lockRequestCounter++;
 	}
-
-	//////////////////////////////////////////
 	unlock() {
-		if(this._lockRequestCounter > 0) {
-			this._lockRequestCounter--;
+		if(this.#_lockRequestCounter > 0) {
+			this.#_lockRequestCounter--;
 		}
 	}
-
-	//////////////////////////////////////////
 	get isUnlocked() {
-		return (this._lockRequestCounter === 0);
+		return (this.#_lockRequestCounter === 0);
 	}
 }
 

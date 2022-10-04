@@ -3,63 +3,57 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 class RequiredPermissions {
 
-	static #m_constructId = null;
-	static #m_instance = null;
+	static #_constructId = null;
+	static #_instance = null;
 
-	#m_permissions = { origins: ["<all_urls>"] };
-	#m_granted = null;
-	#onPermissionsChangedBound;
+	#_granted = null;
+	_permissions = { origins: ["<all_urls>"] };
 
 	constructor(id) {
-		if(RequiredPermissions.#m_constructId !== parseInt(id)) {
+		if(RequiredPermissions.#_constructId !== parseInt(id)) {
 			throw new Error(`${new.target.name}.constructor: Don't do that, it's a singleton.`);
 		}
-		RequiredPermissions.#m_constructId = null;
-		this.#addEventListeners();
+		RequiredPermissions.#_constructId = null;
+		this.#_addEventListeners();
 	}
 
 	//////////////////////////////////////////
 	static get i() {
-		if (RequiredPermissions.#m_instance === null) {
-			RequiredPermissions.#m_instance = new this(RequiredPermissions.#m_constructId = Math.floor(Math.random() *  Number.MAX_SAFE_INTEGER));
+		if (RequiredPermissions.#_instance === null) {
+			RequiredPermissions.#_instance = new this(RequiredPermissions.#_constructId = Math.floor(Math.random() *  Number.MAX_SAFE_INTEGER));
 		}
-		return RequiredPermissions.#m_instance;
-	}
-
-	//////////////////////////////////////////
-	get permissions() {
-		return this.#m_permissions;
+		return RequiredPermissions.#_instance;
 	}
 
 	//////////////////////////////////////////
 	get granted() {
-		return this.#m_granted;
+		return this.#_granted;
 	}
 
 	//////////////////////////////////////////
 	async init() {
-		await this.#checkPermissions();
+		await this.#_checkPermissions();
 	}
 
 	//////////////////////////////////////////
 	request() {
-		return browser.permissions.request(this.#m_permissions);
+		return browser.permissions.request(this._permissions);
 	}
 
 	//////////////////////////////////////////
-	#onPermissionsChanged() {
-		this.#checkPermissions();
+	#_onPermissionsChanged() {
+		this.#_checkPermissions();
 	}
 
 	//////////////////////////////////////////
-	#addEventListeners() {
-		this.#onPermissionsChangedBound = this.#onPermissionsChanged.bind(this);
-		browser.permissions.onAdded.addListener(this.#onPermissionsChangedBound);
-		browser.permissions.onRemoved.addListener(this.#onPermissionsChangedBound);
+	#_addEventListeners() {
+		let onPermissionsChangedBound = this.#_onPermissionsChanged.bind(this);
+		browser.permissions.onAdded.addListener(onPermissionsChangedBound);
+		browser.permissions.onRemoved.addListener(onPermissionsChangedBound);
 	}
 
 	//////////////////////////////////////////
-	async #checkPermissions() {
-		this.#m_granted = await browser.permissions.contains(this.#m_permissions);
+	async #_checkPermissions() {
+		this.#_granted = await browser.permissions.contains(this._permissions);
 	}
 }

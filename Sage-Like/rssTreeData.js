@@ -2,17 +2,17 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeItemType {
-	static _isElm(e)			{ return !!e && e.nodeType === Node.ELEMENT_NODE; }
+	static #_isElm(e)			{ return !!e && e.nodeType === Node.ELEMENT_NODE; }
 
-	static isTree(elm)			{ return this._isElm(elm) && elm.id === Global.ID_UL_RSS_TREE_VIEW; }
-	static isTreeItem(elm)		{ return this._isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_ITEM); }
-	static isFeed(elm)			{ return this._isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_FEED); }
-	static isFolder(elm)		{ return this._isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER); }
+	static isTree(elm)			{ return this.#_isElm(elm) && elm.id === Global.ID_UL_RSS_TREE_VIEW; }
+	static isTreeItem(elm)		{ return this.#_isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_ITEM); }
+	static isFeed(elm)			{ return this.#_isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_FEED); }
+	static isFolder(elm)		{ return this.#_isElm(elm) && elm.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER); }
 	static isFolderOpen(elm)	{ return this.isFolder(elm) && elm.classList.contains("open"); }
 	static isFolderClosed(elm)	{ return this.isFolder(elm) && elm.classList.contains("closed"); }
-	static isOpen(elm)			{ return this._isElm(elm) && elm.classList.contains("open"); }		// Use after checking that TreeItemType.isFolder() return true
-	static isClosed(elm)		{ return this._isElm(elm) && elm.classList.contains("closed"); }	// Use after checking that TreeItemType.isFolder() return true
-	static isError(elm)			{ return this._isElm(elm) && elm.classList.contains("errormsg"); }
+	static isOpen(elm)			{ return this.#_isElm(elm) && elm.classList.contains("open"); }		// Use after checking that TreeItemType.isFolder() return true
+	static isClosed(elm)		{ return this.#_isElm(elm) && elm.classList.contains("closed"); }	// Use after checking that TreeItemType.isFolder() return true
+	static isError(elm)			{ return this.#_isElm(elm) && elm.classList.contains("errormsg"); }
 	static isUnauthorized(elm)	{ return this.isFeed(elm) && elm.classList.contains("unauthorized"); }
 }
 
@@ -125,15 +125,17 @@ class OpenTreeFolders extends StoredKeyedItems {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeFeedsData extends StoredKeyedItems {
+
+	#_defaultObject = {
+		lastChecked: 0,
+		lastVisited: 0,
+		updateTitle: true,
+		openInFeedPreview: false,
+		ignoreUpdates: false,
+	};
+
 	constructor() {
 		super();
-		this._defaultObject = Object.freeze({
-			lastChecked: 0,
-			lastVisited: 0,
-			updateTitle: true,
-			openInFeedPreview: false,
-			ignoreUpdates: false,
-		});
 	}
 
 	//////////////////////////////////////////
@@ -155,7 +157,7 @@ class TreeFeedsData extends StoredKeyedItems {
 	set(key, properties = {}, saveToStorage = true) {
 		// this._items[key] may not exist (undefined) and it's OK
 		// lastChecked is protected, modifiable only by set() or update()
-		let obj = Object.assign({}, this._defaultObject, this._items[key], properties, { lastChecked: Date.now() });
+		let obj = Object.assign({}, this.#_defaultObject, this._items[key], properties, { lastChecked: Date.now() });
 		super.set(key, obj, saveToStorage);
 	}
 

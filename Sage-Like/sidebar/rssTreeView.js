@@ -7,22 +7,21 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	class CurrentlyDraggedOver {
-		constructor() {
-			this.init();
-		}
+		#_id = "";
+		#_startTime = 0;
 		init() {
-			this._id = "";
-			this._startTime = 0;
+			this.#_id = "";
+			this.#_startTime = 0;
 		}
 		set(id) {
-			this._id = id;
-			this._startTime = Date.now();
+			this.#_id = id;
+			this.#_startTime = Date.now();
 		}
 		get id() {
-			return this._id;
+			return this.#_id;
 		}
 		get lingered() {
-			return ((Date.now() - this._startTime) > 900);
+			return ((Date.now() - this.#_startTime) > 900);
 		}
 	}
 
