@@ -1073,18 +1073,19 @@
 * MV3 affect `browser_specific_settings.gecko.strict_min_version`. set to 101.
 * optional host_permissions
 * check all calls to getBrowserVersion() / getFeedPreviewUrlByBrowserVersion(). are they still needed since MV3 is from Fx version 101.
+* search project with `(v\d|\d\d\.\d+(\s|$)|Fx\d\d)` (regexp) for version depended code that may be removed.
+* Public class fields in Feed class (see; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields)
+* Private class fields (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields)
 ---
 
 
 ## Now
-* Public class fields in Feed class (see; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields)
-* Private class fields (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields)
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 ## Manifest-V3-Migration
 * MUST modify RequiredPermissions.
-  	* Some feeds are properlly configured to work without the host permission <all_urls>
+	* Some feeds are properlly configured to work without the host permission <all_urls>
 	* In order for a feed to be fetched without the host permission <all_urls> the server must have the following HTTP Response Headers (see: localhost IIS):
 		1. `Access-Control-Allow-Origin: *` - to allow the extension to avoid error "Cross-Origin Request Blocked ... Reason: CORS header ‘Access-Control-Allow-Origin’ missing"
 		2. `Access-Control-Allow-Headers: Authorization` - to allow the extension to use the header `Authorization: Basic Og==` and avoid error "Cross-Origin Request Blocked ... Reason: header ‘authorization’ is not allowed"
@@ -1092,7 +1093,6 @@
 	* rewrite the message to reflect that most feeds will require the permission?
 	* detect the errors in 1. and/or 2. and show the message?
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2 ?
-* search project with `(v\d|\d\d\.\d+(\s|$)|Fx\d\d)` (regexp) for version depended code that may be removed.
 * look into declarativeNetRequest
 
 ## Next
