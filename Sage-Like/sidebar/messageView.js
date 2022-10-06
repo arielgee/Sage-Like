@@ -20,8 +20,7 @@ let messageView = (function () {
 	let m_elmButtonOK;
 	let m_elmButtonYes;
 	let m_elmButtonNo;
-	let m_elmAnchor;
-	let m_funcOnClickAnchor;
+	let m_clickableElements = [];
 
 	let m_buttonSet;
 	let m_buttonCodeResult = ButtonCode.none;
@@ -38,8 +37,7 @@ let messageView = (function () {
 			caption = "Attention!",
 			isAlertive = true,
 			isTextLeftAlign = false,
-			anchorElementId = "",
-			funcOnClickAnchorCallback = undefined,
+			clickableElements = [],
 		} = details;
 
 		return new Promise((resolve) => {
@@ -59,16 +57,26 @@ let messageView = (function () {
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
 
-			if(!!anchorElementId && typeof(funcOnClickAnchorCallback) === "function") {
-				m_elmAnchor = document.getElementById(anchorElementId);
-				if(!!m_elmAnchor) {
-					prefs.getColorDialogBackground().then(color => {
-						if(color < "#888888") {		// quick fix - on dark bk anchor will invert from blue to yellow. Will not adapt if bk color changes while messageView is open
-							m_elmAnchor.style.filter = "invert(100%)";
+			if(clickableElements instanceof Array) {
+				m_clickableElements = clickableElements;
+				for(let i=0, len=m_clickableElements.length; i<len; i++) {
+
+					const clickElement = m_clickableElements[i];
+
+					if(!!clickElement.elementId && typeof(clickElement.onClickCallback) === "function") {
+						const elm = document.getElementById(clickElement.elementId);
+
+						if(!!elm) {
+							if(elm.tagName === "A") {
+								prefs.getColorDialogBackground().then(color => {
+									if(color < "#888888") {		// quick fix - on dark bk anchor will invert from blue to yellow. Will not adapt if bk color changes while messageView is open
+										elm.style.filter = "invert(100%)";
+									}
+								});
+							}
+							elm.addEventListener("click", clickElement.onClickCallback);
 						}
-					});
-					m_funcOnClickAnchor = funcOnClickAnchorCallback;
-					m_elmAnchor.addEventListener("click", m_funcOnClickAnchor);
+					}
 				}
 			}
 
@@ -117,7 +125,7 @@ let messageView = (function () {
 
 			m_slideDownPanel = new SlideDownPanel(m_elmMessagePanel);
 		}
-		m_elmAnchor = null;		// re-initialize in each display
+		m_clickableElements = [];		// re-initialize in each display
 
 		m_buttonCodeResult = ButtonCode.none;
 	}
@@ -140,7 +148,15 @@ let messageView = (function () {
 		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
 		m_elmButtonYes.removeEventListener("click", onClickButtonYes);
 		m_elmButtonNo.removeEventListener("click", onClickButtonNo);
-		if(!!m_elmAnchor) m_elmAnchor.removeEventListener("click", m_funcOnClickAnchor);
+		for(let i=0, len=m_clickableElements.length; i<len; i++) {
+			const clickElement = m_clickableElements[i];
+			if(!!clickElement.elementId && typeof(clickElement.onClickCallback) === "function") {
+				const elm = document.getElementById(clickElement.elementId);
+				if(!!elm) {
+					elm.removeEventListener("click", clickElement.onClickCallback);
+				}
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
