@@ -27,8 +27,12 @@ class RequiredPermissionsPanel extends RequiredPermissions {
 			text: "The functionality of fetching any feed from the web requires the <b>Access your data for all websites</b> permission.<br><br>" +
 					"This permission is not allowed by the browser and Sage-Like is unable to accomplish its primary purpose." + htmlTagsRequest,
 			caption: "Permissions Are Required",
-			anchorElementId: "messageViewRequestPermissions",
-			funcOnClickAnchorCallback: onRequestPermissions,
+			clickableElements: [
+				{
+					elementId: "messageViewRequestPermissions",
+					onClickCallback: onRequestPermissions,
+				},
+			],
 		};
 
 		messageView.open(messageDetails);
