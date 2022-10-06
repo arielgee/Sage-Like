@@ -427,6 +427,7 @@ let internalPrefs = (function() {
 		NOTEPAD_DARK_COLOR_SCHEME:				{ name: "pref_notepadDarkColorScheme",			default: undefined	},
 		POPUP_SHOW_COUNT_NOTEPAD_HELP:			{ name: "pref_notepadHelpShowPopupCount",		default: 3			},
 		MSG_SHOW_COUNT_UNAUTHORIZED_FEED:		{ name: "pref_unauthorizedFeedShowMsgCount",	default: 3			},
+		NOTIFIED_FOR_NEW_VERSION_VALUE:			{ name: "pref_notifiedForNewVersionValue",		default: ""			},
 	});
 
 	let m_localStorage = browser.storage.local;
@@ -446,6 +447,7 @@ let internalPrefs = (function() {
 	function getNotepadDarkColorScheme()			{ return _getPreferenceValue(PREF.NOTEPAD_DARK_COLOR_SCHEME); }
 	function getPopupShowCountNotepadHelp()			{ return _getPreferenceValue(PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP); }
 	function getMsgShowCountUnauthorizedFeed()		{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED); }
+	function getNotifiedForNewVersionValue()		{ return _getPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE); }
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function setOpenTreeFolders(value)					{ return _setPreferenceValue(PREF.OPEN_TREE_FOLDERS, value); }
@@ -462,6 +464,7 @@ let internalPrefs = (function() {
 	function setNotepadDarkColorScheme(value)			{ return _setPreferenceValue(PREF.NOTEPAD_DARK_COLOR_SCHEME, value); }
 	function setPopupShowCountNotepadHelp(value)		{ return _setPreferenceValue(PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP, value); }
 	function setMsgShowCountUnauthorizedFeed(value)		{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED, value); }
+	function setNotifiedForNewVersionValue(value)		{ return _setPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE, value); }
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
@@ -516,6 +519,7 @@ let internalPrefs = (function() {
 		getNotepadDarkColorScheme: getNotepadDarkColorScheme,
 		getPopupShowCountNotepadHelp: getPopupShowCountNotepadHelp,
 		getMsgShowCountUnauthorizedFeed: getMsgShowCountUnauthorizedFeed,
+		getNotifiedForNewVersionValue: getNotifiedForNewVersionValue,
 
 		setOpenTreeFolders: setOpenTreeFolders,
 		setTreeFeedsData: setTreeFeedsData,
@@ -531,6 +535,7 @@ let internalPrefs = (function() {
 		setNotepadDarkColorScheme: setNotepadDarkColorScheme,
 		setPopupShowCountNotepadHelp: setPopupShowCountNotepadHelp,
 		setMsgShowCountUnauthorizedFeed: setMsgShowCountUnauthorizedFeed,
+		setNotifiedForNewVersionValue: setNotifiedForNewVersionValue,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 

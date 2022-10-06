@@ -114,6 +114,8 @@ let panel = (function() {
 		setPanelColorsFromPreferences();
 		setPanelImageSetFromPreferences();
 		setFeedItemsDescColorsFromPreferences();
+
+		checkForNewVersion();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -462,6 +464,50 @@ let panel = (function() {
 		if(!!elmTextContainer) {
 			slUtil.disableElementTree(elmTextContainer, value, true);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function checkForNewVersion() {
+
+		const manifest = browser.runtime.getManifest();
+		const url = `https://addons.mozilla.org/api/v5/addons/addon/${manifest.browser_specific_settings.gecko.id}/`;
+		const options = {
+			method: "GET",
+			headers: { "Content-type": "application/json" },
+		};
+
+		try {
+
+			const response = await fetch(url, options);
+
+			if(response.ok) {
+
+				const json = await response.json();
+				const currentVersion = json.current_version.version;
+				const localVersion = manifest.version;
+
+				if(localVersion < currentVersion) {
+
+					if( (await internalPrefs.getNotifiedForNewVersionValue()) !== currentVersion ) {
+
+						const messageDetails = {
+							text: `A new version was released.<br><br><a id='newVersionAnchor' target='_blank' href='${json.url}'><b>Sage-Like ${currentVersion}`,
+							caption: "What's New",
+							isAlertive: false,
+							clickableElements: [
+								{
+									elementId: "newVersionAnchor",
+									onClickCallback: () => internalPrefs.setNotifiedForNewVersionValue(currentVersion),
+								},
+							],
+						};
+
+						await messageView.open(messageDetails);
+						internalPrefs.setNotifiedForNewVersionValue(currentVersion);
+					}
+				}
+			}
+		} catch {}
 	}
 
 	return {
