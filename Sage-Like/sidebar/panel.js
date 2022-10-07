@@ -483,27 +483,28 @@ let panel = (function() {
 			if(response.ok) {
 
 				const json = await response.json();
-				const currentVersion = json.current_version.version;
-				const localVersion = manifest.version;
+				const currentVer = json.current_version.version;
+				const localVer = manifest.version;
 
-				if(localVersion < currentVersion) {
+				if(localVer < currentVer) {
 
-					if( (await internalPrefs.getNotifiedForNewVersionValue()) !== currentVersion ) {
+					if( (await internalPrefs.getNotifiedForNewVersionValue()) !== currentVer ) {
 
 						const messageDetails = {
-							text: `A new version was released.<br><br><a id='newVersionAnchor' target='_blank' href='${json.url}'><b>Sage-Like ${currentVersion}`,
-							caption: "What's New",
+							text: `A new version was released.<br><br>Sage-Like v${localVer}\u2002\u2794\u2002` +
+									`<a id='newVersionAnchor' href='${json.url}'><b>Sage-Like v${currentVer}</b>`,
+							caption: "Available Update",	// "What's New",
 							isAlertive: false,
 							clickableElements: [
 								{
 									elementId: "newVersionAnchor",
-									onClickCallback: () => internalPrefs.setNotifiedForNewVersionValue(currentVersion),
+									onClickCallback: () => internalPrefs.setNotifiedForNewVersionValue(currentVer),
 								},
 							],
 						};
 
 						await messageView.open(messageDetails);
-						internalPrefs.setNotifiedForNewVersionValue(currentVersion);
+						internalPrefs.setNotifiedForNewVersionValue(currentVer);
 					}
 				}
 			}
