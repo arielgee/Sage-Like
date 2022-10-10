@@ -333,7 +333,7 @@ let rssListView = (function() {
 		if(elmLI.title.length > 0) return;
 
 		m_elmFeedItemDescPanel.querySelector(".descTitle").textContent = elmLI.textContent;			// Remove numbering from title: .replace(/^\d+\. /, "")
-		m_elmFeedItemDescPanel.querySelector(".descBody").innerHTML = elmLI.getAttribute("data-item-desc").unescapeMarkup();
+		slUtil.replaceInnerContextualFragment(m_elmFeedItemDescPanel.querySelector(".descBody"), elmLI.getAttribute("data-item-desc").unescapeMarkup());
 
 		createFeedItemDescAttachments(elmLI);
 

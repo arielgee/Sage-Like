@@ -409,7 +409,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateStatusBar(msg) {
 
-		m_elmStatusBar.innerHTML = STATUS_BAR_MESSEGE_PREFIX + msg;
+		slUtil.replaceInnerContextualFragment(m_elmStatusBar, STATUS_BAR_MESSEGE_PREFIX + msg);
 
 		m_elmOptionsHref = document.getElementById("pagePopupOptionsHref");
 		if(!!m_elmOptionsHref) {

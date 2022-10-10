@@ -1644,6 +1644,20 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function replaceInnerContextualFragment(targetElement, fragment) {
+
+		if( !(targetElement instanceof Element) || typeof(fragment) !== "string" ) {
+			throw new Error("Invalid function parameters");
+		}
+
+		while(targetElement.firstChild) {
+			targetElement.removeChild(targetElement.firstChild);
+		}
+		targetElement.appendChild((targetElement.ownerDocument.createRange()).createContextualFragment(fragment));
+		return targetElement;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function setActionBadge(mode = 0, details = {}) {
 
 		if(mode === 0) {
@@ -1716,6 +1730,7 @@ let slUtil = (function() {
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,
 		refreshUpdateTimeFormattedString: refreshUpdateTimeFormattedString,
 		fixUnreliableUpdateTime: fixUnreliableUpdateTime,
+		replaceInnerContextualFragment: replaceInnerContextualFragment,
 		setActionBadge: setActionBadge,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,

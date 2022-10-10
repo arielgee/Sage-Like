@@ -52,7 +52,7 @@ let messageView = (function () {
 
 			m_elmMessagePanel.classList.toggle("alertive", isAlertive);
 			document.getElementById("msgCaption").textContent = caption;
-			elmMsgText.innerHTML = text;
+			slUtil.replaceInnerContextualFragment(elmMsgText, text);
 			elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
