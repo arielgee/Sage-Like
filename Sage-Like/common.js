@@ -1719,6 +1719,20 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function replaceInnerContextualFragment(targetElement, fragment) {
+
+		if( !(targetElement instanceof Element) || typeof(fragment) !== "string" ) {
+			throw new Error("Invalid function parameters");
+		}
+
+		while(targetElement.firstChild) {
+			targetElement.removeChild(targetElement.firstChild);
+		}
+		targetElement.appendChild((targetElement.ownerDocument.createRange()).createContextualFragment(fragment));
+		return targetElement;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=3) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -1779,6 +1793,7 @@ let slUtil = (function() {
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,
 		refreshUpdateTimeFormattedString: refreshUpdateTimeFormattedString,
 		fixUnreliableUpdateTime: fixUnreliableUpdateTime,
+		replaceInnerContextualFragment: replaceInnerContextualFragment,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};

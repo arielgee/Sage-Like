@@ -312,7 +312,7 @@
 		elmFeedItemLastUpdatedTime.dateTime = feedItem.lastUpdated.toISOString();
 		elmFeedItemLastUpdatedTime.textContent = slUtil.getUpdateTimeFormattedString(feedItem.lastUpdated);
 		elmFeedItemLastUpdatedTime.classList.toggle("refresh", (Date.now() - feedItem.lastUpdated.getTime()) < 3600000);	// if smaller then an hour (in milliseconds)
-		elmFeedItemContent.innerHTML = itemImage + itemContent;
+		slUtil.replaceInnerContextualFragment(elmFeedItemContent, itemImage + itemContent);
 		elmJumpListItem.textContent = `${idx+1}. ${elmFeedItemTitleText.textContent}`;
 		elmJumpListItem.href = `#${elmFeedItemContainer.id}`;
 
@@ -515,7 +515,7 @@
 			}
 		}
 
-		m_elmAttachmentTooltip.innerHTML = elmAtt.getAttribute("data-title").unescapeMarkup();
+		slUtil.replaceInnerContextualFragment(m_elmAttachmentTooltip, elmAtt.getAttribute("data-title").unescapeMarkup());
 
 		let tooltipStyle = m_elmAttachmentTooltip.style;
 
