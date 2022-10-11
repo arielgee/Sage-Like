@@ -1075,6 +1075,7 @@
 * new status filter '>ok' for responsive feeds
 * feed preview: right to left jump list
 * replace all `.innerHTML = ...` with `slUtil.replaceInnerContextualFragment()`
+* in popup status bar the link 'Options Page' is not visible when bk is dark
 ---
 
 
@@ -1084,8 +1085,6 @@
 
 
 ## Next - cherry-pick to Manifest-v3-migration-Px
-* in popup status bar the link 'Options Page' is not visible when bk is dark
-* import css warning about remote url should include the urls ?
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
