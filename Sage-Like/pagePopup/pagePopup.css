@@ -166,3 +166,8 @@ body {
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+
+#statusBar a {
+	color: blue;
+	filter: invert(100%);
+}
