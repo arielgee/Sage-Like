@@ -413,13 +413,8 @@ let contextMenu = (function() {
 			ContextAction.treeOpenNewTab,
 			ContextAction.treeOpenNewWin,
 			ContextAction.treeOpenNewPrivateWin,
-			ContextAction.treeOpenAllInTabs,	// Calls rssTreeView.openAllFeedsInTabs() so url is handled there BUT needed for RequiredPermissionsPanel.assert()
+			// ContextAction.treeOpenAllInTabs,	// Calls rssTreeView.openAllFeedsInTabs() so url is handled there
 		];
-
-		// Do not proceed if permissions are not granted
-		if(openInFeedPreviewActions.includes(menuAction) && !RequiredPermissionsPanel.i.assert()) {
-			return;
-		}
 
 		let actionData = { url: "" };
 

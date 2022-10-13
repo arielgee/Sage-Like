@@ -428,6 +428,7 @@ let internalPrefs = (function() {
 		POPUP_SHOW_COUNT_NOTEPAD_HELP:			{ name: "pref_notepadHelpShowPopupCount",		default: 3			},
 		MSG_SHOW_COUNT_UNAUTHORIZED_FEED:		{ name: "pref_unauthorizedFeedShowMsgCount",	default: 3			},
 		NOTIFIED_FOR_NEW_VERSION_VALUE:			{ name: "pref_notifiedForNewVersionValue",		default: ""			},
+		NOTIFIED_ABOUT_PERMISSIONS:				{ name: "pref_notifiedAboutPermissions",		default: false		},
 	});
 
 	let m_localStorage = browser.storage.local;
@@ -448,6 +449,7 @@ let internalPrefs = (function() {
 	function getPopupShowCountNotepadHelp()			{ return _getPreferenceValue(PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP); }
 	function getMsgShowCountUnauthorizedFeed()		{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED); }
 	function getNotifiedForNewVersionValue()		{ return _getPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE); }
+	function getNotifiedAboutPermissions()			{ return _getPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS); }
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function setOpenTreeFolders(value)					{ return _setPreferenceValue(PREF.OPEN_TREE_FOLDERS, value); }
@@ -465,6 +467,7 @@ let internalPrefs = (function() {
 	function setPopupShowCountNotepadHelp(value)		{ return _setPreferenceValue(PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP, value); }
 	function setMsgShowCountUnauthorizedFeed(value)		{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED, value); }
 	function setNotifiedForNewVersionValue(value)		{ return _setPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE, value); }
+	function setNotifiedAboutPermissions(value)			{ return _setPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS, value); }
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
@@ -520,6 +523,7 @@ let internalPrefs = (function() {
 		getPopupShowCountNotepadHelp: getPopupShowCountNotepadHelp,
 		getMsgShowCountUnauthorizedFeed: getMsgShowCountUnauthorizedFeed,
 		getNotifiedForNewVersionValue: getNotifiedForNewVersionValue,
+		getNotifiedAboutPermissions: getNotifiedAboutPermissions,
 
 		setOpenTreeFolders: setOpenTreeFolders,
 		setTreeFeedsData: setTreeFeedsData,
@@ -536,6 +540,7 @@ let internalPrefs = (function() {
 		setPopupShowCountNotepadHelp: setPopupShowCountNotepadHelp,
 		setMsgShowCountUnauthorizedFeed: setMsgShowCountUnauthorizedFeed,
 		setNotifiedForNewVersionValue: setNotifiedForNewVersionValue,
+		setNotifiedAboutPermissions: setNotifiedAboutPermissions,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 
@@ -1664,10 +1669,26 @@ let slUtil = (function() {
 			return browser.action.setBadgeText({ text: "" });						// init all windows with no badge
 		} else if(mode === 1) {
 			browser.action.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });	// set a window with green badge
-		} else if (mode === 2) {
+		} else if(mode === 2) {
 			browser.action.setBadgeBackgroundColor({ color: [192, 0, 0, 255] });	// set a window with red badge
 		}
 		return browser.action.setBadgeText({ text: details.text, windowId: details.windowId });
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createMissingPermissionsDocFrag(style) {
+
+		const tagString =	`<div id='requiredPermissionsMsg' style='all:revert;${style}'>` +
+								"The required permission <b>Access your data for all websites</b> is not allowed by the browser. " +
+								"<span><a style='all:revert' href='#' id='learnMoreLink'>Learn more</a></span><br><br>" +
+								"To modify this, select the following link:&emsp;<a style='all:revert' href='#' id='requestPermissionsLink'>Request Permissions</a>" +
+							"</div>";
+
+		return {
+			docFragment: document.createRange().createContextualFragment(tagString),
+			learnMoreAnchorId: "learnMoreLink",
+			reqPermAnchorId: "requestPermissionsLink",
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1732,6 +1753,7 @@ let slUtil = (function() {
 		fixUnreliableUpdateTime: fixUnreliableUpdateTime,
 		replaceInnerContextualFragment: replaceInnerContextualFragment,
 		setActionBadge: setActionBadge,
+		createMissingPermissionsDocFrag: createMissingPermissionsDocFrag,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};

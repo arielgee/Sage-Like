@@ -240,11 +240,7 @@
 			// background monitoring from the background page is done solely for
 			// the purpose of updating the action button when the sidebar is closed
 			if (isClosed && checkWhenSbClosed) {
-				if(RequiredPermissions.i.granted) {
-					await checkForNewBookmarkFeeds();
-				} else {
-					slUtil.setActionBadge(2, { text: "E", windowId: m_currentWindowId });
-				}
+				await checkForNewBookmarkFeeds();
 			}
 
 			if(nextInterval.includes(":")) {
@@ -286,7 +282,12 @@
 					console.log("[Sage-Like]", error.message);
 				}
 			}
-			slUtil.setActionBadge(1, { text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
+
+			if( !RequiredPermissions.i.granted && !(await internalPrefs.getNotifiedAboutPermissions()) ) {
+				slUtil.setActionBadge(2, { text: "!", windowId: m_currentWindowId });
+			} else  {
+				slUtil.setActionBadge(1, { text: (showNewBadge ? "N" : ""), windowId: m_currentWindowId });
+			}
 			//console.log("[Sage-Like]", "Periodic check for new feeds performed in background.");
 
 		}).catch((error) => {

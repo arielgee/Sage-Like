@@ -479,8 +479,7 @@ let rssTreeView = (function() {
 			if(m_prioritySelectedItemId === null) {
 				setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
 
-				// Do not proceed if permissions are not granted
-				if ( TreeItemType.isFeed(m_elmCurrentlySelected) && RequiredPermissionsPanel.i.granted ) {
+				if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
 					openTreeFeed(m_elmCurrentlySelected, false, UserInput.NONE);
 				}
 
@@ -524,7 +523,7 @@ let rssTreeView = (function() {
 		prefs.getCheckFeedsInterval().then((nextInterval) => {
 
 			// if interval is zero then do not perform background monitoring unless forced
-			if( (nextInterval !== "0" || bForce) && RequiredPermissionsPanel.i.assert() ) {	// Do not proceed if permissions are not granted
+			if(nextInterval !== "0" || bForce) {
 				checkForNewRSSTreeFeedsData();
 			}
 
@@ -660,11 +659,6 @@ let rssTreeView = (function() {
 
 		let count, elmCount, elm, elms;
 		let keyCode = event.code;
-
-		// Do not proceed if permissions are not granted AND the requested action is to open a feed
-		if( ["KeyO", "KeyT", "KeyW", "KeyV"].includes(keyCode) && !RequiredPermissionsPanel.i.assert() ) {
-			return;
-		}
 
 		if(event.key === "Delete") {
 			keyCode = "KeyD";
@@ -976,7 +970,7 @@ let rssTreeView = (function() {
 
 			event.stopPropagation();
 
-			if( event.button === 0 && RequiredPermissionsPanel.i.assert() ) {		// left click -Do not proceed if permissions are not granted
+			if(event.button === 0) {						// left click
 
 				// default action: load feed items in list
 				openTreeFeed(elmLI, event.shiftKey);
@@ -992,7 +986,7 @@ let rssTreeView = (function() {
 					}
 				});
 
-			} else if( event.button === 1 && RequiredPermissionsPanel.i.assert() ) {		// middle click -Do not proceed if permissions are not granted
+			} else if(event.button === 1) {					// middle click
 
 				if(event.ctrlKey && event.altKey && !event.shiftKey) {
 
@@ -1268,11 +1262,6 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openTreeFeed(elmLI, reload, userInput = UserInput.EVENT, signinCred = new SigninCredential()) {
-
-		// Do not proceed if permissions are not granted
-		if(!RequiredPermissionsPanel.i.assert()) {
-			return;
-		}
 
 		// remove here if is error
 		setFeedErrorState(elmLI, false);

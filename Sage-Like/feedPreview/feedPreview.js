@@ -474,9 +474,18 @@
 		document.getElementById("errorMessage").textContent = errorMessage;
 		document.getElementById("errorMessageLink").href = url.toString();
 
-		if(!RequiredPermissions.i.granted) {
-			document.getElementById("requiredPermissionsMsg").style.display = "block";
-			document.getElementById("requestPermissionsLink").addEventListener("click", async () => {
+		if(!RequiredPermissions.i.granted && errorMessage.includes("NetworkError when attempting to fetch resource")) {
+
+			const style = "border:1px solid crimson;margin-top:20px;padding:12px 14px;" +
+							"background-color:rgb(255,255,220);color:crimson;font-family:sans-serif;font-size:110%";
+			const result = slUtil.createMissingPermissionsDocFrag(style);
+			document.getElementById("errorContainer").appendChild(result.docFragment);
+
+			document.getElementById(result.learnMoreAnchorId).addEventListener("click", async (e) => {
+				slUtil.replaceInnerContextualFragment(e.target.parentElement, "<br><br>" + RequiredPermissions.i.getInfoText());
+			});
+
+			document.getElementById(result.reqPermAnchorId).addEventListener("click", async () => {
 				if(await RequiredPermissions.i.request()) {
 					window.location.reload();
 				};

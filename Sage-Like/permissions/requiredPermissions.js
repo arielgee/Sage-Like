@@ -36,6 +36,14 @@ class RequiredPermissions {
 	}
 
 	//////////////////////////////////////////
+	getInfoText() {
+		return "Due to changes in the add-ons environment (Manifest V3) the optional permission " +
+				"<b>Access your data for all websites</b> is currently not allowed by the browser.<br><br>" +
+				"A website can set up its feeds in a way that does not require this permission. But many " +
+				"feeds are not, and the result is a network error caused by browser's restrictions (CORS).";
+	}
+
+	//////////////////////////////////////////
 	request() {
 		return browser.permissions.request(this._permissions);
 	}

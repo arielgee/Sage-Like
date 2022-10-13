@@ -27,6 +27,7 @@ let discoveryView = (function() {
 	let m_nRequestId = 0;
 	let m_abortDiscovery = null;
 	let m_titleUpdateDebouncer = null;
+	let m_abortCtrlEvents = [];		// abortController used to remove event handlers
 
 	let m_funcPromiseResolve = null;
 
@@ -297,6 +298,11 @@ let discoveryView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function emptyDiscoverFeedsList() {
+
+		while(m_abortCtrlEvents.length > 0) {
+			m_abortCtrlEvents.pop().abort();
+		}
+
 		while(m_elmDiscoverFeedsList.firstElementChild) {
 			m_elmDiscoverFeedsList.removeChild(m_elmDiscoverFeedsList.firstElementChild);
 		}
@@ -367,6 +373,21 @@ let discoveryView = (function() {
 		elm.textContent = text;
 		emptyDiscoverFeedsList();
 		m_elmDiscoverFeedsList.appendChild(elm);
+
+		if(!RequiredPermissions.i.granted) {
+
+			let elmA = document.createElement("a");
+			elmA.textContent = "Required permissions";
+			elmA.href = "#";
+
+			let newLen = m_abortCtrlEvents.push(new AbortController());
+			elmA.addEventListener("click", async () => {
+				panel.askForRequiredPermissions();
+			}, { signal: m_abortCtrlEvents[newLen-1].signal });
+
+			elm.textContent += "\u2002";
+			elm.appendChild(elmA);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
