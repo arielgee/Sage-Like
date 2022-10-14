@@ -1076,6 +1076,16 @@
 * search project with `(v\d|\d\d\.\d+(\s|$)|Fx\d\d)` (regexp) for version depended code that may be removed.
 * Public class fields in Feed class (see; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields)
 * Private class fields (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields)
+* extension.getBackgroundPage() : no interest to me
+* Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465 - workaround using *Connection-based messaging* mecanizem. => BUG FIXED! WORKAROUND DROPPED
+* MUST modify RequiredPermissions.
+	* Some feeds are properlly configured to work without the host permission <all_urls>
+	* In order for a feed to be fetched without the host permission <all_urls> the server must have the following HTTP Response Headers (see: localhost IIS):
+		1. `Access-Control-Allow-Origin: *` - to allow the extension to avoid error "Cross-Origin Request Blocked ... Reason: CORS header ‘Access-Control-Allow-Origin’ missing"
+		2. `Access-Control-Allow-Headers: Authorization` - to allow the extension to use the header `Authorization: Basic Og==` and avoid error "Cross-Origin Request Blocked ... Reason: header ‘authorization’ is not allowed"
+		3. FUCK!!! At the IIS at home i get "Cross-Origin Request Blocked ... Reason: CORS preflight response did not succeed" for protected page. STILL NOT RESOLVED
+	* Maybe allow all progress but show message if permission is missing? plus a checkbox to stop showing message?
+	* rewrite the message to reflect that most feeds will require the permission?
 ---
 
 
@@ -1084,21 +1094,12 @@
 ---
 
 ## Manifest-V3-Migration
-* MUST modify RequiredPermissions.
-	* Some feeds are properlly configured to work without the host permission <all_urls>
-	* In order for a feed to be fetched without the host permission <all_urls> the server must have the following HTTP Response Headers (see: localhost IIS):
-		1. `Access-Control-Allow-Origin: *` - to allow the extension to avoid error "Cross-Origin Request Blocked ... Reason: CORS header ‘Access-Control-Allow-Origin’ missing"
-		2. `Access-Control-Allow-Headers: Authorization` - to allow the extension to use the header `Authorization: Basic Og==` and avoid error "Cross-Origin Request Blocked ... Reason: header ‘authorization’ is not allowed"
-		3. FUCK!!! At the IIS at home i get "Cross-Origin Request Blocked ... Reason: CORS preflight response did not succeed" for protected page. STILL NOT RESOLVED
-	* Maybe allow all progress but show message is permission is missing? plus a checkbox to stop showing message?
-	* rewrite the message to reflect that most feeds will require the permission?
-	* detect the errors in 1. and/or 2. and show the message?
+* detect at runtime that NetworkError is CORS when console shows ""Cross-Origin Request Blocked ..." (see above `Access-Control-Allow-...`)
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2 ?
 * look into declarativeNetRequest - still not implemented by mozilla. not relevent as long as webRequestBlocking is stil supported
 
 ## Next
 * in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
-* extension.getBackgroundPage() ???
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
@@ -1106,8 +1107,6 @@
 * new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must be a sidebar webextension!
-* Waiting for Mozilla to fix Bug 1398833/1438465: https://bugzilla.mozilla.org/show_bug.cgi?id=1438465
-	* for now there is a bug workaround using *Connection-based messaging* mecanizem.   => VERY good solution
 * support for microformats2 feeds. Items are HTML elements that are markup using the class attribute (class="h-feed", class="h-entry" etc.).
 	* http://microformats.org/2014/03/05/getting-started-with-microformats2
 	* https://indieweb.org/h-feed
