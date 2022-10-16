@@ -1036,7 +1036,7 @@ let rssTreeView = (function() {
 		let transfer = event.dataTransfer;
 
 		transfer.effectAllowed = "move";
-		transfer.setData("text/wx-sl-treeitem-html", m_elmCurrentlyDragged.outerHTML);
+		transfer.setData("text/wx-sl-treeitem-id", m_elmCurrentlyDragged.id);
 
 		if(TreeItemType.isFeed(m_elmCurrentlyDragged)) {
 			let url = getFeedPreviewUrl(m_elmCurrentlyDragged.getAttribute("href"));
@@ -1068,13 +1068,13 @@ let rssTreeView = (function() {
 
 		let target = event.target;
 		let transfer = event.dataTransfer;
-		let validMimes = ["text/wx-sl-treeitem-html", "text/x-moz-url", "text/uri-list", "text/plain"];
+		let validMimes = ["text/wx-sl-treeitem-id", "text/x-moz-url", "text/uri-list", "text/plain"];
 
 		// Prevent drop
 		if(	(!m_rssTreeCreatedOK) ||														// Tree is not set and valid
 			(!TreeItemType.isTreeItem(target) && !TreeItemType.isTree(target)) ||			// Drop only on tree items (feed | folders) or tree root
 			(!!m_elmCurrentlyDragged && m_elmCurrentlyDragged.contains(target)) ||			// Prevent element from been droped into itself.
-			(!!!m_elmCurrentlyDragged && transfer.types.every(i => i === validMimes[0])) ||	// Prevent drop of "text/wx-sl-treeitem-html" from another window
+			(!!!m_elmCurrentlyDragged && transfer.types.every(i => i === validMimes[0])) ||	// Prevent drop of "text/wx-sl-treeitem-id" from another window
 			(!transfer.types.includesSome(validMimes)) ) {									// Prevent invalid mime types
 
 			transfer.effectAllowed = transfer.dropEffect = "none";
@@ -1152,7 +1152,7 @@ let rssTreeView = (function() {
 			elmCurrentlyDragged.classList.remove("dragged");
 		} else {
 
-			if ( !!elmCurrentlyDragged && transfer.types.includes("text/wx-sl-treeitem-html") ) {
+			if ( !!elmCurrentlyDragged && transfer.types.includes("text/wx-sl-treeitem-id") ) {
 
 				let dropInRootFolder = TreeItemType.isTree(elmDropTarget);
 				let gettingDragged = browser.bookmarks.get(elmCurrentlyDragged.id);
@@ -1180,25 +1180,27 @@ let rssTreeView = (function() {
 						suspendBookmarksEventHandler(() => {
 							return browser.bookmarks.move(elmCurrentlyDragged.id, destination).then((moved) => {
 
-								let elmDraggedFolderUL = elmCurrentlyDragged.parentElement;
-								elmDraggedFolderUL.removeChild(elmCurrentlyDragged);
+								let elmDropped, elmDraggedFolderUL = elmCurrentlyDragged.parentElement;
 
-								let elmDropped;
-								let dropHTML = transfer.getData("text/wx-sl-treeitem-html");
+								if(transfer.getData("text/wx-sl-treeitem-id") !== elmCurrentlyDragged.id) {
+									InfoBubble.i.show("Unexpected drag and drop error (id mismatch).\nShift+click on toolbar button <b>Check feeds</b> to reload the sidebar.", undefined, true, false, 4000);
+									console.log("[Sage-Like]", "Dragged id mismatch error:", `wx-sl-treeitem-id='${transfer.getData("text/wx-sl-treeitem-id")}'  ,  elmCurrentlyDragged.id='${elmCurrentlyDragged.id}'`);
+									return;
+								}
 
 								if(dropInRootFolder) {
-									m_elmTreeRoot.insertAdjacentHTML("beforeend", dropHTML);
+									m_elmTreeRoot.appendChild(elmCurrentlyDragged);
 									elmDropped = m_elmTreeRoot.lastElementChild;
 								} else if(inFolder) {
 									let elmDropTargetFolderUL = elmDropTarget.lastElementChild;
 									setFolderState(elmDropTarget, true);		// open the folder if closed
-									elmDropTargetFolderUL.insertAdjacentHTML("afterbegin", dropHTML);
+									elmDropTargetFolderUL.insertBefore(elmCurrentlyDragged, elmDropTargetFolderUL.firstElementChild);
 									elmDropped = elmDropTargetFolderUL.firstElementChild;
 
 									// don't display DropInsideFolder message any more. The user gets it.
 									internalPrefs.setDropInsideFolderShowMsgCount(0);
 								} else {
-									elmDropTarget.insertAdjacentHTML("beforebegin", dropHTML);
+									elmDropTarget.parentElement.insertBefore(elmCurrentlyDragged, elmDropTarget);
 									elmDropped = elmDropTarget.previousElementSibling;
 								}
 
