@@ -24,8 +24,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● Customizable UI font & colors.
 
 ◼ <b>PERMISSION JUSTIFICATION</b>
-&emsp;● 'Access your data for all websites' – Feed discovery in web pages from the
-&emsp;&emsp;sidebar/address bar.
+&emsp;● 'Access your data for all websites' – Feed fetching and feed discovery.
 &emsp;● 'Read and modify bookmarks' – Integration with the browser's native
 &emsp;&emsp;bookmarks.
 &emsp;● 'Get data from the clipboard' – Support for Copy/Paste operations in the
@@ -60,10 +59,14 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added support for YouTube feed discovery.</li>
-  <li>Modified the Options page to be opened in a normal tab rather than integrated into the browser's add-ons manager.</li>
-  <li>Fixed an issue where a style sheet file failed to load into the sidebar due to case mismatch.</li>
-  <li>Improved sidebar splitter dragging.</li>
+  <li>Rewrote and improved the feed discovery process in preparation for Manifest-V3.</li>
+  <li>Added support for Drag and drop of feeds from the address bar popup to the sidebar.</li>
+  <li>Rewrote code that generated warnings when the extension is submitted.</li>
+  <li>Added a new status filter, '>ok', for responsive/updated feeds. Feeds which are not '>Error' or '>load'.</li>
+  <li>Added a notification for when a new version is published.</li>
+  <li>Fixed wrong relative date in tooltips for tree and discovery items.</li>
+  <li>Minor improvements to the Feed Preview rendering.</li>
+  <li>Usual assortment of fixes, code improvements and cleanups.</li>
 </ul>
 
 + Version Notes for next time
