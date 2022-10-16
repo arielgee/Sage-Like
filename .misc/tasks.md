@@ -1081,8 +1081,6 @@
 
 
 ## Now
-* change PERMISSION JUSTIFICATION in extension page
-* write version Changes
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
