@@ -9,8 +9,8 @@
 	// by Sage-Like.
 	// This is in accordance with Firefox version 64.0 and above (RSS support was dropped) when it started
 	// to display the 'open with' dialog for files with "Content-Type: application/rss+xml" (or rdf, atom).
-	const REGEX_RSS_CONTENT_TYPES_STRICT = "application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))";					// semantics NOT optional
-	const REGEX_RSS_CONTENT_TYPES_NOT_STRICT = "(application|text)/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))";	// semantics optional
+	const REGEX_RSS_STRICT_CONTENT_TYPES = "application/(((rss|rdf|atom)\\+xml)|((rss|feed)\\+json))";					// semantics NOT optional
+	const REGEX_RSS_LENIENT_CONTENT_TYPES = "(application|text)/((((rss|rdf|atom)\\+)?xml)|(((rss|feed)\\+)?json))";	// semantics optional
 
 	const REGEXP_URL_FILTER_TAB_STATE_CHANGE = new RegExp("^((https?|file):)|" + slUtil.getFeedPreviewUrlPrefix().escapeRegExp());
 
@@ -18,7 +18,7 @@
 	const ALARM_NAME_MONITOR_BOOKMARK_FEEDS = "alarm-monitorBookmarkFeeds";
 
 	let m_currentWindowId = null;
-	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_CONTENT_TYPES_STRICT, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
+	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_STRICT_CONTENT_TYPES, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
 
 	initialization();
 
@@ -393,7 +393,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function handlePrefStrictRssContentTypes() {
 		prefs.getStrictRssContentTypes().then((strict) => {
-			m_regExpRssContentTypes = new RegExp(strict ? REGEX_RSS_CONTENT_TYPES_STRICT : REGEX_RSS_CONTENT_TYPES_NOT_STRICT, "i");
+			m_regExpRssContentTypes = new RegExp(strict ? REGEX_RSS_STRICT_CONTENT_TYPES : REGEX_RSS_LENIENT_CONTENT_TYPES, "i");
 		});
 	}
 
