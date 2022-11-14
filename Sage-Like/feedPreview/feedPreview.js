@@ -476,7 +476,7 @@
 
 		if(!RequiredPermissions.i.granted && errorMessage.includes("NetworkError when attempting to fetch resource")) {
 
-			const style = "border:1px solid crimson;margin-top:20px;padding:12px 14px;" +
+			const style = "max-width:700px;border:1px solid crimson;margin-top:20px;padding:12px 14px;" +
 							"background-color:rgb(255,255,220);color:crimson;font-family:sans-serif;font-size:110%";
 			const result = slUtil.createMissingPermissionsDocFrag(style);
 			document.getElementById("errorContainer").appendChild(result.docFragment);
