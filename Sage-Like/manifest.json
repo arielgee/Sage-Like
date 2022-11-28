@@ -72,7 +72,7 @@
 		"default_popup": "/pagePopup/pagePopup.html"
 	},
 	"commands": {
-		"_execute_browser_action": {
+		"_execute_sidebar_action": {
 			"suggested_key": {
 				"default": "Ctrl+Shift+F2"
 			},
