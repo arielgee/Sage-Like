@@ -1574,7 +1574,11 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function colorInputTitle(colorValue) {
-		return (colorValue && colorValue[0] === "#" ? "HTML notation: " + colorValue.toLowerCase() : "");
+		if(/^#[a-fA-F0-9]{6}$/.test(colorValue)) {
+			return "RGB notation: rgb(" + colorValue.replace("#", "").match(/.{2}/g).map(x => parseInt(x, 16)).join(", ") + ")\n" +
+					"HTML notation: " + colorValue.toLowerCase();
+		}
+		return "";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
