@@ -8,10 +8,10 @@ class WebsiteSpecificDiscoveryBase {
 		}
 
 		({
-			href: this._href = window.location.href,
-			doc: this._document = window.document,
+			href: this._href = "",
+			doc: this._document = undefined,
 		} = source);
-		this.isHRefMatch = regExpMatch.test(this._href);
+		this.isHRefMatch = (this._href !== "") && regExpMatch.test(this._href);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -69,6 +69,18 @@ class YouTubeSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 }
 
 //////////////////////////////////////////////////////////////////////
+class RedditSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
+	constructor(source) {
+		super(source, /^https?:\/\/(www\.)?reddit\..*$/);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	discover() {
+		return [ this._href.replace(/\/+$/, "") + "/.rss" ];
+	}
+}
+
+//////////////////////////////////////////////////////////////////////
 // class TestSpecificDiscovery extends WebsiteSpecificDiscoveryBase {} see .graveyard/
 
 //////////////////////////////////////////////////////////////////////
@@ -76,6 +88,7 @@ class WebsiteSpecificDiscovery {
 	constructor(source) {
 		this._specificDiscoveries = [
 			new YouTubeSpecificDiscovery(source),
+			new RedditSpecificDiscovery(source),
 		];
 	}
 
