@@ -371,7 +371,7 @@
 
 				// For regular web pages
 
-				syndication.webPageFeedsDiscovery({ objDoc: doc }, timeout, pageData.origin, 0, (fd) => discoverResult.feeds.push(fd)).then((result) => {
+				syndication.webPageFeedsDiscovery({ url: winLocation, objDoc: doc }, timeout, pageData.origin, 0, (fd) => discoverResult.feeds.push(fd)).then((result) => {
 					discoverResult.expectedFeedCount = result.length;
 					resolve(discoverResult);
 					// XML feeds with XSLT: Due to issues from the additional fetching of the page (rate limiting),
