@@ -154,10 +154,15 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMenusClicked(info) {
 		if(info.menuItemId === MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW) {
-			if(info.modifiers.includes("Shift")) {
-				browser.windows.create({ url: slUtil.getFeedPreviewUrl(info.linkUrl), type: "normal" });	// in new window
+			let url = !!info.linkUrl ? info.linkUrl : slUtil.validURL(info.selectionText);
+			if(!!url) {
+				if(info.modifiers.includes("Shift")) {
+					browser.windows.create({ url: slUtil.getFeedPreviewUrl(url), type: "normal" });	// in new window
+				} else {
+					browser.tabs.create({ url: slUtil.getFeedPreviewUrl(url), active: !(info.modifiers.includes("Ctrl")) });	// in new tab - 'Ctrl' for inactive
+				}
 			} else {
-				browser.tabs.create({ url: slUtil.getFeedPreviewUrl(info.linkUrl), active: !(info.modifiers.includes("Ctrl")) });	// in new tab - 'Ctrl' for inactive
+				console.log("[Sage-Like]", `Invalid URL: "${info.selectionText}".`);
 			}
 		}
 	};
@@ -425,7 +430,7 @@
 			browser.menus.create({
 				id: MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW,
 				title: "Try to Open Link in Feed Preview",
-				contexts: ["link"],
+				contexts: ["link", "selection"],
 			});
 			// The S.O.B. throws: 'Unchecked lastError value: Error: The menu id mnu-try-open-link-in-feed-preview already exists in menus.create.' to
 			// the browser console and browser.menus has no browser.menus.get() or browser.menus.exists(). Even browser.menus.update() is useless.
