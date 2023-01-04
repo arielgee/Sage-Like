@@ -1084,7 +1084,9 @@
 
 
 ## Now
+* missing ';' in webPageFeedsDiscovery file
 * background.onTabsUpdated() need fixing. its missing updates due to the '!!!changeInfo.url' // //console.log("[Sage-Like]", "onTabsUpdated", tabId, changeInfo, tab);
+	* use a Debouncer / throttle
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
