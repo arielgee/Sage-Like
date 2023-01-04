@@ -1077,50 +1077,14 @@
 * replace all `.innerHTML = ...` with `slUtil.replaceInnerContextualFragment()`
 * in popup status bar the link 'Options Page' is not visible when bk is dark
 * stop using 3 unsafe node.insertAdjacentHTML() in rssTreeView.js. fix 3 extension validation warnings.
+* new RedditSpecificDiscovery
+* in YouTubeSpecificDiscovery.discover(): loops `for(let j=0, len=found.length; j<len; j++)` needs to start from 1 and not 0? found[0] is redundent? => IT'S OK
+* new DeviantArtSpecificDiscovery
 ---
 
 
 ## Now
-* WebsiteSpecificDiscovery
-	* in YouTubeSpecificDiscovery.discover(): loops `for(let j=0, len=found.length; j<len; j++)` needs to start from 1 and not 0? found[0] is redundent?
-	* new SpecificDiscovery:
-
-			class DeviantArtSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
-				constructor(source) {
-					super(source, /^https?:\/\/www\.deviantart\.com\/.+$/);
-				}
-
-				//////////////////////////////////////////////////////////////////////
-				discover() {
-
-					const URL_GALLERY = "https://backend.deviantart.com/rss.xml?q=gallery%3A";
-					const RE_TOPIC_NAME = new RegExp(`"topic"\s*:\s*"([a-zA-Z0-9_+-.]+)"`);
-					const RE_USER_NAME = new RegExp(`"username"\s*:\s*"([a-zA-Z0-9_+-.]+)"`);
-
-					let found, urls = [];
-
-					let funcSearchScripts = (name, reMatch) => {
-
-						let elmScripts = this._document.getElementsByTagName("script");
-
-						for(let i=0, len=elmScripts.length; i<len; i++) {
-							if( (found = elmScripts[i].textContent.match(reMatch)) && (name === found[1]) ) {
-								urls.push( URL_GALLERY + name );
-								return;
-							}
-						}
-					};
-
-					if( (found = this._href.match(/\/topic\/([a-zA-Z0-9_+-.]+)/)) ) {
-						funcSearchScripts(found[1], RE_TOPIC_NAME);
-					} else if( (found = this._href.match(/[^\/]\/([a-zA-Z0-9_+-.]+)\/?/)) ) {
-						funcSearchScripts(found[1], RE_USER_NAME);
-					}
-
-					return urls;
-				}
-			}
-
+* background.onTabsUpdated() need fixing. its missing updates due to the '!!!changeInfo.url' // //console.log("[Sage-Like]", "onTabsUpdated", tabId, changeInfo, tab);
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

@@ -81,7 +81,24 @@ class RedditSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 }
 
 //////////////////////////////////////////////////////////////////////
-// class TestSpecificDiscovery extends WebsiteSpecificDiscoveryBase {} see .graveyard/
+class DeviantArtSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
+	constructor(source) {
+		super(source, /^https?:\/\/www\.deviantart\.com\/.+$/);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	discover() {
+
+		let found;
+
+		if( (found = this._href.match(/[^\/]\/([^/]+)\/?/)) ) {
+			if( !!(this._document.querySelector(`a[data-hook="user_link" i][data-username="${found[1]}" i]`)) ) {
+				return [ "https://backend.deviantart.com/rss.xml?q=gallery%3A" + found[1] ];
+			}
+		}
+		return [];
+	}
+}
 
 //////////////////////////////////////////////////////////////////////
 class WebsiteSpecificDiscovery {
@@ -89,6 +106,7 @@ class WebsiteSpecificDiscovery {
 		this._specificDiscoveries = [
 			new YouTubeSpecificDiscovery(source),
 			new RedditSpecificDiscovery(source),
+			new DeviantArtSpecificDiscovery(source),
 		];
 	}
 
