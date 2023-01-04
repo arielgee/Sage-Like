@@ -1086,6 +1086,8 @@
 		3. FUCK!!! At the IIS at home i get "Cross-Origin Request Blocked ... Reason: CORS preflight response did not succeed" for protected page. STILL NOT RESOLVED
 	* Maybe allow all progress but show message if permission is missing? plus a checkbox to stop showing message?
 	* rewrite the message to reflect that most feeds will require the permission?
+* new RedditSpecificDiscovery
+* new DeviantArtSpecificDiscovery
 ---
 
 
