@@ -1,4 +1,3 @@
-// delete this file
 "use strict";
 
 //////////////////////////////////////////////////////////////////////
@@ -108,12 +107,39 @@ class DeviantArtSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 }
 
 //////////////////////////////////////////////////////////////////////
+class DeviantArtDeepSpecificDiscovery extends DeviantArtSpecificDiscovery {
+
+	//////////////////////////////////////////////////////////////////////
+	discover() {
+
+		const URL_GALLERY = "https://backend.deviantart.com/rss.xml?q=gallery%3A";
+		const RE_USER_NAME = new RegExp(`\\\\"username\\\\"\s*:\s*\\\\"([a-zA-Z0-9_-]+)\\\\"`, "gi");
+		const RE_NAME = new RegExp(`\"([a-zA-Z0-9_-]+)\\\\"$`);
+
+		let found, urls = [];
+        let elmScripts = this._document.getElementsByTagName("script");
+
+        for(let i=0, len=elmScripts.length; i<len; i++) {
+
+			if( (found = elmScripts[i].textContent.match(RE_USER_NAME)) ) {
+				for(let j=0, len=found.length; j<len; j++) {
+					urls.push(URL_GALLERY + (found[j].match(RE_NAME)[1]));
+				}
+			}
+		}
+
+		return urls;	// duplicates are filtered out in syndication.webPageFeedsDiscovery()
+	}
+}
+
+//////////////////////////////////////////////////////////////////////
 class WebsiteSpecificDiscovery {
 	constructor(source) {
 		this._specificDiscoveries = [
 			YouTubeSpecificDiscovery.match(source),
 			RedditSpecificDiscovery.match(source),
 			DeviantArtSpecificDiscovery.match(source),
+			DeviantArtDeepSpecificDiscovery.match(source),
 		];
 	}
 
@@ -122,11 +148,13 @@ class WebsiteSpecificDiscovery {
 		// console.log("[Sage-Like] instanceof YouTubeSpecificDiscovery", this._specificDiscoveries[0] instanceof YouTubeSpecificDiscovery, this._specificDiscoveries[0] !== null);
 		// console.log("[Sage-Like] instanceof RedditSpecificDiscovery", this._specificDiscoveries[1] instanceof RedditSpecificDiscovery, this._specificDiscoveries[1] !== null);
 		// console.log("[Sage-Like] instanceof DeviantArtSpecificDiscovery", this._specificDiscoveries[2] instanceof DeviantArtSpecificDiscovery, this._specificDiscoveries[2] !== null);
+		// console.log("[Sage-Like] instanceof DeviantArtDeepSpecificDiscovery", this._specificDiscoveries[2] instanceof DeviantArtDeepSpecificDiscovery, this._specificDiscoveries[2] !== null);
+		let urls = [];
 		for(let i=0, len=this._specificDiscoveries.length; i<len; i++) {
 			if( !!this._specificDiscoveries[i] ) {
-				 return this._specificDiscoveries[i].discover();		// There Can Be Only One
+				urls.push(...(this._specificDiscoveries[i].discover()));	// There Can Be Only/More-Then One
 			}
 		}
-		return [];
+		return urls;
 	}
 }
