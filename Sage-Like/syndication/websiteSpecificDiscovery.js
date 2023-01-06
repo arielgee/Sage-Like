@@ -29,9 +29,9 @@ class YouTubeSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 
 		const URL_CHANNEL = "https://www.youtube.com/feeds/videos.xml?channel_id=";
 		const URL_PLAYLIST = "https://www.youtube.com/feeds/videos.xml?playlist_id=";
-		const RE_EXTERNAL_ID = new RegExp("\"externalId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"");
-		const RE_CHANNEL_IDS = new RegExp("\"channelId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"", "g");
-		const RE_PLAYLIST_IDS = new RegExp("\"playlistId\"\s*:\s*\"([a-zA-Z0-9_-]+)\"", "g");
+		const RE_EXTERNAL_ID = new RegExp("\"externalId\"\s*:\s*\"([a-zA-Z0-9_-]{16,})\"");
+		const RE_CHANNEL_IDS = new RegExp("\"channelId\"\s*:\s*\"([a-zA-Z0-9_-]{16,})\"", "g");
+		const RE_PLAYLIST_IDS = new RegExp("\"playlistId\"\s*:\s*\"([a-zA-Z0-9_-]{16,})\"", "g");
 		const RE_ID = new RegExp("\"([a-zA-Z0-9_-]+)\"$");
 
 		let found, externalId, urls = [];
