@@ -64,7 +64,7 @@ let syndication = (function() {
 			}
 
 			// add website specific discovery methods
-			linkFeeds.push(...((new WebsiteSpecificDiscovery({ href: url, doc: doc })).discover()));	// discover() return empty array if none was found
+			linkFeeds.push(...((new WebsiteSpecificDiscovery({ href: url, doc: doc }, aggressiveLevel > 0)).discover()));	// discover() return empty array if none was found
 
 			// filter out duplicates and invalid urls
 			linkFeeds.filterInPlace((item, idx, ary) => ( (ary.indexOf(item) === idx) && !!slUtil.validURL(item) ) );
