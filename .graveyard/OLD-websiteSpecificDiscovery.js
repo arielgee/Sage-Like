@@ -2,17 +2,16 @@
 
 //////////////////////////////////////////////////////////////////////
 class WebsiteSpecificDiscoveryBase {
-	constructor(source = {}) {
+	constructor(source = {}, regExpMatch) {
+		if (new.target.name === "WebsiteSpecificDiscoveryBase") {
+			throw new Error(new.target.name + ".constructor: Don't do that");
+		}
+
 		({
 			href: this._href = "",
 			doc: this._document = undefined,
 		} = source);
-        this.instanceOf = new.target.name;
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	static match(source, regExpMatch) {
-		return ( ( !!source.href && regExpMatch.test(source.href) ) ? new this(source) : null );
+		this.isHRefMatch = (this._href !== "") && regExpMatch.test(this._href);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -21,10 +20,8 @@ class WebsiteSpecificDiscoveryBase {
 
 //////////////////////////////////////////////////////////////////////
 class YouTubeSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
-
-	//////////////////////////////////////////////////////////////////////
-	static match(source) {
-		return super.match(source, /^https?:\/\/(www\.)?(youtube\.[^\/]+|youtu\.be)\/.*$/);
+	constructor(source) {
+		super(source, /^https?:\/\/(www\.)?(youtube\.[^\/]+|youtu\.be)\/.*$/);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -73,10 +70,8 @@ class YouTubeSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 
 //////////////////////////////////////////////////////////////////////
 class RedditSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
-
-	//////////////////////////////////////////////////////////////////////
-	static match(source) {
-		return super.match(source, /^https?:\/\/(www\.)?reddit\..*$/);
+	constructor(source) {
+		super(source, /^https?:\/\/(www\.)?reddit\..*$/);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -87,10 +82,8 @@ class RedditSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 
 //////////////////////////////////////////////////////////////////////
 class DeviantArtSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
-
-	//////////////////////////////////////////////////////////////////////
-	static match(source) {
-		return super.match(source, /^https?:\/\/www\.deviantart\.com\/.+$/);
+	constructor(source) {
+		super(source, /^https?:\/\/www\.deviantart\.com\/.+$/);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -108,39 +101,12 @@ class DeviantArtSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 }
 
 //////////////////////////////////////////////////////////////////////
-class DeviantArtAggressiveSpecificDiscovery extends DeviantArtSpecificDiscovery {
-
-	//////////////////////////////////////////////////////////////////////
-	discover() {
-
-		const URL_GALLERY = "https://backend.deviantart.com/rss.xml?q=gallery%3A";
-		const RE_USER_NAME = new RegExp(`\\\\"username\\\\"\s*:\s*\\\\"([a-zA-Z0-9_-]+)\\\\"`, "gi");
-		const RE_NAME = new RegExp(`\"([a-zA-Z0-9_-]+)\\\\"$`);
-
-		let found, urls = [];
-        let elmScripts = this._document.getElementsByTagName("script");
-
-        for(let i=0, len=elmScripts.length; i<len; i++) {
-
-			if( (found = elmScripts[i].textContent.match(RE_USER_NAME)) ) {
-				for(let j=0, len=found.length; j<len; j++) {
-					urls.push(URL_GALLERY + (found[j].match(RE_NAME)[1]));
-				}
-			}
-		}
-
-		return urls;	// duplicates are filtered out in syndication.webPageFeedsDiscovery()
-	}
-}
-
-//////////////////////////////////////////////////////////////////////
 class WebsiteSpecificDiscovery {
-	constructor(source, aggressive = false) {
+	constructor(source) {
 		this._specificDiscoveries = [
-			YouTubeSpecificDiscovery.match(source),
-			RedditSpecificDiscovery.match(source),
-			DeviantArtSpecificDiscovery.match(source),
-			(aggressive ? DeviantArtAggressiveSpecificDiscovery.match(source) : null),
+			new YouTubeSpecificDiscovery(source),
+			new RedditSpecificDiscovery(source),
+			new DeviantArtSpecificDiscovery(source),
 		];
 	}
 
@@ -148,8 +114,8 @@ class WebsiteSpecificDiscovery {
 	discover() {
 		let urls = [];
 		for(let i=0, len=this._specificDiscoveries.length; i<len; i++) {
-			if( !!this._specificDiscoveries[i] ) {
-				urls.push(...(this._specificDiscoveries[i].discover()));
+			if(this._specificDiscoveries[i].isHRefMatch) {
+				urls.push(...(this._specificDiscoveries[i].discover()))
 			}
 		}
 		return urls;
