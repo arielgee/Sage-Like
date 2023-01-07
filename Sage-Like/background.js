@@ -19,6 +19,7 @@
 	let m_windowIds = [];
 	let m_currentWindowId = null;
 	let m_timeoutIdMonitorBookmarkFeeds = null;
+	let m_onTabsUpdatedDebouncersMap = null;
 	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_STRICT_CONTENT_TYPES, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
 
 	initialization();
@@ -174,10 +175,12 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onTabsUpdated(tabId, changeInfo, tab) {
-		// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
-		// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
-		if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && IsAllowedForFeedDetection(tab.url) ) {
-			handleTabChangedState(tabId);
+		if (changeInfo.status === "complete" && IsAllowedForFeedDetection(tab.url)) {
+			clearTimeout(m_onTabsUpdatedDebouncersMap.get(tabId));
+			m_onTabsUpdatedDebouncersMap.set(tabId, setTimeout(() => {
+				handleTabChangedState(tabId);
+				m_onTabsUpdatedDebouncersMap.delete(tabId);
+			}, 2000));
 		}
 	}
 
@@ -454,6 +457,7 @@
 
 		if(detectFeedsInWebPage) {
 
+			m_onTabsUpdatedDebouncersMap = new Map();
 			browser.tabs.onUpdated.addListener(onTabsUpdated);		// Fx61 => extraParameters; {url:["*://*/*"], properties:["status"]}
 			browser.tabs.onAttached.addListener(onTabsAttached);
 
@@ -461,6 +465,8 @@
 
 			// hasListener() will return false if handlePrefDetectFeedsInWebPage() was called from webExt loading.
 
+			m_onTabsUpdatedDebouncersMap.clear();
+			m_onTabsUpdatedDebouncersMap = null;
 			browser.tabs.onUpdated.removeListener(onTabsUpdated);
 			browser.tabs.onAttached.removeListener(onTabsAttached);
 
