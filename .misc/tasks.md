@@ -1080,19 +1080,19 @@
 * new RedditSpecificDiscovery
 * in YouTubeSpecificDiscovery.discover(): loops `for(let j=0, len=found.length; j<len; j++)` needs to start from 1 and not 0? found[0] is redundent? => IT'S OK
 * new DeviantArtSpecificDiscovery
+* missing ';' in webPageFeedsDiscovery file
+* background.onTabsUpdated() need fixing. its missing updates due to the '!!!changeInfo.url' // //console.log("[Sage-Like]", "onTabsUpdated", tabId, changeInfo, tab); used a Debouncer
 ---
 
 
 ## Now
-* missing ';' in webPageFeedsDiscovery file
-* background.onTabsUpdated() need fixing. its missing updates due to the '!!!changeInfo.url' // //console.log("[Sage-Like]", "onTabsUpdated", tabId, changeInfo, tab);
-	* use a Debouncer / throttle
+* content._getPageData() (property) Document.domain: string : Sets or gets the security domain of the document. : @deprecated : 'domain' is deprecated.ts(6385) : lib.dom.d.ts(4513, 8): The declaration was marked as deprecated here.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next - cherry-pick to Manifest-v3-migration-Px
-* in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
+* in youtube, when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display. SO IS THE F12.inspector ???!!!
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
