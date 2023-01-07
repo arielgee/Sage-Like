@@ -18,6 +18,7 @@
 	const ALARM_NAME_MONITOR_BOOKMARK_FEEDS = "alarm-monitorBookmarkFeeds";
 
 	let m_currentWindowId = null;
+	let m_onTabsUpdatedDebouncersMap = null;
 	let m_regExpRssContentTypes = new RegExp(REGEX_RSS_STRICT_CONTENT_TYPES, "i");	// MUST BE INITIALIZED!. onWebRequestHeadersReceived() was being executed with m_regExpRssContentTypes=undefined
 
 	initialization();
@@ -41,6 +42,7 @@
 		);
 
 		handlePrefStrictRssContentTypes();										// Check if web response can be displayed as feedPreview
+		handlePrefDetectFeedsInWebPage();										// Check if page has feeds for page popup
 		handlePrefShowTryOpenLinkInFeedPreview();								// Try to open a link as a feed in the feedPreview
 
 		slUtil.setActionBadge();
@@ -132,10 +134,12 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onTabsUpdated(tabId, changeInfo, tab) {
 		if(await prefs.getDetectFeedsInWebPage()) {
-			// When selecting an open tab that was not loaded (browser just opened) then changeInfo is {status: "complete", url: "https://*"}
-			// but the page is not realy 'complete'. Then the page is loading and when complete then there is not 'url' property. Hence !!!changeInfo.url
-			if (!!changeInfo.status && changeInfo.status === "complete" && !!!changeInfo.url && IsAllowedForFeedDetection(tab.url) ) {
-				handleTabChangedState(tabId);
+			if (changeInfo.status === "complete" && IsAllowedForFeedDetection(tab.url)) {
+				clearTimeout(m_onTabsUpdatedDebouncersMap.get(tabId));
+				m_onTabsUpdatedDebouncersMap.set(tabId, setTimeout(() => {
+					handleTabChangedState(tabId);
+					m_onTabsUpdatedDebouncersMap.delete(tabId);
+				}, 2000));
 			}
 		}
 	}
@@ -405,9 +409,14 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function handlePrefDetectFeedsInWebPage() {
 
-		let detectFeedsInWebPage = await prefs.getDetectFeedsInWebPage();
+		if(await prefs.getDetectFeedsInWebPage()) {
 
-		if(!detectFeedsInWebPage) {
+			m_onTabsUpdatedDebouncersMap = new Map();
+
+		} else {
+
+			m_onTabsUpdatedDebouncersMap.clear();
+			m_onTabsUpdatedDebouncersMap = null;
 
 			let tabs = await browser.tabs.query({});
 
