@@ -30,7 +30,7 @@ class Content {
 			docElmId: document.documentElement.id,
 			title: document.title,
 			contentType: document.contentType,
-			domainName: document.domain,
+			domainName: window.location.hostname,
 			location: window.location.toString(),
 			origin: window.location.origin,
 			isPlainText: !!docBody && docBody.children.length === 1 && docBody.firstElementChild.tagName === "PRE" && docBody.firstElementChild.children.length === 0,
