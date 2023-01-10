@@ -135,6 +135,7 @@
 	async function onTabsUpdated(tabId, changeInfo, tab) {
 		if(await prefs.getDetectFeedsInWebPage()) {
 			if (changeInfo.status === "complete" && IsAllowedForFeedDetection(tab.url)) {
+				hidePageAction(tabId);
 				clearTimeout(m_onTabsUpdatedDebouncersMap.get(tabId));
 				m_onTabsUpdatedDebouncersMap.set(tabId, setTimeout(() => {
 					handleTabChangedState(tabId);
@@ -149,6 +150,7 @@
 		if(await prefs.getDetectFeedsInWebPage()) {
 			browser.tabs.get(tabId).then((tab) => {
 				if (IsAllowedForFeedDetection(tab.url)) {
+					hidePageAction(tabId);
 					handleTabChangedState(tabId);
 				}
 			});
@@ -323,8 +325,6 @@
 				if(result.expectedFeedCount > 0) {
 					copyConfirmedFeedsToPage(tabId, result.expectedFeedCount, result.feeds);
 					showPageAction(tabId);
-				} else {
-					hidePageAction(tabId);
 				}
 
 			});
@@ -418,14 +418,9 @@
 			m_onTabsUpdatedDebouncersMap.clear();
 			m_onTabsUpdatedDebouncersMap = null;
 
-			let tabs = await browser.tabs.query({});
-
+			let tabs = await browser.tabs.query({ discarded: false });
 			for (let i=0, len=tabs.length; i<len; i++) {
-				browser.pageAction.isShown({ tabId: tabs[i].id }).then((shown) => {
-					if(shown) {
-						hidePageAction(tabs[i].id);
-					}
-				});
+				hidePageAction(tabs[i].id);
 			}
 		}
 	}
@@ -462,16 +457,18 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function hidePageAction(tabId) {
+	async function hidePageAction(tabId) {
 
-		browser.pageAction.setIcon({
-			tabId: tabId,
-			path: {
-				19: "/icons/pagePopup-gray-19.png",
-				38: "/icons/pagePopup-gray-38.png",
-			},
-		});
-		browser.pageAction.hide(tabId);
+		if(await browser.pageAction.isShown({ tabId: tabId })) {
+			browser.pageAction.setIcon({
+				tabId: tabId,
+				path: {
+					19: "/icons/pagePopup-gray-19.png",
+					38: "/icons/pagePopup-gray-38.png",
+				},
+			});
+			browser.pageAction.hide(tabId);
+		}
 	}
 
 })();
