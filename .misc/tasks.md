@@ -1082,11 +1082,11 @@
 * new DeviantArtSpecificDiscovery
 * missing ';' in webPageFeedsDiscovery file
 * background.onTabsUpdated() need fixing. its missing updates due to the '!!!changeInfo.url' // //console.log("[Sage-Like]", "onTabsUpdated", tabId, changeInfo, tab); used a Debouncer
+* content._getPageData() (property) Document.domain: string : Sets or gets the security domain of the document. : @deprecated : 'domain' is deprecated.ts(6385) : lib.dom.d.ts(4513, 8): The declaration was marked as deprecated here.
 ---
 
 
 ## Now
-* content._getPageData() (property) Document.domain: string : Sets or gets the security domain of the document. : @deprecated : 'domain' is deprecated.ts(6385) : lib.dom.d.ts(4513, 8): The declaration was marked as deprecated here.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
