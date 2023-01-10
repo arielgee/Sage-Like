@@ -55,6 +55,7 @@ class Content {
 						this.#_feeds = message.confirmedFeeds;
 					}
 					this.#_isFeedsArraySet = true;
+					browser.runtime.sendMessage({id: Global.MSG_ID_UPDATE_POPUP_DISPLAY });
 					resolve({ feedCount: this.#_feeds.length });
 					break;
 					//////////////////////////////////////////////////////////////
