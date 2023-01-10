@@ -30,7 +30,6 @@
 		browser.runtime.onInstalled.addListener(onRuntimeInstalled);					// Sage-Like was installed
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);				// Change browser's current window ID
 		browser.tabs.onUpdated.addListener(onTabsUpdated, { properties: ["status"] });	// Detect feeds in web pages
-		browser.tabs.onAttached.addListener(onTabsAttached);							// Detect feeds in web pages
 		browser.action.onClicked.addListener(onBrowserActionClicked);					// Sage-Like Toolbar button - toggle sidebar
 		browser.menus.onClicked.addListener(onMenusClicked);							// context menu 'Try to Open Link in Feed Preview'
 		browser.alarms.onAlarm.addListener(onAlarm);									// monitor bookmark feeds
@@ -142,18 +141,6 @@
 					m_onTabsUpdatedDebouncersMap.delete(tabId);
 				}, 2000));
 			}
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	async function onTabsAttached(tabId) {
-		if(await prefs.getDetectFeedsInWebPage()) {
-			browser.tabs.get(tabId).then((tab) => {
-				if (IsAllowedForFeedDetection(tab.url)) {
-					hidePageAction(tabId);
-					handleTabChangedState(tabId);
-				}
-			});
 		}
 	}
 
