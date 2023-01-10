@@ -1088,6 +1088,7 @@
 	* rewrite the message to reflect that most feeds will require the permission?
 * new RedditSpecificDiscovery
 * new DeviantArtSpecificDiscovery
+* from V64 there's no need to call handleTabChangedState() from onTabsAttached() event handler (tab moved between windows). the pageAction icon is also moved and still functinal
 ---
 
 
