@@ -1087,6 +1087,13 @@
 
 
 ## Now
+* check WebsiteSpecificDiscovery
+	deviantart - `https://backend.deviantart.com/rss.xml?type=deviation&q=by%3A" + deviantArtUsername + "+sort%3Atime+meta%3Aall` over `https://backend.deviantart.com/rss.xml?q=gallery%3A + deviantArtUsername` - SEE: https://www.deviantart.com/developers/rss
+	pinterest - `https://www.pinterest.com/USERNAME/feed.rss`
+	pinterest - `https://www.pinterest.com/USERNAME/BOARDNAME.rss`
+	tumblr - `http://USERNAME.tumblr.com/rss`
+	flickr - `https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=rss_200&id=USERID`
+	Instagram - `http://widget.websta.me/rss/n/USERNAME`
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
