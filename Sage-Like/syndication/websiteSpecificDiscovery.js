@@ -134,6 +134,35 @@ class DeviantArtAggressiveSpecificDiscovery extends DeviantArtSpecificDiscovery 
 }
 
 //////////////////////////////////////////////////////////////////////
+class BehanceSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
+
+	//////////////////////////////////////////////////////////////////////
+	static match(source) {
+		return super.match(source, /^https?:\/\/www\.behance\.net\/.+$/);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	discover() {
+
+		let found;
+
+		if( (found = this._href.match(/[^\/]\/([^/]+)\/?/)) ) {
+
+			const RE_USER_NAME = new RegExp(`"username"\s*:\s*"${found[1]}"`);
+
+			let elmScripts = this._document.getElementsByTagName("script");
+
+			for(let i=0, len=elmScripts.length; i<len; i++) {
+				if(elmScripts[i].textContent.match(RE_USER_NAME) ) {
+					return [ `https://www.behance.net/feeds/user?username=${found[1]}` ];
+				}
+			}
+		}
+		return [];
+	}
+}
+
+//////////////////////////////////////////////////////////////////////
 class WebsiteSpecificDiscovery {
 	#_specificDiscoveries = null;
 	constructor(source, aggressive = false) {
@@ -142,6 +171,7 @@ class WebsiteSpecificDiscovery {
 			RedditSpecificDiscovery.match(source),
 			DeviantArtSpecificDiscovery.match(source),
 			(aggressive ? DeviantArtAggressiveSpecificDiscovery.match(source) : null),
+			BehanceSpecificDiscovery.match(source),
 		];
 	}
 
