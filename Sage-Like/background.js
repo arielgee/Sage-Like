@@ -133,13 +133,21 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onTabsUpdated(tabId, changeInfo, tab) {
 		if(await prefs.getDetectFeedsInWebPage()) {
-			if (changeInfo.status === "complete" && IsAllowedForFeedDetection(tab.url)) {
-				hidePageAction(tabId);
+
+			// When the change is the status of the tab. Can be either loading or complete.
+			if ( !!changeInfo.status && IsAllowedForFeedDetection(tab.url) ) {
+
 				clearTimeout(m_onTabsUpdatedDebouncersMap.get(tabId));
-				m_onTabsUpdatedDebouncersMap.set(tabId, setTimeout(() => {
-					handleTabChangedState(tabId);
-					m_onTabsUpdatedDebouncersMap.delete(tabId);
-				}, 2000));
+
+				if (changeInfo.status === "complete") {
+
+					hidePageAction(tabId);
+
+					m_onTabsUpdatedDebouncersMap.set(tabId, setTimeout(() => {
+						handleTabChangedState(tabId);
+						m_onTabsUpdatedDebouncersMap.delete(tabId);
+					}, 900));
+				}
 			}
 		}
 	}
