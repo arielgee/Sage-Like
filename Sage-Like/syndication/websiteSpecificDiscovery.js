@@ -100,7 +100,7 @@ class DeviantArtSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 
 		if( (found = this._href.match(/[^\/]\/([^/]+)\/?/)) ) {
 			if( !!(this._document.querySelector(`a[data-hook="user_link" i][data-username="${found[1]}" i]`)) ) {
-				return [ "https://backend.deviantart.com/rss.xml?q=gallery%3A" + found[1] ];
+				return [ `https://backend.deviantart.com/rss.xml?type=deviation&q=by%3A${found[1]}+sort%3Atime+meta%3Aall` ];
 			}
 		}
 		return [];
@@ -113,7 +113,8 @@ class DeviantArtAggressiveSpecificDiscovery extends DeviantArtSpecificDiscovery 
 	//////////////////////////////////////////////////////////////////////
 	discover() {
 
-		const URL_GALLERY = "https://backend.deviantart.com/rss.xml?q=gallery%3A";
+		const URL_GALLERY1 = "https://backend.deviantart.com/rss.xml?type=deviation&q=by%3A";
+		const URL_GALLERY2 = "+sort%3Atime+meta%3Aall";
 		const RE_USER_NAME = new RegExp(`\\\\"username\\\\"\s*:\s*\\\\"([a-zA-Z0-9_-]+)\\\\"`, "gi");
 		const RE_NAME = new RegExp(`\"([a-zA-Z0-9_-]+)\\\\"$`);
 
@@ -124,7 +125,7 @@ class DeviantArtAggressiveSpecificDiscovery extends DeviantArtSpecificDiscovery 
 
 			if( (found = elmScripts[i].textContent.match(RE_USER_NAME)) ) {
 				for(let j=0, len=found.length; j<len; j++) {
-					urls.push(URL_GALLERY + (found[j].match(RE_NAME)[1]));
+					urls.push(URL_GALLERY1 + (found[j].match(RE_NAME)[1]) + URL_GALLERY2);
 				}
 			}
 		}
@@ -163,6 +164,40 @@ class BehanceSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 }
 
 //////////////////////////////////////////////////////////////////////
+class PinterestSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
+
+	//////////////////////////////////////////////////////////////////////
+	static match(source) {
+		return super.match(source, /^https?:\/\/www\.pinterest\.com\/.+$/);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	discover() {
+
+		let found;
+
+		if( (found = this._href.match(/\/[^_]{1}[^/]+/g)) && found.length > 1 ) {
+
+			const USER_NAME = found[1].substring(1);
+			const RE_USER_NAME = new RegExp(`"(user)?name"\s*:\s*"${USER_NAME}"`);
+
+			let elmScripts = this._document.getElementsByTagName("script");
+
+			for(let i=0, len=elmScripts.length; i<len; i++) {
+				if(elmScripts[i].textContent.match(RE_USER_NAME) ) {
+					let urls = [ `https://www.pinterest.com/${USER_NAME}/feed.rss` ];
+					if(!!found[2]) {
+						urls.push(`https://www.pinterest.com/${USER_NAME}/${found[2].substring(1)}.rss`);
+					}
+					return urls;
+				}
+			}
+		}
+		return [];
+	}
+}
+
+//////////////////////////////////////////////////////////////////////
 class WebsiteSpecificDiscovery {
 	#_specificDiscoveries = null;
 	constructor(source, aggressive = false) {
@@ -170,8 +205,10 @@ class WebsiteSpecificDiscovery {
 			YouTubeSpecificDiscovery.match(source),
 			RedditSpecificDiscovery.match(source),
 			DeviantArtSpecificDiscovery.match(source),
-			(aggressive ? DeviantArtAggressiveSpecificDiscovery.match(source) : null),
 			BehanceSpecificDiscovery.match(source),
+			PinterestSpecificDiscovery.match(source),
+
+			(aggressive ? DeviantArtAggressiveSpecificDiscovery.match(source) : null),
 		];
 	}
 
