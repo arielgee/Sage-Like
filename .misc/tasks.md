@@ -1083,17 +1083,16 @@
 * missing ';' in webPageFeedsDiscovery file
 * background.onTabsUpdated() need fixing. its missing updates due to the '!!!changeInfo.url' // //console.log("[Sage-Like]", "onTabsUpdated", tabId, changeInfo, tab); used a Debouncer
 * content._getPageData() (property) Document.domain: string : Sets or gets the security domain of the document. : @deprecated : 'domain' is deprecated.ts(6385) : lib.dom.d.ts(4513, 8): The declaration was marked as deprecated here.
+* WebsiteSpecificDiscovery check
+	[V] deviantart - `https://backend.deviantart.com/rss.xml?type=deviation&q=by%3A" + deviantArtUsername + "+sort%3Atime+meta%3Aall` over `https://backend.deviantart.com/rss.xml?q=gallery%3A + deviantArtUsername` - SEE: https://www.deviantart.com/developers/rss
+	[V] pinterest - `https://www.pinterest.com/USERNAME/feed.rss` / `https://www.pinterest.com/USERNAME/BOARDNAME.rss`
+	[VV] tumblr - `http://USERNAME.tumblr.com/rss` - already has
+	[VV] flickr - `https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=rss_200&id=USERID`  - already has
+	[X] Instagram - `https://widget.websta.me/rss/n/USERNAME` - has not
 ---
 
 
 ## Now
-* check WebsiteSpecificDiscovery
-	deviantart - `https://backend.deviantart.com/rss.xml?type=deviation&q=by%3A" + deviantArtUsername + "+sort%3Atime+meta%3Aall` over `https://backend.deviantart.com/rss.xml?q=gallery%3A + deviantArtUsername` - SEE: https://www.deviantart.com/developers/rss
-	pinterest - `https://www.pinterest.com/USERNAME/feed.rss`
-	pinterest - `https://www.pinterest.com/USERNAME/BOARDNAME.rss`
-	tumblr - `http://USERNAME.tumblr.com/rss`
-	flickr - `https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=rss_200&id=USERID`
-	Instagram - `http://widget.websta.me/rss/n/USERNAME`
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
