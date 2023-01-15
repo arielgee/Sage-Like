@@ -3,7 +3,7 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "sage-like@webExtension.arielg.il",
-			"strict_min_version": "106.0"
+			"strict_min_version": "109.0"
 		}
 	},
 	"name": "Sage-Like",
