@@ -31,6 +31,7 @@
 		browser.windows.onFocusChanged.addListener(onWindowsFocusChanged);				// Change browser's current window ID
 		browser.tabs.onUpdated.addListener(onTabsUpdated, { properties: ["status"] });	// Detect feeds in web pages
 		browser.action.onClicked.addListener(onBrowserActionClicked);					// Sage-Like Toolbar button - toggle sidebar
+		browser.menus.onShown.addListener(onMenusShown);								// context menu 'Try to Open Link in Feed Preview'. Compatibility start: v60
 		browser.menus.onClicked.addListener(onMenusClicked);							// context menu 'Try to Open Link in Feed Preview'
 		browser.alarms.onAlarm.addListener(onAlarm);									// monitor bookmark feeds
 
@@ -149,6 +150,14 @@
 					}, 900));
 				}
 			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function onMenusShown(info) {
+		if ( info.contexts.includesSome(["link", "selection"]) && (await prefs.getShowTryOpenLinkInFeedPreview()) ) {
+			await browser.menus.update(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW, { visible: (!!info.linkUrl || !!slUtil.validURL(info.selectionText)) });
+			browser.menus.refresh();
 		}
 	}
 
