@@ -522,7 +522,7 @@ let panel = (function() {
 
 						const messageDetails = {
 							text: `A new version was released.<br><br>Sage-Like v${localVer}\u2002\u2794\u2002` +
-									`<a id='newVersionAnchor' href='${json.url}'><b>Sage-Like v${currentVer}</b>`,
+									`<a id='newVersionAnchor' href='${json.url}'><b>Sage-Like v${currentVer}</b></a>`,
 							caption: "Available Update",	// "What's New",
 							isAlertive: false,
 							clickableElements: [
