@@ -11,6 +11,8 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 ◼ <b>FEATURES</b>
 &emsp;● A sidebar based display.
 &emsp;● Feed discovery from the sidebar and from the address bar.
+&emsp;● Customized discovery of "hidden" RSS feeds on YouTube, Reddit, DeviantArt,
+&emsp;&emsp;Pinterest and Behance.
 &emsp;● Integrated with the browser's native bookmarks.
 &emsp;● Feeds automatically sync across your devices when using Firefox Sync.
 &emsp;● Fully customizable tree view. Add/Edit/Delete/Copy/Paste/Drag-n-drop directly
@@ -57,24 +59,22 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 + Manage Version - Version Notes
 --------------------------------------------------------------
+<b>About the Next Version</b>
+If no new issues are discovered, this version will be the last one to support Firefox 59.
+
+My intention for the next released version is to implement support for Manifest V3. This migration from Manifest V2 to V3 will require raising the minimum supported browser version to Firefox 109.
+
+To put it simply, if you are using Firefox 109 or higher, you will be able to receive the upcoming version from Mozilla Add-ons, which will include various improvements resulting from the discontinuation of support for older Firefox versions.
+
 <b>Changes</b>
 <ul>
-  <li>Rewrote and improved the feed discovery process in preparation for Manifest-V3.</li>
-  <li>Added support for Drag and drop of feeds from the address bar popup to the sidebar.</li>
-  <li>Rewrote code that generated warnings when the extension is submitted.</li>
-  <li>Added a new status filter, '>ok', for responsive/updated feeds. Feeds which are not '>Error' or '>load'.</li>
-  <li>Added a notification for when a new version is published.</li>
-  <li>Fixed wrong relative date in tooltips for tree and discovery items.</li>
-  <li>Minor improvements to the Feed Preview rendering.</li>
+  <li>Added custom feed discovery for Reddit, DeviantArt, Pinterest and Behance.</li>
+  <li>Added to context menu item 'Try to Open…' the ability to handle selected text as a link.</li>
+  <li>Added a browser compatibility check in the new version notification.</li>
+  <li>Improved handling of tab updates.</li>
+  <li>Fixed issue with the popup page not refreshing when the current tab is updated while it is open.</li>
   <li>Usual assortment of fixes, code improvements and cleanups.</li>
 </ul>
-
-+ Version Notes for next time
---------------------------------------------------------------
-Code improvements - tightening the bolts.
-Under the hoods Performance enhancements.
-Bugs fixed.
-
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
 --------------------------------------------------------------
