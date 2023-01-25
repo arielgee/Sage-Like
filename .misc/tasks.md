@@ -1089,6 +1089,10 @@
 	[VV] tumblr - `http://USERNAME.tumblr.com/rss` - already has
 	[VV] flickr - `https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=rss_200&id=USERID`  - already has
 	[X] Instagram - `https://widget.websta.me/rss/n/USERNAME` - has not
+* in checkForNewVersion, check if browser version compatible to new extension version. add some notification?
+* add comment about MV3 upgrade in new version message in sidebar (independed of checkForNewVersion). ===> NO. CONSIDERED AND DISCARDED
+* update FEATURES product page from mozilla-extension-page with new third item: `● Customized discovery of "hidden"…`.
+* add comment in Extension's Version release Notes.
 ---
 
 
