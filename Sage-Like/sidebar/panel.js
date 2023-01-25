@@ -516,18 +516,32 @@ let panel = (function() {
 				const currentVer = json.current_version.version;
 				const localVer = manifest.version;
 
+				// local Sage-Like version is smaller then current
 				if(localVer < currentVer) {
+
+					const browserCompatStrictMinVer = parseInt(json.current_version.compatibility.firefox.min);
+					const browserVer = parseInt(await slUtil.getBrowserVersion());
+					const anchorNewVer = `<a id='currSageLikeVersion' href='${json.url}'><b>Sage-Like v${currentVer}</b></a>`;
+
+					let msg;
+
+					// browser version is greater or equal to current compatibility min version
+					if(browserVer >= browserCompatStrictMinVer) {
+						msg = `A new version was released.<br><br>Sage-Like v${localVer}\u2002\u2794\u2002${anchorNewVer}`;
+					} else {
+						msg = `An updated version is available, ${anchorNewVer}. However, it is not compatible with your ` +
+								`current browser (Firefox ${browserVer}).<br><br>Consider updating your browser to the latest version.`;
+					}
 
 					if( (await internalPrefs.getNotifiedForNewVersionValue()) !== currentVer ) {
 
 						const messageDetails = {
-							text: `A new version was released.<br><br>Sage-Like v${localVer}\u2002\u2794\u2002` +
-									`<a id='newVersionAnchor' href='${json.url}'><b>Sage-Like v${currentVer}</b></a>`,
+							text: msg,
 							caption: "Available Update",	// "What's New",
 							isAlertive: false,
 							clickableElements: [
 								{
-									elementId: "newVersionAnchor",
+									elementId: "currSageLikeVersion",
 									onClickCallback: () => internalPrefs.setNotifiedForNewVersionValue(currentVer),
 								},
 							],
