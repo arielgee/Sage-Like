@@ -1093,6 +1093,7 @@
 * add comment about MV3 upgrade in new version message in sidebar (independed of checkForNewVersion). ===> NO. CONSIDERED AND DISCARDED
 * update FEATURES product page from mozilla-extension-page with new third item: `● Customized discovery of "hidden"…`.
 * add comment in Extension's Version release Notes.
+* reorder PERMISSION JUSTIFICATION to match add-on page
 ---
 
 
