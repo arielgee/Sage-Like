@@ -24,7 +24,6 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● Customizable UI font & colors.
 
 ◼ <b>PERMISSION JUSTIFICATION</b>
-&emsp;● 'Access your data for all websites' – Feed fetching and feed discovery.
 &emsp;● 'Read and modify bookmarks' – Integration with the browser's native
 &emsp;&emsp;bookmarks.
 &emsp;● 'Get data from the clipboard' – Support for Copy/Paste operations in the
@@ -34,6 +33,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;&emsp;Exporting feeds to a file (OPML).
 &emsp;● 'Access browsing history' – Managing feed state (read/unread).
 &emsp;● 'Access browser tabs' – Opening feed articles, feed Previews, etc.
+&emsp;● 'Access your data for all websites' – Feed fetching and feed discovery.
 &emsp;● "storage" – Storing extension preferences.
 &emsp;● "webRequest" – Intercepting clicks on RSS links to display feed previews.
 &emsp;● "webRequestBlocking" – Intercepting clicks on RSS links to display feed
