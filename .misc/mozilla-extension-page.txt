@@ -30,7 +30,8 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;&emsp;bookmarks.
 &emsp;● 'Get data from the clipboard' – Support for Copy/Paste operations in the
 &emsp;&emsp;sidebar.
-&emsp;● 'Input data to the clipboard' – Support for Copy/Paste operations in the sidebar.
+&emsp;● 'Input data to the clipboard' – Support for Copy/Paste operations in the
+&emsp;&emsp;sidebar.
 &emsp;● 'Download files and read and modify the browser’s download history' –
 &emsp;&emsp;Exporting feeds to a file (OPML).
 &emsp;● 'Access browsing history' – Managing feed state (read/unread).
