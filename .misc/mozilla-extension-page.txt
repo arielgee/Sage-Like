@@ -24,6 +24,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;&emsp;style sheet).
 &emsp;● Support for import & export feed subscriptions using an OPML file.
 &emsp;● Customizable UI font & colors.
+&emsp;● Support Manifest V3.
 
 ◼ <b>PERMISSION JUSTIFICATION</b>
 &emsp;● 'Read and modify bookmarks' – Integration with the browser's native
