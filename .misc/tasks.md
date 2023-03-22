@@ -1090,23 +1090,22 @@
 * new DeviantArtSpecificDiscovery
 * from V64 there's no need to call handleTabChangedState() from onTabsAttached() event handler (tab moved between windows). the pageAction icon is also moved and still functinal
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2>. set to 109, start of support for MV3
+* look into declarativeNetRequest - still not implemented by mozilla. => Not relevent as long as webRequestBlocking is stil supported
 ---
 
 
 ## Now
+* The text in file `mozilla-extension-page.txt` needs to be applied to the extension's product page.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
-## Manifest-V3-Migration
-* detect at runtime that NetworkError is CORS when console shows ""Cross-Origin Request Blocked ..." (see above `Access-Control-Allow-...`)
-* look into declarativeNetRequest - still not implemented by mozilla. not relevent as long as webRequestBlocking is stil supported
 
 ## Next
-* in YT when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
 ### low priority (bellow zero priority)
+* detect at runtime that NetworkError is CORS when console shows ""Cross-Origin Request Blocked ..." (see above `Access-Control-Allow-...`)
 * new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must be a sidebar webextension!
@@ -1116,6 +1115,7 @@
 
 
 ### Unresolved
+* in youtube, when changing tabs (PLAYLISTS, CHANNELS, etc.) the discoveryView and discovery from address-bar are not synced with the display
 * a lot of sub folders in the tree view will fuck up the UI
 * Firefox has no support for XML 1.1
 
