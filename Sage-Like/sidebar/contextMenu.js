@@ -413,7 +413,7 @@ let contextMenu = (function() {
 			ContextAction.treeOpenNewTab,
 			ContextAction.treeOpenNewWin,
 			ContextAction.treeOpenNewPrivateWin,
-			// ContextAction.treeOpenAllInTabs, Calls rssTreeView.openAllFeedsInTabs() so url is handled there
+			// ContextAction.treeOpenAllInTabs,	// Calls rssTreeView.openAllFeedsInTabs() so url is handled there
 		];
 
 		let actionData = { url: "" };

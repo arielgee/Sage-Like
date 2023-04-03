@@ -30,7 +30,7 @@
 	width: 100%;
 	word-wrap: normal;
 	padding-inline-start: 16px;
-	max-height: calc(var(--line-height) * 15);
+	max-height: calc(var(--line-height) * 25);
 	margin-bottom: var(--panel-spacing);
 	overflow: hidden;
 	font-size: 13px;

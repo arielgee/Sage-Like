@@ -78,11 +78,11 @@ class XmlFeed extends Feed {
 
 		let elmDesc;
 		let funcGet = [
-			this._xmlFeed_getFeedItemDescription,
-			this._xmlFeed_getFeedItemContent,
-			this._xmlFeed_getFeedItemSummary,
-			this._xmlFeed_getFeedItemContentEncoded,		// look for <content:encoded>
-			this._xmlFeed_getFeedItemContentTypeHtml,		// look for <content type=html>
+			this.#_xmlFeed_getFeedItemDescription,
+			this.#_xmlFeed_getFeedItemContent,
+			this.#_xmlFeed_getFeedItemSummary,
+			this.#_xmlFeed_getFeedItemContentEncoded,		// look for <content:encoded>
+			this.#_xmlFeed_getFeedItemContentTypeHtml,		// look for <content type=html>
 		];
 
 		for(let i=0, len=funcGet.length; i<len; i++) {
@@ -100,11 +100,11 @@ class XmlFeed extends Feed {
 	_getFeedItemHtmlContent(item) {
 
 		let funcGet = [
-			this._xmlFeed_getFeedItemContentTypeHtml,		// look for <content type=html>
-			this._xmlFeed_getFeedItemContentEncoded,		// look for <content:encoded>
-			this._xmlFeed_getFeedItemSummary,
-			this._xmlFeed_getFeedItemContent,
-			this._xmlFeed_getFeedItemDescription,
+			this.#_xmlFeed_getFeedItemContentTypeHtml,		// look for <content type=html>
+			this.#_xmlFeed_getFeedItemContentEncoded,		// look for <content:encoded>
+			this.#_xmlFeed_getFeedItemSummary,
+			this.#_xmlFeed_getFeedItemContent,
+			this.#_xmlFeed_getFeedItemDescription,
 		];
 
 		let elmContent;
@@ -144,8 +144,8 @@ class XmlFeed extends Feed {
 
 		let imageUrl;
 		let funcGet = [
-			this._xmlFeed_getFeedItemImageUrl,
-			this._xmlFeed_getFeedItemMediaContentImageUrl,
+			this.#_xmlFeed_getFeedItemImageUrl,
+			this.#_xmlFeed_getFeedItemMediaContentImageUrl,
 		];
 
 		for(let i=0, len=funcGet.length; i<len; i++) {
@@ -177,38 +177,38 @@ class XmlFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	_xmlFeed_getFeedItemDescription(item) {
+	#_xmlFeed_getFeedItemDescription(item) {
 		return item.querySelector("description");
 	}
 
 	//////////////////////////////////////////
-	_xmlFeed_getFeedItemContent(item) {
+	#_xmlFeed_getFeedItemContent(item) {
 		return item.querySelector("content:not([type=html]):not([type=xhtml])");
 	}
 
 	//////////////////////////////////////////
-	_xmlFeed_getFeedItemSummary(item) {
+	#_xmlFeed_getFeedItemSummary(item) {
 		return item.querySelector("summary");
 	}
 
 	//////////////////////////////////////////
-	_xmlFeed_getFeedItemContentEncoded(item) {
+	#_xmlFeed_getFeedItemContentEncoded(item) {
 		return (item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded"))[0];	// look for <content:encoded>
 	}
 
 	//////////////////////////////////////////
-	_xmlFeed_getFeedItemContentTypeHtml(item) {
+	#_xmlFeed_getFeedItemContentTypeHtml(item) {
 		return item.querySelector("content[type=html],content[type=xhtml]");
 	}
 
 	//////////////////////////////////////////
-	_xmlFeed_getFeedItemImageUrl(item) {
+	#_xmlFeed_getFeedItemImageUrl(item) {
 		const elmImage = item.querySelector("image");
 		return !!elmImage ? elmImage.textContent : "";
 	}
 
 	//////////////////////////////////////////
-	_xmlFeed_getFeedItemMediaContentImageUrl(item) {
+	#_xmlFeed_getFeedItemMediaContentImageUrl(item) {
 		const elmContent = (item.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content"))[0];	// look for <media:content>
 		if(!!elmContent) {
 			if(elmContent.getAttribute("medium") === "image") {

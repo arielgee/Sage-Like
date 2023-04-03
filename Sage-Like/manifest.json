@@ -1,9 +1,9 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "sage-like@webExtension.arielg.il",
-			"strict_min_version": "59.0"
+			"strict_min_version": "109.0"
 		}
 	},
 	"name": "Sage-Like",
@@ -13,26 +13,37 @@
 	"permissions": [
 		"bookmarks",
 		"history",
-		"<all_urls>",
 		"tabs",
 		"menus",
 		"clipboardRead",
 		"clipboardWrite",
 		"storage",
 		"downloads",
+		"scripting",
+		"alarms",
 		"webRequest",
 		"webRequestBlocking"
 	],
+	"host_permissions": [
+		"<all_urls>"
+	],
+	"content_security_policy": {
+		"extension_pages": "script-src 'self'"
+	},
 	"icons": {
 		"16": "/icons/sageLike-16.png",
 		"32": "/icons/sageLike-32.png",
 		"48": "/icons/sageLike-48.png"
 	},
 	"web_accessible_resources": [
-		"/icons/sageLike-32.png",
-		"/feedPreview/feedPreview.html"
+		{
+			"resources": [
+				"/feedPreview/feedPreview.html"
+			],
+			"matches": [ "*://*/*" ]
+		}
 	],
-	"browser_action": {
+	"action": {
 		"browser_style": true,
 		"default_title": "Sage-Like sidebar",
 		"default_icon": {
@@ -81,6 +92,7 @@
 			"/syndication/atomFeed.js",
 			"/syndication/websiteSpecificDiscovery.js",
 			"/syndication/syndication.js",
+			"/permissions/requiredPermissions.js",
 			"/background.js"
 		]
 	},

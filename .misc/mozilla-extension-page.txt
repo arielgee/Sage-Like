@@ -24,6 +24,7 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;&emsp;style sheet).
 &emsp;● Support for import & export feed subscriptions using an OPML file.
 &emsp;● Customizable UI font & colors.
+&emsp;● Support Manifest V3.
 
 ◼ <b>PERMISSION JUSTIFICATION</b>
 &emsp;● 'Read and modify bookmarks' – Integration with the browser's native
@@ -69,11 +70,15 @@ To put it simply, if you are using Firefox 109 or higher, you will be able to re
 
 <b>Changes</b>
 <ul>
-  <li>Added custom feed discovery for Reddit, DeviantArt, Pinterest and Behance.</li>
-  <li>Added to context menu item 'Try to Open…' the ability to handle selected text as a link.</li>
-  <li>Added a browser compatibility check in the new version notification.</li>
-  <li>Improved handling of tab updates.</li>
-  <li>Fixed issue with the popup page not refreshing when the current tab is updated while it is open.</li>
+  <li>Complete transition of the web extension from Manifest V2 to V3.</li>
+  <li>Added handling for the "Access your data for all websites" permission, which is now optional and requires user approval.</li>
+  <li>Changes made possible following the end of support for older Firefox versions.</li>
+    <ul>
+      <li>Removed complex workaround after the resolving of bug https://bugzilla.mozilla.org/show_bug.cgi?id=1438465.</li>
+      <li>Simplify Clipboard handling (copy/paste).</li>
+      <li>Removed support for Firefox 63 build-in Feed Preview.</li>
+      <li>Utilized other various capabilities introduced in later Firefox releases and replaced backward compatibility code.</li>
+    </ul>
   <li>Usual assortment of fixes, code improvements and cleanups.</li>
 </ul>
 

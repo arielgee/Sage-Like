@@ -119,9 +119,6 @@ let signinView = (function () {
 				close();
 				break;
 				//////////////////////////////
-			default:
-				break;
-				//////////////////////////////
 		}
 	}
 

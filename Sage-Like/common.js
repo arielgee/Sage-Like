@@ -2,27 +2,17 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 class Locker {
-
-	//////////////////////////////////////////
-	constructor() {
-		this._lockRequestCounter = 0;
-	}
-
-	//////////////////////////////////////////
+	#_lockRequestCounter = 0
 	lock() {
-		this._lockRequestCounter++;
+		this.#_lockRequestCounter++;
 	}
-
-	//////////////////////////////////////////
 	unlock() {
-		if(this._lockRequestCounter > 0) {
-			this._lockRequestCounter--;
+		if(this.#_lockRequestCounter > 0) {
+			this.#_lockRequestCounter--;
 		}
 	}
-
-	//////////////////////////////////////////
 	get isUnlocked() {
-		return (this._lockRequestCounter === 0);
+		return (this.#_lockRequestCounter === 0);
 	}
 }
 
@@ -93,12 +83,11 @@ let Global = (function() {
 		MSG_ID_GET_PAGE_DATA:							107,
 		MSG_ID_WAIT_AND_HIDE_POPUP:						108,
 		MSG_ID_ADD_NEW_DISCOVERED_FEEDS:				109,
-		MSG_ID_QUERY_SIDEBAR_OPEN_FOR_WINDOW:			110,
-		MSG_ID_RSS_TREE_CREATED_OK:						111,
-		MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:				112,
-		MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:	113,
-		MSG_ID_QUERY_INJECTED_CONTENT:					114,
-		MSG_ID_UPDATE_POPUP_DISPLAY:					115,
+		MSG_ID_RSS_TREE_CREATED_OK:						110,
+		MSG_ID_CLOSE_ALL_SIDEBAR_PANELS:				111,
+		MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:	112,
+		MSG_ID_QUERY_INJECTED_CONTENT:					113,
+		MSG_ID_UPDATE_POPUP_DISPLAY:					114,
 
 		// Message Details IDs
 		MSGD_PREF_CHANGE_ALL:									1001,
@@ -440,6 +429,7 @@ let internalPrefs = (function() {
 		POPUP_SHOW_COUNT_NOTEPAD_HELP:			{ name: "pref_notepadHelpShowPopupCount",		default: 3			},
 		MSG_SHOW_COUNT_UNAUTHORIZED_FEED:		{ name: "pref_unauthorizedFeedShowMsgCount",	default: 3			},
 		NOTIFIED_FOR_NEW_VERSION_VALUE:			{ name: "pref_notifiedForNewVersionValue",		default: ""			},
+		NOTIFIED_ABOUT_PERMISSIONS:				{ name: "pref_notifiedAboutPermissions",		default: false		},
 	});
 
 	let m_localStorage = browser.storage.local;
@@ -460,6 +450,7 @@ let internalPrefs = (function() {
 	function getPopupShowCountNotepadHelp()			{ return _getPreferenceValue(PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP); }
 	function getMsgShowCountUnauthorizedFeed()		{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED); }
 	function getNotifiedForNewVersionValue()		{ return _getPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE); }
+	function getNotifiedAboutPermissions()			{ return _getPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS); }
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function setOpenTreeFolders(value)					{ return _setPreferenceValue(PREF.OPEN_TREE_FOLDERS, value); }
@@ -477,6 +468,7 @@ let internalPrefs = (function() {
 	function setPopupShowCountNotepadHelp(value)		{ return _setPreferenceValue(PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP, value); }
 	function setMsgShowCountUnauthorizedFeed(value)		{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED, value); }
 	function setNotifiedForNewVersionValue(value)		{ return _setPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE, value); }
+	function setNotifiedAboutPermissions(value)			{ return _setPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS, value); }
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
@@ -532,6 +524,7 @@ let internalPrefs = (function() {
 		getPopupShowCountNotepadHelp: getPopupShowCountNotepadHelp,
 		getMsgShowCountUnauthorizedFeed: getMsgShowCountUnauthorizedFeed,
 		getNotifiedForNewVersionValue: getNotifiedForNewVersionValue,
+		getNotifiedAboutPermissions: getNotifiedAboutPermissions,
 
 		setOpenTreeFolders: setOpenTreeFolders,
 		setTreeFeedsData: setTreeFeedsData,
@@ -548,6 +541,7 @@ let internalPrefs = (function() {
 		setPopupShowCountNotepadHelp: setPopupShowCountNotepadHelp,
 		setMsgShowCountUnauthorizedFeed: setMsgShowCountUnauthorizedFeed,
 		setNotifiedForNewVersionValue: setNotifiedForNewVersionValue,
+		setNotifiedAboutPermissions: setNotifiedAboutPermissions,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 
@@ -878,14 +872,14 @@ let contentHandler = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function injectContentScripts(tabId) {
 
-		const INJECTABLE = [
-			{ isScript: true, details: { runAt: "document_idle", file: "/common.js" } },
-			{ isScript: true, details: { runAt: "document_idle", file: "/content.js" } },
-		];
-
-		for(let idx=0, len=INJECTABLE.length; idx<len; idx++) {
-			await browser.tabs.executeScript(tabId, INJECTABLE[idx].details);
-		}
+		await browser.scripting.executeScript({
+			injectImmediately: false,
+			target: { tabId: tabId },
+			files: [
+				"/common.js",
+				"/content.js",
+			],
+		});
 		return {};
 	}
 
@@ -973,70 +967,17 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function writeTextToClipboard(text) {
-
-		getBrowserVersion().then(async (version) => {
-
-			if(parseInt(version) >= 63) {
-
-				try {
-					await navigator.clipboard.writeText(text);
-					return;
-				} catch (error) {
-					console.log("[Sage-Like]", "navigator.clipboard.writeText()", error);
-				}
-			}
-
-			// fallback
-			try {
-				let restoreFocus = document.activeElement;
-				let input = document.createElement("textarea");
-				let style = input.style;
-				style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
-				input.value = text;
-				document.body.appendChild(input);
-				input.select();
-				document.execCommand("copy");
-				document.body.removeChild(input);
-				restoreFocus.focus();
-			} catch (error) {
-				console.log("[Sage-Like]", "document.execCommand('copy');", error);
-			}
-		});
+		navigator.clipboard.writeText(text).catch((error) => console.log("[Sage-Like]", "navigator.clipboard.writeText()", error) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function readTextFromClipboard() {
-
 		return new Promise((resolve, reject) => {
-
-			getBrowserVersion().then((version) => {
-
-				if(parseInt(version) >= 63) {
-
-					navigator.clipboard.readText().then((text) => {
-						return resolve(text);
-					}).catch((error) => {
-						console.log("[Sage-Like]", "navigator.clipboard.readText()", error);
-					});
-				}
-
-				// fallback
-				try {
-					let restoreFocus = document.activeElement;
-					let input = document.createElement("textarea");
-					let style = input.style;
-					style.height = style.width = style.borderWidth = style.padding = style.margin = 0;
-					input.contentEditable = true;
-					document.body.appendChild(input);
-					input.focus();
-					document.execCommand("paste");
-					restoreFocus.focus();
-					resolve(input.value);
-					document.body.removeChild(input);
-				} catch (error) {
-					console.log("[Sage-Like]", "document.execCommand('paste');", error);
-					reject(new Error("Failed to read data from clipboard"));
-				}
+			navigator.clipboard.readText().then((text) => {
+				resolve(text);
+			}).catch((error) => {
+				console.log("[Sage-Like]", "navigator.clipboard.readText()", error);
+				reject(new Error("Failed to read data from clipboard"));
 			});
 		});
 	}
@@ -1435,7 +1376,6 @@ let slUtil = (function() {
 		return new Promise((resolve) => {
 			browser.runtime.getBrowserInfo().then((result) => {
 				resolve(result.version);
-				//resolve("64"); alert("always v64");
 			});
 		});
 	}
@@ -1624,16 +1564,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function setSafeBrowserActionBadgeText(details) {
-
-		// Fx v59 has no support for windowId
-		if(parseInt(await getBrowserVersion()) <= 59) {
-			delete details.windowId;
-		}
-		browser.browserAction.setBadgeText(details);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function getStringExportFileName(dateVal, prefix, ext) {
 		let dateValStr = dateVal.getFullYear() +
 			(dateVal.getMonth()+1).toLocaleString('en', {minimumIntegerDigits:2}) +
@@ -1734,6 +1664,35 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function setActionBadge(mode = 0, details = {}) {
+
+		if(mode === 0) {
+			return browser.action.setBadgeText({ text: "" });						// init all windows with no badge
+		} else if(mode === 1) {
+			browser.action.setBadgeBackgroundColor({ color: [0, 128, 0, 128] });	// set a window with green badge
+		} else if(mode === 2) {
+			browser.action.setBadgeBackgroundColor({ color: [192, 0, 0, 255] });	// set a window with red badge
+		}
+		return browser.action.setBadgeText({ text: details.text, windowId: details.windowId });
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createMissingPermissionsDocFrag(style) {
+
+		const tagString =	`<div id='requiredPermissionsMsg' style='all:revert;${style}'>` +
+								"The required permission <b>Access your data for all websites</b> is not allowed by the browser. " +
+								"<span><a style='all:revert' href='#' id='learnMoreLink'>Learn more</a></span><br><br>" +
+								"To modify this, select the following link:&emsp;<a style='all:revert' href='#' id='requestPermissionsLink'>Request Permissions</a>" +
+							"</div>";
+
+		return {
+			docFragment: document.createRange().createContextualFragment(tagString),
+			learnMoreAnchorId: "learnMoreLink",
+			reqPermAnchorId: "requestPermissionsLink",
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=3) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -1788,13 +1747,14 @@ let slUtil = (function() {
 		nbAlert: nbAlert,
 		getLanguageDir: getLanguageDir,
 		getUniqId: getUniqId,
-		setSafeBrowserActionBadgeText: setSafeBrowserActionBadgeText,
 		getStringExportFileName: getStringExportFileName,
 		fetchWithTimeout: fetchWithTimeout,
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,
 		refreshUpdateTimeFormattedString: refreshUpdateTimeFormattedString,
 		fixUnreliableUpdateTime: fixUnreliableUpdateTime,
 		replaceInnerContextualFragment: replaceInnerContextualFragment,
+		setActionBadge: setActionBadge,
+		createMissingPermissionsDocFrag: createMissingPermissionsDocFrag,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};

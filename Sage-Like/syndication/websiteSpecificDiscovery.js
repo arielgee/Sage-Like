@@ -199,8 +199,9 @@ class PinterestSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 
 //////////////////////////////////////////////////////////////////////
 class WebsiteSpecificDiscovery {
+	#_specificDiscoveries = null;
 	constructor(source, aggressive = false) {
-		this._specificDiscoveries = [
+		this.#_specificDiscoveries = [
 			YouTubeSpecificDiscovery.match(source),
 			RedditSpecificDiscovery.match(source),
 			DeviantArtSpecificDiscovery.match(source),
@@ -214,9 +215,9 @@ class WebsiteSpecificDiscovery {
 	//////////////////////////////////////////////////////////////////////
 	discover() {
 		let urls = [];
-		for(let i=0, len=this._specificDiscoveries.length; i<len; i++) {
-			if( !!this._specificDiscoveries[i] ) {
-				urls.push(...(this._specificDiscoveries[i].discover()));
+		for(let i=0, len=this.#_specificDiscoveries.length; i<len; i++) {
+			if( !!this.#_specificDiscoveries[i] ) {
+				urls.push(...(this.#_specificDiscoveries[i].discover()));
 			}
 		}
 		return urls;

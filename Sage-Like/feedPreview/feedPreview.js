@@ -30,6 +30,7 @@
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
+		RequiredPermissions.i.init();
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 
 		injectCustomCSSSource();
@@ -472,6 +473,24 @@
 		document.getElementById("errorContainer").classList.add("withMessage");
 		document.getElementById("errorMessage").textContent = errorMessage;
 		document.getElementById("errorMessageLink").href = url.toString();
+
+		if(!RequiredPermissions.i.granted && errorMessage.includes("NetworkError when attempting to fetch resource")) {
+
+			const style = "max-width:700px;border:1px solid crimson;margin-top:20px;padding:12px 14px;" +
+							"background-color:rgb(255,255,220);color:crimson;font-family:sans-serif;font-size:110%";
+			const result = slUtil.createMissingPermissionsDocFrag(style);
+			document.getElementById("errorContainer").appendChild(result.docFragment);
+
+			document.getElementById(result.learnMoreAnchorId).addEventListener("click", async (e) => {
+				slUtil.replaceInnerContextualFragment(e.target.parentElement, "<br><br>" + RequiredPermissions.i.getInfoText());
+			});
+
+			document.getElementById(result.reqPermAnchorId).addEventListener("click", async () => {
+				if(await RequiredPermissions.i.request()) {
+					window.location.reload();
+				};
+			});
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -621,7 +640,7 @@
 						prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
 
 						browser.tabs.getCurrent().then((tab) => {
-							browser.tabs.insertCSS(tab.id, { code: source, runAt: "document_start" }).catch((err) => {
+							browser.scripting.insertCSS({ target: { tabId: tab.id }, css: source }).catch((err) => {
 								console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
 							});
 						});
@@ -647,7 +666,7 @@
 
 		if(changed && !!prev.source) {
 			try {
-				await browser.tabs.removeCSS(tabId, { code: prev.source });
+				await browser.scripting.removeCSS({ target: { tabId: tabId }, css: prev.source });
 			} catch (error) {
 				console.log("[Sage-Like]", "Removing injected custom CSS source generated an error", error);
 			}
@@ -658,7 +677,7 @@
 			let source = await prefs.getCustomCSSSource();
 			if(source.length > 0) {
 				prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
-				browser.tabs.insertCSS(tabId, { code: source, runAt: "document_start" }).catch((err) => {
+				browser.scripting.insertCSS({ target: { tabId: tabId }, css: source }).catch((err) => {
 					console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
 				});
 			}
@@ -703,28 +722,25 @@
 			});
 		}
 
-		let anyPromiseFulfilled = false;		// Support for Promise.any() started at Fx v79
+		let promises = [];
 
 		for(let i=0, lenO=urlDomainOrigins.length; i<lenO; i++) {
-
 			for(let j=0, lenF=favicons.length; j<lenF; j++) {
-
-				fetchFavIcon(urlDomainOrigins[i] + favicons[j]).then((blob) => {
-
-					if(!anyPromiseFulfilled) {
-						anyPromiseFulfilled = true;
-
-						let reader = new FileReader();
-						reader.addEventListener("load", () => {
-							let elmLink = document.getElementById("favicon");
-							elmLink.type = blob.type;
-							elmLink.href = reader.result;
-						}, false);
-						reader.readAsDataURL(blob);	// base64 image data
-					}
-				}).catch(() => { /* Ignore errors, fallback favicon */ });
+				promises.push(fetchFavIcon(urlDomainOrigins[i] + favicons[j]));
 			}
 		}
+
+		Promise.any(promises).then((blob) => {
+
+			let reader = new FileReader();
+			reader.addEventListener("load", () => {
+				let elmLink = document.getElementById("favicon");
+				elmLink.type = blob.type;
+				elmLink.href = reader.result;
+			}, false);
+			reader.readAsDataURL(blob);	// base64 image data
+
+		}).catch(() => { /* Ignore errors, fallback favicon */ });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

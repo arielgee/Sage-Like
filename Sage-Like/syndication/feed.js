@@ -1,17 +1,21 @@
 "use strict";
 
 class Feed {
-	// publicClassField = 1;		// support starts at Firefox v69
+
+	#_className = "";
+
 	constructor(feedUrl) {
 		if (new.target.name === "Feed") {
 			throw new Error(new.target.name + ".constructor: Don't do that");
 		}
-		this._className = new.target.name;
+		this.#_className = new.target.name;
 		this._feedUrl = feedUrl;
 	}
 
 	//////////////////////////////////////////
-	get className() { return this._className; }
+	get className() {
+		return this.#_className;
+	}
 
 	//////////////////////////////////////////
 	dispose() {
@@ -23,11 +27,11 @@ class Feed {
 
 		if(feedText.match(g_feed.regexpXMLFormat)) {
 
-			return this._factoryCreateXmlFeed(feedText, feedUrl);
+			return this.#_factoryCreateXmlFeed(feedText, feedUrl);
 
 		} else if(feedText.match(g_feed.regexpJSONFormat)) {
 
-			return this._factoryCreateJsonFeed(feedText, feedUrl);
+			return this.#_factoryCreateJsonFeed(feedText, feedUrl);
 
 		} else {
 			//console.log("[Sage-Like]", "Parser error at " + feedUrl, "- Feed format is neither XML nor JSON.");
@@ -52,7 +56,7 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	static _factoryCreateXmlFeed(feedXmlText, feedUrl) {
+	static #_factoryCreateXmlFeed(feedXmlText, feedUrl) {
 
 		let xmlVersion = "";
 		let xmlEncoding = "";
@@ -69,7 +73,7 @@ class Feed {
 			xmlEncoding = test[1];
 		}
 
-		feedXmlText = this._removeXMLParsingErrors(feedXmlText, xmlVersion);
+		feedXmlText = this.#_removeXMLParsingErrors(feedXmlText, xmlVersion);
 
 		//	1.	This line is the one that throw to the console the log line 'XML Parsing Error: not well-formed' at
 		//		the location of: 'moz-extension://66135a72-02a1-4a68-a040-60511bfea6a2/sidebar/panel.html'.
@@ -106,7 +110,7 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	static _factoryCreateJsonFeed(feedJsonText, feedUrl) {
+	static #_factoryCreateJsonFeed(feedJsonText, feedUrl) {
 
 		try {
 			let oJson = JSON.parse(feedJsonText);
@@ -123,7 +127,7 @@ class Feed {
 	}
 
 	//////////////////////////////////////////
-	static _removeXMLParsingErrors(xmlText, xmlVersion) {
+	static #_removeXMLParsingErrors(xmlText, xmlVersion) {
 
 		// if neither version then String.replace("", "") will do noting
 		let reXMLInvalidChars = (xmlVersion === "1.0") ? g_feed.regexpXML10InvalidChars : ( (xmlVersion === "1.1") ? g_feed.regexpXML11InvalidChars : "" );

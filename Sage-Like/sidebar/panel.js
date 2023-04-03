@@ -31,10 +31,8 @@ let panel = (function() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
 
-		browser.windows.getCurrent().then((winInfo) => {
-			m_windowId = winInfo.id;
-			browser.runtime.connect({name: "" + winInfo.id});	// port.name is the window ID
-		});
+		RequiredPermissions.i.init();
+		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID
 
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 	}
@@ -117,7 +115,7 @@ let panel = (function() {
 		setPanelImageSetFromPreferences();
 		setFeedItemsDescColorsFromPreferences();
 
-		checkForNewVersion();
+		postLoadMessages();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -463,6 +461,42 @@ let panel = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	async function postLoadMessages() {
+		if( !RequiredPermissions.i.granted && !(await internalPrefs.getNotifiedAboutPermissions()) ) {
+			askForRequiredPermissions();
+		} else {
+			checkForNewVersion();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function askForRequiredPermissions() {
+
+		const onRequestPermissions = async () => {
+			if( (await RequiredPermissions.i.request()) ) {
+				await internalPrefs.setNotifiedAboutPermissions(true);
+				window.location.reload();
+			}
+		};
+		const messageDetails = {
+			text: RequiredPermissions.i.getInfoText() +
+					"<br><br>To allow the required permission, go to the browser's <b>Add-ons Manager</b>, choose <b>Extensions</b> " +
+					"and then <b>Sage-Like</b>. Open the <b>Permissions</b> tab and allow <b>Access your data for all websites</b>. " +
+					"Alternatively, you can select the link below:<br><br><a href='#' id='msgViewReqPermissions'>Request Permissions</a>",
+			caption: "Permissions Are Required",
+			clickableElements: [
+				{
+					elementId: "msgViewReqPermissions",
+					onClickCallback: onRequestPermissions,
+				},
+			],
+		};
+
+		await messageView.open(messageDetails);
+		internalPrefs.setNotifiedAboutPermissions(true);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function checkForNewVersion() {
 
 		const manifest = browser.runtime.getManifest();
@@ -525,6 +559,7 @@ let panel = (function() {
 		getWindowId: getWindowId,
 		notifyViewContentLoaded: notifyViewContentLoaded,
 		disable: disable,
+		askForRequiredPermissions: askForRequiredPermissions,
 	};
 
 })();

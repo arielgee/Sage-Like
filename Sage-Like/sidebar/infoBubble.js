@@ -3,47 +3,54 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 class InfoBubble {
 
-	//////////////////////////////////////////
-	static get i() {
-		if(this.m_instance === undefined) {
-			this.m_instance = new this();
+	static #_constructId = null;
+	static #_instance = null;
+
+	#_elmInfoBubble = null;
+	#_elmInfoBubbleText = null;
+
+	constructor(id) {
+		if(InfoBubble.#_constructId !== parseInt(id)) {
+			throw new Error(`${new.target.name}.constructor: Don't do that, it's a singleton.`);
 		}
-		return this.m_instance;
+		InfoBubble.#_constructId = null;
 	}
 
 	//////////////////////////////////////////
-	constructor() {
-		this.m_elmInfoBubble = null;
-		this.m_elmInfoBubbleText = null;
+	static get i() {
+		if (InfoBubble.#_instance === null) {
+			InfoBubble.#_instance = new this(InfoBubble.#_constructId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
+		}
+		return InfoBubble.#_instance;
 	}
 
 	//////////////////////////////////////////
 	show(infoText, refElement = undefined, isAlertive = true, rightPointerStyle = false, showDuration = 3500, dismissOnScroll = false) {
 
-		if(!!!this.m_elmInfoBubble) {
-			this.m_elmInfoBubble = document.getElementById("infoBubble");
-			this.m_elmInfoBubbleText = document.getElementById("infoBubbleText");
-			this._addEventListeners();
+		if(!!!this.#_elmInfoBubble) {
+			this.#_elmInfoBubble = document.getElementById("infoBubble");
+			this.#_elmInfoBubbleText = document.getElementById("infoBubbleText");
+			this.#_addEventListeners();
 		}
 
 		let isGeneral = (refElement === undefined);
 
 		if(isGeneral) {
 			refElement = document.body;
-			this.m_elmInfoBubble.slDismissOnScroll = false;
+			this.#_elmInfoBubble.slDismissOnScroll = false;
 		} else {
-			this.m_elmInfoBubble.slRefElement = refElement;
-			this.m_elmInfoBubble.slDismissOnScroll = dismissOnScroll;
+			this.#_elmInfoBubble.slRefElement = refElement;
+			this.#_elmInfoBubble.slDismissOnScroll = dismissOnScroll;
 		}
 
 		// by setting to most left the bubble currect offsetWidth is recalculated with less
 		// interferences from the window viewport with before setting display = "block"
-		this.m_elmInfoBubble.style.left = "0px";
-		this._setTextHTML(this.m_elmInfoBubbleText, infoText);
-		this.m_elmInfoBubble.classList.toggle("alertive", isAlertive);
-		this.m_elmInfoBubble.classList.toggle("rightPointer", rightPointerStyle);
-		this.m_elmInfoBubble.classList.toggle("generalInfo", isGeneral);
-		this.m_elmInfoBubble.style.display = "block";
+		this.#_elmInfoBubble.style.left = "0px";
+		this.#_setTextHTML(this.#_elmInfoBubbleText, infoText);
+		this.#_elmInfoBubble.classList.toggle("alertive", isAlertive);
+		this.#_elmInfoBubble.classList.toggle("rightPointer", rightPointerStyle);
+		this.#_elmInfoBubble.classList.toggle("generalInfo", isGeneral);
+		this.#_elmInfoBubble.style.display = "block";
 
 		// real inner size accounting for the scrollbars width if they exist
 		let innerWidth = window.innerWidth - slUtil.getVScrollWidth();
@@ -55,21 +62,21 @@ class InfoBubble {
 		let nLeft, nTop = rectRefElement.top + topOffset;
 
 		if(isGeneral) {
-			nLeft = (innerWidth - this.m_elmInfoBubble.offsetWidth) / 2;
+			nLeft = (innerWidth - this.#_elmInfoBubble.offsetWidth) / 2;
 		} else {
-			nLeft = rectRefElement.left + (rightPointerStyle ? (rectRefElement.width-this.m_elmInfoBubble.offsetWidth) : 0);
+			nLeft = rectRefElement.left + (rightPointerStyle ? (rectRefElement.width-this.#_elmInfoBubble.offsetWidth) : 0);
 		}
 
 		if (nLeft < 0) nLeft = 0;
 
-		this.m_elmInfoBubble.style.left = nLeft + "px";
-		this.m_elmInfoBubble.style.top = nTop + "px";
-		this.m_elmInfoBubble.slCallTimeStamp = callTimestamp;
+		this.#_elmInfoBubble.style.left = nLeft + "px";
+		this.#_elmInfoBubble.style.top = nTop + "px";
+		this.#_elmInfoBubble.slCallTimeStamp = callTimestamp;
 
-		setTimeout(() => this.m_elmInfoBubble.classList.replace("fadeOut", "fadeIn"), 0);
+		setTimeout(() => this.#_elmInfoBubble.classList.replace("fadeOut", "fadeIn"), 0);
 
 		setTimeout(() => {
-			if(this.m_elmInfoBubble.slCallTimeStamp === callTimestamp) {		// dismiss only if its for the last function call
+			if(this.#_elmInfoBubble.slCallTimeStamp === callTimestamp) {		// dismiss only if its for the last function call
 				this.dismiss();
 			}
 		}, showDuration);
@@ -78,47 +85,43 @@ class InfoBubble {
 	//////////////////////////////////////////
 	dismiss(isScrolling = false) {
 
-		if(!!this.m_elmInfoBubble) {
+		if(!!this.#_elmInfoBubble) {
 
-			if(!isScrolling || (isScrolling && this.m_elmInfoBubble.slDismissOnScroll)) {
+			if(!isScrolling || (isScrolling && this.#_elmInfoBubble.slDismissOnScroll)) {
 
-				this.m_elmInfoBubble.slCallTimeStamp = Date.now();
-				this.m_elmInfoBubble.classList.replace("fadeIn", "fadeOut");
+				this.#_elmInfoBubble.slCallTimeStamp = Date.now();
+				this.#_elmInfoBubble.classList.replace("fadeIn", "fadeOut");
 
-				if(!!this.m_elmInfoBubble.slRefElement) {
-					delete this.m_elmInfoBubble.slRefElement;
+				if(!!this.#_elmInfoBubble.slRefElement) {
+					delete this.#_elmInfoBubble.slRefElement;
 				}
 			}
 		}
 	}
 
 	//////////////////////////////////////////
-	_addEventListeners() {
-
-		this._onClickInfoBubble = this._onClickInfoBubble.bind(this);
-		this._onTransitionEndInfoBubble = this._onTransitionEndInfoBubble.bind(this);
-
-		this.m_elmInfoBubble.addEventListener("click", this._onClickInfoBubble);
-		this.m_elmInfoBubble.addEventListener("transitionend", this._onTransitionEndInfoBubble);
+	#_addEventListeners() {
+		this.#_elmInfoBubble.addEventListener("click", this.#_onClickInfoBubble.bind(this));
+		this.#_elmInfoBubble.addEventListener("transitionend", this.#_onTransitionEndInfoBubble.bind(this));
 	}
 
 	//////////////////////////////////////////
-	_onClickInfoBubble(event) {
+	#_onClickInfoBubble(event) {
 		this.dismiss();
 	}
 
 	//////////////////////////////////////////
-	_onTransitionEndInfoBubble(event) {
-		if(event.target === this.m_elmInfoBubble &&
+	#_onTransitionEndInfoBubble(event) {
+		if(event.target === this.#_elmInfoBubble &&
 			event.propertyName === "visibility" &&
-			this.m_elmInfoBubble.classList.contains("fadeOut")) {
+			this.#_elmInfoBubble.classList.contains("fadeOut")) {
 
-			this.m_elmInfoBubble.style.display = "none";
+			this.#_elmInfoBubble.style.display = "none";
 		}
 	}
 
 	//////////////////////////////////////////
-	_setTextHTML(elm, infoText) {
+	#_setTextHTML(elm, infoText) {
 
 		// empty
 		while(elm.firstChild) {

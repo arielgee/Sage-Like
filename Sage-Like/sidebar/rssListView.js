@@ -20,6 +20,7 @@ let rssListView = (function() {
 	let m_bPrefShowFeedItemDesc = prefs.DEFAULTS.showFeedItemDesc;
 	let m_msPrefFeedItemDescDelay = prefs.DEFAULTS.feedItemDescDelay;
 	let m_timeoutMouseOver = null;
+	let m_abortCtrlEvents = [];		// abortController used to remove event handlers
 
 	let URLOpenMethod = Object.freeze({
 		INVALID: 0,
@@ -691,6 +692,26 @@ let rssListView = (function() {
 		m_elmList.appendChild(elm);
 		m_elmListViewRssTitle.textContent = title;
 		setStatusbarIcon(true);
+
+		if(!RequiredPermissions.i.granted && textContent.includes("NetworkError when attempting to fetch resource")) {
+
+			const style = "border:1px solid crimson;margin:6px 6px 0 0;padding:2px 4px 4px";
+			const result = slUtil.createMissingPermissionsDocFrag(style);
+			elm.appendChild(result.docFragment);
+			elm.style.paddingBottom = "6px";
+
+			let newLen = m_abortCtrlEvents.push(new AbortController());
+			document.getElementById(result.learnMoreAnchorId).addEventListener("click", async () => {
+				panel.askForRequiredPermissions();
+			}, { signal: m_abortCtrlEvents[newLen-1].signal });
+
+			newLen = m_abortCtrlEvents.push(new AbortController());
+			document.getElementById(result.reqPermAnchorId).addEventListener("click", async () => {
+				if(await RequiredPermissions.i.request()) {
+					window.location.reload();
+				};
+			}, { signal: m_abortCtrlEvents[newLen-1].signal });
+		}
 	}
 
 	//==================================================================================
@@ -748,6 +769,10 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function disposeList() {
+
+		while(m_abortCtrlEvents.length > 0) {
+			m_abortCtrlEvents.pop().abort();
+		}
 
 		m_elmCurrentlySelected = null;
 		hideFeedItemDescPanel();

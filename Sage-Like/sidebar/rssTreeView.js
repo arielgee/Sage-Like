@@ -7,22 +7,21 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	class CurrentlyDraggedOver {
-		constructor() {
-			this.init();
-		}
+		#_id = "";
+		#_startTime = 0;
 		init() {
-			this._id = "";
-			this._startTime = 0;
+			this.#_id = "";
+			this.#_startTime = 0;
 		}
 		set(id) {
-			this._id = id;
-			this._startTime = Date.now();
+			this.#_id = id;
+			this.#_startTime = Date.now();
 		}
 		get id() {
-			return this._id;
+			return this.#_id;
 		}
 		get lingered() {
-			return ((Date.now() - this._startTime) > 900);
+			return ((Date.now() - this.#_startTime) > 900);
 		}
 	}
 
@@ -238,7 +237,7 @@ let rssTreeView = (function() {
 
 		createRSSTree();
 
-		slUtil.setSafeBrowserActionBadgeText({ text: "", windowId: (await browser.windows.getCurrent()).id });
+		slUtil.setActionBadge(1, { text: "", windowId: (await browser.windows.getCurrent()).id });
 		m_elmFilterTextBoxContainer.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
 
 		panel.notifyViewContentLoaded(Global.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
@@ -605,7 +604,7 @@ let rssTreeView = (function() {
 				updateTreeBranchFoldersStats(elmLI);
 			}).catch((error) => {
 				setFeedErrorState(elmLI, true, error);
-			}).finally(() => {	// wait for Fx v58
+			}).finally(() => {
 				setFeedLoadingState(elmLI, false);
 			});
 		});
@@ -1330,7 +1329,7 @@ let rssTreeView = (function() {
 						if(userInput === UserInput.DIALOG) {
 							messageView.open({ text: error.message, caption: "Sign in Failed" });
 						}
-					}).finally(() => {	// wait for Fx v58
+					}).finally(() => {
 
 						// change loading state only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {

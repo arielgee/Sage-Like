@@ -1,17 +1,22 @@
 "use strict";
 
 class SlideDownPanel {
-	///////////////////////////////////////////////////////////////
+
+	#_isDown = false;
+	#_slideDownPanel = null;
+	#_onTransitionEndSlideDownPanelBound;
+	#_funcPromiseResolve = null;
+
 	constructor(elmPanel) {
 		if( !!!elmPanel || !(elmPanel instanceof Element) || !elmPanel.classList.contains("slideDownPanel")) {
 			throw new Error(new.target.name + ".constructor: Not a slide-down-panel element");
 		}
-		this._initMembers(elmPanel);
+		this.#_initMembers(elmPanel);
 	}
 
 	///////////////////////////////////////////////////////////////
 	get isDown() {
-		return this._isDown;
+		return this.#_isDown;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -24,15 +29,15 @@ class SlideDownPanel {
 				Those two settings (block & visible) must be as far apart as possible or the transition
 				will not happend and the 'transitionend' event will not be fired.
 
-				In the case of _pullNotAnimated() this has no importance.		*/
-			if(down) this._slideDownPanel.style.display = "block";
+				In the case of #_pullNotAnimated() this has no importance.		*/
+			if(down) this.#_slideDownPanel.style.display = "block";
 
 			prefs.getAnimatedSlideDownPanel().then((animate) => {
 				if(animate) {
-					this._funcPromiseResolve = resolve;
-					this._pullAnimated(down);
+					this.#_funcPromiseResolve = resolve;
+					this.#_pullAnimated(down);
 				} else {
-					this._pullNotAnimated(down);
+					this.#_pullNotAnimated(down);
 					resolve({ status: (down ? "down" : "up") });
 				}
 			});
@@ -40,60 +45,58 @@ class SlideDownPanel {
 	}
 
 	///////////////////////////////////////////////////////////////
-	_initMembers(elmPanel) {
-		this._isDown = false;
-		this._slideDownPanel = elmPanel;
-		this._funcPromiseResolve = null;
-		this._onTransitionEndSlideDownPanel = this._onTransitionEndSlideDownPanel.bind(this);
+	#_initMembers(elmPanel) {
+		this.#_slideDownPanel = elmPanel;
+		this.#_onTransitionEndSlideDownPanelBound = this.#_onTransitionEndSlideDownPanel.bind(this);
 	}
 
 	///////////////////////////////////////////////////////////////
-	_pullAnimated(down) {
+	#_pullAnimated(down) {
 		if(down) {
-			this._addEventListeners();
-			this._slideDownPanel.classList.add("visible");
+			this.#_addEventListeners();
+			this.#_slideDownPanel.classList.add("visible");
 		} else {
-			this._slideDownPanel.classList.remove("visible");
+			this.#_slideDownPanel.classList.remove("visible");
 		}
 	}
 
 	///////////////////////////////////////////////////////////////
-	_pullNotAnimated(down) {
+	#_pullNotAnimated(down) {
 		if(down) {
-			this._slideDownPanel.classList.add("visible");
-			this._isDown = true;
+			this.#_slideDownPanel.classList.add("visible");
+			this.#_isDown = true;
 		} else {
-			this._slideDownPanel.classList.remove("visible");
-			this._slideDownPanel.style.display = "none";
-			this._isDown = false;
+			this.#_slideDownPanel.classList.remove("visible");
+			this.#_slideDownPanel.style.display = "none";
+			this.#_isDown = false;
 		}
 	}
 
 	///////////////////////////////////////////////////////////////
-	_addEventListeners() {
-		this._slideDownPanel.addEventListener("transitionend", this._onTransitionEndSlideDownPanel);
+	#_addEventListeners() {
+		this.#_slideDownPanel.addEventListener("transitionend", this.#_onTransitionEndSlideDownPanelBound);
 	}
 
 	///////////////////////////////////////////////////////////////
-	_removeEventListeners() {
-		this._slideDownPanel.removeEventListener("transitionend", this._onTransitionEndSlideDownPanel);
+	#_removeEventListeners() {
+		this.#_slideDownPanel.removeEventListener("transitionend", this.#_onTransitionEndSlideDownPanelBound);
 	}
 
 	///////////////////////////////////////////////////////////////
-	_onTransitionEndSlideDownPanel(event) {
+	#_onTransitionEndSlideDownPanel(event) {
 
-		if(event.target === this._slideDownPanel && event.propertyName === "top") {
+		if(event.target === this.#_slideDownPanel && event.propertyName === "top") {
 
-			if(this._slideDownPanel.classList.contains("visible")) {
-				this._isDown = true;
-				this._funcPromiseResolve({ status: "down" });
+			if(this.#_slideDownPanel.classList.contains("visible")) {
+				this.#_isDown = true;
+				this.#_funcPromiseResolve({ status: "down" });
 			} else {
-				this._slideDownPanel.style.display = "none";
-				this._removeEventListeners();
-				this._isDown = false;
-				this._funcPromiseResolve({ status: "up" });
+				this.#_slideDownPanel.style.display = "none";
+				this.#_removeEventListeners();
+				this.#_isDown = false;
+				this.#_funcPromiseResolve({ status: "up" });
 			}
-			this._funcPromiseResolve = null;
+			this.#_funcPromiseResolve = null;
 		}
 	}
 }

@@ -2,16 +2,15 @@
 
 class Content {
 
-	//////////////////////////////////////////////////////////////////////
+	#_feeds = [];
+	#_isFeedsArraySet = false;
+
 	constructor() {
-		this._feeds = [];
-		this._isFeedsArraySet = false;
-		this._onRuntimeMessage = this._onRuntimeMessage.bind(this);
-		browser.runtime.onMessage.addListener(this._onRuntimeMessage);
+		browser.runtime.onMessage.addListener(this.#_onRuntimeMessage.bind(this));
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	_getPageData() {
+	#_getPageData() {
 
 		let docType = document.doctype;
 		let sDocType = "";
@@ -40,7 +39,7 @@ class Content {
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	_onRuntimeMessage(message) {
+	#_onRuntimeMessage(message) {
 
 		return new Promise((resolve) => {
 
@@ -53,21 +52,21 @@ class Content {
 
 				case Global.MSG_ID_SET_CONFIRMED_PAGE_FEEDS:
 					if(message.confirmedFeeds instanceof Array) {
-						this._feeds = message.confirmedFeeds;
+						this.#_feeds = message.confirmedFeeds;
 					}
-					this._isFeedsArraySet = true;
+					this.#_isFeedsArraySet = true;
 					browser.runtime.sendMessage({id: Global.MSG_ID_UPDATE_POPUP_DISPLAY });
-					resolve({ feedCount: this._feeds.length });
+					resolve({ feedCount: this.#_feeds.length });
 					break;
 					//////////////////////////////////////////////////////////////
 
 				case Global.MSG_ID_GET_CONFIRMED_PAGE_FEEDS:
-					resolve({ isFeedsArraySet: this._isFeedsArraySet, title: document.title, feeds: this._feeds });
+					resolve({ isFeedsArraySet: this.#_isFeedsArraySet, title: document.title, feeds: this.#_feeds });
 					break;
 					//////////////////////////////////////////////////////////////
 
 				case Global.MSG_ID_GET_PAGE_DATA:
-					resolve({ pageData: this._getPageData() });
+					resolve({ pageData: this.#_getPageData() });
 					break;
 					//////////////////////////////////////////////////////////////
 			}

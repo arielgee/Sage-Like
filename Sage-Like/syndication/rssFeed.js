@@ -45,7 +45,7 @@ class RssFeed extends XmlFeed {
 		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
 
 			item = feedData.feeder[i];
-			feedItemUrl = this._getFeedItemUrl(item);
+			feedItemUrl = this.#_getFeedItemUrl(item);
 
 			if(!!feedItemUrl) {
 				// all versions have <title> & <link>. <description> is optional or missing (v0.90)
@@ -63,7 +63,7 @@ class RssFeed extends XmlFeed {
 						elmEnclosures = item.querySelectorAll("enclosure");
 
 						for(j=0, jLen=elmEnclosures.length; j<jLen; j++) {
-							if( !!(feedItemAtt = this._getFeedItemEnclosureAsAttObject(elmEnclosures[j])) ) {
+							if( !!(feedItemAtt = this.#_getFeedItemEnclosureAsAttObject(elmEnclosures[j])) ) {
 								feedItem.attachments.push(feedItemAtt);
 							}
 						}
@@ -77,7 +77,7 @@ class RssFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemUrl(item) {
+	#_getFeedItemUrl(item) {
 
 		let elm = item.querySelector("link");
 		if(!!elm) {
@@ -94,7 +94,7 @@ class RssFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	_getFeedItemEnclosureAsAttObject(elm) {
+	#_getFeedItemEnclosureAsAttObject(elm) {
 
 		let url = slUtil.validURL(new URL(elm.getAttribute("url"), this._feedUrl));
 
