@@ -5,12 +5,6 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Pack-CssFiles",
-			"type": "PowerShell",
-			"request": "launch",
-			"script": "${workspaceFolder}/.customFeedPreview/Pack-CssFiles.ps1",
-		},
-		{
 			"name": "PowerShell Launch Current File",
 			"type": "PowerShell",
 			"request": "launch",

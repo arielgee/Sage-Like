@@ -1,0 +1,19 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Create-FirefoxWebExtVersion",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.misc\\Create-FirefoxWebExtVersion.ps1",
+			"problemMatcher": []
+		},
+		{
+			"label": "Pack-CssFiles",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.customFeedPreview\\Pack-CssFiles.ps1",
+			"problemMatcher": []
+		}
+	]
+}
