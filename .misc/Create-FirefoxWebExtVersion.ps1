@@ -4,17 +4,18 @@
 #
 
 #### + Variables
-$pathWebExtSource = "c:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like";
+$pathRoot = $PSScriptRoot + "\..\..";
+$pathWebExtSource = $pathRoot + "\Sage-Like\Sage-Like";
 $pathWebExtContent = $pathWebExtSource + "\*";
 $pathWebExtManifest = $pathWebExtSource + "\manifest.json";
-$fmtPathWebExtFile = "c:\Users\arielg\DevWork\WebExtensions\.publish\Sage-Like-v%1.zip"
+$fmtPathWebExtFile = $pathRoot + "\.publish\Sage-Like-v%1.zip"
 
 try {
 	$version = (Get-Content $pathWebExtManifest | ConvertFrom-Json).version;
 	$destFile = $fmtPathWebExtFile.Replace("%1", $version);
 	Compress-Archive -Path $pathWebExtContent -DestinationPath $destFile;
-	Write-Host " [*] DONE!`n`n   > File: $($destFile)`n" -ForegroundColor Green;
+	Write-Host "[*] DONE!`n`n> File: $($destFile)`n" -ForegroundColor Green;
 }
 catch {
-	Write-Host " [*] Something went WRONG!`n" -ForegroundColor Red;
+	Write-Host "[*] Something went WRONG!`n`n> $($_)" -ForegroundColor Red;
 }
