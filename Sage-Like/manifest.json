@@ -90,6 +90,7 @@
 			"/syndication/rssFeed.js",
 			"/syndication/rdfFeed.js",
 			"/syndication/atomFeed.js",
+			"/syndication/feedFactory.js",
 			"/syndication/websiteSpecificDiscovery.js",
 			"/syndication/syndication.js",
 			"/permissions/requiredPermissions.js",
