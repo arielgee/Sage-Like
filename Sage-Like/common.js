@@ -1664,16 +1664,16 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function debug_storedKeys_list(n=3) {
-		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
-		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
-	}
+	// function debug_storedKeys_list(n=3) {
+	// 	if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
+	// 	if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
+	// }
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function debug_storedKeys_purge(n=3, millisecOld=1) {
-		if(n & 1) (new OpenTreeFolders()).purge(millisecOld);
-		if(n & 2) (new TreeFeedsData()).purge(millisecOld);
-	}
+	// function debug_storedKeys_purge(n=3, millisecOld=1) {
+	// 	if(n & 1) (new OpenTreeFolders()).purge(millisecOld);
+	// 	if(n & 2) (new TreeFeedsData()).purge(millisecOld);
+	// }
 
 	return {
 		randomInteger: randomInteger,
@@ -1725,8 +1725,8 @@ let slUtil = (function() {
 		replaceInnerContextualFragment: replaceInnerContextualFragment,
 		setActionBadge: setActionBadge,
 		createMissingPermissionsDocFrag: createMissingPermissionsDocFrag,
-		debug_storedKeys_list: debug_storedKeys_list,
-		debug_storedKeys_purge: debug_storedKeys_purge,
+		// debug_storedKeys_list: debug_storedKeys_list,
+		// debug_storedKeys_purge: debug_storedKeys_purge,
 	};
 
 })();
