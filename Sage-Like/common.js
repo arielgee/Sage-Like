@@ -1691,35 +1691,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime) {
-
-		let msResponseTime = asSafeNumericDate(fetchResult.responseHeaderDate);
-
-		// Response Time Adjustments: if response-time is zero, fallback to fatching-time. otherwize, subtract a 2sec threshold for when
-		// feed's update-time is set when retrieved but yet update-time is 1sec less then the response-time. see: https://www.reddit.com/original/.rss
-		msResponseTime = (msResponseTime <= Global.DEFAULT_VALUE_OF_DATE) ? msFetchTime : msResponseTime - 2000;
-
-		// When I can't trust the feed's update-time, I try to get a better update-time from the feed's most recent item.
-		// (1) When it looks like the feed's update-time is set to NOW when retrieved from server OR (2) when the feed's update-time is invalid.
-		if(msUpdateTime >= msResponseTime || msUpdateTime === Global.DEFAULT_VALUE_OF_DATE) {
-
-			// fetchResult.list is missing when m_bPrefShowFeedStats is false. get the list from the feedData.
-			let list = (!!fetchResult.list) ? fetchResult.list : syndication.getFeedItemsFromFeedData(fetchResult.feedData, url, false, false).list;
-
-			// get most recent item's update-time
-			let mostRecentItem = list.reduce((p, c) => (p.lastUpdated.getTime() > c.lastUpdated.getTime()) ? p : c );
-			let msRecentItemUpdateTime = mostRecentItem.lastUpdated.getTime();
-
-			// make it so
-			if(msRecentItemUpdateTime > Global.DEFAULT_VALUE_OF_DATE) {
-				return msRecentItemUpdateTime;
-			}
-		}
-
-		return msUpdateTime;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function replaceInnerContextualFragment(targetElement, fragment) {
 
 		if( !(targetElement instanceof Element) || typeof(fragment) !== "string" ) {
@@ -1793,7 +1764,6 @@ let slUtil = (function() {
 		fetchWithTimeout: fetchWithTimeout,
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,
 		refreshUpdateTimeFormattedString: refreshUpdateTimeFormattedString,
-		fixUnreliableUpdateTime: fixUnreliableUpdateTime,
 		replaceInnerContextualFragment: replaceInnerContextualFragment,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
