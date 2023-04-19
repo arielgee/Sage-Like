@@ -419,7 +419,7 @@
 
 		} else {
 
-			m_onTabsUpdatedDebouncersMap.clear();
+			m_onTabsUpdatedDebouncersMap?.clear();
 			m_onTabsUpdatedDebouncersMap = null;
 
 			let tabs = await browser.tabs.query({ discarded: false });
