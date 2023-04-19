@@ -587,7 +587,7 @@ let rssTreeView = (function() {
 				let msLastVisited = m_objTreeFeedsData.value(id).lastVisited;
 				let updateTime, msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
-				msUpdateTime = slUtil.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
+				msUpdateTime = syndication.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
 				updateTime = new Date(msUpdateTime);
 
 				let additionalLines = [
@@ -1296,7 +1296,7 @@ let rssTreeView = (function() {
 					const msFetchTime = Date.now();
 					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, signinCred).then((result) => {
 
-						let fdDate = new Date(slUtil.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
+						let fdDate = new Date(syndication.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
 						let additionalLines = [
 							`Format: ${result.feedData.standard}`,
 							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}${m_objTreeFeedsData.value(elmLI.id).ignoreUpdates ? ", ignored" : ""}`,
