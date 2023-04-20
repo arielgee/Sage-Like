@@ -65,6 +65,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 <ul>
   <li>Complete transition of the web extension from Manifest V2 to V3.</li>
   <li>Added handling for the "Access your data for all websites" permission, which is now optional and requires user approval.</li>
+  <li>Dropped support for Firefox versions prior to 109.0.</li>
   <li>Changes made possible following the end of support for older Firefox versions.</li>
     <ul>
       <li>Removed complex workaround after the resolving of bug https://bugzilla.mozilla.org/show_bug.cgi?id=1438465.</li>
