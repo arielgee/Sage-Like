@@ -107,7 +107,7 @@ let syndication = (function() {
 			getFeedSourceText(url, reload, timeout, signinCred).then((result) => {
 
 				try {
-					resolve({ feedData: Feed.factoryCreateBySrc(result.text, url).getFeedData(), responseHeaderDate: result.responseHeaderDate });
+					resolve({ feedData: FeedFactory.createFromSource(result.text, url).getFeedData(), responseHeaderDate: result.responseHeaderDate });
 				} catch (error) {
 					reject(new SyndicationError("Failed to get feed data.", error));
 				}
@@ -125,7 +125,7 @@ let syndication = (function() {
 
 			fetchFeedData(url, timeout, reload, signinCred).then((result) => {
 
-				let list = Feed.factoryCreateByStd(result.feedData.standard, url).getFeedItems(result.feedData, withAttachments);
+				let list = FeedFactory.createFromStandard(result.feedData.standard, url).getFeedItems(result.feedData, withAttachments);
 
 				disposeFeeder(result.feedData);	// feeder has fulfilled its purpose. Clear reference for GC to kickin.
 
@@ -147,7 +147,7 @@ let syndication = (function() {
 
 		try {
 
-			let list = Feed.factoryCreateByStd(feedData.standard, url).getFeedItems(feedData, withAttachments);
+			let list = FeedFactory.createFromStandard(feedData.standard, url).getFeedItems(feedData, withAttachments);
 
 			disposeFeeder(feedData);	// feeder has fulfilled its purpose. Clear reference for GC to kickin.
 
@@ -238,7 +238,7 @@ let syndication = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setDiscoveredFeedFromSource(discoveredFeed, feedSrc, url, index) {
 
-		let feedData = Feed.factoryCreateBySrc(feedSrc.text, url).getFeedData();
+		let feedData = FeedFactory.createFromSource(feedSrc.text, url).getFeedData();
 
 		if(feedData.standard === SyndicationStandard.invalid) {
 			discoveredFeed = Object.assign(discoveredFeed, {status: "error", message: feedData.errorMsg});
