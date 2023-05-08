@@ -656,8 +656,8 @@ let rssListView = (function() {
 			let elms = m_elmList.querySelectorAll(".bold." + Global.CLS_RLV_LI_LIST_ITEM);
 			for(let i=0, lenI=feedItems.length; i<lenI; i++) {
 				for(let j=0, lenJ=elms.length; j<lenJ; j++) {
-					if( decodeURIComponent(elms[i].getAttribute("href")) === decodeURIComponent(feedItems[j]) ) {
-						elms[i].classList.remove("bold");
+					if( decodeURIComponent(feedItems[i]) === decodeURIComponent(elms[j].getAttribute("href")) ) {
+						elms[j].classList.remove("bold");
 						break;
 					}
 				}
