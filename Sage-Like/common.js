@@ -176,11 +176,6 @@ let slPrototypes = (function() {
 	String.prototype.format.regex = new RegExp("{-?[0-9]+}", "g");
 
 	//////////////////////////////////////////////////////////////////////
-	String.prototype.trunc = function(n) {
-		return (this.length > n) ? this.substring(0, n - 1) + "\u2026" : this;
-	};
-
-	//////////////////////////////////////////////////////////////////////
 	String.prototype.midTrunc = function(n) {
 		return (this.length > n) ? this.slice(0, n/2) + "\u2026" + this.slice(-(n/2)) : this;
 	};
