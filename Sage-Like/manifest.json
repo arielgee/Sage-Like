@@ -81,8 +81,8 @@
 	},
 	"background": {
 		"scripts": [
-			"/common.js",
-			"/rssTreeData.js",
+			"/shared/common.js",
+			"/shared/rssTreeData.js",
 			"/syndication/helpers.js",
 			"/syndication/feed.js",
 			"/syndication/xmlFeed.js",
