@@ -874,8 +874,8 @@ let contentHandler = (function() {
 	async function injectContentScripts(tabId) {
 
 		const INJECTABLE = [
-			{ isScript: true, details: { runAt: "document_idle", file: "/common.js" } },
-			{ isScript: true, details: { runAt: "document_idle", file: "/content.js" } },
+			{ isScript: true, details: { runAt: "document_idle", file: "/shared/common.js" } },
+			{ isScript: true, details: { runAt: "document_idle", file: "/shared/content.js" } },
 		];
 
 		for(let idx=0, len=INJECTABLE.length; idx<len; idx++) {
