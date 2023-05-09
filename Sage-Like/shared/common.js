@@ -864,8 +864,8 @@ let contentHandler = (function() {
 			injectImmediately: false,
 			target: { tabId: tabId },
 			files: [
-				"/common.js",
-				"/content.js",
+				"/shared/common.js",
+				"/shared/content.js",
 			],
 		});
 		return {};
