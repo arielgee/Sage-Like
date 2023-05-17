@@ -9,12 +9,22 @@ $pathWebExtSource = $pathRoot + "\Sage-Like\Sage-Like";
 $pathWebExtContent = $pathWebExtSource + "\*";
 $pathWebExtManifest = $pathWebExtSource + "\manifest.json";
 $fmtPathWebExtFile = $pathRoot + "\.publish\Sage-Like-v%1.zip"
+$zipApp = "C:\Program Files\7-Zip\7z.exe"
 
 try {
 	$version = (Get-Content $pathWebExtManifest | ConvertFrom-Json).version;
 	$destFile = $fmtPathWebExtFile.Replace("%1", $version);
-	Compress-Archive -Path $pathWebExtContent -DestinationPath $destFile;
-	Write-Host "[*] DONE!`n`n> File: $($destFile)`n" -ForegroundColor Green;
+
+	# Compress-Archive -Path $pathWebExtContent -DestinationPath $destFile;
+
+	$Process = Start-Process -FilePath $zipApp -ArgumentList "a", "-tzip", "`"$destFile`"", "`"$pathWebExtContent`"" -PassThru -Wait -WindowStyle Hidden;
+	$PExitCode = $Process.ExitCode;
+
+	if($PExitCode -eq 0) {
+		Write-Host "[*] DONE!`n`n> File: $($destFile)`n" -ForegroundColor Green;
+	} else {
+		Write-Host "[*] ERROR: Process '7z.exe' terminated with exit code: $PExitCode`n" -ForegroundColor Red;
+	}
 }
 catch {
 	Write-Host "[*] Something went WRONG!`n`n> $($_)" -ForegroundColor Red;
