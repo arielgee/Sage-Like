@@ -60,22 +60,18 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 + Manage Version - Version Notes
 --------------------------------------------------------------
+<b>Changes</b>
+<ul>
+  <li>Fixed minor issue related to feed-item status.</li>
+  <li>Code improvements and cleanups.</li>
+</ul>
+
 <b>About the Next Version</b>
-If no new issues are discovered, this version will be the last one to support Firefox 59.
+If no more new issues are discovered, this version will be the last one to support Firefox 59.
 
 My intention for the next released version is to implement support for Manifest V3. This migration from Manifest V2 to V3 will require raising the minimum supported browser version to Firefox 109.
 
 To put it simply, if you are using Firefox 109 or higher, you will be able to receive the upcoming version from Mozilla Add-ons, which will include various improvements resulting from the discontinuation of support for older Firefox versions.
-
-<b>Changes</b>
-<ul>
-  <li>Added custom feed discovery for Reddit, DeviantArt, Pinterest and Behance.</li>
-  <li>Added to context menu item 'Try to Open…' the ability to handle selected text as a link.</li>
-  <li>Added a browser compatibility check in the new version notification.</li>
-  <li>Improved handling of tab updates.</li>
-  <li>Fixed issue with the popup page not refreshing when the current tab is updated while it is open.</li>
-  <li>Usual assortment of fixes, code improvements and cleanups.</li>
-</ul>
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
 --------------------------------------------------------------
