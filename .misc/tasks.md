@@ -1121,6 +1121,12 @@
 
 ## Now
 * The text in file `mozilla-extension-page.txt` needs to be applied to the extension's product page.
+* if Sage-Like MV2 will be added to mozilla then add this to the product page, between FEATURES and PERMISSION JUSTIFICATION. The MV2 product page will point to MV3.
+	◼ <b>MANIFEST VERSION</b>
+	&emsp;The latest Sage-Like version supporting Manifest V2 is available here.
+	&emsp;https://addons.mozilla.org/en-US/firefox/addon/sage-like-MV2
+*  The last line in the MV2 product page FEATURES will be replaced with this:
+	&emsp;● Still support Manifest V2.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
