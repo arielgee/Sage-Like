@@ -199,5 +199,5 @@
 
 #top[style*="direction: rtl;"] > #treeViewIndicator {
 	right: unset;
-	left: var(--tree-view-scrollbar-width);;
+	left: var(--tree-view-scrollbar-width);
 }
