@@ -304,7 +304,7 @@
 		// add feed-item image only if it's not included in the item content
 		let itemImage = "";
 		if( (feedItem.image.length > 0) && !itemContent.includes(feedItem.image) ) {
-			itemImage = "<img src=\"" + feedItem.image + "\" alt=\"" + feedItem.title + "\">";
+			itemImage = `<img class="feedItemImage" src="${feedItem.image}" alt="${feedItem.title}">`;
 		}
 
 		elmFeedItemNumber.textContent = idx + 1 + ".";
