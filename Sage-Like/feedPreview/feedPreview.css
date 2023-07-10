@@ -207,6 +207,10 @@ body {
 	width: auto !important;
 }
 
+.feedItemImage {
+	display: block !important;
+}
+
 .feedItemContent h1,
 .feedItemContent h2,
 .feedItemContent h3,
