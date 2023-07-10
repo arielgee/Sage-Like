@@ -256,6 +256,29 @@ body {
 	white-space: normal;
 }
 
+.feedItemContent blockquote {
+	position: relative;
+	border-radius: 8px;
+	padding-block: 10px;
+	padding-inline: 42px 15px;
+	background-color: #e0e0e0;
+	color: #666666;
+}
+.feedItemContent blockquote::before {
+	position: absolute;
+	top: 0;
+	left: 8px;
+	font-family: Georgia, serif;
+	font-weight: bold;
+	font-size: 400%;
+	content: "\201C";	/*Left Double Quotation Mark*/
+}
+.feedItemContainer[style*="direction: rtl"] .feedItemContent blockquote::before {
+	left: auto;
+	right: 8px;
+	content: "\201D";	/*Right Double Quotation Mark*/
+}
+
 .feedItemAttachmentsContainer {
 	display: flex;
 	flex-flow: row wrap;
