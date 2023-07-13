@@ -456,7 +456,7 @@
 			}
 		}
 
-		elmsWithUrl = elm.getElementsByTagName("img");
+		elmsWithUrl = elm.querySelectorAll("img,audio,video,source,track");
 
 		for(let idx=0, len=elmsWithUrl.length; idx<len; idx++) {
 
