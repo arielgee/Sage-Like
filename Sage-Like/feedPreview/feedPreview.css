@@ -200,15 +200,21 @@ body {
 	color: #707070;
 }
 
+.feedItemImage {
+	display: block;
+	max-width: 400px;
+	max-height: 400px;
+	width: auto;
+	height: auto;
+	border: 2px solid black;
+	margin: 6px;
+}
+
 .feedItemContent * {
 	font-size: 100% !important;
 	font-weight: normal !important;
 	float: none !important;
 	width: auto !important;
-}
-
-.feedItemImage {
-	display: block !important;
 }
 
 .feedItemContent h1,

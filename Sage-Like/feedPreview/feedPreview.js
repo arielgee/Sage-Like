@@ -270,6 +270,7 @@
 		let elmFeedItemTitleText = document.createElement("span");
 		let elmFeedItemLastUpdatedText = document.createElement("div");
 		let elmFeedItemLastUpdatedTime = document.createElement("time");
+		let elmFeedItemImage = null;
 		let elmFeedItemContent = document.createElement("div");
 		let elmFeedItemAttachmentsContainer;
 		let elmJumpListItem = document.createElement("a");
@@ -302,9 +303,11 @@
 		}
 
 		// add feed-item image only if it's not included in the item content
-		let itemImage = "";
 		if( (feedItem.image.length > 0) && !itemContent.includes(feedItem.image) ) {
-			itemImage = `<img class="feedItemImage" src="${feedItem.image}" alt="${feedItem.title}">`;
+			elmFeedItemImage = document.createElement("img");
+			elmFeedItemImage.className = "feedItemImage";
+			elmFeedItemImage.src = feedItem.image;
+			elmFeedItemImage.alt = feedItem.title;
 		}
 
 		elmFeedItemNumber.textContent = idx + 1 + ".";
@@ -313,7 +316,7 @@
 		elmFeedItemLastUpdatedTime.dateTime = feedItem.lastUpdated.toISOString();
 		elmFeedItemLastUpdatedTime.textContent = slUtil.getUpdateTimeFormattedString(feedItem.lastUpdated);
 		elmFeedItemLastUpdatedTime.classList.toggle("refresh", (Date.now() - feedItem.lastUpdated.getTime()) < 3600000);	// if smaller then an hour (in milliseconds)
-		slUtil.replaceInnerContextualFragment(elmFeedItemContent, itemImage + itemContent);
+		slUtil.replaceInnerContextualFragment(elmFeedItemContent, itemContent);
 		elmJumpListItem.textContent = `${idx+1}. ${elmFeedItemTitleText.textContent}`;
 		elmJumpListItem.href = `#${elmFeedItemContainer.id}`;
 
@@ -322,6 +325,9 @@
 		elmFeedItemContainer.appendChild(elmFeedItemNumber);
 		elmFeedItemContainer.appendChild(elmFeedItem);
 		elmFeedItem.appendChild(elmFeedItemTitle);
+		if(elmFeedItemImage !== null) {
+			elmFeedItem.appendChild(elmFeedItemImage);
+		}
 		elmFeedItem.appendChild(elmFeedItemContent);
 
 		if(feedItem.attachments.length > 0) {
