@@ -259,13 +259,6 @@ body {
 	font-weight: bold !important;
 }
 
-/* prevent pre content from overflowing */
-.feedItemContent pre {
-	/* padding: 3px 5px; */
-	/* background-color: #dddddd; */
-	white-space: normal;
-}
-
 .feedItemContent blockquote {
 	position: relative;
 	border-radius: 8px;
@@ -289,6 +282,14 @@ body {
 	left: auto;
 	right: 8px;
 	content: "\201D";	/*Right Double Quotation Mark*/
+}
+
+.feedItemContent pre,
+.feedItemContent code {
+	background-color: #d0d0d0;
+	color: #404040;
+	font-family: Consolas, 'Courier New', monospace;
+	white-space: pre-wrap;		/* prevent pre content from overflowing */
 }
 
 .feedItemAttachmentsContainer {
