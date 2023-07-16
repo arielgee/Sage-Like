@@ -292,6 +292,14 @@ body {
 	white-space: pre-wrap;		/* prevent pre content from overflowing */
 }
 
+.feedItemContent kbd {
+	border: 1px solid #aaaaaa;
+	border-radius: 4px;
+	padding: 0 4px 1px 4px;
+	font-family: Consolas, 'Courier New', monospace;
+	font-size: 110% !important;
+}
+
 .feedItemAttachmentsContainer {
 	display: flex;
 	flex-flow: row wrap;
