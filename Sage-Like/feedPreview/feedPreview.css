@@ -250,7 +250,7 @@ body {
 	width: auto !important;
 	height: auto !important;
 	margin: 0 !important;
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 
 .feedItemContent strong,
@@ -260,43 +260,43 @@ body {
 }
 
 .feedItemContent blockquote {
-	position: relative;
-	border-radius: 8px;
-	padding: 10px 15px 10px 42px;
-	background-color: #e0e0e0;
-	color: #666666;
+	position: relative !important;
+	border-radius: 8px !important;
+	padding: 10px 15px 10px 42px !important;
+	background-color: #e0e0e0 !important;
+	color: #666666 !important;
 }
 .feedItemContainer[style*="direction: rtl"] .feedItemContent blockquote {
-	padding: 10px 42px 10px 15px;
+	padding: 10px 42px 10px 15px !important;
 }
 .feedItemContent blockquote::before {
-	position: absolute;
-	top: 0;
-	left: 8px;
-	font-family: Georgia, serif;
-	font-weight: bold;
-	font-size: 400%;
-	content: "\201C";	/*Left Double Quotation Mark*/
+	position: absolute !important;
+	top: 0 !important;
+	left: 8px !important;
+	font-family: Georgia, serif !important;
+	font-weight: bold !important;
+	font-size: 400% !important;
+	content: "\201C" !important;	/*Left Double Quotation Mark*/
 }
 .feedItemContainer[style*="direction: rtl"] .feedItemContent blockquote::before {
-	left: auto;
-	right: 8px;
-	content: "\201D";	/*Right Double Quotation Mark*/
+	left: auto !important;
+	right: 8px !important;
+	content: "\201D" !important;	/*Right Double Quotation Mark*/
 }
 
 .feedItemContent pre,
 .feedItemContent code {
-	background-color: #d0d0d0;
-	color: #404040;
-	font-family: Consolas, 'Courier New', monospace;
-	white-space: pre-wrap;		/* prevent pre content from overflowing */
+	background-color: #d0d0d0 !important;
+	color: #404040 !important;
+	font-family: Consolas, 'Courier New', monospace !important;
+	white-space: pre-wrap !important;		/* prevent pre content from overflowing */
 }
 
 .feedItemContent kbd {
-	border: 1px solid #aaaaaa;
-	border-radius: 4px;
-	padding: 0 4px 1px 4px;
-	font-family: Consolas, 'Courier New', monospace;
+	border: 1px solid #aaaaaa !important;
+	border-radius: 4px !important;
+	padding: 0 4px 1px 4px !important;
+	font-family: Consolas, 'Courier New', monospace !important;
 	font-size: 110% !important;
 }
 
