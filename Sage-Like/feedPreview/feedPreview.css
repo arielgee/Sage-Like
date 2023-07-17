@@ -252,8 +252,13 @@ body {
 	margin: 6px 0 !important;
 }
 
-.feedItemContent p > img.emoji,
-.feedItemContent p > img[alt^=":"][alt$=":"] {
+.feedItemContent img[src*="/wp-"][src*="/icon_"],
+.feedItemContent img[src*="/smilies/"],
+.feedItemContent img[src*="/emoji/"],
+.feedItemContent img.wp-smiley,
+.feedItemContent img.smilies,
+.feedItemContent img.emoji,
+.feedItemContent img[alt^=":"][alt$=":"] {
 	max-width: 15.8px !important;
 	max-height: 15.8px !important;
 	width: auto !important;
