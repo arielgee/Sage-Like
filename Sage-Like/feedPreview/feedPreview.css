@@ -236,7 +236,11 @@ body {
 	width: auto !important;
 	height: auto !important;
 	margin: 3px !important;
-	/* display: block !important; */
+}
+
+.feedItemContent figure {
+	max-width: 95% !important;
+	max-height: 95% !important;
 }
 
 .feedItemContent p {
