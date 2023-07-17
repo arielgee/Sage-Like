@@ -243,6 +243,11 @@ body {
 	max-height: 95% !important;
 }
 
+.feedItemContent figcaption {
+	font-style: italic !important;
+	color: #707070 !important;
+}
+
 .feedItemContent p {
 	margin: 6px 0 !important;
 }
