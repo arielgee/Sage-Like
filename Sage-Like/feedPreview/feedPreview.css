@@ -298,6 +298,11 @@ body {
 	content: "\201D" !important;	/*Right Double Quotation Mark*/
 }
 
+.feedItemContent pre {
+	padding: 4px 7px !important;
+	border-radius: 4px !important;
+}
+
 .feedItemContent pre,
 .feedItemContent code {
 	background-color: var(--background-color-prominent-block) !important;
@@ -317,6 +322,7 @@ body {
 .feedItemContent details {
 	width: auto !important;
 	border-inline-start: 3px solid blue !important;
+	border-radius: 0 4px 4px 0 !important;
 	background-color: var(--background-color-prominent-block) !important;
 	color: var(--color-prominent-block) !important;
 }
