@@ -4,9 +4,11 @@
 	--background-color-page: #c8c8c8;
 	--background-color-header: #0F8528;
 	--background-color-feed-item: #ededed;
+	--background-color-prominent-block: #d0d0d0;
 	--background-jump-list: #ebebeb;
 
 	--color-header: #f0f0fa;
+	--color-prominent-block: #404040;
 
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
@@ -277,8 +279,8 @@ body {
 	position: relative !important;
 	border-radius: 8px !important;
 	padding: 10px 15px 10px 42px !important;
-	background-color: #e0e0e0 !important;
-	color: #666666 !important;
+	background-color: var(--background-color-prominent-block) !important;
+	color: var(--color-prominent-block) !important;
 }
 .feedItemContainer[style*="direction: rtl"] .feedItemContent blockquote {
 	padding: 10px 42px 10px 15px !important;
@@ -300,8 +302,8 @@ body {
 
 .feedItemContent pre,
 .feedItemContent code {
-	background-color: #d0d0d0 !important;
-	color: #404040 !important;
+	background-color: var(--background-color-prominent-block) !important;
+	color: var(--color-prominent-block) !important;
 	font-family: Consolas, 'Courier New', monospace !important;
 	white-space: pre-wrap !important;		/* prevent pre content from overflowing */
 }
