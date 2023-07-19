@@ -209,7 +209,7 @@ let slPrototypes = (function() {
 			.replace(/&#([\d]+);/gm, (matched, number) => { return String.fromCharCode(number); })	// Handle numeric entities (dec)
 			.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
 				return String.prototype.htmlEntityToLiteral.entities[matched];	// Handle nemonic entities
-		});
+			});
 	};
 	String.prototype.htmlEntityToLiteral.entities = {
 		"&quot;": "\"",
