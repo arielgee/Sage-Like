@@ -323,17 +323,15 @@ body {
 
 .feedItemContent details {
 	width: auto !important;
-	border-inline-start: 3px solid blue !important;
-	border-radius: 0 4px 4px 0 !important;
+	border-inline-start: 5px solid blue !important;
+	border-radius: 4px !important;
 	background-color: var(--background-color-prominent-block) !important;
 	color: var(--color-prominent-block) !important;
 }
 .feedItemContent details > summary {
 	padding: 12px !important;
-	cursor: pointer !important;
-}
-.feedItemContent details > summary::marker {
 	color: blue !important;
+	cursor: pointer !important;
 }
 .feedItemContent details > *:not(summary):not(ul):not(ol) {
 	padding-inline-start: 28px !important;
