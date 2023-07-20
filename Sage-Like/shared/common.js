@@ -195,7 +195,7 @@ let slPrototypes = (function() {
 		// this is NOT safe; may be used as an attack vector if result is displayed to user
 		return this
 			.replace(/&(amp|#0*38);/gim, "&")	// First handle ampersand for cases like "&amp;#8211;" (long dash)
-			.replace(/&#([\d]+);/gm, (matched, number) => { return String.fromCharCode(number); })	// Handle numeric entities (dec)
+			.replace(/&#([\d]+);/gm, (_, number) => { return String.fromCharCode(number); })	// Handle numeric entities (dec)
 			.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
 				return String.prototype.htmlEntityToLiteral.entities[matched];	// Handle nemonic entities
 			});
@@ -203,8 +203,6 @@ let slPrototypes = (function() {
 	String.prototype.htmlEntityToLiteral.entities = {
 		"&quot;": "\"",
 		"&apos;": "'",
-		"&gt;": ">",
-		"&lt;": "<",
 		"&nbsp;": " ",
 		"&emsp;": " ",
 		"&reg;": "®",
@@ -220,6 +218,19 @@ let slPrototypes = (function() {
 		"&mdash;": "—",
 	};
 	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
+
+	////////////////////////////////////////////////////////////////////////////////////
+	String.prototype.htmlChevronEntityToLiteral = function() {
+		return this.replace(String.prototype.htmlChevronEntityToLiteral.regex, (matched) => {
+			return String.prototype.htmlChevronEntityToLiteral.entities[matched];	// Handle HTML Tag entities
+		});
+	};
+	String.prototype.htmlChevronEntityToLiteral.entities = {
+		"&gt;": ">",
+		"&lt;": "<",
+	}
+	// regex groups: (positive lookbehind assertion) (chevrons) (positive lookahead assertion)
+	String.prototype.htmlChevronEntityToLiteral.regex = new RegExp(`(?<=<[^<>]*?)(${Object.keys(String.prototype.htmlChevronEntityToLiteral.entities).join("|")})(?=[^<>]*?>)`, "gim");
 
 	////////////////////////////////////////////////////////////////////////////////////
 	String.prototype.unknownNamedEntityInXMLToDecimal = function() {
@@ -287,6 +298,7 @@ let slPrototypes = (function() {
 		} else {
 			return this
 				.htmlEntityToLiteral()
+				.htmlChevronEntityToLiteral()
 				.replace(String.prototype.stripHtmlTags.regexContentTags, "")
 				.replace(String.prototype.stripHtmlTags.regexAnyTag, " ");
 		}
@@ -314,6 +326,7 @@ let slPrototypes = (function() {
 		let oRef = String.prototype.stripUnsafeHtmlComponents;
 		return this
 			.htmlEntityToLiteral()
+			.htmlChevronEntityToLiteral()
 			.replace(oRef.regexUnsafeTags, "")
 			.replace(oRef.regexJavascript, "'#striped'")
 			.replace(oRef.regexImg1x1, "")
