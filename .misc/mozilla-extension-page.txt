@@ -58,12 +58,11 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 
 
-+ Manage Version - Version Notes
++ Manage Version - Version Notes v3.2.2 (MV2)
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Fixed minor issue related to feed-item status.</li>
-  <li>Code improvements and cleanups.</li>
+  <li>Improvements to the Feed Preview rendering.</li>
 </ul>
 
 <b>About the Next Version</b>
