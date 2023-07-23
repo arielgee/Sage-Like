@@ -59,7 +59,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 
 
-+ Manage Version - Version Notes
++ Manage Version - Version Notes v3.3 (MV3)
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
@@ -73,6 +73,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
       <li>Removed support for Firefox 63 build-in Feed Preview.</li>
       <li>Utilized other various capabilities introduced in later Firefox releases and replaced backward compatibility code.</li>
     </ul>
+  <li>Improvements to the Feed Preview rendering.</li>
   <li>Usual assortment of fixes, code improvements and cleanups.</li>
 </ul>
 
