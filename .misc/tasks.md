@@ -1116,6 +1116,10 @@
 * from V64 there's no need to call handleTabChangedState() from onTabsAttached() event handler (tab moved between windows). the pageAction icon is also moved and still functinal
 * MV3 `strict_min_version` Still don't know what to do. will be set to the version that will remove support for MV2>. set to 109, start of support for MV3
 * look into declarativeNetRequest - still not implemented by mozilla. => Not relevent as long as webRequestBlocking is stil supported
+* feedPreview.css: in https://adrianroselli.com/feed there are problems
+	* figure is modefied by feedPreview.css in a bad way
+	* tags in the <P> text are fucking everything up
+* in feedPreview.css handle <kbd>, <code>
 ---
 
 
