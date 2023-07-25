@@ -26,6 +26,10 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● Customizable UI font & colors.
 &emsp;● Support Manifest V3.
 
+◼ <b>MANIFEST VERSION</b>
+&emsp;The latest version supporting Manifest V2 is Sage-Like v3.2.2.
+&emsp;Available at <a href="https://addons.mozilla.org/en-US/firefox/addon/sage-like/versions">https://addons.mozilla.org/en-US/firefox/addon/sage-like/versions</a>.
+
 ◼ <b>PERMISSION JUSTIFICATION</b>
 &emsp;● 'Read and modify bookmarks' – Integration with the browser's native
 &emsp;&emsp;bookmarks.
