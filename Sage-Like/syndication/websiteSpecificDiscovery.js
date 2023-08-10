@@ -81,7 +81,7 @@ class RedditSpecificDiscovery extends WebsiteSpecificDiscoveryBase {
 
 	//////////////////////////////////////////////////////////////////////
 	discover() {
-		return [ this._href.replace(/\/+$/, "") + "/.rss" ];
+		return [ this._href.replace(/\/?(\?.*)?$/, "/.rss$1") ];
 	}
 }
 
