@@ -67,18 +67,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Complete transition of the web extension from Manifest V2 to V3.</li>
-  <li>Added handling for the "Access your data for all websites" permission, which is now optional and requires user approval.</li>
-  <li>Dropped support for Firefox versions prior to 109.0.</li>
-  <li>Changes made possible following the end of support for older Firefox versions.</li>
-    <ul>
-      <li>Removed complex workaround after the resolving of bug https://bugzilla.mozilla.org/show_bug.cgi?id=1438465.</li>
-      <li>Simplify Clipboard handling (copy/paste).</li>
-      <li>Removed support for Firefox 63 build-in Feed Preview.</li>
-      <li>Utilized other various capabilities introduced in later Firefox releases and replaced backward compatibility code.</li>
-    </ul>
-  <li>Improvements to the Feed Preview rendering.</li>
-  <li>Usual assortment of fixes, code improvements and cleanups.</li>
+  <li>Fixed reddit discovery. URL query string not handled properly.</li>
 </ul>
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
