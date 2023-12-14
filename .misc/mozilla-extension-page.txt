@@ -67,7 +67,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Fixed reddit discovery. URL query string not handled properly.</li>
+  <li>Modified feed handling to support idiosyncratic RSS/Atom feeds.</li>
 </ul>
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
