@@ -14,7 +14,7 @@ let g_feed = (function() {
 	return Object.freeze({
 		// Regular Expression Constants
 		regexpXMLFormat:				/^\s*<(\?xml|rss|rdf|feed)\b/i,											// XML prolog for RSS/RDF/Atom or xml without prolog
-		regexpJSONFormat: 				/^\s*{/i,																// JSON bracket for jsonfeed
+		regexpJSONFormat: 				/^\s*\{/i,																// JSON bracket for jsonfeed
 		regexpXMLVersion: 				/^\s*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/i,
 		regexpXMLEncoding:				/^\s*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/i,
 		regexpXMLWhiteSpaceStart:		/^\s+/,																	// XML declaration (prolog) not at start of document
