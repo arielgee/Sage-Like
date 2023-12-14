@@ -99,7 +99,12 @@ class AtomFeed extends XmlFeed {
 					item.querySelector("link[href]");
 
 		if(!!elm) {
-			return (elm.hasAttribute("href") ? elm.getAttribute("href") : elm.textContent);	// when link comes from <id>
+			let url;
+			if( elm.hasAttribute("href") && !!slUtil.validURL(url = elm.getAttribute("href")) ) {
+				return url;
+			} else if(!!slUtil.validURL(url = elm.textContent)) {		// when link comes from <id>
+				return url;
+			}
 		}
 
 		// try to get first enclosure if any

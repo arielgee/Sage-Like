@@ -79,9 +79,9 @@ class RssFeed extends XmlFeed {
 	//////////////////////////////////////////
 	#_getFeedItemUrl(item) {
 
-		let elm = item.querySelector("link");
-		if(!!elm) {
-			return elm.textContent;
+		let text, elm = item.querySelector("link");
+		if(!!elm && !!slUtil.validURL(text = elm.textContent)) {
+			return text;
 		}
 
 		// try to get first enclosure if any
