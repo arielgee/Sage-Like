@@ -240,7 +240,7 @@ input {
 select {
 	max-width: calc(var(--max-width-main-content) * 0.4);
 	border: 1px solid #7a7a7a;
-	padding: 3px 1px;
+	padding: 3px 1px 3px 3px;
 	color: var(--foreground-color);
 	background-color: var(--background-color-select-control);
 }
