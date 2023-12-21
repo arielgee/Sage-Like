@@ -408,7 +408,7 @@
 				elmFeedItemAttachmentContent.appendChild(elmFeedItemAttachmentImage);
 			} else {
 				elmFeedItemAttachmentMedia = document.createElement(mediaType);
-				elmFeedItemAttachmentMedia.className = `feedItemAttachmentMediaObject`;
+				elmFeedItemAttachmentMedia.className = "feedItemAttachmentMediaObject";
 				elmFeedItemAttachmentMedia.setAttribute("data-url", encodeURIComponent(att.url));	// media resources are loaded (.src = att.url) when element is visible via IntersectionObserver
 				if(["audio", "video"].includes(mediaType)) {
 					elmFeedItemAttachmentMedia.controls = true;
