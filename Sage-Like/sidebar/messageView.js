@@ -198,11 +198,6 @@ let messageView = (function () {
 		close();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickOptionsPage() {
-		browser.runtime.openOptionsPage();
-	}
-
 	return {
 		ButtonSet: ButtonSet,
 		ButtonCode: ButtonCode,
