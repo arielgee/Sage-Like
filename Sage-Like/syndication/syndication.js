@@ -119,13 +119,13 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedItems(url, timeout, reload, sortItems = true, ifNoItemsReject = true, withAttachments = false, signinCred) {
+	function fetchFeedItems(url, timeout, reload, sortItems = true, ifNoItemsReject = true, feedMaxItems = 0, withAttachments = false, signinCred) {
 
 		return new Promise((resolve, reject) => {
 
 			fetchFeedData(url, timeout, reload, signinCred).then((result) => {
 
-				let list = FeedFactory.createFromStandard(result.feedData.standard, url).getFeedItems(result.feedData, withAttachments);
+				let list = FeedFactory.createFromStandard(result.feedData.standard, url).getFeedItems(result.feedData, feedMaxItems, withAttachments);
 
 				disposeFeeder(result.feedData);	// feeder has fulfilled its purpose. Clear reference for GC to kickin.
 
@@ -143,11 +143,11 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedItemsFromFeedData(feedData, url, sortItems = true, ifNoItemsReject = true, withAttachments = false) {
+	function getFeedItemsFromFeedData(feedData, url, sortItems = true, ifNoItemsReject = true, feedMaxItems = 0, withAttachments = false) {
 
 		try {
 
-			let list = FeedFactory.createFromStandard(feedData.standard, url).getFeedItems(feedData, withAttachments);
+			let list = FeedFactory.createFromStandard(feedData.standard, url).getFeedItems(feedData, feedMaxItems, withAttachments);
 
 			disposeFeeder(feedData);	// feeder has fulfilled its purpose. Clear reference for GC to kickin.
 

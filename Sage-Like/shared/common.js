@@ -431,6 +431,7 @@ let internalPrefs = (function() {
 		MSG_SHOW_COUNT_UNAUTHORIZED_FEED:		{ name: "pref_unauthorizedFeedShowMsgCount",	default: 3			},
 		NOTIFIED_FOR_NEW_VERSION_VALUE:			{ name: "pref_notifiedForNewVersionValue",		default: ""			},
 		NOTIFIED_ABOUT_PERMISSIONS:				{ name: "pref_notifiedAboutPermissions",		default: false		},
+		SHOW_FEED_MAX_ITEMS_MSG:				{ name: "pref_showFeedMaxItemsMsg",				default: true		},
 	});
 
 	let m_localStorage = browser.storage.local;
@@ -452,6 +453,7 @@ let internalPrefs = (function() {
 	function getMsgShowCountUnauthorizedFeed()		{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED); }
 	function getNotifiedForNewVersionValue()		{ return _getPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE); }
 	function getNotifiedAboutPermissions()			{ return _getPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS); }
+	function getShowFeedMaxItemsMsg()				{ return _getPreferenceValue(PREF.SHOW_FEED_MAX_ITEMS_MSG); }
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function setOpenTreeFolders(value)					{ return _setPreferenceValue(PREF.OPEN_TREE_FOLDERS, value); }
@@ -470,6 +472,7 @@ let internalPrefs = (function() {
 	function setMsgShowCountUnauthorizedFeed(value)		{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED, value); }
 	function setNotifiedForNewVersionValue(value)		{ return _setPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE, value); }
 	function setNotifiedAboutPermissions(value)			{ return _setPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS, value); }
+	function setShowFeedMaxItemsMsg(value)				{ return _setPreferenceValue(PREF.SHOW_FEED_MAX_ITEMS_MSG, value); }
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
@@ -526,6 +529,7 @@ let internalPrefs = (function() {
 		getMsgShowCountUnauthorizedFeed: getMsgShowCountUnauthorizedFeed,
 		getNotifiedForNewVersionValue: getNotifiedForNewVersionValue,
 		getNotifiedAboutPermissions: getNotifiedAboutPermissions,
+		getShowFeedMaxItemsMsg: getShowFeedMaxItemsMsg,
 
 		setOpenTreeFolders: setOpenTreeFolders,
 		setTreeFeedsData: setTreeFeedsData,
@@ -543,6 +547,7 @@ let internalPrefs = (function() {
 		setMsgShowCountUnauthorizedFeed: setMsgShowCountUnauthorizedFeed,
 		setNotifiedForNewVersionValue: setNotifiedForNewVersionValue,
 		setNotifiedAboutPermissions: setNotifiedAboutPermissions,
+		setShowFeedMaxItemsMsg: setShowFeedMaxItemsMsg,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 

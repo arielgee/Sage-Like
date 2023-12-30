@@ -578,13 +578,14 @@ let rssTreeView = (function() {
 
 			timeout *= 1000;	// to milliseconds
 
+			const treeFeedData = m_objTreeFeedsData.value(id);
 			const msFetchTime = Date.now();
-			const fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, false, false) : syndication.fetchFeedData(url, timeout, false);
+			const fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, false, false, treeFeedData.feedMaxItems) : syndication.fetchFeedData(url, timeout, false);
 
 			fetching.then((fetchResult) => {
 
-				let ignoreFeedUpdates = m_objTreeFeedsData.value(id).ignoreUpdates;
-				let msLastVisited = m_objTreeFeedsData.value(id).lastVisited;
+				const ignoreFeedUpdates = treeFeedData.ignoreUpdates;
+				const msLastVisited = treeFeedData.lastVisited;
 				let updateTime, msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
 				msUpdateTime = syndication.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
@@ -1293,8 +1294,9 @@ let rssTreeView = (function() {
 
 					if(userInput === UserInput.NONE) signinCred.setDefault(); // set to empty username/password to prevent Fx login dialog
 
+					const feedMaxItems = m_objTreeFeedsData.value(elmLI.id).feedMaxItems;
 					const msFetchTime = Date.now();
-					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, showAttach, signinCred).then((result) => {
+					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, feedMaxItems, showAttach, signinCred).then((result) => {
 
 						let fdDate = new Date(syndication.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
 						let additionalLines = [
@@ -1607,6 +1609,7 @@ let rssTreeView = (function() {
 				updateTitle: result.updateTitle,
 				openInFeedPreview: result.openInFeedPreview,
 				ignoreUpdates: result.ignoreUpdates,
+				feedMaxItems: result.feedMaxItems,
 			};
 			createNewFeedExtended(result.elmLI, result.title, result.url, result.inFolder, exDetails);
 		});
@@ -1619,12 +1622,14 @@ let rssTreeView = (function() {
 			updateTitle = true,
 			openInFeedPreview = false,
 			ignoreUpdates = false,
+			feedMaxItems = 0,
 		} = exDetails;
 
 		let details = {
 			updateTitle: updateTitle,
 			openInFeedPreview: openInFeedPreview,
 			ignoreUpdates: ignoreUpdates,
+			feedMaxItems: feedMaxItems,
 		};
 
 		if (TreeItemType.isTree(elmItem)) {
@@ -1641,6 +1646,7 @@ let rssTreeView = (function() {
 			updateTitle,
 			openInFeedPreview,
 			ignoreUpdates,
+			feedMaxItems,
 		} = details;
 
 		browser.bookmarks.get(elmLI.id).then((bookmarks) => {
@@ -1676,6 +1682,7 @@ let rssTreeView = (function() {
 						updateTitle: updateTitle,
 						openInFeedPreview: openInFeedPreview,
 						ignoreUpdates: ignoreUpdates,
+						feedMaxItems: feedMaxItems,
 					};
 					m_objTreeFeedsData.set(created.id, properties);
 					newElm.focus();
@@ -1694,6 +1701,7 @@ let rssTreeView = (function() {
 			updateTitle,
 			openInFeedPreview,
 			ignoreUpdates,
+			feedMaxItems,
 		} = details;
 
 		prefs.getRootFeedsFolderId().then((folderId) => {
@@ -1723,6 +1731,7 @@ let rssTreeView = (function() {
 						updateTitle: updateTitle,
 						openInFeedPreview: openInFeedPreview,
 						ignoreUpdates: ignoreUpdates,
+						feedMaxItems: feedMaxItems,
 					};
 					m_objTreeFeedsData.set(created.id, properties);
 					newElm.focus();
@@ -2026,6 +2035,7 @@ let rssTreeView = (function() {
 				updateTitle: treeFeed.updateTitle,
 				openInFeedPreview: treeFeed.openInFeedPreview,
 				ignoreUpdates: treeFeed.ignoreUpdates,
+				feedMaxItems: treeFeed.feedMaxItems,
 			};
 
 			EditFeedPropertiesView.i.open(elmLI, details).then((result) => {
@@ -2033,6 +2043,7 @@ let rssTreeView = (function() {
 					newUpdateTitle: result.updateTitle,
 					newOpenInFeedPreview: result.openInFeedPreview,
 					newIgnoreUpdates: result.ignoreUpdates,
+					newFeedMaxItems: result.feedMaxItems,
 				};
 				updateFeedProperties(result.elmLI, result.title, result.url, updateDetails);
 			});
@@ -2046,6 +2057,7 @@ let rssTreeView = (function() {
 			newUpdateTitle,
 			newOpenInFeedPreview,
 			newIgnoreUpdates,
+			newFeedMaxItems,
 		} = details;
 
 		let changes = {
@@ -2072,6 +2084,7 @@ let rssTreeView = (function() {
 					updateTitle: newUpdateTitle,
 					openInFeedPreview: newOpenInFeedPreview,
 					ignoreUpdates: newIgnoreUpdates,
+					feedMaxItems: newFeedMaxItems,
 				};
 				m_objTreeFeedsData.set(updated.id, properties);
 			});

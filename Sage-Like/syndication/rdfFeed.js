@@ -27,7 +27,7 @@ class RdfFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData, withAttachments = false) {	/** withAttachments in unused */
+	getFeedItems(feedData, feedMaxItems = 0, withAttachments = false) {	/** withAttachments in unused */
 
 		let feedItemList = [];
 
@@ -40,9 +40,10 @@ class RdfFeed extends XmlFeed {
 
 		feedData.feeder = feedData.feeder.querySelectorAll("item");
 
-		let i, len;
 		let item, elmLink, feedItem;
-		for(i=0, len=feedData.feeder.length; i<len; i++) {
+		let feederLen = ( feedMaxItems === 0 ? feedData.feeder.length : Math.min(feedMaxItems, feedData.feeder.length) );
+
+		for(let i=0; i<feederLen; i++) {
 
 			item = feedData.feeder[i];
 			elmLink = item.querySelector("link");

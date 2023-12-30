@@ -156,7 +156,19 @@ let opml = (function() {
 
 					let updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
 					let openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
-					m_objTreeFeedsData.set(bmCreated.id, { updateTitle: updateTitle, openInFeedPreview: openInPreview });
+					let ignoreUpdates = (node.hasAttribute("data-wxsl-ignoreUpdates") && node.getAttribute("data-wxsl-ignoreUpdates") === "1");
+					let feedMaxItems = 0;
+
+					if( node.hasAttribute("data-wxsl-feedMaxItems") && !isNaN(node.getAttribute("data-wxsl-feedMaxItems")) ) {
+						feedMaxItems = node.getAttribute("data-wxsl-feedMaxItems");
+					}
+
+					m_objTreeFeedsData.set(bmCreated.id, {
+						updateTitle: updateTitle,
+						openInFeedPreview: openInPreview,
+						ignoreUpdates: ignoreUpdates,
+						feedMaxItems: feedMaxItems,
+					});
 				} else {
 					console.log("[Sage-Like]", "Failed to import invalid URL: ", newBmItem.title, ",", newBmItem.url);
 				}
@@ -294,8 +306,10 @@ let opml = (function() {
 							"title=\"" + title + "\" " +
 							"xmlUrl=\"" + bookmark.url.escapeMarkup() + "\" " +
 							"data-wxsl-updateTitle=\"" + Number(!!feedData ? feedData.updateTitle : true) + "\" " +			// if undefined default to true
-							"data-wxsl-openPreview=\"" + Number(!!feedData ? feedData.openInFeedPreview : false) + "\"/>");	// if undefined default to false
-
+							"data-wxsl-openPreview=\"" + Number(!!feedData ? feedData.openInFeedPreview : false) + "\" " +	// if undefined default to false
+							"data-wxsl-ignoreUpdates=\"" + Number(!!feedData ? feedData.ignoreUpdates : false) + "\" " +	// if undefined default to false
+							"data-wxsl-feedMaxItems=\"" + ((!!feedData && !!feedData.feedMaxItems) ? feedData.feedMaxItems : 0) + "\"/>"		// if undefined default to 0
+						);
 						m_feedCount++;
 					}
 				};

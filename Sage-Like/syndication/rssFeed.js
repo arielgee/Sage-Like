@@ -27,7 +27,7 @@ class RssFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData, withAttachments = false) {
+	getFeedItems(feedData, feedMaxItems = 0, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -40,9 +40,10 @@ class RssFeed extends XmlFeed {
 
 		feedData.feeder = feedData.feeder.querySelectorAll("item");
 
-		let i, j, iLen, jLen;
 		let item, feedItemUrl, feedItem, elmEnclosures, feedItemAtt;
-		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
+		let feederLen = ( feedMaxItems === 0 ? feedData.feeder.length : Math.min(feedMaxItems, feedData.feeder.length) );
+
+		for(let i=0; i<feederLen; i++) {
 
 			item = feedData.feeder[i];
 			feedItemUrl = this.#_getFeedItemUrl(item);
@@ -62,7 +63,7 @@ class RssFeed extends XmlFeed {
 
 						elmEnclosures = item.querySelectorAll("enclosure");
 
-						for(j=0, jLen=elmEnclosures.length; j<jLen; j++) {
+						for(let j=0, jLen=elmEnclosures.length; j<jLen; j++) {
 							if( !!(feedItemAtt = this.#_getFeedItemEnclosureAsAttObject(elmEnclosures[j])) ) {
 								feedItem.attachments.push(feedItemAtt);
 							}

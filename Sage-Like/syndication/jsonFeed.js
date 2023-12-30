@@ -33,7 +33,7 @@ class JsonFeed extends Feed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData, withAttachments = false) {
+	getFeedItems(feedData, feedMaxItems = 0, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -44,9 +44,10 @@ class JsonFeed extends Feed {
 
 		//console.log("[Sage-Like]", "Feed: JSON", "v" + (feedData.jsonVersion.match(/[\d.]+$/) || "?"));
 
-		let i, j, iLen, jLen;
 		let item, feedItem, itemAtts, feedItemAtt;
-		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
+		let feederLen = ( feedMaxItems === 0 ? feedData.feeder.length : Math.min(feedMaxItems, feedData.feeder.length) );
+
+		for(let i=0; i<feederLen; i++) {
 
 			item = feedData.feeder[i];
 			feedItem = this.#_createSingleListItemFeed(item);
@@ -57,7 +58,7 @@ class JsonFeed extends Feed {
 
 					itemAtts = item.attachments || [];		// if attachments is missing then atts is empty array
 
-					for(j=0, jLen=itemAtts.length; j<jLen; j++) {
+					for(let j=0, jLen=itemAtts.length; j<jLen; j++) {
 						if( !!(feedItemAtt = this.#_getFeedItemAttachmentAsAttObject(itemAtts[j])) ) {
 							feedItem.attachments.push(feedItemAtt);
 						}

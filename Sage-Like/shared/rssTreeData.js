@@ -132,6 +132,7 @@ class TreeFeedsData extends StoredKeyedItems {
 		updateTitle: true,
 		openInFeedPreview: false,
 		ignoreUpdates: false,
+		feedMaxItems: 0,
 	};
 
 	constructor() {

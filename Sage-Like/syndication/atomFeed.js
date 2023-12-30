@@ -27,7 +27,7 @@ class AtomFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	getFeedItems(feedData, withAttachments = false) {
+	getFeedItems(feedData, feedMaxItems = 0, withAttachments = false) {
 
 		let feedItemList = [];
 
@@ -40,9 +40,10 @@ class AtomFeed extends XmlFeed {
 
 		feedData.feeder = feedData.feeder.querySelectorAll("entry");
 
-		let i, j, iLen, jLen;
 		let item, feedItemUrl, feedItem, elmLinks, feedItemAtt;
-		for(i=0, iLen=feedData.feeder.length; i<iLen; i++) {
+		let feederLen = ( feedMaxItems === 0 ? feedData.feeder.length : Math.min(feedMaxItems, feedData.feeder.length) );
+
+		for(let i=0; i<feederLen; i++) {
 
 			item = feedData.feeder[i];
 			feedItemUrl = this.#_getFeedItemUrl(item);
@@ -61,7 +62,7 @@ class AtomFeed extends XmlFeed {
 
 						elmLinks = item.querySelectorAll("link[href][rel=enclosure],link[href][rel=related]");	// selector duplicated in #_getFeedItemUrl()
 
-						for(j=0, jLen=elmLinks.length; j<jLen; j++) {
+						for(let j=0, jLen=elmLinks.length; j<jLen; j++) {
 							if( !!(feedItemAtt = this.#_getFeedItemLinkAsAttObject(elmLinks[j])) ) {
 								feedItem.attachments.push(feedItemAtt);
 							}

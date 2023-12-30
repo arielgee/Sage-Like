@@ -32,6 +32,7 @@ class PropertiesViewElements {
 		this.elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
 		this.elmChkOpenInFeedPreview = document.getElementById("chkFpOpenInFeedPreview");
 		this.elmChkIgnoreUpdates = document.getElementById("chkFpIgnoreUpdates");
+		this.elmTextFeedMaxItems = document.getElementById("txtFpFeedMaxItems");
 		this.elmInsertInsideFolderContainer = document.getElementById("insertInsideFolderContainer");
 		this.elmChkInsertInsideFolder = document.getElementById("chkInsertInsideFolder");
 		this.elmButtonSave = document.getElementById("btnPropertiesSave");
@@ -110,6 +111,7 @@ class PropertiesView {
 		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
 		this.m_elmChkOpenInFeedPreview.checked = this.m_initialProperties.openInFeedPreview;
 		this.m_elmChkIgnoreUpdates.checked = this.m_initialProperties.ignoreUpdates;
+		this.m_elmTextFeedMaxItems.value = this.m_initialProperties.feedMaxItems;
 		this.m_elmChkInsertInsideFolder.checked = false;
 		this.m_elmLabelErrorMsgs.textContent = "";
 
@@ -126,6 +128,35 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
+	async _checkAndShowFeedMaxItemsMessage(feedMaxItems) {
+
+		if( feedMaxItems !== 0 && (await internalPrefs.getShowFeedMaxItemsMsg()) ) {
+
+			let showMsg = true;
+			messageView.open({
+				text: "You have chosen to set the 'Max feed-items' to " + feedMaxItems + ".<br><br>" +
+						"When the maximum number of displayed feed items is limited and chronological order in the <a id='anchorOptions' href='#'>Options</a> " +
+						"page is enabled, it <u>may</u> result in displaying feed items that are not the most recent.<br><br>" +
+						"This is relevant only to feeds where the items in the source are not ordered chronologically.<br><br>" +
+						"<input type='checkbox' id='chkDontShowAgain'><label for='chkDontShowAgain'>Don't show this message again</label>",
+				caption: "Limiting Maximum Feed-Items",
+				clickableElements: [
+					{
+						elementId: "anchorOptions",
+						onClickCallback: () => browser.runtime.openOptionsPage(),
+					},
+					{
+						elementId: "chkDontShowAgain",
+						onClickCallback: () => { showMsg = !document.getElementById("chkDontShowAgain").checked },
+					},
+				],
+			}).then(() => {
+				internalPrefs.setShowFeedMaxItemsMsg(showMsg);
+			});
+		}
+	}
+
+	///////////////////////////////////////////////////////////////
 	_showOptionInsertInsideFolder(show) {
 		this.m_elmInsertInsideFolderContainer.style.display = (show ? "" : "none");
 	}
@@ -139,6 +170,7 @@ class PropertiesView {
 		this.m_elmChkUpdateTitle = PropertiesViewElements.i.elmChkUpdateTitle;
 		this.m_elmChkOpenInFeedPreview = PropertiesViewElements.i.elmChkOpenInFeedPreview;
 		this.m_elmChkIgnoreUpdates = PropertiesViewElements.i.elmChkIgnoreUpdates;
+		this.m_elmTextFeedMaxItems = PropertiesViewElements.i.elmTextFeedMaxItems;
 		this.m_elmInsertInsideFolderContainer = PropertiesViewElements.i.elmInsertInsideFolderContainer;
 		this.m_elmChkInsertInsideFolder = PropertiesViewElements.i.elmChkInsertInsideFolder;
 		this.m_elmButtonSave = PropertiesViewElements.i.elmButtonSave;
@@ -158,6 +190,7 @@ class PropertiesView {
 			updateTitle: false,
 			openInFeedPreview: false,
 			ignoreUpdates: false,
+			feedMaxItems: 0,
 		};
 
 		this.#_isOpen = false;
@@ -240,6 +273,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.updateTitle = true;
 			this.m_initialProperties.openInFeedPreview = false;
 			this.m_initialProperties.ignoreUpdates = false;
+			this.m_initialProperties.feedMaxItems = 0;
 
 			this._initData(this.m_elmTextLocation);
 		});
@@ -255,6 +289,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			updateTitle: this.m_elmChkUpdateTitle.checked,
 			openInFeedPreview: this.m_elmChkOpenInFeedPreview.checked,
 			ignoreUpdates: this.m_elmChkIgnoreUpdates.checked,
+			feedMaxItems: Number(this.m_elmTextFeedMaxItems.value),
 			inFolder: this.m_elmChkInsertInsideFolder.checked,
 		}
 
@@ -270,8 +305,18 @@ class NewFeedPropertiesView extends PropertiesView {
 			return;
 		}
 
+		const min = parseInt(PropertiesViewElements.i.elmTextFeedMaxItems.getAttribute("data-min"));
+		const max = parseInt(PropertiesViewElements.i.elmTextFeedMaxItems.getAttribute("data-max"));
+
+		// Feed max items validation
+		if ( isNaN(result.feedMaxItems) || (result.feedMaxItems < min) || (result.feedMaxItems > max) ) {
+			this.m_elmLabelErrorMsgs.textContent = `Max feed-items value is not valid. Range: ${min} - ${max}`;
+			return;
+		}
+
 		this.m_funcPromiseResolve(result);
 		this._close();
+		this._checkAndShowFeedMaxItemsMessage(result.feedMaxItems);
 	}
 }
 
@@ -333,6 +378,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			updateTitle = true,
 			openInFeedPreview = false,
 			ignoreUpdates = false,
+			feedMaxItems = 0,
 		} = details;
 
 		return new Promise((resolve) => {
@@ -348,6 +394,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.updateTitle = updateTitle;
 			this.m_initialProperties.openInFeedPreview = openInFeedPreview;
 			this.m_initialProperties.ignoreUpdates = ignoreUpdates;
+			this.m_initialProperties.feedMaxItems = feedMaxItems;
 
 			this._initData(this.m_elmTextTitle);
 		});
@@ -363,6 +410,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			updateTitle: this.m_elmChkUpdateTitle.checked,
 			openInFeedPreview: this.m_elmChkOpenInFeedPreview.checked,
 			ignoreUpdates: this.m_elmChkIgnoreUpdates.checked,
+			feedMaxItems: Number(this.m_elmTextFeedMaxItems.value),
 		}
 
 		// Any value was modified
@@ -370,7 +418,8 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.location === result.url &&
 			this.m_initialProperties.updateTitle === result.updateTitle &&
 			this.m_initialProperties.openInFeedPreview === result.openInFeedPreview &&
-			this.m_initialProperties.ignoreUpdates === result.ignoreUpdates) {
+			this.m_initialProperties.ignoreUpdates === result.ignoreUpdates &&
+			this.m_initialProperties.feedMaxItems === result.feedMaxItems) {
 			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify."
 			return;
 		}
@@ -387,8 +436,18 @@ class EditFeedPropertiesView extends PropertiesView {
 			return;
 		}
 
+		const min = parseInt(PropertiesViewElements.i.elmTextFeedMaxItems.getAttribute("data-min"));
+		const max = parseInt(PropertiesViewElements.i.elmTextFeedMaxItems.getAttribute("data-max"));
+
+		// Feed max items validation
+		if ( isNaN(result.feedMaxItems) || (result.feedMaxItems < min) || (result.feedMaxItems > max) ) {
+			this.m_elmLabelErrorMsgs.textContent = `Max feed-items value is not valid. Range: ${min} - ${max}`;
+			return;
+		}
+
 		this.m_funcPromiseResolve(result);
 		this._close();
+		this._checkAndShowFeedMaxItemsMessage(result.feedMaxItems);
 	}
 }
 
