@@ -119,7 +119,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedItems(url, timeout, reload, sortItems = true, ifNoItemsReject = true, feedMaxItems = 0, withAttachments = false, signinCred) {
+	function fetchFeedItems(url, timeout, reload, sortItems = true, rejectIfNoItems = true, feedMaxItems = 0, withAttachments = false, signinCred) {
 
 		return new Promise((resolve, reject) => {
 
@@ -129,7 +129,7 @@ let syndication = (function() {
 
 				disposeFeeder(result.feedData);	// feeder has fulfilled its purpose. Clear reference for GC to kickin.
 
-				if(list.length > 0 || !ifNoItemsReject) {
+				if(list.length > 0 || !rejectIfNoItems) {
 					if(sortItems) sortFeedItemsByDate(list);
 					resolve({ list: list, feedData: result.feedData, responseHeaderDate: result.responseHeaderDate });
 				} else {
@@ -143,7 +143,7 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getFeedItemsFromFeedData(feedData, url, sortItems = true, ifNoItemsReject = true, feedMaxItems = 0, withAttachments = false) {
+	function getFeedItemsFromFeedData(feedData, url, sortItems = true, rejectIfNoItems = true, feedMaxItems = 0, withAttachments = false) {
 
 		try {
 
@@ -151,7 +151,7 @@ let syndication = (function() {
 
 			disposeFeeder(feedData);	// feeder has fulfilled its purpose. Clear reference for GC to kickin.
 
-			if(list.length > 0 || !ifNoItemsReject) {
+			if(list.length > 0 || !rejectIfNoItems) {
 				if(sortItems) sortFeedItemsByDate(list);
 				return { list: list, feedData: feedData };
 			} else {
