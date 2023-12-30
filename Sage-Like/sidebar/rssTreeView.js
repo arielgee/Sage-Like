@@ -590,7 +590,7 @@ let rssTreeView = (function() {
 				msUpdateTime = syndication.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
 				updateTime = new Date(msUpdateTime);
 
-				let additionalLines = [
+				const additionalLines = [
 					`Format: ${fetchResult.feedData.standard}`,
 					`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}${ignoreFeedUpdates ? ", ignored" : ""}`,
 					`Expired: ${fetchResult.feedData.expired ? "Yes": ""}`,		// Display only if it's true
@@ -1281,9 +1281,9 @@ let rssTreeView = (function() {
 
 		setOneConcurrentFeedLoadingState(elmLI, true);
 
-		let gettingTimeout = prefs.getFetchTimeout();
-		let gettingSortItems = prefs.getSortFeedItems();
-		let getttingShowAttach = prefs.getShowFeedItemDescAttach();
+		const gettingTimeout = prefs.getFetchTimeout();
+		const gettingSortItems = prefs.getSortFeedItems();
+		const getttingShowAttach = prefs.getShowFeedItemDescAttach();
 
 		gettingTimeout.then((timeout) => {
 			gettingSortItems.then((sortItems) => {
