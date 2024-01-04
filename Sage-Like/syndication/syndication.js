@@ -402,7 +402,6 @@ let syndication = (function() {
 		webPageFeedsDiscovery: webPageFeedsDiscovery,
 		fetchFeedData: fetchFeedData,
 		fetchFeedItems: fetchFeedItems,
-		getFeedItemsFromFeedData: getFeedItemsFromFeedData,
 		isUnauthorizedError: isUnauthorizedError,
 		fixUnreliableUpdateTime: fixUnreliableUpdateTime,
 	};
