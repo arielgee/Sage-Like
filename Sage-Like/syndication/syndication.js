@@ -119,7 +119,15 @@ let syndication = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function fetchFeedItems(url, timeout, reload, sortItems = true, rejectIfNoItems = true, feedMaxItems = 0, withAttachments = false, signinCred) {
+	function fetchFeedItems(url, timeout, reload, details = {}) {
+
+		const {
+			sortItems = true,
+			rejectIfNoItems = true,
+			feedMaxItems = 0,
+			withAttachments = false,
+			signinCred = undefined,
+		} = details;
 
 		return new Promise((resolve, reject) => {
 

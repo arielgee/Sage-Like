@@ -579,8 +579,15 @@ let rssTreeView = (function() {
 			timeout *= 1000;	// to milliseconds
 
 			const treeFeedData = m_objTreeFeedsData.value(id);
+
+			const details = {
+				sortItems: false,
+				rejectIfNoItems: false,
+				feedMaxItems: treeFeedData.feedMaxItems,
+			};
+
 			const msFetchTime = Date.now();
-			const fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, false, false, treeFeedData.feedMaxItems) : syndication.fetchFeedData(url, timeout, false);
+			const fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, details) : syndication.fetchFeedData(url, timeout, false);
 
 			fetching.then((fetchResult) => {
 
@@ -1294,9 +1301,15 @@ let rssTreeView = (function() {
 
 					if(userInput === UserInput.NONE) signinCred.setDefault(); // set to empty username/password to prevent Fx login dialog
 
-					const feedMaxItems = m_objTreeFeedsData.value(elmLI.id).feedMaxItems;
+					const details = {
+						sortItems: sortItems,
+						feedMaxItems: m_objTreeFeedsData.value(elmLI.id).feedMaxItems,
+						withAttachments: showAttach,
+						signinCred: signinCred,
+					};
+
 					const msFetchTime = Date.now();
-					syndication.fetchFeedItems(url, timeout, reload, sortItems, true, feedMaxItems, showAttach, signinCred).then((result) => {
+					syndication.fetchFeedItems(url, timeout, reload, details).then((result) => {
 
 						let fdDate = new Date(syndication.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
 						let additionalLines = [
