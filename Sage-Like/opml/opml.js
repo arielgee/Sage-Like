@@ -160,7 +160,7 @@ let opml = (function() {
 					let feedMaxItems = 0;
 
 					if( node.hasAttribute("data-wxsl-feedMaxItems") && !isNaN(node.getAttribute("data-wxsl-feedMaxItems")) ) {
-						feedMaxItems = node.getAttribute("data-wxsl-feedMaxItems");
+						feedMaxItems = Number(node.getAttribute("data-wxsl-feedMaxItems"));
 					}
 
 					m_objTreeFeedsData.set(bmCreated.id, {
