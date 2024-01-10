@@ -611,7 +611,7 @@ let rssListView = (function() {
 			elm.classList.toggle("bold", vItems.length === 0);
 
 			if (bUpdateTreeFeed) {
-				rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
+				rssTreeView.updateTreeItemStats(m_elmLITreeFeed, getListViewStats());
 			}
 		});
 	}
@@ -625,7 +625,7 @@ let rssListView = (function() {
 			// turned to visited
 			slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
 		}
-		rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
+		rssTreeView.updateTreeItemStats(m_elmLITreeFeed, getListViewStats());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -646,7 +646,7 @@ let rssListView = (function() {
 					elms[i].classList.add("bold");
 				}
 			}
-			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
+			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, getListViewStats());
 		}
 	}
 
@@ -662,7 +662,7 @@ let rssListView = (function() {
 					}
 				}
 			}
-			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, ...(getListViewStats()));
+			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, getListViewStats());
 		}
 	}
 
@@ -834,14 +834,7 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getListViewStats() {
-
-		let totalCount = 0;		// m_elmList.querySelectorAll("." + Global.CLS_RLV_LI_LIST_ITEM).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
-		let unreadCount = m_elmList.querySelectorAll(".bold." + Global.CLS_RLV_LI_LIST_ITEM).length;
-
-		return [
-			totalCount,
-			unreadCount,
-		];
+		return m_elmList.querySelectorAll(".bold." + Global.CLS_RLV_LI_LIST_ITEM).length;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

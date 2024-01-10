@@ -1331,7 +1331,7 @@ let rssTreeView = (function() {
 					}).catch((error) => {
 
 						setFeedErrorState(elmLI, true, error);
-						updateTreeItemStats(elmLI, 0, 0);		// will remove the stats
+						updateTreeItemStats(elmLI, 0);		// will remove the stats
 						showUnauthorizedInfoBubble(elmLI, error);
 
 						// change the rssListView content only if this is the last user click.
@@ -2138,15 +2138,13 @@ let rssTreeView = (function() {
 			return;
 		}
 
-		let totalCount, unreadCount;
+		let unreadCount;
 
 		try {
 			while(!!elmULFolder && elmULFolder !== m_elmTreeRoot) {
 
-				totalCount = 0;		// elmULFolder.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
 				unreadCount = elmULFolder.querySelectorAll(":not(.error).bold." + Global.CLS_RTV_LI_TREE_FEED).length;
-
-				updateTreeItemStats(elmULFolder.parentElement, totalCount, unreadCount);
+				updateTreeItemStats(elmULFolder.parentElement, unreadCount);
 
 				elmULFolder = elmULFolder.parentElement.parentElement;
 			}
@@ -2161,17 +2159,15 @@ let rssTreeView = (function() {
 		// Have mercy on the CPU
 		if(!m_bPrefShowFeedStats) return;
 
-		let totalCount, unreadCount, elmLI;
+		let unreadCount, elmLI;
 		let elmLIs = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FOLDER);
 
 		for (let i=0, len=elmLIs.length; i<len; i++) {
 
 			elmLI = elmLIs[i];
 
-			totalCount = 0;		// elmLI.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED).length; [REASON]: Value of totalCount is not used in updateTreeItemStats()
 			unreadCount = elmLI.querySelectorAll(":not(.error).bold." + Global.CLS_RTV_LI_TREE_FEED).length;
-
-			updateTreeItemStats(elmLI, totalCount, unreadCount);
+			updateTreeItemStats(elmLI, unreadCount);
 		}
 	}
 
@@ -2180,10 +2176,9 @@ let rssTreeView = (function() {
 
 		if(m_bPrefShowFeedStats && !!feedItems) {
 
-			let totalCount = feedItems.length;
 			let vItems, unreadCount = 0;
 
-			for(let i=0; i<totalCount; i++) {
+			for(let i=0, len=feedItems.length; i<len; i++) {
 				try {
 					vItems = await browser.history.getVisits({ url: feedItems[i].url });
 					if(vItems.length === 0) {
@@ -2193,21 +2188,15 @@ let rssTreeView = (function() {
 					console.log("[Sage-Like]", "get history visits", error);
 				}
 			}
-			updateTreeItemStats(elmLI, totalCount, unreadCount);
+			updateTreeItemStats(elmLI, unreadCount);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function updateTreeItemStats(elmLI, totalCount, unreadCount) {
-
-		/*
-			Since 'totalCount' is not used, some code was altered & commented in locations where calls to this function are made.
-			Search for 'updateTreeItemStats()' in comments. There are 2 places in rssTreeView.js and 1 in rssListView.js.
-		*/
+	function updateTreeItemStats(elmLI, unreadCount) {
 
 		if(m_bPrefShowFeedStats && TreeItemType.isTreeItem(elmLI)) {
-			//setTreeItemStats(elmLI, "(\u200a" + unreadCount + "\u200a/\u200a" + totalCount + "\u200a)");	// THIN SPACE
-			setTreeItemStats(elmLI, unreadCount > 0 ? "(\u200a" + unreadCount + "\u200a)" : "");	// HAIR SPACE
+			setTreeItemStats(elmLI, unreadCount);
 		}
 	}
 
@@ -2978,8 +2967,8 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setTreeItemStats(elmLI, text) {
-		elmLI.firstElementChild.firstElementChild.nextElementSibling.textContent = text;
+	function setTreeItemStats(elmLI, unreadCount) {
+		elmLI.firstElementChild.firstElementChild.nextElementSibling.textContent = (unreadCount > 0 ? "(\u200a" + unreadCount + "\u200a)" : "");	// HAIR SPACE
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
