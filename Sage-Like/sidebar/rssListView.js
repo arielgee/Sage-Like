@@ -652,7 +652,7 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateFeedItemsStateToVisited(feedUrl, feedItems) {
-		if(feedUrl === m_elmLITreeFeed.getAttribute("href")) {
+		if(!!m_elmLITreeFeed && feedUrl === m_elmLITreeFeed.getAttribute("href")) {
 			let elms = m_elmList.querySelectorAll(".bold." + Global.CLS_RLV_LI_LIST_ITEM);
 			for(let i=0, lenI=feedItems.length; i<lenI; i++) {
 				for(let j=0, lenJ=elms.length; j<lenJ; j++) {
