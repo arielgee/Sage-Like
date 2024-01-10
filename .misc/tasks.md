@@ -1123,11 +1123,11 @@
 * The text in file `mozilla-extension-page.txt` needs to be applied to the extension's product page.
 * check if X.removeChild(Y) can be replaced with Y.remove() => js benchmark shows that X.removeChild(Y) is faster
 * add a red dot on feeds that take to long to respond = NO
+* OPML feeds from 'fraidycat' loaded as folders.
 ---
 
 
 ## Now
-* OPML feeds from 'fraidycat' loaded as folders.
 * new option to not refresh sidebar feeds when sidebar is loaded/open
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
