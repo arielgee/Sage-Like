@@ -154,7 +154,7 @@ let opml = (function() {
 
 					m_feedCount++;
 
-					let updateTitle = (node.hasAttribute("data-wxsl-updateTitle") && node.getAttribute("data-wxsl-updateTitle") === "1");
+					let updateTitle = (!node.hasAttribute("data-wxsl-updateTitle") || (node.getAttribute("data-wxsl-updateTitle") === "1"));
 					let openInPreview = (node.hasAttribute("data-wxsl-openPreview") && node.getAttribute("data-wxsl-openPreview") === "1");
 					let ignoreUpdates = (node.hasAttribute("data-wxsl-ignoreUpdates") && node.getAttribute("data-wxsl-ignoreUpdates") === "1");
 					let feedMaxItems = 0;
