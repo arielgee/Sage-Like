@@ -78,6 +78,8 @@ class StoredKeyedItems {
 /////////////////////////////////////////////////////////////////////////////////////////////
 class OpenTreeFolders extends StoredKeyedItems {
 
+	// ATTENTION: If you add any new member (like lastChecked) to this object, update onRuntimeInstalled() in background.js
+
 	//////////////////////////////////////////
 	getStorage() {
 		return new Promise((resolve) => {
@@ -126,6 +128,7 @@ class OpenTreeFolders extends StoredKeyedItems {
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeFeedsData extends StoredKeyedItems {
 
+	// ATTENTION: If you add any new member to this object, update onRuntimeInstalled() in background.js
 	#_defaultObject = {
 		lastChecked: 0,
 		lastVisited: 0,

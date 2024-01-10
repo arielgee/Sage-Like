@@ -106,7 +106,8 @@
 
 			// version 1.9 added openInFeedPreview to TreeFeedsData
 			// version 2.9 added ignoreUpdates to TreeFeedsData
-			if(prevVer < 1.9 || prevVer < 2.9) {
+			// version 3.6 added feedMaxItems to TreeFeedsData
+			if(prevVer < 1.9 || prevVer < 2.9 || prevVer < 3.6) {
 				(new TreeFeedsData()).maintenance();
 			}
 		}
