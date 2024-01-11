@@ -1300,9 +1300,11 @@ let rssTreeView = (function() {
 
 					if(userInput === UserInput.NONE) signinCred.setDefault(); // set to empty username/password to prevent Fx login dialog
 
+					const treeFeedData = m_objTreeFeedsData.value(elmLI.id);
+
 					const details = {
 						sortItems: sortItems,
-						feedMaxItems: m_objTreeFeedsData.value(elmLI.id).feedMaxItems,
+						feedMaxItems: treeFeedData.feedMaxItems,
 						withAttachments: showAttach,
 						signinCred: signinCred,
 					};
@@ -1313,7 +1315,7 @@ let rssTreeView = (function() {
 						let fdDate = new Date(syndication.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
 						let additionalLines = [
 							`Format: ${result.feedData.standard}`,
-							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}${m_objTreeFeedsData.value(elmLI.id).ignoreUpdates ? ", ignored" : ""}`,
+							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}${treeFeedData.ignoreUpdates ? ", ignored" : ""}`,
 							`Expired: ${result.feedData.expired ? "Yes": ""}`,		// Display only if it's true
 						];
 
