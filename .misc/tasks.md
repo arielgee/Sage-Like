@@ -1124,11 +1124,15 @@
 * check if X.removeChild(Y) can be replaced with Y.remove() => js benchmark shows that X.removeChild(Y) is faster
 * add a red dot on feeds that take to long to respond = NO
 * OPML feeds from 'fraidycat' loaded as folders.
+* new option to not refresh sidebar feeds when sidebar is loaded/open
 ---
 
 
 ## Now
-* new option to not refresh sidebar feeds when sidebar is loaded/open
+* change let to const (objects like m_objOpenTreeFolders)
+* change 'i++' to '++i'
+* loading overlay for the preferences page for when the page loading is slow
+* rename updateTreeItemStats to updateTreeItemUnreadCount
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
