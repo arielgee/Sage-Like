@@ -97,6 +97,7 @@ let rssTreeView = (function() {
 	let m_isFilterApplied = false;
 	let m_msgShowCountReapplyFilter = 0;
 	let m_bPrefShowFeedStats = prefs.DEFAULTS.showFeedStats;
+	let m_bPrefCheckFeedsOnSbOpen = prefs.DEFAULTS.checkFeedsOnSbOpen;
 
 	let m_filterChangeDebouncer = null;
 	let m_titleUpdateDebouncer = null;
@@ -132,6 +133,11 @@ let rssTreeView = (function() {
 					InfoBubble.i.dismiss();
 					rssListView.disposeList();
 					createRSSTree();
+				}
+
+				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
+					message.details === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN) {
+					setCheckFeedsOnSbOpenFromPreferences();
 				}
 
 				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
@@ -232,10 +238,11 @@ let rssTreeView = (function() {
 		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
 
+		m_bPrefCheckFeedsOnSbOpen = await prefs.getCheckFeedsOnSbOpen();
 		m_bPrefShowFeedStats = await prefs.getShowFeedStats();
 		setIncreaseUnvisitedFontSizeFromPreferences();
 
-		createRSSTree();
+		createRSSTree(true);
 
 		slUtil.setActionBadge(1, { text: "", windowId: (await browser.windows.getCurrent()).id });
 		m_elmFilterTextBoxContainer.title = FILTER_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
@@ -277,6 +284,13 @@ let rssTreeView = (function() {
 
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setCheckFeedsOnSbOpenFromPreferences() {
+		prefs.getCheckFeedsOnSbOpen().then(checkOnSbOpen => {
+			m_bPrefCheckFeedsOnSbOpen = checkOnSbOpen;
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -332,7 +346,7 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function createRSSTree() {
+	async function createRSSTree(fromDOMContentLoad = false) {
 
 		// show loading animation (if not already removed by disposeTree()) if it takes too long
 		showDelayedLoadingAnimation();
@@ -378,7 +392,11 @@ let rssTreeView = (function() {
 				m_rssTreeCreatedOK = true;
 				restoreTreeViewState();
 				broadcastRssTreeCreatedOK();
-				monitorRSSTreeFeeds(true);
+				if(m_bPrefCheckFeedsOnSbOpen || !fromDOMContentLoad) {
+					monitorRSSTreeFeeds(true);
+				} else {
+					restoreTreeFeedsLastStatus();
+				}
 
 			}).catch((error) => {
 				m_elmTreeRoot.appendChild(createErrorTagLI("Failed to load feeds folder: " + error.message));
@@ -507,6 +525,23 @@ let rssTreeView = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function restoreTreeFeedsLastStatus() {
+
+		const elmLIs = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
+		let elm, obj;
+		for(let i=0, len=elmLIs.length; i<len; ++i) {
+			elm = elmLIs[i];
+			obj = m_objTreeFeedsData.value(elm.id);
+			if(!!obj) {
+				setFeedVisitedState(elm, obj.lastStatusIsVisited);
+				updateTreeItemStats(elm, obj.lastStatusUnreadCount);
+				setFeedErrorState(elm, obj.lastStatusErrorState, { message: "<n/a>" });
+			}
+		}
+		updateAllTreeFoldersStats();
+	}
+
 	//==================================================================================
 	//=== Tree Processing
 	//==================================================================================
@@ -613,6 +648,7 @@ let rssTreeView = (function() {
 				setFeedErrorState(elmLI, true, error);
 			}).finally(() => {
 				setFeedLoadingState(elmLI, false);
+				setTreeFeedDataLastStatusMembers(elmLI);
 			});
 		});
 	}
@@ -1015,6 +1051,7 @@ let rssTreeView = (function() {
 					}
 					setFeedVisitedState(elmLI, true);
 					m_objTreeFeedsData.set(elmLI.id, { lastVisited: Date.now() });
+					setTreeFeedDataLastStatusMembers(elmLI);
 				}
 			}
 
@@ -1356,6 +1393,7 @@ let rssTreeView = (function() {
 						m_objTreeFeedsData.set(elmLI.id, { lastVisited: Date.now() });
 
 						updateTreeBranchFoldersStats(elmLI);
+						setTreeFeedDataLastStatusMembers(elmLI);
 					});
 				});
 			});
@@ -1577,6 +1615,7 @@ let rssTreeView = (function() {
 
 					m_objTreeFeedsData.set(created.id);
 					setFeedVisitedState(elmLI, false);
+					setTreeFeedDataLastStatusMembers(elmLI);
 				}
 				m_elmTreeRoot.appendChild(frag);
 
@@ -1699,6 +1738,7 @@ let rssTreeView = (function() {
 						feedMaxItems: feedMaxItems,
 					};
 					m_objTreeFeedsData.set(created.id, properties);
+					setTreeFeedDataLastStatusMembers(newElm);
 					newElm.focus();
 				});
 			});
@@ -1748,6 +1788,7 @@ let rssTreeView = (function() {
 						feedMaxItems: feedMaxItems,
 					};
 					m_objTreeFeedsData.set(created.id, properties);
+					setTreeFeedDataLastStatusMembers(newElm);
 					newElm.focus();
 				}).catch((error) => {
 					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+click on toolbar button <b>Check feeds</b> to reload the sidebar.", undefined, true, false, 4000);
@@ -1931,6 +1972,7 @@ let rssTreeView = (function() {
 			browser.tabs.create({ active: false, url: parkedTabUrl }).then(() => {
 				setFeedVisitedState(elm, true);
 				m_objTreeFeedsData.set(elm.id, { lastVisited: Date.now() });
+				setTreeFeedDataLastStatusMembers(elm);
 			}).catch((error) => {
 				console.log("[Sage-Like]", error);
 			});
@@ -2101,6 +2143,7 @@ let rssTreeView = (function() {
 					feedMaxItems: newFeedMaxItems,
 				};
 				m_objTreeFeedsData.set(updated.id, properties);
+				setTreeFeedDataLastStatusMembers(elmLI);
 			});
 		});
 	}
@@ -2376,6 +2419,21 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemUpdateDataAttribute(elmLI, updateTime) {
 		elmLI.setAttribute("data-updateTime", updateTime.toISOString());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setTreeFeedDataLastStatusMembers(elm) {
+
+		if(m_bPrefCheckFeedsOnSbOpen) return;
+
+		setTimeout((e) => {
+			const unreadCount = e.firstElementChild.firstElementChild.nextElementSibling.textContent;
+			m_objTreeFeedsData.set(e.id, {
+				lastStatusIsVisited: !e.classList.contains("bold"),
+				lastStatusErrorState: e.classList.contains("error"),
+				lastStatusUnreadCount: unreadCount === "" ? 0 : Number(unreadCount.match(/\d+/)[0]),
+			});
+		}, 2000, elm);
 	}
 
 	//==================================================================================
@@ -3077,6 +3135,7 @@ let rssTreeView = (function() {
 		getTreeItemText: getTreeItemText,
 		disable: disable,
 		updateLayoutWidth: updateLayoutWidth,
+		setTreeFeedDataLastStatusMembers: setTreeFeedDataLastStatusMembers,
 	};
 
 })();

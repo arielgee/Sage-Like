@@ -612,6 +612,7 @@ let rssListView = (function() {
 
 			if (bUpdateTreeFeed) {
 				rssTreeView.updateTreeItemStats(m_elmLITreeFeed, getListViewStats());
+				rssTreeView.setTreeFeedDataLastStatusMembers(m_elmLITreeFeed);
 			}
 		});
 	}
@@ -626,6 +627,7 @@ let rssListView = (function() {
 			slUtil.addUrlToBrowserHistory(elm.getAttribute("href"), elm.textContent);
 		}
 		rssTreeView.updateTreeItemStats(m_elmLITreeFeed, getListViewStats());
+		rssTreeView.setTreeFeedDataLastStatusMembers(m_elmLITreeFeed);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -647,6 +649,7 @@ let rssListView = (function() {
 				}
 			}
 			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, getListViewStats());
+			rssTreeView.setTreeFeedDataLastStatusMembers(m_elmLITreeFeed);
 		}
 	}
 
@@ -663,6 +666,7 @@ let rssListView = (function() {
 				}
 			}
 			rssTreeView.updateTreeItemStats(m_elmLITreeFeed, getListViewStats());
+			rssTreeView.setTreeFeedDataLastStatusMembers(m_elmLITreeFeed);
 		}
 	}
 

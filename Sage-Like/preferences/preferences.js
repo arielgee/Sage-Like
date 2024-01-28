@@ -18,6 +18,7 @@ let preferences = (function() {
 	let m_elmNavigationItems;
 	let m_elmNavigationFooterItems;
 	let m_elmRootFeedsFolder;
+	let m_elmCheckFeedsOnSbOpen;
 	let m_elmCheckFeedsInterval;
 	let m_elmCheckFeedsWhenSbClosed;
 	let m_elmTimeOfDayBox;
@@ -103,6 +104,7 @@ let preferences = (function() {
 		m_elmNavigationItems = document.getElementById("navigationItems");
 		m_elmNavigationFooterItems = document.getElementById("navigationFooter");
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
+		m_elmCheckFeedsOnSbOpen = document.getElementById("checkFeedsOnSbOpen");
 		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
 		m_elmCheckFeedsWhenSbClosed = document.getElementById("checkFeedsWhenSbClosed");
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
@@ -167,6 +169,7 @@ let preferences = (function() {
 		document.documentElement.removeEventListener("click", onClickPreference);
 
 		m_elmRootFeedsFolder.removeEventListener("change", onChangeRootFeedsFolder);
+		m_elmCheckFeedsOnSbOpen.removeEventListener("change", onChangeCheckFeedsOnSbOpen);
 		m_elmCheckFeedsInterval.removeEventListener("change", onChangeCheckFeedsInterval);
 		m_elmCheckFeedsWhenSbClosed.removeEventListener("change", onChangeCheckFeedsWhenSbClosed);
 		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
@@ -224,6 +227,7 @@ let preferences = (function() {
 		document.documentElement.addEventListener("click", onClickPreference);
 
 		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
+		m_elmCheckFeedsOnSbOpen.addEventListener("change", onChangeCheckFeedsOnSbOpen);
 		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
 		m_elmCheckFeedsWhenSbClosed.addEventListener("change", onChangeCheckFeedsWhenSbClosed);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
@@ -299,6 +303,10 @@ let preferences = (function() {
 
 		initializeSelectFeedsFolder();
 		initializeCheckFeedsMethodTitles();
+
+		prefs.getCheckFeedsOnSbOpen().then((checked) => {
+			m_elmCheckFeedsOnSbOpen.checked = checked;
+		});
 
 		prefs.getCheckFeedsInterval().then((value) => {
 			if(value.includes(":")) {
@@ -501,6 +509,13 @@ let preferences = (function() {
 		});
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 		flashRootFeedsFolderElement();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeCheckFeedsOnSbOpen(event) {
+		prefs.setCheckFeedsOnSbOpen(m_elmCheckFeedsOnSbOpen.checked).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -991,6 +1006,7 @@ let preferences = (function() {
 		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, defPrefs.rootFeedsFolderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET);
 
 		m_elmRootFeedsFolder.value = defPrefs.rootFeedsFolderId;
+		m_elmCheckFeedsOnSbOpen.checked = defPrefs.checkFeedsOnSbOpen;
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
 		m_elmCheckFeedsWhenSbClosed.checked = defPrefs.checkFeedsWhenSbClosed;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;

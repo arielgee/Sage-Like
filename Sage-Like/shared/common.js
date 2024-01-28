@@ -112,6 +112,7 @@ let Global = (function() {
 		MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES:				1020,
 		MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW:	1021,
 		MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE:			1022,
+		MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN:				1023,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: "_rootFeedsFolderIdNotSet_",
 		BOOKMARKS_ROOT_GUID: "root________",
@@ -585,6 +586,7 @@ let prefs = (function() {
 
 	const PREF = Object.freeze({
 		ROOT_FEEDS_FOLDER_ID:				{ name: "pref_rootFeedsFolderId",				default: Global.ROOT_FEEDS_FOLDER_ID_NOT_SET			},
+		CHECK_FEEDS_ON_SB_OPEN:				{ name: "pref_checkFeedsOnSbOpen",				default: true											},
 		CHECK_FEEDS_INTERVAL:				{ name: "pref_checkFeedsInterval",				default: "3600000"										},
 		CHECK_FEEDS_WHEN_SB_CLOSED:			{ name: "pref_checkFeedsWhenSbClosed",			default: true											},
 		CHECK_FEEDS_METHOD:					{ name: "pref_checkFeedsMethod",				default: "3;2000"										},
@@ -629,6 +631,7 @@ let prefs = (function() {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId()				{ return _getPreferenceValue(PREF.ROOT_FEEDS_FOLDER_ID); }
+	function getCheckFeedsOnSbOpen()			{ return _getPreferenceValue(PREF.CHECK_FEEDS_ON_SB_OPEN); }
 	function getCheckFeedsInterval()			{ return _getPreferenceValue(PREF.CHECK_FEEDS_INTERVAL); }
 	function getCheckFeedsWhenSbClosed()		{ return _getPreferenceValue(PREF.CHECK_FEEDS_WHEN_SB_CLOSED); }
 	function getCheckFeedsMethod()				{ return _getPreferenceValue(PREF.CHECK_FEEDS_METHOD); }
@@ -664,6 +667,7 @@ let prefs = (function() {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function setRootFeedsFolderId(value)			{ return _setPreferenceValue(PREF.ROOT_FEEDS_FOLDER_ID, value); }
+	function setCheckFeedsOnSbOpen(value)			{ return _setPreferenceValue(PREF.CHECK_FEEDS_ON_SB_OPEN, value); }
 	function setCheckFeedsInterval(value)			{ return _setPreferenceValue(PREF.CHECK_FEEDS_INTERVAL, value); }
 	function setCheckFeedsWhenSbClosed(value)		{ return _setPreferenceValue(PREF.CHECK_FEEDS_WHEN_SB_CLOSED, value); }
 	function setCheckFeedsMethod(value)				{ return _setPreferenceValue(PREF.CHECK_FEEDS_METHOD, value); }
@@ -788,6 +792,7 @@ let prefs = (function() {
 		DEFAULTS: _getAllPreferencesObject(true),
 
 		getRootFeedsFolderId: getRootFeedsFolderId,
+		getCheckFeedsOnSbOpen: getCheckFeedsOnSbOpen,
 		getCheckFeedsInterval: getCheckFeedsInterval,
 		getCheckFeedsWhenSbClosed: getCheckFeedsWhenSbClosed,
 		getCheckFeedsMethod: getCheckFeedsMethod,
@@ -822,6 +827,7 @@ let prefs = (function() {
 		getCustomCSSSource: getCustomCSSSource,
 
 		setRootFeedsFolderId: setRootFeedsFolderId,
+		setCheckFeedsOnSbOpen: setCheckFeedsOnSbOpen,
 		setCheckFeedsInterval: setCheckFeedsInterval,
 		setCheckFeedsWhenSbClosed: setCheckFeedsWhenSbClosed,
 		setCheckFeedsMethod: setCheckFeedsMethod,
