@@ -151,8 +151,7 @@ let preferences = (function() {
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
 
-		document.getElementById("webExtVersion").textContent = `Sage-Like v${browser.runtime.getManifest().version}`;
-		document.getElementById("checkFeedsMethodInfo").title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
+		setVariousElementsTitles();
 
 		addEventListeners();
 		getSavedPreferences();
@@ -302,7 +301,6 @@ let preferences = (function() {
 		});
 
 		initializeSelectFeedsFolder();
-		initializeCheckFeedsMethodTitles();
 
 		prefs.getCheckFeedsOnSbOpen().then((checked) => {
 			m_elmCheckFeedsOnSbOpen.checked = checked;
@@ -1168,22 +1166,6 @@ let preferences = (function() {
 		return elm;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function initializeCheckFeedsMethodTitles() {
-
-		let re, found, items = m_elmCheckFeedsMethod.children;
-
-		for(let i=0, len=items.length; i<len; i++) {
-
-			re = new RegExp("\\b" + items[i].textContent + "\\b[^A-Z]*([A-Z].+\\.)\\s?$", "m");
-			found = TXT_HELP_INFO_CHECK_FEED_METHOD.match(re);
-
-			if( !!found && !!found[1] ) {
-				items[i].title = found[1];
-			}
-		}
-	}
-
 	//==================================================================================
 	//=== User font box functions
 	//==================================================================================
@@ -1584,6 +1566,25 @@ let preferences = (function() {
 	//==================================================================================
 	//=== Misc. functions
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setVariousElementsTitles() {
+
+		document.getElementById("webExtVersion").textContent = `Sage-Like v${browser.runtime.getManifest().version}`;
+		document.getElementById("checkFeedsMethodInfo").title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
+
+		let re, found, items = m_elmCheckFeedsMethod.children;
+
+		for(let i=0, len=items.length; i<len; i++) {
+
+			re = new RegExp("\\b" + items[i].textContent + "\\b[^A-Z]*([A-Z].+\\.)\\s?$", "m");
+			found = TXT_HELP_INFO_CHECK_FEED_METHOD.match(re);
+
+			if( !!found && !!found[1] ) {
+				items[i].title = found[1];
+			}
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function colorInputTitle(colorValue) {
