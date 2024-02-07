@@ -1306,7 +1306,7 @@ let preferences = (function() {
 		m_elmMessageBox.addEventListener("keydown", onKeyDownMessageBox);
 		m_elmBtnMessageBoxOK.addEventListener("click", onClickBtnMessageBoxOK);
 
-		m_elmPageOverlay.style.display = "block";
+		placePageOverlay(true);
 		m_elmMessageBox.style.display = "block";
 		document.documentElement.style.overflow = "hidden";
 		m_elmMessageBox.style.color = (["Error", "Warning"].includes(msgCaption) ? "#db0000" : "");
@@ -1317,7 +1317,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function closeMessageBox() {
 
-		m_elmPageOverlay.style.display = "none";
+		placePageOverlay(false);
 		m_elmMessageBox.style.display = "none";
 		document.documentElement.style.overflow = "";
 
@@ -1377,7 +1377,7 @@ let preferences = (function() {
 			m_elmBtnUrlListBoxCancel.addEventListener("click", onClickBtnUrlListBoxCancel);
 			m_elmUrlListBoxStatusbar.addEventListener("click", onClickUrlListBoxStatusbar);
 
-			m_elmPageOverlay.style.display = "block";
+			placePageOverlay(true);
 			m_elmUrlListBox.style.display = "block";
 			document.documentElement.style.overflow = "hidden";
 
@@ -1391,7 +1391,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function closeUrlListBox(saveChanges = false) {
 
-		m_elmPageOverlay.style.display = "none";
+		placePageOverlay(false);
 		m_elmUrlListBox.style.display = "none";
 		document.documentElement.style.overflow = "";
 
@@ -1705,6 +1705,29 @@ let preferences = (function() {
 		let blocks = document.getElementsByClassName("prefBlock");
 		for(let i=0, len=blocks.length; i<len; i++) {
 			blocks[i].style.display = (blocks[i].id === idPrefBlock) ? "block" : "none";
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function placePageOverlay(bSetOverlay, bShowBusyText = false) {
+
+		if(bSetOverlay) {
+
+			m_elmPageOverlay.textContent = "";
+			m_elmPageOverlay.style.display = "block";
+			document.querySelectorAll(".navigationBar, .mainContent").forEach((e) => e.style.filter = "blur(4px)");
+			document.documentElement.style.overflow = "hidden";
+
+			// delay the display of text to avoid flickering when the wait is short
+			if(bShowBusyText) {
+				setTimeout(() => m_elmPageOverlay.textContent = "I'm Busy, Please Wait.", 120);
+			}
+
+		} else {
+
+			m_elmPageOverlay.style.display = "none";
+			document.querySelectorAll(".navigationBar, .mainContent").forEach((e) => e.style.filter = "");
+			document.documentElement.style.overflow = "";
 		}
 	}
 

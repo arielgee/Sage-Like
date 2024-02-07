@@ -649,4 +649,10 @@ input[type="color"].disabled {
 	bottom: 0;
 	background-color: rgba(var(--background-color-values-body), 0.7);
 	z-index: 1;
+	text-align: center;
+	line-height: 14em;
+	font-size: 260%;
+	font-weight: bold;
+	color: var(--color-control-accent);
+	text-shadow: 2px 2px black;
 }
