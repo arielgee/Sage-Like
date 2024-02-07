@@ -293,6 +293,8 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getSavedPreferences() {
 
+		placePageOverlay(true, true);
+
 		prefs.getSingleBlockModeInPrefsPage().then((singleBlockMode) => {
 			if( (m_singleBlockMode = singleBlockMode) ) {
 				document.body.style.marginBottom = "0";	// Remove margin-bottom. Its size is to enable scrolling the Miscellaneous block to the top.
@@ -451,6 +453,8 @@ let preferences = (function() {
 			} else {
 				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
 			}
+		}).finally(() => {
+			placePageOverlay(false);	// This will most likely (and hopefully) be executed after all Promises in getSavedPreferences() were settled
 		});
 	}
 
