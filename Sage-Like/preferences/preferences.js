@@ -441,14 +441,13 @@ let preferences = (function() {
 			m_elmShowTryOpenLinkInFeedPreview.checked = checked;
 		});
 
-		prefs.getUseCustomCSSFeedPreview().then((checked) => {
+		prefs.getUseCustomCSSFeedPreview().then(async (checked) => {
 			m_elmUseCustomCSSFeedPreview.checked = checked;
 			if(checked) {
-				prefs.getCustomCSSSourceHash().then((hash) => {
-					slUtil.disableElementTree(m_elmBtnEditCSSSource, (hash.length === 0));
-					slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
-					flashCustomCSSImportButton();
-				});
+				const hash = await prefs.getCustomCSSSourceHash();
+				slUtil.disableElementTree(m_elmBtnEditCSSSource, (hash.length === 0));
+				slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
+				flashCustomCSSImportButton();
 			} else {
 				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
 			}
