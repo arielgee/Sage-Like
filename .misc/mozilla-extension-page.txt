@@ -1,7 +1,7 @@
 
 + Summary
 --------------------------------------------------------------
-A basic RSS reader like the good ol' Sage add-on, may the gods avenge his untimely death.
+A sidebar based RSS reader like the good ol' Sage add-on, may the gods avenge his untimely death.
 
 
 + Product Page Description (About this extension)
