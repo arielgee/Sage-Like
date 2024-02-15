@@ -661,7 +661,16 @@ let rssListView = (function() {
 				for(let j=0, lenJ=elms.length; j<lenJ; j++) {
 					if( decodeURIComponent(feedItems[i]) === decodeURIComponent(elms[j].getAttribute("href")) ) {
 						elms[j].classList.remove("bold");
-						break;
+						//break;
+
+						// Real life case. A feed with multiple adjacent items with the same url are not all getting un-bolded.
+						// This is when the option 'When opening Feed Preview, mark as "read"' is 'Each feed-item as it becomes visible'.
+						// The feed: https://codeberg.org/20-100/uni-STC.atom
+						//
+						// So instead of breaking right after finding the matching item and removing its bold, I'll also check the
+						// next item in the elms collection to see if it's also with the same URL.
+						// This is done by adjusting the loop's lenJ variable to a one more iteration beyond the current J index.
+						lenJ = Math.min(j+2, elms.length);
 					}
 				}
 			}
