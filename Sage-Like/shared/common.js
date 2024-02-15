@@ -1430,6 +1430,18 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function validRelativeURL(url, base, objRetErr) {
+		try {
+			let oUrl = new URL(url, base);
+			if( !!(oUrl.protocol.match(/^(https?|ftp|file):$/i)) ) return oUrl;
+			throw new Error("Unsupported URL protocol");
+		} catch (error) {
+			if(typeof(objRetErr) === "object") objRetErr.error = error;
+			return null;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function incognitoErrorMessage(nativeError) {
 		if(!!(nativeError.toString().match(/\bpermission for incognito mode\b/))) {
 			return "Sage-Like extension is not allowed to run in private windows.<br>" +
@@ -1720,6 +1732,7 @@ let slUtil = (function() {
 		getFeedPreviewUrl: getFeedPreviewUrl,
 		isRegExpValid: isRegExpValid,
 		validURL: validURL,
+		validRelativeURL: validRelativeURL,
 		incognitoErrorMessage: incognitoErrorMessage,
 		getElementViewportRect: getElementViewportRect,
 		getHScrollWidth: getHScrollWidth,

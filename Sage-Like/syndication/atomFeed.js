@@ -46,7 +46,7 @@ class AtomFeed extends XmlFeed {
 		for(let i=0; i<feederLen; i++) {
 
 			item = feedData.feeder[i];
-			feedItemUrl = this.#_getFeedItemUrl(item);
+			feedItemUrl = this.#_getFeedItemUrl(item, feedData.webPageUrl);
 
 			if(!!feedItemUrl) {
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
@@ -91,7 +91,7 @@ class AtomFeed extends XmlFeed {
 	}
 
 	//////////////////////////////////////////
-	#_getFeedItemUrl(item) {
+	#_getFeedItemUrl(item, urlBase) {
 
 		let elm = item.querySelector("link[href]:not([rel])") ||
 					item.querySelector("link[href][rel=alternate]") ||
@@ -100,10 +100,23 @@ class AtomFeed extends XmlFeed {
 					item.querySelector("link[href]");
 
 		if(!!elm) {
-			let url;
-			if( elm.hasAttribute("href") && !!slUtil.validURL(url = elm.getAttribute("href")) ) {
+
+			const funcValidURL = (u, b) => {
+				if( !!slUtil.validURL(u) ) {
+					return u;
+				} else if( !!(u = slUtil.validRelativeURL(u, b)) ) {
+					return u.toString();		// #_getFeedItemUrl returns a string
+				}
+				return null;
+			};
+
+			let url = funcValidURL(elm.getAttribute("href"), urlBase);
+			if( !!url ) {
 				return url;
-			} else if(!!slUtil.validURL(url = elm.textContent)) {		// when link comes from <id>
+			}
+
+			url = funcValidURL(elm.textContent, urlBase);	// when link comes from <id>
+			if( !!url ) {
 				return url;
 			}
 		}
