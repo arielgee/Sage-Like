@@ -63,15 +63,12 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 
 
-+ Manage Version - Version Notes v3.3 (MV3)
++ Manage Version - Version Notes
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added a new feed property in the sidebar to specify the maximum number of feed-items to be loaded (Requested by Dawiesel & John_DN).</li>
-  <li>Added a new option to prevent automatic feed refreshing upon launching the sidebar (Requested by John_DN).</li>
-  <li>Fixed an issue with feed imports (OPML). Feeds from 'Fraidycat' were incorrectly imported as empty folders (Spotted by Edo_Dry).</li>
-  <li>Fixed an issue with feed import/export functionality (OPML). The 'Ignore updates' property was not being handled.</li>
-  <li>Usual assortment of minor fixes and code improvements.</li>
+  <li>Fixed an issue with validation of relative links in Atom feeds (Spotted by Davor).</li>
+  <li>Fixed an issue where multiple adjacent feed items with the same URL were not being un-bolded (Spotted thanks to Davor).</li>
 </ul>
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
