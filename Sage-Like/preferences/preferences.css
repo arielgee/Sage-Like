@@ -334,21 +334,22 @@ input[type="radio"]:disabled {
 }
 
 input[type="color"] {
-	width: 25px;
+	width: 26px;
 	height: 18px;
 	border: none;
+	border-radius: 50%;
 	margin: 2px 3px;
-	padding: 1px;
+	padding: 0;
 	background-color: transparent;
+	box-shadow: 0 0 4px 2px var(--box-shadow-color-swatch);;
 	cursor: pointer;
 }
-
 input[type="color"]::-moz-color-swatch {
-	border: none;
-	border-radius: 50%;
-	box-shadow: 0 0 4px 2px var(--box-shadow-color-swatch);
+	border: inherit;
+	border-radius: inherit;
+	margin: 0;
+	padding: 0;
 }
-
 input[type="color"]::-moz-focus-inner {
 	padding: 0;
 }
