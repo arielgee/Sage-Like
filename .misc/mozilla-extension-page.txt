@@ -67,8 +67,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Fixed an issue with validation of relative links in Atom feeds (Spotted by Davor).</li>
-  <li>Fixed an issue where multiple adjacent feed items with the same URL were not being un-bolded (Spotted thanks to Davor).</li>
+  <li>Fixed two minor cosmetic issues.</li>
 </ul>
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
