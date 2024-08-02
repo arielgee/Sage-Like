@@ -229,7 +229,7 @@ let slPrototypes = (function() {
 	String.prototype.htmlChevronEntityToLiteral.entities = {
 		"&gt;": ">",
 		"&lt;": "<",
-	}
+	};
 	// regex groups: (positive lookbehind assertion) (chevrons) (positive lookahead assertion)
 	String.prototype.htmlChevronEntityToLiteral.regex = new RegExp(`(?<=<[^<>]*?)(${Object.keys(String.prototype.htmlChevronEntityToLiteral.entities).join("|")})(?=[^<>]*?>)`, "gim");
 
