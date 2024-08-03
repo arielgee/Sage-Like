@@ -1131,8 +1131,8 @@
 * rename #_removeXMLParsingErrors to #_fixXMLParsingErrors in preperation to adding the full HTML entities decode-map (rename also in here)
 * get HTML Named character references decode JSON list from https://html.spec.whatwg.org/entities.json
 * save entities decode-map as JS object script file in /shared as `xmlUnknownNamedEntities.js`. load script only where its needed (manifest.json, feedPreview.html, panel.html)
-	* file include old decode-map of `unknownNamedEntityInXMLToDecimal.entities` as `XMLUnknownNamedEntities.decodeMap_partial`
-* set to `unknownNamedEntityInXMLToDecimal.entities` in common.js only when exists: `(typeof XMLUnknownNamedEntities !== "undefined")`
+	* file include old decode-map of `unknownNamedEntityInXMLToHex.entities` as `XMLUnknownNamedEntities.decodeMap_partial`
+* set to `unknownNamedEntityInXMLToHex.entities` in common.js only when exists: `(typeof XMLUnknownNamedEntities !== "undefined")`
 * in FeedFactory.#_createXmlFeed()
 	* change: `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`
 	* to: `parseFromString()`, if fail `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`
@@ -1140,12 +1140,12 @@
 	* 4 tests each with 14 feeds, 8 of them bad:
 		> `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`								==> RESULTS in ms: average:588.25 , median:580.5
 		> `parseFromString()`, if fail `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`	==> RESULTS in ms: average:525.75 , median:524
+* rename from unknownNamedEntityInXMLToDecimal to unknownNamedEntityInXMLToHex (rename also in here)
 ---
 
 
 ## Now
-* rename from unknownNamedEntityInXMLToDecimal to String.prototype.unknownNamedEntityInXMLToHex (rename also in here)
-* ??? remove '&' and ';' '&#x' from entities-decode-map.json an compensate in String.prototype.unknownNamedEntityInXMLToDecimal
+* ??? remove '&' and ';' '&#x' from entities-decode-map.json an compensate in String.prototype.unknownNamedEntityInXMLToHex
 * make `string.replace(g_feed.regexpJunkAfterXMLDocElement, "$1") // junk after document element` to start search from string end
 * NOT WORKING: replace(reXMLInvalidChars, ""). see: C:\inetpub\wwwroot\feed-test-parse-error-4.xml
 * some way to display feed status numbers(error count, loading count etc)

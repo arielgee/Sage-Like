@@ -234,14 +234,14 @@ let slPrototypes = (function() {
 	String.prototype.htmlChevronEntityToLiteral.regex = new RegExp(`(?<=<[^<>]*?)(${Object.keys(String.prototype.htmlChevronEntityToLiteral.entities).join("|")})(?=[^<>]*?>)`, "gim");
 
 	////////////////////////////////////////////////////////////////////////////////////
-	String.prototype.unknownNamedEntityInXMLToDecimal = function() {
+	String.prototype.unknownNamedEntityInXMLToHex = function() {
 		// The only named entities known in XML are: '&amp;', '&quot;', '&lt;', '&gt;', '&apos;'.
-		return this.replace(String.prototype.unknownNamedEntityInXMLToDecimal.regex, (matched) => {
-			return String.prototype.unknownNamedEntityInXMLToDecimal.entities[matched];
+		return this.replace(String.prototype.unknownNamedEntityInXMLToHex.regex, (matched) => {
+			return String.prototype.unknownNamedEntityInXMLToHex.entities[matched];
 		});
 	};
-	String.prototype.unknownNamedEntityInXMLToDecimal.entities = ( (typeof XMLUnknownNamedEntities !== "undefined") ? XMLUnknownNamedEntities.decodeMap : {} );
-	String.prototype.unknownNamedEntityInXMLToDecimal.regex = new RegExp(Object.keys(String.prototype.unknownNamedEntityInXMLToDecimal.entities).join("|"), "gim");
+	String.prototype.unknownNamedEntityInXMLToHex.entities = ( (typeof XMLUnknownNamedEntities !== "undefined") ? XMLUnknownNamedEntities.decodeMap : {} );
+	String.prototype.unknownNamedEntityInXMLToHex.regex = new RegExp(Object.keys(String.prototype.unknownNamedEntityInXMLToHex.entities).join("|"), "gim");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeMarkup = function() {
