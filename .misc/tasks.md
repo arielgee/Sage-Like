@@ -1127,10 +1127,28 @@
 * new option to not refresh sidebar feeds when sidebar is loaded/open
 * rename updateTreeItemStats to updateTreeItemUnreadCount => NO
 * loading overlay for the preferences page for when the page loading is slow
+* check if upper case versions of '&amp;', '&quot;', '&lt;', '&gt;', '&apos;' are a problem for XML 1.0 => entities are case-sensitive
+* rename #_removeXMLParsingErrors to #_fixXMLParsingErrors in preperation to adding the full HTML entities decode-map (rename also in here)
+* get HTML Named character references decode JSON list from https://html.spec.whatwg.org/entities.json
+* save entities decode-map as JS object script file in /shared as `xmlUnknownNamedEntities.js`. load script only where its needed (manifest.json, feedPreview.html, panel.html)
+	* file include old decode-map of `unknownNamedEntityInXMLToDecimal.entities` as `XMLUnknownNamedEntities.decodeMap_partial`
+* set to `unknownNamedEntityInXMLToDecimal.entities` in common.js only when exists: `(typeof XMLUnknownNamedEntities !== "undefined")`
+* in FeedFactory.#_createXmlFeed()
+	* change: `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`
+	* to: `parseFromString()`, if fail `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`
+* test the decline in performance when using the full decode map and _fixXMLParsingErrors only if there is a parse error		=> GOOD RESULTS
+	* 4 tests each with 14 feeds, 8 of them bad:
+		> `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`								==> RESULTS in ms: average:588.25 , median:580.5
+		> `parseFromString()`, if fail `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`	==> RESULTS in ms: average:525.75 , median:524
 ---
 
 
 ## Now
+* rename from unknownNamedEntityInXMLToDecimal to String.prototype.unknownNamedEntityInXMLToHex (rename also in here)
+* ??? remove '&' and ';' '&#x' from entities-decode-map.json an compensate in String.prototype.unknownNamedEntityInXMLToDecimal
+* make `string.replace(g_feed.regexpJunkAfterXMLDocElement, "$1") // junk after document element` to start search from string end
+* NOT WORKING: replace(reXMLInvalidChars, ""). see: C:\inetpub\wwwroot\feed-test-parse-error-4.xml
+* some way to display feed status numbers(error count, loading count etc)
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

@@ -240,33 +240,7 @@ let slPrototypes = (function() {
 			return String.prototype.unknownNamedEntityInXMLToDecimal.entities[matched];
 		});
 	};
-	String.prototype.unknownNamedEntityInXMLToDecimal.entities = {
-		"&nbsp;": "&#160;",
-		"&emsp;": "&#8195;",
-		"&reg;": "&#174;",
-		"&copy;": "&#169;",
-		"&trade;": "&#8482;",
-		"&cent;": "&#162;",
-		"&pound;": "&#163;",
-		"&yen;": "&#165;",
-		"&euro;": "&#8364;",
-		"&raquo;": "&#x187;",
-		"&laquo;": "&#171;",
-		"&bull;": "&#8226;",
-		"&mdash;": "&#8212;",
-		"&ndash;": "&#8211;",
-		"&thinsp;": "&#8201;",
-		"&hellip;": "&#8230;",
-		"&middot;": "&#183;",
-		"&zwnj;": "&#8204;",
-		"&zwj;": "&#8205;",
-		"&rsquo;": "&#8217;",
-		"&lsquo;": "&#8216;",
-		"&sbquo;": "&#8218;",
-		"&ldquo;": "&#8220;",
-		"&rdquo;": "&#8221;",
-		"&bdquo;": "&#8222;",
-	};
+	String.prototype.unknownNamedEntityInXMLToDecimal.entities = ( (typeof XMLUnknownNamedEntities !== "undefined") ? XMLUnknownNamedEntities.decodeMap : {} );
 	String.prototype.unknownNamedEntityInXMLToDecimal.regex = new RegExp(Object.keys(String.prototype.unknownNamedEntityInXMLToDecimal.entities).join("|"), "gim");
 
 	//////////////////////////////////////////////////////////////////////
