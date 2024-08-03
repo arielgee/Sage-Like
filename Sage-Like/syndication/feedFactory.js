@@ -53,7 +53,7 @@ class FeedFactory {
 			xmlEncoding = test[1];
 		}
 
-		feedXmlText = this.#_removeXMLParsingErrors(feedXmlText, xmlVersion);
+		feedXmlText = this.#_fixXMLParsingErrors(feedXmlText, xmlVersion);
 
 		//	1.	This line is the one that throw to the console the log line 'XML Parsing Error: not well-formed' at
 		//		the location of: 'moz-extension://66135a72-02a1-4a68-a040-60511bfea6a2/sidebar/panel.html'.
@@ -107,7 +107,7 @@ class FeedFactory {
 	}
 
 	//////////////////////////////////////////
-	static #_removeXMLParsingErrors(xmlText, xmlVersion) {
+	static #_fixXMLParsingErrors(xmlText, xmlVersion) {
 
 		// if neither version then String.replace("", "") will do noting
 		let reXMLInvalidChars = (xmlVersion === "1.0") ? g_feed.regexpXML10InvalidChars : ( (xmlVersion === "1.1") ? g_feed.regexpXML11InvalidChars : "" );
