@@ -1141,14 +1141,15 @@
 		> `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`								==> RESULTS in ms: average:588.25 , median:580.5
 		> `parseFromString()`, if fail `_fixXMLParsingErrors(XMLUnknownNamedEntities.decodeMap)` and then `parseFromString()`	==> RESULTS in ms: average:525.75 , median:524
 * rename from unknownNamedEntityInXMLToDecimal to unknownNamedEntityInXMLToHex (rename also in here)
+* remove '&' and ';' '&#x' from entities-decode-map.json an compensate in String.prototype.unknownNamedEntityInXMLToHex		==> BAD IDEA
+* make `string.replace(g_feed.regexpJunkAfterXMLDocElement, "$1") // junk after document element` to start search from string end	== NO EASY WAY
 ---
 
 
 ## Now
-* ??? remove '&' and ';' '&#x' from entities-decode-map.json an compensate in String.prototype.unknownNamedEntityInXMLToHex
-* make `string.replace(g_feed.regexpJunkAfterXMLDocElement, "$1") // junk after document element` to start search from string end
 * NOT WORKING: replace(reXMLInvalidChars, ""). see: C:\inetpub\wwwroot\feed-test-parse-error-4.xml
 * some way to display feed status numbers(error count, loading count etc)
+* delete decodeMap_partial from XMLUnknownNamedEntities
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
