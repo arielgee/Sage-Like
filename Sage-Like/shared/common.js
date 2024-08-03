@@ -240,7 +240,7 @@ let slPrototypes = (function() {
 			return String.prototype.unknownNamedEntityInXMLToHex.entities[matched];
 		});
 	};
-	String.prototype.unknownNamedEntityInXMLToHex.entities = ( (typeof XMLUnknownNamedEntities !== "undefined") ? XMLUnknownNamedEntities.decodeMap : {} );
+	String.prototype.unknownNamedEntityInXMLToHex.entities = ( (typeof XMLUnknownNamedEntities === "object") ? XMLUnknownNamedEntities.decodeMap : {} );
 	String.prototype.unknownNamedEntityInXMLToHex.regex = new RegExp(Object.keys(String.prototype.unknownNamedEntityInXMLToHex.entities).join("|"), "gim");
 
 	//////////////////////////////////////////////////////////////////////
