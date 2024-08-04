@@ -1147,6 +1147,8 @@
 
 
 ## Now
+* remove `String.prototype.unknownNamedEntityInXMLToHex` from common.js and from `String.prototype`
+* check what is the deal with _permissions in RequiredPermissions. why not private member '#'
 * NOT WORKING: replace(reXMLInvalidChars, ""). see: C:\inetpub\wwwroot\feed-test-parse-error-4.xml
 * some way to display feed status numbers(error count, loading count etc)
 * delete decodeMap_partial from XMLUnknownNamedEntities

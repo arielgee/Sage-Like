@@ -10,7 +10,7 @@ const SyndicationStandard = Object.freeze({
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let g_feed = (function() {
+const g_feed = (function() {
 	return Object.freeze({
 		// Regular Expression Constants
 		regexpXMLFormat:				/^\s*(<!--.*?-->)?\s*<(\?xml|rss|rdf|feed)\b/i,							// Possible comment, XML prolog for RSS/RDF/Atom or xml without prolog
