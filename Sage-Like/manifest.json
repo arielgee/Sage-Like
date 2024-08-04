@@ -78,7 +78,7 @@
 	},
 	"background": {
 		"scripts": [
-			"/shared/xmlUnknownNamedEntities.js",
+			"/shared/unknownXMLNamedEntitiesData.js",
 			"/shared/common.js",
 			"/shared/rssTreeData.js",
 			"/syndication/helpers.js",
