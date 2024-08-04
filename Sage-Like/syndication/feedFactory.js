@@ -127,9 +127,9 @@ class FeedFactory {
 
 		// try to avoid stupid XML/RSS Parsing Errors
 		return xmlText
-			.replace(g_feed.regexpXMLWhiteSpaceStart, "")			// XML declaration (prolog) not at start of document
-			.replace(g_feed.regexpJunkAfterXMLDocElement, "$1")		// junk after document element
-			.unknownNamedEntityInXMLToHex()
-			.replace(reXMLInvalidChars, "");						// remove invalid characters
+			.replace(g_feed.regexpXMLWhiteSpaceStart, "")								// XML declaration (prolog) not at start of document
+			.replace(g_feed.regexpJunkAfterXMLDocElement, "$1")							// junk after document element
+			.replace(UnknownXMLNamedEntities.search, UnknownXMLNamedEntities.replacer)	// replace HTML5 named entities to HEX entities
+			.replace(reXMLInvalidChars, "");											// remove invalid characters
 	}
 }

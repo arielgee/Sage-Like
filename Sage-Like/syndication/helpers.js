@@ -10,6 +10,19 @@ const SyndicationStandard = Object.freeze({
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+class UnknownXMLNamedEntities {
+	// The only named entities known in XML are: '&amp;', '&quot;', '&lt;', '&gt;', '&apos;'.
+	static #_entities = ( (typeof UnknownXMLNamedEntitiesData === "object") ? UnknownXMLNamedEntitiesData.decodeMap : {} );
+	static #_regexpSearch = new RegExp(Object.keys(UnknownXMLNamedEntities.#_entities).join("|"), "gim");
+	static get search() {
+		return UnknownXMLNamedEntities.#_regexpSearch;
+	}
+	static replacer(matched) {
+		return UnknownXMLNamedEntities.#_entities[matched];
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 const g_feed = (function() {
 	return Object.freeze({
 		// Regular Expression Constants

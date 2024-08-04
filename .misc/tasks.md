@@ -1143,12 +1143,13 @@
 * rename from unknownNamedEntityInXMLToDecimal to unknownNamedEntityInXMLToHex (rename also in here)
 * remove '&' and ';' '&#x' from entities-decode-map.json an compensate in String.prototype.unknownNamedEntityInXMLToHex		==> BAD IDEA
 * make `string.replace(g_feed.regexpJunkAfterXMLDocElement, "$1") // junk after document element` to start search from string end	== NO EASY WAY
+* remove `String.prototype.unknownNamedEntityInXMLToHex` from common.js and from `String.prototype`
 ---
 
 
 ## Now
-* remove `String.prototype.unknownNamedEntityInXMLToHex` from common.js and from `String.prototype`
 * check what is the deal with _permissions in RequiredPermissions. why not private member '#'
+* examin the option to remember that a feed need fixing and `_fixXMLParsingErrors()` before first parse.
 * NOT WORKING: replace(reXMLInvalidChars, ""). see: C:\inetpub\wwwroot\feed-test-parse-error-4.xml
 * some way to display feed status numbers(error count, loading count etc)
 * delete decodeMap_partial from XMLUnknownNamedEntities

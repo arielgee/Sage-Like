@@ -1,7 +1,7 @@
 "use strict"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let XMLUnknownNamedEntities = {
+const UnknownXMLNamedEntitiesData = {
 
 	decodeMap_partial: {
 		"&nbsp;": "&#xA0;",

@@ -233,16 +233,6 @@ let slPrototypes = (function() {
 	// regex groups: (positive lookbehind assertion) (chevrons) (positive lookahead assertion)
 	String.prototype.htmlChevronEntityToLiteral.regex = new RegExp(`(?<=<[^<>]*?)(${Object.keys(String.prototype.htmlChevronEntityToLiteral.entities).join("|")})(?=[^<>]*?>)`, "gim");
 
-	////////////////////////////////////////////////////////////////////////////////////
-	String.prototype.unknownNamedEntityInXMLToHex = function() {
-		// The only named entities known in XML are: '&amp;', '&quot;', '&lt;', '&gt;', '&apos;'.
-		return this.replace(String.prototype.unknownNamedEntityInXMLToHex.regex, (matched) => {
-			return String.prototype.unknownNamedEntityInXMLToHex.entities[matched];
-		});
-	};
-	String.prototype.unknownNamedEntityInXMLToHex.entities = ( (typeof XMLUnknownNamedEntities === "object") ? XMLUnknownNamedEntities.decodeMap : {} );
-	String.prototype.unknownNamedEntityInXMLToHex.regex = new RegExp(Object.keys(String.prototype.unknownNamedEntityInXMLToHex.entities).join("|"), "gim");
-
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeMarkup = function() {
 		return this.replace(String.prototype.escapeMarkup.regex, (match) => {
