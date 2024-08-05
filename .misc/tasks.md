@@ -1150,7 +1150,7 @@
 ## Now
 * check what is the deal with _permissions in RequiredPermissions. why not private member '#'
 * examin the option to remember that a feed need fixing and `_fixXMLParsingErrors()` before first parse.
-* NOT WORKING: replace(reXMLInvalidChars, ""). see: C:\inetpub\wwwroot\feed-test-parse-error-4.xml
+* IS WORKING: replace(reXMLInvalidChars, "") but is not consedering the an invalid char as an hex entity: replaces '' but not '&#x13' or '&#19'
 * messagebox via new menu item to display feed status numbers(error count, loading count etc)
 * delete decodeMap_partial from XMLUnknownNamedEntities
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
