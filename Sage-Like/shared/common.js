@@ -1149,7 +1149,7 @@ let slUtil = (function() {
 			let collectFolders = function (bmFolders, bookmark) {
 				if (bookmark.type === "folder") {
 					bmFolders[bookmark.id] = { id: bookmark.id, title: bookmark.title };
-					for(let i=0, len=bookmark.children.length; i<len; i++) {
+					for(let i=0, len=bookmark.children.length; i<len; ++i) {
 						collectFolders(bmFolders, bookmark.children[i]);
 					}
 				}
@@ -1177,7 +1177,7 @@ let slUtil = (function() {
 			let bmFeeds = asArray ? [] : {};
 			let collectFeeds = function (bmFeeds, bookmark) {
 				if (bookmark.type === "folder") {
-					for(let i=0, len=bookmark.children.length; i<len; i++) {
+					for(let i=0, len=bookmark.children.length; i<len; ++i) {
 						collectFeeds(bmFeeds, bookmark.children[i]);
 					}
 				} else if (bookmark.type === "bookmark") {

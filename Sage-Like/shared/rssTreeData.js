@@ -106,6 +106,7 @@ class OpenTreeFolders extends StoredKeyedItems {
 
 			let collecting = slUtil.bookmarksFoldersAsCollection();
 			let getting = this.getStorage();
+			let msThresholdTime = Date.now() - millisecOlderThen;
 
 			collecting.then((bmFolders) => {
 				getting.then(() => {
@@ -113,7 +114,7 @@ class OpenTreeFolders extends StoredKeyedItems {
 					for(let key in this._items) {
 
 						// remove from object if its not in the folders collection and is older then millisecOlderThen
-						if( !!!bmFolders[key] && (this._items[key].lastChecked < (Date.now() - millisecOlderThen)) ) {
+						if( !!!bmFolders[key] && (this._items[key].lastChecked < msThresholdTime) ) {
 							this.remove(key, false);
 						}
 					}
@@ -195,6 +196,7 @@ class TreeFeedsData extends StoredKeyedItems {
 
 			let collecting = slUtil.bookmarksFeedsAsCollection(false);
 			let getting = this.getStorage();
+			let msThresholdTime = Date.now() - millisecOlderThen;
 
 			collecting.then((bmFeeds) => {
 				getting.then(() => {
@@ -202,7 +204,7 @@ class TreeFeedsData extends StoredKeyedItems {
 					for(let key in this._items) {
 
 						// remove from object if its not in the feeds collection and is older then millisecOlderThen
-						if( !!!bmFeeds[key] && (this._items[key].lastChecked < (Date.now() - millisecOlderThen)) ) {
+						if( !!!bmFeeds[key] && (this._items[key].lastChecked < msThresholdTime) ) {
 							this.remove(key, false);
 						}
 					}

@@ -10,24 +10,6 @@ const SyndicationStandard = Object.freeze({
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-const g_feed = (function() {
-	return Object.freeze({
-		// Regular Expression Constants
-		regexpXMLFormat:				/^\s*(<!--.*?-->)?\s*<(\?xml|rss|rdf|feed)\b/i,							// Possible comment, XML prolog for RSS/RDF/Atom or xml without prolog
-		regexpJSONFormat: 				/^\s*\{/i,																// JSON bracket for jsonfeed
-		regexpXMLVersion: 				/^\s*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/i,
-		regexpXMLEncoding:				/^\s*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/i,
-		regexpXMLWhiteSpaceStart:		/^\s+/,																	// XML declaration (prolog) not at start of document
-		regexpJunkAfterXMLDocElement:	/(<\/(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\S\s]+/,						// junk after document element
-		regexpXMLParseError:			/^(.*)[\s\S]*(line number \d+, column \d+):.*/i,						// the first line and the error location
-		regexpXML10InvalidChars:		/[^\u0009\r\n\u0020-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug,	// xml 1.0	-	https://www.w3.org/TR/REC-xml/#charsets
-		regexpXML11InvalidChars:		/[^\u0001-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug,			// xml 1.1	-	https://www.w3.org/TR/2006/REC-xml11-20060816/#charsets
-
-		domParser: new DOMParser(),
-	});
-})();
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 class UnknownXMLNamedEntities {
 	// The only named entities known in XML are: '&amp;', '&quot;', '&lt;', '&gt;', '&apos;'.
 	static #_entities = ( (typeof UnknownXMLNamedEntitiesData === "object") ? UnknownXMLNamedEntitiesData.decodeMap : {} );
@@ -143,3 +125,21 @@ class SigninCredential {
 		this.initialized = true;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+const g_feed = (function() {
+	return Object.freeze({
+		// Regular Expression Constants
+		regexpXMLFormat:				/^\s*(<!--.*?-->)?\s*<(\?xml|rss|rdf|feed)\b/i,							// Possible comment, XML prolog for RSS/RDF/Atom or xml without prolog
+		regexpJSONFormat: 				/^\s*\{/i,																// JSON bracket for jsonfeed
+		regexpXMLVersion: 				/^\s*<\?xml\b[^>]*\bversion\s*=\s*["']([^"']*)["'][^>]*?>/i,
+		regexpXMLEncoding:				/^\s*<\?xml\b[^>]*\bencoding\s*=\s*["']([^"']*)["'][^>]*?>/i,
+		regexpXMLWhiteSpaceStart:		/^\s+/,																	// XML declaration (prolog) not at start of document
+		regexpJunkAfterXMLDocElement:	/(<\/(rss|feed|(([a-zA-Z0-9-_.]+:)?RDF))>)[\S\s]+/,						// junk after document element
+		regexpXMLParseError:			/^(.*)[\s\S]*(line number \d+, column \d+):.*/i,						// the first line and the error location
+		regexpXML10InvalidChars:		/[^\u0009\r\n\u0020-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug,	// xml 1.0	-	https://www.w3.org/TR/REC-xml/#charsets
+		regexpXML11InvalidChars:		/[^\u0001-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug,			// xml 1.1	-	https://www.w3.org/TR/2006/REC-xml11-20060816/#charsets
+
+		domParser: new DOMParser(),
+	});
+})();
