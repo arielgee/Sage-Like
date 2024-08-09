@@ -24,12 +24,12 @@ class FeedFactory {
 
 		if(feedStd === SyndicationStandard.RSS) {
 			return new RssFeed(feedUrl);
-		} else if(feedStd === SyndicationStandard.RDF) {
-			return new RdfFeed(feedUrl);
 		} else if(feedStd === SyndicationStandard.Atom) {
 			return new AtomFeed(feedUrl);
 		} else if(feedStd === SyndicationStandard.JSON) {
 			return new JsonFeed(feedUrl);
+		} else if(feedStd === SyndicationStandard.RDF) {
+			return new RdfFeed(feedUrl);
 		} else {
 			return null;
 		}
@@ -88,13 +88,13 @@ class FeedFactory {
 
 			return new RssFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
 
-		} else if(xmlDoc.documentElement.localName === "RDF") {				// Then let's try 'RDF (RSS) 1.0'
-
-			return new RdfFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
-
-		} else if(xmlDoc.documentElement.localName === "feed") {			// FInally let's try 'Atom'
+		} else if(xmlDoc.documentElement.localName === "feed") {			// Then let's try 'Atom'
 
 			return new AtomFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
+
+		} else if(xmlDoc.documentElement.localName === "RDF") {				// Finally let's try 'RDF (RSS) 1.0'
+
+			return new RdfFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
 
 		} else {
 
