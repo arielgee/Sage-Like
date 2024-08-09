@@ -7,7 +7,7 @@ class RequiredPermissions {
 	static #_instance = null;
 
 	#_granted = null;
-	_permissions = { origins: ["<all_urls>"] };
+	#_permissions = { origins: ["<all_urls>"] };
 
 	constructor(id) {
 		if(RequiredPermissions.#_constructId !== parseInt(id)) {
@@ -46,7 +46,7 @@ class RequiredPermissions {
 
 	//////////////////////////////////////////
 	request() {
-		return browser.permissions.request(this._permissions);
+		return browser.permissions.request(this.#_permissions);
 	}
 
 	//////////////////////////////////////////
@@ -63,6 +63,6 @@ class RequiredPermissions {
 
 	//////////////////////////////////////////
 	async #_checkPermissions() {
-		this.#_granted = await browser.permissions.contains(this._permissions);
+		this.#_granted = await browser.permissions.contains(this.#_permissions);
 	}
 }

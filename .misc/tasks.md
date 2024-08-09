@@ -1144,20 +1144,20 @@
 * remove '&' and ';' '&#x' from entities-decode-map.json an compensate in String.prototype.unknownNamedEntityInXMLToHex		==> BAD IDEA
 * make `string.replace(g_feed.regexpJunkAfterXMLDocElement, "$1") // junk after document element` to start search from string end	== NO EASY WAY
 * remove `String.prototype.unknownNamedEntityInXMLToHex` from common.js and from `String.prototype`
+* check what is the deal with _permissions in RequiredPermissions. why not private member '#'  => forgot to '#'
 ---
 
 
 ## Now
-* check what is the deal with _permissions in RequiredPermissions. why not private member '#'
-* examin the option to remember that a feed need fixing and `_fixXMLParsingErrors()` before first parse.
-* IS WORKING: replace(reXMLInvalidChars, "") but is not consedering the an invalid char as an hex entity: replaces '' but not '&#x13' or '&#19'
-* messagebox via new menu item to display feed status numbers(error count, loading count etc)
-* delete decodeMap_partial from XMLUnknownNamedEntities
+* remember that a feed need fixing and `_fixXMLParsingErrors()` before parse.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* IS WORKING: replace(reXMLInvalidChars, "") but is not consedering the an invalid char as an hex entity: replaces '' but not '&#x13' or '&#19'
+* messagebox via new menu item to display feed status numbers(error count, loading count etc)
+* delete decodeMap_partial from XMLUnknownNamedEntities
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
