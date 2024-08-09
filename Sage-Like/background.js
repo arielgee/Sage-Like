@@ -277,9 +277,10 @@
 			await objTreeFeedsData.getStorage();
 
 			// scan all feed urls for the first updated one
-			let showNewBadge = false;
-			for (let feed of bmFeeds) {
+			let feed, showNewBadge = false;
+			for (let i=0, len=bmFeeds.length; i<len; ++i) {
 
+				feed = bmFeeds[i];
 				// add if not already exists or just update the lastChecked
 				objTreeFeedsData.update(feed.id);
 
