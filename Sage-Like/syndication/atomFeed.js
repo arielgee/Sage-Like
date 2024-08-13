@@ -110,9 +110,14 @@ class AtomFeed extends XmlFeed {
 				return null;
 			};
 
-			let url = funcValidURL(elm.getAttribute("href"), urlBase);
-			if( !!url ) {
-				return url;
+			let url = elm.getAttribute("href");
+
+			// if it's null it's most probably an <id>
+			if(url !== null) {
+				url = funcValidURL(url, urlBase);
+				if( !!url ) {
+					return url;
+				}
 			}
 
 			url = funcValidURL(elm.textContent, urlBase);	// when link comes from <id>

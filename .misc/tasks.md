@@ -1150,13 +1150,18 @@
 
 ## Now
 * remember that a feed need fixing and `_fixXMLParsingErrors()` before parse.
+*	FeedsWithParsingErrors.getStorage() -  need to reload from storage if modified from other source (background, panel, feedPreview)
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
 * IS WORKING: replace(reXMLInvalidChars, "") but is not consedering the an invalid char as an hex entity: replaces '' but not '&#x13' or '&#19'
+* in rssTreeView. move `prefs.getFetchTimeout().then((timeout) => {` from checkForNewFeedData() to checkForNewRSSTreeFeedsData() and pass as parameter to checkForNewFeedData()
+	* rename value
+	* checkForNewFeedData is no longer executed async because of the removing of the `prefs.getFetchTimeout` promise, Ahmmmmm...
 * messagebox via new menu item to display feed status numbers(error count, loading count etc)
+* filter by feed status (see messagebox feed status numbers)
 * delete decodeMap_partial from XMLUnknownNamedEntities
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
