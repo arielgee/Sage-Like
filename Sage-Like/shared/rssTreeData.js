@@ -17,65 +17,6 @@ class TreeItemType {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-class StoredKeyedItems {
-	constructor() {
-		if (new.target.name === "StoredKeyedItems") {
-			throw new Error(new.target.name + ".constructor: Don't do that");
-		}
-		this._items = {};
-	}
-
-	//////////////////////////////////////////
-	set(key, value, saveToStorage = true) {
-		this._items[key] = !!value ? value : {};
-		if(saveToStorage) this.setStorage();
-	}
-
-	//////////////////////////////////////////
-	remove(key, saveToStorage = true) {
-		delete this._items[key];
-		if(saveToStorage) this.setStorage();
-	}
-
-	//////////////////////////////////////////
-	get length() {
-		return Object.keys(this._items).length;
-	}
-
-	//////////////////////////////////////////
-	exist(key) {
-		return this._items.hasOwnProperty(key);
-	}
-
-	//////////////////////////////////////////
-	value(key) {
-		// return a cloned item to prevent modifications to items in _items w/o using set()
-		return this._items.hasOwnProperty(key) ? Object.assign({}, this._items[key]) : undefined;
-	}
-
-	//////////////////////////////////////////
-	clear(saveToStorage = true) {
-		this._items = {};
-		if(saveToStorage) this.setStorage();
-	}
-
-	//////////////////////////////////////////
-	maintenance() {
-		return new Promise((resolve) => {
-			this.getStorage().then(() => {
-
-				// for version upgrade need to update values; add/remove modified properties
-				for(let key in this._items) {
-					this.set(key, {}, false);
-				}
-				this.setStorage();
-				resolve();
-			})
-		});
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 class OpenTreeFolders extends StoredKeyedItems {
 
 	// ATTENTION: If you add any new member (like lastChecked) to this object, update onRuntimeInstalled() in background.js
