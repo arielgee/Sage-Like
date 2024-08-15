@@ -127,6 +127,62 @@ class SigninCredential {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+class FeedsWithParsingErrors extends StoredKeyedItems {
+
+	// ATTENTION: If you add any new member (like lastChecked) to this object, update onRuntimeInstalled() in background.js
+
+	constructor() {
+		super();
+		this.getStorage();
+	}
+
+	//////////////////////////////////////////
+	getStorage() {
+		return new Promise((resolve) => {
+			internalPrefs.getFeedsWithParsingErrors().then((items) => {
+				this._items = items;
+				resolve(this.length);
+			});
+		});
+	}
+
+	//////////////////////////////////////////
+	setStorage() {
+		return internalPrefs.setFeedsWithParsingErrors(this._items);
+	}
+
+	//////////////////////////////////////////
+	set(key, _, saveToStorage = true) {
+		super.set(key, { lastChecked: Date.now() }, saveToStorage);
+	}
+
+	//////////////////////////////////////////
+	purge(millisecOlderThen = 691200000) {	// default is 8 days in milliseconds
+		return new Promise((resolve) => {
+
+			let collecting = slUtil.bookmarksFeedUrlsAsCollection();
+			let gettingStorage = this.getStorage();
+			let msThresholdTime = Date.now() - millisecOlderThen;
+
+			collecting.then((bmUrls) => {
+				gettingStorage.then(() => {
+
+					for(let key in this._items) {
+						// remove if not in bookmarks OR older then millisecOlderThen
+						if( !!!bmUrls[key] || (this._items[key].lastChecked < msThresholdTime) ) {
+							this.remove(key, false);
+						}
+					}
+					this.setStorage();
+					resolve();
+
+				}).catch(() => {});
+			}).catch(() => {});
+		});
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 const g_feed = (function() {
 	return Object.freeze({
 		// Regular Expression Constants
@@ -141,5 +197,7 @@ const g_feed = (function() {
 		regexpXML11InvalidChars:		/[^\u0001-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]+/ug,			// xml 1.1	-	https://www.w3.org/TR/2006/REC-xml11-20060816/#charsets
 
 		domParser: new DOMParser(),
+
+		feedsWithParsingErrors: new FeedsWithParsingErrors(),
 	});
 })();

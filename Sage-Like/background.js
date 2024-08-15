@@ -275,6 +275,7 @@
 			let objTreeFeedsData = new TreeFeedsData();
 
 			await objTreeFeedsData.getStorage();
+			await g_feed.feedsWithParsingErrors.getStorage();
 
 			// scan all feed urls for the first updated one
 			let feed, showNewBadge = false;

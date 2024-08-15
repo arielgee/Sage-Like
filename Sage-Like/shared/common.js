@@ -456,6 +456,7 @@ let internalPrefs = (function() {
 		NOTIFIED_FOR_NEW_VERSION_VALUE:			{ name: "pref_notifiedForNewVersionValue",		default: ""			},
 		NOTIFIED_ABOUT_PERMISSIONS:				{ name: "pref_notifiedAboutPermissions",		default: false		},
 		SHOW_FEED_MAX_ITEMS_MSG:				{ name: "pref_showFeedMaxItemsMsg",				default: true		},
+		FEEDS_WITH_PARSING_ERRORS:				{ name: "pref_feedsWithParsingErrors",			default: {}			},
 	});
 
 	let m_localStorage = browser.storage.local;
@@ -478,6 +479,7 @@ let internalPrefs = (function() {
 	function getNotifiedForNewVersionValue()		{ return _getPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE); }
 	function getNotifiedAboutPermissions()			{ return _getPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS); }
 	function getShowFeedMaxItemsMsg()				{ return _getPreferenceValue(PREF.SHOW_FEED_MAX_ITEMS_MSG); }
+	function getFeedsWithParsingErrors()			{ return _getPreferenceValue(PREF.FEEDS_WITH_PARSING_ERRORS); }
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function setOpenTreeFolders(value)					{ return _setPreferenceValue(PREF.OPEN_TREE_FOLDERS, value); }
@@ -497,6 +499,7 @@ let internalPrefs = (function() {
 	function setNotifiedForNewVersionValue(value)		{ return _setPreferenceValue(PREF.NOTIFIED_FOR_NEW_VERSION_VALUE, value); }
 	function setNotifiedAboutPermissions(value)			{ return _setPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS, value); }
 	function setShowFeedMaxItemsMsg(value)				{ return _setPreferenceValue(PREF.SHOW_FEED_MAX_ITEMS_MSG, value); }
+	function setFeedsWithParsingErrors(value)			{ return _setPreferenceValue(PREF.FEEDS_WITH_PARSING_ERRORS, value); }
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
@@ -554,6 +557,7 @@ let internalPrefs = (function() {
 		getNotifiedForNewVersionValue: getNotifiedForNewVersionValue,
 		getNotifiedAboutPermissions: getNotifiedAboutPermissions,
 		getShowFeedMaxItemsMsg: getShowFeedMaxItemsMsg,
+		getFeedsWithParsingErrors: getFeedsWithParsingErrors,
 
 		setOpenTreeFolders: setOpenTreeFolders,
 		setTreeFeedsData: setTreeFeedsData,
@@ -572,6 +576,7 @@ let internalPrefs = (function() {
 		setNotifiedForNewVersionValue: setNotifiedForNewVersionValue,
 		setNotifiedAboutPermissions: setNotifiedAboutPermissions,
 		setShowFeedMaxItemsMsg: setShowFeedMaxItemsMsg,
+		setFeedsWithParsingErrors: setFeedsWithParsingErrors,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 
@@ -1263,6 +1268,36 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function bookmarksFeedUrlsAsCollection() {
+
+		return new Promise((resolve, reject) => {
+
+			let bmUrls = {};
+			let collectUrls = function (bmUrls, bookmark) {
+				if (bookmark.type === "folder") {
+					for(let i=0, len=bookmark.children.length; i<len; ++i) {
+						collectUrls(bmUrls, bookmark.children[i]);
+					}
+				} else if (bookmark.type === "bookmark") {
+					bmUrls[bookmark.url] = 1;
+				}
+			};
+
+			prefs.getRootFeedsFolderId().then((folderId) => {
+
+				if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
+					return reject("Root feeds folder id not set (bookmarksFeedUrlsAsCollection)");
+				}
+
+				browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
+					collectUrls(bmUrls, bookmarks[0]);
+					resolve(bmUrls);
+				}).catch((error) => reject(error));
+			}).catch((error) => reject(error));
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function isDescendantOfRoot(bookmarkIds) {
 
 		return new Promise((resolve, reject) => {
@@ -1711,15 +1746,17 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function debug_storedKeys_list(n=3) {
+	function debug_storedKeys_list(n=7) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
+		if(n & 4) internalPrefs.getFeedsWithParsingErrors().then((obj) => console.log("[Sage-Like] -lsk-XWE", Object.keys(obj).length, obj));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function debug_storedKeys_purge(n=3, millisecOld=1) {
+	function debug_storedKeys_purge(n=7, millisecOld=1) {
 		if(n & 1) (new OpenTreeFolders()).purge(millisecOld);
 		if(n & 2) (new TreeFeedsData()).purge(millisecOld);
+		if(n & 4) (new FeedsWithParsingErrors()).purge(millisecOld);
 	}
 
 	return {
@@ -1743,6 +1780,7 @@ let slUtil = (function() {
 		numberOfVItemsInViewport: numberOfVItemsInViewport,
 		bookmarksFoldersAsCollection: bookmarksFoldersAsCollection,
 		bookmarksFeedsAsCollection: bookmarksFeedsAsCollection,
+		bookmarksFeedUrlsAsCollection: bookmarksFeedUrlsAsCollection,
 		isDescendantOfRoot: isDescendantOfRoot,
 		replaceMozExtensionOriginURL: replaceMozExtensionOriginURL,
 		invertColor: invertColor,

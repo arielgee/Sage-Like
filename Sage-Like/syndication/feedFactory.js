@@ -54,28 +54,25 @@ class FeedFactory {
 		}
 
 		let xmlDoc;
-		let parserError = true;		// pessimistic
 
-		// Maximum of 2 parsing attempts. If first attempt fails then try again after removing/fixing common XML issues.
-		for(let attempt=2; attempt>0; --attempt) {
+		if(g_feed.feedsWithParsingErrors.exist(feedUrl)) {
 
-			//	1.	This line is the one that throw to the console the log line 'XML Parsing Error: not well-formed' at
+			//	1.	The parseFromString() is the one that throw to the console the log line 'XML Parsing Error: not well-formed' at
 			//		the location of: 'moz-extension://66135a72-02a1-4a68-a040-60511bfea6a2/sidebar/panel.html'.
 			//	2.	Firefox v73 has no support for XML 1.1.
+			xmlDoc = g_feed.domParser.parseFromString(this.#_fixXMLParsingErrors(feedXmlText, xmlVersion), "text/xml");
+
+		} else {
+
 			xmlDoc = g_feed.domParser.parseFromString(feedXmlText, "text/xml");
 
-			// returns 'parsererror' if XML is not well-formed
-			if(xmlDoc.documentElement.nodeName !== "parsererror") {
-				parserError = false;
-				break;
-			}
-
-			if(attempt > 1) {
-				feedXmlText = this.#_fixXMLParsingErrors(feedXmlText, xmlVersion);
+			if(xmlDoc.documentElement.nodeName === "parsererror") {
+				g_feed.feedsWithParsingErrors.set(feedUrl);		// add to list any feed that fails parsing. even if it's unparsable.
+				xmlDoc = g_feed.domParser.parseFromString(this.#_fixXMLParsingErrors(feedXmlText, xmlVersion), "text/xml");
 			}
 		}
 
-		if(parserError === true) {
+		if(xmlDoc.documentElement.nodeName === "parsererror") {
 
 			console.log("[Sage-Like]", "Parser error at " + feedUrl, "\n" + xmlDoc.documentElement.textContent);
 

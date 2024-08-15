@@ -109,6 +109,7 @@ let rssTreeView = (function() {
 
 		m_objTreeFeedsData.purge();
 		m_objOpenTreeFolders.purge();
+		g_feed.feedsWithParsingErrors.purge();
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
@@ -574,28 +575,34 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function checkForNewRSSTreeFeedsData() {
+	function checkForNewRSSTreeFeedsData() {
 
-		await m_objTreeFeedsData.getStorage();
+		let gettingFeedsData = m_objTreeFeedsData.getStorage();
+		let gettingFeedsWithErrors = g_feed.feedsWithParsingErrors.getStorage();
+		let gettingCheckFeedsMethod = prefs.getCheckFeedsMethod();
 
 		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
-		prefs.getCheckFeedsMethod().then(async (value) => {
+		gettingFeedsData.then(() => {
+			gettingFeedsWithErrors.then(() => {
+				gettingCheckFeedsMethod.then(async (value) => {
 
-			let counter = 0;
-			let method = value.split(";").map(x => parseInt(x));
-			let batchSize = method[0] === 0 ? 1 : Math.ceil(elmLIs.length / method[0]);
-			let timeoutPause = method[1];
-			let elm;
+					let counter = 0;
+					let method = value.split(";").map(x => parseInt(x));
+					let batchSize = method[0] === 0 ? 1 : Math.ceil(elmLIs.length / method[0]);
+					let timeoutPause = method[1];
+					let elm;
 
-			for(let i=0, len=elmLIs.length; i<len; i++) {
-				elm = elmLIs[i];
-				checkForNewFeedData(elm, elm.id, elm.getAttribute("href"));
-				if((++counter % batchSize) === 0) {
-					await slUtil.sleep(timeoutPause);
-				}
-			}
-			//console.log("[Sage-Like]", "Periodic check for new feeds performed in sidebar.");
+					for(let i=0, len=elmLIs.length; i<len; ++i) {
+						elm = elmLIs[i];
+						checkForNewFeedData(elm, elm.id, elm.getAttribute("href"));
+						if((++counter % batchSize) === 0) {
+							await slUtil.sleep(timeoutPause);
+						}
+					}
+					//console.log("[Sage-Like]", "Periodic check for new feeds performed in sidebar.");
+				});
+			});
 		});
 	}
 
