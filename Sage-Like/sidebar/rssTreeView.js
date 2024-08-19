@@ -580,34 +580,39 @@ let rssTreeView = (function() {
 		let gettingFeedsData = m_objTreeFeedsData.getStorage();
 		let gettingFeedsWithErrors = g_feed.feedsWithParsingErrors.getStorage();
 		let gettingCheckFeedsMethod = prefs.getCheckFeedsMethod();
+		let gettingFetchTimeout = prefs.getFetchTimeout();
 
 		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 		gettingFeedsData.then(() => {
 			gettingFeedsWithErrors.then(() => {
-				gettingCheckFeedsMethod.then(async (method) => {
+				gettingCheckFeedsMethod.then((method) => {
+					gettingFetchTimeout.then(async (timeoutFetch) => {
 
-					let counter = 0;
-					let methodVals = method.split(";").map(x => parseInt(x));
-					let batchSize = methodVals[0] === 0 ? 1 : Math.ceil(elmLIs.length / methodVals[0]);
-					let timeoutPause = methodVals[1];
-					let elm;
+						const methodVals = method.split(";").map(x => parseInt(x));
+						const batchSize = methodVals[0] === 0 ? 1 : Math.ceil(elmLIs.length / methodVals[0]);
+						const timeoutPause = methodVals[1];
+						let elm;
+						let counter = 0;
 
-					for(let i=0, len=elmLIs.length; i<len; ++i) {
-						elm = elmLIs[i];
-						checkForNewFeedData(elm, elm.id, elm.getAttribute("href"));
-						if((++counter % batchSize) === 0) {
-							await slUtil.sleep(timeoutPause);
+						timeoutFetch *= 1000;	// to milliseconds
+
+						for(let i=0, len=elmLIs.length; i<len; ++i) {
+							elm = elmLIs[i];
+							checkForNewFeedData(elm, elm.id, elm.getAttribute("href"), timeoutFetch);
+							if((++counter % batchSize) === 0) {
+								await slUtil.sleep(timeoutPause);
+							}
 						}
-					}
-					//console.log("[Sage-Like]", "Periodic check for new feeds performed in sidebar.");
+						//console.log("[Sage-Like]", "Periodic check for new feeds performed in sidebar.");
+					});
 				});
 			});
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function checkForNewFeedData(elmLI, id, url) {
+	function checkForNewFeedData(elmLI, id, url, timeout) {
 
 		setFeedErrorState(elmLI, false);
 		setFeedLoadingState(elmLI, true);
@@ -615,48 +620,43 @@ let rssTreeView = (function() {
 		// add if not already exists or just update the lastChecked
 		m_objTreeFeedsData.update(id);
 
-		prefs.getFetchTimeout().then((timeout) => {
+		const treeFeedData = m_objTreeFeedsData.value(id);
 
-			timeout *= 1000;	// to milliseconds
+		const details = {
+			sortItems: false,
+			rejectIfNoItems: false,
+			feedMaxItems: treeFeedData.feedMaxItems,
+		};
 
-			const treeFeedData = m_objTreeFeedsData.value(id);
+		const msFetchTime = Date.now();
+		const fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, details) : syndication.fetchFeedData(url, timeout, false);
 
-			const details = {
-				sortItems: false,
-				rejectIfNoItems: false,
-				feedMaxItems: treeFeedData.feedMaxItems,
-			};
+		fetching.then((fetchResult) => {
 
-			const msFetchTime = Date.now();
-			const fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, details) : syndication.fetchFeedData(url, timeout, false);
+			const ignoreFeedUpdates = treeFeedData.ignoreUpdates;
+			const msLastVisited = treeFeedData.lastVisited;
+			let updateTime, msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
 
-			fetching.then((fetchResult) => {
+			msUpdateTime = syndication.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
+			updateTime = new Date(msUpdateTime);
 
-				const ignoreFeedUpdates = treeFeedData.ignoreUpdates;
-				const msLastVisited = treeFeedData.lastVisited;
-				let updateTime, msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
+			const additionalLines = [
+				`Format: ${fetchResult.feedData.standard}`,
+				`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}${ignoreFeedUpdates ? ", ignored" : ""}`,
+				`Expired: ${fetchResult.feedData.expired ? "Yes": ""}`,		// Display only if it's true
+			];
 
-				msUpdateTime = syndication.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
-				updateTime = new Date(msUpdateTime);
-
-				const additionalLines = [
-					`Format: ${fetchResult.feedData.standard}`,
-					`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}${ignoreFeedUpdates ? ", ignored" : ""}`,
-					`Expired: ${fetchResult.feedData.expired ? "Yes": ""}`,		// Display only if it's true
-				];
-
-				setFeedVisitedState(elmLI, ignoreFeedUpdates || (msLastVisited > msUpdateTime));
-				updateFeedTitle(elmLI, fetchResult.feedData.title);
-				updateFeedStatsFromHistory(elmLI, fetchResult.list);
-				setTreeItemUpdateDataAttribute(elmLI, updateTime);
-				setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, additionalLines);
-				updateTreeBranchFoldersStats(elmLI);
-			}).catch((error) => {
-				setFeedErrorState(elmLI, true, error);
-			}).finally(() => {
-				setFeedLoadingState(elmLI, false);
-				setTreeFeedDataLastStatusMembers(elmLI);
-			});
+			setFeedVisitedState(elmLI, ignoreFeedUpdates || (msLastVisited > msUpdateTime));
+			updateFeedTitle(elmLI, fetchResult.feedData.title);
+			updateFeedStatsFromHistory(elmLI, fetchResult.list);
+			setTreeItemUpdateDataAttribute(elmLI, updateTime);
+			setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, additionalLines);
+			updateTreeBranchFoldersStats(elmLI);
+		}).catch((error) => {
+			setFeedErrorState(elmLI, true, error);
+		}).finally(() => {
+			setFeedLoadingState(elmLI, false);
+			setTreeFeedDataLastStatusMembers(elmLI);
 		});
 	}
 
