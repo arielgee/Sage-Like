@@ -585,12 +585,12 @@ let rssTreeView = (function() {
 
 		gettingFeedsData.then(() => {
 			gettingFeedsWithErrors.then(() => {
-				gettingCheckFeedsMethod.then(async (value) => {
+				gettingCheckFeedsMethod.then(async (method) => {
 
 					let counter = 0;
-					let method = value.split(";").map(x => parseInt(x));
-					let batchSize = method[0] === 0 ? 1 : Math.ceil(elmLIs.length / method[0]);
-					let timeoutPause = method[1];
+					let methodVals = method.split(";").map(x => parseInt(x));
+					let batchSize = methodVals[0] === 0 ? 1 : Math.ceil(elmLIs.length / methodVals[0]);
+					let timeoutPause = methodVals[1];
 					let elm;
 
 					for(let i=0, len=elmLIs.length; i<len; ++i) {
