@@ -1148,11 +1148,11 @@
 * remember that a feed need fixing and `_fixXMLParsingErrors()` before parse.
 	* FeedsWithParsingErrors.getStorage() -  need to reload from storage if modified from other source (background, panel, feedPreview)
 * in rssTreeView. move `prefs.getFetchTimeout().then((timeout) => {` from checkForNewFeedData() to checkForNewRSSTreeFeedsData() and pass as parameter to checkForNewFeedData()
+* in sidebar load, wait for the filter (if any) to display before starting to reload the feeds
 ---
 
 
 ## Now
-* in sidebar load, wait for the filter (if any) to display before starting to reload the feeds
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

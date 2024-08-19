@@ -376,7 +376,7 @@ let rssTreeView = (function() {
 				return;
 			}
 
-			browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
+			browser.bookmarks.getSubTree(folderId).then(async (bookmarks) => {
 				let folderChildren = bookmarks[0].children;
 				if (!!folderChildren) {		// do this to skip displaying the parent folder
 					let frag = document.createDocumentFragment();
@@ -394,7 +394,11 @@ let rssTreeView = (function() {
 				restoreTreeViewState();
 				broadcastRssTreeCreatedOK();
 				if(m_bPrefCheckFeedsOnSbOpen || !fromDOMContentLoad) {
-					monitorRSSTreeFeeds(true);
+					if( (await internalPrefs.getFeedsFilter()) === "" ) {
+						monitorRSSTreeFeeds(true);
+					} else {
+						setTimeout(() => monitorRSSTreeFeeds(true), 330); // wait for filter UI. 300ms textbox transition
+					}
 				} else {
 					restoreTreeFeedsLastStatus();
 				}
@@ -516,13 +520,10 @@ let rssTreeView = (function() {
 			}
 
 			if(restoreData.feedsFilter !== "") {
-				setTimeout(() => {
-					m_elmTextFilter.value = restoreData.feedsFilter;
-					openFilterWidget();
-					handleTreeFilter();
-				}, 400);
+				m_elmTextFilter.value = restoreData.feedsFilter;
+				openFilterWidget();
+				handleTreeFilter();
 			}
-
 		});
 	}
 
