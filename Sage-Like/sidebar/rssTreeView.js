@@ -592,7 +592,8 @@ let rssTreeView = (function() {
 
 						const methodVals = method.split(";").map(x => parseInt(x));
 						const batchSize = methodVals[0] === 0 ? 1 : Math.ceil(elmLIs.length / methodVals[0]);
-						const timeoutPause = methodVals[1];
+						const batchPause = methodVals[1];
+						const pause = (batchSize>100)*80 + (batchSize>20)*65 + (batchSize>5)*5 + m_bPrefShowFeedStats*20; // True*5=5 ; prevent network/UI chok/freeze due to too many concurrent requests
 						let elm;
 						let counter = 0;
 
@@ -601,9 +602,7 @@ let rssTreeView = (function() {
 						for(let i=0, len=elmLIs.length; i<len; ++i) {
 							elm = elmLIs[i];
 							checkForNewFeedData(elm, elm.id, elm.getAttribute("href"), timeoutFetch);
-							if((++counter % batchSize) === 0) {
-								await slUtil.sleep(timeoutPause);
-							}
+							await slUtil.sleep( (++counter%batchSize) === 0 ? batchPause : pause );
 						}
 						//console.log("[Sage-Like]", "Periodic check for new feeds performed in sidebar.");
 					});
@@ -613,7 +612,7 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function checkForNewFeedData(elmLI, id, url, timeout) {
+	async function checkForNewFeedData(elmLI, id, url, timeout) {
 
 		setFeedErrorState(elmLI, false);
 		setFeedLoadingState(elmLI, true);

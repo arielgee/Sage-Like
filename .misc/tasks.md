@@ -1159,7 +1159,7 @@
 
 ## Next
 * a way to know if `_fixXMLParsingErrors()` fixed something
-* IS WORKING: replace(reXMLInvalidChars, "") but is not consedering the an invalid char as an hex entity: replaces '' but not '&#x13' or '&#19'
+* IS WORKING: replace(reXMLInvalidChars, "") but is not consedering an invalid char as an hex entity: replaces '' but not '&#x13' or '&#19'
 * messagebox via new menu item to display feed status numbers(error count, loading count etc)
 * filter by feed status (see messagebox feed status numbers)
 * delete decodeMap_partial from XMLUnknownNamedEntities
