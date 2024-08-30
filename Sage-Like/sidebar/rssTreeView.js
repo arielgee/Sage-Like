@@ -2437,8 +2437,8 @@ let rssTreeView = (function() {
 			const unreadCount = e.firstElementChild.firstElementChild.nextElementSibling.textContent;
 			m_objTreeFeedsData.set(e.id, {
 				lastStatusIsVisited: !e.classList.contains("bold"),
-				lastStatusErrorState: e.classList.contains("error"),
 				lastStatusUnreadCount: unreadCount === "" ? 0 : Number(unreadCount.match(/\d+/)[0]),
+				lastStatusErrorState: e.classList.contains("error"),
 			});
 		}, 2000, elm);
 	}
