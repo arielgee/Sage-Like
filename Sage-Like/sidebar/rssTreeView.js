@@ -578,12 +578,12 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function checkForNewRSSTreeFeedsData() {
 
-		let gettingFeedsData = m_objTreeFeedsData.getStorage();
-		let gettingFeedsWithErrors = g_feed.feedsWithParsingErrors.getStorage();
-		let gettingCheckFeedsMethod = prefs.getCheckFeedsMethod();
-		let gettingFetchTimeout = prefs.getFetchTimeout();
+		const gettingFeedsData = m_objTreeFeedsData.getStorage();
+		const gettingFeedsWithErrors = g_feed.feedsWithParsingErrors.getStorage();
+		const gettingCheckFeedsMethod = prefs.getCheckFeedsMethod();
+		const gettingFetchTimeout = prefs.getFetchTimeout();
 
-		let elmLIs = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
+		const elmLIs = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 		gettingFeedsData.then(() => {
 			gettingFeedsWithErrors.then(() => {
@@ -2480,7 +2480,7 @@ let rssTreeView = (function() {
 
 		let list;
 		if(TreeItemType.isFolder(elmLI)) {
-			list = elmLI.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED)
+			list = elmLI.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 		} else if(TreeItemType.isFeed(elmLI)) {
 			list = [elmLI];
 		}
@@ -2754,7 +2754,7 @@ let rssTreeView = (function() {
 		}
 
 		// select all tree items
-		let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
+		const elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 		// hide the ones that do not match the filter
 		if(status === TreeItemStatus.ERROR) {
@@ -2827,7 +2827,7 @@ let rssTreeView = (function() {
 			//console.log("[Sage-Like] As-Of-Date: ", asOfDate.toWebExtensionLocaleString());
 
 			// select all tree items
-			let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
+			const elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 			const funcUpdatedBeforeDate = (feedUpdateTime, osDate) => (new Date(feedUpdateTime)) > osDate;
 			const funcUpdatedAfterDate = (feedUpdateTime, osDate) => (new Date(feedUpdateTime)) <= osDate;
@@ -2851,7 +2851,7 @@ let rssTreeView = (function() {
 		if(txtFilter.length > 0) {
 
 			// select all tree items
-			let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
+			const elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 			// hide the ones that do not match the filter
 			for(let i=0, len=elms.length; i<len; i++) {
@@ -2883,7 +2883,7 @@ let rssTreeView = (function() {
 			funcFilter = (elm, _) => !!(elm.closest("li." + Global.CLS_RTV_LI_TREE_FOLDER));	// closest return null -> in tree root
 		}
 
-		let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);		// select all tree items
+		const elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);		// select all tree items
 
 		for(let i=0, len=elms.length; i<len; i++) {
 			elms[i].classList.toggle("filtered", funcFilter(elms[i], txtFilter));
@@ -2921,7 +2921,7 @@ let rssTreeView = (function() {
 		}
 
 		// select all tree items
-		let elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
+		const elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
 		// hide the ones that do not match the filter
 		for(let i=0, len=elms.length; i<len; i++) {
