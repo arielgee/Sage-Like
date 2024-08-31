@@ -1149,20 +1149,42 @@
 	* FeedsWithParsingErrors.getStorage() -  need to reload from storage if modified from other source (background, panel, feedPreview)
 * in rssTreeView. move `prefs.getFetchTimeout().then((timeout) => {` from checkForNewFeedData() to checkForNewRSSTreeFeedsData() and pass as parameter to checkForNewFeedData()
 * in sidebar load, wait for the filter (if any) to display before starting to reload the feeds
+* a way to know if `_fixXMLParsingErrors()` fixed something => too costly
+* replace(reXMLInvalidChars, "") is for invalid chars. No solution for hex/octel/decimal entity: replaces '' but not '&#x13' or '&#19'
+* openPanelActions & openInFeedPreviewActions in contextMenu.handleTreeMenuActions needs to be consts and in file top-level
 ---
 
 
 ## Now
+* messagebox via new menu item to display feed status numbers(error count, loading count etc)
+* filter by feed status (see messagebox feed status numbers)
+	* issue when 'perform feed check on sidebar launch' is off and Summary is open ?
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* a way to know if `_fixXMLParsingErrors()` fixed something
-* IS WORKING: replace(reXMLInvalidChars, "") but is not consedering an invalid char as an hex entity: replaces '' but not '&#x13' or '&#19'
-* messagebox via new menu item to display feed status numbers(error count, loading count etc)
-* filter by feed status (see messagebox feed status numbers)
+* a summary item about feeds with fixable XML errors that are requering extra time and resources.
+	* add flag to the constructor of XmlFeed that indicate if the feed has fixable errors. thie flag is added to the feed LI element.
+	* saved(or not?) to the TreeFeedsData
+	* restored(or not) when sidebar is open
+* add ? (like in prefs) to summary item about filter to find feed that are not updated
+* find out why tree feed attribute 'data-updateTime' is a string (ISOString) and not a millisec
+* the reapply filter stay red if changing the root folder while tree is still loading
+* open in private window message. modify incognitoErrorMessage() to request permission like in RequiredPermissions class.
+* error in background when opening an item from the listView from feed: https://feeds.buzzsprout.com/192305.rss
+			00:43:42.369 Uncaught (in promise) TypeError: DOMParser.parseFromString: 'audio/mpeg' (value of argument 2) is not a valid value for enumeration SupportedType.
+				discoverFeeds moz-extension://9bf05b45-83f3-44a6-b622-56a939284523/background.js:352
+				discoverFeeds moz-extension://9bf05b45-83f3-44a6-b622-56a939284523/background.js:349
+				handleTabChangedState moz-extension://9bf05b45-83f3-44a6-b622-56a939284523/background.js:330
+				promise callback*handleTabChangedState moz-extension://9bf05b45-83f3-44a6-b622-56a939284523/background.js:328
+				onTabsUpdated moz-extension://9bf05b45-83f3-44a6-b622-56a939284523/background.js:149
+				setTimeout handler*onTabsUpdated moz-extension://9bf05b45-83f3-44a6-b622-56a939284523/background.js:148
+			background.js:352:34
+* reduce the amount of first-install feeds + 'https://www.goal.com/en/feeds/news?fmt=rss&ICID=HP' is dead
 * delete decodeMap_partial from XMLUnknownNamedEntities
+* test all in v109
+* since adding lastStatusUpdateTime to TreeFeedsData maybe add the update time to the element title (tooltip) when 'perform feed check on sidebar launch' is off
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

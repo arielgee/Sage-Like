@@ -82,6 +82,7 @@ class TreeFeedsData extends StoredKeyedItems {
 		lastStatusIsVisited: false,
 		lastStatusUnreadCount: 0,
 		lastStatusErrorState: false,
+		lastStatusUpdateTime: 0,
 	};
 
 	constructor() {

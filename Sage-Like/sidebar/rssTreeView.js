@@ -539,6 +539,9 @@ let rssTreeView = (function() {
 				setFeedVisitedState(elm, obj.lastStatusIsVisited);
 				updateTreeItemStats(elm, obj.lastStatusUnreadCount);
 				setFeedErrorState(elm, obj.lastStatusErrorState, { message: "<n/a>" });
+				if(!obj.lastStatusErrorState) {		// erroneous feeds do not have the "data-updateTime" attribute
+					setTreeItemUpdateDataAttribute(elm, new Date(parseInt(obj.lastStatusUpdateTime)));
+				}
 			}
 		}
 		updateAllTreeFoldersStats();
@@ -2435,10 +2438,12 @@ let rssTreeView = (function() {
 
 		setTimeout((e) => {
 			const unreadCount = e.firstElementChild.firstElementChild.nextElementSibling.textContent;
+			const msUpdateTime = Number(e.getAttribute("data-updateTime")) || 0;
 			m_objTreeFeedsData.set(e.id, {
 				lastStatusIsVisited: !e.classList.contains("bold"),
 				lastStatusUnreadCount: unreadCount === "" ? 0 : Number(unreadCount.match(/\d+/)[0]),
 				lastStatusErrorState: e.classList.contains("error"),
+				lastStatusUpdateTime: msUpdateTime,
 			});
 		}, 2000, elm);
 	}

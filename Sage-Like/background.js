@@ -107,7 +107,8 @@
 			// version 1.9 added openInFeedPreview to TreeFeedsData
 			// version 2.9 added ignoreUpdates to TreeFeedsData
 			// version 3.6 added feedMaxItems, lastStatusIsVisited, lastStatusUnreadCount & lastStatusErrorState to TreeFeedsData
-			if(prevVer < 1.9 || prevVer < 2.9 || prevVer < 3.6) {
+			// version 3.8 added lastStatusUpdateTime to TreeFeedsData
+			if(prevVer < 1.9 || prevVer < 2.9 || prevVer < 3.6 || prevVer < 3.8) {
 				(new TreeFeedsData()).maintenance();
 			}
 		}
