@@ -2425,7 +2425,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemUpdateDataAttribute(elmLI, updateTime) {
-		elmLI.setAttribute("data-updateTime", updateTime.toISOString());
+		elmLI.setAttribute("data-updateTime", updateTime.getTime());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2807,35 +2807,40 @@ let rssTreeView = (function() {
 			const afterAsOfDate = (txtFilter[0] === '^');
 			const number = parseInt(found[1]);
 			const unit = found[2];
-			let asOfDate = new Date();
+			const today = new Date();
+			let asOfDate;
 
 			if(["s","sec","second","seconds"].includes(unit)) {
-				asOfDate = new Date(asOfDate.setSeconds(asOfDate.getSeconds()-number));
+				asOfDate = today.setSeconds(today.getSeconds()-number);
 			} else if(["mi","min","minute","minutes"].includes(unit)) {
-				asOfDate = new Date(asOfDate.setMinutes(asOfDate.getMinutes()-number));
+				asOfDate = today.setMinutes(today.getMinutes()-number);
 			} else if(["h","hour","hours"].includes(unit)) {
-				asOfDate = new Date(asOfDate.setHours(asOfDate.getHours()-number));
+				asOfDate = today.setHours(today.getHours()-number);
 			} else if(["d","day","days"].includes(unit)) {
-				asOfDate = new Date(asOfDate.setDate(asOfDate.getDate()-number));
+				asOfDate = today.setDate(today.getDate()-number);
 			} else if(["w","week","weeks"].includes(unit)) {
-				asOfDate = new Date(asOfDate.setDate(asOfDate.getDate()-(number*7)));
+				asOfDate = today.setDate(today.getDate()-(number*7));
 			} else if(["mo","mon","month","months"].includes(unit)) {
-				asOfDate = new Date(asOfDate.setMonth(asOfDate.getMonth()-number));
+				asOfDate = today.setMonth(today.getMonth()-number);
 			} else if(["y","year","years"].includes(unit)) {
-				asOfDate = new Date(asOfDate.setFullYear(asOfDate.getFullYear()-number));
+				asOfDate = today.setFullYear(today.getFullYear()-number);
+			} else {
+				asOfDate = today.getTime();
 			}
 			//console.log("[Sage-Like] As-Of-Date: ", asOfDate.toWebExtensionLocaleString());
 
 			// select all tree items
 			const elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
 
-			const funcUpdatedBeforeDate = (feedUpdateTime, osDate) => (new Date(feedUpdateTime)) > osDate;
-			const funcUpdatedAfterDate = (feedUpdateTime, osDate) => (new Date(feedUpdateTime)) <= osDate;
+			const funcUpdatedBeforeDate = (feedUpdateTime, osDate) => feedUpdateTime > osDate;
+			const funcUpdatedAfterDate = (feedUpdateTime, osDate) => feedUpdateTime <= osDate;
 			const funcUpdatedDate = (afterAsOfDate ? funcUpdatedAfterDate : funcUpdatedBeforeDate);
+			let msUpdateTime;
 
 			// hide the ones that do not match the filter
-			for(let i=0, len=elms.length; i<len; i++) {
-				elms[i].classList.toggle("filtered", funcUpdatedDate(elms[i].getAttribute("data-UpdateTime"), asOfDate));
+			for(let i=0, len=elms.length; i<len; ++i) {
+				msUpdateTime = Number(elms[i].getAttribute("data-UpdateTime")) || 0;
+				elms[i].classList.toggle("filtered", funcUpdatedDate(msUpdateTime, asOfDate));
 			}
 			return true;		// itemsFiltered
 		}
