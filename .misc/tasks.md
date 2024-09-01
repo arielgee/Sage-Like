@@ -1152,13 +1152,12 @@
 * a way to know if `_fixXMLParsingErrors()` fixed something => too costly
 * replace(reXMLInvalidChars, "") is for invalid chars. No solution for hex/octel/decimal entity: replaces '' but not '&#x13' or '&#19'
 * openPanelActions & openInFeedPreviewActions in contextMenu.handleTreeMenuActions needs to be consts and in file top-level
+* messagebox via new menu item to display feed status count. issue when 'perform feed check on sidebar launch' is off solved by adding lastStatusUpdateTime to TreeFeedsData
 ---
 
 
 ## Now
-* messagebox via new menu item to display feed status numbers(error count, loading count etc)
-* filter by feed status (see messagebox feed status numbers)
-	* issue when 'perform feed check on sidebar launch' is off and Summary is open ?
+* filter by feed status (see messagebox feed status numbers) *** FUUUUUUUCK!!! I can't remember what I meant when I wrote this ***
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

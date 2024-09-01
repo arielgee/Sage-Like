@@ -40,6 +40,60 @@
 	text-align: left;
 }
 
+#messagePanel .gridContainer {
+	--border-color: grey;
+	display: grid;
+	grid-template-columns: auto 120px;
+	width: calc(100% - var(--panel-spacing));
+	margin-block: 6px;
+	border: 1px solid var(--border-color);
+}
+
+.gridItem {
+	padding: 2px 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: black;
+}
+.gridItem.row:nth-child(2n+1),
+.gridItem.row:nth-child(2n+2) {
+	background-color: #e3e3e3;
+}
+.gridItem.row:nth-child(4n+1),
+.gridItem.row:nth-child(4n+2) {
+	background-color: #ffffe5;
+}
+.gridItem:nth-child(odd) {
+	border-right: 1px solid var(--border-color);
+}
+.gridItem:not(:nth-last-child(-n+2)) {
+	border-bottom: 1px solid var(--border-color);
+}
+.gridItem.header {
+	background-color: #0F8528;
+	color: #f0f0fa;
+	text-align: center;
+	font-weight: bold;
+}
+.gridItem.row.text {
+	text-align: left;
+}
+.gridItem.row.value {
+	text-align: center;
+}
+
+.smallText {
+	--text-height: 10px;
+	line-height: calc(var(--text-height) * 1.2);
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-weight: normal;
+	font-size: var(--text-height);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .buttonSet {
 	display: none;
 	justify-content: right;

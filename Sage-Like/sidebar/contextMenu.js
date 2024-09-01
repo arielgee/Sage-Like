@@ -18,19 +18,37 @@ let contextMenu = (function() {
 		treePasteUrl:			13,
 		treeDeleteTreeItem:		14,
 		treeProperties:			15,
-		treeSwitchDirection:	16,
+		treeSummary:			16,
+		treeSwitchDirection:	17,
 
-		listOpen:				17,
-		listOpenNewTab:			18,
-		listOpenNewWin:			19,
-		listOpenNewPrivateWin:	20,
-		listOpenAllInTabs:		21,
-		listToggleReadUnread:	22,
-		listMarkAllRead:		23,
-		listMarkAllUnread:		24,
-		listCopyUrl:			25,
-		listSwitchDirection:	26,
+		listOpen:				18,
+		listOpenNewTab:			19,
+		listOpenNewWin:			20,
+		listOpenNewPrivateWin:	21,
+		listOpenAllInTabs:		22,
+		listToggleReadUnread:	23,
+		listMarkAllRead:		24,
+		listMarkAllUnread:		25,
+		listCopyUrl:			26,
+		listSwitchDirection:	27,
 	});
+
+	const OpenPanelActions = [
+		ContextAction.treeSigninFeed,
+		ContextAction.treeNewFeed,
+		ContextAction.treeNewFolder,
+		ContextAction.treeDeleteTreeItem,
+		ContextAction.treeProperties,
+		ContextAction.treeSummary,
+	];
+
+	const OpenInFeedPreviewActions = [
+		ContextAction.treeOpen,
+		ContextAction.treeOpenNewTab,
+		ContextAction.treeOpenNewWin,
+		ContextAction.treeOpenNewPrivateWin,
+		// ContextAction.treeOpenAllInTabs,	// Calls rssTreeView.openAllFeedsInTabs() so url is handled there
+	];
 
 	//==================================================================================
 	//=== Variables Declerations
@@ -290,6 +308,7 @@ let contextMenu = (function() {
 				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
 				case "KeyD":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 				case "KeyP":	handleTreeMenuActions(ContextAction.treeProperties);		break;
+				case "KeyM":	handleTreeMenuActions(ContextAction.treeSummary);			break;
 				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "treeitemcontext") {
@@ -308,6 +327,7 @@ let contextMenu = (function() {
 				case "KeyS":	handleTreeMenuActions(ContextAction.treePasteUrl);			break;
 				case "KeyD":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 				case "KeyP":	handleTreeMenuActions(ContextAction.treeProperties);		break;
+				case "KeyM":	handleTreeMenuActions(ContextAction.treeSummary);			break;
 				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listitemcontext") {
@@ -330,6 +350,7 @@ let contextMenu = (function() {
 				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
 				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
 				case "KeyS":	handleTreeMenuActions(ContextAction.treePasteUrl);			break;
+				case "KeyM":	handleTreeMenuActions(ContextAction.treeSummary);			break;
 				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listcontext") {
@@ -373,6 +394,7 @@ let contextMenu = (function() {
 			case "mnuTreePasteFeedUrl":					handleTreeMenuActions(ContextAction.treePasteUrl);			break;
 			case "mnuTreeDeleteTreeItem":				handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
 			case "mnuTreeProperties":					handleTreeMenuActions(ContextAction.treeProperties);		break;
+			case "mnuTreeSummary":						handleTreeMenuActions(ContextAction.treeSummary);			break;
 			case "mnuTreeSwitchDirection":				handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
 
 			case "mnuListOpenFeedItem":					handleListMenuActions(ContextAction.listOpen);				break;
@@ -396,29 +418,13 @@ let contextMenu = (function() {
 		// do noting if no target element
 		if (!m_elmEventTarget) return;
 
-		let openPanelActions = [
-			ContextAction.treeSigninFeed,
-			ContextAction.treeNewFeed,
-			ContextAction.treeNewFolder,
-			ContextAction.treeDeleteTreeItem,
-			ContextAction.treeProperties,
-		];
-
-		if(openPanelActions.includes(menuAction)) {
+		if(OpenPanelActions.includes(menuAction)) {
 			m_bActivePanelOpened = true;
 		}
 
-		let openInFeedPreviewActions = [
-			ContextAction.treeOpen,
-			ContextAction.treeOpenNewTab,
-			ContextAction.treeOpenNewWin,
-			ContextAction.treeOpenNewPrivateWin,
-			// ContextAction.treeOpenAllInTabs,	// Calls rssTreeView.openAllFeedsInTabs() so url is handled there
-		];
+		const actionData = { url: "" };
 
-		let actionData = { url: "" };
-
-		if(openInFeedPreviewActions.includes(menuAction)) {
+		if(OpenInFeedPreviewActions.includes(menuAction)) {
 			actionData.url = slUtil.getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"), Global.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW);
 		} else {
 			actionData.url = m_elmEventTarget.getAttribute("href");
@@ -435,7 +441,7 @@ let contextMenu = (function() {
 		// do noting if no target element
 		if (!m_elmEventTarget) return;
 
-		let url = m_elmEventTarget.getAttribute("href");
+		const url = m_elmEventTarget.getAttribute("href");
 		handleMenuActions(menuAction, { url: url });
 	}
 
@@ -538,6 +544,11 @@ let contextMenu = (function() {
 
 			case ContextAction.treeProperties:
 				rssTreeView.openEditTreeItemProperties(m_elmEventTarget);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.treeSummary:
+				rssTreeView.openTreeSummary();
 				break;
 				///////////////////////////////////////////
 

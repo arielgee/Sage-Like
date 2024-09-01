@@ -2500,6 +2500,75 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function openTreeSummary() {
+
+		const nFolders = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FOLDER).length;		// select all tree folders
+		const elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);		// select all tree items
+		const nFeeds = elms.length;
+
+		let ms30DaysAgo = new Date();
+		ms30DaysAgo = ms30DaysAgo.setDate(ms30DaysAgo.getDate()-30);
+
+		let nVisited = 0;
+		let nUnvisited = 0;
+		let nLoading = 0;
+		let nUnauthorized = 0;
+		let nError = 0;
+		let nResponsive = 0;
+		let nNoUpdate30Days = 0;
+		let cList;
+
+		for(let i=0; i<nFeeds; ++i) {
+			cList = elms[i].classList;
+
+			if( !cList.contains("bold") && !cList.contains("error") && !cList.contains("loading") ) {
+				++nVisited;
+			} else if( cList.contains("bold") && !cList.contains("error") && !cList.contains("loading") ) {
+				++nUnvisited;
+			}
+
+			if( cList.contains("loading") ) {
+				++nLoading;
+			} else if( cList.contains("unauthorized") ) {
+				++nUnauthorized;
+			} else if( cList.contains("error") ) {
+				++nError;
+			} else {
+				++nResponsive;
+			}
+
+			if( !cList.contains("error") && (parseInt(elms[i].getAttribute("data-UpdateTime")) <= ms30DaysAgo) ) {
+				++nNoUpdate30Days;
+			}
+		}
+
+		const FMT_ROW = "<div class='gridItem row text'>{0}</div><div class='gridItem row value'>{1}</div>"
+		const lines = [
+			`Total of <b>${nFeeds}</b> feeds and <b>${nFolders}</b> folders.`,
+			"<div class='gridContainer'>",
+			"<div class='gridItem header'>Feed Status</div><div class='gridItem header'>Feed Count</div>",
+			FMT_ROW.format(["OK", nResponsive]),
+			FMT_ROW.format(["Error", nError]),
+			FMT_ROW.format(["Read", nVisited]),
+			FMT_ROW.format(["Unread", nUnvisited]),
+			FMT_ROW.format(["Loading", nLoading]),
+			FMT_ROW.format(["Unauthorized", nUnauthorized]),
+			FMT_ROW.format(["No updates in 30+ days", nNoUpdate30Days]),
+			"</div>",
+			"<div class='smallText'>\u2731 Feed Count values are dynamic and may change after display.</div>",
+		];
+
+		const messageDetails = {
+			text: lines.join(""),
+			btnSet: messageView.ButtonSet.setOK,
+			caption: "Summary",
+			isAlertive: false,
+		};
+
+		messageView.open(messageDetails);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
 		if(m_elmTreeRoot.parentElement.style.direction === "rtl") {
 			m_elmTreeRoot.parentElement.style.direction = m_elmTreeRoot.style.direction = "ltr";
@@ -3146,6 +3215,7 @@ let rssTreeView = (function() {
 		markAllFeedsAsVisitedState: markAllFeedsAsVisitedState,
 		openEditTreeItemProperties: openEditTreeItemProperties,
 		isFeedInTree: isFeedInTree,
+		openTreeSummary: openTreeSummary,
 		switchViewDirection: switchViewDirection,
 		setFocus: setFocus,
 		isRssTreeCreatedOK: isRssTreeCreatedOK,
