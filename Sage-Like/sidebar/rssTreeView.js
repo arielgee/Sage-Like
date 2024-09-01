@@ -2840,12 +2840,13 @@ let rssTreeView = (function() {
 			const funcUpdatedBeforeDate = (feedUpdateTime, osDate) => feedUpdateTime > osDate;
 			const funcUpdatedAfterDate = (feedUpdateTime, osDate) => feedUpdateTime <= osDate;
 			const funcUpdatedDate = (afterAsOfDate ? funcUpdatedAfterDate : funcUpdatedBeforeDate);
-			let msUpdateTime;
+			let cList, msUpdateTime;
 
 			// hide the ones that do not match the filter
 			for(let i=0, len=elms.length; i<len; ++i) {
+				cList = elms[i].classList;
 				msUpdateTime = Number(elms[i].getAttribute("data-UpdateTime")) || 0;
-				elms[i].classList.toggle("filtered", funcUpdatedDate(msUpdateTime, asOfDate));
+				cList.toggle("filtered", funcUpdatedDate(msUpdateTime, asOfDate) || cList.contains("error"));
 			}
 			return true;		// itemsFiltered
 		}
