@@ -217,23 +217,15 @@ let slPrototypes = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function(args) {
-		let str = this;
-		return str.replace(String.prototype.format.regex, (item) => {
+		return this.replace(String.prototype.format.regex, (item) => {
 			let intVal = parseInt(item.substring(1, item.length - 1));
-			let replace;
-			if (intVal >= 0) {
-				replace = args[intVal];
-			} else if (intVal === -1) {
-				replace = "{";
-			} else if (intVal === -2) {
-				replace = "}";
-			} else {
-				replace = "";
+			if (intVal >= 0 && (args[intVal] !== undefined)) {
+				return args[intVal];
 			}
-			return replace;
+			return "";
 		});
 	};
-	String.prototype.format.regex = new RegExp("{-?[0-9]+}", "g");
+	String.prototype.format.regex = new RegExp("{[0-9]+}", "g");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.midTrunc = function(n) {
