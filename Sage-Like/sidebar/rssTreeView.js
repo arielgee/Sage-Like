@@ -2832,34 +2832,34 @@ let rssTreeView = (function() {
 
 		// hide the ones that do not match the filter
 		if(status === TreeItemStatus.ERROR) {
-			for(let i=0, len=elms.length; i<len; i++) {
+			for(let i=0, len=elms.length; i<len; ++i) {
 				elms[i].classList.toggle("filtered", !elms[i].classList.contains("error"));
 			}
 		} else if(status === TreeItemStatus.ERROR_UNAUTHORIZED) {
-			for(let i=0, len=elms.length; i<len; i++) {
+			for(let i=0, len=elms.length; i<len; ++i) {
 				elms[i].classList.toggle("filtered", !elms[i].classList.contains("unauthorized"));
 			}
 		} else if(status === TreeItemStatus.VISITED) {
-			for(let i=0, len=elms.length; i<len; i++) {
+			for(let i=0, len=elms.length; i<len; ++i) {
 				const cList = elms[i].classList;
 				elms[i].classList.toggle("filtered", cList.contains("bold") || cList.contains("error") || cList.contains("loading"));
 			}
 		} else if(status === TreeItemStatus.UNVISITED) {
-			for(let i=0, len=elms.length; i<len; i++) {
+			for(let i=0, len=elms.length; i<len; ++i) {
 				const cList = elms[i].classList;
 				elms[i].classList.toggle("filtered", !cList.contains("bold") || cList.contains("error") || cList.contains("loading"));
 			}
 		} else if(status === TreeItemStatus.LOADING) {
-			for(let i=0, len=elms.length; i<len; i++) {
+			for(let i=0, len=elms.length; i<len; ++i) {
 				elms[i].classList.toggle("filtered", !elms[i].classList.contains("loading"));
 			}
 		} else if(status === TreeItemStatus.RESPONSIVE) {
-			for(let i=0, len=elms.length; i<len; i++) {
+			for(let i=0, len=elms.length; i<len; ++i) {
 				const cList = elms[i].classList;
 				elms[i].classList.toggle("filtered", cList.contains("error") || cList.contains("loading"));
 			}
 		} else if(status === TreeItemStatus.UNDEFINED) {
-			for(let i=0, len=elms.length; i<len; i++) {
+			for(let i=0, len=elms.length; i<len; ++i) {
 				elms[i].classList.add("filtered");
 			}
 		}
