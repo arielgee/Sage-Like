@@ -1170,18 +1170,18 @@
 				onTabsUpdated moz-extension://9bf05b45-83f3-44a6-b622-56a939284523/background.js:149
 				setTimeout handler*onTabsUpdated moz-extension://9bf05b45-83f3-44a6-b622-56a939284523/background.js:148
 			background.js:352:34
+* reduce the amount of first-install feeds + 'https://www.goal.com/en/feeds/news?fmt=rss&ICID=HP' is dead
 ---
 
 
 ## Now
-* reduce the amount of first-install feeds + 'https://www.goal.com/en/feeds/news?fmt=rss&ICID=HP' is dead
+* delete decodeMap_partial from XMLUnknownNamedEntities
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
 * add lastStatusUnauthorized to TreeFeedsData. there is an issue here regarding the fact that class "unauthorized" is set WITH the "error" class in setFeedErrorState()
-* delete decodeMap_partial from XMLUnknownNamedEntities
 * test all in v109
 * since adding lastStatusUpdateTime to TreeFeedsData maybe add the update time to the element title (tooltip) when 'perform feed check on sidebar launch' is off
 * update PR image with >fixable filter
