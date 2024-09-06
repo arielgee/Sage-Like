@@ -1159,11 +1159,11 @@
 	* if added to LI then it can be filtered by from the filter widget
 	* saved/restored to/from the TreeFeedsData
 * add ? (like in prefs) to summary item about filter to find feed that are not updated => changed to a dotted underline
+* the reapply filter stay red if changing the root folder while tree is still loading => abort previous tree feed processing when a new process is initiated.
 ---
 
 
 ## Now
-* the reapply filter stay red if changing the root folder while tree is still loading => abort previous tree feed processing when a new process is initiated.
 * open in private window message. modify incognitoErrorMessage() to request permission like in RequiredPermissions class.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---

@@ -65,6 +65,7 @@ let rssTreeView = (function() {
 
 	let m_prioritySelectedItemId = null;
 
+	let m_lastCheckForNewRSSTreeFeedsData = 0;
 	let m_lastClickedFeedTime = 0;
 	let m_timeoutIdMonitorRSSTreeFeeds = null;
 	let m_lockBookmarksEventHandler = new Locker();
@@ -561,6 +562,7 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function checkForNewRSSTreeFeedsData() {
 
+		const lastCheckForNewRSSTreeFeedsData = m_lastCheckForNewRSSTreeFeedsData = Date.now();
 		const gettingFeedsData = m_objTreeFeedsData.getStorage();
 		const gettingFeedsWithErrors = g_feed.feedsWithParsingErrors.getStorage();
 		const gettingCheckFeedsMethod = prefs.getCheckFeedsMethod();
@@ -586,6 +588,7 @@ let rssTreeView = (function() {
 							elm = elmLIs[i];
 							checkForNewFeedData(elm, elm.id, elm.getAttribute("href"), timeoutFetch);
 							await slUtil.sleep( (++counter%batchSize) === 0 ? batchPause : pause );
+							if(lastCheckForNewRSSTreeFeedsData !== m_lastCheckForNewRSSTreeFeedsData) break;	// abort current loop if function was re-called
 						}
 						//console.log("[Sage-Like]", "Periodic check for new feeds performed in sidebar.");
 					});
