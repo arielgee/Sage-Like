@@ -328,14 +328,16 @@
 
 		contentHandler.getPageData(tabId).then((pageData) => {
 
-			discoverFeeds(pageData).then((result) => {
+			// only supported parseFromString() content types
+			if( ["text/html", "text/xml", "application/xml", "application/xhtml+xml", "image/svg+xml"].includes(pageData.contentType) ) {
 
-				if(result.expectedFeedCount > 0) {
-					copyConfirmedFeedsToPage(tabId, result.expectedFeedCount, result.feeds);
-					showPageAction(tabId);
-				}
-
-			});
+				discoverFeeds(pageData).then((result) => {
+					if(result.expectedFeedCount > 0) {
+						copyConfirmedFeedsToPage(tabId, result.expectedFeedCount, result.feeds);
+						showPageAction(tabId);
+					}
+				});
+			}
 
 		}).catch(async (error) => {
 			if( !error.message.toLowerCase().includes("missing host permission for the tab") ) {

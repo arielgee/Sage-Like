@@ -20,7 +20,7 @@ class RequiredPermissions {
 	//////////////////////////////////////////
 	static get i() {
 		if (RequiredPermissions.#_instance === null) {
-			RequiredPermissions.#_instance = new this(RequiredPermissions.#_constructId = Math.floor(Math.random() *  Number.MAX_SAFE_INTEGER));
+			RequiredPermissions.#_instance = new this(RequiredPermissions.#_constructId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
 		}
 		return RequiredPermissions.#_instance;
 	}
