@@ -83,6 +83,11 @@
 	text-align: center;
 }
 
+.dottedUnderline {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+}
+
 .smallText {
 	--text-height: 10px;
 	line-height: calc(var(--text-height) * 1.2);

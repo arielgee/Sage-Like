@@ -1154,21 +1154,23 @@
 * openPanelActions & openInFeedPreviewActions in contextMenu.handleTreeMenuActions needs to be consts and in file top-level
 * messagebox via new menu item to display feed status count. issue when 'perform feed check on sidebar launch' is off solved by adding lastStatusUpdateTime to TreeFeedsData
 * find out why tree feed attribute 'data-updateTime' is a string (ISOString) and not a millisec => changed to millisec
----
-
-
-## Now
 * a summary item about feeds with fixable XML errors that are requering extra time and resources.
 	* add flag to the constructor of XmlFeed that indicate if the feed has fixable errors. this flag is added to the feed LI element.
 	* if added to LI then it can be filtered by from the filter widget
 	* saved/restored to/from the TreeFeedsData
 * add ? (like in prefs) to summary item about filter to find feed that are not updated => changed to a dotted underline
+---
+
+
+## Now
+* compare Summery before check feeds and after when "check feeds on sidebar open" is off (see Unauthorized as lastStatus note)
+* add the Unauthorized to restore members (lastStatus)
+* the reapply filter stay red if changing the root folder while tree is still loading
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* the reapply filter stay red if changing the root folder while tree is still loading
 * open in private window message. modify incognitoErrorMessage() to request permission like in RequiredPermissions class.
 * error in background when opening an item from the listView from feed: https://feeds.buzzsprout.com/192305.rss
 			00:43:42.369 Uncaught (in promise) TypeError: DOMParser.parseFromString: 'audio/mpeg' (value of argument 2) is not a valid value for enumeration SupportedType.
@@ -1186,6 +1188,7 @@
 * update PR image with >fixable filter
 * hiddenPref to not display the filter tooltip
 * the deleteTreeItem() is using the selected to be deleted element id to deleting from m_objTreeFeedsData. the element can be a folder.
+
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

@@ -259,6 +259,7 @@ let syndication = (function() {
 				format: feedData.standard,
 				itemCount: feedData.itemCount,
 				expired: (feedData instanceof JsonFeedData) ? feedData.expired : false,		// Instance of XmlFeedData don't include '.expired'
+				fixableParseErrors: feedData.fixableParseErrors,
 			});
 		}
 	}

@@ -61,6 +61,7 @@ let rssTreeView = (function() {
 		EMPTY: 4,
 		ERROR_UNAUTHORIZED: 5,
 		RESPONSIVE: 6,
+		FIXABLE_PARSE_ERRORS: 7,
 	});
 
 	// indicates from where the call has originated from
@@ -542,6 +543,7 @@ let rssTreeView = (function() {
 				setFeedErrorState(elm, obj.lastStatusErrorState, { message: "<n/a>" });
 				if(!obj.lastStatusErrorState) {		// erroneous feeds do not have the "data-updateTime" attribute
 					setTreeItemUpdateDataAttribute(elm, new Date(parseInt(obj.lastStatusUpdateTime)));
+					setFeedFixableParseErrors(elm, obj.lastStatusFixableParseErrors);
 				}
 			}
 		}
@@ -648,9 +650,11 @@ let rssTreeView = (function() {
 				`Format: ${fetchResult.feedData.standard}`,
 				`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}${ignoreFeedUpdates ? ", ignored" : ""}`,
 				`Expired: ${fetchResult.feedData.expired ? "Yes": ""}`,		// Display only if it's true
+				`Warning: ${fetchResult.feedData.fixableParseErrors ? "Has fixable parsing errors. May take longer to process." : ""}`,		// Display only if it's true
 			];
 
 			setFeedVisitedState(elmLI, ignoreFeedUpdates || (msLastVisited > msUpdateTime));
+			setFeedFixableParseErrors(elmLI, fetchResult.feedData.fixableParseErrors);
 			updateFeedTitle(elmLI, fetchResult.feedData.title);
 			updateFeedStatsFromHistory(elmLI, fetchResult.list);
 			setTreeItemUpdateDataAttribute(elmLI, updateTime);
@@ -658,6 +662,7 @@ let rssTreeView = (function() {
 			updateTreeBranchFoldersStats(elmLI);
 		}).catch((error) => {
 			setFeedErrorState(elmLI, true, error);
+			setFeedFixableParseErrors(elmLI, false);
 		}).finally(() => {
 			setFeedLoadingState(elmLI, false);
 			setTreeFeedDataLastStatusMembers(elmLI);
@@ -1360,14 +1365,16 @@ let rssTreeView = (function() {
 					const msFetchTime = Date.now();
 					syndication.fetchFeedItems(url, timeout, reload, details).then((result) => {
 
-						let fdDate = new Date(syndication.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
-						let additionalLines = [
+						const fdDate = new Date(syndication.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
+						const additionalLines = [
 							`Format: ${result.feedData.standard}`,
 							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}${treeFeedData.ignoreUpdates ? ", ignored" : ""}`,
 							`Expired: ${result.feedData.expired ? "Yes": ""}`,		// Display only if it's true
+							`Warning: ${result.feedData.fixableParseErrors ? "Has fixable parsing errors. May take longer to process." : ""}`,		// Display only if it's true
 						];
 
 						setFeedVisitedState(elmLI, true);
+						setFeedFixableParseErrors(elmLI, result.feedData.fixableParseErrors);
 						updateFeedTitle(elmLI, result.feedData.title);
 						updateFeedStatsFromHistory(elmLI, result.list);
 						setTreeItemUpdateDataAttribute(elmLI, fdDate);
@@ -1381,6 +1388,7 @@ let rssTreeView = (function() {
 					}).catch((error) => {
 
 						setFeedErrorState(elmLI, true, error);
+						setFeedFixableParseErrors(elmLI, false);
 						updateTreeItemStats(elmLI, 0);		// will remove the stats
 						showUnauthorizedInfoBubble(elmLI, error);
 
@@ -2384,6 +2392,12 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function setFeedFixableParseErrors(elm, hasFixableErrors) {
+		elm.classList.toggle("fixableParseErrors", hasFixableErrors);
+		notifyAppliedFilter();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemTooltip(elmLI, additionalLines = []) {
 
 		let tooltipText;
@@ -2438,13 +2452,15 @@ let rssTreeView = (function() {
 		if(m_bPrefCheckFeedsOnSbOpen) return;
 
 		setTimeout((e) => {
+			const cList = e.classList;
 			const unreadCount = e.firstElementChild.firstElementChild.nextElementSibling.textContent;
 			const msUpdateTime = Number(e.getAttribute("data-updateTime")) || 0;
 			m_objTreeFeedsData.set(e.id, {
-				lastStatusIsVisited: !e.classList.contains("bold"),
+				lastStatusIsVisited: !cList.contains("bold"),
 				lastStatusUnreadCount: unreadCount === "" ? 0 : Number(unreadCount.match(/\d+/)[0]),
-				lastStatusErrorState: e.classList.contains("error"),
+				lastStatusErrorState: cList.contains("error"),
 				lastStatusUpdateTime: msUpdateTime,
+				lastStatusFixableParseErrors: cList.contains("fixableParseErrors"),
 			});
 		}, 2000, elm);
 	}
@@ -2507,17 +2523,14 @@ let rssTreeView = (function() {
 		const elms = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);		// select all tree items
 		const nFeeds = elms.length;
 
+		let cList;
+		let nVisited, nUnvisited, nLoading, nUnauthorized, nError, nResponsive, nNoUpdate30Days, nFixableParseErrors;
+
+		// initialize counters
+		nVisited = nUnvisited = nLoading = nUnauthorized = nError = nResponsive = nNoUpdate30Days = nFixableParseErrors = 0;
+
 		let ms30DaysAgo = new Date();
 		ms30DaysAgo = ms30DaysAgo.setDate(ms30DaysAgo.getDate()-30);
-
-		let nVisited = 0;
-		let nUnvisited = 0;
-		let nLoading = 0;
-		let nUnauthorized = 0;
-		let nError = 0;
-		let nResponsive = 0;
-		let nNoUpdate30Days = 0;
-		let cList;
 
 		for(let i=0; i<nFeeds; ++i) {
 			cList = elms[i].classList;
@@ -2541,9 +2554,14 @@ let rssTreeView = (function() {
 			if( !cList.contains("error") && (parseInt(elms[i].getAttribute("data-UpdateTime")) <= ms30DaysAgo) ) {
 				++nNoUpdate30Days;
 			}
+
+			if( cList.contains("fixableParseErrors") ) {
+				++nFixableParseErrors;
+			}
 		}
 
-		const FMT_ROW = "<div class='gridItem row text'>{0}</div><div class='gridItem row value'>{1}</div>"
+		const FMT_ROW = "<div class='gridItem row text{3}' title='{2}'>{0}</div><div class='gridItem row value'>{1}</div>"
+		const FIXABLE_HELP = "Feeds with fixable parsing errors require more resources and take longer to fix and parse.\nTo review them, use the status filter &apos;>fixable&apos; in the filter widget on the toolbar.";
 		const lines = [
 			`Total of <b>${nFeeds}</b> feeds and <b>${nFolders}</b> folders.`,
 			"<div class='gridContainer'>",
@@ -2555,6 +2573,7 @@ let rssTreeView = (function() {
 			FMT_ROW.format(["Loading", nLoading]),
 			FMT_ROW.format(["Unauthorized", nUnauthorized]),
 			FMT_ROW.format(["No updates in 30+ days", nNoUpdate30Days]),
+			FMT_ROW.format(["Fixable parsing errors", nFixableParseErrors, FIXABLE_HELP, " dottedUnderline"]),
 			"</div>",
 			"<div class='smallText'>\u2731 Feed Count values are dynamic and may change after display.</div>",
 		];
@@ -2770,6 +2789,7 @@ let rssTreeView = (function() {
 					case ">load":		itemsFiltered = filterTreeItemStatus(TreeItemStatus.LOADING);				break;
 					case ">error-ua":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.ERROR_UNAUTHORIZED);	break;
 					case ">ok":			itemsFiltered = filterTreeItemStatus(TreeItemStatus.RESPONSIVE);			break;
+					case ">fixable":	itemsFiltered = filterTreeItemStatus(TreeItemStatus.FIXABLE_PARSE_ERRORS);	break;
 					default:			itemsFiltered = filterTreeItemStatus(TreeItemStatus.UNDEFINED);				break;
 				}
 
@@ -2858,6 +2878,11 @@ let rssTreeView = (function() {
 			for(let i=0, len=elms.length; i<len; ++i) {
 				const cList = elms[i].classList;
 				elms[i].classList.toggle("filtered", cList.contains("error") || cList.contains("loading"));
+			}
+		} else if(status === TreeItemStatus.FIXABLE_PARSE_ERRORS) {
+			for(let i=0, len=elms.length; i<len; ++i) {
+				const cList = elms[i].classList;
+				elms[i].classList.toggle("filtered", !cList.contains("fixableParseErrors"));
 			}
 		} else if(status === TreeItemStatus.UNDEFINED) {
 			for(let i=0, len=elms.length; i<len; ++i) {

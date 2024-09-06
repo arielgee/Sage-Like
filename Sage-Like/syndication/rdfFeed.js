@@ -1,8 +1,8 @@
 "use strict";
 
 class RdfFeed extends XmlFeed {
-	constructor(feedUrl, feedXmlDoc, xmlVersion, xmlEncoding) {
-		super(feedUrl, feedXmlDoc, xmlVersion, xmlEncoding);
+	constructor(feedUrl, feedXmlDoc, xmlVersion, xmlEncoding, fixableParseErrors) {
+		super(feedUrl, feedXmlDoc, xmlVersion, xmlEncoding, fixableParseErrors);
 	}
 
 	//////////////////////////////////////////
@@ -19,6 +19,7 @@ class RdfFeed extends XmlFeed {
 			this._feedData.lastUpdated = this._getFeedLastUpdate(this._feedXmlDoc, "RDF > channel", "RDF > item");
 			this._feedData.itemCount = this._feedData.feeder.querySelectorAll("item").length;
 			this._feedData.webPageUrl = this._getNodeTextContent(this._feedXmlDoc, "RDF > channel > link:not([rel]):not([href])");
+			this._feedData.fixableParseErrors = this._fixableParseErrors;
 		} catch (error) {
 			console.log("[Sage-Like]", "getFeedData error", error);
 			this._feedData.errorMsg = error.message;

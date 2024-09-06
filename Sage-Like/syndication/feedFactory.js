@@ -54,6 +54,7 @@ class FeedFactory {
 		}
 
 		let xmlDoc;
+		let bFixableParseErrors = false;
 
 		if(g_feed.feedsWithParsingErrors.exist(feedUrl)) {
 
@@ -61,6 +62,7 @@ class FeedFactory {
 			//		the location of: 'moz-extension://66135a72-02a1-4a68-a040-60511bfea6a2/sidebar/panel.html'.
 			//	2.	Firefox v73 has no support for XML 1.1.
 			xmlDoc = g_feed.domParser.parseFromString(this.#_fixXMLParsingErrors(feedXmlText, xmlVersion), "text/xml");
+			bFixableParseErrors = true;
 
 		} else {
 
@@ -69,6 +71,7 @@ class FeedFactory {
 			if(xmlDoc.documentElement.nodeName === "parsererror") {
 				g_feed.feedsWithParsingErrors.set(feedUrl);		// add to list any feed that fails parsing. even if it's unparsable.
 				xmlDoc = g_feed.domParser.parseFromString(this.#_fixXMLParsingErrors(feedXmlText, xmlVersion), "text/xml");
+				bFixableParseErrors = true;
 			}
 		}
 
@@ -83,15 +86,15 @@ class FeedFactory {
 
 		if(xmlDoc.documentElement.localName === "rss") {					// First lets try 'RSS'
 
-			return new RssFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
+			return new RssFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding, bFixableParseErrors);
 
 		} else if(xmlDoc.documentElement.localName === "feed") {			// Then let's try 'Atom'
 
-			return new AtomFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
+			return new AtomFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding, bFixableParseErrors);
 
 		} else if(xmlDoc.documentElement.localName === "RDF") {				// Finally let's try 'RDF (RSS) 1.0'
 
-			return new RdfFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding);
+			return new RdfFeed(feedUrl, xmlDoc, xmlVersion, xmlEncoding, bFixableParseErrors);
 
 		} else {
 

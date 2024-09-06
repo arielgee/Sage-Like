@@ -375,6 +375,7 @@
 			(lastUpdated ? "Update:\u2003" + lastUpdated + "\n" : "") +
 			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
 			(feed.expired ? "Expired:\u2003Yes\n" : "") +
+			(feed.fixableParseErrors ? "Warning:\u2003Has fixable parsing errors. May take longer to process.\n" : "") +
 			"\n\u2731 Use Middle-click to preview this feed.";
 		elmListItem.title = titleText;
 

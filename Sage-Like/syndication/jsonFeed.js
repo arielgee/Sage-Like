@@ -25,6 +25,7 @@ class JsonFeed extends Feed {
 			feedData.lastUpdated = this.#_getFeedLastUpdate(this.#_feedJson.items);
 			feedData.itemCount = this.#_feedJson.items.length;
 			feedData.webPageUrl = (!!this.#_feedJson.home_page_url ? this.#_feedJson.home_page_url.stripHtmlTags() : "");
+			feedData.fixableParseErrors = false;		// Compatibility. Fixable parsing errors are an XML issue.
 		} catch (error) {
 			console.log("[Sage-Like]", "getFeedData error", error);
 			feedData.errorMsg = error.message;

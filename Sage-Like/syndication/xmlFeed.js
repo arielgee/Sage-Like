@@ -1,7 +1,7 @@
 "use strict";
 
 class XmlFeed extends Feed {
-	constructor(feedUrl, feedXmlDoc, xmlVersion, xmlEncoding) {
+	constructor(feedUrl, feedXmlDoc, xmlVersion, xmlEncoding, fixableParseErrors) {
 		if (new.target.name === "XmlFeed") {
 			throw new Error(new.target.name + ".constructor: Don't do that");
 		}
@@ -10,6 +10,7 @@ class XmlFeed extends Feed {
 		this._feedXmlDoc = feedXmlDoc;
 		this._xmlVersion = xmlVersion;
 		this._xmlEncoding = xmlEncoding;
+		this._fixableParseErrors = fixableParseErrors;
 	}
 
 	//////////////////////////////////////////
