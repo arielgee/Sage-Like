@@ -1153,22 +1153,21 @@
 * replace(reXMLInvalidChars, "") is for invalid chars. No solution for hex/octel/decimal entity: replaces '' but not '&#x13' or '&#19'
 * openPanelActions & openInFeedPreviewActions in contextMenu.handleTreeMenuActions needs to be consts and in file top-level
 * messagebox via new menu item to display feed status count. issue when 'perform feed check on sidebar launch' is off solved by adding lastStatusUpdateTime to TreeFeedsData
+* find out why tree feed attribute 'data-updateTime' is a string (ISOString) and not a millisec => changed to millisec
 ---
 
 
 ## Now
-* filter by feed status (see messagebox feed status numbers) *** FUUUUUUUCK!!! I can't remember what I meant when I wrote this ***
+* a summary item about feeds with fixable XML errors that are requering extra time and resources.
+	* add flag to the constructor of XmlFeed that indicate if the feed has fixable errors. this flag is added to the feed LI element.
+	* if added to LI then it can be filtered by from the filter widget
+	* saved/restored to/from the TreeFeedsData
+* add ? (like in prefs) to summary item about filter to find feed that are not updated => changed to a dotted underline
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* a summary item about feeds with fixable XML errors that are requering extra time and resources.
-	* add flag to the constructor of XmlFeed that indicate if the feed has fixable errors. thie flag is added to the feed LI element.
-	* saved(or not?) to the TreeFeedsData
-	* restored(or not) when sidebar is open
-* add ? (like in prefs) to summary item about filter to find feed that are not updated
-* find out why tree feed attribute 'data-updateTime' is a string (ISOString) and not a millisec
 * the reapply filter stay red if changing the root folder while tree is still loading
 * open in private window message. modify incognitoErrorMessage() to request permission like in RequiredPermissions class.
 * error in background when opening an item from the listView from feed: https://feeds.buzzsprout.com/192305.rss
@@ -1184,6 +1183,9 @@
 * delete decodeMap_partial from XMLUnknownNamedEntities
 * test all in v109
 * since adding lastStatusUpdateTime to TreeFeedsData maybe add the update time to the element title (tooltip) when 'perform feed check on sidebar launch' is off
+* update PR image with >fixable filter
+* hiddenPref to not display the filter tooltip
+* the deleteTreeItem() is using the selected to be deleted element id to deleting from m_objTreeFeedsData. the element can be a folder.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

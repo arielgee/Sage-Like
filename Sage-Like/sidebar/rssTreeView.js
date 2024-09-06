@@ -29,26 +29,27 @@ let rssTreeView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const FILTER_TOOLTIP_TITLE = "Feed Filtering Methods: \n" +
-									" \u25cf Filtering using case-insensitive text. \n" +
+	const FILTER_TOOLTIP_TITLE = "Feed Filtering Methods: \n\n" +
+									" \u25cf Filtering using case-insensitive text. \n\n" +
 									" \u25cf Filtering using Regular Expression pattern enclosed between two slashes ('/'). \n" +
-									"     Flag 'i' (case-insensitive) is supported when placed after the second slash. \n" +
-									" \u25cf Folder title filtering using text prefixed with a single backslash sign ('\\'). \n" +
-									" \u25cf URL filtering using text prefixed with a single percent sign ('%'). \n" +
+									"     Flag 'i' (case-insensitive) is supported when placed after the second slash. \n\n" +
+									" \u25cf Folder title filtering using text prefixed with a single backslash sign ('\\'). \n\n" +
+									" \u25cf URL filtering using text prefixed with a single percent sign ('%'). \n\n" +
 									" \u25cf Update time filtering using Relative Time text prefixed with a single tilde sign ('~'). \n" +
 									"     Relative Time expression pattern: '[number] [time_unit] ago' whereas [time_unit] \n" +
 									"     can be: 'seconds', 'minutes', 'hours', 'days', 'weeks', 'months' or 'years'. \n" +
 									"     Examples: \n" +
 									"     \u2022 '~5 weeks ago' \u2013 for feeds not updated as of 5 weeks ago. \n" +
 									"     \u2022 '~12 months ago' \u2013 for feeds not updated as of 12 months ago. \n" +
-									"     \u2022 '~^3 days ago' \u2013 for feeds that WERE updated as of 3 days ago (notice the '^'). \n" +
+									"     \u2022 '~^3 days ago' \u2013 for feeds that WERE updated as of 3 days ago (notice the '^'). \n\n" +
 									" \u25cf Status filtering using special commands prefixed with a single greater-than sign ('>'): \n" +
 									"    \u2022 Use '>unread' for unvisited feeds. \n" +
 									"    \u2022 Use '>read' for visited feeds. \n" +
 									"    \u2022 Use '>ok' for feeds that updated just fine. \n" +
 									"    \u2022 Use '>error' for feeds that failed to update. \n" +
 									"    \u2022 Use '>error-ua' for feeds that failed to update due to lack of client authentication. \n" +
-									"    \u2022 Use '>load' for feeds that are still loading. \n\n" +
+									"    \u2022 Use '>load' for feeds that are still loading. \n" +
+									"    \u2022 Use '>fixable' for feeds that have fixable parsing errors. \n\n" +
 									"\u2731 Feeds may change their title, update time and/or status after the filter was applied.";
 
 	const TreeItemStatus = Object.freeze({
