@@ -1172,6 +1172,8 @@
 			background.js:352:34
 * reduce the amount of first-install feeds + 'https://www.goal.com/en/feeds/news?fmt=rss&ICID=HP' is dead
 * delete decodeMap_partial from XMLUnknownNamedEntities
+* hiddenPref to not display the filter tooltip ==========> For The Last Time: JUST NO!
+* new preference "Show humongous informational tooltip when mouse hovers over the filter widget" ==========> For The Last Time: JUST NO!
 ---
 
 
@@ -1185,7 +1187,6 @@
 * add lastStatusUnauthorized to TreeFeedsData. there is an issue here regarding the fact that class "unauthorized" is set WITH the "error" class in setFeedErrorState()
 * test all in v109
 * update PR image with >fixable filter
-* hiddenPref to not display the filter tooltip
 * the deleteTreeItem() is using the selected to be deleted element id to deleting from m_objTreeFeedsData. the element can be a folder.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
@@ -1201,7 +1202,6 @@
 
 ### low priority (bellow zero priority)
 * detect at runtime that NetworkError is CORS when console shows ""Cross-Origin Request Blocked ..." (see above `Access-Control-Allow-...`)
-* new preference "Show humongous informational tooltip when mouse hovers over the filter widget"
 * MDN - DataTransfer.effectAllowed: Following is not correct 'Assigning a value to effectAllowed in events other than dragstart has no effect'
 	* make a POC and post in somewhere. must be a sidebar webextension!
 * support for microformats2 feeds. Items are HTML elements that are markup using the class attribute (class="h-feed", class="h-entry" etc.).
