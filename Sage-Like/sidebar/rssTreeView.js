@@ -511,6 +511,8 @@ let rssTreeView = (function() {
 	function restoreTreeFeedsLastStatus() {
 
 		const elmLIs = m_elmTreeRoot.querySelectorAll("li." + Global.CLS_RTV_LI_TREE_FEED);
+		const Err = { message: "<n/a>" };
+		const UaErr = { message: "<n/a>", httpResponseStatus: () => 401 };
 		let elm, obj;
 		for(let i=0, len=elmLIs.length; i<len; ++i) {
 			elm = elmLIs[i];
@@ -518,7 +520,7 @@ let rssTreeView = (function() {
 			if(!!obj) {
 				setFeedVisitedState(elm, obj.lastStatusIsVisited);
 				updateTreeItemStats(elm, obj.lastStatusUnreadCount);
-				setFeedErrorState(elm, obj.lastStatusErrorState, { message: "<n/a>" });
+				setFeedErrorState(elm, obj.lastStatusErrorState, (obj.lastStatusUnauthorized ? UaErr : Err));
 				if(!obj.lastStatusErrorState) {		// erroneous feeds do not have the "data-updateTime" attribute or the "fixableParseErrors" class
 					setTreeItemUpdateDataAttribute(elm, new Date(parseInt(obj.lastStatusUpdateTime)));
 					setFeedFixableParseErrors(elm, obj.lastStatusFixableParseErrors);
@@ -2439,6 +2441,7 @@ let rssTreeView = (function() {
 				lastStatusIsVisited: !cList.contains("bold"),
 				lastStatusUnreadCount: unreadCount === "" ? 0 : Number(unreadCount.match(/\d+/)[0]),
 				lastStatusErrorState: cList.contains("error"),
+				lastStatusUnauthorized: cList.contains("unauthorized"),
 				lastStatusUpdateTime: msUpdateTime,
 				lastStatusFixableParseErrors: cList.contains("fixableParseErrors"),
 			});
