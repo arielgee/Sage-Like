@@ -1176,11 +1176,12 @@
 * new preference "Show humongous informational tooltip when mouse hovers over the filter widget" ==========> For The Last Time: JUST NO!
 * since adding lastStatusUpdateTime to TreeFeedsData maybe add the update time to the element title (tooltip) when 'perform feed check on sidebar launch' is off => NO
 * add lastStatusUnauthorized to TreeFeedsData. there is an issue here regarding the fact that class "unauthorized" is set WITH the "error" class in setFeedErrorState()
+* the deleteTreeItem() is using the selected to be deleted element id to deleting from m_objTreeFeedsData. the element can be a folder.
 ---
 
 
 ## Now
-* the deleteTreeItem() is using the selected to be deleted element id to deleting from m_objTreeFeedsData. the element can be a folder.
+* in the syndication() functions setDiscoveredFeedFromSource() and setDiscoveredFeedError() the use of `x = Object.assign(x, ...` is redundent. just use `Object.assign(x, ...`. (3 places)
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
@@ -1188,7 +1189,6 @@
 ## Next
 * test all in v109
 * update PR image with >fixable filter
-* in the syndication() functions setDiscoveredFeedFromSource() and setDiscoveredFeedError() the use of `x = Object.assign(x, ...` is redundent. just use `Object.assign(x, ...`. (3 places)
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

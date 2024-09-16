@@ -1290,6 +1290,29 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function bookmarksSubTreeFeedIdsAsArray(folderId) {
+
+		return new Promise((resolve, reject) => {
+
+			let bmFeeds = [];
+			let collectFeeds = function (bmFeeds, bookmark) {
+				if (bookmark.type === "folder") {
+					for(let i=0, len=bookmark.children.length; i<len; ++i) {
+						collectFeeds(bmFeeds, bookmark.children[i]);
+					}
+				} else if (bookmark.type === "bookmark") {
+					bmFeeds.push(bookmark.id);
+				}
+			};
+
+			browser.bookmarks.getSubTree(folderId).then((bookmarks) => {
+				collectFeeds(bmFeeds, bookmarks[0]);
+				resolve(bmFeeds);
+			}).catch((error) => reject(error));
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function isDescendantOfRoot(bookmarkIds) {
 
 		return new Promise((resolve, reject) => {
@@ -1773,6 +1796,7 @@ let slUtil = (function() {
 		bookmarksFoldersAsCollection: bookmarksFoldersAsCollection,
 		bookmarksFeedsAsCollection: bookmarksFeedsAsCollection,
 		bookmarksFeedUrlsAsCollection: bookmarksFeedUrlsAsCollection,
+		bookmarksSubTreeFeedIdsAsArray: bookmarksSubTreeFeedIdsAsArray,
 		isDescendantOfRoot: isDescendantOfRoot,
 		replaceMozExtensionOriginURL: replaceMozExtensionOriginURL,
 		invertColor: invertColor,

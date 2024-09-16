@@ -115,6 +115,14 @@ class TreeFeedsData extends StoredKeyedItems {
 	}
 
 	//////////////////////////////////////////
+	removeList(keys) {
+		for(let i=0, len=keys.length; i<len; ++i) {
+			super.remove(keys[i], false);
+		}
+		this.setStorage();
+	}
+
+	//////////////////////////////////////////
 	update(key) {
 		// only update() and set() can change lastChecked.
 		if(this.exist(key)) {

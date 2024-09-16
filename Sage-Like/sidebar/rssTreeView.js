@@ -1921,41 +1921,56 @@ let rssTreeView = (function() {
 			text += "feed <b title=\"" + elmLI.getAttribute("href") + "\">'" + getTreeItemText(elmLI).escapeMarkup() + "'</b> from your bookmarks?"
 		}
 
-		messageView.open({ text: text, btnSet: messageView.ButtonSet.setYesNo, caption: "Delete " + (isFolder ? "Folder" : "Feed") }).then((result) => {
+		messageView.open({ text: text, btnSet: messageView.ButtonSet.setYesNo, caption: "Delete " + (isFolder ? "Folder" : "Feed") }).then(async (result) => {
 
-			if(result === messageView.ButtonCode.Yes) {
-
-				let funcBookmarksRemove = isFolder ? browser.bookmarks.removeTree : browser.bookmarks.remove;
-
-				suspendBookmarksEventHandler(() => {
-					return funcBookmarksRemove(elmLI.id).then(() => {
-
-						if(elmLI.nextElementSibling !== null) {
-							elmLI.nextElementSibling.focus();
-						} else if(elmLI.previousElementSibling !== null) {
-							elmLI.previousElementSibling.focus();
-						} else if(elmLI.parentElement.parentElement.tagName === "LI") {
-							elmLI.parentElement.parentElement.focus();
-						} else {
-							m_elmCurrentlySelected = null;
-						}
-
-						if(rssListView.getListViewTitle() === getTreeItemText(elmLI)) {
-							rssListView.disposeList();
-						}
-
-						let elmDeletedFolderUL = elmLI.parentElement;
-						elmDeletedFolderUL.removeChild(elmLI);
-						updateTreeBranchFoldersStats(elmDeletedFolderUL);
-						m_objTreeFeedsData.remove(elmLI.id);
-						updateLayoutWidth();
-
-					}).catch((error) => {
-						InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+click on toolbar button <b>Check feeds</b> to reload the sidebar.", undefined, true, false, 4000);
-						console.log("[Sage-Like]", "Bookmarks remove" + (isFolder ? "Tree" : "") + " error", error);
-					});
-				});
+			if(result === messageView.ButtonCode.No) {
+				return;
 			}
+
+			let funcBookmarksRemove;
+			let subTreeFeedIds = [];
+
+			if(isFolder) {
+				funcBookmarksRemove = browser.bookmarks.removeTree;
+				subTreeFeedIds = await slUtil.bookmarksSubTreeFeedIdsAsArray(elmLI.id);
+			} else {
+				funcBookmarksRemove = browser.bookmarks.remove;
+			}
+
+			suspendBookmarksEventHandler(() => {
+				return funcBookmarksRemove(elmLI.id).then(() => {
+
+					if(elmLI.nextElementSibling !== null) {
+						elmLI.nextElementSibling.focus();
+					} else if(elmLI.previousElementSibling !== null) {
+						elmLI.previousElementSibling.focus();
+					} else if(elmLI.parentElement.parentElement.tagName === "LI") {
+						elmLI.parentElement.parentElement.focus();
+					} else {
+						m_elmCurrentlySelected = null;
+					}
+
+					if(rssListView.getListViewTitle() === getTreeItemText(elmLI)) {
+						rssListView.disposeList();
+					}
+
+					let elmDeletedFolderUL = elmLI.parentElement;
+					elmDeletedFolderUL.removeChild(elmLI);
+					updateTreeBranchFoldersStats(elmDeletedFolderUL);
+
+					if(isFolder) {
+						m_objTreeFeedsData.removeList(subTreeFeedIds);
+					} else {
+						m_objTreeFeedsData.remove(elmLI.id);
+					}
+
+					updateLayoutWidth();
+
+				}).catch((error) => {
+					InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+click on toolbar button <b>Check feeds</b> to reload the sidebar.", undefined, true, false, 4000);
+					console.log("[Sage-Like]", "Bookmarks remove" + (isFolder ? "Tree" : "") + " error", error);
+				});
+			});
 		});
 	}
 
