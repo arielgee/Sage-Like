@@ -3,7 +3,7 @@
 
 :root {
 	--color-background: #505050;
-	--color-text: #f0f0f0;
+	--color-text: #fafafa;
 }
 
 body {
@@ -16,7 +16,7 @@ body {
 
 #popupCaption {
 	font-weight: bold;
-	font-size: 140%;
+	font-size: 150%;
 	margin-top: 10px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
