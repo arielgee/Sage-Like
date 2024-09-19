@@ -2670,20 +2670,22 @@ let rssTreeView = (function() {
 
 			let folders = [
 				{	details: { title: "News", type: "folder" },
-					feeds: [{ title: "Reddit World News", url: "https://www.reddit.com/r/worldnews/.rss" },
-							{ title: "BBC News", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
-							{ title: "BuzzFeed News", url: "https://www.buzzfeed.com/world.xml" },
+					feeds: [
+						{ title: "Reddit World News", url: "https://www.reddit.com/r/worldnews/.rss" },
+						{ title: "BBC News", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
 					],
 				},
 				{	details: { title: "Tech", type: "folder" },
-					feeds: [{ title: "TechCrunch", url: "https://feeds.feedburner.com/TechCrunch" },
-							{ title: "Top News - MIT", url: "https://www.technologyreview.com/topnews.rss" },
-							{ title: "Ars Technica", url: "http://feeds.arstechnica.com/arstechnica/technology-lab" },
+					feeds: [
+						{ title: "The Verge", url: "https://www.theverge.com/rss/index.xml" },
+						{ title: "MIT Top News", url: "https://www.technologyreview.com/topnews.rss" },
+						{ title: "Ars Technica", url: "http://feeds.arstechnica.com/arstechnica/technology-lab" },
 					],
 				},
 				{	details: { title: "Mozilla", type: "folder" },
-					feeds: [{ title: "Mozilla Press Center", url: "https://blog.mozilla.org/press/feed/" },
-							{ title: "The Mozilla Blog", url: "https://developer.mozilla.org/devnews/index.php/feed/atom/" },
+					feeds: [
+						{ title: "News - The Mozilla Blog", url: "https://blog.mozilla.org/en/category/mozilla/news/feed/" },
+						{ title: "The Mozilla Blog", url: "https://blog.mozilla.org/en/feed/" },
 					],
 				},
 			];
