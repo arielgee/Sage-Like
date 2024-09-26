@@ -73,7 +73,7 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
   <li>Added warning notations about feeds with fixable parsing errors in feed tooltips.</li>
   <li>Fixed parsing of unsupported content types when detecting feeds in web pages.</li>
   <li>Reduced and cleaned up example feeds created during the initial installation of the extension.</li>
-  <li>Various minor fixes, code enhancements, and cleanup.</li>
+  <li>Various minor fixes, code enhancements and cleanup.</li>
 </ul>
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
