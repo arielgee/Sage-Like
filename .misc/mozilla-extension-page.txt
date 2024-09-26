@@ -67,7 +67,13 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Fixed two minor cosmetic issues.</li>
+  <li>Implemented improvements in handling XML parsing error with emphasis on unknown XML named entities.</li>
+  <li>Improved sidebar state restoration when the extension is configured not to refresh feeds on sidebar open.</li>
+  <li>Added a summary view for displaying tree feed statistics, accessible via the sidebar context menu.</li>
+  <li>Added warning notations about feeds with fixable parsing errors in feed tooltips.</li>
+  <li>Fixed parsing of unsupported content types when detecting feeds in web pages.</li>
+  <li>Reduced and cleaned up example feeds created during the initial installation of the extension.</li>
+  <li>Various minor fixes, code enhancements, and cleanup.</li>
 </ul>
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1

@@ -1183,7 +1183,6 @@
 
 
 ## Now
-* test all in v109
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
