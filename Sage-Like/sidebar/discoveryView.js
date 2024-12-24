@@ -599,51 +599,64 @@ let discoveryView = (function() {
 
 		let target = event.target;
 
-		if(!!target && target.classList.contains("dfItem")) {
-
-			switch (event.code) {
-
-				case "Space":
-					target.firstElementChild.click();
-					break;
-					/////////////////////////////////////////////////////////////////////////
-
-				case "Home":
-					if(!!m_elmDiscoverFeedsList.firstElementChild) {
-						m_elmDiscoverFeedsList.firstElementChild.focus();
-					}
-					break;
-					/////////////////////////////////////////////////////////////////////////
-
-				case "End":
-					if(!!m_elmDiscoverFeedsList.lastElementChild) {
-						m_elmDiscoverFeedsList.lastElementChild.focus();
-					}
-					break;
-					/////////////////////////////////////////////////////////////////////////
-
-				case "ArrowUp":
-					if(!!target.previousElementSibling) {
-						target.previousElementSibling.focus();
-					}
-					break;
-					/////////////////////////////////////////////////////////////////////////
-
-				case "ArrowDown":
-					if(!!target.nextElementSibling) {
-						target.nextElementSibling.focus();
-					}
-					break;
-					/////////////////////////////////////////////////////////////////////////
-
-				default:
-					return;		// do not stop propagation
-					/////////////////////////////////////////////////////////////////////////
-			}
-
-			event.stopPropagation();
-			event.preventDefault();
+		if(!!!target || !target.classList.contains("dfItem")) {
+			return;
 		}
+
+		let keyCode = event.code;
+
+		// Ctrl+Insert || Ctrl+C
+		if( event.ctrlKey && (keyCode === "Insert" || keyCode === "KeyC") ) {
+			keyCode = "slCopyDfItemURL";
+		}
+
+		switch (keyCode) {
+
+			case "slCopyDfItemURL":
+				slUtil.writeTextToClipboard(target.getAttribute("href"));
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Space":
+				target.firstElementChild.click();
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Home":
+				if(!!m_elmDiscoverFeedsList.firstElementChild) {
+					m_elmDiscoverFeedsList.firstElementChild.focus();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "End":
+				if(!!m_elmDiscoverFeedsList.lastElementChild) {
+					m_elmDiscoverFeedsList.lastElementChild.focus();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowUp":
+				if(!!target.previousElementSibling) {
+					target.previousElementSibling.focus();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowDown":
+				if(!!target.nextElementSibling) {
+					target.nextElementSibling.focus();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			default:
+				return;		// do not stop propagation
+				/////////////////////////////////////////////////////////////////////////
+		}
+
+		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

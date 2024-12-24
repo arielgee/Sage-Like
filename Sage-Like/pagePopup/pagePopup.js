@@ -163,52 +163,64 @@
 
 		let target = event.target;
 
-		if(!!target && target.classList.contains("feedItem")) {
-
-			switch (event.code) {
-
-				case "Space":
-					target.firstElementChild.click();
-					break;
-					/////////////////////////////////////////////////////////////////////////
-
-				case "Home":
-					if(!!m_elmPageFeedsList.firstElementChild.nextElementSibling) {
-						m_elmPageFeedsList.firstElementChild.nextElementSibling.focus();
-					}
-					break;
-					/////////////////////////////////////////////////////////////////////////
-
-				case "End":
-					if(!!m_elmPageFeedsList.lastElementChild) {
-						m_elmPageFeedsList.lastElementChild.focus();
-					}
-					break;
-					/////////////////////////////////////////////////////////////////////////
-
-				case "ArrowUp":
-					if(!!target.previousElementSibling && target.previousElementSibling.classList.contains("feedItem")) {
-						target.previousElementSibling.focus();
-					}
-					break;
-					//////////////////////////////
-
-				case "ArrowDown":
-					if(!!target.nextElementSibling) {
-						target.nextElementSibling.focus();
-					}
-					break;
-					//////////////////////////////
-
-				default:
-					return;		// do not stop propagation
-					//////////////////////////////
-			}
-
-			event.stopPropagation();
-			event.preventDefault();
+		if(!!!target || !target.classList.contains("feedItem")) {
+			return;
 		}
 
+		let keyCode = event.code;
+
+		// Ctrl+Insert || Ctrl+C
+		if( event.ctrlKey && (keyCode === "Insert" || keyCode === "KeyC") ) {
+			keyCode = "slCopyFeedItemURL";
+		}
+
+		switch (keyCode) {
+
+			case "slCopyFeedItemURL":
+				slUtil.writeTextToClipboard(target.getAttribute("href"));
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Space":
+				target.firstElementChild.click();
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "Home":
+				if(!!m_elmPageFeedsList.firstElementChild.nextElementSibling) {
+					m_elmPageFeedsList.firstElementChild.nextElementSibling.focus();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "End":
+				if(!!m_elmPageFeedsList.lastElementChild) {
+					m_elmPageFeedsList.lastElementChild.focus();
+				}
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowUp":
+				if(!!target.previousElementSibling && target.previousElementSibling.classList.contains("feedItem")) {
+					target.previousElementSibling.focus();
+				}
+				break;
+				//////////////////////////////
+
+			case "ArrowDown":
+				if(!!target.nextElementSibling) {
+					target.nextElementSibling.focus();
+				}
+				break;
+				//////////////////////////////
+
+			default:
+				return;		// do not stop propagation
+				//////////////////////////////
+		}
+
+		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
