@@ -177,7 +177,7 @@
 				console.log("[Sage-Like]", `Invalid URL: "${info.selectionText}".`);
 			}
 		}
-	};
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onWebRequestHeadersReceived(details) {
