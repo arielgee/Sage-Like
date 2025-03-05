@@ -8,7 +8,7 @@
 	},
 	"name": "Sage-Like",
 	"version": "3.8",
-	"description": "A basic RSS reader like the good ol' Sage add-on, may the gods avenge his untimely death.",
+	"description": "A fast and lightweight sidebar-based feed reader. Supports Atom, RSS, JSON, and RDF feeds with customizable UI and seamless integration with your browser’s bookmarks and sync capabilities.",
 	"author": "arielg",
 	"permissions": [
 		"bookmarks",
