@@ -5,14 +5,14 @@ RSS Sage-Like
 
 + Summary
 --------------------------------------------------------------
-A sidebar based RSS feed reader like the good ol' Sage add-on, may the gods avenge his untimely death.
+A fast and lightweight sidebar-based feed reader. Supports Atom, RSS, JSON, and RDF feeds with customizable UI and seamless integration with your browser’s bookmarks and sync capabilities.
 
 
 + Product Page Description (About this extension)
 --------------------------------------------------------------
 Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I did my best to keep it lightweight and fast.
 
-◼ <b>FEATURES</b>
+◼ **FEATURES**
 &emsp;● A sidebar based display.
 &emsp;● Feed discovery from the sidebar and from the address bar.
 &emsp;● Customized discovery of "hidden" RSS feeds on YouTube, Reddit, DeviantArt,
@@ -20,21 +20,20 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;● Integrated with the browser's native bookmarks.
 &emsp;● Feeds automatically sync across your devices when using Firefox Sync.
 &emsp;● Fully customizable tree view. Add/Edit/Delete/Copy/Paste/Drag-n-drop directly
-&emsp;&emsp;in sidebar.
+&emsp;&emsp;in the sidebar.
 &emsp;● Various filtering capabilities to the tree feeds (filter by title, URL or status).
 &emsp;● Context menus for feeds and for feed-items (articles) offer more actions.
-&emsp;● Support for <i>middle-click</i>, <i>ctrl-click</i> & <i>shift-click</i> in the feed-items list.
-&emsp;● Rendered Feed Preview via <i>middle-click</i> or context menu (support custom
+&emsp;● Support for *middle-click*, *ctrl-click* & *shift-click* in the feed-items list.
+&emsp;● Rendered Feed Preview via *middle-click* or context menu (support custom
 &emsp;&emsp;style sheet).
 &emsp;● Support for import & export feed subscriptions using an OPML file.
 &emsp;● Customizable UI font & colors.
 &emsp;● Support Manifest V3.
 
-◼ <b>MANIFEST VERSION</b>
-&emsp;The latest version supporting Manifest V2 is Sage-Like v3.2.2.
-&emsp;Available at <a href="https://addons.mozilla.org/en-US/firefox/addon/sage-like/versions">https://addons.mozilla.org/en-US/firefox/addon/sage-like/versions</a>.
+◼ **MANIFEST VERSION**
+Sage-Like v3.2.2 is the latest version supporting Manifest V2, available on the extension's version history page: https://addons.mozilla.org/en-US/firefox/addon/sage-like/versions
 
-◼ <b>PERMISSION JUSTIFICATION</b>
+◼ **PERMISSION JUSTIFICATION**
 &emsp;● 'Read and modify bookmarks' – Integration with the browser's native
 &emsp;&emsp;bookmarks.
 &emsp;● 'Get data from the clipboard' – Support for Copy/Paste operations in the
@@ -52,13 +51,11 @@ Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like
 &emsp;&emsp;previews.
 &emsp;● "menus" – Try to open page links in Feed Preview from context menu.
 
-◼ <b>CUSTOM CSS FILES</b>
-&emsp;A few basic custom style sheet files (.css) for the Feed Preview page.
-&emsp;To be used as‑is or serve as examples.
-&emsp;<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18</a>
+◼ **CUSTOM CSS FILES**
+A selection of custom CSS files for the Feed Preview page, provided as ready-to-use styles or as examples for customization. Available on Mozilla’s Discourse forum: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
 
-◼ <b>SUPPORT & FEEDBACK</b>
-&emsp;<a href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383</a>
+◼ **SUPPORT & FEEDBACK**
+For assistance, troubleshooting, or <b>feedback<b>, visit the support page on Mozilla’s Discourse forum: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383
 
 
 + Product Page Tags (20 tags)
