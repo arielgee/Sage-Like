@@ -55,7 +55,7 @@ Sage-Like v3.2.2 is the latest version supporting Manifest V2, available on the 
 A selection of custom CSS files for the Feed Preview page, provided as ready-to-use styles or as examples for customization. Available on Mozilla’s Discourse forum: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
 
 ◼ **SUPPORT & FEEDBACK**
-For assistance, troubleshooting, or <b>feedback<b>, visit the support page on Mozilla’s Discourse forum: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383
+For assistance, troubleshooting, or feedback, visit the support page on Mozilla’s Discourse forum: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383
 
 
 + Product Page Tags (20 tags)
