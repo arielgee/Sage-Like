@@ -2,7 +2,7 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
 :root {
-	--toolbar-height: 31px;
+	--toolbar-height: 35px;
 	--toolbar-button-size: 18px;
 	--top-height: 60%;
 	--splitter-height: 5px;
@@ -84,9 +84,8 @@ body * {
 	width: 100%;
 	height: var(--toolbar-height);
 	background-color: var(--bk-color-dialog);
-	border-top: 1px #7f7f7f solid;
 	border-bottom: 1px #7f7f7f solid;
-	padding: 5px var(--buttons-spacer);
+	padding: var(--buttons-spacer);
 	display: flex;
 	justify-content: left;
 	overflow: hidden;
