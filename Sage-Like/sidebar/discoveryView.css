@@ -70,7 +70,7 @@
 }
 
 #discoverFeedsList {
-	list-style-type: none;
+	list-style: none;
 	padding: 0;
 	margin: 0 0 var(--panel-spacing);
 	min-height: 140px;
