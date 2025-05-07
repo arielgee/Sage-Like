@@ -190,7 +190,7 @@ let rssListView = (function() {
 			}
 		}
 		m_elmLITreeFeed = elmLITreeFeed;
-		m_observerElmLITreeFeed.observe(m_elmLITreeFeed.firstElementChild.firstElementChild, { childList: true, subtree: false });
+		m_observerElmLITreeFeed.observe(m_elmLITreeFeed.firstElementChild.querySelector("." + Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE), { childList: true, subtree: false });
 
 		m_elmListViewRssTitle.textContent = title;
 
@@ -210,7 +210,7 @@ let rssListView = (function() {
 		let attachments = item.attachments;
 		let elm = document.createElement("li");
 
-		elm.classList.add(Global.CLS_RLV_LI_LIST_ITEM)
+		elm.classList.add(Global.CLS_RLV_LI_LIST_ITEM);
 		setItemRealVisitedState(elm, url, false);
 
 		if(title.length === 0) title = url;		// Global.STR_TITLE_EMPTY ; url.split("/").reduceRight((p, c) => (c.length>0 && p==="<{in^it}>") ? c : p, "<{in^it}>");

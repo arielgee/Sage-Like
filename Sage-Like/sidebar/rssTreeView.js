@@ -1082,7 +1082,7 @@ let rssTreeView = (function() {
 
 		if(TreeItemType.isFeed(m_elmCurrentlyDragged)) {
 			let url = getFeedPreviewUrl(m_elmCurrentlyDragged.getAttribute("href"));
-			transfer.setData("text/x-moz-url", url + "\n" + m_elmCurrentlyDragged.firstElementChild.firstElementChild.textContent);
+			transfer.setData("text/x-moz-url", url + "\n" + getTreeItemText(m_elmCurrentlyDragged));
 			transfer.setData("text/uri-list", url);
 		}
 		m_elmCurrentlyDragged.classList.add("dragged");
@@ -2450,11 +2450,10 @@ let rssTreeView = (function() {
 
 		setTimeout((e) => {
 			const cList = e.classList;
-			const unreadCount = e.firstElementChild.firstElementChild.nextElementSibling.textContent;
 			const msUpdateTime = Number(e.getAttribute("data-updateTime")) || 0;
 			m_objTreeFeedsData.set(e.id, {
 				lastStatusIsVisited: !cList.contains("bold"),
-				lastStatusUnreadCount: unreadCount === "" ? 0 : Number(unreadCount.match(/\d+/)[0]),
+				lastStatusUnreadCount: getTreeItemStats(e),
 				lastStatusErrorState: cList.contains("error"),
 				lastStatusUnauthorized: cList.contains("unauthorized"),
 				lastStatusUpdateTime: msUpdateTime,
@@ -3119,17 +3118,23 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getTreeItemText(elmLI) {
-		return elmLI.firstElementChild.firstElementChild.textContent;
+		return elmLI.firstElementChild.querySelector("." + Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE).textContent;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemText(elmLI, text) {
-		elmLI.firstElementChild.firstElementChild.textContent = text;
+		elmLI.firstElementChild.querySelector("." + Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE).textContent = text;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getTreeItemStats(elmLI) {
+		const unreadCount = elmLI.firstElementChild.querySelector("." + Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS).textContent;
+		return unreadCount === "" ? 0 : Number(unreadCount.match(/\d+/)[0]);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setTreeItemStats(elmLI, unreadCount) {
-		elmLI.firstElementChild.firstElementChild.nextElementSibling.textContent = (unreadCount > 0 ? "(\u200a" + unreadCount + "\u200a)" : "");	// HAIR SPACE
+		elmLI.firstElementChild.querySelector("." + Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS).textContent = (unreadCount > 0 ? "(\u200a" + unreadCount + "\u200a)" : "");	// HAIR SPACE;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

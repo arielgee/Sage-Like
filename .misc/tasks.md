@@ -1183,6 +1183,18 @@
 
 
 ## Now
+* separated commit for the removal of `#rssTreeView .rtvCaptionStats.hidden` from rssTreeView.css (:152)
+* separated commit for the change of `...m_elmCurrentlyDragged.firstElementChild.firstElementChild.textContent` to `getTreeItemText(m_elmCurrentlyDragged)` in rssTreeView.js (:1095)
+* scan code and try to avoide the use of `firstElementChild`, `nextElementSibling` and such.
+* tree view selected item. select color include the icon or not?
+* revisit `list-style: none;` on all <ul> elements instaed on the <li> elements.
+* consider adding custom sidebar images color.
+* consider changing the `loading` circule from size 3 to size 2.5 (sidebar and discoveryView)
+* consider changing multiple and sequential calls to 'appendChild()' of the same element with a single call to `append()` with multiple elements.
+	* search pattern `appendChild\(.*\n.*appendChild\(`
+* test on v109
+* change `imageSet` to `sidebarIconsColor` in the preferences page and in the code. `imageSet` is not relevant anymore.
+	* search pattern `image.?Set`
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
