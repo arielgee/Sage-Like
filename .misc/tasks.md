@@ -1184,14 +1184,13 @@
 * removal of `#rssTreeView .rtvCaptionStats.hidden` from rssTreeView.css (:152)
 * revisit `list-style: none;` on all <ul> elements instaed on the <li> elements.
 * consider changing the `loading` circule from size 3 to size 2.5 (sidebar and discoveryView) => NO
+* change multiple and sequential calls to 'appendChild()' of same element with a single call to `append()` with multiple elements.
 ---
 
 
 ## Now
 * tree view selected item. select color include the icon or not?
 * consider adding custom sidebar images color.
-* consider changing multiple and sequential calls to 'appendChild()' of the same element with a single call to `append()` with multiple elements.
-	* search pattern `appendChild\(.*\n.*appendChild\(`
 * test on v109
 * change `imageSet` to `sidebarIconsColor` in the preferences page and in the code. `imageSet` is not relevant anymore.
 	* search pattern `image.?Set`

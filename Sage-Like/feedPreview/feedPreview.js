@@ -256,10 +256,8 @@
 		}
 
 		elmFeedTitleText.appendChild(elmFeedTitleTextAnchor);
-		elmFeedTitleTexts.appendChild(elmFeedTitleText);
-		elmFeedTitleTexts.appendChild(elmFeedDescText);
-		elmFeedTitle.appendChild(elmFeedTitleTexts);
-		elmFeedTitle.appendChild(elmFeedTitleImage);
+		elmFeedTitleTexts.append(elmFeedTitleText, elmFeedDescText);
+		elmFeedTitle.append(elmFeedTitleTexts, elmFeedTitleImage);
 
 		elmFeedTitle.style.direction = slUtil.getLanguageDir(elmFeedTitleText.textContent);
 
@@ -329,13 +327,12 @@
 
 		handleAbnormalURLs(elmFeedItemContent);
 
-		elmFeedItemContainer.appendChild(elmFeedItemNumber);
-		elmFeedItemContainer.appendChild(elmFeedItem);
-		elmFeedItem.appendChild(elmFeedItemTitle);
+		elmFeedItemContainer.append(elmFeedItemNumber, elmFeedItem);
 		if(elmFeedItemImage !== null) {
-			elmFeedItem.appendChild(elmFeedItemImage);
+			elmFeedItem.append(elmFeedItemTitle, elmFeedItemImage, elmFeedItemContent);
+		} else {
+			elmFeedItem.append(elmFeedItemTitle, elmFeedItemContent);
 		}
-		elmFeedItem.appendChild(elmFeedItemContent);
 
 		if(feedItem.attachments.length > 0) {
 			elmFeedItemAttachmentsContainer = createFeedItemAttachmentsElements(feedItem.attachments);
@@ -347,8 +344,7 @@
 			m_attContainerObserver.observe(elmFeedItemAttachmentsContainer);
 		}
 
-		elmFeedItemTitle.appendChild(elmFeedItemLink);
-		elmFeedItemTitle.appendChild(elmFeedItemLastUpdatedText);
+		elmFeedItemTitle.append(elmFeedItemLink, elmFeedItemLastUpdatedText);
 		elmFeedItemLastUpdatedText.appendChild(elmFeedItemLastUpdatedTime);
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
 		m_elmJumpList.appendChild(elmJumpListItem);

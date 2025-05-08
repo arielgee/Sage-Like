@@ -391,9 +391,7 @@
 			"\n\u2731 Use Middle-click to preview this feed.";
 		elmListItem.title = titleText;
 
-		elmListItem.appendChild(elmCheckBox);
-		elmListItem.appendChild(elmLabel);
-		elmListItem.appendChild(elmFormat);
+		elmListItem.append(elmCheckBox, elmLabel, elmFormat);
 
 		return elmListItem;
 	}

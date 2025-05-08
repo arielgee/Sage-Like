@@ -360,8 +360,7 @@ let discoveryView = (function() {
 		elmListItem.title = titleText;
 
 		elmListItem.appendChild(elmCheckBox);
-		elmLabel.appendChild(elmLabelCaption);
-		elmLabel.appendChild(elmLabelFormat);
+		elmLabel.append(elmLabelCaption, elmLabelFormat);
 		elmListItem.appendChild(elmLabel);
 
 		return elmListItem;

@@ -460,11 +460,9 @@ let rssTreeView = (function() {
 			elm.setAttribute("href", href);
 		}
 
-		elmCaption.appendChild(elmTitle);
-		elmCaption.appendChild(elmStats);
+		elmCaption.append(elmTitle, elmStats);
 		elmIcon.appendChild(elmPath);
-		elmIconCaption.appendChild(elmIcon);
-		elmIconCaption.appendChild(elmCaption);
+		elmIconCaption.append(elmIcon, elmCaption);
 		elm.appendChild(elmIconCaption);
 
 		setTreeItemTooltip(elm);
