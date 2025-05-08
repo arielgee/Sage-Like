@@ -1,5 +1,6 @@
 @import "/shared/common.css";
 @namespace url("http://www.w3.org/1999/xhtml");
+@namespace svg url("http://www.w3.org/2000/svg");
 
 :root {
 	font-size: 12px;
@@ -21,6 +22,8 @@
 
 	--color-control-accent: rgb(0, 96, 223);
 	--background-color-input: rgb(121, 121, 121);
+
+	--path-sidebar-icon: path("M0 12.78V2.41c0-.46.23-.86.59-1.14.11-.08.22-.14.35-.19.2-.07.29-.08.5-.08h4.84c.07 0 .16 0 .22.02.12.04.39.34.5.45l1.09 1.09c.11.1.35.38.47.42.06.02.16.02.22.02h2.78c.8 0 1.44.64 1.44 1.44V6H4.88c-.75 0-1.36.21-1.83.81-.18.23-.53.98-.68 1.28L.79 11.25l-.5 1c-.08.16-.18.4-.29.53ZM0 15c.06-.19.27-.58.37-.78l.65-1.31 2.07-4.13.43-.87c.27-.55.41-.91 1.1-.91H15c.7 0 1.15.61.96 1.28-.05.16-.21.46-.3.63l-.56 1.12-1.75 3.5-.31.63c-.26.52-.42.84-1.07.84H0Z");
 
 	/*******************light theme colors*******************/
 	--background-color-values-body: 255, 255, 255;
@@ -393,22 +396,21 @@ input[type="color"]::-moz-focus-inner {
 
 .controlImage {
 	display: inline-block;
-	width: 24px;
-	height: 20px;
 	margin: auto 0 auto 0;
-	background: transparent no-repeat 4px top/20px 20px;
+	padding-left: 4px;
 	filter: drop-shadow(0 0 2px var(--drop-shadow-control-image));
 }
 .controlImage:not(:last-child) {
 	margin-right: 18px;
 }
-#imageSet0 + .controlImage { background-image: url("/icons/open-0.png"); }
-#imageSet1 + .controlImage { background-image: url("/icons/open-1.png"); }
-#imageSet2 + .controlImage { background-image: url("/icons/open-2.png"); }
-#imageSet3 + .controlImage { background-image: url("/icons/open-3.png"); }
-#imageSet4 + .controlImage { background-image: url("/icons/open-4.png"); }
-#imageSet5 + .controlImage { background-image: url("/icons/open-5.png"); }
-#imageSet6 + .controlImage { background-image: url("/icons/open-6.png"); }
+.controlImage > svg|svg {
+	display: block;
+	width: 20px;
+	height: 20px;
+}
+.controlImage > svg|svg > svg|path {
+	d: var(--path-sidebar-icon);
+}
 
 .extensionButtons .preferenceButton {
 	width: 115px;

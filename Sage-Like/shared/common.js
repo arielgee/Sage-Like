@@ -102,20 +102,18 @@ let Global = (function() {
 	const _DEFAULT_VALUE_OF_DATE = 0;
 	const _DEFAULT_DATE = () => new Date(_DEFAULT_VALUE_OF_DATE);
 
-	const _IMAGE_SET = (numOfSet) => {
-		// there's 7 image sets in the '/icons' folder: 'open-[0-6].png'
-		numOfSet = parseInt(numOfSet);
-		if( 0>numOfSet || 6<numOfSet ) throw new Error("Invalid number of image set: " + numOfSet);
-
-		return Object.freeze({
-			IMG_OPEN_FOLDER:			"url(\"/icons/open-{0}.png\")".format([numOfSet]),
-			IMG_CLOSED_FOLDER:			"url(\"/icons/closed-{0}.png\")".format([numOfSet]),
-			IMG_TREE_ITEM:				"url(\"/icons/rss-{0}.png\")".format([numOfSet]),
-			IMG_TREE_ITEM_LOADING:		"url(\"/icons/loading-{0}.gif\")".format([numOfSet]),
-			IMG_TREE_ITEM_ERROR:		"url(\"/icons/error-{0}.png\")".format([numOfSet]),
-			IMG_TREE_ITEM_UNAUTHORIZED:	"url(\"/icons/unauthorized-{0}.png\")".format([numOfSet]),
-		});
-	}
+	const _SIDEBAR_ICONS_COLOR = (colorNumber) => {
+		switch (parseInt(colorNumber)) {
+			case 0: return "#000000";	// Black
+			case 1: return "#C5C5C0";	// Light Gray
+			case 2: return "#C51010";	// Red
+			case 3: return "#F3C33B";	// Yellow
+			case 4: return "#45C2FF";	// Blue
+			case 5: return "#91CB4C";	// Green
+			case 6: return "#F476CB";	// Pink
+		}
+		return "#000000";	// Default to black
+	};
 
 	return Object.freeze({
 		ID_UL_RSS_TREE_VIEW: "rssTreeView",
@@ -125,6 +123,8 @@ let Global = (function() {
 		CLS_RTV_LI_TREE_ITEM: "rtvTreeItem",
 		CLS_RTV_LI_TREE_FOLDER: "rtvTreeFolder",
 		CLS_RTV_LI_TREE_FEED: "rtvTreeFeed",
+		CLS_RTV_DIV_TREE_ITEM_ICON_CAPTION: "rtvIconCaption",
+		CLS_RTV_SVG_TREE_ITEM_ICON: "rtvIcon",
 		CLS_RTV_DIV_TREE_ITEM_CAPTION: "rtvCaption",
 		CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE: "rtvCaptionTitle",
 		CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS: "rtvCaptionStats",
@@ -189,7 +189,7 @@ let Global = (function() {
 		DEFAULT_VALUE_OF_DATE: _DEFAULT_VALUE_OF_DATE,
 		DEFAULT_DATE: _DEFAULT_DATE,
 
-		IMAGE_SET: _IMAGE_SET,
+		SIDEBAR_ICONS_COLOR: _SIDEBAR_ICONS_COLOR,
 	});
 })();
 

@@ -1,4 +1,5 @@
 @namespace url("http://www.w3.org/1999/xhtml");
+@namespace svg url("http://www.w3.org/2000/svg");
 
 #discoverPanel {
 	white-space: nowrap;
@@ -17,15 +18,23 @@
 	--item-spacer: 5px;
 }
 
-#discoverPanel .captionImage {
-	background: transparent var(--url-img-tree-item) no-repeat center center;
+#discoverPanel svg|svg.captionImage {
 	width: 16px;
 	height: 16px;
 	margin: auto var(--item-spacer) auto 0;
+	fill: var(--color-sidebar-icons);
+}
+#discoverPanel svg|svg.captionImage > svg|path {
+	d: var(--path-sidebar-ico-feed-rss);
 }
 
-#discoverPanel.loading .captionImage {
-	background-image: var(--url-img-tree-item-loading);
+#discoverPanel.loading svg|svg.captionImage > svg|path {
+	d: none;
+}
+#discoverPanel.loading svg|svg.captionImage {
+	border: 3px solid var(--color-sidebar-icons);
+	border-radius: 50%;
+	animation: shrinkExpand 1.5s ease-in-out infinite;		/* the @keyframes named 'shrinkExpand' can be found in the rssTreeView.css file */
 }
 
 #discoverPanel .caption {

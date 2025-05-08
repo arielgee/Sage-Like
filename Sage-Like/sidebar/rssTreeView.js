@@ -438,12 +438,19 @@ let rssTreeView = (function() {
 		let elmTitle = document.createElement("span");
 		let elmStats = document.createElement("span");
 		let elmCaption = document.createElement("div");
+		let elmPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+		let elmIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+		let elmIconCaption = document.createElement("div");
 		let elm = document.createElement("li");
 
 		elmTitle.className = Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_TITLE;
 		elmTitle.textContent = text;
 		elmStats.className = Global.CLS_RTV_SPAN_TREE_ITEM_CAPTION_STATS;
 		elmCaption.className = Global.CLS_RTV_DIV_TREE_ITEM_CAPTION;
+		elmIcon.classList.add(Global.CLS_RTV_SVG_TREE_ITEM_ICON);
+		elmIconCaption.className = Global.CLS_RTV_DIV_TREE_ITEM_ICON_CAPTION;
+
+		elmIcon.setAttribute("viewBox", "0 0 16 16");
 
 		elm.id = id;
 		elm.className = Global.CLS_RTV_LI_TREE_ITEM + " " + className;
@@ -455,7 +462,10 @@ let rssTreeView = (function() {
 
 		elmCaption.appendChild(elmTitle);
 		elmCaption.appendChild(elmStats);
-		elm.appendChild(elmCaption);
+		elmIcon.appendChild(elmPath);
+		elmIconCaption.appendChild(elmIcon);
+		elmIconCaption.appendChild(elmCaption);
+		elm.appendChild(elmIconCaption);
 
 		setTreeItemTooltip(elm);
 

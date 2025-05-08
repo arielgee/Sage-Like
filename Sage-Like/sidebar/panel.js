@@ -201,17 +201,8 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setPanelImageSetFromPreferences() {
 
-		prefs.getImageSet().then(setNumber => {
-
-			let style = document.documentElement.style;
-			let imageSet = Global.IMAGE_SET(setNumber);
-
-			style.setProperty("--url-img-open-folder", imageSet.IMG_OPEN_FOLDER);
-			style.setProperty("--url-img-closed-folder", imageSet.IMG_CLOSED_FOLDER);
-			style.setProperty("--url-img-tree-item", imageSet.IMG_TREE_ITEM);
-			style.setProperty("--url-img-tree-item-loading", imageSet.IMG_TREE_ITEM_LOADING);
-			style.setProperty("--url-img-tree-item-error", imageSet.IMG_TREE_ITEM_ERROR);
-			style.setProperty("--url-img-tree-item-unauthorized", imageSet.IMG_TREE_ITEM_UNAUTHORIZED);
+		prefs.getImageSet().then(colorNumber => {
+			document.documentElement.style.setProperty("--color-sidebar-icons", Global.SIDEBAR_ICONS_COLOR(colorNumber));
 		});
 	}
 
