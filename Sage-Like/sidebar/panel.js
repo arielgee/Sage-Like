@@ -201,8 +201,8 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setPanelImageSetFromPreferences() {
 
-		prefs.getImageSet().then(colorNumber => {
-			document.documentElement.style.setProperty("--color-sidebar-icons", Global.SIDEBAR_ICONS_COLOR(colorNumber));
+		prefs.getImageSet().then(colorId => {
+			document.documentElement.style.setProperty("--color-sidebar-icons", Global.SIDEBAR_ICONS_COLOR_ID(colorId));
 		});
 	}
 

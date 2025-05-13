@@ -1588,13 +1588,13 @@ let preferences = (function() {
 			}
 		}
 
-		m_elmRadioImageSet0.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR(m_elmRadioImageSet0.value);
-		m_elmRadioImageSet1.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR(m_elmRadioImageSet1.value);
-		m_elmRadioImageSet2.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR(m_elmRadioImageSet2.value);
-		m_elmRadioImageSet3.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR(m_elmRadioImageSet3.value);
-		m_elmRadioImageSet4.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR(m_elmRadioImageSet4.value);
-		m_elmRadioImageSet5.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR(m_elmRadioImageSet5.value);
-		m_elmRadioImageSet6.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR(m_elmRadioImageSet6.value);
+		m_elmRadioImageSet0.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet0.value);
+		m_elmRadioImageSet1.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet1.value);
+		m_elmRadioImageSet2.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet2.value);
+		m_elmRadioImageSet3.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet3.value);
+		m_elmRadioImageSet4.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet4.value);
+		m_elmRadioImageSet5.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet5.value);
+		m_elmRadioImageSet6.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet6.value);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

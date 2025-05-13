@@ -102,8 +102,8 @@ let Global = (function() {
 	const _DEFAULT_VALUE_OF_DATE = 0;
 	const _DEFAULT_DATE = () => new Date(_DEFAULT_VALUE_OF_DATE);
 
-	const _SIDEBAR_ICONS_COLOR = (colorNumber) => {
-		switch (parseInt(colorNumber)) {
+	const _SIDEBAR_ICONS_COLOR_ID = (colorId) => {
+		switch (parseInt(colorId)) {
 			case 0: return "#000000";	// Black
 			case 1: return "#C5C5C0";	// Light Gray
 			case 2: return "#C51010";	// Red
@@ -189,7 +189,7 @@ let Global = (function() {
 		DEFAULT_VALUE_OF_DATE: _DEFAULT_VALUE_OF_DATE,
 		DEFAULT_DATE: _DEFAULT_DATE,
 
-		SIDEBAR_ICONS_COLOR: _SIDEBAR_ICONS_COLOR,
+		SIDEBAR_ICONS_COLOR_ID: _SIDEBAR_ICONS_COLOR_ID,
 	});
 })();
 
