@@ -426,7 +426,7 @@ let preferences = (function() {
 		});
 
 		prefs.getIconsColor().then((colorValue) => {
-			let radios = document.getElementsByName("iconsColor");
+			const radios = document.getElementsByName("iconsColor");
 			if( (/^#[a-fA-F0-9]{6}$/.test(colorValue)) ) {
 				radios.forEach(r => r.checked = false );
 			} else {
@@ -1032,7 +1032,7 @@ let preferences = (function() {
 		m_elmColorDialogBackground.value = defPrefs.colorDlgBk;
 		m_elmColorSelect.value = defPrefs.colorSelect;
 		m_elmColorText.value = defPrefs.colorText;
-		let radios = document.getElementsByName("iconsColor");
+		const radios = document.getElementsByName("iconsColor");
 		for(let i=0, len=radios.length; i<len; ++i) {
 			radios[i].checked = (parseInt(radios[i].value) === defPrefs.iconsColor);
 		}
@@ -1586,13 +1586,14 @@ let preferences = (function() {
 			}
 		}
 
-		m_elmRadioIconsColor0.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor0.value);
-		m_elmRadioIconsColor1.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor1.value);
-		m_elmRadioIconsColor2.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor2.value);
-		m_elmRadioIconsColor3.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor3.value);
-		m_elmRadioIconsColor4.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor4.value);
-		m_elmRadioIconsColor5.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor5.value);
-		m_elmRadioIconsColor6.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor6.value);
+		const radios = document.getElementsByName("iconsColor");
+		let label, color;
+		for(let i=0, len=radios.length; i<len; ++i) {
+			label = radios[i].nextElementSibling;
+			color = Global.SIDEBAR_ICONS_COLOR_ID(radios[i].value);
+			label.firstElementChild.style.fill = color;
+			label.title = colorInputTitle(color);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1780,7 +1781,7 @@ let preferences = (function() {
 		} else if(!!!colorNotation) {
 			prefs.setIconsColor(prefs.DEFAULTS.iconsColor).then(() => broadcastAndReload() );
 		} else {
-			console.log("[Sage-Like]", "ERROR: Invalid hexadecimal color notation. Expected format: '#RRGGBB'");
+			console.log("[Sage-Like]", "ERROR: Invalid hexadecimal color notation. Expected format: '#rrggbb'");
 		}
 	}
 

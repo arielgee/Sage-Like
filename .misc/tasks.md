@@ -1198,6 +1198,10 @@
 ## Now
 * support for manifest `data_collection_permissions` key. RTFM!
 * when changing version from 3.9 to 4.0 and back  the 'RequiredPermissions' dialog is showen. WHY???*
+	1. install frash
+	2. check the addon permission (its on)
+	3. restart Fx
+	4. sidebar is asking foe permission dialog
 * test on v109
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
