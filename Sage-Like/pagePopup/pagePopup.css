@@ -52,11 +52,7 @@ body {
 	border-radius: 50%;
 	border: 6px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
-	animation: busyAnimLoadingFrames 1s linear infinite;
-}
-@keyframes busyAnimLoadingFrames {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(360deg); }
+	animation: keyframesRotatingBusyAnimation 1s linear infinite;		/* imported from: /shared/common.css */
 }
 
 .infoMessage {

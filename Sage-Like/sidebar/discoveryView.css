@@ -34,7 +34,7 @@
 #discoverPanel.loading svg|svg.captionImage {
 	border: 3px solid var(--color-sidebar-icons);
 	border-radius: 50%;
-	animation: shrinkExpand 1.5s ease-in-out infinite;		/* the @keyframes named 'shrinkExpand' can be found in the rssTreeView.css file */
+	animation: keyframesShrinkExpandLoadAnimation 1.5s ease-in-out infinite;		/* imported from: /sidebar/rssTreeView.css */
 }
 
 #discoverPanel .caption {

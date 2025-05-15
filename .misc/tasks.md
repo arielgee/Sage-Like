@@ -1191,13 +1191,13 @@
 * add hidden preference to set a custom color for the sidebar icons
 * consider adding custom sidebar images color. =>
 * change all occurrences of `tree-image` to `tree-icon`. relevent to css valiables.
+* move CSS some or all of the `@keyframes` to `/shared/common.css`
 ---
 
 
 ## Now
-* test on v109
-* move CSS some or all of the `@keyframes` to `/shared/common.css` ?
 * when changing version from 3.9 to 4.0 and back  the 'RequiredPermissions' dialog is showen. WHY???
+* test on v109
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

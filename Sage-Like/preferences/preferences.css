@@ -621,11 +621,7 @@ input[type="color"].disabled {
 	border-radius: 50%;
 	border: 5px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
-	animation: busyAnimPrefOverlayFrames 0.7s linear infinite;
-}
-@keyframes busyAnimPrefOverlayFrames {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(360deg); }
+	animation: keyframesRotatingBusyAnimation 0.7s linear infinite;		/* imported from: /shared/common.css */
 }
 .preferenceOverlay.processing .busyAnimPrefOverlay {
 	display: block;

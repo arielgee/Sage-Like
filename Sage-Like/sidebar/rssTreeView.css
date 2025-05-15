@@ -93,9 +93,9 @@
 #rssTreeView li.rtvTreeFeed.loading > .rtvIconCaption > svg|svg.rtvIcon {
 	border: 3px solid var(--color-sidebar-icons);
 	border-radius: 50%;
-	animation: shrinkExpand 1.5s ease-in-out infinite;
+	animation: keyframesShrinkExpandLoadAnimation 1.5s ease-in-out infinite;
 }
-@keyframes shrinkExpand {
+@keyframes keyframesShrinkExpandLoadAnimation {
 	0%, 100% { transform: scale(1); }
 	50% { transform: var(--tree-icon-transform-scale); }
 }
