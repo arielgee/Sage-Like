@@ -1196,7 +1196,8 @@
 
 
 ## Now
-* when changing version from 3.9 to 4.0 and back  the 'RequiredPermissions' dialog is showen. WHY???
+* support for manifest `data_collection_permissions` key. RTFM!
+* when changing version from 3.9 to 4.0 and back  the 'RequiredPermissions' dialog is showen. WHY???*
 * test on v109
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
