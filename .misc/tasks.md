@@ -1185,16 +1185,19 @@
 * revisit `list-style: none;` on all <ul> elements instaed on the <li> elements.
 * consider changing the `loading` circule from size 3 to size 2.5 (sidebar and discoveryView) => NO
 * change multiple and sequential calls to 'appendChild()' of same element with a single call to `append()` with multiple elements.
+* tree view selected item. select color include the icon or not? => NO
+* change `imageSet` to `iconsColor` in the preferences page and in the code. `imageSet` is not relevant anymore.
+* delete obsolete preferences after update to version 4.0 => YES
+* add hidden preference to set a custom color for the sidebar icons
+* consider adding custom sidebar images color. =>
+* change all occurrences of `tree-image` to `tree-icon`. relevent to css valiables.
 ---
 
 
 ## Now
-* tree view selected item. select color include the icon or not?
-* consider adding custom sidebar images color.
 * test on v109
-* change `imageSet` to `sidebarIconsColor` in the preferences page and in the code. `imageSet` is not relevant anymore.
-	* search pattern `image.?Set`
 * move CSS some or all of the `@keyframes` to `/shared/common.css` ?
+* when changing version from 3.9 to 4.0 and back  the 'RequiredPermissions' dialog is showen. WHY???
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

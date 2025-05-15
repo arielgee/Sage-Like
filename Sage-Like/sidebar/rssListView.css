@@ -42,10 +42,10 @@
 }
 
 #rssListView li.errormsg {
-	--image-top: calc((var(--line-height-rss-view) - var(--tree-image-size)) / 2);
+	--icon-top: calc((var(--line-height-rss-view) - var(--tree-icon-size)) / 2);
 	list-style: none;
-	padding-inline-start: calc(var(--tree-image-size) + calc(var(--tree-image-size) / 8) );
-	background: rgb(255, 255, 220) url("/icons/errormsg.png") no-repeat left var(--image-top) / var(--tree-image-size) var(--tree-image-size);
+	padding-inline-start: calc(var(--tree-icon-size) + calc(var(--tree-icon-size) / 8) );
+	background: rgb(255, 255, 220) url("/icons/errormsg.png") no-repeat left var(--icon-top) / var(--tree-icon-size) var(--tree-icon-size);
 	color: crimson;
 	cursor: default;
 	-moz-user-select: text;
