@@ -164,7 +164,7 @@ let Global = (function() {
 		MSGD_PREF_CHANGE_FONT_NAME:								1013,
 		MSGD_PREF_CHANGE_FONT_SIZE_PERCENT:						1014,
 		MSGD_PREF_CHANGE_COLORS:								1015,
-		MSGD_PREF_CHANGE_IMAGES:								1016,
+		MSGD_PREF_CHANGE_ICONS:									1016,
 		MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE:						1017,
 		MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL:				1018,
 		MSGD_PREF_CHANGE_SORT_FEED_ITEMS:						1019,
@@ -623,13 +623,13 @@ let prefs = (function() {
 		COLOR_FEED_ITEM_DESC_TEXT:			{ name: "pref_colorFeedItemDescText",			default: "#000000"										},
 		DETECT_FEEDS_IN_WEB_PAGE:			{ name: "pref_detectFeedsInWebPage",			default: true											},
 		UI_DENSITY:							{ name: "pref_UIDensity",						default: "19;18"										},
-		FONT_NAME:							{ name: "perf_fontName",						default: "(Browser Default)"							},	// typo in the name
-		FONT_SIZE_PERCENT:					{ name: "perf_fontSizePercent",					default: "100"											},	// typo in the name
+		FONT_NAME:							{ name: "pref_fontName",						default: "(Browser Default)"							},
+		FONT_SIZE_PERCENT:					{ name: "pref_fontSizePercent",					default: "100"											},
 		COLOR_BACKGROUND:					{ name: "pref_colorBk",							default: "#F3F3F3"										},
 		COLOR_DIALOG_BACKGROUND:			{ name: "pref_colorDlgBk",						default: "#E3E3E3"										},
 		COLOR_SELECT:						{ name: "pref_colorSelect",						default: "#F3C8BA"										},
 		COLOR_TEXT:							{ name: "pref_colorText",						default: "#000000"										},
-		IMAGE_SET:							{ name: "pref_imageSet",						default: 0												},
+		ICONS_COLOR:						{ name: "pref_iconsColor",						default: 0												},
 		INCREASE_UNVISITED_FONT_SIZE:		{ name: "pref_increaseUnvisitedFontSize",		default: false											},
 		USE_CUSTOM_CSS_FEED_PREVIEW:		{ name: "pref_useCustomCSSFeedPreview",			default: false											},
 		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true											},
@@ -639,6 +639,12 @@ let prefs = (function() {
 		SINGLE_BLOCK_MODE_IN_PREFS_PAGE:	{ name: "pref_singleBlockModeInPrefsPage",		default: false											},
 		CUSTOM_CSS_SOURCE_HASH:				{ name: "pref_customCSSSourceHash",				default: ""												},
 		CUSTOM_CSS_SOURCE:					{ name: "pref_customCSSSource",					default: ""												},
+	});
+
+	const OBSOLETE_PREF = Object.freeze({
+		FONT_NAME:							{ name: "perf_fontName",						default: "(Browser Default)"							},	// typo in the name
+		FONT_SIZE_PERCENT:					{ name: "perf_fontSizePercent",					default: "100"											},	// typo in the name
+		IMAGE_SET:							{ name: "pref_imageSet",						default: 0												},	// replaced by ICONS_COLOR
 	});
 
 	const PREFS_BANNED_FROM_EXPORT = [
@@ -674,7 +680,7 @@ let prefs = (function() {
 	function getColorDialogBackground()			{ return _getPreferenceValue(PREF.COLOR_DIALOG_BACKGROUND); }
 	function getColorSelect()					{ return _getPreferenceValue(PREF.COLOR_SELECT); }
 	function getColorText()						{ return _getPreferenceValue(PREF.COLOR_TEXT); }
-	function getImageSet()						{ return _getPreferenceValue(PREF.IMAGE_SET); }
+	function getIconsColor()					{ return _getPreferenceValue(PREF.ICONS_COLOR); }
 	function getIncreaseUnvisitedFontSize()		{ return _getPreferenceValue(PREF.INCREASE_UNVISITED_FONT_SIZE); }
 	function getUseCustomCSSFeedPreview()		{ return _getPreferenceValue(PREF.USE_CUSTOM_CSS_FEED_PREVIEW); }
 	function getAnimatedSlideDownPanel()		{ return _getPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL); }
@@ -710,7 +716,7 @@ let prefs = (function() {
 	function setColorDialogBackground(value)		{ return _setPreferenceValue(PREF.COLOR_DIALOG_BACKGROUND, value); }
 	function setColorSelect(value)					{ return _setPreferenceValue(PREF.COLOR_SELECT, value); }
 	function setColorText(value)					{ return _setPreferenceValue(PREF.COLOR_TEXT, value); }
-	function setImageSet(value)						{ return _setPreferenceValue(PREF.IMAGE_SET, value); }
+	function setIconsColor(value)					{ return _setPreferenceValue(PREF.ICONS_COLOR, value); }
 	function setIncreaseUnvisitedFontSize(value)	{ return _setPreferenceValue(PREF.INCREASE_UNVISITED_FONT_SIZE, value); }
 	function setUseCustomCSSFeedPreview(value)		{ return _setPreferenceValue(PREF.USE_CUSTOM_CSS_FEED_PREVIEW, value); }
 	function setAnimatedSlideDownPanel(value)		{ return _setPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL, value); }
@@ -765,6 +771,24 @@ let prefs = (function() {
 			_setPreferenceValue(p, p.default);
 		}
 		return _getAllPreferencesObject(true);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	function handleObsoletePreferences() {
+		_handleObsoletePreference(OBSOLETE_PREF.FONT_NAME).then(value => setFontName(value) ).catch(() => {});					// replaced due to typo in the storage key name
+		_handleObsoletePreference(OBSOLETE_PREF.FONT_SIZE_PERCENT).then(value => setFontSizePercent(value) ).catch(() => {});	// replaced due to typo in the storage key name
+		_handleObsoletePreference(OBSOLETE_PREF.IMAGE_SET).then(value => setIconsColor(value) ).catch(() => {});				// replaced by ICONS_COLOR
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	async function _handleObsoletePreference(pref) {
+		const result = await m_localStorage.get(pref.name);
+		if(result[pref.name] !== undefined) {
+			const value = await _getPreferenceValue(pref);
+			m_localStorage.remove(pref.name);
+			return value;
+		}
+		throw new Error();		// exit with error to do nothing if obsolete preference is not found
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -835,7 +859,7 @@ let prefs = (function() {
 		getColorDialogBackground: getColorDialogBackground,
 		getColorSelect: getColorSelect,
 		getColorText: getColorText,
-		getImageSet: getImageSet,
+		getIconsColor: getIconsColor,
 		getIncreaseUnvisitedFontSize: getIncreaseUnvisitedFontSize,
 		getUseCustomCSSFeedPreview: getUseCustomCSSFeedPreview,
 		getAnimatedSlideDownPanel: getAnimatedSlideDownPanel,
@@ -870,7 +894,7 @@ let prefs = (function() {
 		setColorDialogBackground: setColorDialogBackground,
 		setColorSelect: setColorSelect,
 		setColorText: setColorText,
-		setImageSet: setImageSet,
+		setIconsColor: setIconsColor,
 		setIncreaseUnvisitedFontSize: setIncreaseUnvisitedFontSize,
 		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
 		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,
@@ -884,6 +908,8 @@ let prefs = (function() {
 		setAllPreferences: setAllPreferences,
 
 		restoreDefaults: restoreDefaults,
+
+		handleObsoletePreferences: handleObsoletePreferences,
 	}
 
 })();

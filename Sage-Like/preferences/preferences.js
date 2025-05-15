@@ -46,13 +46,13 @@ let preferences = (function() {
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
 	let m_elmColorText;
-	let m_elmRadioImageSet0;
-	let m_elmRadioImageSet1;
-	let m_elmRadioImageSet2;
-	let m_elmRadioImageSet3;
-	let m_elmRadioImageSet4;
-	let m_elmRadioImageSet5;
-	let m_elmRadioImageSet6;
+	let m_elmRadioIconsColor0;
+	let m_elmRadioIconsColor1;
+	let m_elmRadioIconsColor2;
+	let m_elmRadioIconsColor3;
+	let m_elmRadioIconsColor4;
+	let m_elmRadioIconsColor5;
+	let m_elmRadioIconsColor6;
 	let m_elmIncreaseUnvisitedFontSize;
 	let m_elmShowTryOpenLinkInFeedPreview;
 	let m_elmUseCustomCSSFeedPreview;
@@ -128,13 +128,13 @@ let preferences = (function() {
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
 		m_elmColorText = document.getElementById("colorText");
-		m_elmRadioImageSet0 = document.getElementById("imageSet0");
-		m_elmRadioImageSet1 = document.getElementById("imageSet1");
-		m_elmRadioImageSet2 = document.getElementById("imageSet2");
-		m_elmRadioImageSet3 = document.getElementById("imageSet3");
-		m_elmRadioImageSet4 = document.getElementById("imageSet4");
-		m_elmRadioImageSet5 = document.getElementById("imageSet5");
-		m_elmRadioImageSet6 = document.getElementById("imageSet6");
+		m_elmRadioIconsColor0 = document.getElementById("iconsColor0");
+		m_elmRadioIconsColor1 = document.getElementById("iconsColor1");
+		m_elmRadioIconsColor2 = document.getElementById("iconsColor2");
+		m_elmRadioIconsColor3 = document.getElementById("iconsColor3");
+		m_elmRadioIconsColor4 = document.getElementById("iconsColor4");
+		m_elmRadioIconsColor5 = document.getElementById("iconsColor5");
+		m_elmRadioIconsColor6 = document.getElementById("iconsColor6");
 		m_elmIncreaseUnvisitedFontSize = document.getElementById("increaseUnvisitedFontSize");
 		m_elmShowTryOpenLinkInFeedPreview = document.getElementById("showTryOpenLinkInFeedPreview");
 		m_elmUseCustomCSSFeedPreview = document.getElementById("useCustomCSSFeedPreview");
@@ -192,13 +192,13 @@ let preferences = (function() {
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
 		m_elmColorText.removeEventListener("change", onChangeColorText);
-		m_elmRadioImageSet0.removeEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet1.removeEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet2.removeEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet3.removeEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet4.removeEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet5.removeEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet6.removeEventListener("click", onClickRadioImageSet);
+		m_elmRadioIconsColor0.removeEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor1.removeEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor2.removeEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor3.removeEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor4.removeEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor5.removeEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor6.removeEventListener("click", onClickRadioIconsColor);
 		m_elmIncreaseUnvisitedFontSize.removeEventListener("change", onChangeIncreaseUnvisitedFontSize);
 		m_elmShowTryOpenLinkInFeedPreview.removeEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
 		m_elmUseCustomCSSFeedPreview.removeEventListener("change", onChangeUseCustomCSSFeedPreview);
@@ -250,13 +250,13 @@ let preferences = (function() {
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
 		m_elmColorText.addEventListener("change", onChangeColorText);
-		m_elmRadioImageSet0.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet1.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet2.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet3.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet4.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet5.addEventListener("click", onClickRadioImageSet);
-		m_elmRadioImageSet6.addEventListener("click", onClickRadioImageSet);
+		m_elmRadioIconsColor0.addEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor1.addEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor2.addEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor3.addEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor4.addEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor5.addEventListener("click", onClickRadioIconsColor);
+		m_elmRadioIconsColor6.addEventListener("click", onClickRadioIconsColor);
 		m_elmIncreaseUnvisitedFontSize.addEventListener("change", onChangeIncreaseUnvisitedFontSize);
 		m_elmShowTryOpenLinkInFeedPreview.addEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
 		m_elmUseCustomCSSFeedPreview.addEventListener("change", onChangeUseCustomCSSFeedPreview);
@@ -425,12 +425,13 @@ let preferences = (function() {
 			m_elmColorText.title = colorInputTitle(color);
 		});
 
-		prefs.getImageSet().then((set) => {
-			let radios = document.getElementsByName("imageSet");
-			for(let radio of radios) {
-				if(parseInt(radio.value) === set) {
-					radio.checked = true;
-					break;
+		prefs.getIconsColor().then((colorValue) => {
+			let radios = document.getElementsByName("iconsColor");
+			if( (/^#[a-fA-F0-9]{6}$/.test(colorValue)) ) {
+				radios.forEach(r => r.checked = false );
+			} else {
+				for(let i=0, len=radios.length; i<len; ++i) {
+					radios[i].checked = (parseInt(radios[i].value) === colorValue);
 				}
 			}
 		});
@@ -782,9 +783,9 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickRadioImageSet(event) {
-		prefs.setImageSet(parseInt(event.target.value)).then(() => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_IMAGES);
+	function onClickRadioIconsColor(event) {
+		prefs.setIconsColor(parseInt(event.target.value)).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ICONS);
 		});
 	}
 
@@ -1031,12 +1032,9 @@ let preferences = (function() {
 		m_elmColorDialogBackground.value = defPrefs.colorDlgBk;
 		m_elmColorSelect.value = defPrefs.colorSelect;
 		m_elmColorText.value = defPrefs.colorText;
-		let radios = document.getElementsByName("imageSet");
-		for(let radio of radios) {
-			if(parseInt(radio.value) === defPrefs.imageSet) {
-				radio.checked = true;
-				break;
-			}
+		let radios = document.getElementsByName("iconsColor");
+		for(let i=0, len=radios.length; i<len; ++i) {
+			radios[i].checked = (parseInt(radios[i].value) === defPrefs.iconsColor);
 		}
 		m_elmIncreaseUnvisitedFontSize.checked = defPrefs.increaseUnvisitedFontSize;
 		m_elmShowTryOpenLinkInFeedPreview.checked = defPrefs.showTryOpenLinkInFeedPreview;
@@ -1588,13 +1586,13 @@ let preferences = (function() {
 			}
 		}
 
-		m_elmRadioImageSet0.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet0.value);
-		m_elmRadioImageSet1.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet1.value);
-		m_elmRadioImageSet2.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet2.value);
-		m_elmRadioImageSet3.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet3.value);
-		m_elmRadioImageSet4.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet4.value);
-		m_elmRadioImageSet5.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet5.value);
-		m_elmRadioImageSet6.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioImageSet6.value);
+		m_elmRadioIconsColor0.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor0.value);
+		m_elmRadioIconsColor1.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor1.value);
+		m_elmRadioIconsColor2.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor2.value);
+		m_elmRadioIconsColor3.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor3.value);
+		m_elmRadioIconsColor4.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor4.value);
+		m_elmRadioIconsColor5.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor5.value);
+		m_elmRadioIconsColor6.nextElementSibling.firstElementChild.style.fill = Global.SIDEBAR_ICONS_COLOR_ID(m_elmRadioIconsColor6.value);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1769,6 +1767,23 @@ let preferences = (function() {
 		prefs.setSingleBlockModeInPrefsPage(!!singleBlockMode).then(() => browser.tabs.reload() );
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function hiddenPref_sidebarIconsColor(colorNotation = '') {
+
+		const broadcastAndReload = () => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ICONS);
+			browser.tabs.reload();
+		};
+
+		if(/^#[a-fA-F0-9]{6}$/.test(colorNotation)) {
+			prefs.setIconsColor(colorNotation).then(() => broadcastAndReload() );
+		} else if(!!!colorNotation) {
+			prefs.setIconsColor(prefs.DEFAULTS.iconsColor).then(() => broadcastAndReload() );
+		} else {
+			console.log("[Sage-Like]", "ERROR: Invalid hexadecimal color notation. Expected format: '#RRGGBB'");
+		}
+	}
+
 	return {
 		set animated_slide_down_panel(val) { hiddenPref_animatedSlideDownPanel(val); },
 		get animated_slide_down_panel() { prefs.getAnimatedSlideDownPanel().then(val => console.log("animated_slide_down_panel =", val)); },
@@ -1778,5 +1793,8 @@ let preferences = (function() {
 
 		set single_block_mode_in_prefs_page(val) { hiddenPref_singleBlockModeInPrefsPage(val); },
 		get single_block_mode_in_prefs_page() { prefs.getSingleBlockModeInPrefsPage().then(val => console.log("single_block_mode_in_prefs_page =", val)); },
+
+		set sidebar_icons_color(val) { hiddenPref_sidebarIconsColor(val); },
+		get sidebar_icons_color() { prefs.getIconsColor().then(val => console.log("sidebar_icons_color =", val, `\t//color ${/^[0-6]$/.test(val) ? "id" : "notation"}`)); },
 	}
 })();

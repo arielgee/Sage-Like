@@ -97,7 +97,7 @@
 		if(details.reason === "update") {
 
 			let parts = details.previousVersion.split(".").map((x) => parseInt(x)).filter((x) => !isNaN(x));
-			let prevVer = parseFloat((parts[0] || 0) + ((parts[1] || 0) / 10));
+			let prevVer = parseFloat( (parts[0] || 0) + "." + (parts[1] || 0) );	// ATTENTION: In SW versioning, 3.10 > 3.9 but numerically 3.10 < 3.9
 
 			// version 1.9 added lastChecked to OpenTreeFolders
 			if(prevVer < 1.9) {
@@ -110,6 +110,11 @@
 			// version 3.8 added lastStatusUpdateTime, lastStatusFixableParseErrors & lastStatusUnauthorized to TreeFeedsData
 			if(prevVer < 1.9 || prevVer < 2.9 || prevVer < 3.6 || prevVer < 3.8) {
 				(new TreeFeedsData()).maintenance();
+			}
+
+			// version 4.0 replaced perf_fontName, perf_fontSizePercent & pref_imageSet with pref_fontName, pref_fontSizePercent & pref_iconsColor respectively
+			if(prevVer < 4.0) {
+				prefs.handleObsoletePreferences();
 			}
 		}
 	}

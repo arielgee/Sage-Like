@@ -64,8 +64,8 @@ let panel = (function() {
 					setPanelColorsFromPreferences();
 				}
 				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
-					message.details === Global.MSGD_PREF_CHANGE_IMAGES) {
-					setPanelImageSetFromPreferences();
+					message.details === Global.MSGD_PREF_CHANGE_ICONS) {
+					setPanelIconsColorFromPreferences();
 				}
 				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
 					message.details === Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS) {
@@ -112,7 +112,7 @@ let panel = (function() {
 		setPanelFontNameFromPreferences();
 		setPanelFontSizePercentFromPreferences();
 		setPanelColorsFromPreferences();
-		setPanelImageSetFromPreferences();
+		setPanelIconsColorFromPreferences();
 		setFeedItemsDescColorsFromPreferences();
 
 		postLoadMessages();
@@ -199,10 +199,13 @@ let panel = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setPanelImageSetFromPreferences() {
+	function setPanelIconsColorFromPreferences() {
 
-		prefs.getImageSet().then(colorId => {
-			document.documentElement.style.setProperty("--color-sidebar-icons", Global.SIDEBAR_ICONS_COLOR_ID(colorId));
+		prefs.getIconsColor().then(colorValue => {
+			if( !(/^#[a-fA-F0-9]{6}$/.test(colorValue)) ) {
+				colorValue = Global.SIDEBAR_ICONS_COLOR_ID(colorValue);
+			}
+			document.documentElement.style.setProperty("--color-sidebar-icons", colorValue);
 		});
 	}
 
