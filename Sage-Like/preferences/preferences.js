@@ -46,6 +46,7 @@ let preferences = (function() {
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
 	let m_elmColorText;
+	let m_elmLabelIconsColor
 	let m_elmRadioIconsColor0;
 	let m_elmRadioIconsColor1;
 	let m_elmRadioIconsColor2;
@@ -128,6 +129,7 @@ let preferences = (function() {
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
 		m_elmColorText = document.getElementById("colorText");
+		m_elmLabelIconsColor = document.getElementById("labelSidebarIcons");
 		m_elmRadioIconsColor0 = document.getElementById("iconsColor0");
 		m_elmRadioIconsColor1 = document.getElementById("iconsColor1");
 		m_elmRadioIconsColor2 = document.getElementById("iconsColor2");
@@ -429,10 +431,10 @@ let preferences = (function() {
 			const radios = document.getElementsByName("iconsColor");
 			if( (/^#[a-fA-F0-9]{6}$/.test(colorValue)) ) {
 				radios.forEach(r => r.checked = false );
+				m_elmLabelIconsColor.classList.add("customColor");
 			} else {
-				for(let i=0, len=radios.length; i<len; ++i) {
-					radios[i].checked = (parseInt(radios[i].value) === colorValue);
-				}
+				radios.forEach(r => r.checked = (parseInt(r.value) === colorValue) );
+				m_elmLabelIconsColor.classList.remove("customColor");
 			}
 		});
 
@@ -786,6 +788,7 @@ let preferences = (function() {
 	function onClickRadioIconsColor(event) {
 		prefs.setIconsColor(parseInt(event.target.value)).then(() => {
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ICONS);
+			m_elmLabelIconsColor.classList.remove("customColor");
 		});
 	}
 
