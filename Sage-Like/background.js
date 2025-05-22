@@ -96,11 +96,23 @@
 
 		if(details.reason === "update") {
 
-			let parts = details.previousVersion.split(".").map((x) => parseInt(x)).filter((x) => !isNaN(x));
-			let prevVer = parseFloat( (parts[0] || 0) + "." + (parts[1] || 0) );	// ATTENTION: In SW versioning, 3.10 > 3.9 but numerically 3.10 < 3.9
+			const prevVer = details.previousVersion;
+			const isLessThen = (version1, version2) => {
+				const v1Parts = version1.split(".").map(x => parseInt(x, 10) || 0 );
+				const v2Parts = version2.split(".").map(x => parseInt(x, 10) || 0 );
+				const maxLen = Math.max(v1Parts.length, v2Parts.length);
+				let v1, v2;
+				for(let i=0; i<maxLen; ++i) {
+					v1 = v1Parts[i] || 0;
+					v2 = v2Parts[i] || 0;
+					if(v1 < v2) return true;
+					if(v1 > v2) return false;
+				}
+				return false;
+			};
 
 			// version 1.9 added lastChecked to OpenTreeFolders
-			if(prevVer < 1.9) {
+			if(isLessThen(prevVer, "1.9.0")) {
 				(new OpenTreeFolders()).maintenance();
 			}
 
@@ -108,12 +120,12 @@
 			// version 2.9 added ignoreUpdates to TreeFeedsData
 			// version 3.6 added feedMaxItems, lastStatusIsVisited, lastStatusUnreadCount & lastStatusErrorState to TreeFeedsData
 			// version 3.8 added lastStatusUpdateTime, lastStatusFixableParseErrors & lastStatusUnauthorized to TreeFeedsData
-			if(prevVer < 1.9 || prevVer < 2.9 || prevVer < 3.6 || prevVer < 3.8) {
+			if( isLessThen(prevVer, "1.9.0") || isLessThen(prevVer, "2.9.0") || isLessThen(prevVer, "3.6.0") || isLessThen(prevVer, "3.8.0") ) {
 				(new TreeFeedsData()).maintenance();
 			}
 
-			// version 4.0 replaced perf_fontName, perf_fontSizePercent & pref_imageSet with pref_fontName, pref_fontSizePercent & pref_iconsColor respectively
-			if(prevVer < 4.0) {
+			// version 3.10 replaced perf_fontName, perf_fontSizePercent & pref_imageSet with pref_fontName, pref_fontSizePercent & pref_iconsColor respectively
+			if(isLessThen(prevVer, "3.10.0")) {
 				prefs.handleObsoletePreferences();
 			}
 		}
