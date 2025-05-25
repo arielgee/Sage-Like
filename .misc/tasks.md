@@ -1192,22 +1192,19 @@
 * consider adding custom sidebar images color. =>
 * change all occurrences of `tree-image` to `tree-icon`. relevent to css valiables.
 * move CSS some or all of the `@keyframes` to `/shared/common.css`
+* when changing version from 3.9 to 3.10 and back  the 'RequiredPermissions' dialog is showen. => inconnsistent, but not a bug
+* test on v109
+* need to fix checkForNewVersion() in background.js. must match the logic in onRuntimeInstalled(). the "Available Update" dialog popsup for '3.10 --> 3.9'
 ---
 
 
 ## Now
-* support for manifest `data_collection_permissions` key. RTFM!
-* when changing version from 3.9 to 4.0 and back  the 'RequiredPermissions' dialog is showen. WHY???*
-	1. install frash
-	2. check the addon permission (its on)
-	3. restart Fx
-	4. sidebar is asking foe permission dialog
-* test on v109
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* support for manifest `data_collection_permissions` key.
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 

@@ -1787,6 +1787,21 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function isVersionLessThen(version1, version2) {
+		const v1Numbers = version1.split(".").map(x => parseInt(x, 10) || 0 );
+		const v2Numbers = version2.split(".").map(x => parseInt(x, 10) || 0 );
+		const maxLen = Math.max(v1Numbers.length, v2Numbers.length);
+		let v1Num, v2Num;
+		for(let i=0; i<maxLen; ++i) {
+			v1Num = v1Numbers[i] || 0;
+			v2Num = v2Numbers[i] || 0;
+			if(v1Num < v2Num) return true;
+			if(v1Num > v2Num) return false;
+		}
+		return false;	// equal versions
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=7) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -1853,6 +1868,7 @@ let slUtil = (function() {
 		replaceInnerContextualFragment: replaceInnerContextualFragment,
 		setActionBadge: setActionBadge,
 		createMissingPermissionsDocFrag: createMissingPermissionsDocFrag,
+		isVersionLessThen: isVersionLessThen,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 	};
