@@ -68,8 +68,10 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 <b>Changes</b>
 <ul>
-  <li>Added keyboard shortcut support (Ctrl+C) for copying URLs in the discovery Views (page popup, sidebar discovery).</li>
-  <li>Updated UI compatibility with Firefox 136.0's new sidebar design featuring rounded corners.</li>
+  <li>Removed external asset dependencies by replacing PNG icons in sidebar with embedded SVG paths.</li>
+  <li>Removed external asset dependencies by replacing animated GIFs in sidebar with lightweight CSS-based animation.</li>
+  <li>Improved version comparison logic.</li>
+  <li>Minor fixes, UI adjustments and general code cleanup.</li>
 </ul>
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
