@@ -429,11 +429,17 @@ let preferences = (function() {
 
 		prefs.getIconsColor().then((colorValue) => {
 			const radios = document.getElementsByName("iconsColor");
+			radios.forEach(r => r.checked = false );		// required to uncheck all radios when page is reloaded
 			if( (/^#[a-fA-F0-9]{6}$/.test(colorValue)) ) {
-				radios.forEach(r => r.checked = false );
 				m_elmLabelIconsColor.classList.add("customColor");
 			} else {
-				radios.forEach(r => r.checked = (parseInt(r.value) === colorValue) );
+				if( (/^[0-6]$/.test(colorValue)) ) {
+					radios[parseInt(colorValue)].checked = true;
+				} else {
+					const col = prefs.DEFAULTS.iconsColor;
+					radios[col].checked = true;
+					prefs.setIconsColor(col);
+				}
 				m_elmLabelIconsColor.classList.remove("customColor");
 			}
 		});
