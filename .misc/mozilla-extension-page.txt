@@ -66,13 +66,12 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 + Manage Version - Version Notes
 --------------------------------------------------------------
-<b>Changes</b>
-<ul>
-  <li>Removed external asset dependencies by replacing PNG icons in sidebar with embedded SVG paths.</li>
-  <li>Removed external asset dependencies by replacing animated GIFs in sidebar with lightweight CSS-based animation.</li>
-  <li>Improved version comparison logic.</li>
-  <li>Minor fixes, UI adjustments and general code cleanup.</li>
-</ul>
+**Changes**
+
+* Removed external asset dependencies by replacing PNG icons in sidebar with embedded SVG paths.
+* Removed external asset dependencies by replacing animated GIFs in sidebar with lightweight CSS-based animation.
+* Improved version comparison logic.
+* Minor fixes, UI adjustments and general code cleanup.
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
 --------------------------------------------------------------
