@@ -12,7 +12,8 @@ $fmtPathWebExtFile = $pathRoot + "\.publish\Sage-Like-v%1.zip"
 $zipApp = "C:\Program Files\7-Zip\7z.exe"
 
 try {
-	$version = (Get-Content $pathWebExtManifest | ConvertFrom-Json).version;
+	# Remove comments from JSON before parsing
+	$version = (Get-Content $pathWebExtManifest | Select-String -Pattern '^\s*//' -NotMatch | ConvertFrom-Json).version;
 	$destFile = $fmtPathWebExtFile.Replace("%1", $version);
 
 	# Compress-Archive -Path $pathWebExtContent -DestinationPath $destFile;

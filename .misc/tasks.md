@@ -1204,7 +1204,10 @@
 
 
 ## Next
-* support for manifest `data_collection_permissions` key.
+* support for manifest `data_collection_permissions` key. The following should be added to the manifest.json file:
+	"data_collection_permissions": {
+		"required": [ "none" ]
+	}
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
