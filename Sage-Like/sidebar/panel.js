@@ -27,12 +27,12 @@ let panel = (function() {
 	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initialization() {
+	async function initialization() {
+		await RequiredPermissions.i.init();
+		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID
+
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
-
-		RequiredPermissions.i.init();
-		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID
 
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 	}

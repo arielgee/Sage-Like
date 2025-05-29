@@ -1197,11 +1197,12 @@
 * need to fix checkForNewVersion() in background.js. must match the logic in onRuntimeInstalled(). the "Available Update" dialog popsup for '3.10 --> 3.9'
 * remove redundent `formatTimeWithAbbreviations()`
 * follow all occurrences of `getUpdateTimeFormattedString()` and `toWebExtensionLocaleXXXXX()` make sure to format to loacle date and time. or at least to locale time (12-hour / 24-hour).
+* use text metrics to align the items in the tooltips => NO
+* unify the tooltip text for all feed items in tree-view, discovery view, popup => NO
 ---
 
 
 ## Now
-* use text metrics to align the items in the tooltips
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
