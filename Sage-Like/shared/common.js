@@ -373,13 +373,13 @@ let slPrototypes = (function() {
 	Date.prototype.toWebExtensionLocaleString = function() {
 		return this.toLocaleString(undefined, Date.prototype.toWebExtensionLocaleString.options);
 	};
-	Date.prototype.toWebExtensionLocaleString.options = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false };
+	Date.prototype.toWebExtensionLocaleString.options = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" };
 
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.toWebExtensionLocaleShortString = function() {
 		return this.toLocaleString(undefined, Date.prototype.toWebExtensionLocaleShortString.options);
 	};
-	Date.prototype.toWebExtensionLocaleShortString.options = { day: "numeric", month: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false };
+	Date.prototype.toWebExtensionLocaleShortString.options = { day: "numeric", month: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" };
 
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.getRelativeTimeString = function() {
@@ -1147,18 +1147,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function formatTimeWithAbbreviations(value) {
-
-		let parts = value.split(":").map(x => parseInt(x));
-
-		let abbr = parts[0] < 12 ? "AM" : "PM";
-		parts[0] = parts[0] % 12 || 12;
-
-		// do not use join to avoid seconds
-		return parts[0].toLocaleString(undefined, {minimumIntegerDigits:2}) + ":" + parts[1].toLocaleString(undefined, {minimumIntegerDigits:2}) + " " + abbr;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function calcMillisecondTillNextTime(timeValue) {
 
 		let parts = timeValue.split(":");
@@ -1829,7 +1817,6 @@ let slUtil = (function() {
 		hashCode: hashCode,
 		asSafeNumericDate: asSafeNumericDate,
 		sleep: sleep,
-		formatTimeWithAbbreviations: formatTimeWithAbbreviations,
 		calcMillisecondTillNextTime: calcMillisecondTillNextTime,
 		isElementInViewport: isElementInViewport,
 		scrollIntoViewIfNeeded: scrollIntoViewIfNeeded,

@@ -1195,10 +1195,13 @@
 * when changing version from 3.9 to 3.10 and back  the 'RequiredPermissions' dialog is showen. => inconnsistent, but not a bug
 * test on v109
 * need to fix checkForNewVersion() in background.js. must match the logic in onRuntimeInstalled(). the "Available Update" dialog popsup for '3.10 --> 3.9'
+* remove redundent `formatTimeWithAbbreviations()`
+* follow all occurrences of `getUpdateTimeFormattedString()` and `toWebExtensionLocaleXXXXX()` make sure to format to loacle date and time. or at least to locale time (12-hour / 24-hour).
 ---
 
 
 ## Now
+* use text metrics to align the items in the tooltips
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

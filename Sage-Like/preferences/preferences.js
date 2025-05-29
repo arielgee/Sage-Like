@@ -312,7 +312,7 @@ let preferences = (function() {
 
 		prefs.getCheckFeedsInterval().then((value) => {
 			if(value.includes(":")) {
-				let elmOption = createTagOption(value, TXT_OPTION_EVERY_DAY_AT + slUtil.formatTimeWithAbbreviations(value));
+				let elmOption = createTagOption(value, TXT_OPTION_EVERY_DAY_AT + formatTimeToLocalShortString(value));
 				elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
 				m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
 			}
@@ -552,12 +552,12 @@ let preferences = (function() {
 				} else {
 
 					if(elmOption === null) {
-						elmOption = createTagOption(timeValue, TXT_OPTION_EVERY_DAY_AT + slUtil.formatTimeWithAbbreviations(timeValue));
+						elmOption = createTagOption(timeValue, TXT_OPTION_EVERY_DAY_AT + formatTimeToLocalShortString(timeValue));
 						elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
 						m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
 					} else {
 						elmOption.value = timeValue;
-						elmOption.textContent = TXT_OPTION_EVERY_DAY_AT + slUtil.formatTimeWithAbbreviations(timeValue);
+						elmOption.textContent = TXT_OPTION_EVERY_DAY_AT + formatTimeToLocalShortString(timeValue);
 					}
 					m_elmCheckFeedsInterval.value = timeValue;
 
@@ -1726,6 +1726,14 @@ let preferences = (function() {
 		for(let i=0, len=blocks.length; i<len; i++) {
 			blocks[i].style.display = (blocks[i].id === idPrefBlock) ? "block" : "none";
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function formatTimeToLocalShortString(value = "00:00") {
+		const [hours, minutes] = value.split(":").map(x => parseInt(x));
+		const date = new Date();
+		date.setHours(hours, minutes, 0, 0);
+		return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
