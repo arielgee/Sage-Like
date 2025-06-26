@@ -1785,23 +1785,6 @@ let preferences = (function() {
 		prefs.setSingleBlockModeInPrefsPage(!!singleBlockMode).then(() => browser.tabs.reload() );
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	function hiddenPref_sidebarIconsColor(colorNotation = '') {
-
-		const broadcastAndReload = () => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ICONS);
-			browser.tabs.reload();
-		};
-
-		if(/^#[a-fA-F0-9]{6}$/.test(colorNotation)) {
-			prefs.setIconsColor(colorNotation).then(() => broadcastAndReload() );
-		} else if(!!!colorNotation) {
-			prefs.setIconsColor(prefs.DEFAULTS.iconsColor).then(() => broadcastAndReload() );
-		} else {
-			console.log("[Sage-Like]", "ERROR: Invalid hexadecimal color notation. Expected format: '#rrggbb'");
-		}
-	}
-
 	return {
 		set animated_slide_down_panel(val) { hiddenPref_animatedSlideDownPanel(val); },
 		get animated_slide_down_panel() { prefs.getAnimatedSlideDownPanel().then(val => console.log("animated_slide_down_panel =", val)); },
@@ -1811,8 +1794,5 @@ let preferences = (function() {
 
 		set single_block_mode_in_prefs_page(val) { hiddenPref_singleBlockModeInPrefsPage(val); },
 		get single_block_mode_in_prefs_page() { prefs.getSingleBlockModeInPrefsPage().then(val => console.log("single_block_mode_in_prefs_page =", val)); },
-
-		set sidebar_icons_color(val) { hiddenPref_sidebarIconsColor(val); },
-		get sidebar_icons_color() { prefs.getIconsColor().then(val => console.log("sidebar_icons_color =", val, `\t//color ${/^[0-6]$/.test(val) ? "id" : "notation"}`)); },
 	}
 })();
