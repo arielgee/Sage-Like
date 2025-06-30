@@ -46,14 +46,8 @@ let preferences = (function() {
 	let m_elmColorDialogBackground;
 	let m_elmColorSelect;
 	let m_elmColorText;
-	let m_elmLabelIconsColor
-	let m_elmRadioIconsColor0;
-	let m_elmRadioIconsColor1;
-	let m_elmRadioIconsColor2;
-	let m_elmRadioIconsColor3;
-	let m_elmRadioIconsColor4;
-	let m_elmRadioIconsColor5;
-	let m_elmRadioIconsColor6;
+	let m_elmColorIcons;
+	let m_elmRadioIconsColors;
 	let m_elmIncreaseUnvisitedFontSize;
 	let m_elmShowTryOpenLinkInFeedPreview;
 	let m_elmUseCustomCSSFeedPreview;
@@ -129,14 +123,8 @@ let preferences = (function() {
 		m_elmColorDialogBackground = document.getElementById("colorDlgBk");
 		m_elmColorSelect = document.getElementById("colorSelect");
 		m_elmColorText = document.getElementById("colorText");
-		m_elmLabelIconsColor = document.getElementById("labelSidebarIcons");
-		m_elmRadioIconsColor0 = document.getElementById("iconsColor0");
-		m_elmRadioIconsColor1 = document.getElementById("iconsColor1");
-		m_elmRadioIconsColor2 = document.getElementById("iconsColor2");
-		m_elmRadioIconsColor3 = document.getElementById("iconsColor3");
-		m_elmRadioIconsColor4 = document.getElementById("iconsColor4");
-		m_elmRadioIconsColor5 = document.getElementById("iconsColor5");
-		m_elmRadioIconsColor6 = document.getElementById("iconsColor6");
+		m_elmColorIcons = document.getElementById("colorIcons");
+		m_elmRadioIconsColors = document.getElementsByName("iconsColor");
 		m_elmIncreaseUnvisitedFontSize = document.getElementById("increaseUnvisitedFontSize");
 		m_elmShowTryOpenLinkInFeedPreview = document.getElementById("showTryOpenLinkInFeedPreview");
 		m_elmUseCustomCSSFeedPreview = document.getElementById("useCustomCSSFeedPreview");
@@ -194,13 +182,8 @@ let preferences = (function() {
 		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
 		m_elmColorText.removeEventListener("change", onChangeColorText);
-		m_elmRadioIconsColor0.removeEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor1.removeEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor2.removeEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor3.removeEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor4.removeEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor5.removeEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor6.removeEventListener("click", onClickRadioIconsColor);
+		m_elmColorIcons.removeEventListener("change", onChangeColorIcons);
+		m_elmRadioIconsColors.forEach(r => r.removeEventListener("click", onClickRadioIconsColor));
 		m_elmIncreaseUnvisitedFontSize.removeEventListener("change", onChangeIncreaseUnvisitedFontSize);
 		m_elmShowTryOpenLinkInFeedPreview.removeEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
 		m_elmUseCustomCSSFeedPreview.removeEventListener("change", onChangeUseCustomCSSFeedPreview);
@@ -252,13 +235,8 @@ let preferences = (function() {
 		m_elmColorDialogBackground.addEventListener("change", onChangeColorDialogBackground);
 		m_elmColorSelect.addEventListener("change", onChangeColorSelect);
 		m_elmColorText.addEventListener("change", onChangeColorText);
-		m_elmRadioIconsColor0.addEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor1.addEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor2.addEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor3.addEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor4.addEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor5.addEventListener("click", onClickRadioIconsColor);
-		m_elmRadioIconsColor6.addEventListener("click", onClickRadioIconsColor);
+		m_elmColorIcons.addEventListener("change", onChangeColorIcons);
+		m_elmRadioIconsColors.forEach(r => r.addEventListener("click", onClickRadioIconsColor));
 		m_elmIncreaseUnvisitedFontSize.addEventListener("change", onChangeIncreaseUnvisitedFontSize);
 		m_elmShowTryOpenLinkInFeedPreview.addEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
 		m_elmUseCustomCSSFeedPreview.addEventListener("change", onChangeUseCustomCSSFeedPreview);
@@ -427,20 +405,16 @@ let preferences = (function() {
 			m_elmColorText.title = colorInputTitle(color);
 		});
 
-		prefs.getIconsColor().then((colorValue) => {
-			const radios = document.getElementsByName("iconsColor");
-			radios.forEach(r => r.checked = false );		// required to uncheck all radios when page is reloaded
-			if( (/^#[a-fA-F0-9]{6}$/.test(colorValue)) ) {
-				m_elmLabelIconsColor.classList.add("customColor");
-			} else {
-				if( (/^[0-6]$/.test(colorValue)) ) {
-					radios[parseInt(colorValue)].checked = true;
-				} else {
-					const col = prefs.DEFAULTS.iconsColor;
-					radios[col].checked = true;
-					prefs.setIconsColor(col);
-				}
-				m_elmLabelIconsColor.classList.remove("customColor");
+		prefs.getIconsColor().then((color) => {
+			const pair = Global.SIDEBAR_ICONS_COLOR_PAIR(color);
+			m_elmColorIcons.value = pair.color;
+			m_elmColorIcons.title = colorInputTitle(pair.color);
+
+			if(pair.hasOwnProperty("id")) {
+				m_elmRadioIconsColors[pair.id].checked = true;
+			}
+			if(pair.hasOwnProperty("invalid")) {
+				prefs.setIconsColor(pair.id);
 			}
 		});
 
@@ -791,10 +765,29 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeColorIcons(event) {
+		const value = m_elmColorIcons.value
+		m_elmColorIcons.title = colorInputTitle(value);
+
+		const pair = Global.SIDEBAR_ICONS_COLOR_PAIR(value);
+		if(pair.hasOwnProperty("id")) {
+			m_elmRadioIconsColors[pair.id].checked = true;
+		} else {
+			m_elmRadioIconsColors.forEach(r => r.checked = false );	// uncheck all if color not in list
+		}
+
+		prefs.setIconsColor(value).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_COLORS);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onClickRadioIconsColor(event) {
-		prefs.setIconsColor(parseInt(event.target.value)).then(() => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ICONS);
-			m_elmLabelIconsColor.classList.remove("customColor");
+		const pair = Global.SIDEBAR_ICONS_COLOR_PAIR(event.target.value);
+		m_elmColorIcons.value = pair.color;
+		m_elmColorIcons.title = colorInputTitle(pair.color);
+		prefs.setIconsColor(pair.id).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_COLORS);
 		});
 	}
 
@@ -1041,10 +1034,8 @@ let preferences = (function() {
 		m_elmColorDialogBackground.value = defPrefs.colorDlgBk;
 		m_elmColorSelect.value = defPrefs.colorSelect;
 		m_elmColorText.value = defPrefs.colorText;
-		const radios = document.getElementsByName("iconsColor");
-		for(let i=0, len=radios.length; i<len; ++i) {
-			radios[i].checked = (parseInt(radios[i].value) === defPrefs.iconsColor);
-		}
+		m_elmColorIcons.value = Global.SIDEBAR_ICONS_COLOR_PAIR(defPrefs.iconsColor).color;
+		m_elmRadioIconsColors[defPrefs.iconsColor].checked = true;		// default is the index value 0, so its safe to use it as an index
 		m_elmIncreaseUnvisitedFontSize.checked = defPrefs.increaseUnvisitedFontSize;
 		m_elmShowTryOpenLinkInFeedPreview.checked = defPrefs.showTryOpenLinkInFeedPreview;
 		m_elmUseCustomCSSFeedPreview.checked = defPrefs.useCustomCSSFeedPreview;
@@ -1595,11 +1586,10 @@ let preferences = (function() {
 			}
 		}
 
-		const radios = document.getElementsByName("iconsColor");
 		let label, color;
-		for(let i=0, len=radios.length; i<len; ++i) {
-			label = radios[i].nextElementSibling;
-			color = Global.SIDEBAR_ICONS_COLOR_ID(radios[i].value);
+		for(let i=0, len=m_elmRadioIconsColors.length; i<len; ++i) {
+			label = m_elmRadioIconsColors[i].nextElementSibling;
+			color = Global.SIDEBAR_ICONS_COLOR_PAIR(m_elmRadioIconsColors[i].value).color;
 			label.firstElementChild.style.fill = color;
 			label.title = colorInputTitle(color);
 		}

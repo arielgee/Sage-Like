@@ -102,17 +102,30 @@ let Global = (function() {
 	const _DEFAULT_VALUE_OF_DATE = 0;
 	const _DEFAULT_DATE = () => new Date(_DEFAULT_VALUE_OF_DATE);
 
-	const _SIDEBAR_ICONS_COLOR_ID = (colorId) => {
-		switch (parseInt(colorId)) {
-			case 0: return "#000000";	// Black
-			case 1: return "#C5C5C0";	// Light Gray
-			case 2: return "#C51010";	// Red
-			case 3: return "#F3C33B";	// Yellow
-			case 4: return "#45C2FF";	// Blue
-			case 5: return "#91CB4C";	// Green
-			case 6: return "#F476CB";	// Pink
+	const _SIDEBAR_ICONS_COLORS = {
+		"0": "#000000",	// Black
+		"1": "#C5C5C0",	// Light Gray
+		"2": "#C51010",	// Red
+		"3": "#F3C33B",	// Yellow
+		"4": "#45C2FF",	// Blue
+		"5": "#91CB4C",	// Green
+		"6": "#F476CB",	// Pink
+	};
+
+	const _SIDEBAR_ICONS_COLOR_PAIR = (value) => {
+
+		if( (/^[0-6]$/.test(value)) ) {
+			return { id: parseInt(value), color: _SIDEBAR_ICONS_COLORS[value] };
 		}
-		return "#000000";	// Default to black
+
+		value = value.toUpperCase();
+
+		if( (/^#[0-9A-F]{6}$/.test(value)) ) {
+			const key = Object.keys(_SIDEBAR_ICONS_COLORS).find(key => _SIDEBAR_ICONS_COLORS[key] === value);
+			return ( !!key ? { id: parseInt(key), color: value } : { color: value } );
+		}
+
+		return { id: 0, color: "#000000", invalid: true };	// Default to black
 	};
 
 	return Object.freeze({
@@ -164,14 +177,13 @@ let Global = (function() {
 		MSGD_PREF_CHANGE_FONT_NAME:								1013,
 		MSGD_PREF_CHANGE_FONT_SIZE_PERCENT:						1014,
 		MSGD_PREF_CHANGE_COLORS:								1015,
-		MSGD_PREF_CHANGE_ICONS:									1016,
-		MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE:						1017,
-		MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL:				1018,
-		MSGD_PREF_CHANGE_SORT_FEED_ITEMS:						1019,
-		MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES:				1020,
-		MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW:	1021,
-		MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE:			1022,
-		MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN:				1023,
+		MSGD_PREF_CHANGE_CUSTOM_CSS_SOURCE:						1016,
+		MSGD_PREF_CHANGE_ANIMATED_SLIDE_DOWN_PANEL:				1017,
+		MSGD_PREF_CHANGE_SORT_FEED_ITEMS:						1018,
+		MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES:				1019,
+		MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW:	1020,
+		MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE:			1021,
+		MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN:				1022,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: "_rootFeedsFolderIdNotSet_",
 		BOOKMARKS_ROOT_GUID: "root________",
@@ -189,7 +201,7 @@ let Global = (function() {
 		DEFAULT_VALUE_OF_DATE: _DEFAULT_VALUE_OF_DATE,
 		DEFAULT_DATE: _DEFAULT_DATE,
 
-		SIDEBAR_ICONS_COLOR_ID: _SIDEBAR_ICONS_COLOR_ID,
+		SIDEBAR_ICONS_COLOR_PAIR: _SIDEBAR_ICONS_COLOR_PAIR,
 	});
 })();
 

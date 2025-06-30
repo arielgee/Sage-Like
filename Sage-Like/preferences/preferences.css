@@ -655,14 +655,3 @@ input[type="color"].disabled {
 	color: var(--color-control-accent);
 	text-shadow: 2px 2px black;
 }
-
-#labelSidebarIcons.customColor::after {
-	margin-left: 6px;
-	padding: 0 4px 2px 4px;
-	border: 1px solid rgb(var(--color-values-text-block-caption));
-	border-radius: 9px;
-	color: rgb(var(--color-values-text-block-caption));
-	font-size: 12px;
-	line-height: 12px;
-	content: "custom color";
-}
