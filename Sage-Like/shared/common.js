@@ -102,7 +102,7 @@ let Global = (function() {
 	const _DEFAULT_VALUE_OF_DATE = 0;
 	const _DEFAULT_DATE = () => new Date(_DEFAULT_VALUE_OF_DATE);
 
-	const _SIDEBAR_ICONS_COLORS = {
+	const _SIDEBAR_ICONS_CLASSIC_COLORS = {
 		"0": "#000000",	// Black
 		"1": "#C5C5C0",	// Light Gray
 		"2": "#C51010",	// Red
@@ -115,13 +115,13 @@ let Global = (function() {
 	const _SIDEBAR_ICONS_COLOR_PAIR = (value) => {
 
 		if( (/^[0-6]$/.test(value)) ) {
-			return { id: parseInt(value), color: _SIDEBAR_ICONS_COLORS[value] };
+			return { id: parseInt(value), color: _SIDEBAR_ICONS_CLASSIC_COLORS[value] };
 		}
 
 		value = value.toUpperCase();
 
 		if( (/^#[0-9A-F]{6}$/.test(value)) ) {
-			const key = Object.keys(_SIDEBAR_ICONS_COLORS).find(key => _SIDEBAR_ICONS_COLORS[key] === value);
+			const key = Object.keys(_SIDEBAR_ICONS_CLASSIC_COLORS).find(key => _SIDEBAR_ICONS_CLASSIC_COLORS[key] === value);
 			return ( !!key ? { id: parseInt(key), color: value } : { color: value } );
 		}
 
