@@ -1203,12 +1203,11 @@
 * in prefs change 'setIconsColor' to 'setColorIcons' to match all 'setColorXXXXXX' (also getXXX) => NO. To emphasize that 'iconsColor' is not handled like other prefs, keep name pattern different from 'colorBk' & 'colorDlgBk'
 * rename _SIDEBAR_ICONS_COLORS to _SIDEBAR_ICONS_CLASSIC_COLORS
 * fix color input title not getting updated after clicking the 'Restore Defaults' button in onClickBtnRestoreDefaults()
+* change in preferences.html and in preferences.js the `ColorIcons` to `IconsColor` to match the preference name. input id, element variable name and event handler name. => NO. leave as is
 ---
 
 
 ## Now
-* change in preferences.html and in preferences.js the `ColorIcons` to `IconsColor` to match the preference name. input id, element variable name and event handler name.
-	* ???? change input id: `colorIcons` => `colorIconsColor` ???
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
