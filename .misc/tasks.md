@@ -1199,10 +1199,16 @@
 * follow all occurrences of `getUpdateTimeFormattedString()` and `toWebExtensionLocaleXXXXX()` make sure to format to loacle date and time. or at least to locale time (12-hour / 24-hour).
 * use text metrics to align the items in the tooltips => NO
 * unify the tooltip text for all feed items in tree-view, discovery view, popup => NO
+* check is not redundent: Global.MSGD_PREF_CHANGE_COLORS and Global.MSGD_PREF_CHANGE_ICONS
+* in prefs change 'setIconsColor' to 'setColorIcons' to match all 'setColorXXXXXX' (also getXXX) => NO. To emphasize that 'iconsColor' is not handled like other prefs, keep name pattern different from 'colorBk' & 'colorDlgBk'
+* rename _SIDEBAR_ICONS_COLORS to _SIDEBAR_ICONS_CLASSIC_COLORS
+* fix color input title not getting updated after clicking the 'Restore Defaults' button in onClickBtnRestoreDefaults()
 ---
 
 
 ## Now
+* change in preferences.html and in preferences.js the `ColorIcons` to `IconsColor` to match the preference name. input id, element variable name and event handler name.
+	* ???? change input id: `colorIcons` => `colorIconsColor` ???
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
