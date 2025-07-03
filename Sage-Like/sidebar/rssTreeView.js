@@ -2079,19 +2079,21 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function markAllFeedsAsVisitedState(isVisited) {
 
-		let elms = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED + ":not(.error)");
+		const elms = m_elmTreeRoot.querySelectorAll("." + Global.CLS_RTV_LI_TREE_FEED + ":not(.error)");
 
 		if(elms.length > 0) {
 
 			if(isVisited) {
-				for(let i=0, len=elms.length; i<len; i++) {
+				const properties = { lastVisited: Date.now(), lastStatusIsVisited: true };
+				for(let i=0, len=elms.length; i<len; ++i) {
 					elms[i].classList.remove("bold");
-					m_objTreeFeedsData.set(elms[i].id, { lastVisited: Date.now() }, false);
+					m_objTreeFeedsData.set(elms[i].id, properties, false);
 				}
 			} else {
-				for(let i=0, len=elms.length; i<len; i++) {
+				const properties = { lastVisited: 0, lastStatusIsVisited: false };
+				for(let i=0, len=elms.length; i<len; ++i) {
 					elms[i].classList.add("bold");
-					m_objTreeFeedsData.set(elms[i].id, { lastVisited: 0 }, false);
+					m_objTreeFeedsData.set(elms[i].id, properties, false);
 				}
 			}
 			m_objTreeFeedsData.setStorage();

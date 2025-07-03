@@ -1204,15 +1204,22 @@
 * rename _SIDEBAR_ICONS_COLORS to _SIDEBAR_ICONS_CLASSIC_COLORS
 * fix color input title not getting updated after clicking the 'Restore Defaults' button in onClickBtnRestoreDefaults()
 * change in preferences.html and in preferences.js the `ColorIcons` to `IconsColor` to match the preference name. input id, element variable name and event handler name. => NO. leave as is
+* the `.catch()` in this: `let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));` IS WRONG! WTF?
+* uncheck the 'check on sidebar launch', refresh to mark them as unread, mark all as read, close the sidebar, open the sidebar >>> `feeds are marked as UNREAD`. refresh again >>> `feeds are marked as READ`
 ---
 
 
 ## Now
+* the red exclemation mark filter indicartor in the sidebar tree view is displayed on the vertical scroll bar.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* The label "Perform feed check while sidebar is closed" and the (?) needs to be rephrased for clarity. emphasize that no update is performed. only a check is if there is something new.
+* redirect users to open issues in github. from add-on page at AMO and from the preferences page.
+* time 'every day at' is not set if user do not move the focus. Example, if i change the hour and press enter without first moving to the minutes the value is not set.
+* clear the background alarm if the preference 'perform feed check while sidebar is closed' is unchecked.
 * support for manifest `data_collection_permissions` key. The following should be added to the manifest.json file:
 	"data_collection_permissions": {
 		"required": [ "none" ]
