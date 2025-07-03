@@ -49,9 +49,7 @@
 		RequiredPermissions.i.init();
 		browser.windows.getCurrent().then((winInfo) => m_currentWindowId = winInfo.id);		// Get browser's current window ID
 
-		// start the first bookmark feeds check after 2 seconds to allow the browser's
-		// initialization to terminate and possibly the sidebar to be displayed.
-		browser.alarms.create(ALARM_NAME_MONITOR_BOOKMARK_FEEDS, { delayInMinutes: 1/30 });
+		handleBookmarkFeedsMonitorAlarm();										// Set bookmark feeds monitor alarm if not already set
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +64,7 @@
 			case Global.MSG_ID_PREFERENCES_CHANGED:
 				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
 					message.details === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
-					monitorBookmarkFeeds();
+					resetBookmarkFeedsMonitorAlarm();
 				}
 				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
 					message.details === Global.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE) {
@@ -248,30 +246,15 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function monitorBookmarkFeeds() {
 
-		// It will replace the current alarm if called due to a preference change to set a new
-		// interval value or it will clear the current alarm to have no background monitoring at all.
+		const isClosed = !(await browser.sidebarAction.isOpen({}));
+		const checkWhenSbClosed = await prefs.getCheckFeedsWhenSbClosed();
 
-		let nextInterval = await prefs.getCheckFeedsInterval().catch(() => nextInterval = prefs.DEFAULTS.checkFeedsInterval);
-
-		// if interval is zero then clear alarm and do not perform background monitoring
-		if(nextInterval === "0") {
-			browser.alarms.clear(ALARM_NAME_MONITOR_BOOKMARK_FEEDS);
-		} else {
-
-			let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));
-			let checkWhenSbClosed = await prefs.getCheckFeedsWhenSbClosed().catch(() => checkWhenSbClosed = prefs.DEFAULTS.checkFeedsWhenSbClosed);
-
-			// background monitoring from the background page is done solely for
-			// the purpose of updating the action button when the sidebar is closed
-			if (isClosed && checkWhenSbClosed) {
-				await checkForNewBookmarkFeeds();
-			}
-
-			if(nextInterval.includes(":")) {
-				nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
-			}
-			browser.alarms.create(ALARM_NAME_MONITOR_BOOKMARK_FEEDS, { when: Date.now()+parseInt(nextInterval) });	// create/replace an alarm.
+		// background monitoring from the background page is done solely for
+		// the purpose of updating the action button when the sidebar is closed
+		if (isClosed && checkWhenSbClosed) {
+			await checkForNewBookmarkFeeds();
 		}
+		resetBookmarkFeedsMonitorAlarm();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -319,6 +302,33 @@
 		}).catch((error) => {
 			console.log("[Sage-Like]", error);
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function handleBookmarkFeedsMonitorAlarm() {
+		if( !!!(await browser.alarms.get(ALARM_NAME_MONITOR_BOOKMARK_FEEDS)) ) {
+			resetBookmarkFeedsMonitorAlarm();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function resetBookmarkFeedsMonitorAlarm() {
+
+		// Will replace the current alarm if called due to a preference change to set a new interval value.
+		// Create an alarm on extension load or after the termination of checkForNewBookmarkFeeds() in monitorBookmarkFeeds().
+		// Clear the current alarm to have no background monitoring at all.
+
+		let nextInterval = await prefs.getCheckFeedsInterval();
+
+		// if interval is zero then clear alarm and do not perform background monitoring
+		if(nextInterval === "0") {
+			browser.alarms.clear(ALARM_NAME_MONITOR_BOOKMARK_FEEDS);
+		} else {
+			if(nextInterval.includes(":")) {
+				nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
+			}
+			browser.alarms.create(ALARM_NAME_MONITOR_BOOKMARK_FEEDS, { when: Date.now()+parseInt(nextInterval) });	// create/replace an alarm.
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
