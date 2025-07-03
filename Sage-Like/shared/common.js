@@ -1815,6 +1815,16 @@ let slUtil = (function() {
 		if(n & 4) (new FeedsWithParsingErrors()).purge(millisecOld);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function debug_alarms_list() {
+		browser.alarms.getAll().then((alarms) => {
+			for(let i=0, len=alarms.length; i<len; ++i) {
+				alarms[i]["scheduledTime"] = (new Date(alarms[i].scheduledTime).toLocaleString(undefined, { day: "numeric", month: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+			}
+			console.log("[Sage-Like] alarms", alarms);
+		});
+	}
+
 	return {
 		randomInteger: randomInteger,
 		disableElementTree: disableElementTree,
@@ -1870,6 +1880,7 @@ let slUtil = (function() {
 		isVersionLessThen: isVersionLessThen,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
+		debug_alarms_list: debug_alarms_list,
 	};
 
 })();
