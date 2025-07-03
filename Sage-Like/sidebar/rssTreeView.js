@@ -123,7 +123,7 @@ let rssTreeView = (function() {
 
 				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
 					message.details === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
-					monitorRSSTreeFeeds();
+					resetRSSTreeFeedsTimer();
 				}
 
 				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
@@ -224,6 +224,7 @@ let rssTreeView = (function() {
 		setIncreaseUnvisitedFontSizeFromPreferences();
 
 		createRSSTree(true);
+		resetRSSTreeFeedsTimer();
 
 		slUtil.setActionBadge(1, { text: "", windowId: (await browser.windows.getCurrent()).id });
 		m_elmFilterTextBoxContainer.title = getFilterTooltipTitle();
@@ -284,7 +285,7 @@ let rssTreeView = (function() {
 			if(m_bPrefShowFeedStats) {
 
 				// switched from 'do not show' to 'show', just refresh tree
-				monitorRSSTreeFeeds(true);
+				checkForNewRSSTreeFeedsData();
 			} else {
 
 				// switched from 'show' to 'do not show', clear stat text
@@ -374,11 +375,8 @@ let rssTreeView = (function() {
 				restoreTreeViewState();
 				broadcastRssTreeCreatedOK();
 				if(m_bPrefCheckFeedsOnSbOpen || !fromDOMContentLoad) {
-					if( (await internalPrefs.getFeedsFilter()) === "" ) {
-						monitorRSSTreeFeeds(true);
-					} else {
-						setTimeout(() => monitorRSSTreeFeeds(true), 330); // wait for filter UI. 300ms textbox transition
-					}
+					const filter = await internalPrefs.getFeedsFilter();
+					setTimeout(checkForNewRSSTreeFeedsData, !!filter ? 330 : 0 );	// wait for filter UI if a filter is set. 300ms textbox transition
 				} else {
 					restoreTreeFeedsLastStatus();
 				}
@@ -543,30 +541,9 @@ let rssTreeView = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function monitorRSSTreeFeeds(bForce = false) {
-
-		// first clear the current timeout if called from preference change to
-		// set a new interval value or to have no background monitoring at all
-		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
-		m_timeoutIdMonitorRSSTreeFeeds = null;
-
-		prefs.getCheckFeedsInterval().then((nextInterval) => {
-
-			// if interval is zero then do not perform background monitoring unless forced
-			if(nextInterval !== "0" || bForce) {
-				checkForNewRSSTreeFeedsData();
-			}
-
-			// if interval is zero then do not schedule the next background monitoring
-			if(nextInterval !== "0") {
-
-				// Repeat a new timeout session.
-				if(nextInterval.includes(":")) {
-					nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
-				}
-				m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, parseInt(nextInterval));
-			}
-		});
+	function monitorRSSTreeFeeds() {
+		checkForNewRSSTreeFeedsData();
+		resetRSSTreeFeedsTimer();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -657,6 +634,32 @@ let rssTreeView = (function() {
 			setFeedLoadingState(elmLI, false);
 			setTreeFeedDataLastStatusMembers(elmLI);
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function resetRSSTreeFeedsTimer() {
+
+		// first clear the current timeout if called from preference change to
+		// set a new interval value or to have no background monitoring at all
+
+		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
+		m_timeoutIdMonitorRSSTreeFeeds = null;
+
+		// if the tree is not created yet then do not schedule the next timer
+		if(!m_rssTreeCreatedOK) {
+			setTimeout(resetRSSTreeFeedsTimer, 100);	// wait for the tree to be created
+			return;
+		}
+
+		let nextInterval = await prefs.getCheckFeedsInterval();
+
+		// if interval is zero then do not schedule the next timer
+		if(nextInterval !== "0") {
+			if(nextInterval.includes(":")) {
+				nextInterval = slUtil.calcMillisecondTillNextTime(nextInterval);
+			}
+			m_timeoutIdMonitorRSSTreeFeeds = setTimeout(monitorRSSTreeFeeds, parseInt(nextInterval));	// set the next timer
+		}
 	}
 
 	//==================================================================================
@@ -1469,7 +1472,7 @@ let rssTreeView = (function() {
 			rssListView.disposeList();
 			createRSSTree();
 		} else {
-			monitorRSSTreeFeeds(true);
+			checkForNewRSSTreeFeedsData();
 		}
 		setFocus();
 	}
