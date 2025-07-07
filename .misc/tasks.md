@@ -1207,6 +1207,7 @@
 * the `.catch()` in this: `let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));` IS WRONG! WTF?
 * uncheck the 'check on sidebar launch', refresh to mark them as unread, mark all as read, close the sidebar, open the sidebar >>> `feeds are marked as UNREAD`. refresh again >>> `feeds are marked as READ`
 * the red exclemation mark filter indicartor in the sidebar tree view is displayed on top of the vertical scroll bar.
+* redirect users to open issues in github. from the preferences page.
 ---
 
 
@@ -1216,8 +1217,8 @@
 
 
 ## Next
+* redirect users to open issues in github. from add-on page at AMO.
 * The label "Perform feed check while sidebar is closed" and the (?) needs to be rephrased for clarity. emphasize that no update is performed. only a check is if there is something new.
-* redirect users to open issues in github. from add-on page at AMO and from the preferences page.
 * time 'every day at' is not set if user do not move the focus. Example, if i change the hour and press enter without first moving to the minutes the value is not set.
 * clear the background alarm if the preference 'perform feed check while sidebar is closed' is unchecked.
 * support for manifest `data_collection_permissions` key. The following should be added to the manifest.json file:

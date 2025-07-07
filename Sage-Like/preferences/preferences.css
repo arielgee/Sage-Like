@@ -134,8 +134,7 @@ body * {
 	bottom: 0;
 	width: var(--width-navigation-bar);
 	padding: calc(var(--padding-top-pref-block) - 8px) 10px 20px 22px;
-	overflow-x: hidden;
-	overflow-y: auto;
+	overflow: hidden;
 }
 
 #navigationFooter {
