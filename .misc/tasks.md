@@ -1206,11 +1206,11 @@
 * change in preferences.html and in preferences.js the `ColorIcons` to `IconsColor` to match the preference name. input id, element variable name and event handler name. => NO. leave as is
 * the `.catch()` in this: `let isClosed = !(await browser.sidebarAction.isOpen({}).catch(() => isClosed = false));` IS WRONG! WTF?
 * uncheck the 'check on sidebar launch', refresh to mark them as unread, mark all as read, close the sidebar, open the sidebar >>> `feeds are marked as UNREAD`. refresh again >>> `feeds are marked as READ`
+* the red exclemation mark filter indicartor in the sidebar tree view is displayed on top of the vertical scroll bar.
 ---
 
 
 ## Now
-* the red exclemation mark filter indicartor in the sidebar tree view is displayed on the vertical scroll bar.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 

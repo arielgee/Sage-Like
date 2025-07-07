@@ -3210,7 +3210,7 @@ let rssTreeView = (function() {
 
 			// set treeview's CSS variable accordingly depending if has VScroll
 			if(slUtil.hasVScroll(m_elmTreeRoot)) {
-				if(m_elmTreeRoot.parentElement.getBoundingClientRect().width > m_elmTreeRoot.scrollWidth) {
+				if(m_elmTreeRoot.parentElement.getBoundingClientRect().width > m_elmTreeRoot.offsetWidth) {
 					document.documentElement.style.setProperty("--tree-view-scrollbar-width", slUtil.getScrollbarWidth() + "px");
 				} else {
 					document.documentElement.style.setProperty("--tree-view-scrollbar-width", "0px");
