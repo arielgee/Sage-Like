@@ -1268,15 +1268,17 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function closeTimeOfDayBox(value = "") {
+	function closeTimeOfDayBox(bApply = false) {
 
 		setTimeout(() => m_elmTimeOfDayBox.style.display = "none");		// to avoid: "TypeError: Property 'handleEvent' is not callable."
 
 		m_elmTimeOfDayBox.removeEventListener("keydown", onKeyDownTimeOfDayBox);
 		m_elmInputTime.removeEventListener("blur", onBlurInputTime);
 
+		m_elmInputTime.blur();	// remove focus from input box to set the final value to the 'value' property
+
 		if(typeof(m_funcResolveGetTimeOfDay) === "function") {
-			m_funcResolveGetTimeOfDay(value);
+			m_funcResolveGetTimeOfDay(bApply ? m_elmInputTime.value : "");
 		}
 		m_funcResolveGetTimeOfDay = null;
 	}
@@ -1284,7 +1286,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTimeOfDayBox(event) {
 		if( ["Enter","NumpadEnter"].includes(event.code) ) {
-			closeTimeOfDayBox(m_elmInputTime.value);
+			closeTimeOfDayBox(true);
 		} else if("Escape" === event.code) {
 			closeTimeOfDayBox();
 		}
