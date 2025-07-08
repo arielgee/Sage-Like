@@ -57,6 +57,9 @@ A selection of custom CSS files for the Feed Preview page, provided as ready-to-
 ◼ **SUPPORT & FEEDBACK**
 For assistance, troubleshooting, or feedback, visit the support page on Mozilla’s Discourse forum: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383
 
+◼ **SUBMIT AN ISSUE**
+For bugs or feature requests, please submit an issue on the GitHub repository: https://github.com/arielgee/Sage-Like/issues. When reporting a bug, include your browser version, extension version, and detailed steps to reproduce the issue.
+
 
 + Product Page Tags (20 tags)
 --------------------------------------------------------------

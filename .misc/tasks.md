@@ -1210,17 +1210,17 @@
 * redirect users to open issues in github. from the preferences page.
 * clear the background alarm if the preference 'perform feed check while sidebar is closed' is unchecked => NO
 * The label "Perform feed check while sidebar is closed" and the (?) needs to be rephrased for clarity. emphasize that no update is performed. only a check is if there is something new.
+* time 'every day at' is not set if user do not move the focus. Example, if i change the hour and press enter without first moving to the minutes the value is not set.
+* redirect users to open issues in github. from add-on page at AMO.
 ---
 
 
 ## Now
-* time 'every day at' is not set if user do not move the focus. Example, if i change the hour and press enter without first moving to the minutes the value is not set.
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* redirect users to open issues in github. from add-on page at AMO.
 * support for manifest `data_collection_permissions` key. The following should be added to the manifest.json file:
 	"data_collection_permissions": {
 		"required": [ "none" ]
