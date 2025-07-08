@@ -44,7 +44,7 @@ html, body {
 	line-height: var(--line-height);
 	background-color: var(--bk-color-window);
 	color: var(--color-text);
-	overflow-x: hidden;
+	overflow: hidden;
 	margin: 0;
 	box-sizing: border-box;
 }
