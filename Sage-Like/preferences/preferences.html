@@ -51,7 +51,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Check feeds on sidebar launch&nbsp;<span class="helpInfo" title="When it's off, it speeds up the loading process of the sidebar. However, feeds will display outdated status until refreshed.">?</span></label>
+				<label class="preferenceLabel">Refresh feeds on sidebar launch&nbsp;<span class="helpInfo" title="When it's off, it speeds up the loading process of the sidebar. However, feeds will display outdated status until refreshed.">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" id="checkFeedsOnSbOpen"/>
 				</div>
@@ -59,7 +59,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Periodic background feed check</label>
+				<label class="preferenceLabel">Scheduled feed refresh</label>
 				<div class="preferenceControl">
 					<select name="checkFeedsInterval" id="checkFeedsInterval">
 						<option value="0">No thanks, I'll do it myself</option>
@@ -74,7 +74,7 @@
 			</div>
 
 			<div class="preference subPref last">
-				<label for="checkFeedsWhenSbClosed" class="preferenceLabel">Minimal feed check while sidebar is closed&nbsp;<span class="helpInfo" title="Displays a green 'N' badge on the extension toolbar button when an updated feed is found while the sidebar is closed.&NewLine;&NewLine;Background feed checks stop after the first feed update is detected.">?</span></label>
+				<label for="checkFeedsWhenSbClosed" class="preferenceLabel">Notify if any feed updates while sidebar is closed&nbsp;<span class="helpInfo" title="Displays a green 'N' badge on the extension toolbar button when a feed update is detected while the sidebar is closed.&NewLine;&NewLine;Feeds are not refreshed in the background while the sidebar is closed.">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" id="checkFeedsWhenSbClosed"/>
 				</div>
@@ -82,7 +82,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Feed check method&nbsp;<span id="checkFeedsMethodInfo" class="helpInfo">?</span></label>
+				<label class="preferenceLabel">Feed refresh method&nbsp;<span id="checkFeedsMethodInfo" class="helpInfo">?</span></label>
 				<div class="preferenceControl">
 					<select name="checkFeedsMethod" id="checkFeedsMethod">
 						<option value="1;0">Strenuous</option>

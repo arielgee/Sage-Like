@@ -1213,14 +1213,11 @@
 * time 'every day at' is not set if user do not move the focus. Example, if i change the hour and press enter without first moving to the minutes the value is not set.
 * redirect users to open issues in github. from add-on page at AMO.
 * some sort of notification when the entire feed tree was not updated for a long time. more then 24H => NO. it's a risk of being annoying. buried in the .graveyard/
+* change UI terminology: "check feed(s)" to "refresh feed(s)". (preferences.html, panel.html, rssTreeView.js)
 ---
 
 
 ## Now
-* change UI terminology: "check feed(s)" to "refresh feed(s)":
-	* in preferences.html (preference labels)
-	* in the panel.html (button tooltip/title)
-	* in rssTreeView.js (InfoBubble messages)
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
