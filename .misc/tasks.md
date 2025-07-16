@@ -1212,15 +1212,23 @@
 * The label "Perform feed check while sidebar is closed" and the (?) needs to be rephrased for clarity. emphasize that no update is performed. only a check is if there is something new.
 * time 'every day at' is not set if user do not move the focus. Example, if i change the hour and press enter without first moving to the minutes the value is not set.
 * redirect users to open issues in github. from add-on page at AMO.
+* some sort of notification when the entire feed tree was not updated for a long time. more then 24H => NO. it's a risk of being annoying. buried in the .graveyard/
 ---
 
 
 ## Now
+* change UI terminology: "check feed(s)" to "refresh feed(s)":
+	* in preferences.html (preference labels)
+	* in the panel.html (button tooltip/title)
+	* in rssTreeView.js (InfoBubble messages)
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
+* add 'Next refresh scheduled at: [time]' title to the preferences page 'Scheduled feed refresh' <select> control
+* add 'refresh method' title to the preferences page 'Feed refresh method' <select> control
+* the name `_getAllPreferencesObject` in prefs and internalPrefs is not accurate. it returns an object with the default values of the preferences. maybe `_getPreferencesDefaultsObject` is better?
 * support for manifest `data_collection_permissions` key starting from v140. The following should be added to manifest.json in `browser_specific_settings.gecko`:
 	"data_collection_permissions": {
 		"required": [ "none" ]
