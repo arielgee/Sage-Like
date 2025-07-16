@@ -828,10 +828,10 @@ let prefs = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	function _getAllPreferencesObject(trimKeyNamePrefix = false) {
-		let obj = {};
+		const obj = {};
 		for(const p of Object.values(PREF)) {
 			if(trimKeyNamePrefix) {
-				obj[p.name.replace(/^p[re]{2}f_/, "")] = p.default;	// handle typo
+				obj[p.name.replace(/^pref_/, "")] = p.default;
 			} else {
 				obj[p.name] = p.default;
 			}
