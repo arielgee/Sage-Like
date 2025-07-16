@@ -304,6 +304,7 @@ let preferences = (function() {
 
 		prefs.getCheckFeedsMethod().then((value) => {
 			m_elmCheckFeedsMethod.value = value;
+			m_elmCheckFeedsMethod.title = m_elmCheckFeedsMethod.options[m_elmCheckFeedsMethod.selectedIndex].title;
 		});
 
 		prefs.getFetchTimeout().then((timeoutSec) => {
@@ -556,6 +557,7 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeCheckFeedsMethod(event) {
+		m_elmCheckFeedsMethod.title = m_elmCheckFeedsMethod.options[m_elmCheckFeedsMethod.selectedIndex].title;
 		prefs.setCheckFeedsMethod(m_elmCheckFeedsMethod.value);
 	}
 
@@ -1014,6 +1016,7 @@ let preferences = (function() {
 		m_elmCheckFeedsInterval.value = defPrefs.checkFeedsInterval;
 		m_elmCheckFeedsWhenSbClosed.checked = defPrefs.checkFeedsWhenSbClosed;
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
+		m_elmCheckFeedsMethod.title = m_elmCheckFeedsMethod.options[m_elmCheckFeedsMethod.selectedIndex].title;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
 		m_elmSortFeedItems.checked = defPrefs.sortFeedItems;
 		m_elmFolderClickAction.value = defPrefs.folderClickAction;

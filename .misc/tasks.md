@@ -1214,18 +1214,18 @@
 * redirect users to open issues in github. from add-on page at AMO.
 * some sort of notification when the entire feed tree was not updated for a long time. more then 24H => NO. it's a risk of being annoying. buried in the .graveyard/
 * change UI terminology: "check feed(s)" to "refresh feed(s)". (preferences.html, panel.html, rssTreeView.js)
+* add 'refresh method' title to the preferences page 'Feed refresh method' <select> control
+* add 'Next refresh scheduled at: [time]' title to the preferences page 'Scheduled feed refresh' <select> control => not quite possible w/o lots of variables and messaging
 ---
 
 
 ## Now
+* the name `_getAllPreferencesObject` in prefs is not accurate. it returns an object with the default values of the preferences. maybe `_getPreferencesDefaultsObject` is better?
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
 
 ## Next
-* add 'Next refresh scheduled at: [time]' title to the preferences page 'Scheduled feed refresh' <select> control
-* add 'refresh method' title to the preferences page 'Feed refresh method' <select> control
-* the name `_getAllPreferencesObject` in prefs and internalPrefs is not accurate. it returns an object with the default values of the preferences. maybe `_getPreferencesDefaultsObject` is better?
 * support for manifest `data_collection_permissions` key starting from v140. The following should be added to manifest.json in `browser_specific_settings.gecko`:
 	"data_collection_permissions": {
 		"required": [ "none" ]
