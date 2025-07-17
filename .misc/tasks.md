@@ -1216,11 +1216,11 @@
 * change UI terminology: "check feed(s)" to "refresh feed(s)". (preferences.html, panel.html, rssTreeView.js)
 * add 'refresh method' title to the preferences page 'Feed refresh method' <select> control
 * add 'Next refresh scheduled at: [time]' title to the preferences page 'Scheduled feed refresh' <select> control => not quite possible w/o lots of variables and messaging
+* `_getAllPreferencesObject` in prefs is not accurate. rename to `_getPreferencesDefaultsObject`. => NO. it is OK.
 ---
 
 
 ## Now
-* the name `_getAllPreferencesObject` in prefs is not accurate. it returns an object with the default values of the preferences. maybe `_getPreferencesDefaultsObject` is better?
 > STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
 ---
 
