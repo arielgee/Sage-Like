@@ -27,12 +27,11 @@ let panel = (function() {
 	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	async function initialization() {
-		await RequiredPermissions.i.init();
-		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID
-
+	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.addEventListener("unload", onUnload);
+
+		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID
 
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 	}
@@ -441,6 +440,7 @@ let panel = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function postLoadMessages() {
+		await RequiredPermissions.i.init();
 		if( !RequiredPermissions.i.granted && !(await internalPrefs.getNotifiedAboutPermissions()) ) {
 			askForRequiredPermissions();
 		} else {
