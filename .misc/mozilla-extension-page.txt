@@ -71,10 +71,12 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 **Changes**
 
-* Removed external asset dependencies by replacing PNG icons in sidebar with embedded SVG paths.
-* Removed external asset dependencies by replacing animated GIFs in sidebar with lightweight CSS-based animation.
-* Improved version comparison logic.
-* Minor fixes, UI adjustments and general code cleanup.
+* Added a new color input to "Sidebar colors" in the Options page, allowing to set a custom color for sidebar icons; the original 7 predefined colors are now labeled "Classic icon color".
+* Fixed an issue with background feed monitoring where the alarm was not properly managed.
+* Fixed inconsistent time format display in the Options page.
+* Changed UI terminology from "Check feed" to "Refresh feed".
+* Revised several labels in the Options page for improved clarity and more accurate descriptions of their behavior.
+* Applied minor fixes, UI adjustments, and general code improvements.
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
 --------------------------------------------------------------
