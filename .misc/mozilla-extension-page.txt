@@ -71,6 +71,8 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 **Changes**
 
+***Update 3.12:*** Fixed regression where sidebar was not properly initialized on startup.
+
 * Added a new color input to "Sidebar colors" in the Options page, allowing to set a custom color for sidebar icons; the original 7 predefined colors are now labeled "Classic icon color".
 * Fixed an issue with background feed monitoring where the alarm was not properly managed.
 * Fixed inconsistent time format display in the Options page.
