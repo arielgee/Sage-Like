@@ -7,7 +7,7 @@
 		}
 	},
 	"name": "Sage-Like",
-	"version": "3.10",
+	"version": "3.11",
 	"description": "A fast and lightweight sidebar-based feed reader. Supports Atom, RSS, JSON, and RDF feeds with customizable UI and seamless integration with your browser’s bookmarks and sync capabilities.",
 	"author": "arielg",
 	"permissions": [
