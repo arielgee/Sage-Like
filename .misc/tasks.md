@@ -1233,6 +1233,10 @@
 >`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
 
 
+### Cancelled Versions
+* v3.11 was cancelled. see commit: 6e899cefb02ef01638d2d7c59849ed4a5f4586da
+
+
 ### Sage-Like MV2
 * if Sage-Like MV2 will be added to mozilla then add this to the MV3 product page, between FEATURES and PERMISSION JUSTIFICATION. The MV2 product page will point to MV3.
 	◼ <b>MANIFEST VERSION</b>
