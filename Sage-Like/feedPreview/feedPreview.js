@@ -607,7 +607,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurJumpListContainer(event) {
 		//if( !!!event.relatedTarget || !event.relatedTarget.classList.contains("jumpListAnchor") ) {
-			if( !!!event.relatedTarget || !event.relatedTarget.closest(`#${m_elmJumpListContainer.id}`) ) {
+		if( !!!event.relatedTarget || !event.relatedTarget.closest(`#${m_elmJumpListContainer.id}`) ) {
 			m_elmJumpListContainer.classList.remove("open");
 			m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
 		}
