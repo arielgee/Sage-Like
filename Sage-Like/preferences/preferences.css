@@ -352,9 +352,6 @@ input[type="color"]::-moz-color-swatch {
 	margin: 0;
 	padding: 0;
 }
-input[type="color"]::-moz-focus-inner {
-	padding: 0;
-}
 
 .numericInput {
 	border: 1px solid #7a7a7a;
