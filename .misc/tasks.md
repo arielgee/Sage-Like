@@ -1218,6 +1218,7 @@
 * add 'Next refresh scheduled at: [time]' title to the preferences page 'Scheduled feed refresh' <select> control => not quite possible w/o lots of variables and messaging
 * `_getAllPreferencesObject` in prefs is not accurate. rename to `_getPreferencesDefaultsObject`. => NO. it is OK.
 * removed deprecated pseudo-element `-moz-focus-inner`. The removal was testes in Fx109 with no repercussion.
+* fix missing label's 'for' attribute in preferences.html
 ---
 
 
