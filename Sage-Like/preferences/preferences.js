@@ -61,6 +61,8 @@ let preferences = (function() {
 
 	let m_elmPageOverlay;
 
+	let m_elmHelpInfoTooltipBox;
+
 	let m_elmMessageBox;
 	let m_elmBtnMessageBoxOK;
 	let m_funcOnCloseMessageBox;
@@ -198,6 +200,8 @@ let preferences = (function() {
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
 
+		document.querySelectorAll(".helpInfo").forEach(e => e.removeEventListener("click", onClickHelpInfo));
+
 		removeBookmarksEventListeners();
 	}
 
@@ -250,6 +254,8 @@ let preferences = (function() {
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
+
+		document.querySelectorAll(".helpInfo").forEach(e => e.addEventListener("click", onClickHelpInfo));
 
 		addBookmarksEventListeners();
 	}
@@ -1056,6 +1062,12 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onClickHelpInfo(event) {
+		event.preventDefault();
+		showHelpInfoTootipBox(event.target);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function onBookmarksEventModifiedHandler(id, modifyInfo) {
 
 		if(m_lockBookmarksEventHandler.isUnlocked) {
@@ -1303,6 +1315,46 @@ let preferences = (function() {
 	//==================================================================================
 	//=== Message Box functions
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function showHelpInfoTootipBox(targetElement) {
+
+		if(!!!m_elmHelpInfoTooltipBox) {
+			m_elmHelpInfoTooltipBox = document.getElementById("helpInfoTooltipBox");
+		}
+
+		const onCloseBoxEvent = (e) => {
+			if( (e.type === "blur") || (e.type === "keydown" && e.code === "Escape") ) {
+				e.preventDefault();
+				m_elmHelpInfoTooltipBox.style.display = "none";
+				m_elmHelpInfoTooltipBox.removeEventListener("blur", onCloseBoxEvent);
+				m_elmHelpInfoTooltipBox.removeEventListener("keydown", onCloseBoxEvent);
+			}
+		};
+
+		m_elmHelpInfoTooltipBox.querySelector(".tooltipBoxText").textContent = targetElement.title;
+
+		m_elmHelpInfoTooltipBox.style.display = "block";
+		m_elmHelpInfoTooltipBox.addEventListener("blur", onCloseBoxEvent);
+		m_elmHelpInfoTooltipBox.addEventListener("keydown", onCloseBoxEvent);
+
+		const POS_OFFSET = 8;
+		let x = targetElement.offsetLeft + POS_OFFSET;
+		let y = targetElement.offsetTop + POS_OFFSET;
+
+		// if going out of right edge
+		if( (x + m_elmHelpInfoTooltipBox.offsetWidth) > document.documentElement.offsetWidth ) {
+			x = document.documentElement.offsetWidth - m_elmHelpInfoTooltipBox.offsetWidth-1;
+		}
+		// if going out of bottom edge
+		if( (y + m_elmHelpInfoTooltipBox.offsetHeight) > document.documentElement.offsetHeight ) {
+			y = document.documentElement.clientHeight - m_elmHelpInfoTooltipBox.offsetHeight-1
+		}
+		m_elmHelpInfoTooltipBox.style.left = x + "px";
+		m_elmHelpInfoTooltipBox.style.top = y + "px";
+
+		m_elmHelpInfoTooltipBox.focus();
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function showMessageBox(msgCaption, msgText, callbackOnCloseBox = null) {

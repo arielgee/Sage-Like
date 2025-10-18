@@ -437,6 +437,29 @@ input[type="color"]::-moz-color-swatch {
 	background-color: var(--background-color-hover-help-info);
 }
 
+#helpInfoTooltipBox {
+	display: none;
+	position: absolute;
+	max-width: 480px;
+	box-sizing: border-box;
+	z-index: 10;
+	padding: 1px 4px;
+	color: var(--foreground-color);
+	background-color: darkblue; /*var(--background-color-body);*/
+	border: 1px solid var(--foreground-color);
+	overflow: hidden;
+	outline: none;
+}
+
+.tooltipBoxText {
+	--font-size: 9pt;
+	font-family: Segoe UI, Tahoma, Verdana, sans-serif;
+	font-weight: normal;
+	font-size: var(--font-size);
+	line-height: calc(var(--font-size) * 1.4);
+	white-space: pre-line;
+}
+
 .annotation {
 	font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
 	font-size: 9pt;
