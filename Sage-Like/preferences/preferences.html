@@ -43,7 +43,7 @@
 			<div class="prefBlockCaption first">Feeds</div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Feeds bookmark folder&nbsp;<span class="helpInfo" title="Empty folders are marked with the symbol '∅'.">?</span></label>
+				<label class="preferenceLabel">Feeds bookmark folder&nbsp;<span class="helpInfo" data-title="Empty folders are marked with the symbol '∅'.">?</span></label>
 				<div class="preferenceControl">
 					<select name="rootFeedsFolder" id="rootFeedsFolder"></select>
 				</div>
@@ -51,7 +51,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="checkFeedsOnSbOpen" class="preferenceLabel">Refresh feeds on sidebar launch&nbsp;<span class="helpInfo" title="When it's off, it speeds up the loading process of the sidebar. However, feeds will display outdated status until refreshed.">?</span></label>
+				<label for="checkFeedsOnSbOpen" class="preferenceLabel">Refresh feeds on sidebar launch&nbsp;<span class="helpInfo" data-title="When disabled, this option speeds up the sidebar loading process. However, feeds will display outdated status until refreshed manually or through scheduled refresh.">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" id="checkFeedsOnSbOpen"/>
 				</div>
@@ -74,7 +74,7 @@
 			</div>
 
 			<div class="preference subPref last">
-				<label for="checkFeedsWhenSbClosed" class="preferenceLabel">Notify if any feed updates while sidebar is closed&nbsp;<span class="helpInfo" title="Displays a green 'N' badge on the extension toolbar button when a feed update is detected while the sidebar is closed.&NewLine;&NewLine;Feeds are not refreshed in the background while the sidebar is closed.">?</span></label>
+				<label for="checkFeedsWhenSbClosed" class="preferenceLabel">Notify if any feed updates while sidebar is closed&nbsp;<span class="helpInfo" data-title="Displays a green 'N' badge on the extension toolbar button when a feed update is detected while the sidebar is closed.&NewLine;&NewLine;Feeds are not refreshed in the background while the sidebar is closed.">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" id="checkFeedsWhenSbClosed"/>
 				</div>
@@ -82,7 +82,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Feed refresh method&nbsp;<span id="checkFeedsMethodInfo" class="helpInfo">?</span></label>
+				<label class="preferenceLabel">Feed refresh method&nbsp;<span id="checkFeedsMethodInfo" class="helpInfo" data-extra-width>?</span></label>
 				<div class="preferenceControl">
 					<select name="checkFeedsMethod" id="checkFeedsMethod">
 						<option value="1;0">Strenuous</option>
@@ -96,7 +96,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="fetchTimeout" class="preferenceLabel">Single feed fetching timeout&nbsp;<span class="helpInfo" title="Timeout range: 10 - 300 seconds">?</span></label>
+				<label for="fetchTimeout" class="preferenceLabel">Single feed fetching timeout&nbsp;<span class="helpInfo" data-title="Timeout range: 10 - 300 seconds">?</span></label>
 				<div class="preferenceControl">
 					<input type="text" id="fetchTimeout" class="numericInput" required minlength="2" maxlength="3"
 						pattern="^([1-9][0-9]|[12][0-9]{2}|300)$"><label for="fetchTimeout" class="controlLabel">seconds</label>
@@ -105,7 +105,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="showFeedStats" class="preferenceLabel">Show total number of unread feeds and feed-items&nbsp;<span class="helpInfo" title="This adds an extra processing phase to each feed when updating the display.">?</span></label>
+				<label for="showFeedStats" class="preferenceLabel">Show total number of unread feeds and feed-items&nbsp;<span class="helpInfo" data-title="Enabling this option adds an extra processing phase to each feed during display updates.">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" id="showFeedStats"/>
 				</div>
@@ -113,7 +113,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="sortFeedItems" class="preferenceLabel">Order feed-items (articles) chronologically&nbsp;<span class="helpInfo" title="Feed-items in the sidebar and the Feed Preview are ordered by their timestamp. Otherwise, they will be listed as in the feed source.">?</span></label>
+				<label for="sortFeedItems" class="preferenceLabel">Order feed-items (articles) chronologically&nbsp;<span class="helpInfo" data-title="When enabled, feed items in both the sidebar and Feed Preview will be ordered by timestamp. Otherwise, they will maintain their original order from the feed source.">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" id="sortFeedItems"/>
 				</div>
@@ -121,7 +121,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="detectFeedsInWebPage" class="preferenceLabel">Detect feeds in web pages and show subscribe button <img src="../icons/pagePopup-16.png"> in address bar&nbsp;<span class="helpInfo" title="This adds an extra processing phase to each web page when it's loaded by the browser.">?</span></label>
+				<label for="detectFeedsInWebPage" class="preferenceLabel">Detect feeds in web pages and show subscribe button <img src="../icons/pagePopup-16.png"> in address bar&nbsp;<span class="helpInfo" data-title="Enabling this feature adds an extra processing phase to each web page during browser loading.">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" id="detectFeedsInWebPage"/>
 				</div>
@@ -160,7 +160,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Feed-items open articles&nbsp;<span class="helpInfo" title="The middle-click will open the article in the alternate (not selected) option.&NewLine;&NewLine;&#10033;&nbsp;There's also ctrl+click and shift+click to open in a new tab or window, respectively.">?</span></label>
+				<label class="preferenceLabel">Feed-items open articles&nbsp;<span class="helpInfo" data-extra-width data-title="Middle-click opens the article using the alternate (not selected) option.&NewLine;&NewLine;&#10033;&nbsp;Additionally, use Ctrl+click to open in a new tab or Shift+click to open in a new window.">?</span></label>
 				<div class="preferenceControl">
 					<select name="feedItemOpenMethod" id="feedItemOpenMethod">
 						<option value="0">In the current tab</option>
@@ -171,7 +171,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">When opening Feed Preview, mark as &quot;Read&quot;&nbsp;<span class="helpInfo" title="Applies only when the Feed Preview is opend from the sidebar's tree.">?</span></label>
+				<label class="preferenceLabel">When opening Feed Preview, mark as &quot;Read&quot;&nbsp;<span class="helpInfo" data-title="This setting only applies when the Feed Preview is opened from the sidebar's tree view.">?</span></label>
 				<div class="preferenceControl">
 					<select name="markFeedPreviewUrlsAsVisited" id="markFeedPreviewUrlsAsVisited">
 						<option value="0">Nothing</option>
@@ -204,7 +204,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Sidebar font&nbsp;<span class="helpInfo" title="You can pick one from the stock fonts or type in your own font name using the last item in the dropdown list. If a font is not supported Sage-Like will fall back to the browser default.">?</span></label>
+				<label class="preferenceLabel">Sidebar font&nbsp;<span class="helpInfo" data-title="You can pick a font from the stock fonts or type in your own font name using the last item in the dropdown list. If a font is not supported Sage-Like will fall back to the browser default.">?</span></label>
 				<div class="preferenceControl">
 					<select name="fontName" id="fontName">
 						<!-- Modification are first done in '/.res/fonts.txt' -->
@@ -269,7 +269,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="increaseUnvisitedFontSize" class="preferenceLabel">Increase font size of unread items in sidebar&nbsp;<span class="helpInfo" title="In addition to the font boldness.&NewLine;Improve prominence of unread items when sidebar has a dark color palette.">?</span></label>
+				<label for="increaseUnvisitedFontSize" class="preferenceLabel">Increase font size of unread items in sidebar&nbsp;<span class="helpInfo" data-title="Increases visibility of unread items beyond font boldness, particularly useful when using a dark color palette in the sidebar.">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" id="increaseUnvisitedFontSize"/>
 				</div>
@@ -291,7 +291,7 @@
 			</div>
 
 			<div class="preference subPref">
-				<label for="feedItemDescDelay" class="preferenceLabel">Tooltip popup delay&nbsp;<span class="helpInfo" title="Delay range: 0 - 1500 milliseconds (from non up to 1.5 seconds)">?</span></label>
+				<label for="feedItemDescDelay" class="preferenceLabel">Tooltip popup delay&nbsp;<span class="helpInfo" data-title="Delay range: 0 to 1500 milliseconds (up to 1.5 seconds)">?</span></label>
 				<div class="preferenceControl">
 					<input type="text" id="feedItemDescDelay" class="numericInput" required minlength="1" maxlength="4"
 						pattern="^([0-9]|[1-9][0-9]{1,2}|1[0-4][0-9]{2}|1500)$"><label for="fetchTimeout" class="controlLabel">milliseconds</label>
@@ -323,7 +323,7 @@
 			</div>
 
 			<div class="preference subPref last">
-				<label class="preferenceLabel">CSS source code&nbsp;<span class="helpInfo" title="The content of the CSS file is saved internally. If the file is modified, it needs to be re-imported.&NewLine;Alternatively, the imported code can be modified directly using the 'Edit...' button.&NewLine;&NewLine;&#10033;&nbsp;Click the 'Custom CSS for Feed Preview' link at the bottom left corner of this page.">?</span></label>
+				<label class="preferenceLabel">CSS source code&nbsp;<span class="helpInfo" data-extra-width data-title="CSS content is saved internally. If you modify the source file, you must re-import it.&NewLine;Alternatively, use the 'Edit...' button to modify the imported code directly.&NewLine;&NewLine;&#10033;&nbsp;For examples, click the 'Custom CSS for Feed Preview' link at the bottom left corner of this page.">?</span></label>
 				<div class="preferenceControl">
 					<input type="file" id="importCustomCSSSource" accept="text/css,.css"/>
 					<label id="labelForImportCustomCSSSource" for="importCustomCSSSource" class="preferenceButton" tabindex="0">Import...</label>
@@ -359,7 +359,7 @@
 
 			<div class="prefContainerOverlay">
 				<div class="preference extensionButtons">
-					<label>Manage</label>
+					<label class="preferenceLabel">Manage&nbsp;<span class="helpInfo" data-extra-width data-title="Notes:&NewLine;&#x00A0;&#x25CF;&#x00A0;&quot;Import Options...&quot; may fail to set/restore the selected &quot;Feeds bookmark folder&quot; if it's missing from the browser.&NewLine;&#x00A0;&#x25CF;&#x00A0;&quot;Restore Defaults&quot; will clear both the selected &quot;Feeds bookmark folder&quot; and any imported &quot;CSS source code&quot;.&NewLine;&#x00A0;&#x25CF;&#x00A0;&quot;Reload Extension&quot; will close this tab.">?</span></label>
 					<div class="preferenceControl">
 						<label for="inputImportPreferences" class="preferenceButton" tabindex="0">Import Options...</label>
 						<button type="button" class="preferenceButton" id="btnExportPreferences">Export Options...</button>
@@ -375,15 +375,12 @@
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
-
-			<p class="annotation">
-				&#10033;&nbsp;<b>Import Options</b> may fail to set/restore the selected <b>Feeds bookmark folder</b> if it's missing from the browser.<br>
-				&#10033;&nbsp;<b>Restore Defaults</b> will clear the selected <b>Feeds bookmark folder</b> and the imported <b>CSS source code</b>.<br>
-				&#10033;&nbsp;Clicking <b>Reload Extension</b> will close this tab.
-			</p>
-
 		</div>
 
+		<!-- ////////////////////////// Help Info Tooltip Box ////////////////////////// -->
+		<div id="helpInfoTooltipBox">
+			<div class="tooltipBoxText"></div>
+		</div>
 
 		<!-- ////////////////////////// User Font Box ////////////////////////// -->
 		<div id="userFontBox" class="popupBox preferenceReferenced" tabindex="-1">

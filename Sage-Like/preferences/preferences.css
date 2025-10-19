@@ -38,6 +38,7 @@
 	--foreground-color-help-info: rgb(255, 255, 255);
 	--background-color-help-info: rgb(187, 187, 187);
 	--background-color-hover-help-info: rgb(42, 67, 100);
+	--background-color-tooltip-box: rgb(255, 255, 224);
 	--background-color-popup-box: rgb(245, 245, 245);
 	--border-color-popup-box: rgb(0, 0, 0);
 	--background-color-input-control: rgb(255, 255, 255);
@@ -72,6 +73,7 @@
 		--foreground-color-help-info: rgb(0, 0, 0);
 		--background-color-help-info: rgb(92, 92, 92);
 		--background-color-hover-help-info: rgb(192, 192, 192);
+		--background-color-tooltip-box: rgb(0, 0, 139);
 		--background-color-popup-box: var(--background-color-body);
 		--border-color-popup-box: rgb(128, 128, 128);
 		--background-color-input-control: var(--background-color-select-control);
@@ -430,17 +432,34 @@ input[type="color"]::-moz-color-swatch {
 	text-align: center;
 	line-height: 1.3em;
 	vertical-align: top;
-	cursor: help;
 	margin-top: 2px;
 }
 .helpInfo:hover {
 	background-color: var(--background-color-hover-help-info);
 }
 
-.annotation {
+#helpInfoTooltipBox {
+	display: none;
+	position: absolute;
+	max-width: 450px;
+	box-sizing: border-box;
+	z-index: 10;
+	color: var(--foreground-color);
+	background-color: var(--background-color-tooltip-box);
+	border: 1px solid var(--foreground-color);
+	overflow: hidden;
+	outline: none;
+}
+
+.tooltipBoxText {
+	--font-size: 9pt;
 	font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
-	font-size: 9pt;
-	color: gray;
+	font-weight: normal;
+	font-size: var(--font-size);
+	line-height: calc(var(--font-size) * 1.4);
+	padding-block: 3px;
+	padding-inline: 6px 9px;
+	white-space: pre-line;
 }
 
 /*** User font box and Time of day box ***/

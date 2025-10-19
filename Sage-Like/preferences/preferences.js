@@ -8,12 +8,12 @@ let preferences = (function() {
 	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";
 	const TXT_OPTION_EVERY_DAY_AT = "Every day at ";
 
-	const TXT_HELP_INFO_CHECK_FEED_METHOD = "How the RSS feeds are fetched:\n" +
-											" \u25cf Strenuous – All feeds are fetched at once in one batch. \n" +
-											" \u25cf Moderate – Feeds are fetched in 3 batches with a 2 seconds pause between each one. \n" +
-											" \u25cf Relaxed – Feeds are fetched in 5 batches with a 3 seconds pause between each one. \n" +
-											" \u25cf Easy – Feeds are fetched in 10 batches with a 4 seconds pause between each one. \n" +
-											" \u25cf Lazy – Feeds are fetched one by one with a 1.5 seconds pause between each one. \n";
+	const TXT_HELP_INFO_CHECK_FEED_METHOD = "Feed Fetching Methods:\n" +
+											" \u25cf Strenuous\u2002–\u2002Fetches all feeds simultaneously in a single batch.\n" +
+											" \u25cf Moderate\u2002–\u2002Fetches feeds in 3 batches, with 2-second pauses between batches.\n" +
+											" \u25cf Relaxed\u2002–\u2002Fetches feeds in 5 batches, with 3-second pauses between batches.\n" +
+											" \u25cf Easy\u2002–\u2002Fetches feeds in 10 batches, with 4-second pauses between batches.\n" +
+											" \u25cf Lazy\u2002–\u2002Fetches feeds one at a time, with a 1.5-second pause between each feed.\n";
 
 	let m_elmNavigationItems;
 	let m_elmNavigationFooterItems;
@@ -59,6 +59,7 @@ let preferences = (function() {
 	let m_elmImportPreferences;
 	let m_elmExportPreferences;
 
+	let m_elmHelpInfoTooltipBox;
 	let m_elmPageOverlay;
 
 	let m_elmMessageBox;
@@ -136,6 +137,7 @@ let preferences = (function() {
 		m_elmImportPreferences = document.getElementById("inputImportPreferences");
 		m_elmExportPreferences = document.getElementById("btnExportPreferences");
 
+		m_elmHelpInfoTooltipBox = document.getElementById("helpInfoTooltipBox");
 		m_elmPageOverlay = document.getElementById("pageOverlay");
 
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
@@ -198,6 +200,11 @@ let preferences = (function() {
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
 
+		document.querySelectorAll(".helpInfo").forEach(e => {
+			e.removeEventListener("mouseover", onMouseOverHelpInfo);
+			e.removeEventListener("mouseout", onMouseOutHelpInfo);
+		});
+
 		removeBookmarksEventListeners();
 	}
 
@@ -250,6 +257,11 @@ let preferences = (function() {
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
+
+		document.querySelectorAll(".helpInfo").forEach(e => {
+			e.addEventListener("mouseover", onMouseOverHelpInfo);
+			e.addEventListener("mouseout", onMouseOutHelpInfo);
+		});
 
 		addBookmarksEventListeners();
 	}
@@ -1056,6 +1068,37 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseOverHelpInfo(event) {
+
+		const target = event.target;
+
+		m_elmHelpInfoTooltipBox.querySelector(".tooltipBoxText").textContent = target.getAttribute("data-title");
+
+		m_elmHelpInfoTooltipBox.style.maxWidth = (target.hasAttribute("data-extra-width") ? "650px" : "");
+		m_elmHelpInfoTooltipBox.style.display = "block";
+
+		let x = (!!(target.offsetParent) ? target.offsetParent.offsetLeft : 0) + target.offsetLeft + 4;	// 4px left of the helpInfo span
+		let y = (!!(target.offsetParent) ? target.offsetParent.offsetTop : 0) + target.offsetTop + 28;	// 28px below the helpInfo span
+
+		// if going out of right edge
+		if( (x + m_elmHelpInfoTooltipBox.offsetWidth) > document.documentElement.offsetWidth ) {
+			x = document.documentElement.offsetWidth - m_elmHelpInfoTooltipBox.offsetWidth-1;
+		}
+		// if going out of bottom edge
+		if( (y + m_elmHelpInfoTooltipBox.offsetHeight) > document.documentElement.offsetHeight ) {
+			y = document.documentElement.clientHeight - m_elmHelpInfoTooltipBox.offsetHeight-1;
+		}
+
+		m_elmHelpInfoTooltipBox.style.left = x + "px";
+		m_elmHelpInfoTooltipBox.style.top = y + "px";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onMouseOutHelpInfo(event) {
+		m_elmHelpInfoTooltipBox.style.display = "none";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function onBookmarksEventModifiedHandler(id, modifyInfo) {
 
 		if(m_lockBookmarksEventHandler.isUnlocked) {
@@ -1584,7 +1627,7 @@ let preferences = (function() {
 	function setVariousElementsTitles() {
 
 		document.getElementById("webExtVersion").textContent = `Sage-Like v${browser.runtime.getManifest().version}`;
-		document.getElementById("checkFeedsMethodInfo").title = TXT_HELP_INFO_CHECK_FEED_METHOD.replace(/ /g, "\u00a0");
+		document.getElementById("checkFeedsMethodInfo").setAttribute("data-title", TXT_HELP_INFO_CHECK_FEED_METHOD);
 
 		let re, found, items = m_elmCheckFeedsMethod.children;
 
