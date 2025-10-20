@@ -463,10 +463,10 @@
 				title: "Try to Open Link in Feed Preview",
 				contexts: ["link", "selection"],
 			});
-			// The S.O.B. throws: 'Unchecked lastError value: Error: The menu id mnu-try-open-link-in-feed-preview already exists in menus.create.' to
-			// the browser console and browser.menus has no browser.menus.get() or browser.menus.exists(). Even browser.menus.update() is useless.
 		} else {
-			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);	// if called from initialization(), the remove() will not find the menu.
+			// if called from initialization(), remove() will not find the menu. There is no get() or exists() method to check first.
+			// The SOB throws: 'Uncaught (in promise) Error: Cannot find menu item with id mnu-try-open-link-in-feed-preview' to console.
+			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);
 		}
 	}
 

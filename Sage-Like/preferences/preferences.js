@@ -16,7 +16,6 @@ let preferences = (function() {
 											" \u25cf Lazy\u2002–\u2002Fetches feeds one at a time, with a 1.5-second pause between each feed.\n";
 
 	let m_elmNavigationItems;
-	let m_elmNavigationFooterItems;
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsOnSbOpen;
 	let m_elmCheckFeedsInterval;
@@ -100,7 +99,6 @@ let preferences = (function() {
 	function onDOMContentLoaded() {
 
 		m_elmNavigationItems = document.getElementById("navigationItems");
-		m_elmNavigationFooterItems = document.getElementById("navigationFooter");
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
 		m_elmCheckFeedsOnSbOpen = document.getElementById("checkFeedsOnSbOpen");
 		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
@@ -157,7 +155,6 @@ let preferences = (function() {
 		window.removeEventListener("unload", onUnload);
 
 		m_elmNavigationItems.removeEventListener("click", onClickNavigationItem);
-		m_elmNavigationFooterItems.removeEventListener("click", onClickNavigationFooterItem);
 
 		document.documentElement.removeEventListener("click", onClickPreference);
 
@@ -214,7 +211,6 @@ let preferences = (function() {
 	function addEventListeners() {
 
 		m_elmNavigationItems.addEventListener("click", onClickNavigationItem);
-		m_elmNavigationFooterItems.addEventListener("click", onClickNavigationFooterItem);
 
 		// handle check boxs and text boxs
 		document.documentElement.addEventListener("click", onClickPreference);
@@ -470,14 +466,6 @@ let preferences = (function() {
 				document.getElementById(jumpTargetId).scrollIntoView(true);
 				window.scrollTo({ left: 0 });
 			}
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickNavigationFooterItem(event) {
-		let url = event.target.title;
-		if(slUtil.validURL(url)) {
-			browser.tabs.create({ url: url });
 		}
 	}
 

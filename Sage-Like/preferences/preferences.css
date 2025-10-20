@@ -165,6 +165,10 @@ body * {
 	background-color: var(--color-preference-hover);
 }
 
+.navigationLink {
+	text-decoration: none;
+}
+
 .mainContent {
 	min-width: var(--min-width-main-content);
 	max-width: var(--max-width-main-content);
