@@ -1220,7 +1220,7 @@
 * removed deprecated pseudo-element `-moz-focus-inner`. The removal was testes in Fx109 with no repercussion.
 * fix missing label's 'for' attribute in preferences.html
 * rewrite sidebar splitter's tooltip
-* Add custom tooltip for help info in preferences
+* Add custom tooltip for `.helpInfo` in preferences
 ---
 
 
