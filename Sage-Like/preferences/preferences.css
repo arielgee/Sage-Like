@@ -426,13 +426,13 @@ input[type="color"]::-moz-color-swatch {
 	width: 18px;
 	background-color: var(--background-color-help-info);
 	color: var(--foreground-color-help-info);
-	font-family: "Open Sans", X-LocaleSpecific, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	font-weight: 700;
 	text-align: center;
 	line-height: 1.3em;
 	vertical-align: top;
-	margin-top: 2px;
+	margin: 2px 0 0 6px;
 }
 .helpInfo:hover {
 	background-color: var(--background-color-hover-help-info);
