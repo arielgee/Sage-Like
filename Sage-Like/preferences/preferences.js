@@ -86,6 +86,8 @@ let preferences = (function() {
 
 	let m_singleBlockMode = false;
 
+	let m_timeoutHelpInfo = null;
+
 	initialization();
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -482,9 +484,17 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickPreference(event) {
 
-		if( !!event.target && event.target.classList.contains("preference") ) {
+		const target = event.target;
 
-			let elmInput = event.target.querySelector("input[type=checkbox],input[type=text]");
+		if(!!!target) return;
+
+		if(target.classList.contains("helpInfo")) {
+
+			event.preventDefault();		// Prevent checkbox from being toggled when clicking on helpInfo icon inside a label
+
+		} else if(target.classList.contains("preference") ) {
+
+			const elmInput = target.querySelector("input[type=checkbox],input[type=text]");
 
 			if(!!elmInput) {
 				event.stopPropagation();
@@ -1071,30 +1081,38 @@ let preferences = (function() {
 	function onMouseOverHelpInfo(event) {
 
 		const target = event.target;
+		const offsetParent = target.offsetParent;
 
-		m_elmHelpInfoTooltipBox.querySelector(".tooltipBoxText").textContent = target.getAttribute("data-title");
+		clearTimeout(m_timeoutHelpInfo);
 
-		m_elmHelpInfoTooltipBox.style.maxWidth = (target.hasAttribute("data-extra-width") ? "650px" : "");
-		m_elmHelpInfoTooltipBox.style.display = "block";
+		m_timeoutHelpInfo = setTimeout(() => {
 
-		let x = (!!(target.offsetParent) ? target.offsetParent.offsetLeft : 0) + target.offsetLeft + 4;	// 4px left of the helpInfo span
-		let y = (!!(target.offsetParent) ? target.offsetParent.offsetTop : 0) + target.offsetTop + 28;	// 28px below the helpInfo span
+			m_elmHelpInfoTooltipBox.querySelector(".tooltipBoxText").textContent = target.getAttribute("data-title");
 
-		// if going out of right edge
-		if( (x + m_elmHelpInfoTooltipBox.offsetWidth) > document.documentElement.offsetWidth ) {
-			x = document.documentElement.offsetWidth - m_elmHelpInfoTooltipBox.offsetWidth-1;
-		}
-		// if going out of bottom edge
-		if( (y + m_elmHelpInfoTooltipBox.offsetHeight) > document.documentElement.offsetHeight ) {
-			y = document.documentElement.clientHeight - m_elmHelpInfoTooltipBox.offsetHeight-1;
-		}
+			m_elmHelpInfoTooltipBox.style.maxWidth = (target.hasAttribute("data-extra-width") ? "650px" : "");
+			m_elmHelpInfoTooltipBox.style.display = "block";
 
-		m_elmHelpInfoTooltipBox.style.left = x + "px";
-		m_elmHelpInfoTooltipBox.style.top = y + "px";
+			let x = (!!offsetParent ? offsetParent.offsetLeft : 0) + target.offsetLeft + 4;	// 4px left of the helpInfo span
+			let y = (!!offsetParent ? offsetParent.offsetTop : 0) + target.offsetTop + 28;	// 28px below the helpInfo span
+
+			// if going out of right edge
+			if( (x + m_elmHelpInfoTooltipBox.offsetWidth) > document.documentElement.offsetWidth ) {
+				x = document.documentElement.offsetWidth - m_elmHelpInfoTooltipBox.offsetWidth-1;
+			}
+			// if going out of bottom edge
+			if( (y + m_elmHelpInfoTooltipBox.offsetHeight) > document.documentElement.offsetHeight ) {
+				y = document.documentElement.clientHeight - m_elmHelpInfoTooltipBox.offsetHeight-1;
+			}
+
+			m_elmHelpInfoTooltipBox.style.left = x + "px";
+			m_elmHelpInfoTooltipBox.style.top = y + "px";
+
+		}, 200);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseOutHelpInfo(event) {
+		clearTimeout(m_timeoutHelpInfo);
 		m_elmHelpInfoTooltipBox.style.display = "none";
 	}
 
