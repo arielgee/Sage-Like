@@ -2571,7 +2571,7 @@ let rssTreeView = (function() {
 		}
 
 		const FMT_ROW = "<div class='gridItem row text{3}' title='{2}'>{0}</div><div class='gridItem row value'>{1}</div>"
-		const FIXABLE_HELP = "Feeds with fixable parsing errors require more resources and take longer to fix and parse.\nTo review them, use the status filter &apos;>fixable&apos; in the filter widget on the toolbar.";
+		const FIXABLE_HELP = "Feeds with fixable parsing errors require more resources and take longer to parse and fix.\nTo review them, use the status filter &apos;>fixable&apos; in the filter widget on the toolbar.";
 		const lines = [
 			`Total of <b>${nFeeds}</b> feeds and <b>${nFolders}</b> folders.`,
 			"<div class='gridContainer'>",
