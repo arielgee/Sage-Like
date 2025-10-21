@@ -77,6 +77,8 @@ let contextMenu = (function() {
 		m_elmContextMenu = document.getElementById("mnuContextMenu");
 
 		m_elmSidebarBody.addEventListener("contextmenu", onContextMenu);
+
+		initializeMenu();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -587,6 +589,64 @@ let contextMenu = (function() {
 	//==================================================================================
 	//=== helpers
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initializeMenu() {
+
+		const items = m_elmContextMenu.querySelectorAll('.contextmenuitem');
+
+		let item, shortcutKey, acceleratorKey;
+		let text, index;
+		let before, key, after;
+		let elmWrapper, elmAcceleratorKey, elmU;
+
+		for(let i=0, len=items.length; i<len; ++i) {
+
+			item = items[i];
+			text = item.textContent;
+			elmWrapper = document.createElement("div");
+
+			shortcutKey = item.getAttribute("data-shortcut-key");
+			if(!!shortcutKey) {
+
+				// prefer uppercase match
+				index = text.indexOf(shortcutKey.toUpperCase()) || text.toLowerCase().indexOf(shortcutKey.toLowerCase());
+
+				if(index > -1) {
+
+					before = text.substring(0, index);
+					key = text.charAt(index);
+					after = text.substring(index + 1);
+
+					if(!!before) {
+						elmWrapper.appendChild(document.createTextNode(before));
+					}
+
+					elmU = document.createElement("u");
+					elmU.textContent = key;
+					elmWrapper.appendChild(elmU);
+
+					if(!!after) {
+						elmWrapper.appendChild(document.createTextNode(after));
+					}
+				} else {
+					elmWrapper.textContent = text;
+				}
+			} else {
+				elmWrapper.textContent = text;
+			}
+			item.textContent = "";
+			item.appendChild(elmWrapper);
+
+			acceleratorKey = item.getAttribute("data-accelerator-key");
+			if(!!acceleratorKey) {
+				elmAcceleratorKey = document.createElement("div");
+				elmAcceleratorKey.className = "acceleratorKey";
+				elmAcceleratorKey.textContent = acceleratorKey;
+				item.appendChild(elmAcceleratorKey);
+			}
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function showMenuItemsByClassName(className, targetClassList) {
