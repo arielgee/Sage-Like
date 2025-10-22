@@ -79,6 +79,8 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
+		contextMenu.initialize();
+
 		m_elmBody = document.body;
 		m_elmMainPanel = document.getElementById("mainPanel");
 		m_elmTop = document.getElementById("top");

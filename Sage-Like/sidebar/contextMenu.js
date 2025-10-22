@@ -62,34 +62,15 @@ let contextMenu = (function() {
 	let m_bActivePanelOpened = false;
 	let m_isContextMenuOpen = false;
 
-	initialization();
-
 	////////////////////////////////////////////////////////////////////////////////////
-	function initialization() {
-		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.addEventListener("unload", onUnload);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onDOMContentLoaded() {
+	function initialize() {
 
 		m_elmSidebarBody = document.body;
 		m_elmContextMenu = document.getElementById("mnuContextMenu");
 
+		initializeHTML();
+
 		m_elmSidebarBody.addEventListener("contextmenu", onContextMenu);
-
-		initializeMenu();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload(event) {
-
-		closeContextMenu();
-
-		m_elmSidebarBody.removeEventListener("contextmenu", onContextMenu);
-
-		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.removeEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -591,7 +572,7 @@ let contextMenu = (function() {
 	//==================================================================================
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initializeMenu() {
+	function initializeHTML() {
 
 		const items = m_elmContextMenu.querySelectorAll('.contextmenuitem');
 
@@ -660,6 +641,7 @@ let contextMenu = (function() {
 	}
 
 	return {
+		initialize: initialize,
 		close: close,
 		isOpen: isOpen,
 	};
