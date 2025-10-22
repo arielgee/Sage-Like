@@ -590,8 +590,10 @@ let contextMenu = (function() {
 			shortcutKey = item.getAttribute("data-shortcut-key");
 			if(!!shortcutKey) {
 
-				// prefer uppercase match
-				index = text.indexOf(shortcutKey.toUpperCase()) || text.toLowerCase().indexOf(shortcutKey.toLowerCase());
+				index = text.indexOf(shortcutKey.toUpperCase());		// prefer uppercase match
+				if(index === -1) {
+					index = text.toLowerCase().indexOf(shortcutKey.toLowerCase());
+				}
 
 				if(index > -1) {
 
