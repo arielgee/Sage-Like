@@ -460,10 +460,10 @@ let panel = (function() {
 			}
 		};
 		const messageDetails = {
-			text: RequiredPermissions.i.getInfoText() +
-					"<br><br>To allow the required permission, go to the browser's <b>Add-ons Manager</b>, choose <b>Extensions</b> " +
-					"and then <b>Sage-Like</b>. Open the <b>Permissions</b> tab and allow <b>Access your data for all websites</b>. " +
-					"Alternatively, you can select the link below:<br><br><a href='#' id='msgViewReqPermissions'>Request Permissions</a>",
+			text: RequiredPermissions.i.getInfoText(false) +
+					"\n\nTo allow the required permission, go to the browser's \"Add-ons Manager\", choose \"Extensions\" " +
+					"and then \"Sage-Like\". Open the \"Permissions\" tab and allow \"Access your data for all websites\". " +
+					"Alternatively, you can select the link below:\n\n<a href='#' id='msgViewReqPermissions'>Request Permissions</a>",
 			caption: "Permissions Are Required",
 			clickableElements: [
 				{
@@ -502,16 +502,16 @@ let panel = (function() {
 
 					const browserCompatStrictMinVer = parseInt(json.current_version.compatibility.firefox.min);
 					const browserVer = parseInt(await slUtil.getBrowserVersion());
-					const anchorNewVer = `<a id='currSageLikeVersion' href='${json.url}'><b>Sage-Like v${currentVer}</b></a>`;
+					const anchorNewVer = `<a id='currSageLikeVersion' href='${json.url}'>"Sage-Like v${currentVer}"</a>`;
 
 					let msg;
 
 					// browser version is greater or equal to current compatibility min version
 					if(browserVer >= browserCompatStrictMinVer) {
-						msg = `A new version was released.<br><br>Sage-Like v${localVer}\u2002\u2794\u2002${anchorNewVer}`;
+						msg = `A new version was released.\n\nSage-Like v${localVer}\u2002\u2794\u2002${anchorNewVer}`;
 					} else {
 						msg = `An updated version is available, ${anchorNewVer}. However, it is not compatible with your ` +
-								`current browser (Firefox ${browserVer}).<br><br>Consider updating your browser to the latest version.`;
+								`current browser (Firefox ${browserVer}).\n\nConsider updating your browser to the latest version.`;
 					}
 
 					const messageDetails = {

@@ -37,6 +37,8 @@ let messageView = (function () {
 			caption = "Attention!",
 			isAlertive = true,
 			isTextLeftAlign = false,
+			boldDoubleQuotedText = true,
+			breakNewLine = true,
 			clickableElements = [],
 		} = details;
 
@@ -48,11 +50,21 @@ let messageView = (function () {
 
 			m_buttonSet = btnSet;
 
+			let textMsg = text;
+
+			if(boldDoubleQuotedText) {
+				textMsg = textMsg.replace(/"([^"]+)"/mg, "<b>$1</b>");
+			}
+
+			if(breakNewLine) {
+				textMsg = textMsg.replace(/\n/mg, "<br>");
+			}
+
 			let elmMsgText = document.getElementById("msgText");
 
 			m_elmMessagePanel.classList.toggle("alertive", isAlertive);
 			document.getElementById("msgCaption").textContent = caption;
-			slUtil.replaceInnerContextualFragment(elmMsgText, text);
+			slUtil.replaceInnerContextualFragment(elmMsgText, textMsg);
 			elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);

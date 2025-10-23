@@ -1927,10 +1927,11 @@ let rssTreeView = (function() {
 		let text = "Permanently delete the ";
 
 		if(isFolder) {
-			text += "folder <b>'" + getTreeItemText(elmLI).escapeMarkup() + "'</b> <u>and all of its contents</u> from your bookmarks?"
+			text += `"${getTreeItemText(elmLI).escapeMarkup()}" folder and all of its contents from your bookmarks?`;
 		} else {
-			text += "feed <b title=\"" + elmLI.getAttribute("href") + "\">'" + getTreeItemText(elmLI).escapeMarkup() + "'</b> from your bookmarks?"
+			text += `<b title='${elmLI.getAttribute("href")}'>'${getTreeItemText(elmLI).escapeMarkup()}'</b> feed from your bookmarks?`;
 		}
+		text += "\n\n\"This action cannot be undone.\"";
 
 		messageView.open({ text: text, btnSet: messageView.ButtonSet.setYesNo, caption: "Delete " + (isFolder ? "Folder" : "Feed") }).then(async (result) => {
 
@@ -2571,9 +2572,9 @@ let rssTreeView = (function() {
 		}
 
 		const FMT_ROW = "<div class='gridItem row text{3}' title='{2}'>{0}</div><div class='gridItem row value'>{1}</div>"
-		const FIXABLE_HELP = "Feeds with fixable parsing errors require more resources and take longer to parse and fix.\nTo review them, use the status filter &apos;>fixable&apos; in the filter widget on the toolbar.";
+		const FIXABLE_HELP = "Feeds with fixable parsing errors require more resources and take longer to parse and fix.&NewLine;To review them, use the status filter &apos;>fixable&apos; in the filter widget on the toolbar.";
 		const lines = [
-			`Total of <b>${nFeeds}</b> feeds and <b>${nFolders}</b> folders.`,
+			`Total of "${nFeeds}" feeds and "${nFolders}" folders.`,
 			"<div class='gridContainer'>",
 			"<div class='gridItem header'>Feed Status</div><div class='gridItem header'>Feed Count</div>",
 			FMT_ROW.format(["OK", nResponsive]),

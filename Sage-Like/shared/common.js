@@ -1545,11 +1545,11 @@ let slUtil = (function() {
 		if(!!(nativeError.toString().match(/\bpermission for incognito mode\b/))) {
 			return "Sage-Like extension is not allowed to run in private windows.<br>" +
 					"If you're interested, here's how you can change that:" +
-					"<ol style=\"margin-top:5px;padding-left:30px;\">" +
+					"<ol style='margin-top:5px;padding-left:30px;'>" +
 						"<li>Click the menu button (3 horizontal lines).</li>" +
-						"<li>Select \"Add-ons\" from the menu.</li>" +
+						"<li>Select \"Add-ons\"/\"Extensions\" from the menu.</li>" +
 						"<li>Select \"Extensions\" on the left side.</li>" +
-						"<li>Click on the Sage-Like extension.</li>" +
+						"<li>Click on the \"Sage-Like\" extension.</li>" +
 						"<li>Scroll down to \"Run in Private Windows\" option.</li>" +
 						"<li>Click the \"Allow\" radio button.</li>" +
 					"</ol>";
