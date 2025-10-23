@@ -1543,7 +1543,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function incognitoErrorMessage(nativeError) {
 		if(!!(nativeError.toString().match(/\bpermission for incognito mode\b/))) {
-			return "Sage-Like extension is not allowed to run in private windows.<br>" +
+			return "Sage-Like extension is not allowed to run in private windows.\n" +
 					"If you're interested, here's how you can change that:" +
 					"<ol style='margin-top:5px;padding-left:30px;'>" +
 						"<li>Click the menu button (3 horizontal lines).</li>" +
