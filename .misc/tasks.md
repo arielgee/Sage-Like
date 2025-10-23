@@ -1230,6 +1230,7 @@
 
 
 ## Next
+* look into `DOMPurify()` & `DOMParser.parseFromString()`. Can any of them resolve the unsafe call to createContextualFragment() ? (see: https://gemini.google.com/share/38789eb708b9)
 * support for manifest `data_collection_permissions` key starting from v140. The following should be added to manifest.json in `browser_specific_settings.gecko`:
 	"data_collection_permissions": {
 		"required": [ "none" ]
