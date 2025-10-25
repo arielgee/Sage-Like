@@ -1717,7 +1717,7 @@ let preferences = (function() {
 						let head = document.createElement("head");
 						let style = document.createElement("style");
 
-						slUtil.replaceInnerContextualFragment(style, source);
+						style.textContent = source;
 
 						head.appendChild(style);
 						doc.body.appendChild(head);

@@ -1753,7 +1753,8 @@ let slUtil = (function() {
 		while(targetElement.firstChild) {
 			targetElement.removeChild(targetElement.firstChild);
 		}
-		targetElement.appendChild((targetElement.ownerDocument.createRange()).createContextualFragment(fragment));
+		const doc = (new DOMParser).parseFromString(fragment, "text/html");
+		targetElement.append(...doc.body.childNodes);
 		return targetElement;
 	}
 
@@ -1780,7 +1781,7 @@ let slUtil = (function() {
 							"</div>";
 
 		return {
-			docFragment: document.createRange().createContextualFragment(tagString),
+			docFragment: (new DOMParser).parseFromString(tagString, "text/html").body.firstChild,
 			learnMoreAnchorId: "learnMoreLink",
 			reqPermAnchorId: "requestPermissionsLink",
 		}
