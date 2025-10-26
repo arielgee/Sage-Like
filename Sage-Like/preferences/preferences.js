@@ -210,6 +210,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function addEventListeners() {
 
+		window.addEventListener("click", () => window.scrollTo({ left: 0 }) );
 		m_elmNavigationItems.addEventListener("click", onClickNavigationItem);
 
 		// handle check boxs and text boxs
@@ -493,6 +494,7 @@ let preferences = (function() {
 					elmInput.focus();
 					elmInput.select();
 				}
+				window.scrollTo({ left: 0 });
 			}
 		}
 	}
