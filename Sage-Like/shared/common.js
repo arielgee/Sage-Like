@@ -1750,9 +1750,7 @@ let slUtil = (function() {
 			throw new Error("Invalid function parameters");
 		}
 
-		while(targetElement.firstChild) {
-			targetElement.removeChild(targetElement.firstChild);
-		}
+		targetElement.replaceChildren();
 		const doc = (new DOMParser).parseFromString(fragment, "text/html");
 		targetElement.append(...doc.body.childNodes);
 		return targetElement;

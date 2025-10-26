@@ -302,10 +302,7 @@ let discoveryView = (function() {
 		while(m_abortCtrlEvents.length > 0) {
 			m_abortCtrlEvents.pop().abort();
 		}
-
-		while(m_elmDiscoverFeedsList.firstElementChild) {
-			m_elmDiscoverFeedsList.removeChild(m_elmDiscoverFeedsList.firstElementChild);
-		}
+		m_elmDiscoverFeedsList.replaceChildren();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

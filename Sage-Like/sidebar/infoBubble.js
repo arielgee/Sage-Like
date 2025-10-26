@@ -124,9 +124,7 @@ class InfoBubble {
 	#_setTextHTML(elm, infoText) {
 
 		// empty
-		while(elm.firstChild) {
-			elm.removeChild(elm.firstChild);
-		}
+		elm.replaceChildren();
 
 		// support for words that are <b>
 		let matches;

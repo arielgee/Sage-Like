@@ -1222,6 +1222,7 @@
 * rewrite sidebar splitter's tooltip
 * Add custom tooltip for `.helpInfo` in preferences
 * look into `DOMPurify()` & `DOMParser.parseFromString()`. Can any of them resolve the unsafe call to createContextualFragment() ? (see: https://gemini.google.com/share/38789eb708b9)
+* change `while(element.firstChild) element.removeChild(element.firstChild)` with `replaceChildren()` - supported sine v78
 ---
 
 
@@ -1231,7 +1232,6 @@
 
 
 ## Next
-* change `while(element.firstChild) element.removeChild(element.firstChild)` with `replaceChildren()` - supported sine v78
 * preferences page. when page is narrow and checkboxs are out of viewport (right edge), if i click on a preference with a checkbox, .mainContent scrolles to the left - UNDER THE NAVIGATION ITEMS
 * reanem slUtil.replaceInnerContextualFragment() ?
 * reformat the message in createMissingPermissionsDocFrag(). its' bad

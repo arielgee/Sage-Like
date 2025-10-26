@@ -744,9 +744,7 @@ let rssListView = (function() {
 			let frag = document.createDocumentFragment();
 			frag.append(...m_elmFeedItemDescAttachments.children);
 
-			while(frag.firstElementChild) {
-				frag.removeChild(frag.firstElementChild);
-			}
+			frag.replaceChildren();
 
 			for(let i=0, len=mimeTypes.length; i<len; i++) {
 				(frag.appendChild(document.createElement("img"))).src = slUtil.getMimeTypeIconPath(mimeTypes[i]);
@@ -797,9 +795,7 @@ let rssListView = (function() {
 		m_observerElmLITreeFeed.disconnect();
 		m_elmLITreeFeed = null;
 
-		while (m_elmList.firstElementChild) {
-			m_elmList.removeChild(m_elmList.firstElementChild);
-		}
+		m_elmList.replaceChildren();
 		setStatusbarIcon(false);
 	}
 

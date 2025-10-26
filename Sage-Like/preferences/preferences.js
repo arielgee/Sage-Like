@@ -1178,9 +1178,7 @@ let preferences = (function() {
 			let frag = document.createDocumentFragment();
 			frag.append(...m_elmRootFeedsFolder.children);
 
-			while(frag.firstElementChild) {
-				frag.removeChild(frag.firstElementChild);
-			}
+			frag.replaceChildren();
 
 			browser.bookmarks.getSubTree(Global.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
 
