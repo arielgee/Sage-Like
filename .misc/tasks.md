@@ -1226,6 +1226,7 @@
 * preferences page. when page is narrow and checkboxs are out of viewport (right edge), if i click on a preference with a checkbox, .mainContent scrolles to the left - UNDER THE NAVIGATION ITEMS
 * consider to remove all `onUnload()` function if all they do is `removeEventListener()s`. and if so then also remove `window.addEventListener("unload", onUnload);`
 * reformat the message in createMissingPermissionsDocFrag(). its' bad
+* rename slUtil.replaceInnerContextualFragment()
 ---
 
 
@@ -1235,7 +1236,6 @@
 
 
 ## Next
-* rename slUtil.replaceInnerContextualFragment() ?
 * support for manifest `data_collection_permissions` key starting from v140. The following should be added to manifest.json in `browser_specific_settings.gecko`:
 	"data_collection_permissions": {
 		"required": [ "none" ]

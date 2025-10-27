@@ -1744,16 +1744,16 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function replaceInnerContextualFragment(targetElement, fragment) {
+	function replaceInnerContent(containerElement, htmlString) {
 
-		if( !(targetElement instanceof Element) || typeof(fragment) !== "string" ) {
+		if( !(containerElement instanceof Element) || typeof(htmlString) !== "string" ) {
 			throw new Error("Invalid function parameters");
 		}
 
-		targetElement.replaceChildren();
-		const doc = (new DOMParser).parseFromString(fragment, "text/html");
-		targetElement.append(...doc.body.childNodes);
-		return targetElement;
+		containerElement.replaceChildren();
+		const doc = (new DOMParser).parseFromString(htmlString, "text/html");
+		containerElement.append(...doc.body.childNodes);
+		return containerElement;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1876,7 +1876,7 @@ let slUtil = (function() {
 		fetchWithTimeout: fetchWithTimeout,
 		getUpdateTimeFormattedString: getUpdateTimeFormattedString,
 		refreshUpdateTimeFormattedString: refreshUpdateTimeFormattedString,
-		replaceInnerContextualFragment: replaceInnerContextualFragment,
+		replaceInnerContent: replaceInnerContent,
 		setActionBadge: setActionBadge,
 		createMissingPermissionsDocFrag: createMissingPermissionsDocFrag,
 		isVersionLessThen: isVersionLessThen,

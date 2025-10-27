@@ -407,7 +407,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateStatusBar(msg) {
 
-		slUtil.replaceInnerContextualFragment(m_elmStatusBar, STATUS_BAR_MESSEGE_PREFIX + msg);
+		slUtil.replaceInnerContent(m_elmStatusBar, STATUS_BAR_MESSEGE_PREFIX + msg);
 
 		m_elmOptionsHref = document.getElementById("pagePopupOptionsHref");
 		if(!!m_elmOptionsHref) {

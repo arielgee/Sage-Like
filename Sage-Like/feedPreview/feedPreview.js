@@ -305,7 +305,7 @@
 		elmFeedItemLastUpdatedTime.dateTime = feedItem.lastUpdated.toISOString();
 		elmFeedItemLastUpdatedTime.textContent = slUtil.getUpdateTimeFormattedString(feedItem.lastUpdated);
 		elmFeedItemLastUpdatedTime.classList.toggle("refresh", (Date.now() - feedItem.lastUpdated.getTime()) < 3600000);	// if smaller then an hour (in milliseconds)
-		slUtil.replaceInnerContextualFragment(elmFeedItemContent, itemContent);
+		slUtil.replaceInnerContent(elmFeedItemContent, itemContent);
 		elmJumpListItem.textContent = `${idx+1}. ${elmFeedItemTitleText.textContent}`;
 		elmJumpListItem.href = `#${elmFeedItemContainer.id}`;
 
@@ -474,7 +474,7 @@
 			document.getElementById("errorContainer").appendChild(result.docFragment);
 
 			document.getElementById(result.learnMoreAnchorId).addEventListener("click", async (e) => {
-				slUtil.replaceInnerContextualFragment(e.target.parentElement, "<br><br>" + RequiredPermissions.i.getInfoText());
+				slUtil.replaceInnerContent(e.target.parentElement, "<br><br>" + RequiredPermissions.i.getInfoText());
 			});
 
 			document.getElementById(result.reqPermAnchorId).addEventListener("click", async () => {
@@ -526,7 +526,7 @@
 			}
 		}
 
-		slUtil.replaceInnerContextualFragment(m_elmAttachmentTooltip, elmAtt.getAttribute("data-title").unescapeMarkup());
+		slUtil.replaceInnerContent(m_elmAttachmentTooltip, elmAtt.getAttribute("data-title").unescapeMarkup());
 
 		let tooltipStyle = m_elmAttachmentTooltip.style;
 
