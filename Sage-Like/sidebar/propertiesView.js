@@ -295,13 +295,13 @@ class NewFeedPropertiesView extends PropertiesView {
 
 		// Title validation
 		if (result.title.length === 0) {
-			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
+			this.m_elmLabelErrorMsgs.textContent = "Title text is empty.";
 			return;
 		}
 
 		// URL validation
 		if(!!!slUtil.validURL(result.url)) {
-			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid."
+			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid.";
 			return;
 		}
 
@@ -355,7 +355,7 @@ class NewFolderPropertiesView extends PropertiesView {
 
 		// Title validation
 		if (result.title.length === 0) {
-			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
+			this.m_elmLabelErrorMsgs.textContent = "Title text is empty.";
 			return;
 		}
 
@@ -420,19 +420,19 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.openInFeedPreview === result.openInFeedPreview &&
 			this.m_initialProperties.ignoreUpdates === result.ignoreUpdates &&
 			this.m_initialProperties.feedMaxItems === result.feedMaxItems) {
-			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify."
+			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify.";
 			return;
 		}
 
 		// Title validation
 		if (result.title.length === 0) {
-			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
+			this.m_elmLabelErrorMsgs.textContent = "Title text is empty.";
 			return;
 		}
 
 		// URL validation
 		if(!!!slUtil.validURL(result.url)) {
-			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid."
+			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid.";
 			return;
 		}
 
@@ -485,13 +485,13 @@ class EditFolderPropertiesView extends PropertiesView {
 
 		// Any value was modified
 		if (this.m_initialProperties.title === result.title) {
-			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify."
+			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify.";
 			return;
 		}
 
 		// Title validation
 		if (result.title.length === 0) {
-			this.m_elmLabelErrorMsgs.textContent = "Title text is empty."
+			this.m_elmLabelErrorMsgs.textContent = "Title text is empty.";
 			return;
 		}
 
