@@ -1772,14 +1772,17 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function createMissingPermissionsDocFrag(style) {
 
-		const tagString =	`<div id='requiredPermissionsMsg' style='all:revert;${style}'>` +
-								"The required permission <b>Access your data for all websites</b> is not allowed by the browser. " +
-								"<span><a style='all:revert' href='#' id='learnMoreLink'>Learn more</a></span><br><br>" +
-								"To modify this, select the following link:&emsp;<a style='all:revert' href='#' id='requestPermissionsLink'>Request Permissions</a>" +
-							"</div>";
+		const frameStyle = "color:black; background:#fff3cd; border:1px solid #ffeeba; border-left:5px solid #ffb100; border-radius:6px;";
+		const buttonStyle = "display:inline-block; background:#0056b3; color:white; text-decoration:none; padding:6px 12px; border-radius:4px; line-height:1.4em;";
 
+		const str =	`<div id='requiredPermissionsMsg' style='all:revert;${frameStyle}${style}'>` +
+						"<strong style='color:#795100; line-height:2em;'>Permission Required</strong><br>" +
+						"The required permission <b>Access your data for all websites</b> is not allowed by the browser. " +
+						"<span><a href='#' id='learnMoreLink' style='color:#0056b3;'>Learn more</a></span><br><br>" +
+						`<a href='#' id='requestPermissionsLink' style='all:revert;${buttonStyle}'>Request Permissions</a>` +
+					"</div>";
 		return {
-			docFragment: (new DOMParser).parseFromString(tagString, "text/html").body.firstChild,
+			docFragment: (new DOMParser).parseFromString(str, "text/html").body.firstChild,
 			learnMoreAnchorId: "learnMoreLink",
 			reqPermAnchorId: "requestPermissionsLink",
 		}

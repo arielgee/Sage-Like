@@ -691,7 +691,7 @@ let rssListView = (function() {
 
 		if(!RequiredPermissions.i.granted && textContent.includes("NetworkError when attempting to fetch resource")) {
 
-			const style = "border:1px solid crimson;margin:6px 6px 0 0;padding:2px 4px 4px";
+			const style = "margin:6px 6px 0 0; padding:6px 10px;";
 			const result = slUtil.createMissingPermissionsDocFrag(style);
 			elm.appendChild(result.docFragment);
 			elm.style.paddingBottom = "6px";
