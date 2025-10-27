@@ -92,7 +92,6 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.addEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -147,64 +146,6 @@ let preferences = (function() {
 
 		addEventListeners();
 		getSavedPreferences();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload(event) {
-		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.removeEventListener("unload", onUnload);
-
-		m_elmNavigationItems.removeEventListener("click", onClickNavigationItem);
-
-		document.documentElement.removeEventListener("click", onClickPreference);
-
-		m_elmRootFeedsFolder.removeEventListener("change", onChangeRootFeedsFolder);
-		m_elmCheckFeedsOnSbOpen.removeEventListener("change", onChangeCheckFeedsOnSbOpen);
-		m_elmCheckFeedsInterval.removeEventListener("change", onChangeCheckFeedsInterval);
-		m_elmCheckFeedsWhenSbClosed.removeEventListener("change", onChangeCheckFeedsWhenSbClosed);
-		m_elmCheckFeedsMethod.removeEventListener("change", onChangeCheckFeedsMethod);
-		m_elmFetchTimeout.removeEventListener("change", onChangeFetchTimeout);
-		m_elmSortFeedItems.removeEventListener("change", onChangeSortFeedItems);
-		m_elmFolderClickAction.removeEventListener("change", onChangeFolderClickAction);
-		m_elmClickOpensFeedPreview.removeEventListener("change", onChangeClickOpensFeedPreview);
-		m_elmMarkFeedPreviewUrlsAsVisited.removeEventListener("change", onChangeMarkFeedPreviewUrlsAsVisited);
-		m_elmFeedItemOpenMethod.removeEventListener("change", onChangeFeedItemOpenMethod);
-		m_elmShowFeedStats.removeEventListener("change", onChangeShowFeedStats);
-		m_elmShowFeedItemDesc.removeEventListener("change", onChangeShowFeedItemDesc);
-		m_elmFeedItemDescDelay.removeEventListener("change", onChangeFeedItemDescDelay);
-		m_elmShowFeedItemDescAttach.removeEventListener("change", onChangeShowFeedItemDescAttach);
-		m_elmColorFeedItemDescBackground.removeEventListener("change", onChangeColorFeedItemDescBackground);
-		m_elmColorFeedItemDescText.removeEventListener("change", onChangeColorFeedItemDescText);
-		m_elmDetectFeedsInWebPage.removeEventListener("change", onChangeDetectFeedsInWebPage);
-		m_elmUIDensity.removeEventListener("change", onChangeUIDensity);
-		m_elmFontName.removeEventListener("change", onChangeFontName);
-		m_elmFontSizePercent.removeEventListener("change", onChangeFontSizePercent);
-		m_elmColorBackground.removeEventListener("change", onChangeColorBackground);
-		m_elmColorDialogBackground.removeEventListener("change", onChangeColorDialogBackground);
-		m_elmColorSelect.removeEventListener("change", onChangeColorSelect);
-		m_elmColorText.removeEventListener("change", onChangeColorText);
-		m_elmColorIcons.removeEventListener("change", onChangeColorIcons);
-		m_elmRadioIconsColors.forEach(r => r.removeEventListener("click", onClickRadioIconsColor));
-		m_elmIncreaseUnvisitedFontSize.removeEventListener("change", onChangeIncreaseUnvisitedFontSize);
-		m_elmShowTryOpenLinkInFeedPreview.removeEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
-		m_elmUseCustomCSSFeedPreview.removeEventListener("change", onChangeUseCustomCSSFeedPreview);
-		m_elmImportCustomCSSSource.removeEventListener("change", onChangeImportCustomCSSSource);
-		m_elmBtnEditCSSSource.removeEventListener("click", onClickBtnEditCSSSource);
-		m_elmBtnClearCSSSource.removeEventListener("click", onClickBtnClearCSSSource);
-		m_elmImportOpml.removeEventListener("change", onChangeImportOpml);
-		m_elmExportOpml.removeEventListener("click", onClickExportOpml);
-		m_elmImportPreferences.removeEventListener("change", onChangeImportPreferences);
-		m_elmExportPreferences.removeEventListener("click", onClickExportPreferences);
-
-		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
-		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
-
-		document.querySelectorAll(".helpInfo").forEach(e => {
-			e.removeEventListener("mouseover", onMouseOverHelpInfo);
-			e.removeEventListener("mouseout", onMouseOutHelpInfo);
-		});
-
-		removeBookmarksEventListeners();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -271,14 +212,6 @@ let preferences = (function() {
 		browser.bookmarks.onChanged.addListener(onBookmarksEventModifiedHandler);
 		browser.bookmarks.onMoved.addListener(onBookmarksEventModifiedHandler);
 		browser.bookmarks.onRemoved.addListener(onBookmarksEventRemovedHandler);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function removeBookmarksEventListeners() {
-		browser.bookmarks.onCreated.removeListener(onBookmarksEventModifiedHandler);
-		browser.bookmarks.onChanged.removeListener(onBookmarksEventModifiedHandler);
-		browser.bookmarks.onMoved.removeListener(onBookmarksEventModifiedHandler);
-		browser.bookmarks.onRemoved.removeListener(onBookmarksEventRemovedHandler);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

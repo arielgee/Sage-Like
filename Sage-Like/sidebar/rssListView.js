@@ -35,7 +35,6 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.addEventListener("unload", onUnload);
 
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 
@@ -98,25 +97,6 @@ let rssListView = (function() {
 		setIncreaseUnvisitedFontSizeFromPreferences();
 
 		panel.notifyViewContentLoaded(Global.VIEW_CONTENT_LOAD_FLAG.LIST_VIEW_LOADED);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload(event) {
-
-		disposeList();
-
-		m_observerElmLITreeFeed = null;
-
-		m_elmList.removeEventListener("mousedown", onMouseDownFeedList);
-		m_elmList.removeEventListener("keydown", onKeyDownFeedList);
-		m_elmList.removeEventListener("focus", onFocusFeedItem);
-		m_elmList.removeEventListener("click", onClickFeedItem);
-		m_elmList.removeEventListener("auxclick", onClickFeedItem);
-
-		handleFeedItemDescEventListeners(false);
-
-		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.removeEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

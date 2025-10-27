@@ -29,7 +29,6 @@
 	function initialization() {
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.addEventListener("unload", onUnload);
 		RequiredPermissions.i.init();
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 
@@ -85,21 +84,6 @@
 		m_elmAttachmentTooltip = document.getElementById("attachmentTooltip");
 
 		createFeedPreview(urlFeed);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload(event) {
-		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.removeEventListener("unload", onUnload);
-
-		if(!!m_elmFeedBody) {
-			m_elmFeedBody.removeEventListener("mouseover", onMouseOverAttachment);
-			m_elmFeedBody.removeEventListener("mouseout", onMouseOutAttachment);
-			m_elmJumpListContainer.removeEventListener("click", onClickJumpListContainer);
-			m_elmJumpListContainer.removeEventListener("blur", onBlurJumpListContainer);
-			m_elmJumpListContainer.removeEventListener("keydown", onKeyDownJumpListContainer);
-			clearInterval(m_refreshInterval);
-		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

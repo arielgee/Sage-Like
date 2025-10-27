@@ -92,7 +92,6 @@ let rssTreeView = (function() {
 		g_feed.feedsWithParsingErrors.purge();
 
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.addEventListener("unload", onUnload);
 
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 	}
@@ -230,42 +229,6 @@ let rssTreeView = (function() {
 		m_elmFilterTextBoxContainer.title = getFilterTooltipTitle();
 
 		panel.notifyViewContentLoaded(Global.VIEW_CONTENT_LOAD_FLAG.TREE_VIEW_LOADED);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload(event) {
-
-		clearTimeout(m_timeoutIdMonitorRSSTreeFeeds);
-		m_timeoutIdMonitorRSSTreeFeeds = null;
-
-		// toolbar buttons event listeners
-		m_elmToolbar.removeEventListener("click", onClickToolbarButton);
-		m_elmFilterTextBoxContainer.removeEventListener("transitionend",onTransitionEndFilterTextBoxContainer);
-		m_elmTextFilter.removeEventListener("input", onInputChangeTextFilter);
-		m_elmTextFilter.removeEventListener("keydown", onKeyDownTextFilter);
-
-		// treeView event listeners
-		m_elmTreeRoot.removeEventListener("mousedown", onMouseDownTreeRoot);
-		m_elmTreeRoot.removeEventListener("mouseover", onMouseOverTreeRoot);
-		m_elmTreeRoot.removeEventListener("keydown", onKeyDownTreeRoot);
-		m_elmTreeRoot.removeEventListener("focus", onFocusTreeItem, true);		// focus, blur, and change, do not bubble up the document tree; Event capturing moves down
-		m_elmTreeRoot.removeEventListener("click", onClickTreeItem);
-		m_elmTreeRoot.removeEventListener("auxclick", onClickTreeItem);
-		m_elmTreeRoot.removeEventListener("dragstart", onDragStartTreeItem);
-		m_elmTreeRoot.removeEventListener("dragenter", onDragEnterTreeItem);
-		m_elmTreeRoot.removeEventListener("dragover", onDragOverTreeItem);
-		m_elmTreeRoot.removeEventListener("dragleave", onDragLeaveTreeItem);
-		m_elmTreeRoot.removeEventListener("dragend", onDragEndTreeItem);
-		m_elmTreeRoot.removeEventListener("drop", onDropTreeItem);
-
-		// browser bookmarks event listeners
-		browser.bookmarks.onCreated.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onRemoved.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onChanged.removeListener(onBookmarksEventHandler);
-		browser.bookmarks.onMoved.removeListener(onBookmarksEventHandler);
-
-		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.removeEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

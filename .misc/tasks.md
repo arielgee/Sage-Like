@@ -1224,6 +1224,7 @@
 * look into `DOMPurify()` & `DOMParser.parseFromString()`. Can any of them resolve the unsafe call to createContextualFragment() ? (see: https://gemini.google.com/share/38789eb708b9)
 * change `while(element.firstChild) element.removeChild(element.firstChild)` with `replaceChildren()` - supported sine v78
 * preferences page. when page is narrow and checkboxs are out of viewport (right edge), if i click on a preference with a checkbox, .mainContent scrolles to the left - UNDER THE NAVIGATION ITEMS
+* consider to remove all `onUnload()` function if all they do is `removeEventListener()s`. and if so then also remove `window.addEventListener("unload", onUnload);`
 ---
 
 
@@ -1233,7 +1234,6 @@
 
 
 ## Next
-* consider to remove all `onUnload()` function if all they do is `removeEventListener()s`. and if so then also remove `window.addEventListener("unload", onUnload);`
 * reanem slUtil.replaceInnerContextualFragment() ?
 * reformat the message in createMissingPermissionsDocFrag(). its' bad
 * support for manifest `data_collection_permissions` key starting from v140. The following should be added to manifest.json in `browser_specific_settings.gecko`:

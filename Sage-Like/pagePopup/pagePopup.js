@@ -19,7 +19,6 @@
 	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
-		window.addEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -76,23 +75,6 @@
 				createFeedList();
 			}
 		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload(event) {
-		document.body.removeEventListener("contextmenu", onContextMenu);
-		m_elmPageFeedsList.removeEventListener("mousedown", onMouseDownPageFeedsList);
-		m_elmPageFeedsList.removeEventListener("click", onClickPageFeedsList);
-		m_elmPageFeedsList.removeEventListener("auxclick", onClickPageFeedsList);
-		m_elmPageFeedsList.removeEventListener("keydown", onKeyDownPageFeedsList);
-		m_elmPageFeedsList.removeEventListener("dragstart", onDragStartPageFeedsList);
-		m_elmButtonAddFeeds.removeEventListener("click", onClickButtonAdd);
-		if(!!m_elmOptionsHref) {
-			m_elmOptionsHref.removeEventListener("click", onClickOptionsPage);
-		}
-
-		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.removeEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

@@ -22,7 +22,6 @@ let notepad = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.addEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -50,23 +49,6 @@ let notepad = (function() {
 		setEditorScrollbarWidth();
 		showFirstLoadHelpPopup();
 		updateStatusBar();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload() {
-		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.removeEventListener("unload", onUnload);
-
-		window.removeEventListener("resize", onResizeWindow, false);
-		window.removeEventListener("beforeunload", onBeforeUnloadWindow, { capture: true });
-		window.removeEventListener("keydown", onKeyDownWindow);
-		window.removeEventListener("wheel", onWheelWindow, { passive: false });
-		m_elmSourceEditor.removeEventListener("input", onInputSourceEditor);
-		m_elmSourceEditor.removeEventListener("keydown", onKeyDownSourceEditor);
-		m_elmSourceEditor.removeEventListener("keyup", onCaretMoveSourceEditor);
-		m_elmSourceEditor.removeEventListener("mousedown", onCaretMoveSourceEditor);
-		m_elmSourceEditor.removeEventListener("mouseup", onCaretMoveSourceEditor);
-		m_elmSourceEditor.removeEventListener("mousemove", onMouseMoveSourceEditor);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

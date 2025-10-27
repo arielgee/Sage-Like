@@ -29,7 +29,6 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.addEventListener("unload", onUnload);
 
 		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID
 
@@ -112,20 +111,6 @@ let panel = (function() {
 		setFeedItemsDescColorsFromPreferences();
 
 		postLoadMessages();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onUnload(event) {
-
-		window.removeEventListener("resize", onResize, false);
-		m_elmBody.removeEventListener("keydown", onKeyDownBody);
-		m_elmTop.removeEventListener("scroll", onScrollTop);
-		m_elmSplitter.removeEventListener("dblclick", onDoubleClickSetSplitterPosition, false);
-		m_elmSplitter.removeEventListener("mousedown", onMouseDown_startSplitterDrag, false);
-		m_elmToolbar.removeEventListener("click", onClickToolbarButton);
-
-		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
-		window.removeEventListener("unload", onUnload);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
