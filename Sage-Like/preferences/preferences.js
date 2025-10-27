@@ -151,12 +151,10 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function addEventListeners() {
 
+		// handle scrolling of the .mainContent div when an input gets focus
 		window.addEventListener("click", () => window.scrollTo({ left: 0 }) );
+
 		m_elmNavigationItems.addEventListener("click", onClickNavigationItem);
-
-		// handle check boxs and text boxs
-		document.documentElement.addEventListener("click", onClickPreference);
-
 		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsOnSbOpen.addEventListener("change", onChangeCheckFeedsOnSbOpen);
 		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
@@ -197,6 +195,8 @@ let preferences = (function() {
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
+
+		document.documentElement.addEventListener("click", onClickPreference);	// handle check boxs and text boxs
 
 		document.querySelectorAll(".helpInfo").forEach(e => {
 			e.addEventListener("mouseover", onMouseOverHelpInfo);
