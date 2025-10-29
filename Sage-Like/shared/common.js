@@ -1804,6 +1804,35 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function createFeedTooltipText(details) {
+
+		const {
+			title = "",
+			url = "",
+			error = null,
+			format = null,
+			update = null,
+			item = null,
+			expired = null,
+			fixableParseErrors = null,
+		} = details;
+
+		const tooltipLines = [];
+
+		tooltipLines.push(`Title:\u2003${title}`);
+		tooltipLines.push(`URL:\u2003${url}`);
+		if(!!error) tooltipLines.push(`Error:\u2003${error}`);
+		if(!!format) tooltipLines.push(`Format:\u2003${format}`);
+		if(!!update) tooltipLines.push(`Update:\u2003${update}`);
+		if(!!item) tooltipLines.push(`Items:\u2003${item}`);
+		if(!!expired) tooltipLines.push(`Expired:\u2003Yes`);
+		if(!!fixableParseErrors) tooltipLines.push(`Warning:\u2003Has fixable parsing errors. May take longer to process.`);
+		tooltipLines.push("\n\u2731 Use Middle-click to preview this feed.");
+
+		return tooltipLines.join("\n");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function debug_storedKeys_list(n=7) {
 		if(n & 1) internalPrefs.getOpenTreeFolders().then((obj) => console.log("[Sage-Like] -lsk-FLD", Object.keys(obj).length, obj));
 		if(n & 2) internalPrefs.getTreeFeedsData().then((obj) => console.log("[Sage-Like] -lsk-FED", Object.keys(obj).length, obj));
@@ -1880,6 +1909,7 @@ let slUtil = (function() {
 		setActionBadge: setActionBadge,
 		createMissingPermissionsDocFrag: createMissingPermissionsDocFrag,
 		isVersionLessThen: isVersionLessThen,
+		createFeedTooltipText: createFeedTooltipText,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 		debug_alarms_list: debug_alarms_list,

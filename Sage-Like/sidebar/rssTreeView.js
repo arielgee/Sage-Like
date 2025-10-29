@@ -571,24 +571,15 @@ let rssTreeView = (function() {
 
 			const ignoreFeedUpdates = treeFeedData.ignoreUpdates;
 			const msLastVisited = treeFeedData.lastVisited;
-			let updateTime, msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
-
-			msUpdateTime = syndication.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime);
-			updateTime = new Date(msUpdateTime);
-
-			const additionalLines = [
-				`Format: ${fetchResult.feedData.standard}`,
-				`Update: ${slUtil.getUpdateTimeFormattedString(updateTime)}${ignoreFeedUpdates ? ", ignored" : ""}`,
-				`Expired: ${fetchResult.feedData.expired ? "Yes": ""}`,		// Display only if it's true
-				`Warning: ${fetchResult.feedData.fixableParseErrors ? "Has fixable parsing errors. May take longer to process." : ""}`,		// Display only if it's true
-			];
+			const msUpdateTime = slUtil.asSafeNumericDate(fetchResult.feedData.lastUpdated);
+			const updateTime = new Date(syndication.fixUnreliableUpdateTime(msUpdateTime, fetchResult, url, msFetchTime));
 
 			setFeedVisitedState(elmLI, ignoreFeedUpdates || (msLastVisited > msUpdateTime));
 			setFeedFixableParseErrors(elmLI, fetchResult.feedData.fixableParseErrors);
 			updateFeedTitle(elmLI, fetchResult.feedData.title);
 			updateFeedStatsFromHistory(elmLI, fetchResult.list);
 			setTreeItemUpdateDataAttribute(elmLI, updateTime);
-			setTreeItemTooltipFull(elmLI, fetchResult.feedData.title, additionalLines);
+			setTreeItemTooltipFull(elmLI, fetchResult.feedData, slUtil.getUpdateTimeFormattedString(updateTime));
 			updateTreeBranchFoldersStats(elmLI);
 		}).catch((error) => {
 			setFeedErrorState(elmLI, true, error);
@@ -1321,20 +1312,15 @@ let rssTreeView = (function() {
 					const msFetchTime = Date.now();
 					syndication.fetchFeedItems(url, timeout, reload, details).then((result) => {
 
-						const fdDate = new Date(syndication.fixUnreliableUpdateTime(slUtil.asSafeNumericDate(result.feedData.lastUpdated), result, url, msFetchTime));
-						const additionalLines = [
-							`Format: ${result.feedData.standard}`,
-							`Update: ${slUtil.getUpdateTimeFormattedString(fdDate)}${treeFeedData.ignoreUpdates ? ", ignored" : ""}`,
-							`Expired: ${result.feedData.expired ? "Yes": ""}`,		// Display only if it's true
-							`Warning: ${result.feedData.fixableParseErrors ? "Has fixable parsing errors. May take longer to process." : ""}`,		// Display only if it's true
-						];
+						const msUpdateTime = slUtil.asSafeNumericDate(result.feedData.lastUpdated);
+						const updateTime = new Date(syndication.fixUnreliableUpdateTime(msUpdateTime, result, url, msFetchTime));
 
 						setFeedVisitedState(elmLI, true);
 						setFeedFixableParseErrors(elmLI, result.feedData.fixableParseErrors);
 						updateFeedTitle(elmLI, result.feedData.title);
 						updateFeedStatsFromHistory(elmLI, result.list);
-						setTreeItemUpdateDataAttribute(elmLI, fdDate);
-						setTreeItemTooltipFull(elmLI, result.feedData.title, additionalLines);
+						setTreeItemUpdateDataAttribute(elmLI, updateTime);
+						setTreeItemTooltipFull(elmLI, result.feedData, slUtil.getUpdateTimeFormattedString(updateTime));
 
 						// change the rssListView content only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {
@@ -2357,7 +2343,7 @@ let rssTreeView = (function() {
 		if(isError) {
 			elm.classList.add("error");
 			elm.classList.toggle("unauthorized", syndication.isUnauthorizedError(error));
-			setTreeItemTooltip(elm, ["Error: " + error.message]);
+			setTreeItemTooltip(elm, error.message);
 		} else {
 			elm.classList.remove("error", "unauthorized");
 			setTreeItemTooltip(elm);
@@ -2372,47 +2358,34 @@ let rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setTreeItemTooltip(elmLI, additionalLines = []) {
-
-		let tooltipText;
+	function setTreeItemTooltip(elmLI, errorMsg = null) {
 
 		if(TreeItemType.isFeed(elmLI)) {
 
-			tooltipText =
-				"Title: " + getTreeItemText(elmLI) +
-				"\nURL: " + decodeURIComponent(elmLI.getAttribute("href")) +
-				(additionalLines.length > 0 ? `\n${additionalLines.join("\n")}` : "");
-
-			tooltipText = tooltipText.replace(/(^[a-z]{3,6}:) /gim, "$1\u2003") + 			// 'Title', 'URL', 'Update', 'Error', Format
-				`\n\n\u2731 Use Middle-click to preview this feed.`
+			elmLI.title = slUtil.createFeedTooltipText({
+				title: getTreeItemText(elmLI),
+				url: decodeURIComponent(elmLI.getAttribute("href")),
+				error: errorMsg,
+			});
 
 		} else {
-			tooltipText = getTreeItemText(elmLI);		// folder has only title
+			elmLI.title = getTreeItemText(elmLI);		// folder has only title
 		}
-		elmLI.title = tooltipText;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setTreeItemTooltipFull(elmLI, titleLine, additionalLines = []) {
+	function setTreeItemTooltipFull(elmLI, feedDetails, formattedUpdateTime) {
 
-		const REGEX_LINE_PREFIX = "(^[a-z]{3,7}:) ";	// 'Title', 'URL', 'Update', 'Error', 'Format', 'Expired'
+		const feedData = m_objTreeFeedsData.value(elmLI.id);
 
-		let tooltipText = "Title: ";
-		let treeFeedsData = m_objTreeFeedsData.value(elmLI.id);
-
-		// don't use changed title if user unchecked that option for this feed
-		if(!!treeFeedsData && treeFeedsData.updateTitle && !!titleLine) {
-			tooltipText += titleLine;
-		} else {
-			tooltipText += getTreeItemText(elmLI);
-		}
-
-		tooltipText +=
-			"\nURL: " + decodeURIComponent(elmLI.getAttribute("href")) +
-			"\n" + additionalLines.filter((ln) => !(new RegExp(REGEX_LINE_PREFIX + "$", "i")).test(ln) ).join("\n") +	// filter out TITLED lines w/o data
-			`\n\n\u2731 Use Middle-click to preview this feed.`
-
-		elmLI.title = tooltipText.replace(new RegExp(REGEX_LINE_PREFIX, "gim"), "$1\u2003");
+		elmLI.title = slUtil.createFeedTooltipText({
+			title: ((!!feedData && feedData.updateTitle) ? feedDetails.title : getTreeItemText(elmLI)),	// don't use changed title if user unchecked option for feed
+			url: decodeURIComponent(elmLI.getAttribute("href")),
+			format: feedDetails.standard,
+			update: formattedUpdateTime + ((!!feedData && feedData.ignoreFeedUpdates) ? ", ignored" : ""),
+			expired: feedDetails.expired,
+			fixableParseErrors: feedDetails.fixableParseErrors,
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

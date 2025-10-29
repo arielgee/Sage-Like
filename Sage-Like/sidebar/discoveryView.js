@@ -346,15 +346,15 @@ let discoveryView = (function() {
 			}
 		}
 
-		let titleText = "Title:\u2003" + feed.feedTitle + "\n" +
-			"URL:\u2003" + decodeURIComponent(feed.url) + "\n" +
-			(feed.format ? "Format:\u2003" + feed.format + "\n" : "") +
-			(lastUpdated ? "Update:\u2003" + lastUpdated + "\n" : "") +
-			(feed.itemCount ? "Items:\u2003" + feed.itemCount + "\n" : "") +
-			(feed.expired ? "Expired:\u2003Yes\n" : "") +
-			(feed.fixableParseErrors ? "Warning:\u2003Has fixable parsing errors. May take longer to process.\n" : "") +
-			"\n\u2731 Use Middle-click to preview this feed.";
-		elmListItem.title = titleText;
+		elmListItem.title = slUtil.createFeedTooltipText({
+			title: feed.feedTitle,
+			url: decodeURIComponent(feed.url),
+			format: feed.format,
+			update: lastUpdated,
+			item: feed.itemCount,
+			expired: feed.expired,
+			fixableParseErrors: feed.fixableParseErrors,
+		});
 
 		elmListItem.appendChild(elmCheckBox);
 		elmLabel.append(elmLabelCaption, elmLabelFormat);
