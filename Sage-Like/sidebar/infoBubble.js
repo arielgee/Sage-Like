@@ -43,10 +43,12 @@ class InfoBubble {
 			this.#_elmInfoBubble.slDismissOnScroll = dismissOnScroll;
 		}
 
+		infoText = infoText.replace(/"([^"]+)"/mg, "<b>$1</b>");
+
 		// by setting to most left the bubble currect offsetWidth is recalculated with less
 		// interferences from the window viewport with before setting display = "block"
 		this.#_elmInfoBubble.style.left = "0px";
-		this.#_setTextHTML(this.#_elmInfoBubbleText, infoText);
+		slUtil.replaceInnerContent(this.#_elmInfoBubbleText, infoText);
 		this.#_elmInfoBubble.classList.toggle("alertive", isAlertive);
 		this.#_elmInfoBubble.classList.toggle("rightPointer", rightPointerStyle);
 		this.#_elmInfoBubble.classList.toggle("generalInfo", isGeneral);
@@ -117,42 +119,6 @@ class InfoBubble {
 			this.#_elmInfoBubble.classList.contains("fadeOut")) {
 
 			this.#_elmInfoBubble.style.display = "none";
-		}
-	}
-
-	//////////////////////////////////////////
-	#_setTextHTML(elm, infoText) {
-
-		// empty
-		elm.replaceChildren();
-
-		// support for words that are <b>
-		let matches;
-		let infoTextTagNodesB = [];
-		let indexStart = 0;
-		let reTagB = /<b>.+?<\/b>/gim;
-
-		while( (matches = reTagB.exec(infoText)) !== null ) {
-			infoTextTagNodesB.push(infoText.substring(indexStart, matches.index));
-			infoTextTagNodesB.push(matches[0]);
-			indexStart = reTagB.lastIndex;
-		}
-		infoTextTagNodesB.push(infoText.substring(indexStart));
-
-		// remove empties
-		infoTextTagNodesB = infoTextTagNodesB.filter((x) => x.length > 0);
-
-		let node;
-		let reOnlyTagB = new RegExp("^(" + reTagB.source + ")$", "im");
-
-		for(let i=0, len=infoTextTagNodesB.length; i<len; i++) {
-			if(reOnlyTagB.test(infoTextTagNodesB[i])) {
-				node = document.createElement("b");
-				node.textContent = infoTextTagNodesB[i].replace(/<\/?b>/g, "");
-			} else {
-				node = document.createTextNode(infoTextTagNodesB[i]);
-			}
-			elm.appendChild(node);
 		}
 	}
 }
