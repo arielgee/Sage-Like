@@ -1755,7 +1755,8 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function refreshUpdateTimeFormattedString(str) {
-		const found = str.match(/^Update:\u2003(.+?) \(([0-9a-z\u00a0]+)\)$/m);
+		const re = new RegExp("^Update:\\u2003(.+?) \\(([0-9a-z\\u00a0]+)\\)$", "m");
+		const found = str.match(re);
 		if(!!found && found.length >= 3 && /\b(now|sec|min)/.test(found[2])) {	// update only short time periods 'just now', 'second', 'minute'
 			return str.replace(found[2], (new Date(slUtil.asSafeNumericDate(found[1]))).getRelativeTimeString());
 		}
