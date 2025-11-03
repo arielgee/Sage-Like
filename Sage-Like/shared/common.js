@@ -946,10 +946,29 @@ let contentHandler = (function() {
 			injectImmediately: false,
 			target: { tabId: tabId },
 			files: [
-				"/shared/common.js",
 				"/shared/content.js",
 			],
 		});
+
+		// Pass only the required message IDs to the content script.
+		// Avoids the need to inject the entire common.js into the content script context
+		const MessageIdsUsedByContent = {
+			MSG_ID_QUERY_INJECTED_CONTENT:		Global.MSG_ID_QUERY_INJECTED_CONTENT,
+			MSG_ID_SET_CONFIRMED_PAGE_FEEDS: 	Global.MSG_ID_SET_CONFIRMED_PAGE_FEEDS,
+			MSG_ID_GET_CONFIRMED_PAGE_FEEDS: 	Global.MSG_ID_GET_CONFIRMED_PAGE_FEEDS,
+			MSG_ID_GET_PAGE_DATA:				Global.MSG_ID_GET_PAGE_DATA,
+			MSG_ID_UPDATE_POPUP_DISPLAY:		Global.MSG_ID_UPDATE_POPUP_DISPLAY,
+		};
+
+		await browser.scripting.executeScript({
+			injectImmediately: false,
+			target: { tabId: tabId },
+			args: [ MessageIdsUsedByContent ],
+			func: (messageIds) => {
+				const obj = new Content(messageIds);
+			},
+		});
+
 		return {};
 	}
 

@@ -4,8 +4,10 @@ class Content {
 
 	#_feeds = [];
 	#_isFeedsArraySet = false;
+	#_messageIds = null;
 
-	constructor() {
+	constructor(messageIds) {
+		this.#_messageIds = messageIds;
 		browser.runtime.onMessage.addListener(this.#_onRuntimeMessage.bind(this));
 	}
 
@@ -45,27 +47,27 @@ class Content {
 
 			switch (message.id) {
 
-				case Global.MSG_ID_QUERY_INJECTED_CONTENT:
+				case this.#_messageIds.MSG_ID_QUERY_INJECTED_CONTENT:
 					resolve({ reply: "YES" });
 					break;
 					//////////////////////////////////////////////////////////////
 
-				case Global.MSG_ID_SET_CONFIRMED_PAGE_FEEDS:
+				case this.#_messageIds.MSG_ID_SET_CONFIRMED_PAGE_FEEDS:
 					if(message.confirmedFeeds instanceof Array) {
 						this.#_feeds = message.confirmedFeeds;
 					}
 					this.#_isFeedsArraySet = true;
-					browser.runtime.sendMessage({id: Global.MSG_ID_UPDATE_POPUP_DISPLAY });
+					browser.runtime.sendMessage({id: this.#_messageIds.MSG_ID_UPDATE_POPUP_DISPLAY });
 					resolve({ feedCount: this.#_feeds.length });
 					break;
 					//////////////////////////////////////////////////////////////
 
-				case Global.MSG_ID_GET_CONFIRMED_PAGE_FEEDS:
+				case this.#_messageIds.MSG_ID_GET_CONFIRMED_PAGE_FEEDS:
 					resolve({ isFeedsArraySet: this.#_isFeedsArraySet, title: document.title, feeds: this.#_feeds });
 					break;
 					//////////////////////////////////////////////////////////////
 
-				case Global.MSG_ID_GET_PAGE_DATA:
+				case this.#_messageIds.MSG_ID_GET_PAGE_DATA:
 					resolve({ pageData: this.#_getPageData() });
 					break;
 					//////////////////////////////////////////////////////////////
@@ -73,5 +75,3 @@ class Content {
 		});
 	}
 }
-
-const obj = new Content();
