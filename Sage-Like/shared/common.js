@@ -1805,7 +1805,7 @@ let slUtil = (function() {
 			docFragment: (new DOMParser).parseFromString(str, "text/html").body.firstChild,
 			learnMoreAnchorId: "learnMoreLink",
 			reqPermAnchorId: "requestPermissionsLink",
-		}
+		};
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
