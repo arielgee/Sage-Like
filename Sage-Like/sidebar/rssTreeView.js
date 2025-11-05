@@ -1190,7 +1190,7 @@ let rssTreeView = (function() {
 								let elmDropped, elmDraggedFolderUL = elmCurrentlyDragged.parentElement;
 
 								if(transfer.getData("text/wx-sl-treeitem-id") !== elmCurrentlyDragged.id) {
-									InfoBubble.i.show("Unexpected drag and drop error (id mismatch).\nShift+click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+									InfoBubble.i.show("Unexpected drag and drop error (id mismatch).\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
 									console.log("[Sage-Like]", "Dragged id mismatch error:", `wx-sl-treeitem-id='${transfer.getData("text/wx-sl-treeitem-id")}'  ,  elmCurrentlyDragged.id='${elmCurrentlyDragged.id}'`);
 									return;
 								}
@@ -1218,11 +1218,11 @@ let rssTreeView = (function() {
 							});
 						});
 					}).catch((error) => {
-						InfoBubble.i.show("Bookmarks error: Drop target may have been removed.\nShift+click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+						InfoBubble.i.show("Bookmarks error: Drop target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
 						console.log("[Sage-Like]", "Bookmarks get error", error);
 					});
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Dragged item may have been removed.\nShift+click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show("Bookmarks error: Dragged item may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
 					console.log("[Sage-Like]", "Bookmarks get error", error);
 				});
 
@@ -1704,7 +1704,7 @@ let rssTreeView = (function() {
 				});
 			});
 		}).catch((error) => {
-			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
 			console.log("[Sage-Like]", "Bookmarks get error", error);
 		});
 	}
@@ -1752,7 +1752,7 @@ let rssTreeView = (function() {
 					setTreeFeedDataLastStatusMembers(newElm);
 					newElm.focus();
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
 					console.log("[Sage-Like]", "Bookmarks create error", error);
 				});
 			});
@@ -1814,7 +1814,7 @@ let rssTreeView = (function() {
 				});
 			});
 		}).catch((error) => {
-			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
 			console.log("[Sage-Like]", "Bookmarks get error", error);
 		});
 	}
@@ -1847,7 +1847,7 @@ let rssTreeView = (function() {
 					setFolderState(newElm, false);
 					newElm.focus();
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
 					console.log("[Sage-Like]", "Bookmarks create error", error);
 				});
 			});
@@ -1928,7 +1928,7 @@ let rssTreeView = (function() {
 					updateLayoutWidth();
 
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
 					console.log("[Sage-Like]", "Bookmarks remove" + (isFolder ? "Tree" : "") + " error", error);
 				});
 			});
@@ -2426,7 +2426,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.classList.toggle("alert", isAlertOn);
 
 		if(isAlertOn) {
-			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\nShift+click to reload.";
+			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\nShift+Click to reload.";
 			InfoBubble.i.show(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
