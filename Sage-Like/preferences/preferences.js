@@ -1633,7 +1633,7 @@ let preferences = (function() {
 
 				reader.onerror = (event) => {
 					console.log("[Sage-Like]", "FileReader error", event);
-					reject(new Error("FileReader error."), { cause: "FileReader error" });
+					reject(new Error("FileReader error.", { cause: "FileReader error" }));
 				};
 
 				reader.onload = (event) => {
