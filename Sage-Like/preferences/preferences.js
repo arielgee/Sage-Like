@@ -798,7 +798,7 @@ let preferences = (function() {
 
 			}).catch((error) => {
 				showMessageBox("Error", error.message);
-				console.log("[Sage-Like]", "CSS file validation error", error.message);
+				console.log("[Sage-Like]", "CSS file validation error", error.cause);
 			});
 		}).catch(() => { /* if open do nothing */ });
 	}
@@ -1621,18 +1621,19 @@ let preferences = (function() {
 		return new Promise((resolve, reject) => {
 
 			if( !(cssFile instanceof File) ) {
-				reject(new Error("Not a File object."));
+				// Error.message for the MessageBox and Error.cause for the console log
+				reject(new Error("Not a File object.", { cause: "Not a File object" }));
 			} else if(cssFile.size === MIN_FILE_BYTE_SIZE) {
-				reject(new Error("File is empty."));
+				reject(new Error("File is empty.", { cause: "File is empty" }));
 			} else if(cssFile.size > MAX_FILE_BYTE_SIZE) {
-				reject(new Error("File too large. Maximum: " + slUtil.asPrettyByteSize(MAX_FILE_BYTE_SIZE)));
+				reject(new Error("File too large. Maximum: " + slUtil.asPrettyByteSize(MAX_FILE_BYTE_SIZE), { cause: "File too large" }));
 			} else {
 
 				let reader = new FileReader();
 
 				reader.onerror = (event) => {
 					console.log("[Sage-Like]", "FileReader error", event);
-					reject(new Error("FileReader error."));
+					reject(new Error("FileReader error."), { cause: "FileReader error" });
 				};
 
 				reader.onload = (event) => {
@@ -1640,7 +1641,7 @@ let preferences = (function() {
 					let source = event.target.result.replace(/\r\n?/g, "\n");	// css source will be saved in prefs w/o CR, replaced by \n
 
 					if(source.length === 0) {
-						reject(new Error("File has no text content."));
+						reject(new Error("File has no text content.", { cause: "File has no text content" }));
 					} else {
 
 						let resolveObj = { source: source };
