@@ -516,47 +516,6 @@ input[type="color"]::-moz-color-swatch {
 	user-select: text;
 }
 
-#urlListBox {
-	width: 80%;
-	min-width: 600px;
-}
-
-#urlListBoxDescription {
-	font-size: 90%;
-	word-wrap: normal;
-	white-space: pre-wrap;
-}
-
-#urlListBoxTextArea {
-	display: flex;
-	margin: 12px auto;
-	padding: 4px;
-	border: 1px solid #7a7a7a;
-	resize: none;
-	width: 97.5%;
-	height: 15em;
-	overflow: auto;
-	white-space: pre;
-	color: var(--foreground-color);
-	background-color: var(--background-color-input-control);
-	font-family: Consolas, 'Courier New', monospace;
-	font-size: 0.9em;
-	line-height: 1.2;
-	font-weight: normal;
-	-moz-user-select: text;
-	user-select: text;
-}
-
-#urlListBoxStatusbar {
-	margin-bottom: 0;
-	font-size: 80%;
-	line-height: 1.2;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	cursor: pointer;
-}
-
 /************************************************************************************/
 /**************************** Elements that will 'flash' ****************************/
 /************************************************************************************/

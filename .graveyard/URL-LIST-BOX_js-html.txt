@@ -1,0 +1,298 @@
+
+============================================================================================================
+The HTML, CSS and JS code for the "URL List Box" was removed from 'preferences.html', preferences.css and
+'preferences.js'. This unused component was deprecated and not required in the application's preferences
+interface.
+
+The code was moved to here to preserve its logic for reference or potential future reuse,
+but it is no longer active in the main source files.
+============================================================================================================
+
+]]] C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like\preferences\preferences.html
+
+	<!-- ////////////////////////// URL List Box ////////////////////////// -->
+	<div id="urlListBox" class="popupBox pageCentered" tabindex="-1">
+		<div id="urlListBoxCaption" class="popupBoxElementMargined popupBoxCaption"></div>
+		<div id="urlListBoxDescription" class="popupBoxElementMargined"></div>
+		<textarea id="urlListBoxTextArea" autofocus tabindex="1" spellcheck="false" autocomplete="off"></textarea>
+		<div class="popupBoxElementMargined popupBoxButtons">
+			<button type="button" id="btnUrlListBoxSave" class="preferenceButton">Save</button>
+			<button type="button" id="btnUrlListBoxCancel" class="preferenceButton">Cancel</button>
+		</div>
+		<div id="urlListBoxStatusbar" class="popupBoxElementMargined"></div>
+	</div>
+
+
+]]] C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like\preferences\preferences.css
+
+#urlListBox {
+	width: 80%;
+	min-width: 600px;
+}
+
+#urlListBoxDescription {
+	font-size: 90%;
+	word-wrap: normal;
+	white-space: pre-wrap;
+}
+
+#urlListBoxTextArea {
+	display: flex;
+	margin: 12px auto;
+	padding: 4px;
+	border: 1px solid #7a7a7a;
+	resize: none;
+	width: 97.5%;
+	height: 15em;
+	overflow: auto;
+	white-space: pre;
+	color: var(--foreground-color);
+	background-color: var(--background-color-input-control);
+	font-family: Consolas, 'Courier New', monospace;
+	font-size: 0.9em;
+	line-height: 1.2;
+	font-weight: normal;
+	-moz-user-select: text;
+	user-select: text;
+}
+
+#urlListBoxStatusbar {
+	margin-bottom: 0;
+	font-size: 80%;
+	line-height: 1.2;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+
+]]] C:\Users\arielg\DevWork\WebExtensions\Sage-Like\Sage-Like\preferences\preferences.js
+
+	let m_elmUrlListBox;
+	let m_elmUrlListBoxTextArea;
+	let m_elmBtnUrlListBoxSave;
+	let m_elmBtnUrlListBoxCancel;
+	let m_elmUrlListBoxStatusbar;
+	let m_funcResolveGetUrlList;
+	let m_statusbarUpdateDebouncer;
+
+	//==================================================================================
+	//=== URL List Box functions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getUrlList(caption, desc, value = "") {
+
+		if("FFU") {
+			console.log("[Sage-Like]", "FFU", "Preparation for air-conditioner");
+			return null;
+		}
+
+		return new Promise((resolve) => {
+
+			m_funcResolveGetUrlList = resolve;
+
+			// if never initialized
+			if(!!!m_elmUrlListBox) {
+				m_elmUrlListBox = document.getElementById("urlListBox");
+				m_elmUrlListBoxTextArea = document.getElementById("urlListBoxTextArea");
+				m_elmBtnUrlListBoxSave = document.getElementById("btnUrlListBoxSave");
+				m_elmBtnUrlListBoxCancel = document.getElementById("btnUrlListBoxCancel");
+				m_elmUrlListBoxStatusbar = document.getElementById("urlListBoxStatusbar");
+			}
+
+			document.getElementById("urlListBoxCaption").textContent = caption;
+			document.getElementById("urlListBoxDescription").textContent = desc;
+			m_elmUrlListBoxTextArea.value = value;
+
+			m_elmUrlListBox.addEventListener("keydown", onKeyDownUrlListBox);
+			m_elmUrlListBoxTextArea.addEventListener("input", onInputUrlListBoxTextArea);
+			m_elmBtnUrlListBoxSave.addEventListener("click", onClickBtnUrlListBoxSave);
+			m_elmBtnUrlListBoxCancel.addEventListener("click", onClickBtnUrlListBoxCancel);
+			m_elmUrlListBoxStatusbar.addEventListener("click", onClickUrlListBoxStatusbar);
+
+			placePageOverlay(true);
+			m_elmUrlListBox.style.display = "block";
+			document.documentElement.style.overflow = "hidden";
+
+			m_elmUrlListBoxTextArea.setSelectionRange(0, 0); // move cursor to start
+			m_elmUrlListBoxTextArea.focus();
+
+			urlListValidator();
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function closeUrlListBox(saveChanges = false) {
+
+		placePageOverlay(false);
+		m_elmUrlListBox.style.display = "none";
+		document.documentElement.style.overflow = "";
+
+		m_elmUrlListBox.removeEventListener("keydown", onKeyDownUrlListBox);
+		m_elmUrlListBoxTextArea.removeEventListener("input", onInputUrlListBoxTextArea);
+		m_elmBtnUrlListBoxSave.removeEventListener("click", onClickBtnUrlListBoxSave);
+		m_elmBtnUrlListBoxCancel.removeEventListener("click", onClickBtnUrlListBoxCancel);
+		m_elmUrlListBoxStatusbar.removeEventListener("click", onClickUrlListBoxStatusbar);
+
+		if(typeof(m_funcResolveGetUrlList) === "function") {
+			m_funcResolveGetUrlList({
+				saveChanges: saveChanges,
+				value: saveChanges ? m_elmUrlListBoxTextArea.value : null,
+			});
+		}
+		m_funcResolveGetUrlList = null;
+		m_elmUrlListBoxTextArea.value = "";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function urlListValidator() {
+
+		const PFX = "⚠ ";
+		const PFX_CLK = `${PFX}Click Me! – `;
+
+		let urls = m_elmUrlListBoxTextArea.value.split("\n");
+		let totalValidURLs = 0;
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// look for invalid URLs
+
+		let lineNumbers = [];
+		for(let i=0, len=urls.length; i<len; i++) {
+
+			let url = urls[i].trim();
+
+			if(url.length > 0 && url[0] !== "#") {		// valid lines
+				if( !!!slUtil.validURL(url) ) {
+					lineNumbers.push(i+1);
+				} else {
+					totalValidURLs++;
+				}
+			}
+		}
+		if(lineNumbers.length > 0) {
+			m_elmUrlListBoxStatusbar.lineNumbers = lineNumbers;
+			m_elmUrlListBoxStatusbar.lineNumbersIdx = -1;
+			m_elmUrlListBoxStatusbar.textContent = `${PFX_CLK}Invalid URL address(es) at line(s): ${lineNumbers}`;
+			return;
+		}
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// look for duplicates only if all URLs are valid
+
+		lineNumbers = [];
+		for(let i=0, len=urls.length-1; i<len; i++) {
+
+			let src = urls[i].trim();
+
+			if(src.length > 0 && src[0] !== "#") {
+
+				let curLineNum = i+1;
+
+				// if current line number is not already in array (case where there are more then 2 occurrences)
+				if(!!!lineNumbers.find(g => g.includes(curLineNum))) {
+
+					let group = [curLineNum];
+
+					for(let j=i+1, len=urls.length; j<len; j++) {
+
+						let trg = urls[j].trim();
+
+						if(trg.length > 0 && trg[0] !== "#") {		// valid lines
+							if(src === trg) {
+								group.push(j+1);
+							}
+						}
+					}
+					if(group.length > 1) {
+						lineNumbers.push(group);
+					}
+				}
+			}
+		}
+		if(lineNumbers.length > 0) {
+			m_elmUrlListBoxStatusbar.lineNumbers = lineNumbers.reduce((p, c) => p.concat(c));
+			m_elmUrlListBoxStatusbar.lineNumbersIdx = -1;
+			m_elmUrlListBoxStatusbar.textContent = `${PFX_CLK}Duplicates URL address(es) at lines: (${lineNumbers.join("), (")})`;
+			return;
+		}
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// look for too many URLs
+
+		if(totalValidURLs > Global.MAXIMUM_DETECT_FEEDS_EXCEPTION_URLS) {
+			m_elmUrlListBoxStatusbar.lineNumbers = [];
+			m_elmUrlListBoxStatusbar.lineNumbersIdx = undefined;
+			m_elmUrlListBoxStatusbar.textContent = `${PFX}Only the first ${Global.MAXIMUM_DETECT_FEEDS_EXCEPTION_URLS} URL addresses will be used (total: ${totalValidURLs})`;
+			return;
+		}
+
+		m_elmUrlListBoxStatusbar.lineNumbers = [];
+		m_elmUrlListBoxStatusbar.lineNumbersIdx = undefined;
+		m_elmUrlListBoxStatusbar.textContent = `Total: ${totalValidURLs}`;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownUrlListBox(event) {
+		if( ["Enter","NumpadEnter"].includes(event.code) && !!event.target && event.target.id !== m_elmUrlListBoxTextArea.id ) {
+			closeUrlListBox(true);
+		} else if("Escape" === event.code) {
+			closeUrlListBox();
+		} else if(event.ctrlKey && event.code === "KeyS") {
+			closeUrlListBox(true);
+			event.preventDefault();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onInputUrlListBoxTextArea(event) {
+		clearTimeout(m_statusbarUpdateDebouncer);
+		m_statusbarUpdateDebouncer = setTimeout(() => {
+			urlListValidator();
+			m_statusbarUpdateDebouncer = null;
+		}, 550);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickUrlListBoxStatusbar(event) {
+
+		let lineNumbers = m_elmUrlListBoxStatusbar.lineNumbers;
+
+		if(lineNumbers.length > 0) {
+
+			let reverse = event.shiftKey;
+			let idx = m_elmUrlListBoxStatusbar.lineNumbersIdx;
+
+			if(reverse) {
+				idx = idx > 0 ? idx - 1 : lineNumbers.length-1;
+			} else {
+				idx = idx < (lineNumbers.length-1) ? idx + 1 : 0;
+			}
+
+			let lines = m_elmUrlListBoxTextArea.value.split("\n");
+			let start = 0;
+
+			for(let i=0, len=lines.length; i<len; i++) {
+				if(i === (lineNumbers[idx]-1)) break;
+				start += (lines[i].length + 1);
+			}
+
+			m_elmUrlListBoxTextArea.setSelectionRange(start, start + lines[lineNumbers[idx]-1].length);
+			m_elmUrlListBoxStatusbar.lineNumbersIdx = idx;
+			m_elmUrlListBoxTextArea.focus();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnUrlListBoxSave(event) {
+		closeUrlListBox(true);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnUrlListBoxCancel(event) {
+		closeUrlListBox();
+	}
