@@ -39,7 +39,7 @@ html, body {
 #helpPopup {
 	position: fixed;
 	top: 0;
-	right: var(--source-editor-scrollbar-width);
+	right: calc(var(--source-editor-scrollbar-width) + 1px);
 	margin: 0;
 	padding: 0;
 	border: 0 solid var(--foreground-color-help-popup);
@@ -102,7 +102,7 @@ html, body {
 	display: inline-block;
 	border: 1px solid var(--border-color-help-popup-key);
 	border-radius: 0.3em;
-	padding: 1px 4px;
+	padding: 2px 4px 0 4px;
 	background-color: rgb(181, 181, 181);
 	color: rgb(0, 0, 0);
 	font-family: 'Courier New', monospace;
