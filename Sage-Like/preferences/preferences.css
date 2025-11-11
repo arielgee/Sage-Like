@@ -32,7 +32,7 @@
 	--background-color-body: transparent;
 	--background-color-select-control: transparent;
 	--background-color-option-control: transparent;
-	--background-color-option-user: rgb(224, 224, 224);		/* option[value="-1"] */
+	--background-color-option-seperator: rgb(192, 192, 192);
 	--box-shadow-color-swatch: rgba(0, 0, 0, 0.6);
 	--drop-shadow-control-image:rgba(0, 0, 0, 0);
 	--foreground-color-help-info: rgb(255, 255, 255);
@@ -67,7 +67,7 @@
 		--background-color-body: rgb(var(--background-color-values-body));
 		--background-color-select-control: rgb(50, 50, 54);
 		--background-color-option-control: rgb(43, 42, 51);
-		--background-color-option-user: rgb(16, 16, 16);		/* option[value="-1"] */
+		--background-color-option-seperator: rgb(90, 89, 100);
 		--box-shadow-color-swatch: rgba(255, 255, 255, 0.6);
 		--drop-shadow-control-image:rgba(255, 255, 255, 0.6);
 		--foreground-color-help-info: rgb(0, 0, 0);
@@ -263,8 +263,12 @@ select > option {
 }
 
 /*** User font and Time of day ***/
-select > option[value="-1"] {
-	background-color: var(--background-color-option-user);
+.option-seperator {
+	color: rgb(0, 0, 0); /* This is to counter the effect of the 'disabled' attribute - to ensure the disabled option is not greyed out */
+	font-size: 1px;
+}
+.option-seperator.seperator-line {
+	background-color: var(--background-color-option-seperator);
 }
 
 /*** input of file type will be hidden an customized ***/
