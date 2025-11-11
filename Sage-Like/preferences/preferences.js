@@ -3,10 +3,7 @@
 let preferences = (function() {
 
 	const ID_OPTION_USER_FONT_NAME = "optionUserFontName";
-	const TXT_OPTION_USER_FONT_NAME = " (user)";
-
 	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";
-	const TXT_OPTION_EVERY_DAY_AT = "Every day at ";
 
 	const TXT_HELP_INFO_CHECK_FEED_METHOD = "Feed Fetching Methods:\n" +
 											" \u25cf Strenuous\u2002–\u2002Fetches all feeds simultaneously in a single batch.\n" +
@@ -226,7 +223,7 @@ let preferences = (function() {
 
 		prefs.getCheckFeedsInterval().then((value) => {
 			if(value.includes(":")) {
-				let elmOption = createTagOption(value, TXT_OPTION_EVERY_DAY_AT + formatTimeToLocalShortString(value));
+				let elmOption = createTagOption(value, getEveryDayAtTagOptionText(value));
 				elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
 				m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
 			}
@@ -311,7 +308,7 @@ let preferences = (function() {
 			Array.prototype.map.call(m_elmFontName.options, e => inStock |= (e.value === fontName) );
 
 			if(!inStock) {
-				let elmOption = createTagOption(fontName, fontName + TXT_OPTION_USER_FONT_NAME);
+				let elmOption = createTagOption(fontName, getUserFontNameTagOptionText(fontName));
 				elmOption.id = ID_OPTION_USER_FONT_NAME;
 				m_elmFontName.insertBefore(elmOption, m_elmFontName.lastElementChild);
 			}
@@ -464,12 +461,12 @@ let preferences = (function() {
 				} else {
 
 					if(elmOption === null) {
-						elmOption = createTagOption(timeValue, TXT_OPTION_EVERY_DAY_AT + formatTimeToLocalShortString(timeValue));
+						elmOption = createTagOption(timeValue, getEveryDayAtTagOptionText(timeValue));
 						elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
 						m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
 					} else {
 						elmOption.value = timeValue;
-						elmOption.textContent = TXT_OPTION_EVERY_DAY_AT + formatTimeToLocalShortString(timeValue);
+						elmOption.textContent = getEveryDayAtTagOptionText(timeValue);
 					}
 					m_elmCheckFeedsInterval.value = timeValue;
 
@@ -639,12 +636,12 @@ let preferences = (function() {
 					if(stockName === "") {
 
 						if(elmOption === null) {
-							elmOption = createTagOption(userFontName, userFontName + TXT_OPTION_USER_FONT_NAME);
+							elmOption = createTagOption(userFontName, getUserFontNameTagOptionText(userFontName));
 							elmOption.id = ID_OPTION_USER_FONT_NAME;
 							m_elmFontName.insertBefore(elmOption, m_elmFontName.lastElementChild);
 						} else {
 							elmOption.value = userFontName;
-							elmOption.textContent = userFontName + TXT_OPTION_USER_FONT_NAME;
+							elmOption.textContent = getUserFontNameTagOptionText(userFontName);
 						}
 					} else {
 						userFontName = stockName;		// use the font as it is written in stock
@@ -1333,6 +1330,24 @@ let preferences = (function() {
 	//==================================================================================
 	//=== Misc. functions
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getUserFontNameTagOptionText(fontName) {
+		const TXT_TAG_OPTION_USER_FONT_NAME = " (custom font)";
+		const MAX_FONT_NAME_LENGTH = 24;
+
+		if(fontName.length > MAX_FONT_NAME_LENGTH) {
+			return `${fontName.substring(0, MAX_FONT_NAME_LENGTH).trim()}…${TXT_TAG_OPTION_USER_FONT_NAME}`;
+		} else {
+			return fontName + TXT_TAG_OPTION_USER_FONT_NAME;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getEveryDayAtTagOptionText(value) {
+		const TXT_TAG_OPTION_EVERY_DAY_AT = "Every day at ";
+		return TXT_TAG_OPTION_EVERY_DAY_AT + formatTimeToLocalShortString(value);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setVariousElementsTitles() {
