@@ -69,7 +69,7 @@
 
 			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmPageFeedsList.style.display = "none";
-				updateStatusBar("Feeds folder not set in <a href='#' id='pagePopupOptionsHref'>Options page</a>.");
+				updateStatusBar("Feeds folder not set in <a href='#' id='pagePopupOptionsHref'>Options page</a>");
 				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
 			} else {
 				createFeedList();
@@ -244,7 +244,7 @@
 			}
 
 		} else {
-			updateStatusBar("Nothing to add.");
+			updateStatusBar("Nothing to add");
 		}
 	}
 
@@ -397,7 +397,7 @@
 		browser.runtime.sendMessage({ id: Global.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, winId: m_windowId, feeds: newFeedsList }).then((response) => {
 
 			if(!!response && !!response.existInTree) {
-				updateStatusBar("Already in tree: '" + response.existInTree + "'.");
+				updateStatusBar("Already in tree: '" + response.existInTree + "'");
 			} else {
 				window.close();
 			}

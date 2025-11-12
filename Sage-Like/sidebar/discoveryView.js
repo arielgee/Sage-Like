@@ -409,7 +409,7 @@ let discoveryView = (function() {
 				let url = item.getAttribute("href");
 
 				if(rssTreeView.isFeedInTree(url)) {
-					setStatusbarMessage("Already in tree: '" + item.getAttribute("name") + "'.", true);
+					setStatusbarMessage("Already in tree: '" + item.getAttribute("name") + "'", true);
 					return [];
 				}
 				newFeedsList.push( { title: item.getAttribute("name"), url: url } );
@@ -417,7 +417,7 @@ let discoveryView = (function() {
 		}
 
 		if(newFeedsList.length === 0) {
-			setStatusbarMessage("Nothing to add.", true);
+			setStatusbarMessage("Nothing to add", true);
 			return [];
 		}
 
@@ -724,7 +724,7 @@ let discoveryView = (function() {
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
 			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-				setStatusbarMessage("Feeds folder not set in Options page.", true);
+				setStatusbarMessage("Feeds folder not set in Options page", true);
 				browser.runtime.openOptionsPage();
 			} else {
 
