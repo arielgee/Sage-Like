@@ -120,11 +120,13 @@ let opml = (function() {
 
 			m_outlineCount++;
 
-			let title = node.getAttribute("title") || node.getAttribute("text");
-			let isFeed = ( !node.hasAttribute("type") || (node.getAttribute("type") === "rss") ) && ( node.hasAttribute("xmlUrl") && node.getAttribute("xmlUrl").length > 0 );
+			const title = node.getAttribute("title") || node.getAttribute("text");
+			if(!!!title) return;
+
+			const isFeed = ( !node.hasAttribute("type") || (node.getAttribute("type") === "rss") ) && ( node.hasAttribute("xmlUrl") && node.getAttribute("xmlUrl").length > 0 );
 
 			let bmCreated;
-			let newBmItem = {
+			const newBmItem = {
 				parentId: parentId,
 				title: title.stripHtmlTags(),
 			};
