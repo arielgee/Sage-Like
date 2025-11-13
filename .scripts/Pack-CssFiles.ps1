@@ -5,8 +5,10 @@
 
 #### + Variables
 $zip = "C:\Program Files\7-Zip\7z.exe"
-$cssFilesFilter = $PSScriptRoot + "\sl-*.css"
-$outFile = $PSScriptRoot + "\sl-customFeedPreview-CSS-files.zip"
+$pathRoot = $PSScriptRoot + "\..\..";
+$cssFilesFolder = $pathRoot + "\Sage-Like\.customFeedPreview"
+$cssFilesFilter = $cssFilesFolder + "\sl-*.css"
+$outFile = $cssFilesFolder + "\sl-customFeedPreview-CSS-files.zip"
 
 
 #### + Presentation
