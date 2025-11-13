@@ -6,13 +6,13 @@
 		{
 			"label": "Create-FirefoxWebExtVersion",
 			"type": "shell",
-			"command": "${workspaceFolder}\\.scripts\\Create-FirefoxWebExtVersion.ps1",
+			"command": "${workspaceFolder}\\.tools\\Create-FirefoxWebExtVersion.ps1",
 			"problemMatcher": []
 		},
 		{
 			"label": "Pack-CssFiles",
 			"type": "shell",
-			"command": "${workspaceFolder}\\.scripts\\Pack-CssFiles.ps1",
+			"command": "${workspaceFolder}\\.tools\\Pack-CssFiles.ps1",
 			"problemMatcher": []
 		}
 	]
