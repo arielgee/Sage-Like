@@ -6,7 +6,7 @@
 	const SEL_EMPTY_ELEMENTS_NOTS = ":not(img):not(br):not(hr):not(col):not(source):not(track):not(wbr):not(embed):not(area)";
 	const SELECTOR_EMPTY_ELEMENT = `${SEL_EMPTY_ELEMENTS_NOTS}:empty,${SEL_EMPTY_ELEMENTS_NOTS}:-moz-only-whitespace`;
 
-	const JUMP_LIST_CONTAINER_TITLE = "Jump List";
+	const JUMP_LIST_CONTAINER_TITLE = i18n("htm_feedPreviewJumpList");
 
 	let m_URL;
 	let m_urlWebPage;
@@ -57,6 +57,8 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
+
+		slUtil.initializeI18nDocument(document);
 
 		let urlFeed = slUtil.getQueryStringValue("urlFeed");
 		m_URL = new URL(urlFeed);
@@ -184,7 +186,7 @@
 
 					} else {
 						m_elmJumpListContainer.remove();
-						createErrorContent("No RSS feed items identified in document.", (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedItems(). SAD. */
+						createErrorContent(i18n("js_syndicationErrorNoFeedItems"), (new URL(urlFeed)));	/* duplicated string from syndication.fetchFeedItems(). SAD. */
 					}
 
 				}).catch((error) => {
@@ -488,8 +490,8 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function getAttachmentTitle(attachment) {
 
-		const FMT_ATTACHMENT_TITLE = "<p><b>Title:</b> {0}</p><p><b>URL:</b> {1}</p>";
-		const FMT_ATTACHMENT_TITLE_WITH_SIZE = FMT_ATTACHMENT_TITLE + "<p><b>Size:</b> {2}</p>";
+		const FMT_ATTACHMENT_TITLE = `<p><b>${i18n("js_feedPreviewAttachmentTipTitleLabel")}</b> {0}</p><p><b>${i18n("js_feedPreviewAttachmentTipURLLabel")}</b> {1}</p>`;
+		const FMT_ATTACHMENT_TITLE_WITH_SIZE = `${FMT_ATTACHMENT_TITLE}<p><b>${i18n("js_feedPreviewAttachmentTipSizeLabel")}</b> {2}</p>`;
 
 		let size = slUtil.asPrettyByteSize(attachment.byteSize);
 
@@ -612,13 +614,14 @@
 		let msg;
 
 		if(["AUDIO", "VIDEO"].includes(target.tagName)) {
-			msg = (target.networkState===3 ? `Resource not loaded, may be missing [${target.error.message}].`: `Unexpected failure [${target.error.message}].`);
+			const errMsg = target.error.message;
+			msg = ( (target.networkState===3) ? i18n("js_feedPreviewErrorResourceNotLoaded", errMsg) : i18n("js_feedPreviewErrorUnexpectedFailure", errMsg) );
 		} else if(target.tagName === "IMG") {
-			msg = "Image not loaded.";
+			msg = i18n("js_feedPreviewErrorImageNotLoaded");
 		}
 
 		attElement.classList.add("loadError");
-		attElement.setAttribute("data-title", attElement.getAttribute("data-title") + `<br><p><b>Error:</b> ${msg}</p>`);
+		attElement.setAttribute("data-title", attElement.getAttribute("data-title") + `<br><p><b>${i18n("js_feedPreviewAttachmentTipErrorLabel")}</b> ${msg}</p>`);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

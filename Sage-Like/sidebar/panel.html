@@ -47,27 +47,27 @@
 	<div id="mainPanel">
 
 		<div id="toolbar" class="toolbar">
-			<div id="checkTreeFeeds" class="button" title="Refresh feeds"></div>
-			<div id="discoverfeed" class="button" title="Discover feeds"></div>
+			<div id="checkTreeFeeds" class="button" data-i18n-title="htm_panelButtonRefresh"></div>
+			<div id="discoverfeed" class="button" data-i18n-title="htm_panelButtonDiscover"></div>
 			<div class="spacer"></div>
-			<div id="markAllRead" class="button" title="Mark all feeds as Read (R)"></div>
-			<div id="markAllUnread" class="button" title="Mark all feeds as Unread (U)"></div>
+			<div id="markAllRead" class="button" data-i18n-title="htm_panelButtonMarkRead"></div>
+			<div id="markAllUnread" class="button" data-i18n-title="htm_panelButtonMarkUnread"></div>
 			<div class="spacer"></div>
-			<div id="expandall" class="button" title="Expand all"></div>
-			<div id="collapseall" class="button" title="Collapse all"></div>
+			<div id="expandall" class="button" data-i18n-title="htm_panelButtonExpandAll"></div>
+			<div id="collapseall" class="button" data-i18n-title="htm_panelButtonCollapseAll"></div>
 			<div class="spacer"></div>
 			<div id="filterWidget">
-				<div id="filter" class="button" title="Filter displayed feeds"></div>
+				<div id="filter" class="button" data-i18n-title="htm_panelButtonFilter"></div>
 				<div id="filterTextBoxContainer">
 					<div id="imageFilter"></div>
 					<input type="text" id="textFilter" autocomplete="off">
-					<div id="reapplyFilter" class="button" title="Reapply filter"></div>
-					<div id="clearFilter" class="button" title="Clear filter"></div>
+					<div id="reapplyFilter" class="button" data-i18n-title="htm_panelButtonReapplyFilter"></div>
+					<div id="clearFilter" class="button" data-i18n-title="htm_panelButtonClearFilter"></div>
 				</div>
 			</div>
 			<div class="spacer"></div>
 			<div class="springSpacer"></div>
-			<div id="preferences" class="button" title="Options page"></div>
+			<div id="preferences" class="button" data-i18n-title="htm_panelButtonPreferences"></div>
 		</div>
 
 		<div id="top" class="top">
@@ -75,11 +75,11 @@
 				<div id="busyAnimTreeLoading"></div>
 			</ul>
 			<div id="treeViewIndicator">
-				<img src="/icons/errormsg.png" title="The tree is filtered and some of the feeds are hidden."/>
+				<img src="/icons/errormsg.png" data-i18n-title="htm_panelTreeFilteredMessage"/>
 			</div>
 		</div>
 
-		<div id="splitter" class="splitter" title="30/70:&ensp;Shift + Double-click&NewLine;50/50:&ensp;Double-click&NewLine;70/30:&ensp;Ctrl + Double-click"></div>
+		<div id="splitter" class="splitter" data-i18n-title="htm_panelSplitterTooltip"></div>
 
 		<div id="bottom" class="bottom">
 			<ul id="rssListView" tabindex="0"></ul>
@@ -114,30 +114,30 @@
 
 		<div class="captionContainer">
 			<svg class="captionImage"><path /></svg>
-			<h3 class="caption">Discover Feeds</h3>
+			<h3 class="caption" data-i18n="htm_panelDiscoveryCaption">Discover Feeds</h3>
 			<div class="captionSpacer"></div>
-			<div id="btnCheckmarkAll" class="button" title="Select all feeds"></div>
-			<div id="btnRediscover" class="button" title="Rediscover feeds"></div>
+			<div id="btnCheckmarkAll" class="button" data-i18n-title="htm_panelButtonSelectAll"></div>
+			<div id="btnRediscover" class="button" data-i18n-title="htm_panelButtonRediscover"></div>
 		</div>
 
 		<ul id="discoverFeedsList"></ul>
 
 		<div class="dfButtonContainer">
-			<div id="aggressiveDiscoveryContainer">
-				<div class="captionAggressiveLevel">Aggressiveness:</div>
+			<div id="aggressiveDiscoveryContainer" data-i18n-title="htm_panelDiscoveryAggressiveTooltip">
+				<div class="captionAggressiveLevel" data-i18n="htm_panelDiscoveryAggressiveness">Aggressiveness:</div>
 				<sl-tri-toggler id="triTglAggressiveLevel" tabindex="0">
 					<sl-tri-toggler-rail>
 						<sl-tri-toggler-marker></sl-tri-toggler-marker>
 					</sl-tri-toggler-rail>
 					<sl-tri-toggler-captions>
-						<sl-tri-toggler-caption id="triTogglerState0" class="triTgglerCaption">None</sl-tri-toggler-caption>
-						<sl-tri-toggler-caption id="triTogglerState1" class="triTgglerCaption">Low</sl-tri-toggler-caption>
-						<sl-tri-toggler-caption id="triTogglerState2" class="triTgglerCaption">High</sl-tri-toggler-caption>
+						<sl-tri-toggler-caption id="triTogglerState0" class="triTgglerCaption" data-i18n="htm_panelAggressiveLevelNone">None</sl-tri-toggler-caption>
+						<sl-tri-toggler-caption id="triTogglerState1" class="triTgglerCaption" data-i18n="htm_panelAggressiveLevelLow">Low</sl-tri-toggler-caption>
+						<sl-tri-toggler-caption id="triTogglerState2" class="triTgglerCaption" data-i18n="htm_panelAggressiveLevelHigh">High</sl-tri-toggler-caption>
 					</sl-tri-toggler-captions>
 				</sl-tri-toggler>
 			</div>
-			<button type="button" class="dlgButton" id="btnDiscoverFeedsAdd">Add</button>
-			<button type="button" class="dlgButton" id="btnDiscoverFeedsCancel">Close</button>
+			<button type="button" class="dlgButton" id="btnDiscoverFeedsAdd" data-i18n="htm_panelButtonAdd">Add</button>
+			<button type="button" class="dlgButton" id="btnDiscoverFeedsCancel" data-i18n="htm_panelButtonClose">Close</button>
 		</div>
 
 		<div id="discoveryStatusBar" class="statusbar smallText"></div>
@@ -149,37 +149,37 @@
 
 		<div class="captionContainer">
 			<div class="captionImage"></div>
-			<h3 class="caption" id="propertiesCaption">Properties</h3>
+			<h3 class="caption" id="propertiesCaption" data-i18n="htm_panelPropertiesCaption">Properties</h3>
 		</div>
 
 		<div class="propertiesContainer">
 			<div class="propContainer">
-				<label>Title:</label>
+				<label data-i18n="htm_panelLabelTitle">Title:</label>
 				<input type="text" id="txtFpTitle">
 			</div>
 
 			<div class="propContainer">
-				<label>Location:</label>
+				<label data-i18n="htm_panelLabelLocation">Location:</label>
 				<input type="text" id="txtFpLocation">
 			</div>
 
 			<div class="propContainer">
 				<input type="checkbox" id="chkFpUpdateTitle">
-				<label for="chkFpUpdateTitle">Update title from feed</label>
+				<label for="chkFpUpdateTitle" data-i18n="htm_panelLabelUpdateTitle">Update title from feed</label>
 			</div>
 
 			<div class="propContainer">
 				<input type="checkbox" id="chkFpOpenInFeedPreview">
-				<label for="chkFpOpenInFeedPreview">Open in Feed Preview</label>
+				<label for="chkFpOpenInFeedPreview" data-i18n="htm_panelLabelOpenInPreview">Open in Feed Preview</label>
 			</div>
 
 			<div class="propContainer">
 				<input type="checkbox" id="chkFpIgnoreUpdates">
-				<label for="chkFpIgnoreUpdates">Ignore updates, feed always marked 'Read'</label>
+				<label for="chkFpIgnoreUpdates" data-i18n="htm_panelLabelIgnoreUpdates">Ignore updates, feed always marked 'Read'</label>
 			</div>
 
 			<div class="propContainer">
-				<label for="txtFpFeedMaxItems">Max feed-items (0 for no limit):</label>
+				<label for="txtFpFeedMaxItems" data-i18n="htm_panelLabelFeedMaxItems">Max feed-items (0 for no limit):</label>
 				<input type="text" id="txtFpFeedMaxItems" data-min="0" data-max="5000" minlength="1" maxlength="6">
 			</div>
 		</div>
@@ -187,13 +187,13 @@
 		<div id="insertInsideFolderContainer">
 			<div class="propContainer">
 				<input type="checkbox" id="chkInsertInsideFolder">
-				<label for="chkInsertInsideFolder">Create inside selected folder</label>
+				<label for="chkInsertInsideFolder" data-i18n="htm_panelLabelCreateInFolder">Create inside selected folder</label>
 			</div>
 		</div>
 
 		<div class="fpButtonContainer">
-			<button type="button" class="dlgButton" id="btnPropertiesSave">Save</button>
-			<button type="button" class="dlgButton" id="btnPropertiesCancel">Cancel</button>
+			<button type="button" class="dlgButton" id="btnPropertiesSave" data-i18n="htm_panelButtonSave">Save</button>
+			<button type="button" class="dlgButton" id="btnPropertiesCancel" data-i18n="htm_panelButtonCancel">Cancel</button>
 		</div>
 
 		<div id="lblErrorMsgs" class="statusbar smallText"></div>
@@ -205,25 +205,25 @@
 
 		<div class="captionContainer">
 			<div class="captionImage"></div>
-			<h3 class="caption">Sign in<span id="signinFeedName"></span></h3>
+			<h3 class="caption"><span data-i18n="htm_panelSigninCaption">Sign in</span><span id="signinFeedName"></span></h3>
 		</div>
 
 		<div class="signinContainer">
 
 			<div class="signinInfoContainer">
-				<label>User Name:</label>
+				<label data-i18n="htm_panelLabelSigninUserName">User Name:</label>
 				<input type="text" id="userName" autocomplete="off" name="userName" class="signinInput">
 			</div>
 
 			<div class="signinInfoContainer">
-				<label>Password:</label>
+				<label data-i18n="htm_panelLabelSigninPassword">Password:</label>
 				<input type="password" id="password" name="password" class="signinInput">
 			</div>
 		</div>
 
 		<div class="signinButtonContainer">
-			<button type="button" class="dlgButton" id="btnSigninSignin">Sign in</button>
-			<button type="button" class="dlgButton" id="btnSigninCancel">Cancel</button>
+			<button type="button" class="dlgButton" id="btnSigninSignin" data-i18n="htm_panelButtonSignin">Sign in</button>
+			<button type="button" class="dlgButton" id="btnSigninCancel" data-i18n="htm_panelButtonCancel">Cancel</button>
 		</div>
 
 		<div id="signinStatusbar" class="statusbar smallText"></div>
@@ -241,56 +241,56 @@
 		<div id="msgText"></div>
 
 		<div id="btnSetOK" class="buttonSet">
-			<button type="button" class="dlgButton" id="btnMsgOK">OK</button>
+			<button type="button" class="dlgButton" id="btnMsgOK" data-i18n="htm_panelButtonOK">OK</button>
 		</div>
 		<div id="btnSetYesNo" class="buttonSet">
-			<button type="button" class="dlgButton" id="btnMsgYes">Yes</button>
-			<button type="button" class="dlgButton" id="btnMsgNo">No</button>
+			<button type="button" class="dlgButton" id="btnMsgYes" data-i18n="htm_panelButtonYes">Yes</button>
+			<button type="button" class="dlgButton" id="btnMsgNo" data-i18n="htm_panelButtonNo">No</button>
 		</div>
 	</div>
 
 
 	<!-- ////////////////////////// Context Menu ////////////////////////// -->
 	<div id="mnuContextMenu" class="contextmenu" tabindex="0">
-		<div id="mnuTreeOpenFeed" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="o" data-accelerator-key="O">Open</div>
-		<div id="mnuTreeOpenFeedNewTab" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="t" data-accelerator-key="T">Open in New Tab</div>
-		<div id="mnuTreeOpenFeedNewWin" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="w" data-accelerator-key="W">Open in New Window</div>
-		<div id="mnuTreeOpenFeedNewPrivateWin" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="v" data-accelerator-key="V">Open in New Private Window</div>
-		<div id="mnuTreeOpenAllFeedsInNewTabs" class="contextmenuitem treeitemfoldercontext" tabindex="0" data-shortcut-key="a" data-accelerator-key="A">Open All Unread in Tabs</div>
+		<div id="mnuTreeOpenFeed" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="o" data-accelerator-key="O" data-i18n="htm_panelContextMenuOpen">Open</div>
+		<div id="mnuTreeOpenFeedNewTab" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="t" data-accelerator-key="T" data-i18n="htm_panelContextMenuOpenNewTab">Open in New Tab</div>
+		<div id="mnuTreeOpenFeedNewWin" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="w" data-accelerator-key="W" data-i18n="htm_panelContextMenuOpenNewWin">Open in New Window</div>
+		<div id="mnuTreeOpenFeedNewPrivateWin" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="v" data-accelerator-key="V" data-i18n="htm_panelContextMenuOpenNewPrivateWin">Open in New Private Window</div>
+		<div id="mnuTreeOpenAllFeedsInNewTabs" class="contextmenuitem treeitemfoldercontext" tabindex="0" data-shortcut-key="a" data-accelerator-key="A" data-i18n="htm_panelContextMenuOpenAllUnread">Open All Unread in Tabs</div>
 		<hr class="treeitemcontext treeitemfoldercontext">
-		<div id="mnuTreeSigninFeed" class="contextmenuitem treeitemunauthorizedcontext" tabindex="0" data-accelerator-key="L">Sign in...</div>
+		<div id="mnuTreeSigninFeed" class="contextmenuitem treeitemunauthorizedcontext" tabindex="0" data-accelerator-key="L" data-i18n="htm_panelContextMenuSignin">Sign in...</div>
 		<hr class="treeitemunauthorizedcontext">
-		<div id="mnuTreeToggleFeedReadUnread" class="contextmenuitem treeitemcontext treeitemfoldercontext" tabindex="0" data-shortcut-key="g" data-accelerator-key="G">Toggle Read/Unread</div>
+		<div id="mnuTreeToggleFeedReadUnread" class="contextmenuitem treeitemcontext treeitemfoldercontext" tabindex="0" data-shortcut-key="g" data-accelerator-key="G" data-i18n="htm_panelContextMenuToggleReadUnread">Toggle Read/Unread</div>
 		<hr class="treeitemfoldercontext treeitemcontext">
-		<div id="mnuTreeMarkAllFeedsRead" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="r" data-accelerator-key="R">Mark All Tree Feeds as Read</div>
-		<div id="mnuTreeMarkAllFeedsUnread" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="u" data-accelerator-key="U">Mark All Tree Feeds as Unread</div>
+		<div id="mnuTreeMarkAllFeedsRead" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="r" data-accelerator-key="R" data-i18n="htm_panelContextMenuMarkAllRead">Mark All Tree Feeds as Read</div>
+		<div id="mnuTreeMarkAllFeedsUnread" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="u" data-accelerator-key="U" data-i18n="htm_panelContextMenuMarkAllUnread">Mark All Tree Feeds as Unread</div>
 		<hr class="treeitemfoldercontext treeitemcontext treecontext">
-		<div id="mnuTreeNewFeed" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="n" data-accelerator-key="N">New Feed...</div>
-		<div id="mnuTreeNewFolder" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="f" data-accelerator-key="F">New Folder...</div>
-		<div id="mnuTreeCopyFeedUrl" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="c" data-accelerator-key="C">Copy Link</div>
-		<div id="mnuTreePasteFeedUrl" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="s" data-accelerator-key="S">Paste Link</div>
-		<div id="mnuTreeDeleteTreeItem" class="contextmenuitem treeitemcontext treeitemfoldercontext" tabindex="0" data-shortcut-key="d" data-accelerator-key="D">Delete...</div>
+		<div id="mnuTreeNewFeed" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="n" data-accelerator-key="N" data-i18n="htm_panelContextMenuNewFeed">New Feed...</div>
+		<div id="mnuTreeNewFolder" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="f" data-accelerator-key="F" data-i18n="htm_panelContextMenuNewFolder">New Folder...</div>
+		<div id="mnuTreeCopyFeedUrl" class="contextmenuitem treeitemcontext" tabindex="0" data-shortcut-key="c" data-accelerator-key="C" data-i18n="htm_panelContextMenuCopyLink">Copy Link</div>
+		<div id="mnuTreePasteFeedUrl" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="s" data-accelerator-key="S" data-i18n="htm_panelContextMenuPasteLink">Paste Link</div>
+		<div id="mnuTreeDeleteTreeItem" class="contextmenuitem treeitemcontext treeitemfoldercontext" tabindex="0" data-shortcut-key="d" data-accelerator-key="D" data-i18n="htm_panelContextMenuDelete">Delete...</div>
 		<hr class="treeitemcontext treeitemfoldercontext">
-		<div id="mnuTreeProperties" class="contextmenuitem treeitemcontext treeitemfoldercontext" tabindex="0" data-shortcut-key="p" data-accelerator-key="P">Properties...</div>
+		<div id="mnuTreeProperties" class="contextmenuitem treeitemcontext treeitemfoldercontext" tabindex="0" data-shortcut-key="p" data-accelerator-key="P" data-i18n="htm_panelContextMenuProperties">Properties...</div>
 		<hr class="treeitemfoldercontext treeitemcontext treecontext">
-		<div id="mnuTreeSummary" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="m">Summary...</div>
+		<div id="mnuTreeSummary" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="m" data-i18n="htm_panelContextMenuSummary">Summary...</div>
 		<hr class="treeitemfoldercontext treeitemcontext treecontext">
-		<div id="mnuTreeSwitchDirection" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="i">Switch View Direction</div>
+		<div id="mnuTreeSwitchDirection" class="contextmenuitem treeitemcontext treeitemfoldercontext treecontext" tabindex="0" data-shortcut-key="i" data-i18n="htm_panelContextMenuSwitchDirection">Switch View Direction</div>
 
-		<div id="mnuListOpenFeedItem" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="o" data-accelerator-key="O">Open</div>
-		<div id="mnuListOpenFeedItemNewTab" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="t" data-accelerator-key="T">Open in New Tab</div>
-		<div id="mnuListOpenFeedItemNewWin" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="w" data-accelerator-key="W">Open in New Window</div>
-		<div id="mnuListOpenFeedItemNewPrivateWin" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="v" data-accelerator-key="V">Open in New Private Window</div>
-		<div id="mnuListOpenAllFeedItemsTabs" class="contextmenuitem listitemcontext listcontext" tabindex="0" data-shortcut-key="a" data-accelerator-key="A">Open All Unread in Tabs</div>
+		<div id="mnuListOpenFeedItem" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="o" data-accelerator-key="O" data-i18n="htm_panelContextMenuOpen">Open</div>
+		<div id="mnuListOpenFeedItemNewTab" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="t" data-accelerator-key="T" data-i18n="htm_panelContextMenuOpenNewTab">Open in New Tab</div>
+		<div id="mnuListOpenFeedItemNewWin" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="w" data-accelerator-key="W" data-i18n="htm_panelContextMenuOpenNewWin">Open in New Window</div>
+		<div id="mnuListOpenFeedItemNewPrivateWin" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="v" data-accelerator-key="V" data-i18n="htm_panelContextMenuOpenNewPrivateWin">Open in New Private Window</div>
+		<div id="mnuListOpenAllFeedItemsTabs" class="contextmenuitem listitemcontext listcontext" tabindex="0" data-shortcut-key="a" data-accelerator-key="A" data-i18n="htm_panelContextMenuOpenAllUnread">Open All Unread in Tabs</div>
 		<hr class="listitemcontext listcontext">
-		<div id="mnuListToggleFeedItemReadUnread" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="g" data-accelerator-key="G">Toggle Read/Unread</div>
+		<div id="mnuListToggleFeedItemReadUnread" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="g" data-accelerator-key="G" data-i18n="htm_panelContextMenuToggleReadUnread">Toggle Read/Unread</div>
 		<hr class="listitemcontext">
-		<div id="mnuListMarkAllFeedItemsRead" class="contextmenuitem listitemcontext listcontext" tabindex="0" data-shortcut-key="r" data-accelerator-key="R">Mark All as Read</div>
-		<div id="mnuListMarkAllFeedItemsUnread" class="contextmenuitem listitemcontext listcontext" tabindex="0" data-shortcut-key="u" data-accelerator-key="U">Mark All as Unread</div>
+		<div id="mnuListMarkAllFeedItemsRead" class="contextmenuitem listitemcontext listcontext" tabindex="0" data-shortcut-key="r" data-accelerator-key="R" data-i18n="htm_panelContextMenuListMarkAllRead">Mark All as Read</div>
+		<div id="mnuListMarkAllFeedItemsUnread" class="contextmenuitem listitemcontext listcontext" tabindex="0" data-shortcut-key="u" data-accelerator-key="U" data-i18n="htm_panelContextMenuListMarkAllUnread">Mark All as Unread</div>
 		<hr class="listitemcontext">
-		<div id="mnuListCopyFeedItemUrl" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="c" data-accelerator-key="C">Copy</div>
+		<div id="mnuListCopyFeedItemUrl" class="contextmenuitem listitemcontext" tabindex="0" data-shortcut-key="c" data-accelerator-key="C" data-i18n="htm_panelContextMenuCopy">Copy</div>
 		<hr class="listitemcontext listcontext">
-		<div id="mnuListSwitchDirection" class="contextmenuitem listitemcontext listcontext" tabindex="0" data-shortcut-key="i">Switch View Direction</div>
+		<div id="mnuListSwitchDirection" class="contextmenuitem listitemcontext listcontext" tabindex="0" data-shortcut-key="i" data-i18n="htm_panelContextMenuSwitchDirection">Switch View Direction</div>
 	</div>
 
 </body>

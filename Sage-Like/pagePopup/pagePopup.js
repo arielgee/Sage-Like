@@ -45,6 +45,8 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
+		slUtil.initializeI18nDocument(document);
+
 		m_elmPageFeedsList = document.getElementById("pageFeedsList");
 		m_elmButtonAddFeeds = document.getElementById("btnAddFeeds");
 		m_elmStatusBar = document.getElementById("statusBar");
@@ -69,7 +71,9 @@
 
 			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmPageFeedsList.style.display = "none";
-				updateStatusBar("Feeds folder not set in <a href='#' id='pagePopupOptionsHref'>Options page</a>");
+				updateStatusBar(`${i18n("js_popupFeedsFolderNotSet")} <a href='#' id='pagePopupOptionsHref'>${i18n("js_popupFeedsFolderNotSetLink")}</a>`);
+
+
 				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
 			} else {
 				createFeedList();
@@ -244,7 +248,7 @@
 			}
 
 		} else {
-			updateStatusBar("Nothing to add");
+			updateStatusBar(i18n("js_popupNothingToAdd"));
 		}
 	}
 
@@ -315,7 +319,7 @@
 
 				let elmNoticeContainer = document.getElementById("noticeContainer");
 
-				elmNoticeContainer.firstElementChild.textContent = "Something Went Wrong!\nMost likely it's a browser issue concerning page permissions."
+				elmNoticeContainer.firstElementChild.textContent = i18n("js_popupErrorPermissions");
 				elmNoticeContainer.style.display = "block";
 				emptyFeedList();
 
@@ -397,7 +401,7 @@
 		browser.runtime.sendMessage({ id: Global.MSG_ID_ADD_NEW_DISCOVERED_FEEDS, winId: m_windowId, feeds: newFeedsList }).then((response) => {
 
 			if(!!response && !!response.existInTree) {
-				updateStatusBar("Already in tree: '" + response.existInTree + "'");
+				updateStatusBar(i18n("js_popupAlreadyInTree", response.existInTree));
 			} else {
 				window.close();
 			}

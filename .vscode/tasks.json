@@ -14,6 +14,49 @@
 			"type": "shell",
 			"command": "${workspaceFolder}\\.tools\\Pack-CssFiles.ps1",
 			"problemMatcher": []
-		}
+		},
+		{
+			"label": "Validate-i18n",
+			"type": "shell",
+			"command": "node \"${workspaceFolder}\\.tools\\validate-i18n.js\"",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "START-TestLocale",
+			"type": "shell",
+			"command": "powershell.exe \"${workspaceFolder}\\.tools\\Test-Locale.ps1\" -workspaceFolder \"${workspaceFolder}\" -testAction \"start\"",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "stop-TestLocale",
+			"type": "shell",
+			"command": "powershell.exe \"${workspaceFolder}\\.tools\\Test-Locale.ps1\" -workspaceFolder \"${workspaceFolder}\" -testAction \"stop\"",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{"label": "last so we dont need to deal with comma for last entry"}
 	]
 }

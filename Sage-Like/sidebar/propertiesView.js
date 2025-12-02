@@ -134,17 +134,11 @@ class PropertiesView {
 
 			let showMsg = true;
 			messageView.open({
-				text: `You have chosen to set the "Max feed-items" to ${feedMaxItems}.\n\n` +
-						"When the maximum number of displayed feed items is limited and \"Order feed-items chronologically\" in the <a id='anchorOptions' href='#'>Options</a> " +
-						"page is enabled, it may, but not necessarily, result in displaying feed items that are not the most recent.\n\n" +
-						"This is relevant only to feeds where the items in the source are not ordered chronologically.\n\n" +
-						"<input type='checkbox' id='chkDontShowAgain' style='margin-left:0'><label for='chkDontShowAgain'>Don't show this message again</label>",
-				caption: "Limiting Maximum Feed-Items",
+				text: i18n("js_propertiesMaxFeedItemsNotification", feedMaxItems) +
+						"<input type='checkbox' id='chkDontShowAgain' style='margin-left:0'>" +
+						`<label for='chkDontShowAgain'>${i18n("js_propertiesMaxFeedItemsDontShowLabel")}</label>`,
+				caption: i18n("js_propertiesMaxFeedItemsCaption"),
 				clickableElements: [
-					{
-						elementId: "anchorOptions",
-						onClickCallback: () => browser.runtime.openOptionsPage(),
-					},
 					{
 						elementId: "chkDontShowAgain",
 						onClickCallback: () => { showMsg = !document.getElementById("chkDontShowAgain").checked },
@@ -267,7 +261,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			this._showNoneTitleProperties(true);
 			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER));
 
-			this.m_initialProperties.caption = "Feed";
+			this.m_initialProperties.caption = i18n("js_propertiesFeed");
 			this.m_initialProperties.title = title;
 			this.m_initialProperties.location = location;
 			this.m_initialProperties.updateTitle = true;
@@ -295,13 +289,13 @@ class NewFeedPropertiesView extends PropertiesView {
 
 		// Title validation
 		if (result.title.length === 0) {
-			this.m_elmLabelErrorMsgs.textContent = "Title text is empty.";
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesTitleEmpty");
 			return;
 		}
 
 		// URL validation
 		if(!!!slUtil.validURL(result.url)) {
-			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid.";
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesURLInvalid");
 			return;
 		}
 
@@ -310,7 +304,7 @@ class NewFeedPropertiesView extends PropertiesView {
 
 		// Feed max items validation
 		if ( isNaN(result.feedMaxItems) || (result.feedMaxItems < min) || (result.feedMaxItems > max) ) {
-			this.m_elmLabelErrorMsgs.textContent = `Max feed-items value is not valid. Range: ${min} - ${max}`;
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesMaxFeedItemsInvalid", [min, max]);
 			return;
 		}
 
@@ -337,7 +331,7 @@ class NewFolderPropertiesView extends PropertiesView {
 			this._showNoneTitleProperties(false);
 			this._showOptionInsertInsideFolder(this.m_elmTreeItemLI.classList.contains(Global.CLS_RTV_LI_TREE_FOLDER));
 
-			this.m_initialProperties.caption = "Folder";
+			this.m_initialProperties.caption = i18n("js_propertiesFolder");
 			this.m_initialProperties.title = title;
 
 			this._initData(this.m_elmTextTitle);
@@ -355,7 +349,7 @@ class NewFolderPropertiesView extends PropertiesView {
 
 		// Title validation
 		if (result.title.length === 0) {
-			this.m_elmLabelErrorMsgs.textContent = "Title text is empty.";
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesTitleEmpty");
 			return;
 		}
 
@@ -388,7 +382,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			this._showNoneTitleProperties(true);
 			this._showOptionInsertInsideFolder(false);
 
-			this.m_initialProperties.caption = "Feed";
+			this.m_initialProperties.caption = i18n("js_propertiesFeed");
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
 			this.m_initialProperties.updateTitle = updateTitle;
@@ -420,19 +414,19 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.openInFeedPreview === result.openInFeedPreview &&
 			this.m_initialProperties.ignoreUpdates === result.ignoreUpdates &&
 			this.m_initialProperties.feedMaxItems === result.feedMaxItems) {
-			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify.";
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesNothingToModify");
 			return;
 		}
 
 		// Title validation
 		if (result.title.length === 0) {
-			this.m_elmLabelErrorMsgs.textContent = "Title text is empty.";
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesTitleEmpty");
 			return;
 		}
 
 		// URL validation
 		if(!!!slUtil.validURL(result.url)) {
-			this.m_elmLabelErrorMsgs.textContent = "Location URL is not valid.";
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesURLInvalid");
 			return;
 		}
 
@@ -441,7 +435,7 @@ class EditFeedPropertiesView extends PropertiesView {
 
 		// Feed max items validation
 		if ( isNaN(result.feedMaxItems) || (result.feedMaxItems < min) || (result.feedMaxItems > max) ) {
-			this.m_elmLabelErrorMsgs.textContent = `Max feed-items value is not valid. Range: ${min} - ${max}`;
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesMaxFeedItemsInvalid", [min, max]);
 			return;
 		}
 
@@ -468,7 +462,7 @@ class EditFolderPropertiesView extends PropertiesView {
 			this._showNoneTitleProperties(false);
 			this._showOptionInsertInsideFolder(false);
 
-			this.m_initialProperties.caption = "Folder";
+			this.m_initialProperties.caption = i18n("js_propertiesFolder");
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 
 			this._initData(this.m_elmTextTitle);
@@ -485,13 +479,13 @@ class EditFolderPropertiesView extends PropertiesView {
 
 		// Any value was modified
 		if (this.m_initialProperties.title === result.title) {
-			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify.";
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesNothingToModify");
 			return;
 		}
 
 		// Title validation
 		if (result.title.length === 0) {
-			this.m_elmLabelErrorMsgs.textContent = "Title text is empty.";
+			this.m_elmLabelErrorMsgs.textContent = i18n("js_propertiesTitleEmpty");
 			return;
 		}
 

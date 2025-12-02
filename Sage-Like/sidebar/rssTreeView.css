@@ -3,6 +3,7 @@
 
 :root {
 	--tree-view-scrollbar-width: 0px;
+	--empty-tree-message: "It feels so empty, without feeds";
 
 	--color-sidebar-icons: #ff00ff;
 
@@ -35,7 +36,7 @@
 	display: flex;
 }
 #rssTreeView:empty::after {
-	content: "It feels so empty, without feeds";
+	content: var(--empty-tree-message);
 	font-size: 150%;
 	color: var(--bk-color-window-contrasted);
 	margin: 45px auto auto;

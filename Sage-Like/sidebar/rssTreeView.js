@@ -218,6 +218,7 @@ let rssTreeView = (function() {
 		browser.bookmarks.onChanged.addListener(onBookmarksEventHandler);
 		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
 
+		document.documentElement.style.setProperty("--empty-tree-message", `"${i18n("js_rssTreeEmptyMessage")}"`);
 		m_bPrefCheckFeedsOnSbOpen = await prefs.getCheckFeedsOnSbOpen();
 		m_bPrefShowFeedStats = await prefs.getShowFeedStats();
 		setIncreaseUnvisitedFontSizeFromPreferences();
@@ -315,7 +316,7 @@ let rssTreeView = (function() {
 			let aNode = m_elmTreeRoot.appendChild(document.createTextNode("\r"));
 
 			if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-				m_elmTreeRoot.appendChild(createErrorTagLI("The feeds folder is not set in the Options page."));
+				m_elmTreeRoot.appendChild(createErrorTagLI(i18n("js_rssTreeNoFeedsFolder")));
 				browser.runtime.openOptionsPage();
 				return;
 			}
@@ -345,7 +346,7 @@ let rssTreeView = (function() {
 				}
 
 			}).catch((error) => {
-				m_elmTreeRoot.appendChild(createErrorTagLI("Failed to load feeds folder: " + error.message));
+				m_elmTreeRoot.appendChild(createErrorTagLI(i18n("js_rssTreeFailedLoadFeedsFolder") + error.message));
 				browser.runtime.openOptionsPage();
 			}).finally(() => m_elmTreeRoot.removeChild(aNode) );
 		});
@@ -1061,7 +1062,7 @@ let rssTreeView = (function() {
 		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
 			if(count > 0 && (m_dropInsideFolderLastShowMsgTime + 7000) < Date.now()) {	// Event is triggered repeatedly. Set 7s between messages to conserve counter.
 				m_dropInsideFolderLastShowMsgTime = Date.now();
-				InfoBubble.i.show("Press the Shift key to drop item \"inside\" folder.", undefined, false);
+				InfoBubble.i.show(i18n("js_rssTreeBubbleMsgDropInside"), undefined, false);
 				internalPrefs.setDropInsideFolderShowMsgCount(count-1);
 			}
 		});
@@ -1190,7 +1191,7 @@ let rssTreeView = (function() {
 								let elmDropped, elmDraggedFolderUL = elmCurrentlyDragged.parentElement;
 
 								if(transfer.getData("text/wx-sl-treeitem-id") !== elmCurrentlyDragged.id) {
-									InfoBubble.i.show("Unexpected drag and drop error (id mismatch).\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+									InfoBubble.i.show(i18n("js_rssTreeBubbleMsgDnDError"), undefined, true, false, 4000);
 									console.log("[Sage-Like]", "Dragged id mismatch error:", `wx-sl-treeitem-id='${transfer.getData("text/wx-sl-treeitem-id")}'  ,  elmCurrentlyDragged.id='${elmCurrentlyDragged.id}'`);
 									return;
 								}
@@ -1218,11 +1219,11 @@ let rssTreeView = (function() {
 							});
 						});
 					}).catch((error) => {
-						InfoBubble.i.show("Bookmarks error: Drop target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+						InfoBubble.i.show(i18n("js_rssTreeBubbleMsgDropTargetRemoved"), undefined, true, false, 4000);
 						console.log("[Sage-Like]", "Bookmarks get error", error);
 					});
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Dragged item may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show(i18n("js_rssTreeBubbleMsgDraggedItemRemoved"), undefined, true, false, 4000);
 					console.log("[Sage-Like]", "Bookmarks get error", error);
 				});
 
@@ -1232,9 +1233,9 @@ let rssTreeView = (function() {
 				let url = stripFeedPreviewUrl(mozUrl[0]);
 
 				if( !!slUtil.validURL(url) ) {
-					createNewFeedExtended(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : "New Feed"), url, event.shiftKey);
+					createNewFeedExtended(elmDropTarget, (!!mozUrl[1] ? mozUrl[1] : i18n("js_rssTreeNewFeed")), url, event.shiftKey);
 				} else {
-					InfoBubble.i.show("The dropped url is not valid.");
+					InfoBubble.i.show(i18n("js_rssTreeBubbleMsgDropUrlInvalid"));
 					console.log("[Sage-Like]", "Drop text/x-moz-url invalid URL error", "'" + url + "'");
 				}
 
@@ -1243,9 +1244,9 @@ let rssTreeView = (function() {
 				let url = stripFeedPreviewUrl(transfer.getData("URL"));
 
 				if( !!slUtil.validURL(url) ) {
-					createNewFeedExtended(elmDropTarget, "New Feed", url, event.shiftKey);
+					createNewFeedExtended(elmDropTarget, i18n("js_rssTreeNewFeed"), url, event.shiftKey);
 				} else {
-					InfoBubble.i.show("The dropped url is not valid.");
+					InfoBubble.i.show(i18n("js_rssTreeBubbleMsgDropUrlInvalid"));
 					console.log("[Sage-Like]", "Drop text/uri-list invalid URL error", "'" + url + "'");
 				}
 
@@ -1254,9 +1255,9 @@ let rssTreeView = (function() {
 				let data = stripFeedPreviewUrl(transfer.getData("text/plain"));
 
 				if( !!slUtil.validURL(data) ) {
-					createNewFeedExtended(elmDropTarget, "New Feed", data, event.shiftKey);
+					createNewFeedExtended(elmDropTarget, i18n("js_rssTreeNewFeed"), data, event.shiftKey);
 				} else {
-					InfoBubble.i.show("The dropped text is not a valid URL.");
+					InfoBubble.i.show(i18n("js_rssTreeBubbleMsgDropTextUrlInvalid"));
 					console.log("[Sage-Like]", "Drop text/plain invalid URL error", "'" + data + "'");
 				}
 			}
@@ -1341,7 +1342,7 @@ let rssTreeView = (function() {
 
 						// UserInput.DIALOG indicates that this call is a result of an interaction with a dialog (signinView)
 						if(userInput === UserInput.DIALOG) {
-							messageView.open({ text: error.message, caption: "Sign in Failed" });
+							messageView.open({ text: error.message, caption: i18n("js_rssTreeSigninFailed") });
 						}
 					}).finally(() => {
 
@@ -1618,7 +1619,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFeedProperties(elmLI) {
-		NewFeedPropertiesView.i.open(elmLI, "New Feed", "").then((result) => {
+		NewFeedPropertiesView.i.open(elmLI, i18n("js_rssTreeNewFeed"), "").then((result) => {
 			let exDetails = {
 				updateTitle: result.updateTitle,
 				openInFeedPreview: result.openInFeedPreview,
@@ -1704,7 +1705,7 @@ let rssTreeView = (function() {
 				});
 			});
 		}).catch((error) => {
-			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+			InfoBubble.i.show(i18n("js_rssTreeBubbleMsgTargetRemoved"), undefined, true, false, 4000);
 			console.log("[Sage-Like]", "Bookmarks get error", error);
 		});
 	}
@@ -1752,7 +1753,7 @@ let rssTreeView = (function() {
 					setTreeFeedDataLastStatusMembers(newElm);
 					newElm.focus();
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show(i18n("js_rssTreeBubbleMsgTargetFolderRemoved"), undefined, true, false, 4000);
 					console.log("[Sage-Like]", "Bookmarks create error", error);
 				});
 			});
@@ -1761,7 +1762,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFolderProperties(elmLI) {
-		NewFolderPropertiesView.i.open(elmLI, "New Folder").then((result) => {
+		NewFolderPropertiesView.i.open(elmLI, i18n("js_rssTreeNewFolder")).then((result) => {
 			createNewFolderExtended(result.elmLI, result.title, result.inFolder);
 		});
 	}
@@ -1814,7 +1815,7 @@ let rssTreeView = (function() {
 				});
 			});
 		}).catch((error) => {
-			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+			InfoBubble.i.show(i18n("js_rssTreeBubbleMsgTargetRemoved"), undefined, true, false, 4000);
 			console.log("[Sage-Like]", "Bookmarks get error", error);
 		});
 	}
@@ -1847,7 +1848,7 @@ let rssTreeView = (function() {
 					setFolderState(newElm, false);
 					newElm.focus();
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show(i18n("js_rssTreeBubbleMsgTargetFolderRemoved"), undefined, true, false, 4000);
 					console.log("[Sage-Like]", "Bookmarks create error", error);
 				});
 			});
@@ -1859,9 +1860,9 @@ let rssTreeView = (function() {
 		slUtil.readTextFromClipboard().then((text) => {
 			if( !!slUtil.validURL( (text = stripFeedPreviewUrl(text)) ) ) {
 				setFolderState(elmLI, true);		// will do nothing if it's a feed
-				createNewFeedExtended(elmLI, "New Feed", text, true);
+				createNewFeedExtended(elmLI, i18n("js_rssTreeNewFeed"), text, true);
 			} else {
-				InfoBubble.i.show("The pasted text is not a valid URL.");
+				InfoBubble.i.show(i18n("js_rssTreeBubbleMsgPasteTextUrlInvalid"));
 				console.log("[Sage-Like]", "Pasted text invalid URL error", "'" + text + "'");
 			}
 		}).catch((error) => InfoBubble.i.show(error.message) );
@@ -1873,16 +1874,16 @@ let rssTreeView = (function() {
 		if(!TreeItemType.isTreeItem(elmLI)) return;
 
 		let isFolder = TreeItemType.isFolder(elmLI);
-		let text = "Permanently delete the ";
+		let text;
 
 		if(isFolder) {
-			text += `"${getTreeItemText(elmLI).escapeMarkup()}" folder and all of its contents from your bookmarks?`;
+			text = i18n("js_rssTreeDeleteFolderMsg", getTreeItemText(elmLI).escapeMarkup());
 		} else {
-			text += `<b title='${elmLI.getAttribute("href")}'>'${getTreeItemText(elmLI).escapeMarkup()}'</b> feed from your bookmarks?`;
+			text = i18n("js_rssTreeDeleteFeedMsg", `<b title='${elmLI.getAttribute("href")}'>${getTreeItemText(elmLI).escapeMarkup()}</b>`);
 		}
-		text += "\n\n\"This action cannot be undone.\"";
 
-		messageView.open({ text: text, btnSet: messageView.ButtonSet.setYesNo, caption: "Delete " + (isFolder ? "Folder" : "Feed") }).then(async (result) => {
+		const cap = isFolder ? i18n("js_rssTreeDeleteFolderCaption") : i18n("js_rssTreeDeleteFeedCaption");
+		messageView.open({ text: text, btnSet: messageView.ButtonSet.setYesNo, caption: cap }).then(async (result) => {
 
 			if(result !== messageView.ButtonCode.Yes) {
 				return;
@@ -1928,7 +1929,7 @@ let rssTreeView = (function() {
 					updateLayoutWidth();
 
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show(i18n("js_rssTreeBubbleMsgItemAlreadyRemoved"), undefined, true, false, 4000);
 					console.log("[Sage-Like]", "Bookmarks remove" + (isFolder ? "Tree" : "") + " error", error);
 				});
 			});
@@ -1985,8 +1986,8 @@ let rssTreeView = (function() {
 	function toggleFeedVisitedState(elmLI) {
 
 		if(elmLI.classList.contains("error")) {
-			let text = elmLI.classList.contains("unauthorized") ? "requires signing in." : "is erroneous.";
-			InfoBubble.i.show(`Feed ${text}`, elmLI, true, m_elmTreeRoot.style.direction === "rtl", 3500, true);
+			const text = elmLI.classList.contains("unauthorized") ? i18n("js_rssTreeBubbleMsgFeedRequireSignin") : i18n("js_rssTreeBubbleMsgFeedErroneous");
+			InfoBubble.i.show(text, elmLI, true, m_elmTreeRoot.style.direction === "rtl", 3500, true);
 			return;
 		}
 
@@ -2382,7 +2383,7 @@ let rssTreeView = (function() {
 			title: ((!!feedData && feedData.updateTitle) ? feedDetails.title : getTreeItemText(elmLI)),	// don't use changed title if user unchecked option for feed
 			url: decodeURIComponent(elmLI.getAttribute("href")),
 			format: feedDetails.standard,
-			update: formattedUpdateTime + ((!!feedData && feedData.ignoreFeedUpdates) ? ", ignored" : ""),
+			update: formattedUpdateTime + ((!!feedData && feedData.ignoreFeedUpdates) ? `, ${i18n("js_rssTreeIgnored")}` : ""),
 			expired: feedDetails.expired,
 			fixableParseErrors: feedDetails.fixableParseErrors,
 		});
@@ -2426,7 +2427,7 @@ let rssTreeView = (function() {
 		m_elmCheckTreeFeeds.classList.toggle("alert", isAlertOn);
 
 		if(isAlertOn) {
-			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\nShift+Click to reload.";
+			m_elmCheckTreeFeeds.title = i18n("js_rssTreeBubbleMsgFeedsFolderModified");
 			InfoBubble.i.show(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
@@ -2508,27 +2509,27 @@ let rssTreeView = (function() {
 		}
 
 		const FMT_ROW = "<div class='gridItem row text{3}' title='{2}'>{0}</div><div class='gridItem row value'>{1}</div>"
-		const FIXABLE_HELP = "Feeds with fixable parsing errors require more resources and take longer to parse and fix.&NewLine;To review them, use the status filter &apos;>fixable&apos; in the filter widget on the toolbar.";
+		const FIXABLE_HELP = `${i18n("js_rssTreeSummaryFixableTip1")}&NewLine;${i18n("js_rssTreeSummaryFixableTip2")}`;
 		const lines = [
-			`Total of "${nFeeds}" feeds and "${nFolders}" folders.`,
+			i18n("js_rssTreeSummaryIntro", [ nFeeds, nFolders ]),
 			"<div class='gridContainer'>",
-			"<div class='gridItem header'>Feed Status</div><div class='gridItem header'>Feed Count</div>",
-			FMT_ROW.format(["OK", nResponsive]),
-			FMT_ROW.format(["Error", nError]),
-			FMT_ROW.format(["Read", nVisited]),
-			FMT_ROW.format(["Unread", nUnvisited]),
-			FMT_ROW.format(["Loading", nLoading]),
-			FMT_ROW.format(["Unauthorized", nUnauthorized]),
-			FMT_ROW.format(["No updates in 30+ days", nNoUpdate30Days]),
-			FMT_ROW.format(["Fixable parsing errors", nFixableParseErrors, FIXABLE_HELP, " dottedUnderline"]),
+			`<div class='gridItem header'>${i18n("js_rssTreeSummaryFeedStatus")}</div><div class='gridItem header'>${i18n("js_rssTreeSummaryFeedCount")}</div>`,
+			FMT_ROW.format([i18n("js_rssTreeSummaryOK"), nResponsive]),
+			FMT_ROW.format([i18n("js_rssTreeSummaryError"), nError]),
+			FMT_ROW.format([i18n("js_rssTreeSummaryRead"), nVisited]),
+			FMT_ROW.format([i18n("js_rssTreeSummaryUnread"), nUnvisited]),
+			FMT_ROW.format([i18n("js_rssTreeSummaryLoading"), nLoading]),
+			FMT_ROW.format([i18n("js_rssTreeSummaryUnauthorized"), nUnauthorized]),
+			FMT_ROW.format([i18n("js_rssTreeSummaryNoUpdates30Days"), nNoUpdate30Days]),
+			FMT_ROW.format([i18n("js_rssTreeSummaryFixableParseErrors"), nFixableParseErrors, FIXABLE_HELP, " dottedUnderline"]),
 			"</div>",
-			"<div class='smallText'>\u2731 Feed Count values are dynamic and may change after display.</div>",
+			`<div class='smallText'>\u2731 ${i18n("js_rssTreeSummaryDynamicNote")}</div>`,
 		];
 
 		const messageDetails = {
 			text: lines.join(""),
 			btnSet: messageView.ButtonSet.setOK,
-			caption: "Summary",
+			caption: i18n("js_rssTreeSummaryCaption"),
 			isAlertive: false,
 		};
 
@@ -2588,7 +2589,7 @@ let rssTreeView = (function() {
 						if(!!foundNode) {
 							rootId = foundNode.id;
 						} else {
-							InfoBubble.i.show("Creating default feeds folder. Please wait...", undefined, false);
+							InfoBubble.i.show(i18n("js_rssTreeBubbleMsgDfaultFeedsFolder"), undefined, false);
 							rootId = await createOnInstallFeedsBookmarksFolder();
 							InfoBubble.i.dismiss();
 						}
@@ -2687,7 +2688,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getMsgShowCountHoverFilterTextBox().then((count) => {
 			if(count > 0) {
-				InfoBubble.i.show("Hover over the filter text box for vital information.", m_elmFilterWidget, false, false, 4000);
+				InfoBubble.i.show(i18n("js_rssTreeBubbleMsgHoverFilter"), m_elmFilterWidget, false, false, 4000);
 				internalPrefs.setMsgShowCountHoverFilterTextBox(count-1);
 			}
 			m_elmTextFilter.focus();
@@ -3051,7 +3052,7 @@ let rssTreeView = (function() {
 				if(!m_elmFilterWidget.classList.contains("filterUrlOn") || m_elmFilterWidget.classList.contains("filterFolderTitleOn") ) {
 
 					m_elmReapplyFilter.classList.add("alert");
-					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\nFilter may require reapplying.";
+					m_elmReapplyFilter.title = i18n("js_rssTreeBubbleMsgReapplyFilter");
 
 					if(m_msgShowCountReapplyFilter > 0) {
 						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
@@ -3161,7 +3162,7 @@ let rssTreeView = (function() {
 		if(syndication.isUnauthorizedError(errorObject)) {
 			internalPrefs.getMsgShowCountUnauthorizedFeed().then((count) => {
 				if(count > 0) {
-					InfoBubble.i.show("Unauthenticated. Right-click the locked feed and select \"Sign\u00a0in...\" from the menu, or use the \"L\" key.", refElm, false, m_elmTreeRoot.style.direction === "rtl", 8000, true);
+					InfoBubble.i.show(i18n("js_rssTreeBubbleMsgSignin"), refElm, false, m_elmTreeRoot.style.direction === "rtl", 8000, true);
 					internalPrefs.setMsgShowCountUnauthorizedFeed(count-1);
 				}
 			});
@@ -3170,28 +3171,65 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getFilterTooltipTitle() {
-		return "Feed Filtering Methods: \n\n" +
-				" \u25cf Filtering using case-insensitive text. \n\n" +
-				" \u25cf Filtering using Regular Expression pattern enclosed between two '/' signs. \n" +
-				"     Flag 'i' (case-insensitive) is supported when placed after the second '/'. \n\n" +
-				" \u25cf Folder title filtering using text prefixed with a single '\\' sign. \n\n" +
-				" \u25cf URL filtering using text prefixed with a single '%' sign. \n\n" +
-				" \u25cf Update time filtering using Relative Time text prefixed with a single '~' sign. \n" +
-				"     Relative Time expression pattern: '[number] [time_unit] ago' whereas '[time_unit]' \n" +
-				"     can be: 'seconds', 'minutes', 'hours', 'days', 'weeks', 'months' or 'years'. \n" +
-				"     Examples: \n" +
-				"     \u2022 '~5 weeks ago' \u2013 for feeds not updated as of 5 weeks ago. \n" +
-				"     \u2022 '~12 months ago' \u2013 for feeds not updated as of 12 months ago. \n" +
-				"     \u2022 '~^3 days ago' \u2013 for feeds that WERE updated as of 3 days ago (notice the '^'). \n\n" +
-				" \u25cf Status filtering using special commands prefixed with a single '>' sign: \n" +
-				"    \u2022 Use '>unread' for unvisited feeds. \n" +
-				"    \u2022 Use '>read' for visited feeds. \n" +
-				"    \u2022 Use '>ok' for feeds that updated just fine. \n" +
-				"    \u2022 Use '>error' for feeds that failed to update. \n" +
-				"    \u2022 Use '>error-ua' for feeds that failed to update due to lack of client authentication. \n" +
-				"    \u2022 Use '>load' for feeds that are still loading. \n" +
-				"    \u2022 Use '>fixable' for feeds that have fixable parsing errors. \n\n" +
-				"\u2731 Feeds may change their title, update time and/or status after the filter was applied.".replace(/ /g, "\u00a0"); // 'NO-BREAK SPACE'
+
+		// All non-translatable constants
+		const filterConstants = {
+			SLASH: "'/'",
+			FLAG_I: "'i'",
+			BACKSLASH: "'\\'",
+			PERCENT: "'%'",
+			TILDE: "'~'",
+			AGO_PATTERN: "'[number] [time_unit] ago'",
+			TIME_UNIT: "'[time_unit]'",
+			AGO: "'ago'",
+			SECONDS: "'seconds'",
+			MINUTES: "'minutes'",
+			HOURS: "'hours'",
+			DAYS: "'days'",
+			WEEKS: "'weeks'",
+			MONTHS: "'months'",
+			YEARS: "'years'",
+			EXAMPLE_AGO_1: "'~5 weeks ago'",
+			EXAMPLE_AGO_2: "'~12 months ago'",
+			EXAMPLE_AGO_3: "'~^3 days ago'",
+			CARET: "'^'",
+			GREATER_THAN: "'>'",
+			CMD_UNREAD: "'>unread'",
+			CMD_READ: "'>read'",
+			CMD_OK: "'>ok'",
+			CMD_ERROR: "'>error'",
+			CMD_ERROR_UA: "'>error-ua'",
+			CMD_LOAD: "'>load'",
+			CMD_FIXABLE: "'>fixable'",
+		};
+
+		const timePatternConstants = [ filterConstants.AGO_PATTERN, filterConstants.TIME_UNIT ];
+		const timeConstants = [ filterConstants.SECONDS, filterConstants.MINUTES, filterConstants.HOURS, filterConstants.DAYS, filterConstants.WEEKS, filterConstants.MONTHS, filterConstants.YEARS ];
+		const timeExample3Constants = [ filterConstants.EXAMPLE_AGO_3, filterConstants.CARET ];
+
+		// Construct and preserve exact newline and spacing
+		return	`${i18n("js_rssTreeFilterTipTitle")} \n\n` +
+				` \u25cf ${i18n("js_rssTreeFilterTipText")} \n\n` +
+				` \u25cf ${i18n("js_rssTreeFilterTipRegex", filterConstants.SLASH)} \n` +
+				`     ${i18n("js_rssTreeFilterTipRegexFlag", filterConstants.FLAG_I)} \n\n` +
+				` \u25cf ${i18n("js_rssTreeFilterTipFolder", filterConstants.BACKSLASH)} \n\n` +
+				` \u25cf ${i18n("js_rssTreeFilterTipUrl", filterConstants.PERCENT)} \n\n` +
+				` \u25cf ${i18n("js_rssTreeFilterTipTime", filterConstants.TILDE)} \n` +
+				`     ${i18n("js_rssTreeFilterTipTimePattern", timePatternConstants)} \n` +
+				`     ${i18n("js_rssTreeFilterTipTimeUnits", timeConstants)} \n` +
+				`     ${i18n("js_rssTreeFilterTipTimeExamples")} \n` +
+				`     \u2022 ${i18n("js_rssTreeFilterTipTimeExample1", filterConstants.EXAMPLE_AGO_1)} \n` +
+				`     \u2022 ${i18n("js_rssTreeFilterTipTimeExample2", filterConstants.EXAMPLE_AGO_2)} \n` +
+				`     \u2022 ${i18n("js_rssTreeFilterTipTimeExample3", timeExample3Constants)} \n\n` +
+				` \u25cf ${i18n("js_rssTreeFilterTipStatus", filterConstants.GREATER_THAN)} \n` +
+				`    \u2022 ${i18n("js_rssTreeFilterTipStatusUnread", filterConstants.CMD_UNREAD)} \n` +
+				`    \u2022 ${i18n("js_rssTreeFilterTipStatusRead", filterConstants.CMD_READ)} \n` +
+				`    \u2022 ${i18n("js_rssTreeFilterTipStatusOk", filterConstants.CMD_OK)} \n` +
+				`    \u2022 ${i18n("js_rssTreeFilterTipStatusError", filterConstants.CMD_ERROR)} \n` +
+				`    \u2022 ${i18n("js_rssTreeFilterTipStatusErrorUa", filterConstants.CMD_ERROR_UA)} \n` +
+				`    \u2022 ${i18n("js_rssTreeFilterTipStatusLoad", filterConstants.CMD_LOAD)} \n` +
+				`    \u2022 ${i18n("js_rssTreeFilterTipStatusFixable", filterConstants.CMD_FIXABLE)} \n\n` +
+				`\u2731 ${i18n("js_rssTreeFilterTipFooter")}`.replace(/ /g, "\u00a0"); // 'NO-BREAK SPACE'
 	}
 
 	return {

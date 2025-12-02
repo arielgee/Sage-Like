@@ -65,7 +65,7 @@ let preferencesData = (function() {
 		async function processPreferencesObject(objPrefs) {
 
 			if(!!!objPrefs || typeof(objPrefs) !== "object") {
-				return m_funcImportReject("This file may not be a valid JSON file.");
+				return m_funcImportReject(i18n("js_prefsDataErrorInvalidFile"));
 			}
 
 			try {
@@ -80,11 +80,11 @@ let preferencesData = (function() {
 						await prefs.setAllPreferences(objPrefs);
 						m_funcImportResolve();
 					} else {
-						return m_funcImportReject("This Sage-Like options file was modified.\n\nOnly an unmodified and signed file can be imported.");
+						return m_funcImportReject(i18n("js_prefsDataErrorModifiedOptionsFile"));
 					}
 
 				} else {
-					return m_funcImportReject(`This file may not be a valid Sage-Like options file.\n\nMissing '${PREF_SELF_SIGNED}'.`);
+					return m_funcImportReject(i18n("js_prefsDataErrorMissingPrefSelfSigned", PREF_SELF_SIGNED));
 				}
 
 			} catch(error) {

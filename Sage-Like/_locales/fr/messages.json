@@ -1,0 +1,1888 @@
+{
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Extension messages
+
+	"extName": {
+		"message": "Sage-Like",
+		"description": "Extension name. Normally not translated."
+	},
+	"extDescription": {
+		"message": "Lecteur de flux rapide et léger basé sur une barre latérale. Prend en charge les flux Atom, RSS, JSON et RDF avec une interface personnalisable et une intégration transparente aux marque-pages et à la synchronisation du navigateur.",
+		"description": "Extension description shown in the add-ons manager."
+	},
+	"extSubscribeUsingSageLike": {
+		"message": "S'abonner avec Sage-Like",
+		"description": "Tooltip for the page action button to subscribe to feeds using Sage-Like"
+	},
+	"extToggleSidebar": {
+		"message": "Afficher/Masquer la barre latérale Sage-Like",
+		"description": "Label for keyboard shortcut to toggle the sidebar"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// background.js messages
+
+	"js_backgroundMenuTryOpenLink": {
+		"message": "Essayer d'ouvrir le lien dans l'Aperçu du flux",
+		"description": "Context menu item label shown when right-clicking a link on a web page"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// feedPreview/feedPreview.html messages
+
+	"htm_feedPreviewJumpList": {
+		"message": "Liste de saut",
+		"description": "Label for the jump list section"
+	},
+	"htm_feedPreviewLoadingLabel": {
+		"message": "Chargement...",
+		"description": "Label shown while feed preview is loading"
+	},
+	"htm_feedPreviewErrorMessageLink": {
+		"message": "Ouvrir dans le navigateur",
+		"description": "Link label for opening the feed in the browser in feedPreview.html error container"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// feedPreview/feedPreview.js messages
+
+	"js_feedPreviewErrorResourceNotLoaded": {
+		"message": "Ressource non chargée, peut manquer [$ERROR_MESSAGE$].",
+		"description": "Error message shown when a feed resource could not be loaded",
+		"placeholders": {
+			"ERROR_MESSAGE": { "content": "$1" }
+		}
+	},
+	"js_feedPreviewErrorUnexpectedFailure": {
+		"message": "Échec inattendu [$ERROR_MESSAGE$].",
+		"description": "Error message shown for unexpected failures",
+		"placeholders": {
+			"ERROR_MESSAGE": { "content": "$1" }
+		}
+	},
+	"js_feedPreviewErrorImageNotLoaded": {
+		"message": "Image non chargée.",
+		"description": "Error message shown when an image fails to load"
+	},
+	"js_feedPreviewAttachmentTipTitleLabel": {
+		"message": "Titre :",
+		"description": "Label for the attachment title in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipURLLabel": {
+		"message": "URL :",
+		"description": "Label for the attachment URL in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipSizeLabel": {
+		"message": "Taille :",
+		"description": "Label for the attachment size in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipErrorLabel": {
+		"message": "Erreur :",
+		"description": "Label for the error message in feed item attachment tooltips"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// notepad/notepad.html messages
+
+	"htm_notepadPageTitle": {
+		"message": "Bloc-notes",
+		"description": "Notepad page title"
+	},
+	"htm_notepadKeyboardCommandsCaption": {
+		"message": "Raccourcis clavier",
+		"description": "Caption for the keyboard shortcuts help popup in notepad"
+	},
+	"htm_notepadTableHeaderCommand": {
+		"message": "Commande",
+		"description": "Table header for the command column in keyboard shortcuts table"
+	},
+	"htm_notepadTableHeaderKeys": {
+		"message": "Touches",
+		"description": "Table header for the keys column in keyboard shortcuts table"
+	},
+	"htm_notepadCommandSave": {
+		"message": "Enregistrer",
+		"description": "Label for the save keyboard command in notepad"
+	},
+	"htm_notepadCommandSaveAndExit": {
+		"message": "Enregistrer et quitter",
+		"description": "Label for the save and exit keyboard command in notepad"
+	},
+	"htm_notepadCommandRevertToSaved": {
+		"message": "Rétablir la version enregistrée",
+		"description": "Label for the revert to saved keyboard command in notepad"
+	},
+	"htm_notepadCommandExportToFile": {
+		"message": "Exporter vers fichier",
+		"description": "Label for the export to file keyboard command in notepad"
+	},
+	"htm_notepadCommandToggleDarkTheme": {
+		"message": "Basculer thème sombre",
+		"description": "Label for the toggle dark theme keyboard command in notepad"
+	},
+	"htm_notepadCommandTogglePopup": {
+		"message": "Basculer cette fenêtre",
+		"description": "Label for the toggle help popup keyboard command in notepad"
+	},
+	"htm_notepadCommandQuitWithoutSaving": {
+		"message": "Quitter sans enregistrer",
+		"description": "Label for the quit without saving keyboard command in notepad"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// notepad/notepad.js messages
+
+	"js_notepadDocumentTitle": {
+		"message": "Bloc-notes - Code source CSS personnalisé",
+		"description": "Notepad window document title"
+	},
+	"js_notepadLeaveWithoutSaveQuestion": {
+		"message": "Voulez-vous quitter ? - Les modifications peuvent ne pas être enregistrées.",
+		"description": "Confirmation dialog message shown when user tries to leave the notepad with unsaved changes"
+	},
+	"js_notepadCaretPosition": {
+		"message": "Lig $LINE_NUMBER$, Col $COLUMN_NUMBER$",
+		"description": "Status bar text showing the current line and column number in the notepad editor",
+		"placeholders": {
+			"LINE_NUMBER": { "content": "$1" },
+			"COLUMN_NUMBER": { "content": "$2" }
+		}
+	},
+	"js_notepadSelectedCharCount": {
+		"message": "($SELECTED_COUNT$ sélectionné(s))",
+		"description": "Status bar text showing the number of selected characters in the notepad editor",
+		"placeholders": {
+			"SELECTED_COUNT": { "content": "$1" }
+		}
+	},
+	"js_notepadModifiedTitle": {
+		"message": "Modifié",
+		"description": "Title for the notepad window when there are unsaved changes"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// opml/opml.js messages
+
+	"js_opmlErrorInvalidFile": {
+		"message": "Ce fichier n'est peut-être pas un fichier OPML valide.",
+		"description": "Error message shown when the imported file is not a valid OPML file"
+	},
+	"js_opmlErrorMissingElements": {
+		"message": "Ce fichier n'est peut-être pas un fichier OPML valide. Éléments manquants.",
+		"description": "Error message shown when the imported OPML file is missing required elements"
+	},
+	"js_opmlErrorRootFeedsFolderNotSet": {
+		"message": "ID du dossier racine des flux non défini $ERROR_SOURCE$.",
+		"description": "Error message shown when the root feeds folder ID is not set during OPML import",
+		"placeholders": {
+			"ERROR_SOURCE": { "content": "$1" }
+		}
+	},
+	"js_opmlImportedFolderName": {
+		"message": "Import - $TITLE$",
+		"description": "Part one of the folder name containing the imported feeds",
+		"placeholders": {
+			"TITLE": { "content": "$1" }
+		}
+	},
+	"js_opmlImportedFolderNameCreated": {
+		"message": "(créé : $DATE$)",
+		"description": "part two of the folder name containing the imported feeds, showing the creation date",
+		"placeholders": {
+			"DATE": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// pagePopup/pagePopup.html messages
+
+	"htm_popupCaption": {
+		"message": "Flux de la page",
+		"description": "Main caption heading displayed at the top of the page feeds popup"
+	},
+	"htm_popupBusyMessage": {
+		"message": "Oups... Soit vous êtes trop rapide, soit le réseau est trop lent.",
+		"description": "Message shown while the popup is loading feed data"
+	},
+	"htm_popupWaitMessage": {
+		"message": "Veuillez patienter.",
+		"description": "Message shown while the popup is loading feed data"
+	},
+	"htm_popupNoticeNoValidFeeds": {
+		"message": "Dommage... Des flux ont été trouvés mais aucun n'est valide.",
+		"description": "Notice message shown when feeds were discovered but none are valid"
+	},
+	"htm_popupBtnAddFeeds": {
+		"message": "Ajouter à Sage-Like",
+		"description": "Button label for adding selected feeds to Sage-Like"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// pagePopup/pagePopup.js messages
+
+	"js_popupFeedsFolderNotSet": {
+		"message": "Dossier des flux non défini dans",
+		"description": "First part of warning message shown when the feeds bookmark folder has not been configured in preferences"
+	},
+	"js_popupFeedsFolderNotSetLink": {
+		"message": "Page Options",
+		"description": "Link text part of the warning message shown when the feeds bookmark folder has not been configured in preferences"
+	},
+	"js_popupNothingToAdd": {
+		"message": "Rien à ajouter",
+		"description": "Status bar message shown when no feeds are selected for adding"
+	},
+	"js_popupErrorPermissions": {
+		"message": "Quelque chose s'est mal passé !\nTrès probablement un problème de permissions de la page dans le navigateur.",
+		"description": "Error message shown when feed discovery fails due to browser permissions issues"
+	},
+	"js_popupAlreadyInTree": {
+		"message": "Déjà dans l'arbre : '$FEED_NAME$'",
+		"description": "Status bar message shown when attempting to add a feed that already exists in the tree; includes the feed name as $FEED_NAME$",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// permissions/requiredPermissions.js messages
+
+	"js_permsPermissionName": {
+		"message": "Accéder à vos données pour tous les sites",
+		"description": "Name of the browser permission required for accessing feed data across all websites"
+	},
+	"js_permsInfoTextPart1": {
+		"message": "En raison de changements dans l'environnement des modules (Manifest V3) la permission maintenant optionnelle",
+		"description": "First part of the permissions info text explaining the Manifest V3 changes"
+	},
+	"js_permsInfoTextPart2": {
+		"message": "n'est actuellement pas autorisée par le navigateur.",
+		"description": "Second part of the permissions info text explaining the current permission status"
+	},
+	"js_permsInfoTextPart3": {
+		"message": "Sans cette permission, la plupart des flux ne se chargeront probablement pas correctement.",
+		"description": "Third part of the permissions info text explaining the consequences of denied permission"
+	},
+	"js_permsInfoTextPart4": {
+		"message": "Un site peut configurer ses flux sans nécessiter cette permission. Mais beaucoup ne le font pas et cela entraîne une erreur réseau due aux restrictions du navigateur (CORS).",
+		"description": "Fourth part of the permissions info text explaining technical details about CORS restrictions"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferencesData.js messages
+
+	"js_prefsDataErrorInvalidFile": {
+		"message": "Ce fichier n'est peut-être pas un fichier JSON valide.",
+		"description": "Error message shown when the imported file is not a valid JSON file"
+	},
+	"js_prefsDataErrorModifiedOptionsFile": {
+		"message": "Ce fichier d'options Sage-Like a été modifié.\n\nSeul un fichier non modifié et signé peut être importé.",
+		"description": "Error message shown when the imported options file has been modified and is not valid for import"
+	},
+	"js_prefsDataErrorMissingPrefSelfSigned": {
+		"message": "Ce fichier n'est peut-être pas un fichier d'options Sage-Like valide.\n\nManque '$PREF_SELF_SIGNED$'.",
+		"description": "Error message shown when the imported options file is missing the self-signed preference",
+		"placeholders": {
+			"PREF_SELF_SIGNED": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferences.js messages
+
+	"js_prefsOptionUserCustomFont": {
+		"message": "$CUSTOM_FONT$ (police personnalisée)",
+		"description": "Used to display custom user-selected font name in font selector",
+		"placeholders": {
+			"CUSTOM_FONT": { "content": "$1" }
+		}
+	},
+
+	"js_prefsMsgBoxCaptionWarning": {
+		"message": "Avertissement",
+		"description": "Label used for warning message box caption"
+	},
+	"js_prefsMsgBoxCaptionError": {
+		"message": "Erreur",
+		"description": "Label used for error message box caption"
+	},
+	"js_prefsMsgBoxCaptionImport": {
+		"message": "Importer",
+		"description": "Label used for import message box caption"
+	},
+	"js_prefsMsgBoxCaptionExport": {
+		"message": "Exporter",
+		"description": "Label used for export message box caption"
+	},
+
+	"js_prefsImportOPMLMsgBoxMessage": {
+		"message": "$FEED_COUNT$ flux et $FOLDER_COUNT$ dossiers importés avec succès.",
+		"description": "Message shown after importing an OPML file successfully; displays the number of feeds and folders imported.",
+		"placeholders": {
+			"FEED_COUNT": { "content": "$1" },
+			"FOLDER_COUNT": { "content": "$2" }
+		}
+	},
+	"js_prefsImportOPMLMsgBoxMessageSkipSingular": {
+		"message": "1 entrée de fichier a été ignorée.",
+		"description": "Message shown when exactly one entry in the OPML file was skipped during import."
+	},
+	"js_prefsImportOPMLMsgBoxMessageSkipPlural": {
+		"message": "$SKIP_COUNT$ entrées de fichier ont été ignorées.",
+		"description": "Message shown when multiple entries in the OPML file were skipped during import; includes the number of skipped entries.",
+		"placeholders": {
+			"SKIP_COUNT": { "content": "$1" }
+		}
+	},
+	"js_prefsExportOPMLMsgBoxMessage": {
+		"message": "$FEED_COUNT$ flux et $FOLDER_COUNT$ dossier(s) exportés avec succès.\n\nFichier : $FILE_NAME$",
+		"description": "Message shown after exporting feeds and folders to an OPML file successfully; displays counts and the output file name.",
+		"placeholders": {
+			"FEED_COUNT": { "content": "$1" },
+			"FOLDER_COUNT": { "content": "$2" },
+			"FILE_NAME": { "content": "$3" }
+		}
+	},
+	"js_prefsImportPrefsMsgBoxMessage": {
+		"message": "Fichier importé avec succès.\n\nCette page va maintenant se recharger pour appliquer les options importées.",
+		"description": "Message shown after importing extension options successfully; informs the user the Options page will reload to apply changes."
+	},
+	"js_prefsExportPrefsMsgBoxMessage": {
+		"message": "Options exportées avec succès.\n\nFichier : $FILE_NAME$",
+		"description": "Message shown after exporting extension options successfully; includes the output file name.",
+		"placeholders": {
+			"FILE_NAME": { "content": "$1" }
+		}
+	},
+
+	"js_prefsSelectFeedsFolderOptionLabel": {
+		"message": "-Sélectionner dossier des flux-",
+		"description": "Placeholder option text shown in the Feeds bookmark folder dropdown before a folder is selected."
+	},
+	"js_prefsColorRGBnotation": {
+		"message": "Notation RGB :",
+		"description": "Label preceding the RGB color value display (e.g., rgb(255, 255, 255)) in the color picker UI."
+	},
+	"js_prefsColorHTMLnotation": {
+		"message": "Notation HTML :",
+		"description": "Label preceding the HTML/hex color value display (e.g., #FFFFFF) in the color picker UI."
+	},
+
+	"js_prefsCssErrorNotFileObject": {
+		"message": "Pas un objet File.",
+		"description": "Error message shown when the imported object is not a File"
+	},
+	"js_prefsCssErrorFileEmpty": {
+		"message": "Fichier vide.",
+		"description": "Error message shown when the imported file is empty"
+	},
+	"js_prefsCssErrorFileTooLarge": {
+		"message": "Fichier trop volumineux. Maximum : $BYTE_SIZE$",
+		"description": "Error message shown when the imported file is too large",
+		"placeholders": {
+			"BYTE_SIZE": { "content": "$1" }
+		}
+	},
+	"js_prefsCssErrorFileReaderError": {
+		"message": "Erreur FileReader.",
+		"description": "Error message shown when the file read error"
+	},
+	"js_prefsCssErrorFileNoTextContent": {
+		"message": "Le fichier n'a pas de contenu texte.",
+		"description": "Error message shown when the imported file has no text content"
+	},
+	"js_prefsCssWarningRemoteURL": {
+		"message": "Des URLs vers des ressources distantes ont été trouvées dans le fichier, ce qui pourrait présenter un risque de sécurité.\n\nSi vous n'êtes pas sûr que ces URLs soient sûres, remplacez ou effacez ce fichier.",
+		"description": "Warning shown when imported CSS contains URLs to remote resources, which may pose a security risk."
+	},
+	"js_prefsCssWarningNoStyleRules": {
+		"message": "Aucune règle de style trouvée dans le fichier.",
+		"description": "Warning shown when imported CSS contains no style rules."
+	},
+	"js_prefsCssWarningNoRules": {
+		"message": "Aucune règle trouvée dans le fichier.",
+		"description": "Warning shown when imported CSS contains no rules."
+	},
+
+	"js_prefsNotepadEditorOpen": {
+		"message": "L'opération ne peut pas être effectuée tant que l'éditeur de code source CSS du bloc-notes est ouvert.\n\nFermez l'éditeur.",
+		"description": "Message shown when trying to perform an operation while the notepad CSS source code editor is open."
+	},
+	"js_prefsProcessingBusyMessage": {
+		"message": "Je suis occupé, veuillez patienter.",
+		"description": "Message when the preferences page is busy processing an operation"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferences.html messages
+
+	"htm_prefsPageTitle": {
+		"message": "Options Sage-Like",
+		"description": "Preferences page title"
+	},
+	"htm_prefsNavFeeds": {
+		"message": "Flux",
+		"description": "Navigation item for feeds section"
+	},
+	"htm_prefsNavBehavior": {
+		"message": "Comportement",
+		"description": "Navigation item for behavior section"
+	},
+	"htm_prefsNavAppearance": {
+		"message": "Apparence",
+		"description": "Navigation item for appearance section"
+	},
+	"htm_prefsNavMiscellaneous": {
+		"message": "Divers",
+		"description": "Navigation item for miscellaneous section"
+	},
+	"htm_prefsNavWriteReview": {
+		"message": "Écrire un avis",
+		"description": "External navigation link label for writing a review"
+	},
+	"htm_prefsNavSubmitIssue": {
+		"message": "Soumettre un problème",
+		"description": "External navigation link label for submitting an issue"
+	},
+	"htm_prefsNavSupportFeedback": {
+		"message": "Support & Retour",
+		"description": "External navigation link label for support and feedback"
+	},
+	"htm_prefsNavCustomCSS": {
+		"message": "CSS personnalisé pour l'Aperçu",
+		"description": "External navigation link label for custom CSS info"
+	},
+	"htm_prefsNavBuyBeer": {
+		"message": "Offrir une bière au développeur",
+		"description": "External navigation link label for donation"
+	},
+	"htm_prefsFeedsCaption": {
+		"message": "Flux",
+		"description": "Section caption for feeds preferences block"
+	},
+	"htm_prefsFeedsBookmarkFolder": {
+		"message": "Dossier des flux (marque-pages)",
+		"description": "Label for feeds bookmark folder select"
+	},
+	"htm_prefsRefreshFeedsOnSidebar": {
+		"message": "Actualiser les flux au lancement de la barre latérale",
+		"description": "Label for refresh feeds on sidebar launch checkbox"
+	},
+	"htm_prefsScheduledFeedRefresh": {
+		"message": "Actualisation programmée des flux",
+		"description": "Label for scheduled feed refresh select"
+	},
+	"htm_prefsScheduleNoThanks": {
+		"message": "Non merci, je le ferai moi-même",
+		"description": "Option label for scheduled feed refresh: do not auto-refresh"
+	},
+	"htm_prefsScheduleEvery10Min": {
+		"message": "Toutes les 10 minutes",
+		"description": "Option label for scheduled feed refresh interval of 10 minutes"
+	},
+	"htm_prefsScheduleEvery30Min": {
+		"message": "Toutes les 30 minutes",
+		"description": "Option label for scheduled feed refresh interval of 30 minutes"
+	},
+	"htm_prefsScheduleEvery1Hour": {
+		"message": "Toutes les 1 heure",
+		"description": "Option label for scheduled feed refresh interval of 1 hour"
+	},
+	"htm_prefsScheduleEvery3Hours": {
+		"message": "Toutes les 3 heures",
+		"description": "Option label for scheduled feed refresh interval of 3 hours"
+	},
+	"htm_prefsScheduleEvery6Hours": {
+		"message": "Toutes les 6 heures",
+		"description": "Option label for scheduled feed refresh interval of 6 hours"
+	},
+	"htm_prefsScheduleEveryDayAt": {
+		"message": "Chaque jour à…",
+		"description": "Option label used to open the time-of-day popup for daily refresh; includes ellipsis."
+	},
+	"htm_prefsNotifyFeedUpdatesClosed": {
+		"message": "Notifier les mises à jour de flux lorsque la barre est fermée",
+		"description": "Label for notify feed updates while sidebar is closed checkbox"
+	},
+	"htm_prefsFeedRefreshMethod": {
+		"message": "Méthode d'actualisation des flux",
+		"description": "Label for feed refresh method select"
+	},
+	"htm_prefsFeedRefreshMethodStrenuous": {
+		"message": "Intense",
+		"description": "Feed refresh method option label for Strenuous mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodModerate": {
+		"message": "Modérée",
+		"description": "Feed refresh method option label for Moderate mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodRelaxed": {
+		"message": "Détendue",
+		"description": "Feed refresh method option label for Relaxed mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodEasy": {
+		"message": "Facile",
+		"description": "Feed refresh method option label for Easy mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodLazy": {
+		"message": "Lente",
+		"description": "Feed refresh method option label for Lazy mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsSingleFeedTimeout": {
+		"message": "Délai d'expiration pour un flux",
+		"description": "Label for single feed fetching timeout input"
+	},
+	"htm_prefsTimeoutSeconds": {
+		"message": "secondes",
+		"description": "Label for seconds input"
+	},
+	"htm_prefsShowUnreadStats": {
+		"message": "Afficher le nombre total de flux et d'éléments non lus",
+		"description": "Label for show unread feeds and items checkbox"
+	},
+	"htm_prefsOrderFeedItemsChrono": {
+		"message": "Ordre chronologique des éléments de flux",
+		"description": "Label for order feed-items chronologically checkbox"
+	},
+	"htm_prefsDetectFeedsInWebPage1": {
+		"message": "Détecter les flux dans les pages Web et afficher le bouton d'abonnement",
+		"description": "Label for detect feeds in web pages checkbox. First part. in between there is an image."
+	},
+	"htm_prefsDetectFeedsInWebPage2": {
+		"message": "dans la barre d'adresse",
+		"description": "Label for detect feeds in web pages checkbox. Second part, after the image."
+	},
+	"htm_prefsBehaviorCaption": {
+		"message": "Comportement",
+		"description": "Section caption for behavior preferences block"
+	},
+	"htm_prefsFolderClickAction": {
+		"message": "Action clic sur dossier (ouvrir/fermer)",
+		"description": "Label for folder click action select"
+	},
+	"htm_prefsFolderClickActionSingleClick": {
+		"message": "Simple-clic",
+		"description": "Label for Single-click option in the folder click action select"
+	},
+	"htm_prefsFolderClickActionDoubleClick": {
+		"message": "Double-clic",
+		"description": "Label for Double-click option in the folder click action select"
+	},
+	"htm_prefsFeedClickOpensPreview": {
+		"message": "Un clic sur un flux ouvre automatiquement l'Aperçu",
+		"description": "Label for feed-click opens preview select"
+	},
+	"htm_prefsClickOpensFeedPreviewNo": {
+		"message": "Non, j'utiliserai le clic du milieu",
+		"description": "Label for no automatic feed preview open option"
+	},
+	"htm_prefsClickOpensFeedPreviewCurrentTab": {
+		"message": "Dans l'onglet actuel",
+		"description": "Label for current tab option"
+	},
+	"htm_prefsClickOpensFeedPreviewNewTab": {
+		"message": "Dans un nouvel onglet",
+		"description": "Label for new tab option"
+	},
+	"htm_prefsFeedItemsOpenArticles": {
+		"message": "Ouvrir les articles des éléments de flux",
+		"description": "Label for open feed-items articles select"
+	},
+	"htm_prefsFeedItemOpenInCurrentTab": {
+		"message": "Dans l'onglet actuel",
+		"description": "Label for the in the current tab option"
+	},
+	"htm_prefsFeedItemOpenInNewTab": {
+		"message": "Dans un nouvel onglet",
+		"description": "Label for the in a new tab option"
+	},
+	"htm_prefsMarkFeedPreviewRead": {
+		"message": "Lors de l'ouverture de l'Aperçu, marquer comme \"Lu\"",
+		"description": "Label for mark as read when opening feed preview select"
+	},
+	"htm_prefsMarkReadNoting": {
+		"message": "Aucun",
+		"description": "Option label for the 'mark as read' mode that marks noting"
+	},
+	"htm_prefsMarkReadCollective": {
+		"message": "Tous les éléments du flux collectivement",
+		"description": "Option label for the 'mark as read' mode that marks the whole feed at once"
+	},
+	"htm_prefsMarkReadCollectiveTitle": {
+		"message": "Tous les éléments du flux seront marqués comme \"Lu\" même si tous n'ont pas été réellement affichés dans le navigateur.",
+		"description": "Title/tooltip for the 'collective' mark-as-read option in the select"
+	},
+	"htm_prefsMarkReadVisible": {
+		"message": "Chaque élément lorsqu'il devient visible",
+		"description": "Option label for the 'mark as read' mode that marks an item when it becomes visible"
+	},
+	"htm_prefsMarkReadVisibleTitle": {
+		"message": "Un élément sera marqué comme \"Lu\" dès qu'environ 30 % de sa surface est affichée.",
+		"description": "Title/tooltip for the 'visible' mark-as-read option in the select"
+	},
+	"htm_prefsAppearanceCaption": {
+		"message": "Apparence",
+		"description": "Section caption for appearance preferences block"
+	},
+	"htm_prefsUIDensity": {
+		"message": "Densité de l'interface",
+		"description": "Label for UI density select"
+	},
+	"htm_prefsUIDensityCompact": {
+		"message": "Compacte",
+		"description": "Option label for UI density: Compact"
+	},
+	"htm_prefsUIDensityComfortable": {
+		"message": "Confortable",
+		"description": "Option label for UI density: Comfortable"
+	},
+	"htm_prefsUIDensitySpacious": {
+		"message": "Spacieuse",
+		"description": "Option label for UI density: Spacious"
+	},
+	"htm_prefsUIDensityExtraSpacious": {
+		"message": "Très spacieuse",
+		"description": "Option label for UI density: Extra Spacious"
+	},
+	"htm_prefsSidebarFont": {
+		"message": "Police de la barre latérale",
+		"description": "Label for sidebar font select"
+	},
+	"htm_prefsSidebarFontDefault": {
+		"message": "(Police par défaut du navigateur)",
+		"description": "Option label for using the browser's default font in the sidebar font select"
+	},
+	"htm_prefsSidebarFontUser": {
+		"message": "Police personnalisée…",
+		"description": "Option label used to open the user font popup for custom font; includes ellipsis."
+	},
+	"htm_prefsFontSize": {
+		"message": "Taille",
+		"description": "Label for font size select"
+	},
+	"htm_prefsSidebarColors": {
+		"message": "Couleurs de la barre latérale",
+		"description": "Label for sidebar colors inputs"
+	},
+	"htm_prefsColorWindow": {
+		"message": "Fenêtre",
+		"description": "Label for window color input in Sidebar colors"
+	},
+	"htm_prefsColorDialog": {
+		"message": "Dialogue",
+		"description": "Label for dialog color input in Sidebar colors"
+	},
+	"htm_prefsColorActive": {
+		"message": "Actif",
+		"description": "Label for active selection color input in Sidebar colors"
+	},
+	"htm_prefsColorText": {
+		"message": "Texte",
+		"description": "Label for text color input in Sidebar colors"
+	},
+	"htm_prefsColorIcons": {
+		"message": "Icônes",
+		"description": "Label for icons color input in Sidebar colors"
+	},
+	"htm_prefsClassicIconsColor": {
+		"message": "Couleur des icônes classiques",
+		"description": "Label for classic icons color radio group"
+	},
+	"htm_prefsIncreaseUnreadFontSize": {
+		"message": "Augmenter la taille des éléments non lus dans la barre",
+		"description": "Label for increase font size of unread items checkbox"
+	},
+	"htm_prefsShowFeedItemDesc": {
+		"message": "Afficher les infobulles de description des éléments, si disponible",
+		"description": "Label for show feed-item description tooltips checkbox"
+	},
+	"htm_prefsShowFeedItemDescAttach": {
+		"message": "Afficher les ressources attachées dans l'infobulle",
+		"description": "Label for show feed-item attached resources checkbox"
+	},
+	"htm_prefsTooltipPopupDelay": {
+		"message": "Délai d'apparition de l'infobulle",
+		"description": "Label for tooltip popup delay input"
+	},
+	"htm_prefsUnitMilliseconds": {
+		"message": "millisecondes",
+		"description": "Unit label for tooltip delay field in sidebar"
+	},
+	"htm_prefsTooltipColors": {
+		"message": "Couleurs des infobulles",
+		"description": "Label for tooltip colors inputs"
+	},
+	"htm_prefsTipColorBackground": {
+		"message": "Arrière-plan",
+		"description": "Label for tooltip background color input in sidebar"
+	},
+	"htm_prefsTipColorText": {
+		"message": "Texte",
+		"description": "Label for tooltip text color input in sidebar"
+	},
+	"htm_prefsShowTryOpenLink": {
+		"message": "Afficher l'élément de menu \"Essayer d'ouvrir le lien dans l'Aperçu du flux\" pour les liens",
+		"description": "Label for show try open link in feed preview checkbox"
+	},
+	"htm_prefsUseCustomCSSFeedPreview": {
+		"message": "Utiliser une feuille de style personnalisée pour l'Aperçu",
+		"description": "Label for use custom CSS for feed preview checkbox"
+	},
+	"htm_prefsCSSSourceCode": {
+		"message": "Code source CSS",
+		"description": "Label for CSS source code controls"
+	},
+	"htm_prefsImportCSS": {
+		"message": "Importer...",
+		"description": "Button label for importing custom CSS"
+	},
+	"htm_prefsEditCSS": {
+		"message": "Éditer...",
+		"description": "Button label for editing custom CSS"
+	},
+	"htm_prefsClearCSS": {
+		"message": "Effacer!",
+		"description": "Button label for clearing custom CSS"
+	},
+	"htm_prefsMiscellaneousCaption": {
+		"message": "Divers",
+		"description": "Section caption for miscellaneous preferences block"
+	},
+	"htm_prefsBackupFeedsOPML": {
+		"message": "Sauvegarde des flux (OPML)",
+		"description": "Label for backup feeds OPML controls"
+	},
+	"htm_prefsImportOPML": {
+		"message": "Importer...",
+		"description": "Button label for importing OPML"
+	},
+	"htm_prefsExportOPML": {
+		"message": "Exporter...",
+		"description": "Button label for exporting OPML"
+	},
+	"htm_prefsProcessingMsg": {
+		"message": "Ne fermez pas cet onglet avant la fin du processus.",
+		"description": "Processing overlay message displayed during import/export operations"
+	},
+	"htm_prefsManage": {
+		"message": "Gérer",
+		"description": "Label for manage options controls"
+	},
+	"htm_prefsImportOptions": {
+		"message": "Importer options...",
+		"description": "Button label for importing options"
+	},
+	"htm_prefsExportOptions": {
+		"message": "Exporter options...",
+		"description": "Button label for exporting options"
+	},
+	"htm_prefsRestoreDefaults": {
+		"message": "Restaurer valeurs par défaut",
+		"description": "Button label for restoring default options"
+	},
+	"htm_prefsReloadExtension": {
+		"message": "Recharger l'extension",
+		"description": "Button label for reloading the extension"
+	},
+	"htm_prefsUserFontName": {
+		"message": "Nom de la police :",
+		"description": "Label for user font name text input in user Font popup"
+	},
+	"htm_prefsEveryDayAt": {
+		"message": "Chaque jour à :",
+		"description": "Label for time-of-day input in daily schedule popup"
+	},
+	"htm_prefsButtonOK": {
+		"message": "OK",
+		"description": "Button label for confirmation in message box"
+	},
+
+	"htm_prefsTipTitleFeedsBookmarkFolder": {
+		"message": "Les dossiers vides sont marqués par le symbole '∅'.",
+		"description": "Tooltip for feeds bookmark folder label"
+	},
+	"htm_prefsTipTitleRefreshFeedsOnSidebar": {
+		"message": "Désactiver cette option accélère le chargement de la barre latérale. Cependant les flux afficheront un état obsolète jusqu'à actualisation manuelle ou programmée.",
+		"description": "Tooltip for refresh feeds on sidebar launch label"
+	},
+	"htm_prefsTipTitleNotifyFeedUpdatesClosed": {
+		"message": "Affiche un badge vert 'N' sur le bouton de l'extension quand une mise à jour est détectée barre fermée.\n\nLes flux ne sont pas actualisés en arrière-plan lorsque la barre est fermée.",
+		"description": "Tooltip for notify feed updates while sidebar is closed label"
+	},
+	"htm_prefsTipTitleFeedRefreshMethod": {
+		"message": "Méthodes d'actualisation des flux :\n \u25CF Intense\u2002–\u2002Récupère tous les flux simultanément en une seule salve.\n \u25CF Modérée\u2002–\u2002Récupère les flux en 3 salves, pauses de 2 s entre elles.\n \u25CF Détendue\u2002–\u2002Récupère les flux en 5 salves, pauses de 3 s entre elles.\n \u25CF Facile\u2002–\u2002Récupère les flux en 10 salves, pauses de 4 s entre elles.\n \u25CF Lente\u2002–\u2002Récupère les flux un par un avec une pause de 1,5 s entre chaque.\n",
+		"description": "Tooltip for feed refresh method label"
+	},
+	"htm_prefsTipTitleSingleFeedTimeout": {
+		"message": "Plage de délai : 10 - 300 secondes",
+		"description": "Tooltip for single feed fetching timeout label"
+	},
+	"htm_prefsTipTitleShowUnreadStats": {
+		"message": "Active une phase de traitement supplémentaire pour chaque flux lors des mises à jour d'affichage.",
+		"description": "Tooltip for show unread feeds and items label"
+	},
+	"htm_prefsTipTitleOrderFeedItemsChrono": {
+		"message": "Quand activé, les éléments dans la barre et l'Aperçu seront ordonnés par horodatage. Sinon l'ordre source est conservé.",
+		"description": "Tooltip for order feed-items chronologically label"
+	},
+	"htm_prefsTipTitleDetectFeedsInWebPage": {
+		"message": "Active une phase de traitement supplémentaire pour chaque page lors du chargement du navigateur.",
+		"description": "Tooltip for detect feeds in web pages label"
+	},
+	"htm_prefsTipTitleFeedItemsOpenArticles": {
+		"message": "Le clic milieu ouvre avec l'option alternative (non sélectionnée).\n\n\u2721 Utilisez Ctrl+Clic pour un nouvel onglet ou Maj+Clic pour une nouvelle fenêtre.",
+		"description": "Tooltip for feed-items open articles label"
+	},
+	"htm_prefsTipTitleMarkFeedPreviewRead": {
+		"message": "S'applique uniquement quand l'Aperçu est ouvert depuis la vue en arbre de la barre latérale.",
+		"description": "Tooltip for mark as read when opening feed preview label"
+	},
+	"htm_prefsTipTitleSidebarFont": {
+		"message": "Choisissez une police parmi celles proposées ou saisissez votre propre nom avec le dernier élément de la liste. Si la police n'est pas supportée Sage-Like revient à la police par défaut du navigateur.",
+		"description": "Tooltip for sidebar font label"
+	},
+	"htm_prefsTipTitleIncreaseUnreadFontSize": {
+		"message": "Améliore la visibilité des éléments non lus au-delà du gras, utile avec une palette sombre.",
+		"description": "Tooltip for increase font size of unread items label"
+	},
+	"htm_prefsTipTitleTooltipPopupDelay": {
+		"message": "Plage de délai : 0 à 1500 millisecondes (jusqu'à 1,5 s)",
+		"description": "Tooltip for tooltip popup delay label"
+	},
+	"htm_prefsTipTitleCSSSourceCode": {
+		"message": "Le contenu CSS est stocké en interne. Si vous modifiez le fichier source, réimportez-le.\nVous pouvez aussi utiliser \"Éditer...\" pour modifier directement le code importé.\n\n\u2731 Pour des exemples, cliquez sur le lien \"CSS personnalisé pour l'Aperçu\" en bas à gauche de cette page.",
+		"description": "Tooltip for CSS source code label"
+	},
+	"htm_prefsTipTitleManage": {
+		"message": "Notes :\n\u00A0\u25CF\u00A0\"Importer options...\" peut échouer à (re)définir le \"Dossier des flux\" s'il manque dans le navigateur.\n\u00A0\u25CF\u00A0\"Restaurer valeurs par défaut\" efface le \"Dossier des flux\" sélectionné et tout \"Code source CSS\" importé.\n\u00A0\u25CF\u00A0\"Recharger l'extension\" fermera cet onglet.",
+		"description": "Tooltip for manage options label"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// syndication/feedFactory.js messages
+
+	"js_feedFactoryErrorFeedFormat": {
+		"message": "Format de flux ni XML ni JSON.",
+		"description": "Error message shown when the feed document format cannot be identified as XML or JSON"
+	},
+	"js_feedFactoryErrorFeedNotIdentified": {
+		"message": "Flux RSS non identifié dans le document",
+		"description": "Error message shown when the RSS feed structure is not recognized in the XML document"
+	},
+	"js_feedFactoryErrorJsonVersionString": {
+		"message": "jsonfeed invalide, la chaîne de niveau supérieur 'version :' est indéfinie.",
+		"description": "Error message shown when JSON feed is missing the required 'version' string property"
+	},
+	"js_feedFactoryErrorJsonVersionValue": {
+		"message": "jsonfeed invalide, valeur de version inattendue.",
+		"description": "Error message shown when JSON feed has an invalid or unsupported version value"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// syndication/syndication.js messages
+
+	"js_syndicationErrorGetFeedData": {
+		"message": "Échec de récupération des données du flux.",
+		"description": "Error message shown when the feed data cannot be retrieved from the parsed feed"
+	},
+	"js_syndicationErrorNoFeedItems": {
+		"message": "Aucun élément RSS identifié dans le document.",
+		"description": "Error message shown when no feed items are found in the feed document"
+	},
+	"js_syndicationErrorGetFeedItems": {
+		"message": "Échec de récupération des éléments du flux depuis les données.",
+		"description": "Error message shown when feed items cannot be extracted from the feed data"
+	},
+	"js_syndicationErrorGetResponseStream": {
+		"message": "Échec de récupération du flux de réponse (blob).",
+		"description": "Error message shown when the response stream (blob) cannot be obtained during feed fetching"
+	},
+	"js_syndicationErrorRetrieveFeedSource": {
+		"message": "Échec de récupération de la source du flux depuis l'URL.",
+		"description": "Error message shown when the feed source cannot be retrieved from the specified URL"
+	},
+	"js_syndicationErrorFetchFeedFromURL": {
+		"message": "Échec d'obtention du flux depuis l'URL.",
+		"description": "Error message shown when the fetch operation fails while retrieving a feed from a URL"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// shared/common.js messages
+
+	"js_commonRelativeTimeAgo": {
+		"message": "il y a $UNIT$",
+		"description": "Used for past times, e.g., '5 minutes ago'",
+		"placeholders": {
+			"UNIT": {
+				"content": "$1",
+				"example": "5 days"
+			}
+		}
+	},
+	"js_commonRelativeTimeIn": {
+		"message": "dans $UNIT$",
+		"description": "Used for future times, e.g., 'in 5 minutes'",
+		"placeholders": {
+			"UNIT": {
+				"content": "$1",
+				"example": "3 minutes"
+			}
+		}
+	},
+	"js_commonRelativeTimeJustNow": {
+		"message": "à l'instant",
+		"description": "Used for very recent times"
+	},
+	"js_commonRelativeTime_year": {
+		"message": "$NUMBER$ an",
+		"description": "Singular form of 'year' in relative time expressions",
+		"placeholders": {
+			"NUMBER": {
+				"content": "$1",
+				"example": "5"
+			}
+		}
+	},
+	"js_commonRelativeTime_years": {
+		"message": "$NUMBER$ ans",
+		"description": "Plural form of 'year' in relative time expressions",
+		"placeholders": {
+			"NUMBER": {
+				"content": "$1",
+				"example": "3"
+			}
+		}
+	},
+	"js_commonRelativeTime_month": {
+		"message": "$NUMBER$ mois",
+		"description": "Singular form of 'month' in relative time expressions",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_months": {
+		"message": "$NUMBER$ mois",
+		"description": "Plural form of 'month' in relative time expressions",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_day": {
+		"message": "$NUMBER$ jour",
+		"description": "Singular form of 'day'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_days": {
+		"message": "$NUMBER$ jours",
+		"description": "Plural form of 'day'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_hour": {
+		"message": "$NUMBER$ heure",
+		"description": "Singular form of 'hour'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_hours": {
+		"message": "$NUMBER$ heures",
+		"description": "Plural form of 'hour'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_minute": {
+		"message": "$NUMBER$ minute",
+		"description": "Singular form of 'minute'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_minutes": {
+		"message": "$NUMBER$ minutes",
+		"description": "Plural form of 'minute'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_second": {
+		"message": "$NUMBER$ seconde",
+		"description": "Singular form of 'second'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_seconds": {
+		"message": "$NUMBER$ secondes",
+		"description": "Plural form of 'second'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTimeShortJustNow": {
+		"message": "mtn",
+		"description": "Short form of 'just now' from 'js_commonRelativeTimeJustNow'"
+	},
+	"js_commonRelativeTimeShortMinute": {
+		"message": "min",
+		"description": "Short form of 'minute'"
+	},
+	"js_commonRelativeTimeShortSecond": {
+		"message": "s",
+		"description": "Short form of 'second'"
+	},
+
+	"js_commonUtilClipboardReadError": {
+		"message": "Échec de lecture des données du presse-papiers",
+		"description": "Error message shown when reading from the clipboard fails"
+	},
+
+	"js_commonUtilIncognitoErrorIntro": {
+		"message": "L'extension Sage-Like n'est pas autorisée à s'exécuter dans les fenêtres privées.\nSi vous voulez changer cela :",
+		"description": "Introductory sentence explaining that the extension cannot run in private browsing mode."
+	},
+	"js_commonUtilIncognitoErrorStep1": {
+		"message": "Cliquez sur le bouton de menu (3 lignes horizontales).",
+		"description": "Step 1 in the instructions for enabling the extension in private windows."
+	},
+	"js_commonUtilIncognitoErrorStep2": {
+		"message": "Sélectionnez \"Modules complémentaires\" ou \"Extensions\" dans le menu.",
+		"description": "Step 2: user selects Add-ons or Extensions."
+	},
+	"js_commonUtilIncognitoErrorStep3": {
+		"message": "Choisissez \"Extensions\" dans la colonne de gauche.",
+		"description": "Step 3: user opens the Extensions category."
+	},
+	"js_commonUtilIncognitoErrorStep4": {
+		"message": "Cliquez sur l'extension \"Sage-Like\".",
+		"description": "Step 4: user opens the Sage-Like extension details page."
+	},
+	"js_commonUtilIncognitoErrorStep5": {
+		"message": "Descendez jusqu'à l'option \"Exécuter dans les fenêtres privées\".",
+		"description": "Step 5: user locates the 'Run in Private Windows' toggle."
+	},
+	"js_commonUtilIncognitoErrorStep6": {
+		"message": "Cliquez sur le bouton radio \"Autoriser\".",
+		"description": "Step 6: user enables the extension for private browsing."
+	},
+
+
+	"js_commonUtilFeedTooltipTitle": {
+		"message": "Titre :",
+		"description": "Label for the feed title in tooltip."
+	},
+	"js_commonUtilFeedTooltipUrl": {
+		"message": "URL :",
+		"description": "Label for the feed URL in tooltip."
+	},
+	"js_commonUtilFeedTooltipError": {
+		"message": "Erreur :",
+		"description": "Label for the feed error message in tooltip."
+	},
+	"js_commonUtilFeedTooltipFormat": {
+		"message": "Format :",
+		"description": "Label for the feed format type in tooltip."
+	},
+	"js_commonUtilFeedTooltipUpdate": {
+		"message": "Mise à jour :",
+		"description": "Label for the feed update time or date in tooltip."
+	},
+	"js_commonUtilFeedTooltipItems": {
+		"message": "Éléments :",
+		"description": "Label for the feed item count in tooltip."
+	},
+	"js_commonUtilFeedTooltipExpired": {
+		"message": "Expiré :",
+		"description": "Label indicating whether the feed has expired."
+	},
+	"js_commonUtilFeedTooltipWarning": {
+		"message": "Avertissement :",
+		"description": "Label used before warning messages in tooltip."
+	},
+	"js_commonUtilFeedTooltipYes": {
+		"message": "Oui",
+		"description": "Used to indicate an affirmative status (e.g., expired = Oui)."
+	},
+	"js_commonUtilFeedTooltipWarningFixable": {
+		"message": "Contient des erreurs d'analyse réparables. Peut prendre plus de temps à traiter.",
+		"description": "Warning message for feeds that contain recoverable parsing errors."
+	},
+	"js_commonUtilFeedTooltipInstructionPreview": {
+		"message": "\u2731 Utilisez le clic milieu pour prévisualiser ce flux.",
+		"description": "Instruction displayed at the end of the tooltip."
+	},
+
+	"js_commonUtilPermissionRequiredTitle": {
+		"message": "Permission requise",
+		"description": "Displayed as the title of the warning box when the extension lacks a required permission."
+	},
+	"js_commonUtilPermissionRequiredText": {
+		"message": "La permission requise \"Accéder à vos données pour tous les sites\" n'est pas autorisée par le navigateur.",
+		"description": "Explains that the extension cannot function because the browser has blocked the required permission. IMPORTANT: The permission name inside the quotes must exactly match the wording displayed by the browser in its permissions UI."
+	},
+	"js_commonUtilPermissionRequiredLearnMore": {
+		"message": "En savoir plus",
+		"description": "Label of the link that leads to an explanation about the missing permission."
+	},
+	"js_commonUtilPermissionRequiredButtonText": {
+		"message": "Demander les permissions",
+		"description": "Text displayed on the button that lets the user grant the necessary permissions."
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/panel.html messages
+
+	"htm_panelButtonRefresh": {
+		"message": "Actualiser les flux",
+		"description": "Tooltip for the refresh feeds button in the toolbar"
+	},
+	"htm_panelButtonDiscover": {
+		"message": "Découvrir des flux",
+		"description": "Tooltip for the discover feeds button in the toolbar"
+	},
+	"htm_panelButtonMarkRead": {
+		"message": "Marquer tous les flux comme Lus (R)",
+		"description": "Tooltip for the mark all feeds as read button in the toolbar"
+	},
+	"htm_panelButtonMarkUnread": {
+		"message": "Marquer tous les flux comme Non lus (U)",
+		"description": "Tooltip for the mark all feeds as unread button in the toolbar"
+	},
+	"htm_panelButtonExpandAll": {
+		"message": "Tout développer",
+		"description": "Tooltip for the expand all button in the toolbar"
+	},
+	"htm_panelButtonCollapseAll": {
+		"message": "Tout réduire",
+		"description": "Tooltip for the collapse all button in the toolbar"
+	},
+	"htm_panelButtonFilter": {
+		"message": "Filtrer les flux affichés",
+		"description": "Tooltip for the filter button in the filter widget"
+	},
+	"htm_panelButtonReapplyFilter": {
+		"message": "Réappliquer le filtre",
+		"description": "Tooltip for the reapply filter button in the filter widget"
+	},
+	"htm_panelButtonClearFilter": {
+		"message": "Effacer le filtre",
+		"description": "Tooltip for the clear filter button in the filter widget"
+	},
+	"htm_panelButtonPreferences": {
+		"message": "Page des options",
+		"description": "Tooltip for the preferences button in the toolbar"
+	},
+
+	"htm_panelTreeFilteredMessage": {
+		"message": "L'arbre est filtré et certains flux sont cachés.",
+		"description": "Message shown when the feed tree is filtered"
+	},
+	"htm_panelSplitterTooltip": {
+		"message": "30/70 :\u2002Maj + Double-clic\n50/50 :\u2002Double-clic\n70/30 :\u2002Ctrl + Double-clic",
+		"description": "Tooltip explaining splitter drag ratios and shortcuts"
+	},
+
+	//////////Discovery////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelDiscoveryCaption": {
+		"message": "Découvrir des flux",
+		"description": "Caption for discover feeds panel"
+	},
+	"htm_panelButtonSelectAll": {
+		"message": "Sélectionner tous les flux",
+		"description": "Tooltip for the select all feeds button in discover panel"
+	},
+	"htm_panelButtonRediscover": {
+		"message": "Redécouvrir les flux",
+		"description": "Tooltip for the rediscover feeds button in discover panel"
+	},
+	"htm_panelDiscoveryAggressiveTooltip": {
+		"message": "Découverte agressive :\n \u25CF Aucune : Vérifier seulement les liens RSS standards.\n \u25CF Faible : Vérifier chaque hyperlien dont l'URL peut suggérer un flux RSS.\n \u25CF Élevée : Vérifier TOUS les hyperliens (processus potentiellement long).\n\n\u2731 \"Faible\" et \"Élevée\" vérifient aussi les documents iframe (1er niveau uniquement).",
+		"description": "Tooltip for aggressiveness control in discover feeds panel"
+	},
+	"htm_panelDiscoveryAggressiveness": {
+		"message": "Agressivité :",
+		"description": "Caption for aggressiveness control in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelNone": {
+		"message": "Aucune",
+		"description": "Caption for none aggressive level in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelLow": {
+		"message": "Faible",
+		"description": "Caption for low aggressive level in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelHigh": {
+		"message": "Élevée",
+		"description": "Caption for high aggressive level in discover feeds panel"
+	},
+	"htm_panelButtonAdd": {
+		"message": "Ajouter",
+		"description": "Label for add button in discover feeds panel"
+	},
+	"htm_panelButtonClose": {
+		"message": "Fermer",
+		"description": "Label for close button in discover feeds panel"
+	},
+
+	//////////Properties///////////////////////////////////////////////////////////////////////////
+
+	"htm_panelPropertiesCaption": {
+		"message": "Propriétés",
+		"description": "Caption for properties panel"
+	},
+	"htm_panelLabelTitle": {
+		"message": "Titre :",
+		"description": "Label for title field in properties panel"
+	},
+	"htm_panelLabelLocation": {
+		"message": "Emplacement :",
+		"description": "Label for Location field in properties panel"
+	},
+	"htm_panelLabelUpdateTitle": {
+		"message": "Mettre à jour le titre depuis le flux",
+		"description": "Label for update title checkbox in properties panel"
+	},
+	"htm_panelLabelOpenInPreview": {
+		"message": "Ouvrir dans l'Aperçu du flux",
+		"description": "Label for open in feed preview checkbox in properties panel"
+	},
+	"htm_panelLabelIgnoreUpdates": {
+		"message": "Ignorer les mises à jour, flux toujours marqué \"Lu\"",
+		"description": "Label for Ignore updates checkbox in properties panel"
+	},
+	"htm_panelLabelFeedMaxItems": {
+		"message": "Nombre max d'éléments (0 pour illimité) :",
+		"description": "Label for Max feed-items in properties panel"
+	},
+	"htm_panelLabelCreateInFolder": {
+		"message": "Créer dans le dossier sélectionné",
+		"description": "Label for create inside folder checkbox in properties panel"
+	},
+	"htm_panelButtonSave": {
+		"message": "Enregistrer",
+		"description": "Label for save button in properties panel"
+	},
+	"htm_panelButtonCancel": {
+		"message": "Annuler",
+		"description": "Label for cancel button in properties and signin panels"
+	},
+
+	//////////Sign in//////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelSigninCaption": {
+		"message": "Connexion",
+		"description": "Caption for signin panel"
+	},
+	"htm_panelLabelSigninUserName": {
+		"message": "Nom d'utilisateur :",
+		"description": "Label for user name in signin panel"
+	},
+	"htm_panelLabelSigninPassword": {
+		"message": "Mot de passe :",
+		"description": "Label for password in signin panel"
+	},
+	"htm_panelButtonSignin": {
+		"message": "Se connecter",
+		"description": "Label for sign in button in signin panel"
+	},
+
+	//////////Message//////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelButtonOK": {
+		"message": "OK",
+		"description": "Label for OK button in message panel"
+	},
+	"htm_panelButtonYes": {
+		"message": "Oui",
+		"description": "Label for Yes button in message panel"
+	},
+	"htm_panelButtonNo": {
+		"message": "Non",
+		"description": "Label for No button in message panel"
+	},
+
+	//////////ContextMenu//////////////////////////////////////////////////////////////////////////
+
+	"htm_panelContextMenuOpen": {
+		"message": "Ouvrir",
+		"description": "Context menu item to open feed or feed item"
+	},
+	"htm_panelContextMenuOpenNewTab": {
+		"message": "Ouvrir dans un nouvel onglet",
+		"description": "Context menu item to open feed or feed item in new tab"
+	},
+	"htm_panelContextMenuOpenNewWin": {
+		"message": "Ouvrir dans une nouvelle fenêtre",
+		"description": "Context menu item to open feed or feed item in new window"
+	},
+	"htm_panelContextMenuOpenNewPrivateWin": {
+		"message": "Ouvrir dans une nouvelle fenêtre privée",
+		"description": "Context menu item to open feed or feed item in private window"
+	},
+	"htm_panelContextMenuOpenAllUnread": {
+		"message": "Ouvrir tous les non lus dans des onglets",
+		"description": "Context menu item to open all unread items in new tabs"
+	},
+	"htm_panelContextMenuSignin": {
+		"message": "Connexion...",
+		"description": "Context menu item to sign in to a feed requiring authentication"
+	},
+	"htm_panelContextMenuToggleReadUnread": {
+		"message": "Basculer Lu/Non lu",
+		"description": "Context menu item to toggle read/unread state"
+	},
+	"htm_panelContextMenuMarkAllRead": {
+		"message": "Marquer tous les flux de l'arbre comme Lus",
+		"description": "Context menu item to mark all tree feeds as read"
+	},
+	"htm_panelContextMenuMarkAllUnread": {
+		"message": "Marquer tous les flux de l'arbre comme Non lus",
+		"description": "Context menu item to mark all tree feeds as unread"
+	},
+	"htm_panelContextMenuNewFeed": {
+		"message": "Nouveau flux...",
+		"description": "Context menu item to create a new feed"
+	},
+	"htm_panelContextMenuNewFolder": {
+		"message": "Nouveau dossier...",
+		"description": "Context menu item to create a new folder"
+	},
+	"htm_panelContextMenuCopyLink": {
+		"message": "Copier le lien",
+		"description": "Context menu item to copy feed URL"
+	},
+	"htm_panelContextMenuPasteLink": {
+		"message": "Coller le lien",
+		"description": "Context menu item to paste feed URL"
+	},
+	"htm_panelContextMenuDelete": {
+		"message": "Supprimer...",
+		"description": "Context menu item to delete a feed or folder"
+	},
+	"htm_panelContextMenuProperties": {
+		"message": "Propriétés...",
+		"description": "Context menu item to show properties dialog"
+	},
+	"htm_panelContextMenuSummary": {
+		"message": "Résumé...",
+		"description": "Context menu item to show feed summary"
+	},
+	"htm_panelContextMenuSwitchDirection": {
+		"message": "Inverser la direction de vue",
+		"description": "Context menu item to switch view direction"
+	},
+	"htm_panelContextMenuCopy": {
+		"message": "Copier",
+		"description": "Context menu item to copy feed item URL"
+	},
+	"htm_panelContextMenuListMarkAllRead": {
+		"message": "Marquer tout comme Lu",
+		"description": "Context menu item to mark all feed items as read"
+	},
+	"htm_panelContextMenuListMarkAllUnread": {
+		"message": "Marquer tout comme Non lu",
+		"description": "Context menu item to mark all feed items as unread"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/panel.js messages
+
+	"js_panelRequestPermissionsText": {
+		"message": "Demander les permissions",
+		"description": "Link text for requesting browser permissions"
+	},
+	"js_panelRequiredPermissionsInstructions": {
+		"message": "Pour autoriser la permission requise, ouvrez le \"Gestionnaire de modules\", choisissez \"Extensions\" puis \"Sage-Like\". Ouvrez l'onglet \"Permissions\" et autorisez \"Accéder à vos données pour tous les sites\". Ou utilisez le lien ci-dessous :",
+		"description": "Instructions shown to the user explaining how to grant required permissions in the browser"
+	},
+	"js_panelRequiredPermissionsCaption": {
+		"message": "Permissions requises",
+		"description": "Caption for the permissions required message box"
+	},
+	"js_panelNewVersionReleased": {
+		"message": "Une nouvelle version a été publiée.",
+		"description": "Message shown when a new version of the extension is available"
+	},
+	"js_panelNewVersionIncompatibleBrowser": {
+		"message": "Une version mise à jour est disponible, $NEW_VERSION$. Cependant elle n'est pas compatible avec votre navigateur (Firefox $BROWSER_VERSION$).\n\nEnvisagez de mettre votre navigateur à jour vers la dernière version.",
+		"description": "Message shown when a new version is available but incompatible with the current browser version",
+		"placeholders": {
+			"NEW_VERSION": { "content": "$1" },
+			"BROWSER_VERSION": { "content": "$2" }
+		}
+	},
+	"js_panelNewVersionCaption": {
+		"message": "Mise à jour disponible",
+		"description": "Caption for the available update notification message box"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/discoveryView.js messages
+
+	"js_discoveryTabLoading": {
+		"message": "L'onglet actuel est encore en cours de chargement.",
+		"description": "Message shown when trying to discover feeds while the current tab is still loading"
+	},
+	"js_discoveryTabNotAccessable": {
+		"message": "Impossible d'accéder à l'onglet actuel.",
+		"description": "Message shown when the extension cannot access the current tab for feed discovery"
+	},
+	"js_discoveryAborted": {
+		"message": " - Abandonné !",
+		"description": "Suffix message appended to status text when feed discovery is aborted"
+	},
+	"js_discoveryNoValidFeeds": {
+		"message": "Aucun flux valide trouvé.",
+		"description": "Message shown when feed discovery completes but finds no valid feeds"
+	},
+	"js_discoveryNoFeedsDiscovered": {
+		"message": "Aucun flux découvert.",
+		"description": "Message shown when feed discovery completes but finds no feeds at all"
+	},
+	"js_discoveryRequiredPermissions": {
+		"message": "Permissions requises",
+		"description": "Message shown when feed discovery cannot proceed due to missing permissions"
+	},
+	"js_discoveryAbort": {
+		"message": "Abandon !",
+		"description": "Button text to abort the feed discovery process"
+	},
+	"js_discoveryAlreadyInTree": {
+		"message": "Déjà dans l'arbre : '$FEED_NAME$'",
+		"description": "Message shown when attempting to add a feed that already exists in the feed tree",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+	"js_discoveryNothingToAdd": {
+		"message": "Rien à ajouter",
+		"description": "Message shown when no feeds are selected for adding after discovery"
+	},
+	"js_discoveryFeedsFolderNotSet": {
+		"message": "Dossier des flux non défini dans la page Options",
+		"description": "Message shown when trying to add feeds but the feeds folder has not been configured"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/messageView.js messages
+
+	"js_messageAttentionCaption": {
+		"message": "Attention !",
+		"description": "Default caption for attention/alert message boxes in the sidebar"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/propertiesView.js messages
+
+	"js_propertiesMaxFeedItemsNotification": {
+		"message": "Vous avez choisi de définir \"Nombre max d'éléments\" à $FEED_MAX_ITEMS$.\n\nQuand le nombre maximal d'éléments affichés est limité et que l'option \"Ordre chronologique des éléments de flux\" est activée, cela peut, mais pas nécessairement, afficher des éléments qui ne sont pas les plus récents.\n\nPertinent uniquement pour les flux dont les éléments source ne sont pas ordonnés chronologiquement.\n\n",
+		"description": "Warning notification shown when user sets a maximum feed items limit that could affect chronological ordering",
+		"placeholders": {
+			"FEED_MAX_ITEMS": { "content": "$1" }
+		}
+	},
+	"js_propertiesMaxFeedItemsDontShowLabel": {
+		"message": "Ne plus afficher ce message",
+		"description": "Label for the checkbox to suppress future max feed items notifications"
+	},
+	"js_propertiesMaxFeedItemsCaption": {
+		"message": "Limiter le nombre maximum d'éléments",
+		"description": "Caption for the max feed items notification dialog"
+	},
+
+	"js_propertiesTitleEmpty": {
+		"message": "Le champ titre est vide.",
+		"description": "Validation error message when feed/folder title field is empty"
+	},
+	"js_propertiesURLInvalid": {
+		"message": "L'URL de l'emplacement est invalide.",
+		"description": "Validation error message when feed URL is malformed or invalid"
+	},
+	"js_propertiesMaxFeedItemsInvalid": {
+		"message": "Valeur Nombre max d'éléments invalide. Plage : $MIN$ - $MAX$",
+		"description": "Validation error message when max feed items value is outside acceptable range",
+		"placeholders": {
+			"MIN": { "content": "$1" },
+			"MAX": { "content": "$1" }
+		}
+	},
+	"js_propertiesNothingToModify": {
+		"message": "Rien à modifier.",
+		"description": "Message shown when user tries to save properties without making any changes"
+	},
+	"js_propertiesFeed": {
+		"message": "Flux",
+		"description": "Label text identifying properties view is for a feed"
+	},
+	"js_propertiesFolder": {
+		"message": "Dossier",
+		"description": "Label text identifying properties view is for a folder"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/rssListView.js messages
+
+	"js_rssListFailedURL": {
+		"message": "URL en échec : ",
+		"description": "Prefix text shown before a feed URL that failed to load"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/rssTreeView.js messages
+
+	"js_rssTreeEmptyMessage": {
+		"message": "C'est si vide sans flux",
+		"description": "Message displayed when the RSS tree view is empty (no feeds)"
+	},
+	"js_rssTreeNoFeedsFolder": {
+		"message": "Le dossier des flux n'est pas défini dans la page Options.",
+		"description": "Error message when no feeds folder has been configured in preferences"
+	},
+
+	"js_rssTreeFailedLoadFeedsFolder": {
+		"message": "Échec de chargement du dossier des flux : ",
+		"description": "Error prefix shown when feeds folder cannot be loaded from bookmarks"
+	},
+	"js_rssTreeNewFeed": {
+		"message": "Nouveau flux",
+		"description": "Default title for a newly created feed item"
+	},
+	"js_rssTreeNewFolder": {
+		"message": "Nouveau dossier",
+		"description": "Default title for a newly created folder item"
+	},
+	"js_rssTreeSigninFailed": {
+		"message": "Connexion échouée",
+		"description": "Error message when authentication/sign-in fails for a feed requiring credentials"
+	},
+	"js_rssTreeDeleteFolderMsg": {
+		"message": "Supprimer définitivement le dossier \"$FOLDER_NAME$\" et tout son contenu de vos marque-pages ?\n\nCette action est irréversible.",
+		"description": "Confirmation message when user attempts to delete a folder and all its feed contents",
+		"placeholders": {
+			"FOLDER_NAME": { "content": "$1" }
+		}
+	},
+	"js_rssTreeDeleteFeedMsg": {
+		"message": "Supprimer définitivement le flux $FEED_NAME$ de vos marque-pages ?\n\nCette action est irréversible.",
+		"description": "Confirmation message when user attempts to delete a feed",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+	"js_rssTreeDeleteFolderCaption": {
+		"message": "Supprimer le dossier",
+		"description": "Caption for the delete folder confirmation dialog"
+	},
+	"js_rssTreeDeleteFeedCaption": {
+		"message": "Supprimer le flux",
+		"description": "Caption for the delete feed confirmation dialog"
+	},
+	"js_rssTreeIgnored": {
+		"message": "ignoré",
+		"description": "Status text indicating a feed is being ignored/skipped during updates"
+	},
+
+	//////////FilterTooltip////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeFilterTipTitle": {
+		"message": "Méthodes de filtrage des flux :",
+		"description": "Title for the feed filter tooltip."
+	},
+	"js_rssTreeFilterTipText": {
+		"message": "Filtrage par texte insensible à la casse.",
+		"description": "Tooltip line for simple text filtering."
+	},
+	"js_rssTreeFilterTipRegex": {
+		"message": "Filtrage par motif d'expression régulière entre deux signes $SLASH$.",
+		"description": "Tooltip line for regex filtering. $SLASH$ will be replaced by the '/' character.",
+		"placeholders": {
+			"SLASH": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipRegexFlag": {
+		"message": "Le drapeau $FLAG_I$ (insensible à la casse) est supporté après le second '/'.",
+		"description": "Tooltip line for regex flag. $FLAG_I$ will be replaced by the 'i' flag.",
+		"placeholders": {
+			"FLAG_I": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipFolder": {
+		"message": "Filtrage par titre de dossier en préfixant le texte d'un seul signe $BACKSLASH$.",
+		"description": "Tooltip line for folder filtering. $BACKSLASH$ will be replaced by the '\\' character.",
+		"placeholders": {
+			"BACKSLASH": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipUrl": {
+		"message": "Filtrage par URL en préfixant le texte d'un seul signe $PERCENT$.",
+		"description": "Tooltip line for URL filtering. $PERCENT$ will be replaced by the '%' character.",
+		"placeholders": {
+			"PERCENT": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTime": {
+		"message": "Filtrage par heure de mise à jour en préfixant le texte d'un seul signe $TILDE$.",
+		"description": "Tooltip line for time filtering. $TILDE$ will be replaced by the '~' character.",
+		"placeholders": {
+			"TILDE": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimePattern": {
+		"message": "Motif d'expression de temps relatif : $AGO_PATTERN$ où $TIME_UNIT$",
+		"description": "Tooltip line for time pattern. $AGO_PATTERN$ is the literal string '[number] [time_unit] ago', $TIME_UNIT$ is '[time_unit]'.",
+		"placeholders": {
+			"AGO_PATTERN": { "content": "$1" },
+			"TIME_UNIT": { "content": "$2" }
+		}
+	},
+	"js_rssTreeFilterTipTimeUnits": {
+		"message": "peut être : $SECONDS$, $MINUTES$, $HOURS$, $DAYS$, $WEEKS$, $MONTHS$ ou $YEARS$.",
+		"description": "List of non-translatable time units. $SECONDS$='seconds', $MINUTES$='minutes', $HOURS$='hours', $DAYS$='days', $WEEKS$='weeks', $MONTHS$='months', $YEARS$='years'.",
+		"placeholders": {
+			"SECONDS": { "content": "$1" },
+			"MINUTES": { "content": "$2" },
+			"HOURS": { "content": "$3" },
+			"DAYS": { "content": "$4" },
+			"WEEKS": { "content": "$5" },
+			"MONTHS": { "content": "$6" },
+			"YEARS": { "content": "$7" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExamples": {
+		"message": "Exemples :",
+		"description": "Tooltip line for time examples."
+	},
+	"js_rssTreeFilterTipTimeExample1": {
+		"message": "$EXAMPLE_AGO_1$ – pour les flux non mis à jour depuis 5 semaines.",
+		"description": "Tooltip time example 1. $EXAMPLE_AGO_1$ is the non-translatable example '~5 weeks ago'.",
+		"placeholders": {
+			"EXAMPLE_AGO_1": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExample2": {
+		"message": "$EXAMPLE_AGO_2$ – pour les flux non mis à jour depuis 12 mois.",
+		"description": "Tooltip time example 2. $EXAMPLE_AGO_2$ is the non-translatable example '~12 months ago'.",
+		"placeholders": {
+			"EXAMPLE_AGO_2": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExample3": {
+		"message": "$EXAMPLE_AGO_3$ – pour les flux MIS à jour il y a 3 jours (notez le $CARET$).",
+		"description": "Tooltip time example 3. $EXAMPLE_AGO_3$ is the non-translatable example '~^3 days ago', $CARET$ is the '^' character.",
+		"placeholders": {
+			"EXAMPLE_AGO_3": { "content": "$1" },
+			"CARET": { "content": "$2" }
+		}
+	},
+	"js_rssTreeFilterTipStatus": {
+		"message": "Filtrage par statut en préfixant avec un seul signe $GREATER_THAN$ :",
+		"description": "Tooltip line for status filtering. $GREATER_THAN$ will be replaced by the '>' character.",
+		"placeholders": {
+			"GREATER_THAN": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusUnread": {
+		"message": "Utilisez $CMD_UNREAD$ pour les flux non visités.",
+		"description": "Tooltip status example. $CMD_UNREAD$ is the non-translatable command '>unread'.",
+		"placeholders": {
+			"CMD_UNREAD": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusRead": {
+		"message": "Utilisez $CMD_READ$ pour les flux visités.",
+		"description": "Tooltip status example. $CMD_READ$ is the non-translatable command '>read'.",
+		"placeholders": {
+			"CMD_READ": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusOk": {
+		"message": "Utilisez $CMD_OK$ pour les flux actualisés correctement.",
+		"description": "Tooltip status example. $CMD_OK$ is the non-translatable command '>ok'.",
+		"placeholders": {
+			"CMD_OK": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusError": {
+		"message": "Utilisez $CMD_ERROR$ pour les flux ayant échoué à l'actualisation.",
+		"description": "Tooltip status example. $CMD_ERROR$ is the non-translatable command '>error'.",
+		"placeholders": {
+			"CMD_ERROR": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusErrorUa": {
+		"message": "Utilisez $CMD_ERROR_UA$ pour les flux échoués faute d'authentification.",
+		"description": "Tooltip status example. $CMD_ERROR_UA$ is the non-translatable command '>error-ua'.",
+		"placeholders": {
+			"CMD_ERROR_UA": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusLoad": {
+		"message": "Utilisez $CMD_LOAD$ pour les flux encore en cours de chargement.",
+		"description": "Tooltip status example. $CMD_LOAD$ is the non-translatable command '>load'.",
+		"placeholders": {
+			"CMD_LOAD": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusFixable": {
+		"message": "Utilisez $CMD_FIXABLE$ pour les flux avec erreurs réparables.",
+		"description": "Tooltip status example. $CMD_FIXABLE$ is the non-translatable command '>fixable'.",
+		"placeholders": {
+			"CMD_FIXABLE": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipFooter": {
+		"message": "Les flux peuvent changer leur titre, heure de mise à jour et/ou statut après application du filtre.",
+		"description": "Final note for the filter tooltip."
+	},
+
+	//////////Summary//////////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeSummaryCaption": {
+		"message": "Résumé",
+		"description": "Caption for the feed tree summary dialog showing statistics"
+	},
+	"js_rssTreeSummaryIntro": {
+		"message": "Total de \"$FEEDS$\" flux et \"$FOLDERS$\" dossiers.",
+		"description": "Introduction line showing total count of feeds and folders",
+		"placeholders": {
+			"FEEDS": { "content": "$1" },
+			"FOLDERS": { "content": "$2" }
+		}
+	},
+	"js_rssTreeSummaryFeedStatus": {
+		"message": "Statut du flux",
+		"description": "Column header for feed status in summary statistics table"
+	},
+	"js_rssTreeSummaryFeedCount": {
+		"message": "Nombre de flux",
+		"description": "Column header for feed count in summary statistics table"
+	},
+	"js_rssTreeSummaryOK": {
+		"message": "OK",
+		"description": "Status label for feeds that updated successfully"
+	},
+	"js_rssTreeSummaryError": {
+		"message": "Erreur",
+		"description": "Status label for feeds that failed to update"
+	},
+	"js_rssTreeSummaryRead": {
+		"message": "Lu",
+		"description": "Status label for visited/read feeds"
+	},
+	"js_rssTreeSummaryUnread": {
+		"message": "Non lu",
+		"description": "Status label for unvisited/unread feeds"
+	},
+	"js_rssTreeSummaryLoading": {
+		"message": "Chargement",
+		"description": "Status label for feeds currently being loaded/updated"
+	},
+	"js_rssTreeSummaryUnauthorized": {
+		"message": "Non autorisé",
+		"description": "Status label for feeds requiring authentication that user hasn't signed into"
+	},
+	"js_rssTreeSummaryNoUpdates30Days": {
+		"message": "Aucune mise à jour en 30+ jours",
+		"description": "Status label for feeds that haven't been updated in 30 or more days"
+	},
+	"js_rssTreeSummaryFixableParseErrors": {
+		"message": "Erreurs d'analyse réparables",
+		"description": "Status label for feeds with parsing errors that can be automatically fixed"
+	},
+	"js_rssTreeSummaryDynamicNote": {
+		"message": "Les valeurs de Nombre de flux sont dynamiques et peuvent changer après affichage.",
+		"description": "Note explaining that feed count statistics may change in real-time"
+	},
+	"js_rssTreeSummaryFixableTip1": {
+		"message": "Les flux avec erreurs réparables requièrent plus de ressources et sont plus longs à analyser et réparer.",
+		"description": "Tip explaining performance impact of feeds with fixable parsing errors"
+	},
+	"js_rssTreeSummaryFixableTip2": {
+		"message": "Pour les consulter, utilisez le filtre de statut '>fixable' dans le widget de filtre de la barre.",
+		"description": "Tip instructing how to filter for feeds with fixable parsing errors"
+	},
+
+	//////////InfoBubble///////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeBubbleMsgDropInside": {
+		"message": "Maintenez Maj pour déposer l'élément \"dans\" le dossier.",
+		"description": "Tooltip message shown during drag-and-drop to indicate Shift key usage for dropping inside folders"
+	},
+	"js_rssTreeBubbleMsgDnDError": {
+		"message": "Erreur inattendue de glisser-déposer (incohérence d'identifiant).\nMaj+Cliquer sur le bouton \"Actualiser les flux\" pour recharger la barre.",
+		"description": "Error message for unexpected drag-and-drop failures with recovery instructions"
+	},
+	"js_rssTreeBubbleMsgDropTargetRemoved": {
+		"message": "Erreur marque-pages : La cible de dépôt pourrait avoir été supprimée.\nMaj+Cliquer sur \"Actualiser les flux\" pour recharger la barre.",
+		"description": "Error message when drag-and-drop target no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgDraggedItemRemoved": {
+		"message": "Erreur marque-pages : L'élément déplacé pourrait avoir été supprimé.\nMaj+Cliquer sur \"Actualiser les flux\" pour recharger la barre.",
+		"description": "Error message when dragged item no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgDropUrlInvalid": {
+		"message": "L'URL déposée n'est pas valide.",
+		"description": "Error message when a dropped URL is malformed or invalid"
+	},
+	"js_rssTreeBubbleMsgDropTextUrlInvalid": {
+		"message": "Le texte déposé n'est pas une URL valide.",
+		"description": "Error message when dropped text content is not a valid URL"
+	},
+	"js_rssTreeBubbleMsgTargetRemoved": {
+		"message": "Erreur marque-pages : La cible pourrait avoir été supprimée.\nMaj+Cliquer sur \"Actualiser les flux\" pour recharger la barre.",
+		"description": "Error message when operation target no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgTargetFolderRemoved": {
+		"message": "Erreur marque-pages : Le dossier cible pourrait avoir été supprimé.\nMaj+Cliquer sur \"Actualiser les flux\" pour recharger la barre.",
+		"description": "Error message when target folder no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgPasteTextUrlInvalid": {
+		"message": "Le texte collé n'est pas une URL valide.",
+		"description": "Error message when pasted text content is not a valid URL"
+	},
+	"js_rssTreeBubbleMsgItemAlreadyRemoved": {
+		"message": "Erreur marque-pages : L'élément pourrait déjà avoir été supprimé.\nMaj+Cliquer sur \"Actualiser les flux\" pour recharger la barre.",
+		"description": "Error message when attempting to operate on an already-deleted item"
+	},
+	"js_rssTreeBubbleMsgFeedRequireSignin": {
+		"message": "Flux nécessitant une connexion.",
+		"description": "Info bubble message indicating the feed requires user authentication"
+	},
+	"js_rssTreeBubbleMsgFeedErroneous": {
+		"message": "Flux erroné.",
+		"description": "Info bubble message indicating the feed has errors"
+	},
+	"js_rssTreeBubbleMsgFeedsFolderModified": {
+		"message": "Le dossier des flux ou son contenu a été modifié par un tiers.\nMaj+Cliquer pour recharger.",
+		"description": "Warning message when feeds folder has been externally modified"
+	},
+	"js_rssTreeBubbleMsgDfaultFeedsFolder": {
+		"message": "Création du dossier des flux par défaut. Veuillez patienter...",
+		"description": "Status message shown while creating the default feeds folder"
+	},
+	"js_rssTreeBubbleMsgHoverFilter": {
+		"message": "Survolez la zone de texte du filtre pour des infos vitales.",
+		"description": "Hint message instructing users to hover over filter box for help"
+	},
+	"js_rssTreeBubbleMsgReapplyFilter": {
+		"message": "L'état d'un ou plusieurs flux a changé.\nLe filtre peut nécessiter une réapplication.",
+		"description": "Notification that feed states changed and filter results may be outdated"
+	},
+	"js_rssTreeBubbleMsgSignin": {
+		"message": "Non authentifié. Clic droit sur le flux verrouillé et \"Connexion...\" ou touche 'L'.",
+		"description": "Instructions for signing into a feed requiring authentication"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/signinView.js messages
+
+	"js_signinCapsLockOn": {
+		"message": "La touche Verr Maj est activée",
+		"description": "Warning message shown in sign-in form when caps lock is enabled"
+	}
+}

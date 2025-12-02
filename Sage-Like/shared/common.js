@@ -1,6 +1,11 @@
 "use strict"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+const i18n = (messageName, substitutions = null) => {
+	return browser.i18n.getMessage(messageName, substitutions);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 class Locker {
 	#_lockRequestCounter = 0
 	lock() {
@@ -399,18 +404,22 @@ let slPrototypes = (function() {
 		// using NO-BREAK SPACE instead of regular space so its textual signature will be unique for replacements
 
 		let msSpan = Date.now() - this.getTime();
-		let v, str = msSpan > 0 ? "%\u00a0ago" : "in\u00a0%";
+		const isPast = msSpan > 0;
+		let v, unit;
 
 		msSpan = Math.abs(msSpan);
 
-		// Calc milliseconds in period
-		if(		(v = Math.trunc(msSpan/31536000000)) > 0 ) return str.replace("%", `${v}\u00a0year${v > 1 ? "s" : ""}`);	// ms in 1 year : 31536000000 (1000*60*60*24*365)
-		else if((v = Math.trunc(msSpan/2592000000))  > 0 ) return str.replace("%", `${v}\u00a0month${v > 1 ? "s" : ""}`);	// ms in 1 mon  :  2592000000 (1000*60*60*24*30)
-		else if((v = Math.trunc(msSpan/86400000))    > 0 ) return str.replace("%", `${v}\u00a0day${v > 1 ? "s" : ""}`);		// ms in 1 day  :    86400000 (1000*60*60*24)
-		else if((v = Math.trunc(msSpan/3600000))     > 0 ) return str.replace("%", `${v}\u00a0hour${v > 1 ? "s" : ""}`);	// ms in 1 hour :     3600000 (1000*60*60)
-		else if((v = Math.trunc(msSpan/60000))       > 0 ) return str.replace("%", `${v}\u00a0minute${v > 1 ? "s" : ""}`);	// ms in 1 min  :       60000 (1000*60)
-		else if((v = Math.trunc(msSpan/1000))        > 0 ) return str.replace("%", `${v}\u00a0second${v > 1 ? "s" : ""}`);	// ms in 1 sec  :        1000
-		else return "just\u00a0now";
+		if(		(v = Math.trunc(msSpan/31536000000)) > 0) unit = (v > 1 ? "years" : "year");		// ms in 1 year : 31536000000 (1000*60*60*24*365)
+		else if((v = Math.trunc(msSpan/2592000000))  > 0) unit = (v > 1 ? "months" : "month");		// ms in 1 mon  :  2592000000 (1000*60*60*24*30)
+		else if((v = Math.trunc(msSpan/86400000))    > 0) unit = (v > 1 ? "days" : "day");			// ms in 1 day  :    86400000 (1000*60*60*24)
+		else if((v = Math.trunc(msSpan/3600000))     > 0) unit = (v > 1 ? "hours" : "hour");		// ms in 1 hour :     3600000 (1000*60*60)
+		else if((v = Math.trunc(msSpan/60000))       > 0) unit = (v > 1 ? "minutes" : "minute");	// ms in 1 min  :       60000 (1000*60)
+		else if((v = Math.trunc(msSpan/1000))        > 0) unit = (v > 1 ? "seconds" : "second");	// ms in 1 sec  :        1000
+		else return i18n("js_commonRelativeTimeJustNow").replace(/ /g, "\u00a0"); // 'NO-BREAK SPACE'
+
+		const unitKey = i18n("js_commonRelativeTime_" + unit, v.toString());
+
+		return (isPast ? i18n("js_commonRelativeTimeAgo", unitKey) : i18n("js_commonRelativeTimeIn", unitKey)).replace(/ /g, "\u00a0"); // 'NO-BREAK SPACE'
 	};
 
 	//////////////////////////////////////////////////////////////////////
@@ -1066,7 +1075,7 @@ let slUtil = (function() {
 				resolve(text);
 			}).catch((error) => {
 				console.log("[Sage-Like]", "navigator.clipboard.readText()", error);
-				reject(new Error("Failed to read data from clipboard"));
+				reject(new Error(i18n("js_commonUtilClipboardReadError")));
 			});
 		});
 	}
@@ -1562,15 +1571,14 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function incognitoErrorMessage(nativeError) {
 		if(!!(nativeError.toString().match(/\bpermission for incognito mode\b/))) {
-			return "Sage-Like extension is not allowed to run in private windows.\n" +
-					"If you're interested, here's how you can change that:" +
+			return i18n("js_commonUtilIncognitoErrorIntro") +
 					"<ol style='margin-top:5px;padding-left:30px;'>" +
-						"<li>Click the menu button (3 horizontal lines).</li>" +
-						"<li>Select \"Add-ons\" or \"Extensions\" from the menu.</li>" +
-						"<li>Select \"Extensions\" on the left side.</li>" +
-						"<li>Click on the \"Sage-Like\" extension.</li>" +
-						"<li>Scroll down to \"Run in Private Windows\" option.</li>" +
-						"<li>Click the \"Allow\" radio button.</li>" +
+						`<li>${i18n("js_commonUtilIncognitoErrorStep1")}</li>` +
+						`<li>${i18n("js_commonUtilIncognitoErrorStep2")}</li>` +
+						`<li>${i18n("js_commonUtilIncognitoErrorStep3")}</li>` +
+						`<li>${i18n("js_commonUtilIncognitoErrorStep4")}</li>` +
+						`<li>${i18n("js_commonUtilIncognitoErrorStep5")}</li>` +
+						`<li>${i18n("js_commonUtilIncognitoErrorStep6")}</li>` +
 					"</ol>";
 		}
 		return nativeError.toString().escapeMarkup();
@@ -1755,9 +1763,13 @@ let slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function refreshUpdateTimeFormattedString(str) {
-		const re = new RegExp("^Update:\\u2003(.+?) \\(([0-9a-z\\u00a0]+)\\)$", "m");
+
+		let re = new RegExp(`^${i18n("js_commonUtilFeedTooltipUpdate")}\\u2003(.+?) \\(([0-9a-z\\u00a0]+)\\)$`, "m");
 		const found = str.match(re);
-		if(!!found && found.length >= 3 && /\b(now|sec|min)/.test(found[2])) {	// update only short time periods 'just now', 'second', 'minute'
+
+		// update only short time periods 'just now', 'second', 'minute'
+		re = new RegExp(`\\b(${i18n("js_commonRelativeTimeShortJustNow")}|${i18n("js_commonRelativeTimeShortSecond")}|${i18n("js_commonRelativeTimeShortMinute")})`);
+		if(!!found && found.length >= 3 && re.test(found[2])) {
 			return str.replace(found[2], (new Date(slUtil.asSafeNumericDate(found[1]))).getRelativeTimeString());
 		}
 		return null;
@@ -1795,12 +1807,13 @@ let slUtil = (function() {
 		const frameStyle = "color:black; background:#fff3cd; border:1px solid #ffeeba; border-left:5px solid #ffb100; border-radius:6px;";
 		const buttonStyle = "display:inline-block; background:#0056b3; color:white; text-decoration:none; padding:6px 12px; border-radius:4px; line-height:1.4em;";
 
-		const str =	`<div id='requiredPermissionsMsg' style='all:revert;${frameStyle}${style}'>` +
-						"<strong style='color:#795100; line-height:2em;'>Permission Required</strong><br>" +
-						"The required permission <b>Access your data for all websites</b> is not allowed by the browser. " +
-						"<span><a href='#' id='learnMoreLink' style='color:#0056b3;'>Learn more</a></span><br><br>" +
-						`<a href='#' id='requestPermissionsLink' style='all:revert;${buttonStyle}'>Request Permissions</a>` +
-					"</div>";
+		const str =	(`<div id='requiredPermissionsMsg' style='all:revert;${frameStyle}${style}'>` +
+						`<strong style='color:#795100; line-height:2em;'>${i18n("js_commonUtilPermissionRequiredTitle")}</strong><br>` +
+						`${i18n("js_commonUtilPermissionRequiredText")} ` +
+						`<span><a href='#' id='learnMoreLink' style='color:#0056b3;'>${i18n("js_commonUtilPermissionRequiredLearnMore")}</a></span><br><br>` +
+						`<a href='#' id='requestPermissionsLink' style='all:revert;${buttonStyle}'>${i18n("js_commonUtilPermissionRequiredButtonText")}</a>` +
+					"</div>").replace(/"([^"]+)"/mg, "<b>$1</b>");
+
 		return {
 			docFragment: (new DOMParser).parseFromString(str, "text/html").body.firstChild,
 			learnMoreAnchorId: "learnMoreLink",
@@ -1839,17 +1852,38 @@ let slUtil = (function() {
 
 		const tooltipLines = [];
 
-		tooltipLines.push(`Title:\u2003${title}`);
-		tooltipLines.push(`URL:\u2003${url}`);
-		if(!!error) tooltipLines.push(`Error:\u2003${error}`);
-		if(!!format) tooltipLines.push(`Format:\u2003${format}`);
-		if(!!update) tooltipLines.push(`Update:\u2003${update}`);
-		if(!!item) tooltipLines.push(`Items:\u2003${item}`);
-		if(!!expired) tooltipLines.push(`Expired:\u2003Yes`);
-		if(!!fixableParseErrors) tooltipLines.push(`Warning:\u2003Has fixable parsing errors. May take longer to process.`);
-		tooltipLines.push("\n\u2731 Use Middle-click to preview this feed.");
+		tooltipLines.push(`${i18n("js_commonUtilFeedTooltipTitle")}\u2003${title}`);
+		tooltipLines.push(`${i18n("js_commonUtilFeedTooltipUrl")}\u2003${url}`);
+		if(!!error) tooltipLines.push(`${i18n("js_commonUtilFeedTooltipError")}\u2003${error}`);
+		if(!!format) tooltipLines.push(`${i18n("js_commonUtilFeedTooltipFormat")}\u2003${format}`);
+		if(!!update) tooltipLines.push(`${i18n("js_commonUtilFeedTooltipUpdate")}\u2003${update}`);
+		if(!!item) tooltipLines.push(`${i18n("js_commonUtilFeedTooltipItems")}\u2003${item}`);
+		if(!!expired) tooltipLines.push(`${i18n("js_commonUtilFeedTooltipExpired")}\u2003${i18n("js_commonUtilFeedTooltipYes")}`);
+		if(!!fixableParseErrors) tooltipLines.push(`${i18n("js_commonUtilFeedTooltipWarning")}\u2003${i18n("js_commonUtilFeedTooltipWarningFixable")}`);
+		tooltipLines.push(`\n${i18n("js_commonUtilFeedTooltipInstructionPreview")}`);
 
 		return tooltipLines.join("\n");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function initializeI18nDocument(doc) {
+
+		const	I18N = browser.i18n;
+		let		list, msg;
+
+		// Initialize i18n textContent
+		list = doc.querySelectorAll("[data-i18n]");
+		for(let i=0, len=list.length; i<len; ++i) {
+			msg = I18N.getMessage(list[i].getAttribute("data-i18n"));
+			if(msg) list[i].textContent = msg;
+		}
+
+		// Initialize i18n title
+		list = doc.querySelectorAll("[data-i18n-title]");
+		for(let i=0, len=list.length; i<len; ++i) {
+			msg = I18N.getMessage(list[i].getAttribute("data-i18n-title"));
+			if(msg) list[i].title = msg;
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1930,6 +1964,7 @@ let slUtil = (function() {
 		createMissingPermissionsDocFrag: createMissingPermissionsDocFrag,
 		isVersionLessThen: isVersionLessThen,
 		createFeedTooltipText: createFeedTooltipText,
+		initializeI18nDocument: initializeI18nDocument,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 		debug_alarms_list: debug_alarms_list,

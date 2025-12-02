@@ -34,7 +34,7 @@ let messageView = (function () {
 		const {
 			text = "",
 			btnSet = messageView.ButtonSet.setOK,
-			caption = "Attention!",
+			caption = i18n("js_messageAttentionCaption"),
 			isAlertive = true,
 			isTextLeftAlign = false,
 			boldDoubleQuotedText = true,

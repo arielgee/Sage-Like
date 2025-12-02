@@ -62,7 +62,7 @@ let opml = (function() {
 		function processOpmlDocument(xmlDoc) {
 
 			if(!xmlDoc) {
-				return m_funcImportReject("This file may not be a valid OPML file.");
+				return m_funcImportReject(i18n("js_opmlErrorInvalidFile"));
 			}
 
 			let nodeTitle = xmlDoc.querySelector("opml > head > title");
@@ -70,15 +70,15 @@ let opml = (function() {
 			let nodeBody = xmlDoc.querySelector("opml > body");
 
 			if(!nodeTitle || !nodeBody) {
-				return m_funcImportReject("This file may not be a valid OPML file. Missing elements.");
+				return m_funcImportReject(i18n("js_opmlErrorMissingElements"));
 			}
 			prefs.getRootFeedsFolderId().then((folderId) => {
 
 				if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-					return m_funcImportReject("Root feeds folder id not set (processOpmlDocument)");
+					return m_funcImportReject(i18n("js_opmlErrorRootFeedsFolderNotSet", "(processOpmlDocument)"));
 				}
 
-				let title = "Import - " + nodeTitle.textContent + (nodeCreated ? " (created: " + (new Date(nodeCreated.textContent)).toWebExtensionLocaleShortString() + ")": "");
+				let title = i18n("js_opmlImportedFolderName", nodeTitle.textContent) + (nodeCreated ?  i18n("js_opmlImportedFolderNameCreated", (new Date(nodeCreated.textContent)).toWebExtensionLocaleShortString()) : "");
 
 				browser.bookmarks.create({parentId: folderId, title: title, type: "folder"}).then(async (created) => {
 
@@ -327,7 +327,7 @@ let opml = (function() {
 						gettingRFFI.then((folderId) => {
 
 							if (folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-								return reject("Root feeds folder id not set (getFeedsAsOpmlText)");
+								return reject(i18n("js_opmlErrorRootFeedsFolderNotSet", "(getFeedsAsOpmlText)"));
 							}
 
 							browser.bookmarks.getSubTree(folderId).then((bookmarks) => {

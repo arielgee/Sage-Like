@@ -1,5 +1,6 @@
 {
 	"manifest_version": 3,
+	"default_locale": "en",
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "sage-like@webExtension.arielg.il",
@@ -8,7 +9,7 @@
 	},
 	"name": "Sage-Like",
 	"version": "3.13",
-	"description": "A fast and lightweight sidebar-based feed reader. Supports Atom, RSS, JSON, and RDF feeds with customizable UI and seamless integration with your browser’s bookmarks and sync capabilities.",
+	"description": "__MSG_extDescription__",
 	"author": "arielg",
 	"permissions": [
 		"bookmarks",
@@ -44,7 +45,7 @@
 		}
 	],
 	"action": {
-		"default_title": "Sage-Like sidebar",
+		"default_title": "__MSG_extName__",
 		"default_icon": {
 			"16": "/icons/sageLike-16.png",
 			"32": "/icons/sageLike-32.png",
@@ -52,7 +53,7 @@
 		}
 	},
 	"sidebar_action": {
-		"default_title": "Sage-Like",
+		"default_title": "__MSG_extName__",
 		"default_panel": "/sidebar/panel.html",
 		"default_icon": {
 			"16": "/icons/sageLike-16.png",
@@ -65,7 +66,7 @@
 			"19": "/icons/pagePopup-gray-19.png",
 			"38": "/icons/pagePopup-gray-38.png"
 		},
-		"default_title": "Subscribe Using Sage-Like",
+		"default_title": "__MSG_extSubscribeUsingSageLike__",
 		"default_popup": "/pagePopup/pagePopup.html"
 	},
 	"commands": {
@@ -73,7 +74,7 @@
 			"suggested_key": {
 				"default": "Ctrl+Shift+F2"
 			},
-			"description": "Toggle Sage-Like sidebar"
+			"description": "__MSG_extToggleSidebar__"
 		}
 	},
 	"background": {

@@ -78,6 +78,7 @@ let panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
+		slUtil.initializeI18nDocument(document);
 		contextMenu.initialize();
 
 		m_elmBody = document.body;
@@ -445,11 +446,10 @@ let panel = (function() {
 			}
 		};
 		const messageDetails = {
-			text: RequiredPermissions.i.getInfoText(false) +
-					"\n\nTo allow the required permission, go to the browser's \"Add-ons Manager\", choose \"Extensions\" " +
-					"and then \"Sage-Like\". Open the \"Permissions\" tab and allow \"Access your data for all websites\". " +
-					"Alternatively, you can select the link below:\n\n<a href='#' id='msgViewReqPermissions'>Request Permissions</a>",
-			caption: "Permissions Are Required",
+			text: `${RequiredPermissions.i.getInfoText(false)}\n\n` +
+					`${i18n("js_panelRequiredPermissionsInstructions")}\n\n` +
+					`<a href='#' id='msgViewReqPermissions'>${i18n("js_panelRequestPermissionsText")}</a>`,
+			caption: i18n("js_panelRequiredPermissionsCaption"),
 			clickableElements: [
 				{
 					elementId: "msgViewReqPermissions",
@@ -492,16 +492,15 @@ let panel = (function() {
 					let msg;
 
 					// browser version is greater or equal to current compatibility min version
-					if(browserVer >= browserCompatStrictMinVer) {
-						msg = `A new version was released.\n\nSage-Like v${localVer}\u2002\u2794\u2002${anchorNewVer}`;
+					if(browserVer < browserCompatStrictMinVer) {
+						msg = `${i18n("js_panelNewVersionReleased")}\n\nSage-Like v${localVer}\u2002\u2794\u2002${anchorNewVer}`;
 					} else {
-						msg = `An updated version is available, ${anchorNewVer}. However, it is not compatible with your ` +
-								`current browser (Firefox ${browserVer}).\n\nConsider updating your browser to the latest version.`;
+						msg = i18n("js_panelNewVersionIncompatibleBrowser", [anchorNewVer, browserVer]);
 					}
 
 					const messageDetails = {
 						text: msg,
-						caption: "Available Update",	// "What's New",
+						caption: i18n("js_panelNewVersionCaption"),	// "What's New",
 						isAlertive: false,
 						clickableElements: [
 							{

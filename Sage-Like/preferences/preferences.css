@@ -161,6 +161,9 @@ body * {
 	padding-left: 12px;
 	font-size: 1.167rem;
 }
+.navigationItem span[data-i18n] {
+	pointer-events: none;
+}
 .navigationItem:hover {
 	background-color: var(--color-preference-hover);
 }
