@@ -1001,23 +1001,30 @@ let preferences = (function() {
 
 			m_elmHelpInfoTooltipBox.querySelector(".tooltipBoxText").textContent = target.getAttribute("data-title");
 
+			m_elmHelpInfoTooltipBox.style.left = m_elmHelpInfoTooltipBox.style.top = "0px";		// reset position to calculate size properly
 			m_elmHelpInfoTooltipBox.style.maxWidth = (target.hasAttribute("data-extra-width") ? "650px" : "");
 			m_elmHelpInfoTooltipBox.style.display = "block";
 
-			let x = (!!offsetParent ? offsetParent.offsetLeft : 0) + target.offsetLeft + 4;	// 4px left of the helpInfo span
-			let y = (!!offsetParent ? offsetParent.offsetTop : 0) + target.offsetTop + 28;	// 28px below the helpInfo span
+			const offsetParentLeft = (!!offsetParent ? offsetParent.offsetLeft : 0);
+			const offsetParentTop = (!!offsetParent ? offsetParent.offsetTop : 0);
+			const xOffset = 4;		// 4px from the edge of the helpInfo span
+			const yOffset = 10;		// 10px from the edge of the helpInfo span
+
+			let x = offsetParentLeft + target.offsetLeft + xOffset;							// 4px left to the left edge
+			let y = offsetParentTop + target.offsetTop + (target.offsetHeight + yOffset);	// 28px below the top edge
 
 			// if going out of right edge
-			if( (x + m_elmHelpInfoTooltipBox.offsetWidth) > document.documentElement.offsetWidth ) {
+			if( (x + m_elmHelpInfoTooltipBox.offsetWidth) > document.documentElement.clientWidth ) {
 				x = document.documentElement.offsetWidth - m_elmHelpInfoTooltipBox.offsetWidth-1;
 			}
-			// if going out of bottom edge
-			if( (y + m_elmHelpInfoTooltipBox.offsetHeight) > document.documentElement.offsetHeight ) {
-				y = document.documentElement.clientHeight - m_elmHelpInfoTooltipBox.offsetHeight-1;
+
+			// if going out of bottom edge (account for scroll position)
+			if( (y + m_elmHelpInfoTooltipBox.offsetHeight) > (window.scrollY + document.documentElement.clientHeight) ) {
+				y = offsetParentTop + target.offsetTop - m_elmHelpInfoTooltipBox.offsetHeight - yOffset;	// 10px above top edge
 			}
 
-			m_elmHelpInfoTooltipBox.style.left = x + "px";
-			m_elmHelpInfoTooltipBox.style.top = y + "px";
+			m_elmHelpInfoTooltipBox.style.left = (x<1 ? 1 : x) + "px";
+			m_elmHelpInfoTooltipBox.style.top = (y<1 ? 1 : y) + "px";
 
 		}, 200);
 	}
