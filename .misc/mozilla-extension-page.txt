@@ -69,16 +69,17 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 
 + Manage Version - Version Notes
 --------------------------------------------------------------
-**Update 3.12:** Fixed regression where sidebar was not properly initialized on startup.
-
 **Changes**
 
-* Added a new color input to "Sidebar colors" in the Options page, allowing to set a custom color for sidebar icons; the original 7 predefined colors are now labeled "Classic icon color".
-* Fixed an issue with background feed monitoring where the alarm was not properly managed.
-* Fixed inconsistent time format display in the Options page.
-* Changed UI terminology from "Check feed" to "Refresh feed".
-* Revised several labels in the Options page for improved clarity and more accurate descriptions of their behavior.
-* Applied minor fixes, UI adjustments, and general code improvements.
+* Fixed a bug where pressing Esc in delete feed or folder confirmation would still delete the item.
+* Fixed OPML import issue where outline nodes without a title could cause problems.
+* Replaced unsafe createContextualFragment() calls with safer DOM parsing methods.
+* Optimized feed discovery by reducing content script size injected into web pages.
+* Added custom tooltips in Options page to ensure they display reliably when the circled question-mark icon is clicked or hovered. Thanks to Korwin for reporting.
+* Refactored sidebar's context menu colors, initialization, and usage.
+* Support and feedback links in the Options page now behave as standard links.
+* Updated various UI labels and messages for clarity.
+* Applied minor fixes, UI refinements, code improvements, and code cleanup.
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
 --------------------------------------------------------------
