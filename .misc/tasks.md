@@ -74,7 +74,7 @@
 * why list scrollbar is gone when height is resized with splitter to minimum => by system. height too small to paint the scroll
 * click discovery when root folder is not set
 * native menu when right click on error LI => fixed error when calling to scrollIntoViewIfNeeded with firstElementChild
-* discover link with relative url: <link ... type="application/rss+xml" href="/rss/index.xml" />
+* discover link with relative url: `<link ... type="application/rss+xml" href="/rss/index.xml" />`
 * Improve syndication.discoverWebSiteFeeds()
   * Simplify discoveredFeedsList() to use simple url string as key instead of URL object.
   * handle discoveredFeedsList object in discoveredFeedsList() correctly.
@@ -214,7 +214,7 @@
 * timestamp in file name export (with the word 'export'?)
 * in preferences.js when disableElementTree() is true the buttons stil respond to mouse hover
 * check all setTimeout()'s          => ALL GOOD
-* show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item <b>in</b> folder.'
+* show the infoBar when user hover over a folder. When opening the folder the infoBar will say 'press the shift key to drop item `<b>in</b>` folder.'
 * replace alert() in preference with something nice                                     => NO NEED
 * Event throttling on the dragover event in rssTreeView.js (onDragOverTreeItem)         => NO NEED
 * customize sidebar font (not context menu)
@@ -272,10 +272,10 @@
 * regexp for HTML elements do not need to check for spaces between the '<' and the element tag name. /<\s*\bimg\b/
 * regexp for HTML elements do not need to check for spaces between the '<' and the '/'.
 * rephrase preference title and preference member    detectFeedsInWebPage
-	* CHANGED THIS: Show Subscribe button <img src="../icons/pagepopup-16.png"> in address bar when feeds are detected in web page
-	* TO THIS: Detect feeds in web pages and show subscribe button <img src="../icons/pagepopup-16.png"> in address bar.
-	* Detect feeds in web page and show <img src="../icons/pagepopup-16.png"> button in address bar.
-	* Detect feeds in web page. Subscribe button <img src="../icons/pagepopup-16.png"> will appear in address bar.
+	* CHANGED THIS: Show Subscribe button `<img src="../icons/pagepopup-16.png">` in address bar when feeds are detected in web page
+	* TO THIS: Detect feeds in web pages and show subscribe button `<img src="../icons/pagepopup-16.png">` in address bar.
+	* Detect feeds in web page and show `<img src="../icons/pagepopup-16.png">` button in address bar.
+	* Detect feeds in web page. Subscribe button `<img src="../icons/pagepopup-16.png">` will appear in address bar.
 * in onClickTreeItem()
 	1. restore default
 	2. set a valid feed folder
@@ -311,8 +311,8 @@
 	* and but not for: https://ghisler.ch/board/app.php/feed/forum/3    (ATOM)
 * change 'Open all in tabs' to 'Open all unread in tabs'
 * discoveryView on 'http://megafon-news.co.il/asys/archives/299005' gets scroll bars. title (feedTitle) is too long
-* in discovery look for links <a> with the name feed or syndication or syndicate - need to remove duplicates because <a>'s href are same?
-* 'Aggressive Discovery' checkbox in the discoveryView to also look at <a> elements
+* in discovery look for links `<a>` with the name feed or syndication or syndicate - need to remove duplicates because `<a>`'s href are same?
+* 'Aggressive Discovery' checkbox in the discoveryView to also look at `<a>` elements
 * discoveryView; small text in the bottom status bar is cutting the bottom part of the letters y & g
 * event delegating the discoveryView
 * up/down keys in discoveryView
@@ -344,7 +344,7 @@
 * look out for m_elmDiscoverPanel is null in discoveryView.setDiscoverLoadingState()    => never seen again
 * Refactor syndication.js. Rename the functions including the term XML as preperation for JSON support
 * RND & support json feeds  JSON.parse(txtXML)
-	* discovery <link rel="alternate" type="application/json" title="JSON Feed" href="https://jsonfeed.org/feed.json" />
+	* discovery `<link rel="alternate" type="application/json" title="JSON Feed" href="https://jsonfeed.org/feed.json" />`
 	* https://indieweb.org/JSON_Feed
 	* https://adactio.com/journal/
 	* https://daringfireball.net/feeds/json
@@ -354,7 +354,7 @@
 * handle 'Error: Extension does not have permission for incognito mode'
 * RegExp replace [ \t\r\n]* with \s*
 * the var + "\n", in console.log() is adding an extra " in the console => ALL occurrences are "\n" + var
-* feed without title. why am I not using "<no title>"???    => I DO. It's that fucken feed with the invisible chars:   https://feeds.feedburner.com/co/bnZM
+* feed without title. why am I not using `<no title>`???    => I DO. It's that fucken feed with the invisible chars:   https://feeds.feedburner.com/co/bnZM
 * search in URLs with special prefix character %
 * add info about URL filtering in tooltip
 	* URL search prefixed with a single percent character ('%')
@@ -403,9 +403,9 @@
 * Use keyboard Delete keys to delete tree items and not keyD => BOTH. delete is done with KeyD and Delete
 * Link pagePopup & messageView with the Options page
 	* manifest.json: "content_security_policy": "script-src 'self' 'sha256-VH2httsBzs0mSgiaWxj7JB7yRdSrmvTCu5iJ+QN7Gl4='; object-src 'self';",
-	* messageView: In slUtil.incognitoErrorMessage() => return "Sage-Like extension is not allowed in private windows.<br>You can change that from the <a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>.";
+	* messageView: In slUtil.incognitoErrorMessage() => return "Sage-Like extension is not allowed in private windows.`<br>`You can change that from the `<a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>`.";
 	* pagePopup:
-		1. In onDOMContentLoaded() => updateStatusBar("Feeds folder not set in <a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>.");
+		1. In onDOMContentLoaded() => updateStatusBar("Feeds folder not set in `<a href='#' onclick='browser.runtime.openOptionsPage();'>Options page</a>`.");
 		2. In updateStatusBar() => m_elmStatusBar.innerHTML = STATUS_BAR_MESSEGE_PREFIX + msg;
 	* References:
 		1. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/content_security_policy
@@ -415,7 +415,7 @@
 		5. https://caniuse.com/#feat=contentsecuritypolicy&search=csp
 * Enable user to place the feeds folder in "Other Bookmarks". Allow preferences to access the entire bookmarks tree
 * handle xml without XML prolog; https://www.buzzfeed.com/nsfw.xml
-* in title/description sidebar/preview replace common &#xx; like: <title>World&amp;#39;s First Extreme Cyclist?</title> => already DONE; added numeric Entities
+* in title/description sidebar/preview replace common &#xx; like: `<title>World&amp;#39;s First Extreme Cyclist?</title>` => already DONE; added numeric Entities
 * remove not used members m_elmMainPanel
 * hide slideDown panels instead of disable using transition end (and not * disable content of slideDown panels with transitionend) => NOT GOOD ENOUGH
 * better handling of slUtil.disableElementTree(m_elmToolbar, value, true)   => IT'S OK
@@ -427,7 +427,7 @@
 * debouncer on notifyAppliedFilter. may be called too match => NO NEED
 * fixing feedPreview/sidebar encoding for windows-1255. And there is: feedData.xmlEncoding.         =====>>>> IT IS DONE! answer is charset in the XMLHttpRequest's MimeType.
 	> Can this help? https://stackoverflow.com/questions/18879860/change-javascript-string-encoding
-	> what about this? <meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
+	> what about this? `<meta http-equiv="Content-Type" content="text/html; charset=windows-1255">`
 	> google this: javascript change encoding
 	* Example: http://www.haayal.co.il/xml/rss
 	* Example: http://israblog.nana.co.il/blog_rss.asp?blog=106751
@@ -476,10 +476,10 @@
 	  ---------------------------------------------------------------------------------
 * add numbring to the feed items in the feed preview
 * show some title in feed preview when there is an error maybe the feed title from the tree-view?   => hostname in title when error
-* read RSS <content:encoded> as a prefered alternative to description		=> Done. added '*|encoded' for encoded with any namespace (rss&rdf)
+* read RSS `<content:encoded>` as a prefered alternative to description		=> Done. added '*|encoded' for encoded with any namespace (rss&rdf)
 	* BUT! I don't know why 'content|encoded' is not working in querySelector() see:
 		> https://www.w3.org/TR/selectors-3/#typenmsp
-* remove links (<a>, not text content) in feed-item tooltip
+* remove links (`<a>`, not text content) in feed-item tooltip
 * do something about the desigh of the the feed-item tooltip content. its ugly, get rid of the title?	=> DONE. removed underline and body indentation added item numbering
 * split SyndicationStandard to classes		=> DONE!!!!!!! :)
 * relative links to images are not showing the image in the feedPreview
@@ -488,11 +488,11 @@
 * support for feed-item attachments and/or media files for all formats. see specifications.
 	* RDF - n/a
 	* RSS:
-		* <enclosure url="required" length="required" type="required">		<!-- type is MIME ("audio/mpeg") -->
+		* `<enclosure url="required" length="required" type="required">`		<!-- type is MIME ("audio/mpeg") -->
 	* Atom:
-		* <link href="required" rel="optional"  type="optional" hreflang="optional" title="optional" length="optional">
-		* <link href="required" rel="enclosure" type="optional" hreflang="optional" title="optional" length="optional">			<!-- for media files -->
-		* <link href="required" rel="related"   type="optional" hreflang="optional" title="optional" length="optional">			<!-- for documents -->
+		* `<link href="required" rel="optional"  type="optional" hreflang="optional" title="optional" length="optional">`
+		* `<link href="required" rel="enclosure" type="optional" hreflang="optional" title="optional" length="optional">`			<!-- for media files -->
+		* `<link href="required" rel="related"   type="optional" hreflang="optional" title="optional" length="optional">`			<!-- for documents -->
 	* JSON:
 		* "attachments": [ url:"required", mime_type:"required", title:"optional", size_in_bytes:"optional", duration_in_seconds:"optional" ]
 	> https://www.cloudbasemayhem.com/feed/podcast/     (sample with enclosures)
@@ -503,17 +503,17 @@
 * in the UI call the feed-item attachments 'Attached Resources' (media and http pages)	=> NO NEED
 * consider adding some-sort of tooltip to feedPreview attachments on hover
 * two types of feed-item descriptions - new properly 'content' in Feed._createFeedItemObject() as an additinal 'desc' properly
-	* MOTIVATION: file ./misc/1.xml has <description> and <content:encoded> but <content:encoded> is prefered for feedPreview
-	* for xml feed 'content' will be set by <content:encoded> using getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded")[0]
+	* MOTIVATION: file ./misc/1.xml has `<description>` and `<content:encoded>` but `<content:encoded>` is prefered for feedPreview
+	* for xml feed 'content' will be set by `<content:encoded>` using getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded")[0]
 	* for json feed 'content' will be set by content_text or content_html (preferably content_html since feedPreview is the main target for content)
 	* 'desc' is for feed-item tooltip only and 'content' is for feedPreview (appending 'content' to 'desc' for feedPreview may be bad if data is same and content is HTML)
-	* if 'desc' is missing in xml then use <content:encoded> instaed and 'content' remain empty		=> DONE
+	* if 'desc' is missing in xml then use `<content:encoded>` instaed and 'content' remain empty		=> DONE
 	* if 'desc' is missing in json then use content_text or content_html instaed and 'content' remain empty (preferably content_text since tooltip is the main target for desc)	=> DONE
 	* PROBLEM: how to manage the desc/content settings ???	=> DONE
-* read rss <content type="html"> as feed item content in preview	-> HERE: https://www.heise.de/rss/heise-atom.xml, IT'S ATOM => DONE
+* read rss `<content type="html">` as feed item content in preview	-> HERE: https://www.heise.de/rss/heise-atom.xml, IT'S ATOM => DONE
 * check at home is gmail's atom feed is processed without errors.		=> Got 'Critical security alert' from google => `¯\_(ツ)_/¯`
 * found a 1x1 tracking image in: https://www.npr.org/feeds/510317/feed.json								==> NOTHING TO DO! :(
-	* <img src="https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=812072352">
+	* `<img src="https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=812072352">`
 		* 'tracking' ?
 		* 'pixel' ?
 * look for last user comment in mozilla [support] page
@@ -579,7 +579,7 @@
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/
 	* https://www.reddit.com/r/firefox/comments/fiz263/does_firefox_now_have_any_capability_to_detect/fkkrthg/
 	* in preferences
-		> Subscribe button <img> in address bar
+		> Subscribe button `<img>` in address bar
 			> Feed detection in web pages (?)			[O] On page load		[X] On mouse click
 			> Detect Feeds in web pages on (?)			[O] Page load			[X] Mouse click
 			> Feed detection in web pages				[O] No		[O] On page load		[X] On mouse click
@@ -599,9 +599,9 @@
 		* https://www.kill-the-newsletter.com/feeds/udnq204nxqcfai05q7vk.xml
 	* mvvbgk7ev4sfcfv2xanm@kill-the-newsletter.com
 		* https://www.kill-the-newsletter.com/feeds/mvvbgk7ev4sfcfv2xanm.xml
-* <content type="xhtml"> in https://www.php.net/feed.atom
+* `<content type="xhtml">` in https://www.php.net/feed.atom
 * Ctrl+Alt+MClick in pagePopup !
-* remove '<style\>' and 'style="xxx"' from description and htmlContent ; color attributes in tags are overriden (bgcolor="#000000")
+* remove `<style\>` and 'style="xxx"' from description and htmlContent ; color attributes in tags are overriden (bgcolor="#000000")
 * why feedPreview is not opened when clicking on this feed link (rdf) or when its types into the address bar	==> STRICT CONTENT-TYPES SEMANTICS AGAIN!!!!
 	* https://www.w3.org/QA/Overview.rss (in this page: https://www.w3.org/QA/2003/09/html-xhtml.html)
 * maybe the one-click open folder is not so good. consider: one click on folder's icon open and on folder caption just select. but then dblclick on caption for open. (preference??????? :( )
@@ -699,7 +699,7 @@
 * detect right-to-left languages and set direction
 * is strUrl.stripHtmlTags() neccesery? what if I use URL() for all urls with base and for the feeData object?
 * wrote (1) in feed title and then I tried to delete it !!!!!!! DAM! that innerHTML !!!		=> getTreeItemText(elmLI).escapeHtml()
-	* (1) '</span><h1>Hello, <a href="https://www.888.com">World!</a></h1><span>'
+	* (1) `</span><h1>Hello, <a href="https://www.888.com">World!</a></h1><span>`
 * opml export: inserted an '&' from a folder title to an XML file. escape XML resereved chars; way not use XMLDoc?
 * opml import: skipped a non valid URL (moz-extension://) where did it came from? no validURL() when dragANDdrop-ing?
 * rename escapeHtml() to escapeMarkup
@@ -794,7 +794,7 @@
 * WITH NEXT VERSION: ===> Post 'sl-customFeedPreview-CSS-files.zip' in https://discourse.mozilla.org with following text with next version
 >A few basic custom CSS files for the Feed Preview page that can be used as‑is or serve as examples.
 * add a link to the extension's page to the posted 'sl-customFeedPreview-CSS-files.zip' in discourse.mozilla.org
-* use site's favicon for feedPreview page; access https://www.host.com/favicon.ico and replace the href of <link rel="shortcut icon"> in feedPreview.html
+* use site's favicon for feedPreview page; access https://www.host.com/favicon.ico and replace the href of `<link rel="shortcut icon">` in feedPreview.html
 * try to handle more cases of site's favicons
 * change preferences with multiple "radio" type `<input>`s into `<select>`s. make the page less clutter (A Feed-Click autom...   "No, I'll use Middle-click", "In a new tab")
 * rebuild test feeds. fix http linsk to https, create folder with feeds (at least one or each standerd) that differ in sort order (chronological/source)
@@ -856,12 +856,12 @@
 * in panel.css set splitter colors like toolbar (dialog bk/border colors): var(--bk-color-dialog)
 * The Fx68 bug that was worked-around in commit a8807b9 (16/3/2021) is back in v89 (preferences: In Fx v68 dark theme, dropdown list items is white on white)
 * add podcast feed from https://castos.com/ to sage-like_test-feeds.opml and then to github
-* support for <video> and <audio> for attachments (enclosures). from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/24
+* support for `<video>` and `<audio>` for attachments (enclosures). from: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/24
 * if attached image is in feed contect, do i remove it???????? => NO
 * the width of the audio/video attachment should be in multiplications of the basic attachment (64px + margins). will look nicer and aligned
 * attachment block margin (top,bottom) is double the inline margin (left,right)
 * check attachments when [style*="direction: rtl"] -> feed
-* can <video> and <audio> be customize for dark mode (color/ background color) => it's OK
+* can `<video>` and `<audio>` be customize for dark mode (color/ background color) => it's OK
 * video enclosure will have a width larger then 300px => NO
 * in Fx90 the menu item in menubar->View->Sidebar->Sage-like is not aligned with the other menu items => BUG: https://bugzilla.mozilla.org/show_bug.cgi?id=1715096
 * feed preview: make attached images bigger? (width=300px)
@@ -960,7 +960,7 @@
 * do i support json 1.1 => YES
 * discoveryView: maybe JUST ALWAYES FATCH ???? => NO
 * is duration a good idea? hmmm... also add it to tooltip of feeds in tree? => REMOVED
-* xml feeds with xslt (<?xml-stylesheet href="/skins/pretty-feed-v3.xsl" type="text/xsl"?>) are not detected by discovery (view & addressbar) see: https://adactio.com/journal/rss
+* xml feeds with xslt (`<?xml-stylesheet href="/skins/pretty-feed-v3.xsl" type="text/xsl"?>`) are not detected by discovery (view & addressbar) see: https://adactio.com/journal/rss
 * discoveryView: address xml json pages before using PageDataByInjection with `/^application\/(feed+)?(xml|json)$/.test((await (await fetch(tab.url)).blob()).type)` => NO. redundent fetch
 * move fetchWithTimeout() to slUtil
 * detect xml feeds with xslt from address-bar
@@ -1054,7 +1054,7 @@
 * semicolon after function expression: common *.prototype.* {...};
 * Array.prototype.includesAll not used at all => removed
 * for default function parameter object members, do like in NonStandardDiscoveryBase.constructor
-* add support for attachments in youtube feeds = YouTube feeds don't have valid enclosures; the element link[rel=alternate] instead or enclosure/related and no [type]. There's a <media:content> with [type] but with [url] instaed of [href].
+* add support for attachments in youtube feeds = YouTube feeds don't have valid enclosures; the element link[rel=alternate] instead or enclosure/related and no [type]. There's a `<media:content>` with [type] but with [url] instaed of [href].
 * preferences in own tab => DONE
 * go to options from the browser_action conext menu => NO
 * deleting a BIG tree when the feeds are refreshed takes a long time => noting to do
@@ -1063,8 +1063,8 @@
 * in browser console 'TypeError: browser.browserAction.setBadgeBackgrounColor is not a function' when opening 'inspect' => not repreduced.
 * new version: upload new screenshot-2.png =>  NO need
 * new version: upload version changes from mozilla-extension-page.txt
-* feedPreview.css: handle <figure> elements with negative margin in `https://thepcspy.com/feeds/full.xml`
-* feedPreview.css: make all <H> tags have bold text.
+* feedPreview.css: handle `<figure>` elements with negative margin in `https://thepcspy.com/feeds/full.xml`
+* feedPreview.css: make all `<H>` tags have bold text.
 * support dragANDdrop a feed from the pagePopup to the treeView
 * move the (set|get)DropInsideFolderShowMsgCount code block from onDragStartTreeItem() to onDragEnterTreeItem() to support InfoBubble for drags from outside the tree (url, links, popup, etc). do not forget event.stopPropagation();
 * feedPreview media attachments: wait cursor when data is loading
@@ -1118,8 +1118,8 @@
 * look into declarativeNetRequest - still not implemented by mozilla. => Not relevent as long as webRequestBlocking is stil supported
 * feedPreview.css: in https://adrianroselli.com/feed there are problems
 	* figure is modefied by feedPreview.css in a bad way
-	* tags in the <P> text are fucking everything up
-* in feedPreview.css handle <kbd>, <code>
+	* tags in the `<P>` text are fucking everything up
+* in feedPreview.css handle `<kbd>`, `<code>`
 * The text in file `mozilla-extension-page.txt` needs to be applied to the extension's product page.
 * check if X.removeChild(Y) can be replaced with Y.remove() => js benchmark shows that X.removeChild(Y) is faster
 * add a red dot on feeds that take to long to respond = NO
@@ -1182,7 +1182,7 @@
 * change of `...m_elmCurrentlyDragged.firstElementChild.firstElementChild.textContent` to `getTreeItemText(m_elmCurrentlyDragged)` in onDragStartTreeItem() in rssTreeView.js
 * scan code and try to avoide the use of `firstElementChild`, `nextElementSibling` and such.
 * removal of `#rssTreeView .rtvCaptionStats.hidden` from rssTreeView.css (:152)
-* revisit `list-style: none;` on all <ul> elements instaed on the <li> elements.
+* revisit `list-style: none;` on all `<ul>` elements instaed on the `<li>` elements.
 * consider changing the `loading` circule from size 3 to size 2.5 (sidebar and discoveryView) => NO
 * change multiple and sequential calls to 'appendChild()' of same element with a single call to `append()` with multiple elements.
 * tree view selected item. select color include the icon or not? => NO
@@ -1214,8 +1214,8 @@
 * redirect users to open issues in github. from add-on page at AMO.
 * some sort of notification when the entire feed tree was not updated for a long time. more then 24H => NO. it's a risk of being annoying. buried in the .graveyard/
 * change UI terminology: "check feed(s)" to "refresh feed(s)". (preferences.html, panel.html, rssTreeView.js)
-* add 'refresh method' title to the preferences page 'Feed refresh method' <select> control
-* add 'Next refresh scheduled at: [time]' title to the preferences page 'Scheduled feed refresh' <select> control => not quite possible w/o lots of variables and messaging
+* add 'refresh method' title to the preferences page 'Feed refresh method' `<select>` control
+* add 'Next refresh scheduled at: [time]' title to the preferences page 'Scheduled feed refresh' `<select>` control => not quite possible w/o lots of variables and messaging
 * `_getAllPreferencesObject` in prefs is not accurate. rename to `_getPreferencesDefaultsObject`. => NO. it is OK.
 * removed deprecated pseudo-element `-moz-focus-inner`. The removal was testes in Fx109 with no repercussion.
 * fix missing label's 'for' attribute in preferences.html
@@ -1232,16 +1232,21 @@
 
 
 ## Now
-> STANDING TASK: Check the </select> control in the preferences page. Are the colors of the </option> in dark mode are readable when hoverd
+> STANDING TASK: Check the `<select>` control in the preferences page. Are the colors of the `<option>` in dark mode are readable when hovered
 ---
 
 
 ## Next
-* support for manifest `data_collection_permissions` key starting from v140. The following should be added to manifest.json in `browser_specific_settings.gecko`:
-	"data_collection_permissions": {
-		"required": [ "none" ]
-	},
->`¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯`
+* support for manifest key `data_collection_permissions` starting in v140
+	+ in 02/12/2025 about 96.0% of desktop users are on v140.0 or newer.
+	+ in 02/12/2025 v115.29.0 (ESR) was the most used sub-140 version on a peak day with 11 users.
+	+ at Fx release day 09/12/2025 the ESR versions will be v140.6 + v115.31.0
+	+ at Fx release day 24/03/2026 the ESR version will be v140.9. Meaning, after this date almost all users will be on v140 or newer.
+	+ the following should be added to manifest.json in `browser_specific_settings.gecko`:
+		"data_collection_permissions": {
+			"required": [ "none" ]
+		}
+>`¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯`
 
 
 ### Cancelled Versions
@@ -1279,7 +1284,7 @@
 
 ### wird feeds
 * https://ascraeus.org/jsonfeed/index.json ==> Date Format is bad ISO ==> "date_published": "2020-29-02T21:42:52+00:00" ==> month and day switched places.
-* https://www.php.net/feed.atom ==> entry `Southeast PHP Conference` has 2 <published> tags whereas all other entries have an <updated> tag. (<updated> is prefered to <published>).
+* https://www.php.net/feed.atom ==> entry `Southeast PHP Conference` has 2 `<published>` tags whereas all other entries have an `<updated>` tag. (`<updated>` is prefered to `<published>`).
 * https://feeds.feedblitz.com/thetyee ==> Sometime I get HTML page, other I get redirected (HTTP 301 moved) to https://thetyee.ca/rss2.xml (Reload button from the F12 network tab). I think the server's wird behavior is the reason.
 
 
