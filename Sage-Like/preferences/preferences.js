@@ -1024,8 +1024,10 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseOutHelpInfo(event) {
-		clearTimeout(m_timeoutHelpInfo);
-		m_elmHelpInfoTooltipBox.style.display = "none";
+		if( !m_elmHelpInfoTooltipBox.contains(event.relatedTarget) ) {
+			clearTimeout(m_timeoutHelpInfo);
+			m_elmHelpInfoTooltipBox.style.display = "none";
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
