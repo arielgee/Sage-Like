@@ -1001,9 +1001,11 @@ let preferences = (function() {
 
 			m_elmHelpInfoTooltipBox.querySelector(".tooltipBoxText").textContent = target.getAttribute("data-title");
 
-			m_elmHelpInfoTooltipBox.style.left = m_elmHelpInfoTooltipBox.style.top = "0px";		// reset position to calculate size properly
-			m_elmHelpInfoTooltipBox.style.maxWidth = (target.hasAttribute("data-extra-width") ? "650px" : "");
-			m_elmHelpInfoTooltipBox.style.display = "block";
+			const helpInfoTooltipBoxStyle = m_elmHelpInfoTooltipBox.style;
+
+			helpInfoTooltipBoxStyle.left = helpInfoTooltipBoxStyle.top = "0";		// reset position to calculate size properly
+			helpInfoTooltipBoxStyle.maxWidth = (target.hasAttribute("data-extra-width") ? "650px" : "");
+			helpInfoTooltipBoxStyle.display = "block";
 
 			const offsetParentLeft = (!!offsetParent ? offsetParent.offsetLeft : 0);
 			const offsetParentTop = (!!offsetParent ? offsetParent.offsetTop : 0);
@@ -1023,8 +1025,8 @@ let preferences = (function() {
 				y = offsetParentTop + target.offsetTop - m_elmHelpInfoTooltipBox.offsetHeight - yOffset;	// 10px above top edge
 			}
 
-			m_elmHelpInfoTooltipBox.style.left = (x<1 ? 1 : x) + "px";
-			m_elmHelpInfoTooltipBox.style.top = (y<1 ? 1 : y) + "px";
+			helpInfoTooltipBoxStyle.left = (x<1 ? 1 : x) + "px";
+			helpInfoTooltipBoxStyle.top = (y<1 ? 1 : y) + "px";
 
 		}, 200);
 	}
