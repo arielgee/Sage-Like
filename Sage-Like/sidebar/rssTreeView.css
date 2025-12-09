@@ -28,7 +28,6 @@
 	background-color: var(--bk-color-window);
 	unicode-bidi: embed;
 	line-height: var(--line-height-rss-view);
-	-moz-user-select: none;
 	user-select: none;
 }
 #rssTreeView:empty {
@@ -187,7 +186,6 @@
 	background: rgb(255, 255, 220) url("/icons/errormsg.png") no-repeat left var(--icon-top) / var(--tree-icon-size) var(--tree-icon-size);
 	color: crimson;
 	cursor: default;
-	-moz-user-select: text;
 	user-select: text;
 	white-space: normal;
 }

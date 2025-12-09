@@ -172,7 +172,7 @@ body * {
 #imageFilter {
 	width: var(--width-filter-image);
 	height: var(--toolbar-button-size);
-	background: -moz-Field url("/icons/filter-12.png") no-repeat 2px center;
+	background: Field url("/icons/filter-12.png") no-repeat 2px center;
 }
 
 #textFilter {

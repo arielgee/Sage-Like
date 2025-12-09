@@ -12,7 +12,6 @@
 	background-color: var(--bk-color-window);
 	unicode-bidi: embed;
 	line-height: var(--line-height-rss-view);
-	-moz-user-select: none;
 	user-select: none;
 }
 
@@ -48,7 +47,6 @@
 	background: rgb(255, 255, 220) url("/icons/errormsg.png") no-repeat left var(--icon-top) / var(--tree-icon-size) var(--tree-icon-size);
 	color: crimson;
 	cursor: default;
-	-moz-user-select: text;
 	user-select: text;
 	white-space: normal;
 }
@@ -140,7 +138,6 @@
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
 	font-size: 11px;
-	-moz-user-select: none;
 	user-select: none;
 	overflow: hidden;
 	line-height: 20px;

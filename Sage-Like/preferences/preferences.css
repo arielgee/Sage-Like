@@ -5,7 +5,6 @@
 :root {
 	font-size: 12px;
 	user-select: none;
-	-moz-user-select: none;
 	cursor: default;
 
 	--width-navigation-bar: 260px;
@@ -285,7 +284,6 @@ input[type="checkbox"] {
 	--dot-size: calc(var(--button-height) - 2*var(--dot-margin));
 	--dot-transform-x: calc(var(--button-width) - 2*var(--dot-margin) - var(--dot-size));
 
-	-moz-appearance: none;
 	appearance: none;
 	padding: 0;
 	margin: 2px 0;
@@ -324,7 +322,6 @@ input[type="checkbox"]:disabled::before {
 }
 
 input[type="radio"] {
-	-moz-appearance: none;
 	appearance: none;
 	padding: 0;
 	margin: 2px 0;
@@ -517,7 +514,6 @@ input[type="color"]::-moz-color-swatch {
 	max-width: 400px;
 	word-wrap: normal;
 	white-space: pre-wrap;
-	-moz-user-select: text;
 	user-select: text;
 }
 
