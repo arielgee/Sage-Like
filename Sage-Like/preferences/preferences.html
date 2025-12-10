@@ -55,7 +55,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">Feeds bookmark folder<span class="helpInfo" data-title="Empty folders are marked with the symbol '∅'.">?</span></label>
 				<div class="preferenceControl">
-					<select name="rootFeedsFolder" id="rootFeedsFolder"></select>
+					<select class="preferenceSelect" name="rootFeedsFolder" id="rootFeedsFolder"></select>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -63,7 +63,7 @@
 			<div class="preference">
 				<label for="checkFeedsOnSbOpen" class="preferenceLabel">Refresh feeds on sidebar launch<span class="helpInfo" data-title="When disabled, this option speeds up the sidebar loading process. However, feeds will display outdated status until refreshed manually or through scheduled refresh.">?</span></label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="checkFeedsOnSbOpen">
+					<input type="checkbox" class="preferenceCheckboxInput" id="checkFeedsOnSbOpen">
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -71,7 +71,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">Scheduled feed refresh</label>
 				<div class="preferenceControl">
-					<select name="checkFeedsInterval" id="checkFeedsInterval">
+					<select class="preferenceSelect" name="checkFeedsInterval" id="checkFeedsInterval">
 						<option value="0">No thanks, I'll do it myself</option>
 						<option value="600000">Every 10 minutes</option>
 						<option value="1800000">Every 30 minutes</option>
@@ -89,7 +89,7 @@
 			<div class="preference subPref last">
 				<label for="checkFeedsWhenSbClosed" class="preferenceLabel">Notify if any feed updates while sidebar is closed<span class="helpInfo" data-title="Displays a green 'N' badge on the extension toolbar button when a feed update is detected while the sidebar is closed.&NewLine;&NewLine;Feeds are not refreshed in the background while the sidebar is closed.">?</span></label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="checkFeedsWhenSbClosed">
+					<input type="checkbox" class="preferenceCheckboxInput" id="checkFeedsWhenSbClosed">
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -97,7 +97,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">Feed refresh method<span id="checkFeedsMethodInfo" class="helpInfo" data-extra-width>?</span></label>
 				<div class="preferenceControl">
-					<select name="checkFeedsMethod" id="checkFeedsMethod">
+					<select class="preferenceSelect" name="checkFeedsMethod" id="checkFeedsMethod">
 						<option value="1;0">Strenuous</option>
 						<option value="3;2000">Moderate</option>
 						<option value="5;3000">Relaxed</option>
@@ -111,7 +111,7 @@
 			<div class="preference">
 				<label for="fetchTimeout" class="preferenceLabel">Single feed fetching timeout<span class="helpInfo" data-title="Timeout range: 10 - 300 seconds">?</span></label>
 				<div class="preferenceControl">
-					<input type="text" id="fetchTimeout" class="numericInput" required minlength="2" maxlength="3"
+					<input type="text" id="fetchTimeout" class="preferenceTextInput numericInput" required minlength="2" maxlength="3"
 						pattern="^([1-9][0-9]|[12][0-9]{2}|300)$"><label for="fetchTimeout" class="controlLabel">seconds</label>
 				</div>
 			</div>
@@ -120,7 +120,7 @@
 			<div class="preference">
 				<label for="showFeedStats" class="preferenceLabel">Show total number of unread feeds and feed-items<span class="helpInfo" data-title="Enabling this option adds an extra processing phase to each feed during display updates.">?</span></label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="showFeedStats">
+					<input type="checkbox" class="preferenceCheckboxInput" id="showFeedStats">
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -128,7 +128,7 @@
 			<div class="preference">
 				<label for="sortFeedItems" class="preferenceLabel">Order feed-items chronologically<span class="helpInfo" data-title="When enabled, feed items in both the sidebar and Feed Preview will be ordered by timestamp. Otherwise, they will maintain their original order from the feed source.">?</span></label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="sortFeedItems">
+					<input type="checkbox" class="preferenceCheckboxInput" id="sortFeedItems">
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -136,7 +136,7 @@
 			<div class="preference">
 				<label for="detectFeedsInWebPage" class="preferenceLabel">Detect feeds in web pages and show subscribe button <img src="../icons/pagePopup-16.png"> in address bar<span class="helpInfo" data-title="Enabling this feature adds an extra processing phase to each web page during browser loading.">?</span></label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="detectFeedsInWebPage"/>
+					<input type="checkbox" class="preferenceCheckboxInput" id="detectFeedsInWebPage"/>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -152,7 +152,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">Folder click action (open/close)</label>
 				<div class="preferenceControl">
-					<select name="folderClickAction" id="folderClickAction">
+					<select class="preferenceSelect" name="folderClickAction" id="folderClickAction">
 						<option value="0">Single-click</option>
 						<option value="1">Double-click</option>
 					</select>
@@ -163,7 +163,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">A feed-click automatically opens the Feed Preview</label>
 				<div class="preferenceControl">
-					<select name="clickOpensFeedPreview" id="clickOpensFeedPreview">
+					<select class="preferenceSelect" name="clickOpensFeedPreview" id="clickOpensFeedPreview">
 						<option value="0">No, I'll use Middle-click</option>
 						<option value="1">In the current tab</option>
 						<option value="2">In a new tab</option>
@@ -175,7 +175,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">Open feed-item articles<span class="helpInfo" data-extra-width data-title="Middle-click opens the article using the alternate (not selected) option.&NewLine;&NewLine;&#10033; Additionally, use Ctrl+Click to open in a new tab or Shift+Click to open in a new window.">?</span></label>
 				<div class="preferenceControl">
-					<select name="feedItemOpenMethod" id="feedItemOpenMethod">
+					<select class="preferenceSelect" name="feedItemOpenMethod" id="feedItemOpenMethod">
 						<option value="0">In the current tab</option>
 						<option value="1">In a new tab</option>
 					</select>
@@ -186,7 +186,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">When opening Feed Preview, mark as &quot;Read&quot;<span class="helpInfo" data-title="This setting only applies when the Feed Preview is opened from the sidebar's tree view.">?</span></label>
 				<div class="preferenceControl">
-					<select name="markFeedPreviewUrlsAsVisited" id="markFeedPreviewUrlsAsVisited">
+					<select class="preferenceSelect" name="markFeedPreviewUrlsAsVisited" id="markFeedPreviewUrlsAsVisited">
 						<option value="0">Nothing</option>
 						<option value="1" title="All feed-items in the feed will be marked as &quot;Read&quot; even if not all were actually displayed in the browser.">All feed-items in feed collectively</option>
 						<option value="2" title="A feed-item will be marked as &quot;Read&quot; as soon as about 30% of its area has been scrolled into view.">Each feed-item as it becomes visible</option>
@@ -206,7 +206,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">UI density</label>
 				<div class="preferenceControl">
-					<select name="UIDensity" id="UIDensity">
+					<select class="preferenceSelect" name="UIDensity" id="UIDensity">
 						<option value="14;16">Compact</option>
 						<option value="19;18">Comfortable</option>
 						<option value="24;20">Spacious</option>
@@ -219,7 +219,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">Sidebar font<span class="helpInfo" data-title="You can pick a font from the stock fonts or type in your own font name using the last item in the dropdown list. If a font is not supported Sage-Like will fall back to the browser default.">?</span></label>
 				<div class="preferenceControl">
-					<select name="fontName" id="fontName">
+					<select class="preferenceSelect" name="fontName" id="fontName">
 						<!-- Modification are first done in '/.res/fonts.txt' -->
 						<option value="(Browser Default)">(Browser Default)</option>
 						<option value="Arial">Arial</option>
@@ -242,7 +242,7 @@
 						<option value="-1">Custom Font&hellip;</option>
 					</select>
 					<label class="precedingControlLabel">Size</label>
-					<select name="fontSizePercent" id="fontSizePercent">
+					<select class="preferenceSelect" name="fontSizePercent" id="fontSizePercent">
 						<option value="50">0.5x</option>
 						<option value="60">0.6x</option>
 						<option value="70">0.7x</option>
@@ -262,24 +262,24 @@
 			<div class="preference">
 				<label class="preferenceLabel">Sidebar colors</label>
 				<div class="preferenceControl">
-					<input type="color" id="colorBk"><label for="colorBk" class="controlLabel">Window</label>
-					<input type="color" id="colorDlgBk"><label for="colorDlgBk" class="controlLabel">Dialog</label>
-					<input type="color" id="colorSelect"><label for="colorSelect" class="controlLabel">Active</label>
-					<input type="color" id="colorText"><label for="colorText" class="controlLabel">Text</label>
-					<input type="color" id="colorIcons"><label for="colorIcons" class="controlLabel">Icons</label>
+					<input type="color" class="preferenceColorInput" id="colorBk"><label for="colorBk" class="controlLabel">Window</label>
+					<input type="color" class="preferenceColorInput" id="colorDlgBk"><label for="colorDlgBk" class="controlLabel">Dialog</label>
+					<input type="color" class="preferenceColorInput" id="colorSelect"><label for="colorSelect" class="controlLabel">Active</label>
+					<input type="color" class="preferenceColorInput" id="colorText"><label for="colorText" class="controlLabel">Text</label>
+					<input type="color" class="preferenceColorInput" id="colorIcons"><label for="colorIcons" class="controlLabel">Icons</label>
 				</div>
 			</div>
 
 			<div class="preference subPref last">
 				<label class="preferenceLabel">Classic icons color</label>
 				<div class="preferenceControl">
-					<input type="radio" name="iconsColor" value="0" id="iconsColor0"><label for="iconsColor0" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
-					<input type="radio" name="iconsColor" value="1" id="iconsColor1"><label for="iconsColor1" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
-					<input type="radio" name="iconsColor" value="2" id="iconsColor2"><label for="iconsColor2" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
-					<input type="radio" name="iconsColor" value="3" id="iconsColor3"><label for="iconsColor3" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
-					<input type="radio" name="iconsColor" value="4" id="iconsColor4"><label for="iconsColor4" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
-					<input type="radio" name="iconsColor" value="5" id="iconsColor5"><label for="iconsColor5" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
-					<input type="radio" name="iconsColor" value="6" id="iconsColor6"><label for="iconsColor6" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
+					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="0" id="iconsColor0"><label for="iconsColor0" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
+					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="1" id="iconsColor1"><label for="iconsColor1" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
+					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="2" id="iconsColor2"><label for="iconsColor2" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
+					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="3" id="iconsColor3"><label for="iconsColor3" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
+					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="4" id="iconsColor4"><label for="iconsColor4" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
+					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="5" id="iconsColor5"><label for="iconsColor5" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
+					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="6" id="iconsColor6"><label for="iconsColor6" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -287,7 +287,7 @@
 			<div class="preference">
 				<label for="increaseUnvisitedFontSize" class="preferenceLabel">Increase font size of unread items in sidebar<span class="helpInfo" data-title="Increases visibility of unread items beyond font boldness, particularly useful when using a dark color palette in the sidebar.">?</span></label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="increaseUnvisitedFontSize">
+					<input type="checkbox" class="preferenceCheckboxInput" id="increaseUnvisitedFontSize">
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -295,21 +295,21 @@
 			<div class="preference">
 				<label for="showFeedItemDesc" class="preferenceLabel">Show feed-item description tooltips, if available</label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="showFeedItemDesc">
+					<input type="checkbox" class="preferenceCheckboxInput" id="showFeedItemDesc">
 				</div>
 			</div>
 
 			<div class="preference subPref">
 				<label for="showFeedItemDescAttach" class="preferenceLabel">Show feed-item attached resources in tooltip</label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="showFeedItemDescAttach">
+					<input type="checkbox" class="preferenceCheckboxInput" id="showFeedItemDescAttach">
 				</div>
 			</div>
 
 			<div class="preference subPref">
 				<label for="feedItemDescDelay" class="preferenceLabel">Tooltip popup delay<span class="helpInfo" data-title="Delay range: 0 to 1500 milliseconds (up to 1.5 seconds)">?</span></label>
 				<div class="preferenceControl">
-					<input type="text" id="feedItemDescDelay" class="numericInput" required minlength="1" maxlength="4"
+					<input type="text" id="feedItemDescDelay" class="preferenceTextInput numericInput" required minlength="1" maxlength="4"
 						pattern="^([0-9]|[1-9][0-9]{1,2}|1[0-4][0-9]{2}|1500)$"><label for="fetchTimeout" class="controlLabel">milliseconds</label>
 				</div>
 			</div>
@@ -317,8 +317,8 @@
 			<div class="preference subPref last">
 				<label for="feedItemDescColors" class="preferenceLabel">Tooltip colors</label>
 				<div class="preferenceControl">
-					<input type="color" id="colorFeedItemDescBk"><label for="colorFeedItemDescBk" class="controlLabel">Background</label>
-					<input type="color" id="colorFeedItemDescText"><label for="colorFeedItemDescText" class="controlLabel">Text</label>
+					<input type="color" class="preferenceColorInput" id="colorFeedItemDescBk"><label for="colorFeedItemDescBk" class="controlLabel">Background</label>
+					<input type="color" class="preferenceColorInput" id="colorFeedItemDescText"><label for="colorFeedItemDescText" class="controlLabel">Text</label>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -326,7 +326,7 @@
 			<div class="preference">
 				<label for="showTryOpenLinkInFeedPreview" class="preferenceLabel">Show context menu item "Try to Open Link in Feed Preview" for page links</label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="showTryOpenLinkInFeedPreview">
+					<input type="checkbox" class="preferenceCheckboxInput" id="showTryOpenLinkInFeedPreview">
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -334,14 +334,14 @@
 			<div class="preference">
 				<label for="useCustomCSSFeedPreview" class="preferenceLabel">Use custom style sheet for Feed Preview</label>
 				<div class="preferenceControl">
-					<input type="checkbox" id="useCustomCSSFeedPreview">
+					<input type="checkbox" class="preferenceCheckboxInput" id="useCustomCSSFeedPreview">
 				</div>
 			</div>
 
 			<div class="preference subPref last">
 				<label class="preferenceLabel">CSS source code<span class="helpInfo" data-extra-width data-title="CSS content is saved internally. If you modify the source file, you must re-import it.&NewLine;Alternatively, use the 'Edit...' button to modify the imported code directly.&NewLine;&NewLine;&#10033; For examples, click the 'Custom CSS for Feed Preview' link at the bottom left corner of this page.">?</span></label>
 				<div class="preferenceControl">
-					<input type="file" id="importCustomCSSSource" accept="text/css,.css">
+					<input type="file" class="preferenceFileInput" id="importCustomCSSSource" accept="text/css,.css">
 					<label id="labelForImportCustomCSSSource" for="importCustomCSSSource" class="preferenceButton" tabindex="0">Import...</label>
 					<button type="button" id="btnEditCSSSource" class="preferenceButton">Edit...</button>
 					<button type="button" id="btnClearCSSSource" class="preferenceButton">Clear</button>
@@ -363,7 +363,7 @@
 					<div class="preferenceControl">
 						<label for="inputImportOPML" class="preferenceButton" tabindex="0">Import...</label>
 						<button type="button" class="preferenceButton" id="btnExportOPML">Export...</button>
-						<input type="file" id="inputImportOPML" accept="text/xml,.opml">
+						<input type="file" class="preferenceFileInput" id="inputImportOPML" accept="text/xml,.opml">
 					</div>
 				</div>
 				<div id="prefOverlayFeedTrans" class="preferenceOverlay">
@@ -379,7 +379,7 @@
 					<div class="preferenceControl">
 						<label for="inputImportPreferences" class="preferenceButton" tabindex="0">Import Options...</label>
 						<button type="button" class="preferenceButton" id="btnExportPreferences">Export Options...</button>
-						<input type="file" id="inputImportPreferences" accept="text/json,.json">
+						<input type="file" class="preferenceFileInput" id="inputImportPreferences" accept="text/json,.json">
 
 						<button type="button" class="preferenceButton" id="btnRestoreDefaults">Restore Defaults</button>
 						<button type="button" class="preferenceButton" id="btnReloadExtension">Reload Extension</button>
@@ -401,7 +401,7 @@
 		<!-- ////////////////////////// User Font Box ////////////////////////// -->
 		<div id="userFontBox" class="popupBox preferenceReferenced" tabindex="-1">
 			<div class="preferenceControl">
-				<label for="userFontName" class="controlLabel">Font Name:</label><input type="text" class="inputPopupBox" id="userFontName">
+				<label for="userFontName" class="controlLabel">Font Name:</label><input type="text" class="preferenceTextInput inputPopupBox" id="userFontName">
 			</div>
 		</div>
 

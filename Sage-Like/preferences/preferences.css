@@ -244,20 +244,20 @@ input {
 	background-color: var(--background-color-input-control);
 }
 
-select {
+.preferenceSelect {
 	max-width: calc(var(--max-width-main-content) * 0.4);
 	border: 1px solid #7a7a7a;
 	padding: 3px 1px 3px 3px;
 	color: var(--foreground-color);
 	background-color: var(--background-color-select-control);
 }
-select:focus {
+.preferenceSelect:focus {
 	border-color: var(--color-control-focused);
 	box-shadow: 0 0 2.5px 1px var(--color-control-focused);
 	background-color: var(--background-color-select-control);
 }
 
-select > option {
+.preferenceSelect > option {
 	background-color: var(--background-color-option-control);
 }
 
@@ -271,13 +271,13 @@ select > option {
 }
 
 /*** input of file type will be hidden an customized ***/
-input[type="file"] {
+.preferenceFileInput {
 	width: 0;
 	visibility: hidden;
 	opacity: 0;
 }
 
-input[type="checkbox"] {
+.preferenceCheckboxInput {
 	--button-width: 36px;
 	--button-height: 18px;
 	--dot-margin: 4px;
@@ -294,17 +294,17 @@ input[type="checkbox"] {
 	border-radius: calc(var(--button-height) / 2);
 	background-color: var(--background-color-input);
 }
-input[type="checkbox"]:checked {
+.preferenceCheckboxInput:checked {
 	background-color: var(--color-control-accent);
 }
-input[type="checkbox"]:disabled {
+.preferenceCheckboxInput:disabled {
 	background-color: var(--background-color-disabled-control);
 }
-input[type="checkbox"]:focus {
+.preferenceCheckboxInput:focus {
 	box-shadow: 0 0 2.5px 2px var(--color-control-focused);
 }
 
-input[type="checkbox"]::before {
+.preferenceCheckboxInput::before {
 	display: block;
 	content: "";
 	background-color: #ffffff;
@@ -314,14 +314,14 @@ input[type="checkbox"]::before {
 	border-radius: 50%;
 	transition: transform 100ms;
 }
-input[type="checkbox"]:checked::before {
+.preferenceCheckboxInput:checked::before {
 	transform: translateX(var(--dot-transform-x));
 }
-input[type="checkbox"]:disabled::before {
+.preferenceCheckboxInput:disabled::before {
 	background-color: var(--foreground-color-disabled-control);
 }
 
-input[type="radio"] {
+.preferenceRadioInput {
 	appearance: none;
 	padding: 0;
 	margin: 2px 0;
@@ -333,16 +333,16 @@ input[type="radio"] {
 	transition: 0.2s all linear;
 	background-color: transparent;
 }
-input[type="radio"]:checked {
+.preferenceRadioInput:checked {
 	border: 6px solid var(--color-control-accent);
 	background-color: #ffffff;
 }
-input[type="radio"]:disabled {
+.preferenceRadioInput:disabled {
 	border-color: var(--foreground-color-disabled-control);
 	background-color: var(--background-color-disabled-control);
 }
 
-input[type="color"] {
+.preferenceColorInput {
 	width: 26px;
 	height: 18px;
 	border: none;
@@ -353,7 +353,7 @@ input[type="color"] {
 	box-shadow: 0 0 4px 2px var(--box-shadow-color-swatch);
 	cursor: pointer;
 }
-input[type="color"]::-moz-color-swatch {
+.preferenceColorInput::-moz-color-swatch {
 	border: inherit;
 	border-radius: inherit;
 	margin: 0;
@@ -525,18 +525,18 @@ input[type="color"]::-moz-color-swatch {
 	background: linear-gradient(to left, var(--color1) 52%, var(--color-flash) 50%);
 }
 
-select {
+.preferenceSelect {
 	background: linear-gradient(to left, var(--background-color-select-control) 52%, var(--color-flash) 50%);
 }
 
-select,
+.preferenceSelect,
 .preferenceButton {
 	background-size: 220% 100%;
 	background-position: right bottom;
 	transition: background-position 0.2s ease-in 0s;
 }
 
-select.flash,
+.preferenceSelect.flash,
 .preferenceButton.flash {
 	background-position: left bottom;
 }
@@ -550,14 +550,14 @@ select.flash,
 }
 
 label.disabled,
-input[type="text"].disabled,
+.preferenceTextInput.disabled,
 .preferenceButton.disabled,
 .preference.subPref.disabled {
 	color: var(--foreground-color-disabled-control);
 	border-color: var(--foreground-color-disabled-control);
 }
 
-input[type="color"].disabled {
+.preferenceColorInput.disabled {
 	filter: contrast(10%);
 }
 
