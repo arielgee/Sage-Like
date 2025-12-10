@@ -518,26 +518,21 @@ input {
 }
 
 /************************************************************************************/
-/**************************** Elements that will 'flash' ****************************/
+/**************************** Elements that can 'flash' *****************************/
 /************************************************************************************/
-.preferenceButton {
-	--color1: rgba(var(--background-color-values-button), var(--background-alpha-button));
-	background: linear-gradient(to left, var(--color1) 52%, var(--color-flash) 50%);
-}
-
-.preferenceSelect {
-	background: linear-gradient(to left, var(--background-color-select-control) 52%, var(--color-flash) 50%);
-}
-
-.preferenceSelect,
-.preferenceButton {
+.isFlashable {
 	background-size: 220% 100%;
 	background-position: right bottom;
 	transition: background-position 0.2s ease-in 0s;
 }
-
-.preferenceSelect.flash,
-.preferenceButton.flash {
+.preferenceButton.isFlashable {
+	--button-bg-color: rgba(var(--background-color-values-button), var(--background-alpha-button));
+	background-image: linear-gradient(to left, var(--button-bg-color) 52%, var(--color-flash) 50%);
+}
+.preferenceSelect.isFlashable {
+	background-image: linear-gradient(to left, var(--background-color-select-control) 52%, var(--color-flash) 50%);
+}
+.isFlashable.flash {
 	background-position: left bottom;
 }
 

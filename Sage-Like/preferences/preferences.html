@@ -55,7 +55,7 @@
 			<div class="preference">
 				<label class="preferenceLabel">Feeds bookmark folder<span class="helpInfo" data-title="Empty folders are marked with the symbol '∅'.">?</span></label>
 				<div class="preferenceControl">
-					<select class="preferenceSelect" name="rootFeedsFolder" id="rootFeedsFolder"></select>
+					<select class="preferenceSelect isFlashable" name="rootFeedsFolder" id="rootFeedsFolder"></select>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -342,7 +342,7 @@
 				<label class="preferenceLabel">CSS source code<span class="helpInfo" data-extra-width data-title="CSS content is saved internally. If you modify the source file, you must re-import it.&NewLine;Alternatively, use the 'Edit...' button to modify the imported code directly.&NewLine;&NewLine;&#10033; For examples, click the 'Custom CSS for Feed Preview' link at the bottom left corner of this page.">?</span></label>
 				<div class="preferenceControl">
 					<input type="file" class="preferenceFileInput" id="importCustomCSSSource" accept="text/css,.css">
-					<label id="labelForImportCustomCSSSource" for="importCustomCSSSource" class="preferenceButton" tabindex="0">Import...</label>
+					<label id="labelForImportCustomCSSSource" for="importCustomCSSSource" class="preferenceButton isFlashable" tabindex="0">Import...</label>
 					<button type="button" id="btnEditCSSSource" class="preferenceButton">Edit...</button>
 					<button type="button" id="btnClearCSSSource" class="preferenceButton">Clear</button>
 				</div>
