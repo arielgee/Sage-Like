@@ -225,7 +225,7 @@ let preferences = (function() {
 			if(value.includes(":")) {
 				let elmOption = createTagOption(value, getEveryDayAtTagOptionText(value));
 				elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
-				m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
+				m_elmCheckFeedsInterval.appendChild(elmOption);
 			}
 			m_elmCheckFeedsInterval.value = value;
 			slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, value === "0");
@@ -310,7 +310,7 @@ let preferences = (function() {
 			if(!inStock) {
 				let elmOption = createTagOption(fontName, getUserFontNameTagOptionText(fontName));
 				elmOption.id = ID_OPTION_USER_FONT_NAME;
-				m_elmFontName.insertBefore(elmOption, m_elmFontName.lastElementChild);
+				m_elmFontName.appendChild(elmOption);
 			}
 			m_elmFontName.value = fontName;
 		});
@@ -463,7 +463,7 @@ let preferences = (function() {
 					if(elmOption === null) {
 						elmOption = createTagOption(timeValue, getEveryDayAtTagOptionText(timeValue));
 						elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
-						m_elmCheckFeedsInterval.insertBefore(elmOption, m_elmCheckFeedsInterval.lastElementChild);
+						m_elmCheckFeedsInterval.appendChild(elmOption);
 					} else {
 						elmOption.value = timeValue;
 						elmOption.textContent = getEveryDayAtTagOptionText(timeValue);
@@ -638,7 +638,7 @@ let preferences = (function() {
 						if(elmOption === null) {
 							elmOption = createTagOption(userFontName, getUserFontNameTagOptionText(userFontName));
 							elmOption.id = ID_OPTION_USER_FONT_NAME;
-							m_elmFontName.insertBefore(elmOption, m_elmFontName.lastElementChild);
+							m_elmFontName.appendChild(elmOption);
 						} else {
 							elmOption.value = userFontName;
 							elmOption.textContent = getUserFontNameTagOptionText(userFontName);
