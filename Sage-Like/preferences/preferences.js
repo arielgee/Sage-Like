@@ -223,9 +223,7 @@ let preferences = (function() {
 
 		prefs.getCheckFeedsInterval().then((value) => {
 			if(value.includes(":")) {
-				let elmOption = createTagOption(value, getEveryDayAtTagOptionText(value));
-				elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
-				m_elmCheckFeedsInterval.appendChild(elmOption);
+				appendCustomTagOption(m_elmCheckFeedsInterval, value, getEveryDayAtTagOptionText(value), ID_OPTION_CHECK_FEEDS_TIME_OF_DAY);
 			}
 			m_elmCheckFeedsInterval.value = value;
 			slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, value === "0");
@@ -308,9 +306,7 @@ let preferences = (function() {
 			Array.prototype.map.call(m_elmFontName.options, e => inStock |= (e.value === fontName) );
 
 			if(!inStock) {
-				let elmOption = createTagOption(fontName, getUserFontNameTagOptionText(fontName));
-				elmOption.id = ID_OPTION_USER_FONT_NAME;
-				m_elmFontName.appendChild(elmOption);
+				appendCustomTagOption(m_elmFontName, fontName, getUserFontNameTagOptionText(fontName), ID_OPTION_USER_FONT_NAME);
 			}
 			m_elmFontName.value = fontName;
 		});
@@ -461,9 +457,7 @@ let preferences = (function() {
 				} else {
 
 					if(elmOption === null) {
-						elmOption = createTagOption(timeValue, getEveryDayAtTagOptionText(timeValue));
-						elmOption.id = ID_OPTION_CHECK_FEEDS_TIME_OF_DAY;
-						m_elmCheckFeedsInterval.appendChild(elmOption);
+						appendCustomTagOption(m_elmCheckFeedsInterval, timeValue, getEveryDayAtTagOptionText(timeValue), ID_OPTION_CHECK_FEEDS_TIME_OF_DAY);
 					} else {
 						elmOption.value = timeValue;
 						elmOption.textContent = getEveryDayAtTagOptionText(timeValue);
@@ -636,9 +630,7 @@ let preferences = (function() {
 					if(stockName === "") {
 
 						if(elmOption === null) {
-							elmOption = createTagOption(userFontName, getUserFontNameTagOptionText(userFontName));
-							elmOption.id = ID_OPTION_USER_FONT_NAME;
-							m_elmFontName.appendChild(elmOption);
+							appendCustomTagOption(m_elmFontName, userFontName, getUserFontNameTagOptionText(userFontName), ID_OPTION_USER_FONT_NAME);
 						} else {
 							elmOption.value = userFontName;
 							elmOption.textContent = getUserFontNameTagOptionText(userFontName);
@@ -1149,6 +1141,13 @@ let preferences = (function() {
 			}
 			indent--;
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function appendCustomTagOption(parent, value, text, id) {
+		const elm = createTagOption(value, text);
+		elm.id = id;
+		parent.appendChild(elm);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
