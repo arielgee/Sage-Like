@@ -1384,6 +1384,9 @@ let preferences = (function() {
 			label.firstElementChild.style.fill = color;
 			label.title = colorInputTitle(color);
 		}
+
+		// to prevent undesirable flash effect on page load the transition duration, that was set to zero in the CSS, is now set to normal value
+		setTimeout(() => document.documentElement.style.setProperty("--transition-duration-flash", "0.2s"), 230);	// timeout a little more then 200ms to ensure that all flashing is done
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

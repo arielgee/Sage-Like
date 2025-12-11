@@ -523,7 +523,7 @@ input {
 .isFlashable {
 	background-size: 220% 100%;
 	background-position: right bottom;
-	transition: background-position 0.2s ease-in 0s;
+	transition: background-position var(--transition-duration-flash) ease-in 0s;
 }
 .preferenceButton.isFlashable {
 	--button-bg-color: rgba(var(--background-color-values-button), var(--background-alpha-button));
