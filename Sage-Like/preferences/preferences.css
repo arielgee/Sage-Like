@@ -21,6 +21,7 @@
 
 	--color-control-accent: rgb(0, 96, 223);
 	--background-color-input: rgb(121, 121, 121);
+	--transition-duration-flash: 0ms;		/* Set to 0ms by default to disable flash effect on page load; will be changed dynamically via JS to enable flash effect */
 
 	--path-sidebar-icon: path("M0 12.78V2.41c0-.46.23-.86.59-1.14.11-.08.22-.14.35-.19.2-.07.29-.08.5-.08h4.84c.07 0 .16 0 .22.02.12.04.39.34.5.45l1.09 1.09c.11.1.35.38.47.42.06.02.16.02.22.02h2.78c.8 0 1.44.64 1.44 1.44V6H4.88c-.75 0-1.36.21-1.83.81-.18.23-.53.98-.68 1.28L.79 11.25l-.5 1c-.08.16-.18.4-.29.53ZM0 15c.06-.19.27-.58.37-.78l.65-1.31 2.07-4.13.43-.87c.27-.55.41-.91 1.1-.91H15c.7 0 1.15.61.96 1.28-.05.16-.21.46-.3.63l-.56 1.12-1.75 3.5-.31.63c-.26.52-.42.84-1.07.84H0Z");
 
