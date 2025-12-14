@@ -754,7 +754,7 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
-		if(m_elmList.parentElement.style.direction === "rtl") {
+		if(getComputedStyle(m_elmList).direction === "rtl") {
 			m_elmList.parentElement.style.direction = m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "ltr";
 		} else {
 			m_elmList.parentElement.style.direction = m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "rtl";

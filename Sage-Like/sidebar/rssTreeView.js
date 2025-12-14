@@ -2537,7 +2537,7 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
-		if(m_elmTreeRoot.parentElement.style.direction === "rtl") {
+		if(getComputedStyle(m_elmTreeRoot).direction === "rtl") {
 			m_elmTreeRoot.parentElement.style.direction = m_elmTreeRoot.style.direction = "ltr";
 		} else {
 			m_elmTreeRoot.parentElement.style.direction = m_elmTreeRoot.style.direction = "rtl";
