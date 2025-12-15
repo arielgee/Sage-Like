@@ -41,18 +41,24 @@
 }
 
 #rssListView li.errormsg {
-	--icon-top: calc((var(--line-height-rss-view) - var(--tree-icon-size)) / 2);
 	list-style: none;
-	padding-inline-start: calc(var(--tree-icon-size) + calc(var(--tree-icon-size) / 8) );
-	background: rgb(255, 255, 220) url("/icons/errormsg.png") no-repeat left var(--icon-top) / var(--tree-icon-size) var(--tree-icon-size);
+	background-color: rgb(255, 255, 220);
 	color: crimson;
 	cursor: default;
 	user-select: text;
 	white-space: normal;
 }
 
-#rssListView[style*="direction: rtl;"] li.errormsg {
-	background-position-x: right;
+#rssListView li.errormsg > .innerErrormsg {
+	display: flex;
+}
+
+#rssListView .img-errormsg {
+	--icon-top: calc((var(--line-height-rss-view) - var(--tree-icon-size)) / 2);
+	width: var(--tree-icon-size);
+	height: var(--tree-icon-size);
+	margin-block: var(--icon-top) auto;
+	margin-inline: 1px calc(var(--tree-icon-size) / 8);
 }
 
 #feedItemDescPanel {

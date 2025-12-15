@@ -433,11 +433,17 @@ let rssTreeView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function createErrorTagLI(text) {
-		let elm = document.createElement("li");
-		elm.classList.add("errormsg");
-		elm.textContent = text;
-		elm.tabIndex = 0;
-		return elm;
+		const elmLi = document.createElement("li");
+		const elmImg = document.createElement("img");
+		const elmSpan = document.createElement("span");
+
+		elmLi.className = "errormsg";
+		elmLi.tabIndex = 0;
+		elmImg.className = "img-errormsg";
+		elmImg.src = "/icons/errormsg.png";
+		elmSpan.textContent = text;
+		elmLi.append(elmImg, elmSpan);
+		return elmLi;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

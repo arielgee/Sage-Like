@@ -678,23 +678,33 @@ let rssListView = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setListErrorMsg(textContent, title, url) {
-		let elm = document.createElement("li");
-		elm.classList.add("errormsg");
-		elm.textContent = textContent;
-		elm.title = "Failed URL: " + decodeURIComponent(url);
-		elm.tabIndex = 0;
+		const elmLi = document.createElement("li");
+		const elmInner = document.createElement("div");
+		const elmImg = document.createElement("img");
+		const elmSpan = document.createElement("span");
+
+		elmLi.className = "errormsg";
+		elmLi.tabIndex = 0;
+		elmInner.className = "innerErrormsg";
+		elmInner.title = "Failed URL: " + decodeURIComponent(url);
+		elmImg.className = "img-errormsg";
+		elmImg.src = "/icons/errormsg.png";
+		elmSpan.textContent = textContent;
+
+		elmInner.append(elmImg, elmSpan);
+		elmLi.append(elmInner);
 
 		disposeList();
-		m_elmList.appendChild(elm);
+		m_elmList.appendChild(elmLi);
 		m_elmListViewRssTitle.textContent = title;
 		setStatusbarIcon(true);
 
 		if(!RequiredPermissions.i.granted && textContent.includes("NetworkError when attempting to fetch resource")) {
 
-			const style = "margin:6px 6px 0 0; padding:6px 10px;";
+			const style = "margin-block:6px 0; margin-inline:18px 6px; padding:6px 10px;";
 			const result = slUtil.createMissingPermissionsDocFrag(style);
-			elm.appendChild(result.docFragment);
-			elm.style.paddingBottom = "6px";
+			elmLi.appendChild(result.docFragment);
+			elmLi.style.paddingBottom = "6px";
 
 			let newLen = m_abortCtrlEvents.push(new AbortController());
 			document.getElementById(result.learnMoreAnchorId).addEventListener("click", async () => {
