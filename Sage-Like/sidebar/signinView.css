@@ -33,13 +33,12 @@
 }
 
 .signinInfoContainer label {
-	width: 65px;
-	margin: auto auto auto 0;
+	width: 85px;
+	flex-grow: 0;
 }
 
 .signinInfoContainer .signinInput {
-	margin: auto 0 auto auto;
-	width: 80%;
+	flex-grow: 1;
 	font-size: inherit;
 }
 
