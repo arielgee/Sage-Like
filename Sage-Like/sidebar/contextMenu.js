@@ -147,7 +147,7 @@ let contextMenu = (function() {
 			m_currentContext = "treecontext";
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);	// select folder
 
-		} else if (m_elmEventTarget.closest("#" + Global.ID_UL_RSS_LIST_VIEW) !== null) {
+		} else if ((m_elmEventTarget.closest("#" + Global.ID_UL_RSS_LIST_VIEW) !== null) && rssListView.isRssListOK()) {	// don't show menu if list has issues
 
 			m_currentContext = "listcontext";
 

@@ -887,6 +887,11 @@ let rssListView = (function() {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function isRssListOK() {
+		return m_elmList.children.length > 0 && !m_elmList.firstElementChild.classList.contains("errormsg");
+	}
+
 	return {
 		URLOpenMethod: URLOpenMethod,
 
@@ -904,6 +909,7 @@ let rssListView = (function() {
 		disable: disable,
 		hideVisibleFeedItemDescPanel: hideVisibleFeedItemDescPanel,
 		updateLayoutWidth: updateLayoutWidth,
+		isRssListOK: isRssListOK,
 	};
 
 })();
