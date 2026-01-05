@@ -1237,6 +1237,8 @@
 
 
 ## Next
+* check remark 'GOTYA MADERFAKER!!!' in feedPreview.js. maybe can be solved with CSS only if I look at waht I did in rssTreeView.createTagLI() and rssTreeView.css.
+* revisit InfoBubble after implementing BIDI. implementation of comment: "Adjust arrowX to account for rotation so the tip points to the center of the reference element". in RTL its not pointing to the center of the reference element. looks like a 2px shift. can it be the width of the reference element margin?
 * support for manifest key `data_collection_permissions` starting in v140
 	+ in 02/12/2025 about 96.0% of desktop users are on v140.0 or newer.
 	+ in 02/12/2025 v115.29.0 (ESR) was the most used sub-140 version on a peak day with 11 users.
