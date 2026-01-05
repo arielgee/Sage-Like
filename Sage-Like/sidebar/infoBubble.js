@@ -6,8 +6,8 @@ class InfoBubble {
 	static #_constructId = null;
 	static #_instance = null;
 
-	#_elmInfoBubble = null;
-	#_elmInfoBubbleText = null;
+	#_elmBubble = null;
+	#_elmBubbleText = null;
 
 	constructor(id) {
 		if(InfoBubble.#_constructId !== parseInt(id)) {
@@ -25,86 +25,133 @@ class InfoBubble {
 	}
 
 	//////////////////////////////////////////
-	show(infoText, refElement = undefined, isAlertive = true, rightPointerStyle = false, showDuration = 3500, dismissOnScroll = false) {
+	show(infoText, details = {}) {
 
-		if(!!!this.#_elmInfoBubble) {
-			this.#_elmInfoBubble = document.getElementById("infoBubble");
-			this.#_elmInfoBubbleText = document.getElementById("infoBubbleText");
+		const {
+			pointTo: refElement = undefined,	// reference element
+			alertive = true,					// alertive style
+			duration = 4000,					// duration in milliseconds
+			hideOnScroll = false,				// dismiss on scroll
+		} = details;
+
+		if(!!!this.#_elmBubble) {
+			this.#_elmBubble = document.getElementById("info-bubble");
+			this.#_elmBubbleText = document.getElementById("info-bubble-text");
 			this.#_addEventListeners();
 		}
 
-		let isGeneral = (refElement === undefined);
+		const bIsGeneral = (refElement === undefined);
+		const rectRefElement = (bIsGeneral ? undefined : refElement.getBoundingClientRect());
 
-		if(isGeneral) {
-			refElement = document.body;
-			this.#_elmInfoBubble.slDismissOnScroll = false;
-		} else {
-			this.#_elmInfoBubble.slRefElement = refElement;
-			this.#_elmInfoBubble.slDismissOnScroll = dismissOnScroll;
+		// do not show bubble if the reference element is not visible
+		if(!bIsGeneral) {
+			// Returns true if the element is hidden (offsetParent is null). SVG don't have offsetParent property - need special check
+			const isOffsetParentNull = (e) => {
+				// 1. If 'e' is falsy (null/undefined), return true.
+				// 2. If 'offsetParent' is undefined (e.g. SVG), recursively check the parent element.
+				// 3. Otherwise, return true if 'offsetParent' is null.
+				return (!!!e || ( (typeof(e.offsetParent) === "undefined") ? isOffsetParentNull(e.parentElement) : (e.offsetParent === null) ));
+			};
+			const isRefElementHidden = (isOffsetParentNull(refElement) ||
+											rectRefElement.bottom < 0 || rectRefElement.top > window.innerHeight ||
+											rectRefElement.right < 0 || rectRefElement.left > window.innerWidth);
+			if(isRefElementHidden) return;
 		}
 
-		infoText = infoText.replace(/"([^"]+)"/mg, "<b>$1</b>");
+		slUtil.replaceInnerContent(this.#_elmBubbleText, infoText.replace(/"([^"]+)"/mg, "<b>$1</b>"));
+		this.#_elmBubble.slDismissOnScroll = (bIsGeneral ? false : hideOnScroll);
+		this.#_elmBubble.classList.toggle("no-arrow", bIsGeneral);
+		this.#_elmBubble.classList.toggle("alertive", alertive);
+		this.#_elmBubble.style.display = "block";
 
-		// by setting to most left the bubble currect offsetWidth is recalculated with less
-		// interferences from the window viewport with before setting display = "block"
-		this.#_elmInfoBubble.style.left = "0px";
-		slUtil.replaceInnerContent(this.#_elmInfoBubbleText, infoText);
-		this.#_elmInfoBubble.classList.toggle("alertive", isAlertive);
-		this.#_elmInfoBubble.classList.toggle("rightPointer", rightPointerStyle);
-		this.#_elmInfoBubble.classList.toggle("generalInfo", isGeneral);
-		this.#_elmInfoBubble.style.display = "block";
+		const rectBubble = this.#_elmBubble.getBoundingClientRect();
+		let top, left;
 
-		// real inner size accounting for the scrollbars width if they exist
-		let innerWidth = window.innerWidth - slUtil.getVScrollWidth();
-		let innerHeight = window.innerHeight - slUtil.getHScrollWidth();
-		let rectRefElement = slUtil.getElementViewportRect(refElement, innerWidth, innerHeight);
-		let topOffset = (isGeneral ? 4 : rectRefElement.height);
-		let callTimestamp = Date.now();
+		if(bIsGeneral) {
 
-		let nLeft, nTop = rectRefElement.top + topOffset;
+			top = 4;
+			left = (window.innerWidth - rectBubble.width) / 2;		// Centered at top
 
-		if(isGeneral) {
-			nLeft = (innerWidth - this.#_elmInfoBubble.offsetWidth) / 2;
 		} else {
-			nLeft = rectRefElement.left + (rightPointerStyle ? (rectRefElement.width-this.#_elmInfoBubble.offsetWidth) : 0);
+
+			const arrowRotation = 20;	// degrees
+			const edgeMargin = 1;		// px
+			const arrowHeight = parseInt(getComputedStyle(this.#_elmBubble).getPropertyValue("--height-arrow").replace("px",""));
+
+			// Vertical positioning
+			let isAbove = false;
+			top = rectRefElement.bottom + arrowHeight;
+			// Check if it fits below
+			if (top + rectBubble.height > window.innerHeight) {
+				// Try above
+				const topAbove = rectRefElement.top - rectBubble.height - arrowHeight;
+				if (topAbove >= 0) {
+					top = topAbove;
+					isAbove = true;
+				}
+			}
+
+			// Horizontal positioning (centered initially)
+			left = rectRefElement.left + rectRefElement.width / 2 - rectBubble.width / 2;
+			// Clamp horizontal
+			if (left < 0) left = edgeMargin;
+			if (left + rectBubble.width > window.innerWidth) {
+				left = window.innerWidth - rectBubble.width - edgeMargin;
+			}
+
+			// Arrow handling
+			this.#_elmBubble.classList.remove("above", "below");
+			this.#_elmBubble.classList.add(isAbove ? "above" : "below");
+
+			// Calculate arrow position relative to bubble
+			const refElmCenter = rectRefElement.left + rectRefElement.width / 2;
+			let arrowX = refElmCenter - left;
+
+			// Calculate arrow rotation
+			const isStart = arrowX < (rectBubble.width / 2);
+			let rotation = (isStart ? -arrowRotation : arrowRotation);
+			if (isAbove) rotation *= -1;
+
+			// Adjust arrowX to account for rotation so the tip points to the center of the reference element
+			const angleRad = arrowRotation * (Math.PI / 180);
+			const offset = arrowHeight * Math.tan(angleRad);
+			arrowX += (isStart ? offset : -offset);
+
+			this.#_elmBubble.style.setProperty('--arrow-x', arrowX + "px");
+			this.#_elmBubble.style.setProperty('--arrow-rotation', rotation + "deg");
 		}
 
-		if (nLeft < 0) nLeft = 0;
+		// Apply position
+		this.#_elmBubble.style.left = left + "px";
+		this.#_elmBubble.style.top = top + "px";
+		this.#_elmBubble.style.transform = "none";
 
-		this.#_elmInfoBubble.style.left = nLeft + "px";
-		this.#_elmInfoBubble.style.top = nTop + "px";
-		this.#_elmInfoBubble.slCallTimeStamp = callTimestamp;
+		const callTimestamp = Date.now();
+		this.#_elmBubble.slCallTimeStamp = callTimestamp;
 
-		setTimeout(() => this.#_elmInfoBubble.classList.replace("fadeOut", "fadeIn"), 0);
+		setTimeout(() => this.#_elmBubble.classList.replace("fadeOut", "fadeIn"), 0);
 
 		setTimeout(() => {
-			if(this.#_elmInfoBubble.slCallTimeStamp === callTimestamp) {		// dismiss only if its for the last function call
+			if(this.#_elmBubble.slCallTimeStamp === callTimestamp) {		// dismiss only if its for the last function call
 				this.dismiss();
 			}
-		}, showDuration);
+		}, duration);
 	}
 
 	//////////////////////////////////////////
 	dismiss(isScrolling = false) {
-
-		if(!!this.#_elmInfoBubble) {
-
-			if(!isScrolling || (isScrolling && this.#_elmInfoBubble.slDismissOnScroll)) {
-
-				this.#_elmInfoBubble.slCallTimeStamp = Date.now();
-				this.#_elmInfoBubble.classList.replace("fadeIn", "fadeOut");
-
-				if(!!this.#_elmInfoBubble.slRefElement) {
-					delete this.#_elmInfoBubble.slRefElement;
-				}
+		if(!!this.#_elmBubble) {
+			if(!isScrolling || (isScrolling && this.#_elmBubble.slDismissOnScroll)) {
+				this.#_elmBubble.slCallTimeStamp = Date.now();
+				this.#_elmBubble.classList.replace("fadeIn", "fadeOut");
 			}
 		}
 	}
 
 	//////////////////////////////////////////
 	#_addEventListeners() {
-		this.#_elmInfoBubble.addEventListener("click", this.#_onClickInfoBubble.bind(this));
-		this.#_elmInfoBubble.addEventListener("transitionend", this.#_onTransitionEndInfoBubble.bind(this));
+		this.#_elmBubble.addEventListener("click", this.#_onClickInfoBubble.bind(this));
+		this.#_elmBubble.addEventListener("transitionend", this.#_onTransitionEndInfoBubble.bind(this));
 	}
 
 	//////////////////////////////////////////
@@ -114,11 +161,11 @@ class InfoBubble {
 
 	//////////////////////////////////////////
 	#_onTransitionEndInfoBubble(event) {
-		if(event.target === this.#_elmInfoBubble &&
+		if(event.target === this.#_elmBubble &&
 			event.propertyName === "visibility" &&
-			this.#_elmInfoBubble.classList.contains("fadeOut")) {
+			this.#_elmBubble.classList.contains("fadeOut")) {
 
-			this.#_elmInfoBubble.style.display = "none";
+			this.#_elmBubble.style.display = "none";
 		}
 	}
 }

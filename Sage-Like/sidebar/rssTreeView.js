@@ -1067,7 +1067,7 @@ let rssTreeView = (function() {
 		internalPrefs.getDropInsideFolderShowMsgCount().then((count) => {
 			if(count > 0 && (m_dropInsideFolderLastShowMsgTime + 7000) < Date.now()) {	// Event is triggered repeatedly. Set 7s between messages to conserve counter.
 				m_dropInsideFolderLastShowMsgTime = Date.now();
-				InfoBubble.i.show("Press the Shift key to drop item \"inside\" folder.", undefined, false);
+				InfoBubble.i.show("Press the Shift key to drop item \"inside\" folder.", {alertive: false});
 				internalPrefs.setDropInsideFolderShowMsgCount(count-1);
 			}
 		});
@@ -1196,7 +1196,7 @@ let rssTreeView = (function() {
 								let elmDropped, elmDraggedFolderUL = elmCurrentlyDragged.parentElement;
 
 								if(transfer.getData("text/wx-sl-treeitem-id") !== elmCurrentlyDragged.id) {
-									InfoBubble.i.show("Unexpected drag and drop error (id mismatch).\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+									InfoBubble.i.show("Unexpected drag and drop error (id mismatch).\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.");
 									console.log("[Sage-Like]", "Dragged id mismatch error:", `wx-sl-treeitem-id='${transfer.getData("text/wx-sl-treeitem-id")}'  ,  elmCurrentlyDragged.id='${elmCurrentlyDragged.id}'`);
 									return;
 								}
@@ -1224,11 +1224,11 @@ let rssTreeView = (function() {
 							});
 						});
 					}).catch((error) => {
-						InfoBubble.i.show("Bookmarks error: Drop target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+						InfoBubble.i.show("Bookmarks error: Drop target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.");
 						console.log("[Sage-Like]", "Bookmarks get error", error);
 					});
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Dragged item may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show("Bookmarks error: Dragged item may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.");
 					console.log("[Sage-Like]", "Bookmarks get error", error);
 				});
 
@@ -1710,7 +1710,7 @@ let rssTreeView = (function() {
 				});
 			});
 		}).catch((error) => {
-			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.");
 			console.log("[Sage-Like]", "Bookmarks get error", error);
 		});
 	}
@@ -1758,7 +1758,7 @@ let rssTreeView = (function() {
 					setTreeFeedDataLastStatusMembers(newElm);
 					newElm.focus();
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.");
 					console.log("[Sage-Like]", "Bookmarks create error", error);
 				});
 			});
@@ -1820,7 +1820,7 @@ let rssTreeView = (function() {
 				});
 			});
 		}).catch((error) => {
-			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+			InfoBubble.i.show("Bookmarks error: Target may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.");
 			console.log("[Sage-Like]", "Bookmarks get error", error);
 		});
 	}
@@ -1853,7 +1853,7 @@ let rssTreeView = (function() {
 					setFolderState(newElm, false);
 					newElm.focus();
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show("Bookmarks error: Target folder may have been removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.");
 					console.log("[Sage-Like]", "Bookmarks create error", error);
 				});
 			});
@@ -1934,7 +1934,7 @@ let rssTreeView = (function() {
 					updateLayoutWidth();
 
 				}).catch((error) => {
-					InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.", undefined, true, false, 4000);
+					InfoBubble.i.show("Bookmarks error: Item may have been already removed.\nShift+Click on toolbar button \"Refresh feeds\" to reload the sidebar.");
 					console.log("[Sage-Like]", "Bookmarks remove" + (isFolder ? "Tree" : "") + " error", error);
 				});
 			});
@@ -1992,7 +1992,7 @@ let rssTreeView = (function() {
 
 		if(elmLI.classList.contains("error")) {
 			let text = elmLI.classList.contains("unauthorized") ? "requires signing in." : "is erroneous.";
-			InfoBubble.i.show(`Feed ${text}`, elmLI, true, m_elmTreeRoot.style.direction === "rtl", 3500, true);
+			InfoBubble.i.show(`Feed ${text}`, {pointTo: getTreeItemIcon(elmLI), hideOnScroll: true});
 			return;
 		}
 
@@ -2433,7 +2433,7 @@ let rssTreeView = (function() {
 
 		if(isAlertOn) {
 			m_elmCheckTreeFeeds.title = "The feeds folder or it's content has been modified by another party.\nShift+Click to reload.";
-			InfoBubble.i.show(m_elmCheckTreeFeeds.title, m_elmCheckTreeFeeds);
+			InfoBubble.i.show(m_elmCheckTreeFeeds.title, {pointTo: m_elmCheckTreeFeeds});
 		} else {
 			m_elmCheckTreeFeeds.title = m_elmCheckTreeFeeds.slSavedTitle;
 			InfoBubble.i.dismiss();
@@ -2594,7 +2594,7 @@ let rssTreeView = (function() {
 						if(!!foundNode) {
 							rootId = foundNode.id;
 						} else {
-							InfoBubble.i.show("Creating default feeds folder. Please wait...", undefined, false);
+							InfoBubble.i.show("Creating default feeds folder. Please wait...", {alertive: false});
 							rootId = await createOnInstallFeedsBookmarksFolder();
 							InfoBubble.i.dismiss();
 						}
@@ -2693,7 +2693,7 @@ let rssTreeView = (function() {
 
 		internalPrefs.getMsgShowCountHoverFilterTextBox().then((count) => {
 			if(count > 0) {
-				InfoBubble.i.show("Hover over the filter text box for vital information.", m_elmFilterWidget, false, false, 4000);
+				InfoBubble.i.show("Hover over the filter text box for vital information.", {pointTo: m_elmFilterWidget, alertive: false});
 				internalPrefs.setMsgShowCountHoverFilterTextBox(count-1);
 			}
 			m_elmTextFilter.focus();
@@ -3060,13 +3060,18 @@ let rssTreeView = (function() {
 					m_elmReapplyFilter.title = "The state of one or more feeds has changed.\nFilter may require reapplying.";
 
 					if(m_msgShowCountReapplyFilter > 0) {
-						InfoBubble.i.show(m_elmReapplyFilter.title, m_elmReapplyFilter, true, true);
+						InfoBubble.i.show(m_elmReapplyFilter.title, {pointTo: m_elmReapplyFilter});
 						internalPrefs.setMsgShowCountReapplyFilter(m_msgShowCountReapplyFilter-1);
 						m_msgShowCountReapplyFilter = 0;	// show only once per widget session
 					}
 				}
 			}
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getTreeItemIcon(elmLI) {
+		return elmLI.firstElementChild.querySelector("." + Global.CLS_RTV_SVG_TREE_ITEM_ICON);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -3167,7 +3172,7 @@ let rssTreeView = (function() {
 		if(syndication.isUnauthorizedError(errorObject)) {
 			internalPrefs.getMsgShowCountUnauthorizedFeed().then((count) => {
 				if(count > 0) {
-					InfoBubble.i.show("Unauthenticated. Right-click the locked feed and select \"Sign\u00a0in...\" from the menu, or use the \"L\" key.", refElm, false, m_elmTreeRoot.style.direction === "rtl", 8000, true);
+					InfoBubble.i.show("Unauthenticated. Right-click the locked feed and select \"Sign\u00a0in...\" from the menu, or use the \"L\" key.", {pointTo: getTreeItemIcon(refElm), alertive: false, duration: 8000, hideOnScroll: true});
 					internalPrefs.setMsgShowCountUnauthorizedFeed(count-1);
 				}
 			});

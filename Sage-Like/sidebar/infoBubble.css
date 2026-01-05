@@ -1,81 +1,97 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
-#infoBubble {
-	--width-pointer: 14px;
-	--height-pointer: calc(var(--width-pointer) * 2);
+.info-bubble {
+	--height-arrow: 28px;
+	--width-arrow: calc(var(--height-arrow) / 2);
+	--border-width-bubble: 3px;
 	--border-radius-bubble: 6px;
-	--margin-inline-pointer: calc(var(--border-radius-bubble) + 2px);
 	--color-normal: #143cdc;
 	--color-alertive: crimson;
 
 	position: absolute;
-	max-width: 92%;
-	background-color: transparent;
 	display: none;
-	pointer-events: none;
+	max-width: min(300px, calc(100vw - 20px));
+	border: var(--border-width-bubble) solid var(--color-normal);
+	border-radius: var(--border-radius-bubble);
+	box-shadow: 8px 8px 5px 0 rgba(0,0,0,0.75);
+	/* box-shadow: -8px 8px 5px 0 rgba(0,0,0,0.75); */
+	font-weight: normal;
+	z-index: 100;
+}
+.info-bubble.alertive {
+	border-color: var(--color-alertive);
 }
 
-#infoBubble.fadeIn {
+.info-bubble::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: var(--arrow-x, 50%);
+	margin-inline-start: calc(var(--width-arrow) / -2);
+	border-style: solid;
+	border-color: transparent;
+	border-inline-width: calc(var(--width-arrow) / 2);
+	transform: rotate(var(--arrow-rotation, 0deg));
+	z-index: -1;
+}
+.info-bubble.below::after {
+	bottom: 100%;
+	border-block-width: 0 var(--height-arrow);
+	border-block-end-color: var(--color-normal);
+	transform-origin: bottom center;
+}
+.info-bubble.above::after {
+	top: 100%;
+	border-block-width: var(--height-arrow) 0;
+	border-block-start-color: var(--color-normal);
+	transform-origin: top center;
+}
+.info-bubble.alertive.below::after {
+	border-block-end-color: var(--color-alertive);
+}
+.info-bubble.alertive.above::after {
+	border-block-start-color: var(--color-alertive);
+}
+.info-bubble.no-arrow::after {
+	content: none;
+}
+
+.info-bubble.fadeIn {
 	visibility: visible;
 	opacity: 1;
 	transition: visibility 0s linear 0s, opacity 500ms;
 }
 
-#infoBubble.fadeOut {
+.info-bubble.fadeOut {
 	visibility: hidden;
 	opacity: 0;
 	transition: visibility 0s linear 500ms, opacity 500ms;
 }
 
-#infoBubblePointer {
-	background-color: var(--color-normal);
-	width: var(--width-pointer);
-	height: var(--height-pointer);
-	margin: 0 var(--margin-inline-pointer);
-	clip-path: polygon(15% 0%, 0% 100%, 100% 100%);
-	pointer-events: auto;
-}
-
-#infoBubble.alertive #infoBubblePointer {
-	background-color: var(--color-alertive);
-}
-
-#infoBubble.rightPointer #infoBubblePointer {
-	margin-left: calc(100% - (var(--width-pointer) + var(--margin-inline-pointer)));
-	clip-path: polygon(85% 0%, 0% 100%, 100% 100%);
-}
-
-#infoBubble.generalInfo #infoBubblePointer {
-	height: 0;
-}
-
-#infoBubbleBody {
-	padding: 8px 12px 8px 8px;
-	background-color: var(--bk-color-info-window);
-	color: black;
-	border: 2px solid var(--color-normal);
-	border-radius: var(--border-radius-bubble);
-	box-shadow: 8px 8px 5px 0 rgba(0,0,0,0.75);
-	font-weight: normal;
-	pointer-events: auto;
+.info-bubble-container {
 	display: flex;
 	align-items: flex-start;
-	white-space: pre-wrap;
+	gap: 6px;
+	background-color: var(--bk-color-info-window);
+	color: black;
+	border-radius: calc(var(--border-radius-bubble) - var(--border-width-bubble));
+	padding-block: 6px;
+	padding-inline: 6px 10px;
 }
 
-#infoBubble.alertive #infoBubbleBody {
-	border-color: var(--color-alertive);
-}
-
-#infoBubble .infoBubbleSymbol {
+.info-bubble-icon {
 	--image-size: 16px;
-	min-width: var(--image-size);
-	min-height: var(--image-size);
-	margin-inline-end: 6px;
+	width: var(--image-size);
+	height: var(--image-size);
+	flex-shrink: 0;
 	margin-top: calc((var(--line-height) - var(--image-size)) / 2);
-	background: transparent url("/icons/blueInfo.png") no-repeat center/100%;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
 }
-
-#infoBubble.alertive .infoBubbleSymbol {
+.info-bubble:not(.alertive) .info-bubble-icon {
+	background-image: url("/icons/blueInfo.png");
+}
+.info-bubble.alertive .info-bubble-icon {
 	background-image: url("/icons/errormsg.png");
 }
