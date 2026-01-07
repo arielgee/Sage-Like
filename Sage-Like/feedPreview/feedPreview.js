@@ -203,7 +203,6 @@
 					document.getElementById("pageHeaderContainer").removeChild(document.getElementById("loadingLabel"));
 					document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
 					removeEmptyElementsFromFeedContent();
-					brutallyReinforceSvgStyle();
 					startRefreshInterval();
 				});
 			});
@@ -732,35 +731,6 @@
 			reader.readAsDataURL(blob);	// base64 image data
 
 		}).catch(() => { /* Ignore errors, fallback favicon */ });
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function brutallyReinforceSvgStyle() {
-
-		/*
-			GOTYA MADERFAKER!!!
-
-			Had this feed (http://feeds.feedburner.com/TechCrunch) with 2 svg elements that would not abide to
-			CSS rule '.feedItemContent svg' in feedPreview.css. No matter what I did.
-
-			So, after more than an hour of fiddling around, I had to get brutal and this is the result.
-		*/
-
-		let i, len, cssText;
-		let rules = document.styleSheets[0].cssRules;
-
-		for(i=0, len=rules.length; i<len; i++) {
-			if(typeof(rules[i].selectorText) === "string" && rules[i].selectorText.match(/(^|[, ])\.feedItemContent svg\b/gim)) {
-				cssText = rules[i].style.cssText;
-				break;
-			}
-		}
-
-		let elmSvgs = m_elmFeedBody.getElementsByTagName("svg");
-
-		for(i=0, len=elmSvgs.length; i<len; i++) {
-			elmSvgs[i].style.cssText = cssText;
-		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
