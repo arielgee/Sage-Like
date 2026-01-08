@@ -419,13 +419,14 @@
 			.getAttribute("href") - returns the attribute text value
 			.href - returns the full path URL;
 		*/
+		const invalidUrls = new Set(["#", ""]);
 		let url;
 		let elmsWithUrl = elm.getElementsByTagName("a");
 
-		for(let idx=0, len=elmsWithUrl.length; idx<len; idx++) {
+		for(let idx=0, len=elmsWithUrl.length; idx<len; ++idx) {
 
 			// Link to a fake anchor result in href pointing to this webExt top page - remove it
-			if(["#", ""].includes(elmsWithUrl[idx].getAttribute("href"))) {
+			if(invalidUrls.has(elmsWithUrl[idx].getAttribute("href"))) {
 				elmsWithUrl[idx].removeAttribute("href");
 				continue;
 			}
@@ -443,7 +444,7 @@
 
 		elmsWithUrl = elm.querySelectorAll("img,audio,video,source,track");
 
-		for(let idx=0, len=elmsWithUrl.length; idx<len; idx++) {
+		for(let idx=0, len=elmsWithUrl.length; idx<len; ++idx) {
 
 			// modify relative URLs to absolute - for relative URLs .src is 'moz-extension://...'
 			url = slUtil.replaceMozExtensionOriginURL(elmsWithUrl[idx].src, m_URL.origin);

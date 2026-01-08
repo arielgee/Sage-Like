@@ -1363,8 +1363,9 @@ let slUtil = (function() {
 		return new Promise((resolve, reject) => {
 
 			let isDescendant = false;
-			let isChildDescendant = function (bookmark) {
-				if (bookmarkIds.includes(bookmark.id))  {
+			const setBookmarkIds = new Set(bookmarkIds); // For faster lookup
+			const isChildDescendant = (bookmark) => {
+				if (setBookmarkIds.has(bookmark.id))  {
 					isDescendant = true;
 					return;
 				} else {
@@ -1383,7 +1384,7 @@ let slUtil = (function() {
 				}
 
 				// if the feeds folder itself was modified
-				if (bookmarkIds.includes(folderId)) {
+				if (setBookmarkIds.has(folderId)) {
 					return resolve(true);
 				}
 
