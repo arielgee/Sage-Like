@@ -25,8 +25,8 @@
 .info-bubble::after {
 	content: "";
 	position: absolute;
-	inset-inline-start: var(--arrow-x, 50%);
-	margin-inline-start: calc(var(--width-arrow) / -2);
+	left: var(--arrow-x, 50%);
+	margin-left: calc(var(--width-arrow) / -2);
 	border-style: solid;
 	border-color: transparent;
 	border-inline-width: calc(var(--width-arrow) / 2);

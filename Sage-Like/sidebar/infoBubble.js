@@ -76,15 +76,17 @@ class InfoBubble {
 
 			const arrowRotation = 20;	// degrees
 			const edgeMargin = 1;		// px
-			const arrowHeight = parseInt(getComputedStyle(this.#_elmBubble).getPropertyValue("--height-arrow").replace("px",""));
+			const computedStyle = getComputedStyle(this.#_elmBubble);
+			const arrowHeight = parseFloat(computedStyle.getPropertyValue("--height-arrow"));
+			const bubbleBorderWidth = parseFloat(computedStyle.borderLeftWidth);	// assuming uniform border width - borderWidth is a shorthand and may not be reliable
 
 			// Vertical positioning
 			let isAbove = false;
-			top = rectRefElement.bottom + arrowHeight;
+			top = rectRefElement.bottom + arrowHeight - bubbleBorderWidth;		// adjust for border top width
 			// Check if it fits below
 			if (top + rectBubble.height > window.innerHeight) {
 				// Try above
-				const topAbove = rectRefElement.top - rectBubble.height - arrowHeight;
+				const topAbove = rectRefElement.top - rectBubble.height - arrowHeight + bubbleBorderWidth;		// adjust for border bottom width
 				if (topAbove >= 0) {
 					top = topAbove;
 					isAbove = true;
@@ -105,7 +107,7 @@ class InfoBubble {
 
 			// Calculate arrow position relative to bubble
 			const refElmCenter = rectRefElement.left + rectRefElement.width / 2;
-			let arrowX = refElmCenter - left;
+			let arrowX = refElmCenter - left - bubbleBorderWidth;	// adjust for border left width
 
 			// Calculate arrow rotation
 			const isStart = arrowX < (rectBubble.width / 2);
