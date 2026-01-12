@@ -326,7 +326,6 @@ let rssListView = (function() {
 		// set display=block as soon as possible to retrieve any remote html data (images, etc) and
 		// panel element will have dimentions (offsetWidth > 0)
 		m_elmFeedItemDescPanel.style.display = "block";
-		m_elmFeedItemDescPanel.style.direction = slUtil.getLanguageDir(elmLI.textContent, false);
 
 		m_timeoutMouseOver = setTimeout(() => {
 
@@ -765,9 +764,9 @@ let rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
 		if(getComputedStyle(m_elmList).direction === "rtl") {
-			m_elmList.parentElement.style.direction = m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "ltr";
+			m_elmList.parentElement.dir = m_elmList.dir = m_elmListViewStatusbar.dir = "ltr";
 		} else {
-			m_elmList.parentElement.style.direction = m_elmList.style.direction = m_elmListViewStatusbar.style.direction = "rtl";
+			m_elmList.parentElement.dir = m_elmList.dir = m_elmListViewStatusbar.dir = "rtl";
 		}
 	}
 

@@ -296,7 +296,7 @@ body {
 	font-size: 400% !important;
 	content: "\201C" !important;	/*Left Double Quotation Mark*/
 }
-.feedItemContainer[style*="direction: rtl"] .feedItemContent blockquote::before {
+.feedItemContainer:dir(rtl) .feedItemContent blockquote::before {
 	left: auto !important;
 	right: 8px !important;
 	content: "\201D" !important;	/*Right Double Quotation Mark*/

@@ -2544,9 +2544,9 @@ let rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function switchViewDirection() {
 		if(getComputedStyle(m_elmTreeRoot).direction === "rtl") {
-			m_elmTreeRoot.parentElement.style.direction = m_elmTreeRoot.style.direction = "ltr";
+			m_elmTreeRoot.parentElement.dir = m_elmTreeRoot.dir = "ltr";
 		} else {
-			m_elmTreeRoot.parentElement.style.direction = m_elmTreeRoot.style.direction = "rtl";
+			m_elmTreeRoot.parentElement.dir = m_elmTreeRoot.dir = "rtl";
 		}
 	}
 

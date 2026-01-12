@@ -7,6 +7,9 @@
 
 	const JUMP_LIST_CONTAINER_TITLE = "Jump List";
 
+	const reRTLChars = /[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/;
+	const reLTRChars = /[A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF]/;
+
 	let m_URL;
 	let m_urlWebPage;
 	let m_elmFeedBody = null;
@@ -196,9 +199,6 @@
 					console.log("[Sage-Like]", "Fetch error at " + urlFeed, error.message);
 
 				}).finally(() => {
-					if(elmFeedTitle.style.direction === "rtl") {
-						document.getElementById("pageHeaderContainer").style.direction = "rtl";
-					}
 					m_elmFeedBody.removeChild(elmLoadImg);
 					document.getElementById("pageHeaderContainer").removeChild(document.getElementById("loadingLabel"));
 					document.getElementById("pageHeaderContainer").appendChild(elmFeedTitle);
@@ -241,7 +241,7 @@
 		elmFeedTitleTexts.append(elmFeedTitleText, elmFeedDescText);
 		elmFeedTitle.append(elmFeedTitleTexts, elmFeedTitleImage);
 
-		elmFeedTitle.style.direction = slUtil.getLanguageDir(elmFeedTitleText.textContent);
+		document.getElementById("pageHeaderContainer").dir = getLanguageDir(elmFeedTitleText.textContent);
 
 		return elmFeedTitle;
 	}
@@ -271,7 +271,9 @@
 		elmFeedItemLastUpdatedText.className = "feedItemLastUpdatedText";
 		elmFeedItemLastUpdatedTime.className = "feedItemLastUpdatedTime";
 		elmFeedItemContent.className = "feedItemContent";
+		elmFeedItemContent.dir = "auto";
 		elmJumpListItem.className = "jumpListAnchor";
+		elmJumpListItem.dir = "auto";
 
 		let itemContent;
 		if(feedItem.htmlContent.length > 0) {
@@ -331,7 +333,7 @@
 		elmFeedItemLink.appendChild(elmFeedItemTitleText);
 		m_elmJumpList.appendChild(elmJumpListItem);
 
-		elmFeedItemContainer.style.direction = elmJumpListItem.style.direction = slUtil.getLanguageDir(elmFeedItemTitleText.textContent);
+		elmFeedItemContainer.dir = getLanguageDir(elmFeedItemTitleText.textContent);
 
 		// only if IntersectionObserver object was created
 		if(!!m_feedItemObserver) {
@@ -814,5 +816,24 @@
 			}
 
 		}, slUtil.randomInteger(27500, 32500)); // 30 sec interval +- 2.5 sec
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getLanguageDir(text) {
+
+		// Industry Standard: The direction is determined by the first character
+		// with a strong directionality (L, R, or AL).
+		// (Unicode Bidirectional Algorithm - P2)
+
+		const textToCheck = text.trimStart();
+		const len = Math.min(textToCheck.length, 128);		// No need to check full content, first strong char is usually at the start
+
+		// Match any Strong RTL or Strong LTR character
+		for(let i=0; i<len; ++i) {
+			if(reRTLChars.test(textToCheck[i])) return "rtl";
+			if(reLTRChars.test(textToCheck[i])) return "ltr";
+		}
+
+		return "ltr";	// Default
 	}
 })();

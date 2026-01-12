@@ -1656,42 +1656,6 @@ let slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getLanguageDir(text, firstWordRanking = true) {
-
-		const RTLChars = "\\u0591-\\u07FF\\uFB1D-\\uFDFD\\uFE70-\\uFEFC";
-		const LTRChars = "A-Za-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02B8\\u0300-\\u0590\\u0800-\\u1FFF\\u2C00-\\uFB1C\\uFDFE-\\uFE6F\\uFEFD-\\uFFFF";
-
-		const reRTLChars = new RegExp("[" + RTLChars + "]", "gm");
-		const reLTRChars = new RegExp("[" + LTRChars + "]", "gm");
-
-		const strTest = text.trimStart().substring(0, 256);
-
-		// if not found then convert the null to empty array
-		let countRTL = (strTest.match(reRTLChars) || []).length;
-		let countLTR = (strTest.match(reLTRChars) || []).length;
-
-		if(firstWordRanking) {
-
-			let reFirstWord, firstWordLen, firstWordRankFactor = 2;
-
-			reFirstWord = new RegExp("^[" + RTLChars + "]+");
-			firstWordLen = (strTest.match(reFirstWord) || [""])[0].length;
-			if(firstWordLen > 0) {
-				countRTL += firstWordLen * firstWordRankFactor;
-			} else {
-
-				reFirstWord = new RegExp("^[" + LTRChars + "]+");
-				firstWordLen = (strTest.match(reFirstWord) || [""])[0].length;
-				if(firstWordLen > 0) {
-					countLTR += firstWordLen * firstWordRankFactor;
-				}
-			}
-		}
-
-		return (countRTL > countLTR) ? "rtl" : "ltr";		// empty string for default 'ltr'
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function getUniqId(details = {}) {
 
 		const {
@@ -1920,7 +1884,6 @@ let slUtil = (function() {
 		asPrettyByteSize: asPrettyByteSize,
 		getMimeTypeIconPath: getMimeTypeIconPath,
 		nbAlert: nbAlert,
-		getLanguageDir: getLanguageDir,
 		getUniqId: getUniqId,
 		getStringExportFileName: getStringExportFileName,
 		fetchWithTimeout: fetchWithTimeout,
