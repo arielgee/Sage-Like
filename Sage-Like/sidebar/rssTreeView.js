@@ -682,6 +682,11 @@ let rssTreeView = (function() {
 
 		switch (keyCode) {
 
+			case "F5":
+				checkTreeFeeds(event.shiftKey);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
 			case "Tab":
 				if(event.shiftKey) {
 					m_elmTreeRoot.parentElement.focus();	// move focus to "top"
