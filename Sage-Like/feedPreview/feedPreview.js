@@ -5,8 +5,6 @@
 	// Don't remove void elements since they are natrually empty. Also included the SVG element.
 	const PRESERVED_ELEMENTS = new Set(["svg", "img", "br", "hr", "col", "source", "track", "wbr", "embed", "area", "input", "link", "meta"]);
 
-	const JUMP_LIST_CONTAINER_TITLE = "Jump List";
-
 	const reRTLChars = /[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/;
 	const reLTRChars = /[A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF]/;
 
@@ -151,10 +149,9 @@
 					if(result.feedData.expired) m_elmFeedBody.setAttribute("data-jsonfeed-expired", "");	// set attr only if it's true
 					m_elmFeedBody.addEventListener("mouseover", onMouseOverAttachment);
 					m_elmFeedBody.addEventListener("mouseout", onMouseOutAttachment);
-					m_elmJumpListContainer.addEventListener("click", onClickJumpListContainer);
 					m_elmJumpListContainer.addEventListener("blur", onBlurJumpListContainer);
-					m_elmJumpListContainer.addEventListener("keydown", onKeyDownJumpListContainer);
-					m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
+					window.addEventListener("click", onClickWindow);
+					window.addEventListener("keydown", onKeyDownWindow);
 
 					document.title = result.feedData.title.trim().length > 0 ? result.feedData.title : m_URL.hostname;
 					elmFeedTitle = createFeedTitleElements(result.feedData);
@@ -577,32 +574,36 @@
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickJumpListContainer(event) {
-		if(event.target.id === "jumpListContainer") {
+	function onBlurJumpListContainer(event) {
+		if( !!!event.relatedTarget || !event.relatedTarget.closest(`#${m_elmJumpListContainer.id}`) ) {
+			hideJumpListContainer();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickWindow(event) {
+		const target = event.target;
+		if(target.id === m_elmJumpListContainer.id) {
 			m_elmJumpListContainer.classList.add("open");
 			m_elmJumpListContainer.title = "";
 			m_elmJumpListContainer.focus();
-		} else if(event.target.tagName === "A") {
-			m_elmJumpListContainer.classList.remove("open");
-			m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
+		} else {
+			const closestJumpList = target.closest(`#${m_elmJumpListContainer.id}`);
+			if( !closestJumpList || (closestJumpList && target.tagName === "A") ) {
+				hideJumpListContainer();
+			}
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onBlurJumpListContainer(event) {
-		//if( !!!event.relatedTarget || !event.relatedTarget.classList.contains("jumpListAnchor") ) {
-		if( !!!event.relatedTarget || !event.relatedTarget.closest(`#${m_elmJumpListContainer.id}`) ) {
-			m_elmJumpListContainer.classList.remove("open");
-			m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
-		}
+	function onKeyDownWindow(event) {
+		if(event.code === "Escape") hideJumpListContainer();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onKeyDownJumpListContainer(event) {
-		if(event.code === "Escape") {
-			m_elmJumpListContainer.classList.remove("open");
-			m_elmJumpListContainer.title = JUMP_LIST_CONTAINER_TITLE;
-		}
+	function hideJumpListContainer() {
+		m_elmJumpListContainer.classList.remove("open");
+		m_elmJumpListContainer.title = m_elmJumpListContainer.getAttribute("data-title-default");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
