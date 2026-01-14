@@ -5,10 +5,34 @@
 	--background-color-header: #0F8528;
 	--background-color-feed-item: #ededed;
 	--background-color-prominent-block: #d0d0d0;
-	--background-jump-list: #ebebeb;
 
 	--color-header: #f0f0fa;
 	--color-prominent-block: #404040;
+
+	--color-hamburger-button: #000000;
+	--background-image-hamburger-button: linear-gradient(
+		to bottom,
+		transparent 4px,
+		var(--color-hamburger-button) 4px,
+		var(--color-hamburger-button) 6px,
+		transparent 6px,
+		transparent 9px,
+		var(--color-hamburger-button) 9px,
+		var(--color-hamburger-button) 11px,
+		transparent 11px,
+		transparent 14px,
+		var(--color-hamburger-button) 14px,
+		var(--color-hamburger-button) 16px,
+		transparent 16px
+	);
+
+	--background-color-jump-list: #f8f8f8;
+	--background-color-jump-list-header: #e6e6e6;
+	--background-color-jump-list-anchor-highlight: #dcdcdc;
+
+	--color-jump-list: #333333;
+	--color-jump-list-anchor: #444444;
+	--color-jump-list-anchor-highlight: #000000;
 
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
@@ -41,54 +65,77 @@ body {
 }
 
 #jumpListContainer {
+	--size-hamburger-button: 20px;
+	--padding-inline-hamburger-button: 3px;
+
 	position: fixed;
 	top: 0;
 	left: 0;
-	margin: 1px;
-	width: 16px;
-	height: 16px;
-	max-width: 55%;
-	max-height: 95%;
-	background: transparent url("/icons/feed-preview-jump-list.png") no-repeat left top;
+	width: var(--size-hamburger-button);
+	height: var(--size-hamburger-button);
+	max-width: 450px;
+	max-height: 98vh;
+	background: transparent var(--background-image-hamburger-button) no-repeat center top;
+	/* Constrain width to 14px. The 'center' position will result in 3px inline padding */
+	background-size: calc(var(--size-hamburger-button) - (2 * var(--padding-inline-hamburger-button))) var(--size-hamburger-button);
+	transition: width 0.2s, height 0.2s, background-color 0.2s, box-shadow 0.2s;
+	z-index: 1000;
+	outline: none;
 	cursor: pointer;
-	transition: all 100ms linear;
-	z-index: 1;
 }
-
+#jumpListContainer:not(.open):hover {
+	background-color: var(--background-color-jump-list);
+	box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+}
 #jumpListContainer.open {
 	width: auto;
 	height: auto;
-	background: var(--background-jump-list);
-	cursor: default;
+	background-color: var(--background-color-jump-list);
+	background-image: none;
 	border: 1px solid rgb(65, 65, 65);
-	box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
+	box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
 	overflow-y: auto;
-}
-
-#jumpListContainer strong {
-	font-weight: bold !important;
+	scrollbar-width: thin;
+	cursor: default;
 }
 
 #jumpList {
 	display: none;
-	padding: 4px 8px 8px 8px;
-	overflow: hidden;
+	padding-bottom: 6px;
+	color: var(--color-jump-list) !important;
+}
+#jumpListContainer.open > #jumpList {
+	display: flex;
+	flex-direction: column;
 }
 
-#jumpListContainer.open > #jumpList {
-	display: block;
+#jumpListHeader {
+	position: sticky;
+	top: 0;
+	padding: 10px 14px;
+	margin-bottom: 6px;
+	background-color: var(--background-color-jump-list-header);
+	box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+	font-size: 1.1em;
+	font-weight: 600;
+	z-index: 10;
 }
 
 .jumpListAnchor {
 	display: block;
-	white-space: nowrap;
-	margin: 4px 3px 4px 12px;
+	margin: 1px 6px;
+	padding: 7px 12px;
+	border-radius: 4px;
+	color: var(--color-jump-list-anchor) !important;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-decoration: none;
+	white-space: nowrap;
+	outline: none;
 }
 .jumpListAnchor:hover {
-	text-decoration: underline;
+	background-color: var(--background-color-jump-list-anchor-highlight) !important;
+	color: var(--color-jump-list-anchor-highlight) !important;
 }
 
 #pageHeaderText {
