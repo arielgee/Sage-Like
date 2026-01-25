@@ -249,9 +249,7 @@ let slPrototypes = (function() {
 		return this
 			.trim()
 			.replace(String.prototype.consolidateWhiteSpaces.regexMultipleWhiteSpaces, " ")
-			.replace(String.prototype.consolidateWhiteSpaces.regexWhiteSpace, " ");
 	};
-	String.prototype.consolidateWhiteSpaces.regexWhiteSpace = new RegExp("\\s", "g");
 	String.prototype.consolidateWhiteSpaces.regexMultipleWhiteSpaces = new RegExp("\\s{2,}", "g");
 
 	////////////////////////////////////////////////////////////////////////////////////
