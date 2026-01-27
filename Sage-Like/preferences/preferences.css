@@ -198,8 +198,6 @@ body * {
 	align-items: center;
 	padding: 9px 3px;
 	height: var(--height-preference);
-	min-height: var(--height-preference);
-	max-height: var(--height-preference);
 }
 .preference:hover {
 	background-color: var(--color-preference-hover);
