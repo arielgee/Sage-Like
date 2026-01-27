@@ -45,7 +45,8 @@ html {
 
 body {
 	margin-top: 0;
-	padding: 0 35px 5px;
+	padding-block: 0 5px;
+	padding-inline: 35px;
 	min-width: 550px;
 }
 
@@ -53,12 +54,13 @@ body {
 	color: var(--color-header);
 	background-color: var(--background-color-header);
 	margin: 0 auto;
-	padding: 10px 15px 15px 15px;
+	padding-block: 10px 15px;
+	padding-inline: 15px;
 }
 
 #pageHeaderContainerInner {
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 	align-items: center;
 	margin: auto auto 20px auto;
 	filter: drop-shadow(0 0 4px #000000);
@@ -70,7 +72,7 @@ body {
 
 	position: fixed;
 	top: 0;
-	left: 0;
+	inset-inline-start: 0;
 	width: var(--size-hamburger-button);
 	height: var(--size-hamburger-button);
 	max-width: 450px;
@@ -97,6 +99,9 @@ body {
 	overflow-y: auto;
 	scrollbar-width: thin;
 	cursor: default;
+}
+#jumpListContainer:dir(rtl).open {
+	box-shadow: -3px 3px 10px rgba(0,0,0,0.5);
 }
 
 #jumpList {
@@ -220,7 +225,10 @@ body {
 
 #errorMessage {
 	background: transparent url("/icons/errormsg.png") no-repeat left top;
-	padding-left: 20px;
+	padding-inline-start: 20px;
+}
+#errorMessage:dir(rtl) {
+	background-position: right top;
 }
 
 .feedItemContainer {
@@ -337,15 +345,13 @@ body {
 .feedItemContent blockquote::before {
 	position: absolute !important;
 	top: 0 !important;
-	left: 8px !important;
+	inset-inline-start: 8px !important;
 	font-family: Georgia, serif !important;
 	font-weight: bold !important;
 	font-size: 400% !important;
 	content: "\201C" !important;	/*Left Double Quotation Mark*/
 }
 .feedItemContainer:dir(rtl) .feedItemContent blockquote::before {
-	left: auto !important;
-	right: 8px !important;
 	content: "\201D" !important;	/*Right Double Quotation Mark*/
 }
 
@@ -470,8 +476,7 @@ body {
 	max-height: var(--height-media-object);
 	width: var(--width-media-object);
 	height: var(--height-media-object);
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 
 	border-radius: 0.25rem;
 }
@@ -504,11 +509,8 @@ body {
 .feedItemAttachment.video .feedItemAttachmentTitle,
 .feedItemAttachment.audio .feedItemAttachmentTitle,
 .feedItemAttachment.img .feedItemAttachmentTitle {
-	position: static;
-	left: auto;
 	width: auto;
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 	max-width: calc(var(--max-width-media-object) - (var(--margin-title) * 8));
 }
 .feedItemAttachment.img.loadError .feedItemAttachmentTitle {
@@ -525,16 +527,19 @@ body {
 	border: 1px solid black;
 	padding: 3px 4px;
 	overflow: hidden;
-	box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
+	box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
 	word-wrap: normal;
 	white-space: pre-wrap;
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-weight: normal;
 	font-size: 0.859375em;
 }
+#attachmentTooltip:dir(rtl) {
+	box-shadow: -3px 3px 10px rgba(0,0,0,0.5);
+}
 
 #attachmentTooltip > p {
 	margin: 0 0 3px 0;
-	padding-left: 1.8em;	/* indent from second line (ie. hanging indent) */
+	padding-inline-start: 1.8em;	/* indent from second line (ie. hanging indent) */
 	text-indent: -1.8em;
 }

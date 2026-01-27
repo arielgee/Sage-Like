@@ -48,7 +48,7 @@ body {
 	width: var(--size-image);
 	height: var(--size-image);
 	position: fixed;		/* performance: remove animations from the flow */
-	left: calc(50% - (var(--size-image) / 2));
+	inset-inline-start: calc(50% - (var(--size-image) / 2));
 	border-radius: 50%;
 	border: 6px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
@@ -100,8 +100,9 @@ body {
 }
 
 .feedItem .feedLabel {
-	margin: auto auto auto 0;
-	padding-left: 6px;
+	margin-block: auto;
+	margin-inline: 0 auto;
+	padding-inline-start: 6px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -114,7 +115,8 @@ body {
 	font-weight: normal;
 	font-size: var(--text-height);
 	max-width: 40px;
-	margin: auto 0 auto 5px;
+	margin-block: auto;
+	margin-inline: 5px 0;
 	color: #a0a0a0;
 	vertical-align: text-bottom;
 	padding-inline-end: 3px;
@@ -123,7 +125,7 @@ body {
 
 .footerContainer {
 	display: flex;
-	justify-content: right;
+	justify-content: flex-end;
 }
 
 .pfButton {
@@ -133,7 +135,7 @@ body {
 	border-radius: 2px;
 	height: 30px;
 	text-align: center;
-	margin-left: 10px;
+	margin-inline-start: 10px;
 	flex-shrink: 0;
 }
 
@@ -159,7 +161,8 @@ body {
 	font-size: var(--text-height);
 	color: lightpink;
 	white-space: nowrap;
-	margin: auto auto 0 0;
+	margin-block: auto 0;
+	margin-inline: 0 auto;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }

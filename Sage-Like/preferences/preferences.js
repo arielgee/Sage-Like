@@ -80,6 +80,7 @@ let preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
+		slUtil.applyDocumentLocalization(document);
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	}
 
@@ -1001,11 +1002,12 @@ let preferences = (function() {
 
 			const offsetParentLeft = (!!offsetParent ? offsetParent.offsetLeft : 0);
 			const offsetParentTop = (!!offsetParent ? offsetParent.offsetTop : 0);
-			const xOffset = 4;		// 4px from the edge of the helpInfo span
-			const yOffset = 10;		// 10px from the edge of the helpInfo span
+			const xOffset = (target.offsetWidth / 2);		// x offset is calculated from the width of the help icon; halfway point
+			const yOffset = (target.offsetHeight * 1.5);	// y offset is calculated from the height of the help icon; 1.5 times
+			const bRTL = (document.dir === "rtl");
 
-			let x = offsetParentLeft + target.offsetLeft + xOffset;							// 4px left to the left edge
-			let y = offsetParentTop + target.offsetTop + (target.offsetHeight + yOffset);	// 28px below the top edge
+			let x = offsetParentLeft + target.offsetLeft + (bRTL ? -m_elmHelpInfoTooltipBox.offsetWidth + target.offsetWidth - xOffset : xOffset);
+			let y = offsetParentTop + target.offsetTop + yOffset;
 
 			// if going out of right edge
 			if( (x + m_elmHelpInfoTooltipBox.offsetWidth) > document.documentElement.clientWidth ) {
@@ -1014,7 +1016,7 @@ let preferences = (function() {
 
 			// if going out of bottom edge (account for scroll position)
 			if( (y + m_elmHelpInfoTooltipBox.offsetHeight) > (window.scrollY + document.documentElement.clientHeight) ) {
-				y = offsetParentTop + target.offsetTop - m_elmHelpInfoTooltipBox.offsetHeight - yOffset;	// 10px above top edge
+				y = offsetParentTop + target.offsetTop - m_elmHelpInfoTooltipBox.offsetHeight - (yOffset/3);		// (yOffset/3) is half of the height of the help icon (target)
 			}
 
 			helpInfoTooltipBoxStyle.left = (x<1 ? 1 : x) + "px";
@@ -1180,11 +1182,17 @@ let preferences = (function() {
 			m_elmUserFontName.value = initValue;
 			m_elmUserFontBox.style.display = "block";
 
-			let x = m_elmFontName.offsetLeft - Math.abs(m_elmUserFontBox.offsetWidth - m_elmFontName.offsetWidth);
-			let y = m_elmFontName.offsetTop;
+			const bRTL = (document.dir === "rtl");
+			const xOffset = (bRTL ? 24 : -24);					// offset from select element
+			const yOffset = m_elmFontName.offsetHeight / 2;		// vertically centered to select element
 
-			m_elmUserFontBox.style.left = (x - 18) + "px";
-			m_elmUserFontBox.style.top = (y - 15) + "px";
+			// initial box position; align with select element the right edges and top edges
+			const x = m_elmFontName.offsetLeft - ( bRTL ? 0 : Math.abs(m_elmUserFontBox.offsetWidth - m_elmFontName.offsetWidth) );
+			const y = m_elmFontName.offsetTop;
+
+			// adjust box position; 24px from the select element and vertically centered
+			m_elmUserFontBox.style.left = (x + xOffset) + "px";
+			m_elmUserFontBox.style.top = (y + yOffset) + "px";
 
 			m_elmUserFontName.focus();
 			m_elmUserFontName.select();
@@ -1241,11 +1249,17 @@ let preferences = (function() {
 			m_elmInputTime.value = initValue;
 			m_elmTimeOfDayBox.style.display = "block";
 
-			let x = m_elmCheckFeedsInterval.offsetLeft - Math.abs(m_elmTimeOfDayBox.offsetWidth - m_elmCheckFeedsInterval.offsetWidth);
-			let y = m_elmCheckFeedsInterval.offsetTop;
+			const bRTL = (document.dir === "rtl");
+			const xOffset = (bRTL ? 24 : -24);							// offset from select element
+			const yOffset = m_elmCheckFeedsInterval.offsetHeight / 2;	// vertically centered to select element
 
-			m_elmTimeOfDayBox.style.left = (x - 18) + "px";
-			m_elmTimeOfDayBox.style.top = (y - 15) + "px";
+			// initial box position; align with select element the right edges and top edges
+			const x = m_elmCheckFeedsInterval.offsetLeft - ( bRTL ? 0 : Math.abs(m_elmTimeOfDayBox.offsetWidth - m_elmCheckFeedsInterval.offsetWidth) );
+			const y = m_elmCheckFeedsInterval.offsetTop;
+
+			// adjust box position; 24px from the select element and vertically centered
+			m_elmTimeOfDayBox.style.left = (x + xOffset) + "px";
+			m_elmTimeOfDayBox.style.top = (y + yOffset) + "px";
 
 			m_elmInputTime.focus();
 		});

@@ -28,6 +28,9 @@ let panel = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
+
+		slUtil.applyDocumentLocalization(document);
+
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 
 		browser.windows.getCurrent().then((winInfo) => m_windowId = winInfo.id);		// Get browser's current window ID

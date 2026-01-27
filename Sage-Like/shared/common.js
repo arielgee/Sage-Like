@@ -1563,7 +1563,7 @@ let slUtil = (function() {
 		if(!!(nativeError.toString().match(/\bpermission for incognito mode\b/))) {
 			return "Sage-Like extension is not allowed to run in private windows.\n" +
 					"If you're interested, here's how you can change that:" +
-					"<ol style='margin-top:5px;padding-left:30px;'>" +
+					"<ol style='margin-top:5px;padding-inline-start:30px;'>" +
 						"<li>Click the menu button (3 horizontal lines).</li>" +
 						"<li>Select \"Add-ons\" or \"Extensions\" from the menu.</li>" +
 						"<li>Select \"Extensions\" on the left side.</li>" +
@@ -1755,7 +1755,7 @@ let slUtil = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function createMissingPermissionsDocFrag(style) {
 
-		const frameStyle = "color:black; background:#fff3cd; border:1px solid #ffeeba; border-left:5px solid #ffb100; border-radius:6px;";
+		const frameStyle = "color:black; background:#fff3cd; border:1px solid #ffeeba; border-inline-start:5px solid #ffb100; border-radius:6px;";
 		const buttonStyle = "display:inline-block; background:#0056b3; color:white; text-decoration:none; padding:6px 12px; border-radius:4px; line-height:1.4em;";
 
 		const str =	`<div id='requiredPermissionsMsg' style='all:revert;${frameStyle}${style}'>` +
@@ -1813,6 +1813,12 @@ let slUtil = (function() {
 		tooltipLines.push("\n\u2731 Use Middle-click to preview this feed.");
 
 		return tooltipLines.join("\n");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function applyDocumentLocalization(doc) {
+		doc.documentElement.dir = browser.i18n.getMessage("@@bidi_dir");
+		doc.documentElement.lang = browser.i18n.getUILanguage();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1892,6 +1898,7 @@ let slUtil = (function() {
 		createMissingPermissionsDocFrag: createMissingPermissionsDocFrag,
 		isVersionLessThen: isVersionLessThen,
 		createFeedTooltipText: createFeedTooltipText,
+		applyDocumentLocalization: applyDocumentLocalization,
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 		debug_alarms_list: debug_alarms_list,

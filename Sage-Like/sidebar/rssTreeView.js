@@ -773,22 +773,19 @@ let rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowLeft":
-				if(TreeItemType.isFolderOpen(elmTarget)) {
-					setFolderState(elmTarget, false);
-				} else if(elmTarget.parentElement.parentElement.tagName === "LI") {
-					elmTarget.parentElement.parentElement.focus();
+				if(getComputedStyle(m_elmTreeRoot).direction === "rtl") {
+					openFolderOrFocusChild(elmTarget)
+				} else {
+					closeFolderOrFocusParent(elmTarget);
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowRight":
-				if(TreeItemType.isFolder(elmTarget)) {
-					if(TreeItemType.isOpen(elmTarget)) {
-						elm = elmTarget.querySelector("ul > li:not(.filtered)"); // first visible child
-						if(!!elm) elm.focus();
-					} else {
-						setFolderState(elmTarget, true);
-					}
+				if(getComputedStyle(m_elmTreeRoot).direction === "rtl") {
+					closeFolderOrFocusParent(elmTarget)
+				} else {
+					openFolderOrFocusChild(elmTarget);
 				}
 				break;
 				/////////////////////////////////////////////////////////////////////////
@@ -2578,6 +2575,27 @@ let rssTreeView = (function() {
 			m_elmCurrentlySelected.focus();
 		} else {
 			m_elmTreeRoot.focus();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function closeFolderOrFocusParent(elmTarget) {
+		if(TreeItemType.isFolderOpen(elmTarget)) {
+			setFolderState(elmTarget, false);
+		} else if(elmTarget.parentElement.parentElement.tagName === "LI") {
+			elmTarget.parentElement.parentElement.focus();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function openFolderOrFocusChild(elmTarget) {
+		if(TreeItemType.isFolder(elmTarget)) {
+			if(TreeItemType.isOpen(elmTarget)) {
+				const elm = elmTarget.querySelector("ul > li:not(.filtered)"); // first visible child
+				if(!!elm) elm.focus();
+			} else {
+				setFolderState(elmTarget, true);
+			}
 		}
 	}
 

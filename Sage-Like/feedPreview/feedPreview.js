@@ -28,6 +28,8 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
 
+		slUtil.applyDocumentLocalization(document);
+
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		RequiredPermissions.i.init();
 		browser.runtime.onMessage.addListener(onRuntimeMessage);

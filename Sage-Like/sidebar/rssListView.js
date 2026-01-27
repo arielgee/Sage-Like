@@ -330,11 +330,14 @@ let rssListView = (function() {
 		m_timeoutMouseOver = setTimeout(() => {
 
 			const POS_OFFSET = 8;
-			let x = (!!m_elmFeedItemDescPanel.slLastClientX ? m_elmFeedItemDescPanel.slLastClientX : event.clientX) + POS_OFFSET;
+			const isRTL = getComputedStyle(m_elmSidebarBody).direction === "rtl";
+			let x = (!!m_elmFeedItemDescPanel.slLastClientX ? m_elmFeedItemDescPanel.slLastClientX : event.clientX);
 			let y = (!!m_elmFeedItemDescPanel.slLastClientY ? m_elmFeedItemDescPanel.slLastClientY : event.clientY) + POS_OFFSET;
 
-			if ((x + m_elmFeedItemDescPanel.offsetWidth) > m_elmSidebarBody.offsetWidth) {
-				x = m_elmSidebarBody.offsetWidth - m_elmFeedItemDescPanel.offsetWidth-1;
+			let logicalX = (isRTL ? (m_elmSidebarBody.offsetWidth - x) : x) + POS_OFFSET;
+
+			if ((logicalX + m_elmFeedItemDescPanel.offsetWidth) > m_elmSidebarBody.offsetWidth) {
+				logicalX = m_elmSidebarBody.offsetWidth - m_elmFeedItemDescPanel.offsetWidth-1;
 			}
 
 			if ((y + m_elmFeedItemDescPanel.offsetHeight) > m_elmSidebarBody.offsetHeight) {
@@ -346,7 +349,11 @@ let rssListView = (function() {
 			// that the desc panel will appeare right bellow the cursor.
 
 			m_elmFeedItemDescPanel.style.visibility = "visible";
-			m_elmFeedItemDescPanel.style.left = x + "px";
+			if(isRTL) {
+				m_elmFeedItemDescPanel.style.right = logicalX + "px";
+			} else {
+				m_elmFeedItemDescPanel.style.left = logicalX + "px";
+			}
 			m_elmFeedItemDescPanel.style.top = y + "px";
 
 		}, m_msPrefFeedItemDescDelay);

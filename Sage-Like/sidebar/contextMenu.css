@@ -9,10 +9,13 @@
 	background-color: var(--background-color-menu);
 	min-width: 160px;
 	overflow: auto;
-	box-shadow: 13px 13px 5px 0 rgba(0,0,0,0.75);
+	box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
 	z-index: 1;
 	border: 1px solid #e0e0e0;
 	font-weight: normal;
+}
+.contextmenu:dir(rtl) {
+	box-shadow: -3px 3px 10px rgba(0,0,0,0.5);
 }
 
 .contextmenu .contextmenuitem {
@@ -29,7 +32,7 @@
 }
 
 .contextmenu .contextmenuitem .acceleratorKey {
-	margin-left: 15px;
+	margin-inline-start: 15px;
 	color: rgb(105, 105, 105);
 	width: 22px;
 	text-align: center;

@@ -17,6 +17,7 @@
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
+		slUtil.applyDocumentLocalization(document);
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
 	}

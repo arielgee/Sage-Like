@@ -11,7 +11,7 @@
 
 #messagePanel > .captionContainer {
 	display: flex;
-	justify-content: left;
+	justify-content: flex-start;
 	margin: 0 0 var(--panel-spacing);
 }
 
@@ -19,7 +19,8 @@
 	background: transparent url("/icons/sageLike-16.png") no-repeat center center;
 	width: 16px;
 	height: 16px;
-	margin: auto 8px auto 0;
+	margin-block: auto;
+	margin-inline: 0 8px;
 }
 
 #msgCaption {
@@ -34,10 +35,6 @@
 	margin-bottom: var(--panel-spacing);
 	overflow: hidden;
 	font-size: 13px;
-}
-
-#msgText.leftAlign {
-	text-align: left;
 }
 
 #messagePanel .gridContainer {
@@ -65,7 +62,7 @@
 	background-color: #ffffe5;
 }
 .gridItem:nth-child(odd) {
-	border-right: 1px solid var(--border-color);
+	border-inline-end: 1px solid var(--border-color);
 }
 .gridItem:not(:nth-last-child(-n+2)) {
 	border-bottom: 1px solid var(--border-color);
@@ -77,7 +74,7 @@
 	font-weight: bold;
 }
 .gridItem.row.text {
-	text-align: left;
+	text-align: start;
 }
 .gridItem.row.value {
 	text-align: center;
@@ -101,8 +98,8 @@
 
 .buttonSet {
 	display: none;
-	justify-content: right;
-	margin-right: var(--panel-spacing);
+	justify-content: flex-end;
+	margin-inline-end: var(--panel-spacing);
 }
 
 .buttonSet.visible {

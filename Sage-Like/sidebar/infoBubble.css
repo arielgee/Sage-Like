@@ -13,10 +13,12 @@
 	max-width: min(300px, calc(100vw - 20px));
 	border: var(--border-width-bubble) solid var(--color-normal);
 	border-radius: var(--border-radius-bubble);
-	box-shadow: 8px 8px 5px 0 rgba(0,0,0,0.75);
-	/* box-shadow: -8px 8px 5px 0 rgba(0,0,0,0.75); */
+	box-shadow: 6px 6px 10px rgba(0,0,0,0.5);
 	font-weight: normal;
 	z-index: 100;
+}
+.info-bubble:dir(rtl) {
+	box-shadow: -6px 6px 10px rgba(0,0,0,0.5);
 }
 .info-bubble.alertive {
 	border-color: var(--color-alertive);

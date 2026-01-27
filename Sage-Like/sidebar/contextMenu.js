@@ -164,21 +164,26 @@ let contextMenu = (function() {
 
 			showMenuItemsByClassName(m_currentContext, m_elmEventTarget.classList);
 
-			let x = event.clientX;
+			const isRTL = getComputedStyle(m_elmSidebarBody).direction === "rtl";
+			let logicalX = (isRTL ? (m_elmSidebarBody.offsetWidth - event.clientX) : event.clientX);
 			let y = event.clientY;
 
 			// do it first so element will have dimentions (offsetWidth > 0)
 			m_elmContextMenu.style.display = "block";
 
-			if ((x + m_elmContextMenu.offsetWidth) > m_elmSidebarBody.offsetWidth) {
-				x = m_elmSidebarBody.offsetWidth - m_elmContextMenu.offsetWidth;
+			if ((logicalX + m_elmContextMenu.offsetWidth) > m_elmSidebarBody.offsetWidth) {
+				logicalX = m_elmSidebarBody.offsetWidth - m_elmContextMenu.offsetWidth;
 			}
 
 			if ((y + m_elmContextMenu.offsetHeight) > m_elmSidebarBody.offsetHeight) {
 				y = m_elmSidebarBody.offsetHeight - m_elmContextMenu.offsetHeight;
 			}
 
-			m_elmContextMenu.style.left = x + "px";
+			if(isRTL) {
+				m_elmContextMenu.style.right = logicalX + "px";
+			} else {
+				m_elmContextMenu.style.left = logicalX + "px";
+			}
 			m_elmContextMenu.style.top = y + "px";
 
 			let item = m_elmContextMenu.querySelector(".contextmenuitem." + m_currentContext);	// first visible items

@@ -12,7 +12,7 @@
 	--padding-top-pref-block: calc(var(--height-preference) * 1.333333);
 	--min-width-main-content: 630px;
 	--max-width-main-content: 700px;
-	--bottom-left-radius-last-sub-perf: 15px;
+	--end-start-radius-last-sub-perf: 15px;
 
 	--color-control-focused: rgb(10, 133, 255);
 	--color-control-invalid: rgb(255, 0, 0);
@@ -113,15 +113,19 @@ body * {
 
 #webExtVersion {
 	position: fixed;
-	right: 4px;
+	inset-inline-end: 4px;
 	bottom: 3px;
 	height: 16px;
-	padding-right: 20px;
-	background: transparent url("/icons/sageLike-16.png") no-repeat right top;
+	padding-inline-end: 20px;
+	background: transparent url("/icons/sageLike-16.png") no-repeat;
+	background-position: right top;
 	background-size: 14px 14px;
 	font-size: 1rem;
 	line-height: 1;
 	opacity: 0.4;
+}
+:root:dir(rtl) #webExtVersion {
+	background-position: left top;
 }
 #webExtVersion:hover {
 	opacity: 1;
@@ -132,10 +136,11 @@ body * {
 	flex-direction: column;
 	position: fixed;
 	top: 0;
-	left: 0;
+	inset-inline-start: 0;
 	bottom: 0;
 	width: var(--width-navigation-bar);
-	padding: calc(var(--padding-top-pref-block) - 8px) 10px 20px 22px;
+	padding-block: calc(var(--padding-top-pref-block) - 8px) 20px;
+	padding-inline: 22px 10px;
 	overflow: hidden;
 }
 
@@ -153,12 +158,12 @@ body * {
 }
 .navigationItem.internal {
 	height: 48px;
-	padding-left: 9px;
+	padding-inline-start: 9px;
 	font-size: 1.667rem;
 }
 .navigationItem.external {
 	height: 32px;
-	padding-left: 12px;
+	padding-inline-start: 12px;
 	font-size: 1.167rem;
 }
 .navigationItem:hover {
@@ -172,7 +177,7 @@ body * {
 .mainContent {
 	min-width: var(--min-width-main-content);
 	max-width: var(--max-width-main-content);
-	margin-left: var(--width-navigation-bar);
+	margin-inline-start: var(--width-navigation-bar);
 }
 
 .prefBlock {
@@ -188,8 +193,11 @@ body * {
 	font-size: var(--v-font-size);
 	font-weight: bold;
 	line-height: calc(var(--v-font-size) * 1.45);
-	border-left: 2px solid rgb(var(--color-values-text-block-caption));
-	padding-left: 4px;
+	border-inline-start: 2px solid rgb(var(--color-values-text-block-caption));
+	padding-inline-start: 4px;
+}
+:root:dir(rtl) .prefBlockCaption {
+	background: linear-gradient(to left, transparent 1%, rgba(var(--color-values-text-block-caption), 0.5));
 }
 
 .preference {
@@ -203,19 +211,21 @@ body * {
 	background-color: var(--color-preference-hover);
 }
 .preference.subPref {
-	margin-left: 3px;
-	padding-left: 16px;
-	border-left: 4px solid var(--color-border-pref-sep);
+	margin-inline-start: 3px;
+	padding-inline-start: 16px;
+	border-inline-start: 4px solid var(--color-border-pref-sep);
 }
-.preference.subPref.last{
-	border-bottom-left-radius: var(--bottom-left-radius-last-sub-perf);
+.preference.subPref.last {
+	height: calc(var(--height-preference) + 1px);					/* to compensate for the bottom border */
+	border-block-end: 1px solid var(--color-border-pref-sep);		/* bottom border for the last sub-preference */
+	border-end-start-radius: var(--end-start-radius-last-sub-perf);
 }
 
 .prefSeperator {
 	border-bottom: 1px solid var(--color-border-pref-sep);
 }
 .preference.subPref + .prefSeperator {
-	margin-left: var(--bottom-left-radius-last-sub-perf);
+	border-bottom-width: 0;		/* to avoid double border with the last sub-preference */
 }
 
 .preferenceControl {
@@ -223,16 +233,16 @@ body * {
 }
 
 .controlLabel {
-	padding-left: 5px;
+	padding-inline-start: 5px;
 }
 .controlLabel:not(:last-child) {
-	padding-right: 5px;
-	margin-right: 10px;
+	padding-inline-end: 5px;
+	margin-inline-end: 10px;
 }
 
 .precedingControlLabel {
 	padding: 0 5px;
-	margin-left: 10px;
+	margin-inline-start: 10px;
 }
 
 /******************************************************************/
@@ -246,7 +256,8 @@ input {
 .preferenceSelect {
 	max-width: calc(var(--max-width-main-content) * 0.4);
 	border: 1px solid #7a7a7a;
-	padding: 3px 1px 3px 3px;
+	padding-block: 3px;
+	padding-inline: 3px 1px;
 	color: var(--foreground-color);
 	background-color: var(--background-color-select-control);
 }
@@ -281,8 +292,10 @@ input {
 	--button-height: 18px;
 	--dot-margin: 4px;
 	--dot-size: calc(var(--button-height) - 2*var(--dot-margin));
-	--dot-transform-x: calc(var(--button-width) - 2*var(--dot-margin) - var(--dot-size));
+	--dot-transform-ltr-x: calc(var(--button-width) - 2*var(--dot-margin) - var(--dot-size));
+	--dot-transform-rtl-x: calc(var(--dot-transform-ltr-x) * -1);
 
+	display: flex;
 	appearance: none;
 	padding: 0;
 	margin: 2px 0;
@@ -313,8 +326,11 @@ input {
 	border-radius: 50%;
 	transition: transform 100ms;
 }
-.preferenceCheckboxInput:checked::before {
-	transform: translateX(var(--dot-transform-x));
+:root:dir(ltr) .preferenceCheckboxInput:checked::before {
+	transform: translateX(var(--dot-transform-ltr-x));
+}
+:root:dir(rtl) .preferenceCheckboxInput:checked::before {
+	transform: translateX(var(--dot-transform-rtl-x));			/* RTL: Move to the LEFT (Checked) */
 }
 .preferenceCheckboxInput:disabled::before {
 	background-color: var(--foreground-color-disabled-control);
@@ -383,7 +399,7 @@ input {
 	height: 22px;
 	width: 90px;
 	text-align: center;
-	margin-left: 10px;
+	margin-inline-start: 10px;
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-size: 13.3333px;
 	line-height: 17px;
@@ -399,11 +415,11 @@ input {
 .controlImage {
 	display: inline-block;
 	margin: auto 0 auto 0;
-	padding-left: 4px;
+	padding-inline-start: 4px;
 	filter: drop-shadow(0 0 2px var(--drop-shadow-control-image));
 }
 .controlImage:not(:last-child) {
-	margin-right: 18px;
+	margin-inline-end: 18px;
 }
 .controlImage > svg|svg {
 	display: block;
@@ -416,11 +432,11 @@ input {
 
 .extensionButtons .preferenceButton {
 	width: 115px;
-	margin-left: 7px;
+	margin-inline-start: 7px;
 }
 
 #btnReloadExtension {
-	margin-left: 16px;
+	margin-inline-start: 16px;
 }
 
 .helpInfo {
@@ -436,7 +452,8 @@ input {
 	text-align: center;
 	line-height: 1.3em;
 	vertical-align: top;
-	margin: 2px 0 0 6px;
+	margin-block: 2px 0;
+	margin-inline: 6px 0;
 }
 .helpInfo:hover {
 	background-color: var(--background-color-hover-help-info);
@@ -475,9 +492,12 @@ input {
 	padding: 12px;
 	background-color: var(--background-color-popup-box);
 	color: inherit;
-	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+	box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
 	z-index: 2;
 	white-space: nowrap;
+}
+:root:dir(rtl) .popupBox {
+	box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.5);
 }
 .popupBox.preferenceReferenced {
 	position: absolute;
@@ -505,7 +525,7 @@ input {
 
 .popupBoxButtons {
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 }
 
 #messageBoxText {
@@ -519,20 +539,29 @@ input {
 /************************************************************************************/
 /**************************** Elements that can 'flash' *****************************/
 /************************************************************************************/
+:root:dir(ltr) {
+	--background-pos-initial-x-direction: right;
+	--gradient-to-direction: left;
+}
+:root:dir(rtl) {
+	--background-pos-initial-x-direction: left;
+	--gradient-to-direction: right;
+}
+
 .isFlashable {
 	background-size: 220% 100%;
-	background-position: right bottom;
+	background-position: var(--background-pos-initial-x-direction) bottom;
 	transition: background-position var(--transition-duration-flash) ease-in 0s;
 }
 .preferenceButton.isFlashable {
 	--button-bg-color: rgba(var(--background-color-values-button), var(--background-alpha-button));
-	background-image: linear-gradient(to left, var(--button-bg-color) 52%, var(--color-flash) 50%);
+	background-image: linear-gradient(to var(--gradient-to-direction), var(--button-bg-color) 52%, var(--color-flash) 50%);
 }
 .preferenceSelect.isFlashable {
-	background-image: linear-gradient(to left, var(--background-color-select-control) 52%, var(--color-flash) 50%);
+	background-image: linear-gradient(to var(--gradient-to-direction), var(--background-color-select-control) 52%, var(--color-flash) 50%);
 }
 .isFlashable.flash {
-	background-position: left bottom;
+	background-position: var(--gradient-to-direction) bottom;
 }
 
 /***************************************************************************/
@@ -564,7 +593,7 @@ label.disabled,
 
 .preferenceOverlay {
 	--size-image: 30px;
-	--margin-left-children: 10px;
+	--margin-inline-start-children: 10px;
 	display: flex;
 	justify-content: flex-start;
 	position: absolute;
@@ -590,7 +619,7 @@ label.disabled,
 	height: var(--size-image);
 	position: absolute;		/* performance: remove animations from the flow */
 	top: calc(50% - (var(--size-image) / 2));
-	margin-left: var(--margin-left-children);
+	margin-inline-start: var(--margin-inline-start-children);
 	border-radius: 50%;
 	border: 5px solid var(--color-image);
 	border-color: var(--color-image) var(--color-image) var(--color-image) transparent;
@@ -602,11 +631,15 @@ label.disabled,
 
 .processingMsgPrefOverlay {
 	display: none;
-	margin: auto auto auto calc(var(--size-image) + (var(--margin-left-children) * 2));
+	margin-block: auto;
+	margin-inline: calc(var(--size-image) + (var(--margin-inline-start-children) * 2)) auto;
 	font-weight: bold;
 	letter-spacing: 0.7px;
 	color: var(--foreground-color);
 	font-size: 115%;
+}
+:root:dir(rtl) .processingMsgPrefOverlay {
+	letter-spacing: normal;			/* letter-spacing in Hebrew & Arabic is problematic for structural and linguistic reasons */
 }
 .preferenceOverlay.processing .processingMsgPrefOverlay {
 	display: block;

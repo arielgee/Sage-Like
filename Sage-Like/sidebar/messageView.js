@@ -36,7 +36,6 @@ let messageView = (function () {
 			btnSet = messageView.ButtonSet.setOK,
 			caption = "Attention!",
 			isAlertive = true,
-			isTextLeftAlign = false,
 			boldDoubleQuotedText = true,
 			breakNewLine = true,
 			clickableElements = [],
@@ -65,7 +64,6 @@ let messageView = (function () {
 			m_elmMessagePanel.classList.toggle("alertive", isAlertive);
 			document.getElementById("msgCaption").textContent = caption;
 			slUtil.replaceInnerContent(elmMsgText, textMsg);
-			elmMsgText.classList.toggle("leftAlign", isTextLeftAlign);
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
 

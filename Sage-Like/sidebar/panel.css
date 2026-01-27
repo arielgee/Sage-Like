@@ -87,7 +87,7 @@ body * {
 	border-bottom: 1px #7f7f7f solid;
 	padding: var(--buttons-spacer);
 	display: flex;
-	justify-content: left;
+	justify-content: flex-start;
 	overflow: hidden;
 }
 
@@ -96,7 +96,8 @@ body * {
 	height: var(--toolbar-button-size);
 	min-width: var(--toolbar-button-size);
 	border-radius: 2px;
-	margin: auto var(--buttons-spacer) auto 0;
+	margin-block: auto;
+	margin-inline: 0 var(--buttons-spacer);
 }
 
 .toolbar .button:last-child {
@@ -130,9 +131,9 @@ body * {
 	--width-filter-image: 16px;
 	--width-filter-text: 125px;
 	--width-filter-reapply: var(--toolbar-button-size);
-	--margin-right-filter-button: 4px;
+	--margin-inline-end-filter-button: 4px;
 	--width-filter-clear: var(--toolbar-button-size);
-	--width-container: calc(var(--width-filter-image) + var(--width-filter-text) + var(--width-filter-reapply) + var(--margin-right-filter-button) + var(--width-filter-clear) + 2px);	/* 2px => border*/
+	--width-container: calc(var(--width-filter-image) + var(--width-filter-text) + var(--width-filter-reapply) + var(--margin-inline-end-filter-button) + var(--width-filter-clear) + 2px);	/* 2px => border*/
 
 	--transition-speed-factor: 0.8;
 	--trans-duration-filter-button: calc(100ms * var(--transition-speed-factor));
@@ -144,7 +145,7 @@ body * {
 }
 
 #filterWidget .button {
-	margin-right: 0;
+	margin-inline-end: 0;
 }
 
 #filter.button {
@@ -177,7 +178,8 @@ body * {
 
 #textFilter {
 	border: 0;
-	padding: 1px 1px 1px 0;
+	padding-block: 1px;
+	padding-inline: 0 1px;
 	width: var(--width-filter-text);
 	height: var(--toolbar-button-size);
 }
@@ -187,14 +189,14 @@ body * {
 }
 
 #filterTextBoxContainer .button:not(:last-child) {
-	margin-right: var(--margin-right-filter-button)
+	margin-inline-end: var(--margin-inline-end-filter-button)
 }
 
 #filterWidget.opened > #filter.button {
 	--trans-delay-filter-button: 0ms;
 	width: 0;
 	min-width: 0;
-	margin-right: 0;
+	margin-inline-end: 0;
 }
 
 #filterWidget.opened > #filterTextBoxContainer {
@@ -268,13 +270,13 @@ body * {
 .slideDownPanel {
 	position: absolute;
 	top: -500px;
-	left: 0;
+	inset-inline-start: 0;
 	box-sizing: border-box;
 	max-width: 100%;
 	min-width: 100%;
 	width: 100%;
 	background-color: var(--bk-color-dialog);
-	box-shadow: 13px 13px 5px 0 rgba(0, 0, 0, 0.75);
+	box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
 	padding: 10px;
 	border: 1px solid black;
 	border-top: 50px solid #888888;
@@ -282,6 +284,9 @@ body * {
 	z-index: 1;
 	transition: top var(--transition-duration-slide-down-panel) cubic-bezier(0.7, 0, 0.2, 1.5) 0ms;
 	display: none;
+}
+.slideDownPanel:dir(rtl) {
+	box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.5);
 }
 
 .slideDownPanel.visible {
@@ -314,7 +319,7 @@ body * {
 	height: 30px;
 	width: 100px;
 	text-align: center;
-	margin-left: 10px;
+	margin-inline-start: 10px;
 }
 
 .dlgButton:hover {

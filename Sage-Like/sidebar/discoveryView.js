@@ -658,21 +658,23 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownTriToggler(event) {
 
-		let target = event.target;
-
-		let curState = parseInt(target.getAttribute("data-toggler-state"));
+		const target = event.target;
+		const curState = parseInt(target.getAttribute("data-toggler-state"));
+		const isRTL = (getComputedStyle(target).direction === "rtl");
+		const increaseState = () => Math.max(Math.min(curState + 1, 2), 0) ;
+		const decreaseState = () => Math.min(Math.max(curState - 1, 0), 2) ;
 
 		switch (event.code) {
 
 			case "ArrowLeft":
 			case "ArrowUp":
-				target.setAttribute("data-toggler-state", curState === 2 ? "1" : "0");
+				target.setAttribute("data-toggler-state", ( isRTL ? increaseState() : decreaseState() ) );
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowRight":
 			case "ArrowDown":
-				target.setAttribute("data-toggler-state", curState === 0 ? "1" : "2");
+				target.setAttribute("data-toggler-state", ( isRTL ? decreaseState() : increaseState() ) );
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -700,15 +702,11 @@ let discoveryView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseDownTriToggler(event) {
 
-		let toggleWidth = Math.floor(event.target.clientWidth / 3);
+		const target = event.target;
+		const isRTL = (getComputedStyle(target).direction === "rtl");
+		const logicalOffsetX = (isRTL ? target.clientWidth - event.offsetX : event.offsetX);
 
-		if (event.offsetX < toggleWidth) {
-			event.target.parentElement.setAttribute("data-toggler-state", "0");
-		} else if (event.offsetX < toggleWidth * 2) {
-			event.target.parentElement.setAttribute("data-toggler-state", "1");
-		} else {
-			event.target.parentElement.setAttribute("data-toggler-state", "2");
-		}
+		target.parentElement.setAttribute("data-toggler-state", Math.floor((3 * logicalOffsetX) / (target.clientWidth + 1)) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

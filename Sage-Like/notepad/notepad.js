@@ -27,6 +27,7 @@ let notepad = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
 
+		slUtil.applyDocumentLocalization(document);
 		document.title = DOCUMENT_TITLE;
 
 		m_elmHelpPopup = document.getElementById("helpPopup");

@@ -127,7 +127,9 @@
 #rssTreeView .rtvCaption {
 	box-sizing: content-box;
 	min-height: var(--line-height-rss-view);
-	padding: 1px 5px 1px 0;
+	padding-block: 1px;
+	padding-inline: 0 5px;
+
 	display: flex;
 	align-items: flex-end;
 	width: 100%;
@@ -205,7 +207,7 @@
 #treeViewIndicator {
 	display: none;
 	position: fixed;
-	right: var(--tree-view-scrollbar-width);
+	inset-inline-end: var(--tree-view-scrollbar-width);
 	top: var(--toolbar-height);
 	width: 16px;
 	height: 16px;
@@ -219,11 +221,6 @@
 	display: block;
 }
 #rssTreeView.disabled + #treeViewIndicator {
-	right: 0;
+	inset-inline-end: 0;
 	top: 0;
-}
-
-#top[style*="direction: rtl;"] > #treeViewIndicator {
-	right: unset;
-	left: var(--tree-view-scrollbar-width);
 }

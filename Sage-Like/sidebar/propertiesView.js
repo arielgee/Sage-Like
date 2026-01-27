@@ -138,7 +138,7 @@ class PropertiesView {
 						"When the maximum number of displayed feed items is limited and \"Order feed-items chronologically\" in the <a id='anchorOptions' href='#'>Options</a> " +
 						"page is enabled, it may, but not necessarily, result in displaying feed items that are not the most recent.\n\n" +
 						"This is relevant only to feeds where the items in the source are not ordered chronologically.\n\n" +
-						"<input type='checkbox' id='chkDontShowAgain' style='margin-left:0'><label for='chkDontShowAgain'>Don't show this message again</label>",
+						"<input type='checkbox' id='chkDontShowAgain' style='margin-inline-start:0'><label for='chkDontShowAgain'>Don't show this message again</label>",
 				caption: "Limiting Maximum Feed-Items",
 				clickableElements: [
 					{

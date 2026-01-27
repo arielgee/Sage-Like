@@ -13,7 +13,7 @@
 
 #discoverPanel > .captionContainer {
 	display: flex;
-	justify-content: left;
+	justify-content: flex-start;
 	margin: 0 0 var(--panel-spacing);
 	--item-spacer: 5px;
 }
@@ -21,7 +21,8 @@
 #discoverPanel svg|svg.captionImage {
 	width: 16px;
 	height: 16px;
-	margin: auto var(--item-spacer) auto 0;
+	margin-block: auto;
+	margin-inline: 0 var(--item-spacer);
 	fill: var(--color-sidebar-icons);
 }
 #discoverPanel svg|svg.captionImage > svg|path {
@@ -38,18 +39,21 @@
 }
 
 #discoverPanel .caption {
-	margin: auto var(--item-spacer) auto 0;
+	margin-block: auto;
+	margin-inline: 0 var(--item-spacer);
 }
 
 #discoverPanel .captionSpacer {
-	margin: auto auto auto 0;
+	margin-block: auto;
+	margin-inline: 0 auto;
 }
 
 #discoverPanel .button {
 	width: 20px;
 	height: 20px;
 	border-radius: 2px;
-	margin: auto 0 auto calc(var(--item-spacer) * 2);
+	margin-block: auto;
+	margin-inline: calc(var(--item-spacer) * 2) 0;
 	cursor: default;
 }
 
@@ -94,7 +98,7 @@
 
 	padding: 0 7px;
 	display: flex;
-	justify-content: left;
+	justify-content: flex-start;
 	min-height: var(--item-height);
 }
 
@@ -112,16 +116,18 @@
 #discoverFeedsList .dfLabel {
 	display: flex;
 	flex-wrap: nowrap;
-	justify-content: left;
-	padding-left: 3px;
+	justify-content: flex-start;
+	padding-inline-start: 3px;
 	width: 100%;
-	margin: auto 0 auto 3px;
+	margin-block: auto;
+	margin-inline: 3px 0;
 	pointer-events: none;
 }
 
 #discoverFeedsList .dfLabel .dfLabelCaption {
 	width: 275px;
-	margin: 0 auto 0 0;
+	margin-block: 0;
+	margin-inline: 0 auto;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -140,11 +146,12 @@
 
 .dfButtonContainer {
 	display: flex;
-	justify-content: right;
+	justify-content: flex-end;
 }
 
 #aggressiveDiscoveryContainer {
-	margin: auto auto auto 0;
+	margin-block: auto;
+	margin-inline: 0 auto;
 }
 
 #aggressiveDiscoveryContainer > .captionAggressiveLevel {
@@ -209,13 +216,14 @@ sl-tri-toggler-rail {
 	margin: var(--margin-triTogglerRail);
 	pointer-events: auto;
 	cursor: pointer;
-	transition: padding-left 50ms linear 0ms;
+	transition: padding-inline-start 100ms linear 0ms;
 }
 
 sl-tri-toggler-marker {
 	height: var(--height-content);
 	width: var(--width-toggle);
 	pointer-events: none;
+	transition: background-color 100ms linear 0ms;
 }
 
 sl-tri-toggler-captions {
@@ -248,9 +256,9 @@ sl-tri-toggler-caption:last-child {
 	border-radius: 0 var(--border-radius-content) var(--border-radius-content) 0;
 }
 
-sl-tri-toggler[data-toggler-state="0"] > sl-tri-toggler-rail { padding-left: 0; }
-sl-tri-toggler[data-toggler-state="1"] > sl-tri-toggler-rail { padding-left: var(--width-toggle); }
-sl-tri-toggler[data-toggler-state="2"] > sl-tri-toggler-rail { padding-left: calc(var(--width-toggle) * 2); }
+sl-tri-toggler[data-toggler-state="0"] > sl-tri-toggler-rail { padding-inline-start: 0; }
+sl-tri-toggler[data-toggler-state="1"] > sl-tri-toggler-rail { padding-inline-start: var(--width-toggle); }
+sl-tri-toggler[data-toggler-state="2"] > sl-tri-toggler-rail { padding-inline-start: calc(var(--width-toggle) * 2); }
 
 sl-tri-toggler[data-toggler-state="0"] sl-tri-toggler-marker { background-color: #505050; }
 sl-tri-toggler[data-toggler-state="1"] sl-tri-toggler-marker { background-color: #a800a8; }

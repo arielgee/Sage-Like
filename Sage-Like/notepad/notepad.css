@@ -78,15 +78,17 @@ html, body {
 	color: var(--color-help-popup-caption);
 	font-size: 1.2em;
 	font-weight: bold;
-	padding: 2px 0 14px 2px;
+	padding-block: 2px 14px;
+	padding-inline: 2px 0;
 }
 
 #shortcutInfo {
 	table-layout: fixed;
 	border-collapse: collapse;
 	border-spacing: 0;
-	text-align: left;
-	margin: 0 0 5px 10px;
+	text-align: start;
+	margin-block: 0 5px;
+	margin-inline: 10px 0;
 }
 #shortcutInfo tr {
 	border-bottom: 1px dotted rgb(128, 128, 128);
@@ -95,10 +97,14 @@ html, body {
 	border-bottom-style: solid;
 }
 #shortcutInfo td:first-child {
-	padding: 5px 25px 5px 0;
+	padding-block: 5px;
+	padding-inline: 0 25px;
 }
 #shortcutInfo td:last-child {
-	padding: 5px 10px 5px 0;
+	display: flex;
+	justify-content: left;
+	padding-block: 5px;
+	padding-inline: 0 10px;
 }
 #shortcutInfo .key {
 	display: inline-block;
@@ -112,8 +118,8 @@ html, body {
 	font-size: 1em;
 	text-align: center;
 }
-#shortcutInfo .key:first-child { margin-right: 5px; }
-#shortcutInfo .key:nth-child(2) { margin-left: 5px; }
+#shortcutInfo .key:first-child { margin-inline-end: 5px; }
+#shortcutInfo .key:nth-child(2) { margin-inline-start: 5px; }
 #shortcutInfo .key.mod { width: 34px; }
 #shortcutInfo .key.func { width: 18px; }
 #shortcutInfo .key.char { width: 12px; }
@@ -141,7 +147,8 @@ body {
 }
 
 #statusBar {
-	padding: 5px 12px 5px 8px;
+	padding-block: 5px;
+	padding-inline: 8px 12px;
 	background-color: rgb(64, 64, 64);
 	color: rgb(255, 255, 255);
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;

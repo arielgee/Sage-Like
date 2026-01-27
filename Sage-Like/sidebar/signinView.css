@@ -8,7 +8,7 @@
 
 #signinPanel > .captionContainer {
 	display: flex;
-	justify-content: left;
+	justify-content: flex-start;
 	margin: 0 0 var(--panel-spacing);
 }
 
@@ -18,7 +18,8 @@
 	height: 16px;
 	min-width: 16px;
 	min-height: 16px;
-	margin: auto 8px auto 0;
+	margin-block: auto;
+	margin-inline: 0 8px;
 }
 
 #signinPanel .caption {
@@ -44,8 +45,8 @@
 
 .signinButtonContainer {
 	display: flex;
-	justify-content: right;
-	margin-right: var(--panel-spacing);
+	justify-content: flex-end;
+	margin-inline-end: var(--panel-spacing);
 }
 
 #signinStatusbar {

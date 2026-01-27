@@ -8,7 +8,7 @@
 
 #propertiesPanel > .captionContainer {
 	display: flex;
-	justify-content: left;
+	justify-content: flex-start;
 	margin: 0 0 var(--panel-spacing);
 }
 
@@ -16,7 +16,8 @@
 	background: transparent url("/icons/sageLike-16.png") no-repeat center center;
 	width: 16px;
 	height: 16px;
-	margin: auto 8px auto 0;
+	margin-block: auto;
+	margin-inline: 0 8px;
 }
 
 #propertiesPanel .caption {
@@ -43,7 +44,8 @@
 }
 
 .propContainer > input[type="checkbox"]:first-child {
-	margin: auto 5px auto 0;
+	margin-block: auto;
+	margin-inline: 0 5px;
 }
 
 .propContainer > input[type="checkbox"]:first-child:focus + label {
@@ -57,13 +59,14 @@
 #txtFpFeedMaxItems {
 	width: 60px;
 	flex-grow: 0;
-	margin: auto 0 auto auto;
+	margin-block: auto;
+	margin-inline: auto 0;
 }
 
 .fpButtonContainer {
 	display: flex;
-	justify-content: right;
-	margin-right: var(--panel-spacing);
+	justify-content: flex-end;
+	margin-inline-end: var(--panel-spacing);
 }
 
 #propertiesPanel .statusbar {
