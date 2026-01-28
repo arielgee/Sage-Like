@@ -21,13 +21,13 @@ let notepad = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialization() {
+		slUtil.applyDocumentLocalization(document);
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
 
-		slUtil.applyDocumentLocalization(document);
 		document.title = DOCUMENT_TITLE;
 
 		m_elmHelpPopup = document.getElementById("helpPopup");
