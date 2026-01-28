@@ -15,7 +15,7 @@ class FeedFactory {
 
 		} else {
 			//console.log("[Sage-Like]", "Parser error at " + feedUrl, "- Feed format is neither XML nor JSON.");
-			throw new Error("Feed format is neither XML nor JSON.");
+			throw new Error(i18n("js_feedFactoryErrorFeedFormat"));	// "Feed format is neither XML nor JSON."
 		}
 	}
 
@@ -98,7 +98,7 @@ class FeedFactory {
 
 		} else {
 
-			throw new Error("RSS feed not identified in document");
+			throw new Error(i18n("js_feedFactoryErrorFeedNotIdentified"));	// "RSS feed not identified in document"
 		}
 	}
 
@@ -108,8 +108,8 @@ class FeedFactory {
 		try {
 			let oJson = JSON.parse(feedJsonText);
 
-			if(!!!oJson.version) throw new Error("Invalid jsonfeed, top-level string 'version:' is undefined.");
-			if(!oJson.version.startsWith("https://jsonfeed.org/version/")) throw new Error("invalid jsonfeed, unexpected version value. '" + oJson.version + "'");
+			if(!!!oJson.version) throw new Error(i18n("js_feedFactoryErrorJsonVersionString"));	// "Invalid jsonfeed, top-level string 'version:' is undefined."
+			if(!oJson.version.startsWith("https://jsonfeed.org/version/")) throw new Error(`${i18n("js_feedFactoryErrorJsonVersionValue")} '${oJson.version}'`);
 
 			return new JsonFeed(feedUrl, oJson);
 

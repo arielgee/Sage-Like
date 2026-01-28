@@ -6,12 +6,6 @@ let discoveryView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
-	const AGGRESSIVE_TOOLTIP_TITLE = "Aggressive Discovery: \n" +
-									" \u25cf None: Check only for standardly discoverable RSS links. \n" +
-									" \u25cf Low: Check each hyperlink in page that its URL might suggest it links to an RSS feed. \n" +
-									" \u25cf High: Check ALL hyperlinks in page (process may be lengthy). \n\n" +
-									"\u2731 'Low' and 'High' will also check in iframe documents (1st level only).";
-
 	let m_elmDiscoverPanel = null;
 	let m_elmDiscoverFeedsList;
 
@@ -101,7 +95,7 @@ let discoveryView = (function() {
 				m_elmButtonRediscover.slSavedTitle = m_elmButtonRediscover.title;
 			}
 
-			m_elmAggressiveDiscoveryContainer.title = AGGRESSIVE_TOOLTIP_TITLE.replace(/ /g, "\u00a0");
+			m_elmAggressiveDiscoveryContainer.title = m_elmAggressiveDiscoveryContainer.title.replace(/ /g, "\u00a0");
 		}
 
 		internalPrefs.getAggressiveDiscoveryLevel().then(level => m_elmTriTglAggressiveDiscoveryLevel.setAttribute("data-toggler-state", level));
@@ -122,7 +116,7 @@ let discoveryView = (function() {
 			const tab = tabs[0];
 
 			if(tab.status === "loading") {
-				setNoFeedsMsg("Current tab is still loading.");
+				setNoFeedsMsg(i18n("js_discoveryTabLoading"));
 				return;
 			}
 
@@ -169,7 +163,7 @@ let discoveryView = (function() {
 
 				if(/^(about|chrome|resource):/i.test(tab.url)) {
 					setDiscoverLoadingState(false);
-					setNoFeedsMsg("Unable to access current tab.");
+					setNoFeedsMsg(i18n("js_discoveryTabNotAccessable"));
 				} else {
 
 					// For XML/JSON pages loaded by the browser's viewers
@@ -190,7 +184,7 @@ let discoveryView = (function() {
 
 		setDiscoverLoadingState(false);
 		sortDiscoverFeedsList();
-		setStatusbarMessage(" - Aborted!", true, true);
+		setStatusbarMessage(i18n("js_discoveryAborted"), true, true);
 
 		m_abortDiscovery = null;
 	}
@@ -200,7 +194,7 @@ let discoveryView = (function() {
 
 		const {
 			injectErr = undefined,
-			sNoFeedsMsg = "No valid feeds were discovered.",
+			sNoFeedsMsg = i18n("js_discoveryNoValidFeeds"),
 		} = details;
 		const timeout = await prefs.getFetchTimeout() * 1000;			// to millisec
 
@@ -275,7 +269,7 @@ let discoveryView = (function() {
 				// Since nothing was found, try to discover if the url itself is the feed. This can be an XML with XSLT
 				// that the browser loads into the tab as an HTML page instead as an XML viewer. Afaik JSON hasn't got
 				// anything resembling. Inject into XML/JSON viewers throws an exception.
-				loadSingleDiscoverFeed(url, domainName, { sNoFeedsMsg: "No feeds were discovered." });
+				loadSingleDiscoverFeed(url, domainName, { sNoFeedsMsg: i18n("js_discoveryNoFeedsDiscovered") } );
 			}
 			iframeHosts = result.iframeHosts;
 			m_abortDiscovery = result.abortObject;
@@ -374,7 +368,7 @@ let discoveryView = (function() {
 		if(!RequiredPermissions.i.granted) {
 
 			let elmA = document.createElement("a");
-			elmA.textContent = "Required permissions";
+			elmA.textContent = i18n("js_discoveryRequiredPermissions");
 			elmA.href = "#";
 
 			let newLen = m_abortCtrlEvents.push(new AbortController());
@@ -394,7 +388,7 @@ let discoveryView = (function() {
 
 		m_elmDiscoverPanel.classList.toggle("loading", m_isLoading);
 		m_elmButtonCheckmarkAll.classList.toggle("disabled", m_isLoading);
-		m_elmButtonRediscover.title = m_isLoading ? "Abort!" : m_elmButtonRediscover.slSavedTitle;
+		m_elmButtonRediscover.title = m_isLoading ? i18n("js_discoveryAbort") : m_elmButtonRediscover.slSavedTitle;
 		slUtil.disableElementTree(m_elmAggressiveDiscoveryContainer, m_isLoading, false, ["DIV", "SL-TRI-TOGGLER", "SL-TRI-TOGGLER-RAIL"]);
 	}
 
@@ -409,7 +403,7 @@ let discoveryView = (function() {
 				let url = item.getAttribute("href");
 
 				if(rssTreeView.isFeedInTree(url)) {
-					setStatusbarMessage("Already in tree: '" + item.getAttribute("name") + "'", true);
+					setStatusbarMessage(i18n("js_discoveryAlreadyInTree", item.getAttribute("name")), true);
 					return [];
 				}
 				newFeedsList.push( { title: item.getAttribute("name"), url: url } );
@@ -417,7 +411,7 @@ let discoveryView = (function() {
 		}
 
 		if(newFeedsList.length === 0) {
-			setStatusbarMessage("Nothing to add", true);
+			setStatusbarMessage(i18n("js_discoveryNothingToAdd"), true);
 			return [];
 		}
 
@@ -722,7 +716,7 @@ let discoveryView = (function() {
 		prefs.getRootFeedsFolderId().then((folderId) => {
 
 			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
-				setStatusbarMessage("Feeds folder not set in Options page", true);
+				setStatusbarMessage(i18n("js_discoveryFeedsFolderNotSet"), true);
 				browser.runtime.openOptionsPage();
 			} else {
 

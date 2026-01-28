@@ -124,7 +124,7 @@ let signinView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyUpPassword(event) {
-		m_elmStatusbar.textContent = event.getModifierState("CapsLock") ? "Your caps lock is ON" : "";
+		m_elmStatusbar.textContent = event.getModifierState("CapsLock") ? i18n("js_signinCapsLockOn") : "";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

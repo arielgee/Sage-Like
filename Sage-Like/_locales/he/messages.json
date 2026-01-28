@@ -1,0 +1,1888 @@
+{
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Extension messages
+
+	"extName": {
+		"message": "Sage-Like",
+		"description": "Extension name. Normally not translated."
+	},
+	"extDescription": {
+		"message": "קורא הזנות (Feeds) מהיר וקל משקל בסרגל הצד. תומך ב-Atom, RSS, JSON ו-RDF, עם ממשק הניתן להתאמה אישית ושילוב מלא עם הסימניות והסנכרון של הדפדפן.",
+		"description": "Extension description shown in the add-ons manager."
+	},
+	"extSubscribeUsingSageLike": {
+		"message": "הרשמה באמצעות Sage-Like",
+		"description": "Tooltip for the page action button to subscribe to feeds using Sage-Like"
+	},
+	"extToggleSidebar": {
+		"message": "הצגה/הסתרה של סרגל הצד",
+		"description": "Label for keyboard shortcut to toggle the sidebar"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// background.js messages
+
+	"js_backgroundMenuTryOpenLink": {
+		"message": "פתיחת קישור בתצוגה מקדימה",
+		"description": "Context menu item label shown when right-clicking a link on a web page"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// feedPreview/feedPreview.html messages
+
+	"htm_feedPreviewJumpToTitle": {
+		"message": "עבור לכותרת",
+		"description": "Label for the jump to title menu"
+	},
+	"htm_feedPreviewLoadingLabel": {
+		"message": "טוען...",
+		"description": "Label shown while feed preview is loading"
+	},
+	"htm_feedPreviewErrorMessageLink": {
+		"message": "פתיחה בדפדפן",
+		"description": "Link label for opening the feed in the browser in feedPreview.html error container"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// feedPreview/feedPreview.js messages
+
+	"js_feedPreviewErrorResourceNotLoaded": {
+		"message": "המשאב לא נטען, ייתכן שהוא חסר [$ERROR_MESSAGE$].",
+		"description": "Error message shown when a feed resource could not be loaded",
+		"placeholders": {
+			"ERROR_MESSAGE": { "content": "$1" }
+		}
+	},
+	"js_feedPreviewErrorUnexpectedFailure": {
+		"message": "שגיאה לא צפויה [$ERROR_MESSAGE$].",
+		"description": "Error message shown for unexpected failures",
+		"placeholders": {
+			"ERROR_MESSAGE": { "content": "$1" }
+		}
+	},
+	"js_feedPreviewErrorImageNotLoaded": {
+		"message": "התמונה לא נטענה.",
+		"description": "Error message shown when an image fails to load"
+	},
+	"js_feedPreviewAttachmentTipTitleLabel": {
+		"message": "כותרת:",
+		"description": "Label for the attachment title in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipURLLabel": {
+		"message": "כתובת:",
+		"description": "Label for the attachment URL in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipSizeLabel": {
+		"message": "גודל:",
+		"description": "Label for the attachment size in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipErrorLabel": {
+		"message": "שגיאה:",
+		"description": "Label for the error message in feed item attachment tooltips"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// notepad/notepad.html messages
+
+	"htm_notepadPageTitle": {
+		"message": "פנקס רשימות",
+		"description": "Notepad page title"
+	},
+	"htm_notepadKeyboardCommandsCaption": {
+		"message": "קיצורי מקלדת",
+		"description": "Caption for the keyboard shortcuts help popup in notepad"
+	},
+	"htm_notepadTableHeaderCommand": {
+		"message": "פקודה",
+		"description": "Table header for the command column in keyboard shortcuts table"
+	},
+	"htm_notepadTableHeaderKeys": {
+		"message": "מקשים",
+		"description": "Table header for the keys column in keyboard shortcuts table"
+	},
+	"htm_notepadCommandSave": {
+		"message": "שמירה",
+		"description": "Label for the save keyboard command in notepad"
+	},
+	"htm_notepadCommandSaveAndExit": {
+		"message": "שמירה ויציאה",
+		"description": "Label for the save and exit keyboard command in notepad"
+	},
+	"htm_notepadCommandRevertToSaved": {
+		"message": "שחזור לגרסה האחרונה",
+		"description": "Label for the revert to saved keyboard command in notepad"
+	},
+	"htm_notepadCommandExportToFile": {
+		"message": "ייצוא לקובץ",
+		"description": "Label for the export to file keyboard command in notepad"
+	},
+	"htm_notepadCommandToggleDarkTheme": {
+		"message": "הפעלה/כיבוי של מצב כהה",
+		"description": "Label for the toggle dark theme keyboard command in notepad"
+	},
+	"htm_notepadCommandTogglePopup": {
+		"message": "הצגה/הסתרה של חלונית זו",
+		"description": "Label for the toggle help popup keyboard command in notepad"
+	},
+	"htm_notepadCommandQuitWithoutSaving": {
+		"message": "יציאה ללא שמירה",
+		"description": "Label for the quit without saving keyboard command in notepad"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// notepad/notepad.js messages
+
+	"js_notepadDocumentTitle": {
+		"message": "פנקס רשימות - קוד מקור CSS מותאם אישית",
+		"description": "Notepad window document title"
+	},
+	"js_notepadLeaveWithoutSaveQuestion": {
+		"message": "האם לצאת? השינויים שביצעת לא יישמרו.",
+		"description": "Confirmation dialog message shown when user tries to leave the notepad with unsaved changes"
+	},
+	"js_notepadCaretPosition": {
+		"message": "שורה $LINE_NUMBER$, עמודה $COLUMN_NUMBER$",
+		"description": "Status bar text showing the current line and column number in the notepad editor",
+		"placeholders": {
+			"LINE_NUMBER": { "content": "$1" },
+			"COLUMN_NUMBER": { "content": "$2" }
+		}
+	},
+	"js_notepadSelectedCharCount": {
+		"message": "($SELECTED_COUNT$ נבחרו)",
+		"description": "Status bar text showing the number of selected characters in the notepad editor",
+		"placeholders": {
+			"SELECTED_COUNT": { "content": "$1" }
+		}
+	},
+	"js_notepadModifiedTitle": {
+		"message": "שונה",
+		"description": "Title for the notepad window when there are unsaved changes"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// opml/opml.js messages
+
+	"js_opmlErrorInvalidFile": {
+		"message": "ייתכן שזהו אינו קובץ OPML תקין.",
+		"description": "Error message shown when the imported file is not a valid OPML file"
+	},
+	"js_opmlErrorMissingElements": {
+		"message": "ייתכן שזהו אינו קובץ OPML תקין. רכיבים חסרים.",
+		"description": "Error message shown when the imported OPML file is missing required elements"
+	},
+	"js_opmlErrorRootFeedsFolderNotSet": {
+		"message": "מזהה תיקיית השורש של ההזנות לא הוגדר $ERROR_SOURCE$.",
+		"description": "Error message shown when the root feeds folder ID is not set during OPML import",
+		"placeholders": {
+			"ERROR_SOURCE": { "content": "$1" }
+		}
+	},
+	"js_opmlImportedFolderName": {
+		"message": "ייבוא - $TITLE$",
+		"description": "Part one of the folder name containing the imported feeds",
+		"placeholders": {
+			"TITLE": { "content": "$1" }
+		}
+	},
+	"js_opmlImportedFolderNameCreated": {
+		"message": "(נוצר: $DATE$)",
+		"description": "part two of the folder name containing the imported feeds, showing the creation date",
+		"placeholders": {
+			"DATE": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// pagePopup/pagePopup.html messages
+
+	"htm_popupCaption": {
+		"message": "הזנות בדף זה",
+		"description": "Main caption heading displayed at the top of the page feeds popup"
+	},
+	"htm_popupBusyMessage": {
+		"message": "אופס... או שאתה מהיר מדי, או שהרשת איטית.",
+		"description": "Message shown while the popup is loading feed data"
+	},
+	"htm_popupWaitMessage": {
+		"message": "נא להמתין.",
+		"description": "Message shown while the popup is loading feed data"
+	},
+	"htm_popupNoticeNoValidFeeds": {
+		"message": "באסה... נמצאו הזנות, אך הן אינן תקינות.",
+		"description": "Notice message shown when feeds were discovered but none are valid"
+	},
+	"htm_popupBtnAddFeeds": {
+		"message": "הוספה ל-Sage-Like",
+		"description": "Button label for adding selected feeds to Sage-Like"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// pagePopup/pagePopup.js messages
+
+	"js_popupFeedsFolderNotSet": {
+		"message": "תיקיית ההזנות לא הוגדרה ב",
+		"description": "First part of warning message shown when the feeds bookmark folder has not been configured in preferences"
+	},
+	"js_popupFeedsFolderNotSetLink": {
+		"message": "דף ההגדרות",
+		"description": "Link text part of the warning message shown when the feeds bookmark folder has not been configured in preferences"
+	},
+	"js_popupNothingToAdd": {
+		"message": "אין מה להוסיף",
+		"description": "Status bar message shown when no feeds are selected for adding"
+	},
+	"js_popupErrorPermissions": {
+		"message": "משהו השתבש!\nככל הנראה מדובר בבעיית הרשאות דפדפן.",
+		"description": "Error message shown when feed discovery fails due to browser permissions issues"
+	},
+	"js_popupAlreadyInTree": {
+		"message": "כבר קיים: '$FEED_NAME$'",
+		"description": "Status bar message shown when attempting to add a feed that already exists in the tree; includes the feed name as $FEED_NAME$",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// permissions/requiredPermissions.js messages
+
+	"js_permsPermissionName": {
+		"message": "גישה לנתונים שלך בכל האתרים",
+		"description": "Name of the browser permission required for accessing feed data across all websites"
+	},
+	"js_permsInfoTextPart1": {
+		"message": "בשל שינויים בסביבת התוספים (Manifest V3), ההרשאה שהפכה לאופציונלית",
+		"description": "First part of the permissions info text explaining the Manifest V3 changes"
+	},
+	"js_permsInfoTextPart2": {
+		"message": "אינה מאושרת כרגע בדפדפן.",
+		"description": "Second part of the permissions info text explaining the current permission status"
+	},
+	"js_permsInfoTextPart3": {
+		"message": "ללא הרשאה זו, רוב ההזנות כנראה לא ייטענו כראוי.",
+		"description": "Third part of the permissions info text explaining the consequences of denied permission"
+	},
+	"js_permsInfoTextPart4": {
+		"message": "אתר יכול להגדיר את ההזנות שלו באופן שאינו דורש הרשאה זו. אך הזנות רבות אינן כאלה, והתוצאה היא שגיאת רשת הנגרמת על ידי מגבלות הדפדפן (CORS).",
+		"description": "Fourth part of the permissions info text explaining technical details about CORS restrictions"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferencesData.js messages
+
+	"js_prefsDataErrorInvalidFile": {
+		"message": "ייתכן שקובץ זה אינו קובץ JSON תקין.",
+		"description": "Error message shown when the imported file is not a valid JSON file"
+	},
+	"js_prefsDataErrorModifiedOptionsFile": {
+		"message": "קובץ הגדרות Sage-Like זה שונה.\n\nניתן לייבא רק קובץ שלא שונה וחתום.",
+		"description": "Error message shown when the imported options file has been modified and is not valid for import"
+	},
+	"js_prefsDataErrorMissingPrefSelfSigned": {
+		"message": "ייתכן שקובץ זה אינו קובץ הגדרות Sage-Like תקין.\n\nחסר '$PREF_SELF_SIGNED$'.",
+		"description": "Error message shown when the imported options file is missing the self-signed preference",
+		"placeholders": {
+			"PREF_SELF_SIGNED": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferences.js messages
+
+	"js_prefsOptionUserCustomFont": {
+		"message": "$CUSTOM_FONT$ (גופן מותאם אישית)",
+		"description": "Used to display custom user-selected font name in font selector",
+		"placeholders": {
+			"CUSTOM_FONT": { "content": "$1" }
+		}
+	},
+
+	"js_prefsMsgBoxCaptionWarning": {
+		"message": "אזהרה",
+		"description": "Label used for warning message box caption"
+	},
+	"js_prefsMsgBoxCaptionError": {
+		"message": "שגיאה",
+		"description": "Label used for error message box caption"
+	},
+	"js_prefsMsgBoxCaptionImport": {
+		"message": "ייבוא",
+		"description": "Label used for import message box caption"
+	},
+	"js_prefsMsgBoxCaptionExport": {
+		"message": "ייצוא",
+		"description": "Label used for export message box caption"
+	},
+
+	"js_prefsImportOPMLMsgBoxMessage": {
+		"message": "$FEED_COUNT$ הזנות ו-$FOLDER_COUNT$ תיקיות יובאו בהצלחה.",
+		"description": "Message shown after importing an OPML file successfully; displays the number of feeds and folders imported.",
+		"placeholders": {
+			"FEED_COUNT": { "content": "$1" },
+			"FOLDER_COUNT": { "content": "$2" }
+		}
+	},
+	"js_prefsImportOPMLMsgBoxMessageSkipSingular": {
+		"message": "רשומה אחת דולגה.",
+		"description": "Message shown when exactly one entry in the OPML file was skipped during import."
+	},
+	"js_prefsImportOPMLMsgBoxMessageSkipPlural": {
+		"message": "$SKIP_COUNT$ רשומות דולגו.",
+		"description": "Message shown when multiple entries in the OPML file were skipped during import; includes the number of skipped entries.",
+		"placeholders": {
+			"SKIP_COUNT": { "content": "$1" }
+		}
+	},
+	"js_prefsExportOPMLMsgBoxMessage": {
+		"message": "$FEED_COUNT$ הזנות ו-$FOLDER_COUNT$ תיקיות יוצאו בהצלחה.\n\nקובץ: $FILE_NAME$",
+		"description": "Message shown after exporting feeds and folders to an OPML file successfully; displays counts and the output file name.",
+		"placeholders": {
+			"FEED_COUNT": { "content": "$1" },
+			"FOLDER_COUNT": { "content": "$2" },
+			"FILE_NAME": { "content": "$3" }
+		}
+	},
+	"js_prefsImportPrefsMsgBoxMessage": {
+		"message": "הקובץ יובא בהצלחה.\n\nדף זה ייטען מחדש כעת כדי לשקף את ההגדרות שיובאו.",
+		"description": "Message shown after importing extension options successfully; informs the user the Options page will reload to apply changes."
+	},
+	"js_prefsExportPrefsMsgBoxMessage": {
+		"message": "ההגדרות יוצאו בהצלחה.\n\nקובץ: $FILE_NAME$",
+		"description": "Message shown after exporting extension options successfully; includes the output file name.",
+		"placeholders": {
+			"FILE_NAME": { "content": "$1" }
+		}
+	},
+
+	"js_prefsSelectFeedsFolderOptionLabel": {
+		"message": "-בחירת תיקיית הזנות-",
+		"description": "Placeholder option text shown in the Feeds bookmark folder dropdown before a folder is selected."
+	},
+	"js_prefsColorRGBnotation": {
+		"message": "ערך RGB:",
+		"description": "Label preceding the RGB color value display (e.g., rgb(255, 255, 255)) in the color picker UI."
+	},
+	"js_prefsColorHTMLnotation": {
+		"message": "ערך HTML:",
+		"description": "Label preceding the HTML/hex color value display (e.g., #FFFFFF) in the color picker UI."
+	},
+
+	"js_prefsCssErrorNotFileObject": {
+		"message": "אינו אובייקט קובץ.",
+		"description": "Error message shown when the imported object is not a File"
+	},
+	"js_prefsCssErrorFileEmpty": {
+		"message": "הקובץ ריק.",
+		"description": "Error message shown when the imported file is empty"
+	},
+	"js_prefsCssErrorFileTooLarge": {
+		"message": "הקובץ גדול מדי. מקסימום: $BYTE_SIZE$",
+		"description": "Error message shown when the imported file is too large",
+		"placeholders": {
+			"BYTE_SIZE": { "content": "$1" }
+		}
+	},
+	"js_prefsCssErrorFileReaderError": {
+		"message": "שגיאת קריאת קובץ.",
+		"description": "Error message shown when the file read error"
+	},
+	"js_prefsCssErrorFileNoTextContent": {
+		"message": "הקובץ אינו מכיל טקסט.",
+		"description": "Error message shown when the imported file has no text content"
+	},
+	"js_prefsCssWarningRemoteURL": {
+		"message": "נמצאו כתובות URL למשאבים מרוחקים בקובץ שעלולות להוות סיכון אבטחה.\n\nאם אין ודאות שכתובות אלו בטוחות, מומלץ להחליף או לנקות קובץ זה.",
+		"description": "Warning shown when imported CSS contains URLs to remote resources, which may pose a security risk."
+	},
+	"js_prefsCssWarningNoStyleRules": {
+		"message": "לא נמצאו כללי סגנון בקובץ.",
+		"description": "Warning shown when imported CSS contains no style rules."
+	},
+	"js_prefsCssWarningNoRules": {
+		"message": "לא נמצאו כללים בקובץ.",
+		"description": "Warning shown when imported CSS contains no rules."
+	},
+
+	"js_prefsNotepadEditorOpen": {
+		"message": "לא ניתן להשלים את הפעולה כל עוד עורך קוד המקור של CSS פתוח.\n\nיש לסגור את העורך.",
+		"description": "Message shown when trying to perform an operation while the notepad CSS source code editor is open."
+	},
+	"js_prefsProcessingBusyMessage": {
+		"message": "בעיבוד, נא להמתין.",
+		"description": "Message when the preferences page is busy processing an operation"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferences.html messages
+
+	"htm_prefsPageTitle": {
+		"message": "הגדרות Sage-Like",
+		"description": "Preferences page title"
+	},
+	"htm_prefsNavFeeds": {
+		"message": "הזנות",
+		"description": "Navigation item for feeds section"
+	},
+	"htm_prefsNavBehavior": {
+		"message": "התנהגות",
+		"description": "Navigation item for behavior section"
+	},
+	"htm_prefsNavAppearance": {
+		"message": "מראה",
+		"description": "Navigation item for appearance section"
+	},
+	"htm_prefsNavMiscellaneous": {
+		"message": "שונות",
+		"description": "Navigation item for miscellaneous section"
+	},
+	"htm_prefsNavWriteReview": {
+		"message": "כתיבת ביקורת",
+		"description": "External navigation link label for writing a review"
+	},
+	"htm_prefsNavSubmitIssue": {
+		"message": "דיווח על בעיה",
+		"description": "External navigation link label for submitting an issue"
+	},
+	"htm_prefsNavSupportFeedback": {
+		"message": "תמיכה ומשוב",
+		"description": "External navigation link label for support and feedback"
+	},
+	"htm_prefsNavCustomCSS": {
+		"message": "CSS מותאם אישית לתצוגה מקדימה",
+		"description": "External navigation link label for custom CSS info"
+	},
+	"htm_prefsNavBuyBeer": {
+		"message": "הזמנת המפתח לבירה",
+		"description": "External navigation link label for donation"
+	},
+	"htm_prefsFeedsCaption": {
+		"message": "הזנות",
+		"description": "Section caption for feeds preferences block"
+	},
+	"htm_prefsFeedsBookmarkFolder": {
+		"message": "תיקיית סימניות הזנות",
+		"description": "Label for feeds bookmark folder select"
+	},
+	"htm_prefsRefreshFeedsOnSidebar": {
+		"message": "רענון הזנות בעת פתיחת סרגל הצד",
+		"description": "Label for refresh feeds on sidebar launch checkbox"
+	},
+	"htm_prefsScheduledFeedRefresh": {
+		"message": "רענון הזנות מתוזמן",
+		"description": "Label for scheduled feed refresh select"
+	},
+	"htm_prefsScheduleNoThanks": {
+		"message": "ללא (ידני בלבד)",
+		"description": "Option label for scheduled feed refresh: do not auto-refresh"
+	},
+	"htm_prefsScheduleEvery10Min": {
+		"message": "כל 10 דקות",
+		"description": "Option label for scheduled feed refresh interval of 10 minutes"
+	},
+	"htm_prefsScheduleEvery30Min": {
+		"message": "כל 30 דקות",
+		"description": "Option label for scheduled feed refresh interval of 30 minutes"
+	},
+	"htm_prefsScheduleEvery1Hour": {
+		"message": "כל שעה",
+		"description": "Option label for scheduled feed refresh interval of 1 hour"
+	},
+	"htm_prefsScheduleEvery3Hours": {
+		"message": "כל 3 שעות",
+		"description": "Option label for scheduled feed refresh interval of 3 hours"
+	},
+	"htm_prefsScheduleEvery6Hours": {
+		"message": "כל 6 שעות",
+		"description": "Option label for scheduled feed refresh interval of 6 hours"
+	},
+	"htm_prefsScheduleEveryDayAt": {
+		"message": "כל יום ב...",
+		"description": "Option label used to open the time-of-day popup for daily refresh; includes ellipsis."
+	},
+	"htm_prefsNotifyFeedUpdatesClosed": {
+		"message": "התראה על עדכונים כשסרגל הצד סגור",
+		"description": "Label for notify feed updates while sidebar is closed checkbox"
+	},
+	"htm_prefsFeedRefreshMethod": {
+		"message": "שיטת רענון הזנות",
+		"description": "Label for feed refresh method select"
+	},
+	"htm_prefsFeedRefreshMethodStrenuous": {
+		"message": "מאומץ",
+		"description": "Feed refresh method option label for Strenuous mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodModerate": {
+		"message": "מתון",
+		"description": "Feed refresh method option label for Moderate mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodRelaxed": {
+		"message": "רגוע",
+		"description": "Feed refresh method option label for Relaxed mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodEasy": {
+		"message": "קל",
+		"description": "Feed refresh method option label for Easy mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodLazy": {
+		"message": "עצל",
+		"description": "Feed refresh method option label for Lazy mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsSingleFeedTimeout": {
+		"message": "פסק זמן לטעינת הזנה",
+		"description": "Label for single feed fetching timeout input"
+	},
+	"htm_prefsTimeoutSeconds": {
+		"message": "שניות",
+		"description": "Label for seconds input"
+	},
+	"htm_prefsShowUnreadStats": {
+		"message": "הצגת סך ההזנות והפריטים שלא נקראו",
+		"description": "Label for show unread feeds and items checkbox"
+	},
+	"htm_prefsOrderFeedItemsChrono": {
+		"message": "סידור פריטים כרונולוגי",
+		"description": "Label for order feed-items chronologically checkbox"
+	},
+	"htm_prefsDetectFeedsInWebPage1": {
+		"message": "זיהוי הזנות בדפים והצגת כפתור הרשמה",
+		"description": "Label for detect feeds in web pages checkbox. First part. in between there is an image."
+	},
+	"htm_prefsDetectFeedsInWebPage2": {
+		"message": "בשורת הכתובת",
+		"description": "Label for detect feeds in web pages checkbox. Second part, after the image."
+	},
+	"htm_prefsBehaviorCaption": {
+		"message": "התנהגות",
+		"description": "Section caption for behavior preferences block"
+	},
+	"htm_prefsFolderClickAction": {
+		"message": "פעולת לחיצה על תיקייה (פתיחה/סגירה)",
+		"description": "Label for folder click action select"
+	},
+	"htm_prefsFolderClickActionSingleClick": {
+		"message": "לחיצה בודדת",
+		"description": "Label for Single-click option in the folder click action select"
+	},
+	"htm_prefsFolderClickActionDoubleClick": {
+	"message": "לחיצה כפולה",
+		"description": "Label for Double-click option in the folder click action select"
+	},
+	"htm_prefsFeedClickOpensPreview": {
+		"message": "לחיצה על הזנה פותחת אוטומטית את התצוגה המקדימה",
+		"description": "Label for feed-click opens preview select"
+	},
+	"htm_prefsClickOpensFeedPreviewNo": {
+		"message": "לא (שימוש בלחיצה אמצעית)",
+		"description": "Label for no automatic feed preview open option"
+	},
+	"htm_prefsClickOpensFeedPreviewCurrentTab": {
+		"message": "בלשונית הנוכחית",
+		"description": "Label for current tab option"
+	},
+	"htm_prefsClickOpensFeedPreviewNewTab": {
+		"message": "בלשונית חדשה",
+		"description": "Label for new tab option"
+	},
+	"htm_prefsFeedItemsOpenArticles": {
+		"message": "פתיחת מאמרים",
+		"description": "Label for open feed-items articles select"
+	},
+	"htm_prefsFeedItemOpenInCurrentTab": {
+		"message": "בלשונית הנוכחית",
+		"description": "Label for the in the current tab option"
+	},
+	"htm_prefsFeedItemOpenInNewTab": {
+		"message": "בלשונית חדשה",
+		"description": "Label for the in a new tab option"
+	},
+	"htm_prefsMarkFeedPreviewRead": {
+		"message": "בעת פתיחת תצוגה מקדימה, סמן כ\"נקרא\"",
+		"description": "Label for mark as read when opening feed preview select"
+	},
+	"htm_prefsMarkReadNoting": {
+		"message": "ללא",
+		"description": "Option label for the 'mark as read' mode that marks noting"
+	},
+	"htm_prefsMarkReadCollective": {
+		"message": "כל הפריטים בהזנה (קבוצתי)",
+		"description": "Option label for the 'mark as read' mode that marks the whole feed at once"
+	},
+	"htm_prefsMarkReadCollectiveTitle": {
+		"message": "כל הפריטים בהזנה יסומנו כ\"נקראו\" גם אם לא כולם הוצגו בפועל בדפדפן.",
+		"description": "Title/tooltip for the 'collective' mark-as-read option in the select"
+	},
+	"htm_prefsMarkReadVisible": {
+		"message": "פריטים שנצפו (בעת גלילה)",
+		"description": "Option label for the 'mark as read' mode that marks an item when it becomes visible"
+	},
+	"htm_prefsMarkReadVisibleTitle": {
+		"message": "פריט יסומן כ\"נקרא\" ברגע שכ-30% משטחו נגלל לתצוגה.",
+		"description": "Title/tooltip for the 'visible' mark-as-read option in the select"
+	},
+	"htm_prefsAppearanceCaption": {
+		"message": "מראה",
+		"description": "Section caption for appearance preferences block"
+	},
+	"htm_prefsUIDensity": {
+		"message": "צפיפות הממשק",
+		"description": "Label for UI density select"
+	},
+	"htm_prefsUIDensityCompact": {
+		"message": "דחוס",
+		"description": "Option label for UI density: Compact"
+	},
+	"htm_prefsUIDensityComfortable": {
+		"message": "נוח",
+		"description": "Option label for UI density: Comfortable"
+	},
+	"htm_prefsUIDensitySpacious": {
+		"message": "מרווח",
+		"description": "Option label for UI density: Spacious"
+	},
+	"htm_prefsUIDensityExtraSpacious": {
+		"message": "מרווח במיוחד",
+		"description": "Option label for UI density: Extra Spacious"
+	},
+	"htm_prefsSidebarFont": {
+		"message": "גופן סרגל הצד",
+		"description": "Label for sidebar font select"
+	},
+	"htm_prefsSidebarFontDefault": {
+		"message": "(ברירת מחדל של הדפדפן)",
+		"description": "Option label for using the browser's default font in the sidebar font select"
+	},
+	"htm_prefsSidebarFontUser": {
+		"message": "גופן מותאם אישית...",
+		"description": "Option label used to open the user font popup for custom font; includes ellipsis."
+	},
+	"htm_prefsFontSize": {
+		"message": "גודל",
+		"description": "Label for font size select"
+	},
+	"htm_prefsSidebarColors": {
+		"message": "צבעי סרגל הצד",
+		"description": "Label for sidebar colors inputs"
+	},
+	"htm_prefsColorWindow": {
+		"message": "חלון",
+		"description": "Label for window color input in Sidebar colors"
+	},
+	"htm_prefsColorDialog": {
+		"message": "דיאלוג",
+		"description": "Label for dialog color input in Sidebar colors"
+	},
+	"htm_prefsColorActive": {
+		"message": "פעיל",
+		"description": "Label for active selection color input in Sidebar colors"
+	},
+	"htm_prefsColorText": {
+		"message": "טקסט",
+		"description": "Label for text color input in Sidebar colors"
+	},
+	"htm_prefsColorIcons": {
+		"message": "סמלים",
+		"description": "Label for icons color input in Sidebar colors"
+	},
+	"htm_prefsClassicIconsColor": {
+		"message": "צבע סמלים קלאסיים",
+		"description": "Label for classic icons color radio group"
+	},
+	"htm_prefsIncreaseUnreadFontSize": {
+		"message": "הגדלת גופן פריטים שלא נקראו בסרגל הצד",
+		"description": "Label for increase font size of unread items checkbox"
+	},
+	"htm_prefsShowFeedItemDesc": {
+		"message": "הצגת תיאורי פריטים בבועות מידע (אם זמינים)",
+		"description": "Label for show feed-item description tooltips checkbox"
+	},
+	"htm_prefsShowFeedItemDescAttach": {
+		"message": "הצגת משאבים מצורפים בבועות מידע",
+		"description": "Label for show feed-item attached resources checkbox"
+	},
+	"htm_prefsTooltipPopupDelay": {
+		"message": "השהיית בועת מידע",
+		"description": "Label for tooltip popup delay input"
+	},
+	"htm_prefsUnitMilliseconds": {
+		"message": "מילישניות",
+		"description": "Unit label for tooltip delay field in sidebar"
+	},
+	"htm_prefsTooltipColors": {
+		"message": "צבעי בועת מידע",
+		"description": "Label for tooltip colors inputs"
+	},
+	"htm_prefsTipColorBackground": {
+		"message": "רקע",
+		"description": "Label for tooltip background color input in sidebar"
+	},
+	"htm_prefsTipColorText": {
+		"message": "טקסט",
+		"description": "Label for tooltip text color input in sidebar"
+	},
+	"htm_prefsShowTryOpenLink": {
+		"message": "הצגת האפשרות \"פתיחת קישור בתצוגה מקדימה\" בתפריט ההקשר",
+		"description": "Label for show try open link in feed preview checkbox"
+	},
+	"htm_prefsUseCustomCSSFeedPreview": {
+		"message": "שימוש ב-CSS מותאם אישית לתצוגה המקדימה",
+		"description": "Label for use custom CSS for feed preview checkbox"
+	},
+	"htm_prefsCSSSourceCode": {
+		"message": "קוד מקור CSS",
+		"description": "Label for CSS source code controls"
+	},
+	"htm_prefsImportCSS": {
+		"message": "ייבוא...",
+		"description": "Button label for importing custom CSS"
+	},
+	"htm_prefsEditCSS": {
+		"message": "עריכה...",
+		"description": "Button label for editing custom CSS"
+	},
+	"htm_prefsClearCSS": {
+		"message": "ניקוי",
+		"description": "Button label for clearing custom CSS"
+	},
+	"htm_prefsMiscellaneousCaption": {
+		"message": "שונות",
+		"description": "Section caption for miscellaneous preferences block"
+	},
+	"htm_prefsBackupFeedsOPML": {
+		"message": "גיבוי הזנות (OPML)",
+		"description": "Label for backup feeds OPML controls"
+	},
+	"htm_prefsImportOPML": {
+		"message": "ייבוא...",
+		"description": "Button label for importing OPML"
+	},
+	"htm_prefsExportOPML": {
+		"message": "ייצוא...",
+		"description": "Button label for exporting OPML"
+	},
+	"htm_prefsProcessingMsg": {
+		"message": "אין לסגור לשונית זו עד שהתהליך יושלם.",
+		"description": "Processing overlay message displayed during import/export operations"
+	},
+	"htm_prefsManage": {
+		"message": "ניהול",
+		"description": "Label for manage options controls"
+	},
+	"htm_prefsImportOptions": {
+		"message": "ייבוא הגדרות...",
+		"description": "Button label for importing options"
+	},
+	"htm_prefsExportOptions": {
+		"message": "ייצוא הגדרות...",
+		"description": "Button label for exporting options"
+	},
+	"htm_prefsRestoreDefaults": {
+		"message": "שחזור ברירות מחדל",
+		"description": "Button label for restoring default options"
+	},
+	"htm_prefsReloadExtension": {
+		"message": "טעינה מחדש של התוסף",
+		"description": "Button label for reloading the extension"
+	},
+	"htm_prefsUserFontName": {
+		"message": "שם גופן:",
+		"description": "Label for user font name text input in user Font popup"
+	},
+	"htm_prefsEveryDayAt": {
+		"message": "כל יום ב:",
+		"description": "Label for time-of-day input in daily schedule popup"
+	},
+	"htm_prefsButtonOK": {
+		"message": "אישור",
+		"description": "Button label for confirmation in message box"
+	},
+
+	"htm_prefsTipTitleFeedsBookmarkFolder": {
+		"message": "תיקיות ריקות מסומנות בסמל '∅'.",
+		"description": "Tooltip for feeds bookmark folder label"
+	},
+	"htm_prefsTipTitleRefreshFeedsOnSidebar": {
+		"message": "כאשר מושבת, אפשרות זו מאיצה את תהליך טעינת סרגל הצד. עם זאת, הזנות יציגו סטטוס לא מעודכן עד לרענון ידני או באמצעות רענון מתוזמן.",
+		"description": "Tooltip for refresh feeds on sidebar launch label"
+	},
+	"htm_prefsTipTitleNotifyFeedUpdatesClosed": {
+		"message": "מציג תג 'N' ירוק על כפתור סרגל הכלים של התוסף כאשר מזוהה עדכון הזנה בזמן שסרגל הצד סגור.\n\nהזנות אינן מתרעננות ברקע בזמן שסרגל הצד סגור.",
+		"description": "Tooltip for notify feed updates while sidebar is closed label"
+	},
+	"htm_prefsTipTitleFeedRefreshMethod": {
+		"message": "שיטות רענון הזנות:\n \u25CF מאומץ\u2002–\u2002טוען את כל ההזנות בו-זמנית באצווה אחת.\n \u25CF מתון\u2002–\u2002טוען הזנות ב-3 אצוות, עם הפסקות של 2 שניות בין אצוות.\n \u25CF רגוע\u2002–\u2002טוען הזנות ב-5 אצוות, עם הפסקות של 3 שניות בין אצוות.\n \u25CF קל\u2002–\u2002טוען הזנות ב-10 אצוות, עם הפסקות של 4 שניות בין אצוות.\n \u25CF עצל\u2002–\u2002טוען הזנות אחת אחת, עם הפסקה של 1.5 שניות בין כל הזנה.\n",
+		"description": "Tooltip for feed refresh method label"
+	},
+	"htm_prefsTipTitleSingleFeedTimeout": {
+		"message": "טווח פסק זמן: 10 - 300 שניות",
+		"description": "Tooltip for single feed fetching timeout label"
+	},
+	"htm_prefsTipTitleShowUnreadStats": {
+		"message": "הפעלת אפשרות זו מוסיפה שלב עיבוד נוסף לכל הזנה במהלך עדכוני תצוגה.",
+		"description": "Tooltip for show unread feeds and items label"
+	},
+	"htm_prefsTipTitleOrderFeedItemsChrono": {
+		"message": "כאשר מופעל, פריטי הזנה הן בסרגל הצד והן בתצוגה המקדימה יסודרו לפי חותמת זמן. אחרת, הם ישמרו על הסדר המקורי שלהם ממקור ההזנה.",
+		"description": "Tooltip for order feed-items chronologically label"
+	},
+	"htm_prefsTipTitleDetectFeedsInWebPage": {
+		"message": "הפעלת תכונה זו מוסיפה שלב עיבוד נוסף לכל דף אינטרנט במהלך טעינת הדפדפן.",
+		"description": "Tooltip for detect feeds in web pages label"
+	},
+	"htm_prefsTipTitleFeedItemsOpenArticles": {
+		"message": "לחיצה אמצעית פותחת את המאמר באמצעות האפשרות החלופית (שלא נבחרה).\n\n\u2731 בנוסף, השתמש ב-Ctrl+Click לפתיחה בלשונית חדשה או Shift+Click לפתיחה בחלון חדש.",
+		"description": "Tooltip for feed-items open articles label"
+	},
+	"htm_prefsTipTitleMarkFeedPreviewRead": {
+		"message": "הגדרה זו חלה רק כאשר התצוגה המקדימה של ההזנה נפתחת מתצוגת העץ של סרגל הצד.",
+		"description": "Tooltip for mark as read when opening feed preview label"
+	},
+	"htm_prefsTipTitleSidebarFont": {
+		"message": "ניתן לבחור גופן מהרשימה או להקליד שם גופן מותאם אישית (בפריט האחרון). אם הגופן אינו נתמך, Sage-Like ישתמש בברירת המחדל של הדפדפן.",
+		"description": "Tooltip for sidebar font label"
+	},
+	"htm_prefsTipTitleIncreaseUnreadFontSize": {
+		"message": "מגביר את הנראות של פריטים שלא נקראו מעבר להדגשת הגופן, שימושי במיוחד בעת שימוש בערכת צבעים כהה בסרגל הצד.",
+		"description": "Tooltip for increase font size of unread items label"
+	},
+	"htm_prefsTipTitleTooltipPopupDelay": {
+		"message": "טווח השהיה: 0 עד 1500 מילישניות (עד 1.5 שניות)",
+		"description": "Tooltip for tooltip popup delay label"
+	},
+	"htm_prefsTipTitleCSSSourceCode": {
+		"message": "תוכן ה-CSS נשמר פנימית. אם תשנה את קובץ המקור, עליך לייבא אותו מחדש.\nלחלופין, השתמש בכפתור 'עריכה...' כדי לשנות את הקוד המיובא ישירות.\n\n\u2731 לדוגמאות, לחץ על הקישור 'CSS מותאם אישית לתצוגה מקדימה' בפינה השמאלית התחתונה של דף זה.",
+		"description": "Tooltip for CSS source code label"
+	},
+	"htm_prefsTipTitleManage": {
+		"message": "הערות:\n\u00A0\u25CF\u00A0\"ייבוא הגדרות...\" עלול להיכשל בהגדרה/שחזור של \"תיקיית סימניות הזנות\" שנבחרה אם היא חסרה בדפדפן.\n\u00A0\u25CF\u00A0\"שחזור ברירות מחדל\" ינקה הן את \"תיקיית סימניות הזנות\" שנבחרה והן כל \"קוד מקור CSS\" שיובא.\n\u00A0\u25CF\u00A0\"טעינה מחדש של התוסף\" תסגור לשונית זו.",
+		"description": "Tooltip for manage options label"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// syndication/feedFactory.js messages
+
+	"js_feedFactoryErrorFeedFormat": {
+		"message": "תבנית ההזנה אינה XML או JSON.",
+		"description": "Error message shown when the feed document format cannot be identified as XML or JSON"
+	},
+	"js_feedFactoryErrorFeedNotIdentified": {
+		"message": "לא זוהתה הזנת RSS במסמך",
+		"description": "Error message shown when the RSS feed structure is not recognized in the XML document"
+	},
+	"js_feedFactoryErrorJsonVersionString": {
+		"message": "jsonfeed לא תקין, מחרוזת רמה עליונה 'version:' אינה מוגדרת.",
+		"description": "Error message shown when JSON feed is missing the required 'version' string property"
+	},
+	"js_feedFactoryErrorJsonVersionValue": {
+		"message": "jsonfeed לא תקין, ערך גרסה לא צפוי.",
+		"description": "Error message shown when JSON feed has an invalid or unsupported version value"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// syndication/syndication.js messages
+
+	"js_syndicationErrorGetFeedData": {
+		"message": "קבלת נתוני ההזנה נכשלה.",
+		"description": "Error message shown when the feed data cannot be retrieved from the parsed feed"
+	},
+	"js_syndicationErrorNoFeedItems": {
+		"message": "לא נמצאו פריטי RSS במסמך.",
+		"description": "Error message shown when no feed items are found in the feed document"
+	},
+	"js_syndicationErrorGetFeedItems": {
+		"message": "קבלת פריטי ההזנה נכשלה.",
+		"description": "Error message shown when feed items cannot be extracted from the feed data"
+	},
+	"js_syndicationErrorGetResponseStream": {
+		"message": "קבלת זרם התגובה (blob) נכשלה.",
+		"description": "Error message shown when the response stream (blob) cannot be obtained during feed fetching"
+	},
+	"js_syndicationErrorRetrieveFeedSource": {
+		"message": "נכשל באחזור מקור הזנה מכתובת URL.",
+		"description": "Error message shown when the feed source cannot be retrieved from the specified URL"
+	},
+	"js_syndicationErrorFetchFeedFromURL": {
+		"message": "נכשל במשיכת הזנה מכתובת URL.",
+		"description": "Error message shown when the fetch operation fails while retrieving a feed from a URL"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// shared/commmon.js messages
+
+	"js_commonRelativeTimeAgo": {
+		"message": "לפני $UNIT$",
+		"description": "Used for past times, e.g., '5 minutes ago'",
+		"placeholders": {
+			"UNIT": {
+				"content": "$1",
+				"example": "5 days"
+			}
+		}
+	},
+	"js_commonRelativeTimeIn": {
+		"message": "בעוד $UNIT$",
+		"description": "Used for future times, e.g., 'in 5 minutes'",
+		"placeholders": {
+			"UNIT": {
+				"content": "$1",
+				"example": "3 minutes"
+			}
+		}
+	},
+	"js_commonRelativeTimeJustNow": {
+		"message": "ממש עכשיו",
+		"description": "Used for very recent times"
+	},
+	"js_commonRelativeTime_year": {
+		"message": "שנה $NUMBER$",
+		"description": "Singular form of 'year' in relative time expressions",
+		"placeholders": {
+			"NUMBER": {
+				"content": "$1",
+				"example": "5"
+			}
+		}
+	},
+	"js_commonRelativeTime_years": {
+		"message": "$NUMBER$ שנים",
+		"description": "Plural form of 'year' in relative time expressions",
+		"placeholders": {
+			"NUMBER": {
+				"content": "$1",
+				"example": "3"
+			}
+		}
+	},
+	"js_commonRelativeTime_month": {
+		"message": "חודש $NUMBER$",
+		"description": "Singular form of 'month' in relative time expressions",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_months": {
+		"message": "$NUMBER$ חודשים",
+		"description": "Plural form of 'month' in relative time expressions",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_day": {
+		"message": "יום $NUMBER$",
+		"description": "Singular form of 'day'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_days": {
+		"message": "$NUMBER$ ימים",
+		"description": "Plural form of 'day'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_hour": {
+		"message": "שעה $NUMBER$",
+		"description": "Singular form of 'hour'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_hours": {
+		"message": "$NUMBER$ שעות",
+		"description": "Plural form of 'hour'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_minute": {
+		"message": "דקה $NUMBER$",
+		"description": "Singular form of 'minute'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_minutes": {
+		"message": "$NUMBER$ דקות",
+		"description": "Plural form of 'minute'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_second": {
+		"message": "שנייה $NUMBER$",
+		"description": "Singular form of 'second'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_seconds": {
+		"message": "$NUMBER$ שניות",
+		"description": "Plural form of 'second'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTimeShortJustNow": {
+		"message": "עכשיו",
+		"description": "Short form of 'just now' from 'js_commonRelativeTimeJustNow'"
+	},
+	"js_commonRelativeTimeShortMinute": {
+		"message": "דק'",
+		"description": "Short form of 'minute'"
+	},
+	"js_commonRelativeTimeShortSecond": {
+		"message": "שנ'",
+		"description": "Short form of 'second'"
+	},
+
+	"js_commonUtilClipboardReadError": {
+		"message": "קריאת הנתונים מהלוח נכשלה",
+		"description": "Error message shown when reading from the clipboard fails"
+	},
+
+	"js_commonUtilIncognitoErrorIntro": {
+		"message": "תוסף Sage-Like אינו מורשה לפעול בחלונות פרטיים.\nלהפעלת התוסף בחלונות פרטיים:",
+		"description": "Introductory sentence explaining that the extension cannot run in private browsing mode."
+	},
+	"js_commonUtilIncognitoErrorStep1": {
+		"message": "יש ללחוץ על כפתור התפריט (3 קווים אופקיים).",
+		"description": "Step 1 in the instructions for enabling the extension in private windows."
+	},
+	"js_commonUtilIncognitoErrorStep2": {
+		"message": "יש לבחור \"תוספות\" או \"הרחבות\" מהתפריט.",
+		"description": "Step 2: user selects Add-ons or Extensions."
+	},
+	"js_commonUtilIncognitoErrorStep3": {
+		"message": "יש לבחור \"הרחבות\" מסרגל הצד.",
+		"description": "Step 3: user opens the Extensions category."
+	},
+	"js_commonUtilIncognitoErrorStep4": {
+		"message": "יש ללחוץ על התוסף \"Sage-Like\".",
+		"description": "Step 4: user opens the Sage-Like extension details page."
+	},
+	"js_commonUtilIncognitoErrorStep5": {
+		"message": "יש לגלול מטה לאפשרות \"הפעל בחלונות פרטיים\".",
+		"description": "Step 5: user locates the 'Run in Private Windows' toggle."
+	},
+	"js_commonUtilIncognitoErrorStep6": {
+		"message": "יש ללחוץ על כפתור הרדיו \"אפשר\".",
+		"description": "Step 6: user enables the extension for private browsing."
+	},
+
+
+	"js_commonUtilFeedTooltipTitle": {
+		"message": "כותרת:",
+		"description": "Label for the feed title in tooltip."
+	},
+	"js_commonUtilFeedTooltipUrl": {
+		"message": "כתובת:",
+		"description": "Label for the feed URL in tooltip."
+	},
+	"js_commonUtilFeedTooltipError": {
+		"message": "שגיאה:",
+		"description": "Label for the feed error message in tooltip."
+	},
+	"js_commonUtilFeedTooltipFormat": {
+		"message": "תבנית:",
+		"description": "Label for the feed format type in tooltip."
+	},
+	"js_commonUtilFeedTooltipUpdate": {
+		"message": "עדכון:",
+		"description": "Label for the feed update time or date in tooltip."
+	},
+	"js_commonUtilFeedTooltipItems": {
+		"message": "פריטים:",
+		"description": "Label for the feed item count in tooltip."
+	},
+	"js_commonUtilFeedTooltipExpired": {
+		"message": "פג תוקף:",
+		"description": "Label indicating whether the feed has expired."
+	},
+	"js_commonUtilFeedTooltipWarning": {
+		"message": "אזהרה:",
+		"description": "Label used before warning messages in tooltip."
+	},
+	"js_commonUtilFeedTooltipYes": {
+		"message": "כן",
+		"description": "Used to indicate an affirmative status (e.g., expired = Yes)."
+	},
+	"js_commonUtilFeedTooltipWarningFixable": {
+		"message": "יש שגיאות ניתוח הניתנות לתיקון. העיבוד עשוי להימשך זמן רב יותר.",
+		"description": "Warning message for feeds that contain recoverable parsing errors."
+	},
+	"js_commonUtilFeedTooltipInstructionPreview": {
+		"message": "\u2731 לחיצה אמצעית לתצוגה מקדימה של הזנה זו.",
+		"description": "Instruction displayed at the end of the tooltip."
+	},
+
+	"js_commonUtilPermissionRequiredTitle": {
+		"message": "נדרשת הרשאה",
+		"description": "Displayed as the title of the warning box when the extension lacks a required permission."
+	},
+	"js_commonUtilPermissionRequiredText": {
+		"message": "ההרשאה הנדרשת \"גישה לנתונים שלך בכל האתרים\" אינה מאושרת על ידי הדפדפן.",
+		"description": "Explains that the extension cannot function because the browser has blocked the required permission. IMPORTANT: The permission name inside the quotes must exactly match the wording displayed by the browser in its permissions UI."
+	},
+	"js_commonUtilPermissionRequiredLearnMore": {
+		"message": "מידע נוסף",
+		"description": "Label of the link that leads to an explanation about the missing permission."
+	},
+	"js_commonUtilPermissionRequiredButtonText": {
+		"message": "בקשת הרשאות",
+		"description": "Text displayed on the button that lets the user grant the necessary permissions."
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/panel.html messages
+
+	"htm_panelButtonRefresh": {
+		"message": "רענון הזנות",
+		"description": "Tooltip for the refresh feeds button in the toolbar"
+	},
+	"htm_panelButtonDiscover": {
+		"message": "גילוי הזנות",
+		"description": "Tooltip for the discover feeds button in the toolbar"
+	},
+	"htm_panelButtonMarkRead": {
+		"message": "סימון כל ההזנות כנקראו (R)",
+		"description": "Tooltip for the mark all feeds as read button in the toolbar"
+	},
+	"htm_panelButtonMarkUnread": {
+		"message": "סימון כל ההזנות כלא נקראו (U)",
+		"description": "Tooltip for the mark all feeds as unread button in the toolbar"
+	},
+	"htm_panelButtonExpandAll": {
+		"message": "הרחבת הכל",
+		"description": "Tooltip for the expand all button in the toolbar"
+	},
+	"htm_panelButtonCollapseAll": {
+		"message": "כיווץ הכל",
+		"description": "Tooltip for the collapse all button in the toolbar"
+	},
+	"htm_panelButtonFilter": {
+		"message": "סינון הזנות מוצגות",
+		"description": "Tooltip for the filter button in the filter widget"
+	},
+	"htm_panelButtonReapplyFilter": {
+		"message": "החלת מסנן מחדש",
+		"description": "Tooltip for the reapply filter button in the filter widget"
+	},
+	"htm_panelButtonClearFilter": {
+		"message": "ניקוי מסנן",
+		"description": "Tooltip for the clear filter button in the filter widget"
+	},
+	"htm_panelButtonPreferences": {
+		"message": "דף ההגדרות",
+		"description": "Tooltip for the preferences button in the toolbar"
+	},
+
+	"htm_panelTreeFilteredMessage": {
+		"message": "העץ מסונן וחלק מההזנות מוסתרות.",
+		"description": "Message shown when the feed tree is filtered"
+	},
+	"htm_panelSplitterTooltip": {
+		"message": "30/70:\u2002Shift + לחיצה כפולה\n50/50:\u2002לחיצה כפולה\n70/30:\u2002Ctrl + לחיצה כפולה",
+		"description": "Tooltip explaining splitter drag ratios and shortcuts"
+	},
+
+	//////////Discovery////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelDiscoveryCaption": {
+		"message": "גילוי הזנות",
+		"description": "Caption for discover feeds panel"
+	},
+	"htm_panelButtonSelectAll": {
+		"message": "בחירת כל ההזנות",
+		"description": "Tooltip for the select all feeds button in discover panel"
+	},
+	"htm_panelButtonRediscover": {
+		"message": "גילוי מחדש של הזנות",
+		"description": "Tooltip for the rediscover feeds button in discover panel"
+	},
+	"htm_panelDiscoveryAggressiveTooltip": {
+		"message": "גילוי אגרסיבי: \n \u25CF ללא: בדיקת קישורי RSS הניתנים לגילוי סטנדרטי בלבד. \n \u25CF נמוכה: בדיקת כל היפר-קישור בדף שכתובת ה-URL שלו עשויה לרמז שהוא מקשר להזנת RSS. \n \u25CF גבוהה: בדיקת כל ההיפר-קישורים בדף (התהליך עשוי להיות ארוך). \n\n\u2731 'נמוך' ו-'גבוה' יבדקו גם במסמכי iframe (רמה ראשונה בלבד).",
+		"description": "Tooltip for aggressiveness control in discover feeds panel"
+	},
+	"htm_panelDiscoveryAggressiveness": {
+		"message": "אגרסיביות:",
+		"description": "Caption for aggressiveness control in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelNone": {
+		"message": "ללא",
+		"description": "Caption for none aggressive level in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelLow": {
+		"message": "נמוכה",
+		"description": "Caption for low aggressive level in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelHigh": {
+		"message": "גבוהה",
+		"description": "Caption for high aggressive level in discover feeds panel"
+	},
+	"htm_panelButtonAdd": {
+		"message": "הוספה",
+		"description": "Label for add button in discover feeds panel"
+	},
+	"htm_panelButtonClose": {
+		"message": "סגירה",
+		"description": "Label for close button in discover feeds panel"
+	},
+
+	//////////Properties///////////////////////////////////////////////////////////////////////////
+
+	"htm_panelPropertiesCaption": {
+		"message": "מאפיינים",
+		"description": "Caption for properties panel"
+	},
+	"htm_panelLabelTitle": {
+		"message": "כותרת:",
+		"description": "Label for title field in properties panel"
+	},
+	"htm_panelLabelLocation": {
+		"message": "מיקום:",
+		"description": "Label for Location field in properties panel"
+	},
+	"htm_panelLabelUpdateTitle": {
+		"message": "עדכון כותרת מהזנה",
+		"description": "Label for update title checkbox in properties panel"
+	},
+	"htm_panelLabelOpenInPreview": {
+		"message": "פתיחה בתצוגה מקדימה של הזנה",
+		"description": "Label for open in feed preview checkbox in properties panel"
+	},
+	"htm_panelLabelIgnoreUpdates": {
+		"message": "התעלמות מעדכונים, הזנה תמיד מסומנת כ'נקראה'",
+		"description": "Label for Ignore updates checkbox in properties panel"
+	},
+	"htm_panelLabelFeedMaxItems": {
+		"message": "מקסימום פריטי הזנה (0 ללא הגבלה):",
+		"description": "Label for Max feed-items in properties panel"
+	},
+	"htm_panelLabelCreateInFolder": {
+		"message": "יצירה בתוך התיקייה שנבחרה",
+		"description": "Label for create inside folder checkbox in properties panel"
+	},
+	"htm_panelButtonSave": {
+		"message": "שמירה",
+		"description": "Label for save button in properties panel"
+	},
+	"htm_panelButtonCancel": {
+		"message": "ביטול",
+		"description": "Label for cancel button in properties and signin panels"
+	},
+
+	//////////Sign in//////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelSigninCaption": {
+		"message": "כניסה",
+		"description": "Caption for signin panel"
+	},
+	"htm_panelLabelSigninUserName": {
+		"message": "שם משתמש:",
+		"description": "Label for user name in signin panel"
+	},
+	"htm_panelLabelSigninPassword": {
+		"message": "סיסמה:",
+		"description": "Label for password in signin panel"
+	},
+	"htm_panelButtonSignin": {
+		"message": "כניסה",
+		"description": "Label for sign in button in signin panel"
+	},
+
+	//////////Message//////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelButtonOK": {
+		"message": "אישור",
+		"description": "Label for OK button in message panel"
+	},
+	"htm_panelButtonYes": {
+		"message": "כן",
+		"description": "Label for Yes button in message panel"
+	},
+	"htm_panelButtonNo": {
+		"message": "לא",
+		"description": "Label for No button in message panel"
+	},
+
+	//////////ContextMenu//////////////////////////////////////////////////////////////////////////
+
+	"htm_panelContextMenuOpen": {
+		"message": "פתיחה",
+		"description": "Context menu item to open feed or feed item"
+	},
+	"htm_panelContextMenuOpenNewTab": {
+		"message": "פתיחה בלשונית חדשה",
+		"description": "Context menu item to open feed or feed item in new tab"
+	},
+	"htm_panelContextMenuOpenNewWin": {
+		"message": "פתיחה בחלון חדש",
+		"description": "Context menu item to open feed or feed item in new window"
+	},
+	"htm_panelContextMenuOpenNewPrivateWin": {
+		"message": "פתיחה בחלון פרטי חדש",
+		"description": "Context menu item to open feed or feed item in private window"
+	},
+	"htm_panelContextMenuOpenAllUnread": {
+		"message": "פתיחת כל הלא נקראו בלשוניות",
+		"description": "Context menu item to open all unread items in new tabs"
+	},
+	"htm_panelContextMenuSignin": {
+		"message": "כניסה...",
+		"description": "Context menu item to sign in to a feed requiring authentication"
+	},
+	"htm_panelContextMenuToggleReadUnread": {
+		"message": "החלפת מצב נקרא/לא נקרא",
+		"description": "Context menu item to toggle read/unread state"
+	},
+	"htm_panelContextMenuMarkAllRead": {
+		"message": "סימון כל הזנות העץ כנקראו",
+		"description": "Context menu item to mark all tree feeds as read"
+	},
+	"htm_panelContextMenuMarkAllUnread": {
+		"message": "סימון כל הזנות העץ כלא נקראו",
+		"description": "Context menu item to mark all tree feeds as unread"
+	},
+	"htm_panelContextMenuNewFeed": {
+		"message": "הזנה חדשה...",
+		"description": "Context menu item to create a new feed"
+	},
+	"htm_panelContextMenuNewFolder": {
+		"message": "תיקייה חדשה...",
+		"description": "Context menu item to create a new folder"
+	},
+	"htm_panelContextMenuCopyLink": {
+		"message": "העתקת קישור",
+		"description": "Context menu item to copy feed URL"
+	},
+	"htm_panelContextMenuPasteLink": {
+		"message": "הדבקת קישור",
+		"description": "Context menu item to paste feed URL"
+	},
+	"htm_panelContextMenuDelete": {
+		"message": "מחיקה...",
+		"description": "Context menu item to delete a feed or folder"
+	},
+	"htm_panelContextMenuProperties": {
+		"message": "מאפיינים...",
+		"description": "Context menu item to show properties dialog"
+	},
+	"htm_panelContextMenuSummary": {
+		"message": "סיכום...",
+		"description": "Context menu item to show feed summary"
+	},
+	"htm_panelContextMenuSwitchDirection": {
+		"message": "החלפת כיוון תצוגה",
+		"description": "Context menu item to switch view direction"
+	},
+	"htm_panelContextMenuCopy": {
+		"message": "העתקה",
+		"description": "Context menu item to copy feed item URL"
+	},
+	"htm_panelContextMenuListMarkAllRead": {
+		"message": "סימון הכל כנקרא",
+		"description": "Context menu item to mark all feed items as read"
+	},
+	"htm_panelContextMenuListMarkAllUnread": {
+		"message": "סימון הכל כלא נקרא",
+		"description": "Context menu item to mark all feed items as unread"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/panel.js messages
+
+	"js_panelRequestPermissionsText": {
+		"message": "בקשת הרשאות",
+		"description": "Link text for requesting browser permissions"
+	},
+	"js_panelRequiredPermissionsInstructions": {
+		"message": "כדי לאפשר את ההרשאה הנדרשת, יש לעבור אל \"מנהל התוספות\" של הדפדפן, לבחור \"הרחבות\" ואז \"Sage-Like\". יש לפתוח את לשונית \"הרשאות\" ולאפשר \"גישה לנתונים שלך בכל האתרים\". לחלופין, ניתן לבחור בקישור למטה:",
+		"description": "Instructions shown to the user explaining how to grant required permissions in the browser"
+	},
+	"js_panelRequiredPermissionsCaption": {
+		"message": "נדרשות הרשאות",
+		"description": "Caption for the permissions required message box"
+	},
+	"js_panelNewVersionReleased": {
+		"message": "שוחררה גרסה חדשה.",
+		"description": "Message shown when a new version of the extension is available"
+	},
+	"js_panelNewVersionIncompatibleBrowser": {
+		"message": "גרסה מעודכנת זמינה, $NEW_VERSION$. עם זאת, היא אינה תואמת לדפדפן הנוכחי שלך (Firefox $BROWSER_VERSION$).\n\nמומלץ לעדכן את הדפדפן שלך לגרסה האחרונה.",
+		"description": "Message shown when a new version is available but incompatible with the current browser version",
+		"placeholders": {
+			"NEW_VERSION": { "content": "$1" },
+			"BROWSER_VERSION": { "content": "$2" }
+		}
+	},
+	"js_panelNewVersionCaption": {
+		"message": "עדכון זמין",
+		"description": "Caption for the available update notification message box"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/discoveryView.js messages
+
+	"js_discoveryTabLoading": {
+		"message": "הלשונית הנוכחית עדיין נטענת.",
+		"description": "Message shown when trying to discover feeds while the current tab is still loading"
+	},
+	"js_discoveryTabNotAccessable": {
+		"message": "לא ניתן לגשת ללשונית הנוכחית.",
+		"description": "Message shown when the extension cannot access the current tab for feed discovery"
+	},
+	"js_discoveryAborted": {
+		"message": " - בוטל!",
+		"description": "Suffix message appended to status text when feed discovery is aborted"
+	},
+	"js_discoveryNoValidFeeds": {
+		"message": "לא התגלו הזנות תקינות.",
+		"description": "Message shown when feed discovery completes but finds no valid feeds"
+	},
+	"js_discoveryNoFeedsDiscovered": {
+		"message": "לא התגלו הזנות.",
+		"description": "Message shown when feed discovery completes but finds no feeds at all"
+	},
+	"js_discoveryRequiredPermissions": {
+		"message": "הרשאות נדרשות",
+		"description": "Message shown when feed discovery cannot proceed due to missing permissions"
+	},
+	"js_discoveryAbort": {
+		"message": "ביטול!",
+		"description": "Button text to abort the feed discovery process"
+	},
+	"js_discoveryAlreadyInTree": {
+		"message": "כבר בעץ: '$FEED_NAME$'",
+		"description": "Message shown when attempting to add a feed that already exists in the feed tree",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+	"js_discoveryNothingToAdd": {
+		"message": "אין מה להוסיף",
+		"description": "Message shown when no feeds are selected for adding after discovery"
+	},
+	"js_discoveryFeedsFolderNotSet": {
+		"message": "תיקיית הזנות לא הוגדרה בדף ההגדרות",
+		"description": "Message shown when trying to add feeds but the feeds folder has not been configured"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/messageView.js messages
+
+	"js_messageAttentionCaption": {
+		"message": "לתשומת לב!",
+		"description": "Default caption for attention/alert message boxes in the sidebar"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/propertiesView.js messages
+
+	"js_propertiesMaxFeedItemsNotification": {
+		"message": "הוגדר \"מקסימום פריטי הזנה\" ל-$FEED_MAX_ITEMS$.\n\nכאשר המספר המקסימלי של פריטי הזנה מוצגים מוגבל והאפשרות \"סדר פריטי הזנה כרונולוגית\" מופעלת, זה עלול, אך לא בהכרח, לגרום להצגת פריטי הזנה שאינם העדכניים ביותר.\n\nזה רלוונטי רק להזנות שבהן הפריטים במקור אינם מסודרים כרונולוגית.\n\n",
+		"description": "Warning notification shown when user sets a maximum feed items limit that could affect chronological ordering",
+		"placeholders": {
+			"FEED_MAX_ITEMS": { "content": "$1" }
+		}
+	},
+	"js_propertiesMaxFeedItemsDontShowLabel": {
+		"message": "הסתרת הודעה זו בעתיד",
+		"description": "Label for the checkbox to suppress future max feed items notifications"
+	},
+	"js_propertiesMaxFeedItemsCaption": {
+		"message": "הגבלת מקסימום פריטי הזנה",
+		"description": "Caption for the max feed items notification dialog"
+	},
+
+	"js_propertiesTitleEmpty": {
+		"message": "טקסט הכותרת ריק.",
+		"description": "Validation error message when feed/folder title field is empty"
+	},
+	"js_propertiesURLInvalid": {
+		"message": "כתובת המיקום אינה תקינה.",
+		"description": "Validation error message when feed URL is malformed or invalid"
+	},
+	"js_propertiesMaxFeedItemsInvalid": {
+		"message": "ערך מקסימום פריטי הזנה אינו תקין. טווח: $MIN$ - $MAX$",
+		"description": "Validation error message when max feed items value is outside acceptable range",
+		"placeholders": {
+			"MIN": { "content": "$1" },
+			"MAX": { "content": "$1" }
+		}
+	},
+	"js_propertiesNothingToModify": {
+		"message": "אין מה לשנות.",
+		"description": "Message shown when user tries to save properties without making any changes"
+	},
+	"js_propertiesFeed": {
+		"message": "הזנה",
+		"description": "Label text identifying properties view is for a feed"
+	},
+	"js_propertiesFolder": {
+		"message": "תיקייה",
+		"description": "Label text identifying properties view is for a folder"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/rssListView.js messages
+
+	"js_rssListFailedURL": {
+		"message": "כתובת URL שנכשלה: ",
+		"description": "Prefix text shown before a feed URL that failed to load"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/rssTreeView.js messages
+
+	"js_rssTreeEmptyMessage": {
+		"message": "זה מרגיש כל כך ריק, בלי הזנות",
+		"description": "Message displayed when the RSS tree view is empty (no feeds)"
+	},
+	"js_rssTreeNoFeedsFolder": {
+		"message": "תיקיית ההזנות אינה מוגדרת בדף ההגדרות.",
+		"description": "Error message when no feeds folder has been configured in preferences"
+	},
+
+	"js_rssTreeFailedLoadFeedsFolder": {
+		"message": "נכשל בטעינת תיקיית הזנות: ",
+		"description": "Error prefix shown when feeds folder cannot be loaded from bookmarks"
+	},
+	"js_rssTreeNewFeed": {
+		"message": "הזנה חדשה",
+		"description": "Default title for a newly created feed item"
+	},
+	"js_rssTreeNewFolder": {
+		"message": "תיקייה חדשה",
+		"description": "Default title for a newly created folder item"
+	},
+	"js_rssTreeSigninFailed": {
+		"message": "כניסה נכשלה",
+		"description": "Error message when authentication/sign-in fails for a feed requiring credentials"
+	},
+	"js_rssTreeDeleteFolderMsg": {
+		"message": "האם למחוק לצמיתות את התיקייה \"$FOLDER_NAME$\" ואת כל תוכנה מהסימניות שלך?\n\n\"פעולה זו אינה הפיכה.\"",
+		"description": "Confirmation message when user attempts to delete a folder and all its feed contents",
+		"placeholders": {
+			"FOLDER_NAME": { "content": "$1" }
+		}
+	},
+	"js_rssTreeDeleteFeedMsg": {
+		"message": "האם למחוק לצמיתות את ההזנה $FEED_NAME$ מהסימניות שלך?\n\n\"פעולה זו אינה הפיכה.\"",
+		"description": "Confirmation message when user attempts to delete a feed",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+	"js_rssTreeDeleteFolderCaption": {
+		"message": "מחיקת תיקייה",
+		"description": "Caption for the delete folder confirmation dialog"
+	},
+	"js_rssTreeDeleteFeedCaption": {
+		"message": "מחיקת הזנה",
+		"description": "Caption for the delete feed confirmation dialog"
+	},
+	"js_rssTreeIgnored": {
+		"message": "בהתעלמות",
+		"description": "Status text indicating a feed is being ignored/skipped during updates"
+	},
+
+	//////////FilterTooltip////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeFilterTipTitle": {
+		"message": "שיטות לסינון הזנות:",
+		"description": "Title for the feed filter tooltip."
+	},
+	"js_rssTreeFilterTipText": {
+		"message": "סינון באמצעות טקסט שאינו תלוי רישיות.",
+		"description": "Tooltip line for simple text filtering."
+	},
+	"js_rssTreeFilterTipRegex": {
+		"message": "סינון באמצעות תבנית ביטוי רגולרי (Regular Expression) המוקפת בין שני סימני $SLASH$.",
+		"description": "Tooltip line for regex filtering. $SLASH$ will be replaced by the '/' character.",
+		"placeholders": {
+			"SLASH": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipRegexFlag": {
+		"message": "דגל $FLAG_I$ (התעלם מרישיות) נתמך כאשר הוא ממוקם אחרי ה-'/' השני.",
+		"description": "Tooltip line for regex flag. $FLAG_I$ will be replaced by the 'i' flag.",
+		"placeholders": {
+			"FLAG_I": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipFolder": {
+		"message": "סינון כותרת תיקייה באמצעות טקסט עם קידומת של סימן $BACKSLASH$ בודד.",
+		"description": "Tooltip line for folder filtering. $BACKSLASH$ will be replaced by the '\\' character.",
+		"placeholders": {
+			"BACKSLASH": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipUrl": {
+		"message": "סינון כתובת URL באמצעות טקסט עם קידומת של סימן $PERCENT$ בודד.",
+		"description": "Tooltip line for URL filtering. $PERCENT$ will be replaced by the '%' character.",
+		"placeholders": {
+			"PERCENT": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTime": {
+		"message": "סינון זמן עדכון באמצעות טקסט זמן יחסי עם קידומת של סימן $TILDE$ בודד.",
+		"description": "Tooltip line for time filtering. $TILDE$ will be replaced by the '~' character.",
+		"placeholders": {
+			"TILDE": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimePattern": {
+		"message": "תבנית ביטוי זמן יחסי: $AGO_PATTERN$ כאשר $TIME_UNIT$",
+		"description": "Tooltip line for time pattern. $AGO_PATTERN$ is the literal string '[number] [time_unit] ago', $TIME_UNIT$ is '[time_unit]'.",
+		"placeholders": {
+			"AGO_PATTERN": { "content": "$1" },
+			"TIME_UNIT": { "content": "$2" }
+		}
+	},
+	"js_rssTreeFilterTipTimeUnits": {
+		"message": "יכול להיות: $SECONDS$, $MINUTES$, $HOURS$, $DAYS$, $WEEKS$, $MONTHS$ או $YEARS$.",
+		"description": "List of non-translatable time units. $SECONDS$='seconds', $MINUTES$='minutes', $HOURS$='hours', $DAYS$='days', $WEEKS$='weeks', $MONTHS$='months', $YEARS$='years'.",
+		"placeholders": {
+			"SECONDS": { "content": "$1" },
+			"MINUTES": { "content": "$2" },
+			"HOURS": { "content": "$3" },
+			"DAYS": { "content": "$4" },
+			"WEEKS": { "content": "$5" },
+			"MONTHS": { "content": "$6" },
+			"YEARS": { "content": "$7" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExamples": {
+		"message": "דוגמאות:",
+		"description": "Tooltip line for time examples."
+	},
+	"js_rssTreeFilterTipTimeExample1": {
+		"message": "$EXAMPLE_AGO_1$ – להזנות שלא עודכנו נכון ללפני 5 שבועות.",
+		"description": "Tooltip time example 1. $EXAMPLE_AGO_1$ is the non-translatable example '~5 weeks ago'.",
+		"placeholders": {
+			"EXAMPLE_AGO_1": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExample2": {
+		"message": "$EXAMPLE_AGO_2$ – להזנות שלא עודכנו נכון ללפני 12 חודשים.",
+		"description": "Tooltip time example 2. $EXAMPLE_AGO_2$ is the non-translatable example '~12 months ago'.",
+		"placeholders": {
+			"EXAMPLE_AGO_2": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExample3": {
+		"message": "$EXAMPLE_AGO_3$ – להזנות שכן עודכנו נכון ללפני 3 ימים (שים לב ל-$CARET$).",
+		"description": "Tooltip time example 3. $EXAMPLE_AGO_3$ is the non-translatable example '~^3 days ago', $CARET$ is the '^' character.",
+		"placeholders": {
+			"EXAMPLE_AGO_3": { "content": "$1" },
+			"CARET": { "content": "$2" }
+		}
+	},
+	"js_rssTreeFilterTipStatus": {
+		"message": "סינון סטטוס באמצעות פקודות מיוחדות עם קידומת של סימן $GREATER_THAN$ בודד:",
+		"description": "Tooltip line for status filtering. $GREATER_THAN$ will be replaced by the '>' character.",
+		"placeholders": {
+			"GREATER_THAN": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusUnread": {
+		"message": "שימוש ב-$CMD_UNREAD$ להזנות שלא נצפו.",
+		"description": "Tooltip status example. $CMD_UNREAD$ is the non-translatable command '>unread'.",
+		"placeholders": {
+			"CMD_UNREAD": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusRead": {
+		"message": "שימוש ב-$CMD_READ$ להזנות שנצפו.",
+		"description": "Tooltip status example. $CMD_READ$ is the non-translatable command '>read'.",
+		"placeholders": {
+			"CMD_READ": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusOk": {
+		"message": "שימוש ב-$CMD_OK$ להזנות שעודכנו בהצלחה.",
+		"description": "Tooltip status example. $CMD_OK$ is the non-translatable command '>ok'.",
+		"placeholders": {
+			"CMD_OK": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusError": {
+		"message": "שימוש ב-$CMD_ERROR$ להזנות שנכשלו בעדכון.",
+		"description": "Tooltip status example. $CMD_ERROR$ is the non-translatable command '>error'.",
+		"placeholders": {
+			"CMD_ERROR": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusErrorUa": {
+		"message": "שימוש ב-$CMD_ERROR_UA$ להזנות שנכשלו בעדכון עקב חוסר אימות לקוח.",
+		"description": "Tooltip status example. $CMD_ERROR_UA$ is the non-translatable command '>error-ua'.",
+		"placeholders": {
+			"CMD_ERROR_UA": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusLoad": {
+		"message": "שימוש ב-$CMD_LOAD$ להזנות שעדיין נטענות.",
+		"description": "Tooltip status example. $CMD_LOAD$ is the non-translatable command '>load'.",
+		"placeholders": {
+			"CMD_LOAD": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusFixable": {
+		"message": "שימוש ב-$CMD_FIXABLE$ להזנות שיש להן שגיאות ניתוח הניתנות לתיקון.",
+		"description": "Tooltip status example. $CMD_FIXABLE$ is the non-translatable command '>fixable'.",
+		"placeholders": {
+			"CMD_FIXABLE": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipFooter": {
+		"message": "הזנות עשויות לשנות את הכותרת, זמן העדכון ו/או הסטטוס שלהן לאחר החלת המסנן.",
+		"description": "Final note for the filter tooltip."
+	},
+
+	//////////Summary//////////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeSummaryCaption": {
+		"message": "סיכום",
+		"description": "Caption for the feed tree summary dialog showing statistics"
+	},
+	"js_rssTreeSummaryIntro": {
+		"message": "סך הכל \"$FEEDS$\" הזנות ו-\"$FOLDERS$\" תיקיות.",
+		"description": "Introduction line showing total count of feeds and folders",
+		"placeholders": {
+			"FEEDS": { "content": "$1" },
+			"FOLDERS": { "content": "$2" }
+		}
+	},
+	"js_rssTreeSummaryFeedStatus": {
+		"message": "סטטוס הזנה",
+		"description": "Column header for feed status in summary statistics table"
+	},
+	"js_rssTreeSummaryFeedCount": {
+		"message": "ספירת הזנות",
+		"description": "Column header for feed count in summary statistics table"
+	},
+	"js_rssTreeSummaryOK": {
+		"message": "תקין",
+		"description": "Status label for feeds that updated successfully"
+	},
+	"js_rssTreeSummaryError": {
+		"message": "שגיאה",
+		"description": "Status label for feeds that failed to update"
+	},
+	"js_rssTreeSummaryRead": {
+		"message": "נקרא",
+		"description": "Status label for visited/read feeds"
+	},
+	"js_rssTreeSummaryUnread": {
+		"message": "לא נקרא",
+		"description": "Status label for unvisited/unread feeds"
+	},
+	"js_rssTreeSummaryLoading": {
+		"message": "בטעינה",
+		"description": "Status label for feeds currently being loaded/updated"
+	},
+	"js_rssTreeSummaryUnauthorized": {
+		"message": "לא מורשה",
+		"description": "Status label for feeds requiring authentication that user hasn't signed into"
+	},
+	"js_rssTreeSummaryNoUpdates30Days": {
+		"message": "אין עדכונים ב-30+ ימים",
+		"description": "Status label for feeds that haven't been updated in 30 or more days"
+	},
+	"js_rssTreeSummaryFixableParseErrors": {
+		"message": "שגיאות ניתוח הניתנות לתיקון",
+		"description": "Status label for feeds with parsing errors that can be automatically fixed"
+	},
+	"js_rssTreeSummaryDynamicNote": {
+		"message": "ערכי ספירת ההזנות הם דינמיים ועשויים להשתנות לאחר התצוגה.",
+		"description": "Note explaining that feed count statistics may change in real-time"
+	},
+	"js_rssTreeSummaryFixableTip1": {
+		"message": "הזנות עם שגיאות ניתוח הניתנות לתיקון דורשות יותר משאבים ולוקח יותר זמן לנתח ולתקן אותן.",
+		"description": "Tip explaining performance impact of feeds with fixable parsing errors"
+	},
+	"js_rssTreeSummaryFixableTip2": {
+		"message": "לבדיקתן, יש להשתמש במסנן הסטטוס &apos;>fixable&apos; בווידג'ט הסינון בסרגל הכלים.",
+		"description": "Tip instructing how to filter for feeds with fixable parsing errors"
+	},
+
+	//////////InfoBubble///////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeBubbleMsgDropInside": {
+		"message": "לחיצה על מקש Shift כדי לשחרר פריט \"בתוך\" תיקייה.",
+		"description": "Tooltip message shown during drag-and-drop to indicate Shift key usage for dropping inside folders"
+	},
+	"js_rssTreeBubbleMsgDnDError": {
+		"message": "שגיאת גרירה ושחרור בלתי צפויה (אי התאמה במזהה).\nShift+Click על כפתור סרגל הכלים \"רענון הזנות\" כדי לטעון מחדש את סרגל הצד.",
+		"description": "Error message for unexpected drag-and-drop failures with recovery instructions"
+	},
+	"js_rssTreeBubbleMsgDropTargetRemoved": {
+		"message": "שגיאת סימניות: יעד השחרור ייתכן שהוסר.\nShift+Click על כפתור סרגל הכלים \"רענון הזנות\" כדי לטעון מחדש את סרגל הצד.",
+		"description": "Error message when drag-and-drop target no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgDraggedItemRemoved": {
+		"message": "שגיאת סימניות: הפריט הנגרר ייתכן שהוסר.\nShift+Click על כפתור סרגל הכלים \"רענון הזנות\" כדי לטעון מחדש את סרגל הצד.",
+		"description": "Error message when dragged item no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgDropUrlInvalid": {
+		"message": "כתובת ה-URL ששוחררה אינה תקינה.",
+		"description": "Error message when a dropped URL is malformed or invalid"
+	},
+	"js_rssTreeBubbleMsgDropTextUrlInvalid": {
+		"message": "הטקסט ששוחרר אינו כתובת URL תקינה.",
+		"description": "Error message when dropped text content is not a valid URL"
+	},
+	"js_rssTreeBubbleMsgTargetRemoved": {
+		"message": "שגיאת סימניות: היעד ייתכן שהוסר.\nShift+Click על כפתור סרגל הכלים \"רענון הזנות\" כדי לטעון מחדש את סרגל הצד.",
+		"description": "Error message when operation target no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgTargetFolderRemoved": {
+		"message": "שגיאת סימניות: תיקיית היעד ייתכן שהוסרה.\nShift+Click על כפתור סרגל הכלים \"רענון הזנות\" כדי לטעון מחדש את סרגל הצד.",
+		"description": "Error message when target folder no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgPasteTextUrlInvalid": {
+		"message": "הטקסט שהודבק אינו כתובת URL תקינה.",
+		"description": "Error message when pasted text content is not a valid URL"
+	},
+	"js_rssTreeBubbleMsgItemAlreadyRemoved": {
+		"message": "שגיאת סימניות: הפריט ייתכן שכבר הוסר.\nShift+Click על כפתור סרגל הכלים \"רענון הזנות\" כדי לטעון מחדש את סרגל הצד.",
+		"description": "Error message when attempting to operate on an already-deleted item"
+	},
+	"js_rssTreeBubbleMsgFeedRequireSignin": {
+		"message": "הזנה דורשת כניסה.",
+		"description": "Info bubble message indicating the feed requires user authentication"
+	},
+	"js_rssTreeBubbleMsgFeedErroneous": {
+		"message": "הזנה שגויה.",
+		"description": "Info bubble message indicating the feed has errors"
+	},
+	"js_rssTreeBubbleMsgFeedsFolderModified": {
+		"message": "תיקיית ההזנות או תוכנה שונו על ידי גורם אחר.\nShift+Click לטעינה מחדש.",
+		"description": "Warning message when feeds folder has been externally modified"
+	},
+	"js_rssTreeBubbleMsgDfaultFeedsFolder": {
+		"message": "יוצר תיקיית הזנות ברירת מחדל. אנא המתן...",
+		"description": "Status message shown while creating the default feeds folder"
+	},
+	"js_rssTreeBubbleMsgHoverFilter": {
+		"message": "רחף מעל תיבת הטקסט של המסנן למידע חיוני.",
+		"description": "Hint message instructing users to hover over filter box for help"
+	},
+	"js_rssTreeBubbleMsgReapplyFilter": {
+		"message": "המצב של הזנה אחת או יותר השתנה.\nייתכן שנדרש להחיל מחדש את המסנן.",
+		"description": "Notification that feed states changed and filter results may be outdated"
+	},
+	"js_rssTreeBubbleMsgSignin": {
+		"message": "ללא אימות. יש ללחוץ לחיצה ימנית על ההזנה הנעולה ולבחור \"כניסה...\" מהתפריט, או להשתמש במקש \"L\".",
+		"description": "Instructions for signing into a feed requiring authentication"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/signinView.js messages
+
+	"js_signinCapsLockOn": {
+		"message": "מקש Caps Lock פעיל",
+		"description": "Warning message shown in sign-in form when caps lock is enabled"
+	}
+}

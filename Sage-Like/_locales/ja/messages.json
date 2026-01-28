@@ -1,0 +1,1889 @@
+{
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Extension messages
+
+	"extName": {
+		"message": "Sage-Like",
+		"description": "Extension name. Normally not translated."
+	},
+	"extDescription": {
+		"message": "高速で軽量なサイドバーベースのフィードリーダーです。Atom、RSS、JSON、RDFフィードをサポートし、カスタマイズ可能なUIとブラウザのブックマークや同期機能とのシームレスな統合を提供します。",
+		"description": "Extension description shown in the add-ons manager."
+	},
+	"extSubscribeUsingSageLike": {
+		"message": "Sage-Likeで購読",
+		"description": "Tooltip for the page action button to subscribe to feeds using Sage-Like"
+	},
+	"extToggleSidebar": {
+		"message": "Sage-Likeサイドバーの切り替え",
+		"description": "Label for keyboard shortcut to toggle the sidebar"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// background.js messages
+
+	"js_backgroundMenuTryOpenLink": {
+		"message": "フィードプレビューで開く",
+		"description": "Context menu item label shown when right-clicking a link on a web page"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// feedPreview/feedPreview.html messages
+
+	"htm_feedPreviewJumpToTitle": {
+		"message": "タイトルへジャンプ",
+		"description": "Label for the jump to title menu"
+	},
+	"htm_feedPreviewLoadingLabel": {
+		"message": "読み込み中...",
+		"description": "Label shown while feed preview is loading"
+	},
+	"htm_feedPreviewErrorMessageLink": {
+		"message": "ブラウザで開く",
+		"description": "Link label for opening the feed in the browser in feedPreview.html error container"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// feedPreview/feedPreview.js messages
+
+	"js_feedPreviewErrorResourceNotLoaded": {
+		"message": "リソースを読み込めませんでした。[$ERROR_MESSAGE$] が見つからない可能性があります。",
+		"description": "Error message shown when a feed resource could not be loaded",
+		"placeholders": {
+			"ERROR_MESSAGE": { "content": "$1" }
+		}
+	},
+	"js_feedPreviewErrorUnexpectedFailure": {
+		"message": "予期せぬエラー [$ERROR_MESSAGE$]。",
+		"description": "Error message shown for unexpected failures",
+		"placeholders": {
+			"ERROR_MESSAGE": { "content": "$1" }
+		}
+	},
+	"js_feedPreviewErrorImageNotLoaded": {
+		"message": "画像が読み込まれませんでした。",
+		"description": "Error message shown when an image fails to load"
+	},
+	"js_feedPreviewAttachmentTipTitleLabel": {
+		"message": "タイトル:",
+		"description": "Label for the attachment title in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipURLLabel": {
+		"message": "URL:",
+		"description": "Label for the attachment URL in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipSizeLabel": {
+		"message": "サイズ:",
+		"description": "Label for the attachment size in feed item tooltips"
+	},
+	"js_feedPreviewAttachmentTipErrorLabel": {
+		"message": "エラー:",
+		"description": "Label for the error message in feed item attachment tooltips"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// notepad/notepad.html messages
+
+	"htm_notepadPageTitle": {
+		"message": "メモ帳",
+		"description": "Notepad page title"
+	},
+	"htm_notepadKeyboardCommandsCaption": {
+		"message": "キーボードショートカット",
+		"description": "Caption for the keyboard shortcuts help popup in notepad"
+	},
+	"htm_notepadTableHeaderCommand": {
+		"message": "コマンド",
+		"description": "Table header for the command column in keyboard shortcuts table"
+	},
+	"htm_notepadTableHeaderKeys": {
+		"message": "キー",
+		"description": "Table header for the keys column in keyboard shortcuts table"
+	},
+	"htm_notepadCommandSave": {
+		"message": "保存",
+		"description": "Label for the save keyboard command in notepad"
+	},
+	"htm_notepadCommandSaveAndExit": {
+		"message": "保存して終了",
+		"description": "Label for the save and exit keyboard command in notepad"
+	},
+	"htm_notepadCommandRevertToSaved": {
+		"message": "保存された状態に戻す",
+		"description": "Label for the revert to saved keyboard command in notepad"
+	},
+	"htm_notepadCommandExportToFile": {
+		"message": "ファイルにエクスポート",
+		"description": "Label for the export to file keyboard command in notepad"
+	},
+	"htm_notepadCommandToggleDarkTheme": {
+		"message": "ダークテーマの切り替え",
+		"description": "Label for the toggle dark theme keyboard command in notepad"
+	},
+	"htm_notepadCommandTogglePopup": {
+		"message": "このポップアップの切り替え",
+		"description": "Label for the toggle help popup keyboard command in notepad"
+	},
+	"htm_notepadCommandQuitWithoutSaving": {
+		"message": "保存せずに終了",
+		"description": "Label for the quit without saving keyboard command in notepad"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// notepad/notepad.js messages
+
+	"js_notepadDocumentTitle": {
+		"message": "メモ帳 - カスタムCSSソースコード",
+		"description": "Notepad window document title"
+	},
+	"js_notepadLeaveWithoutSaveQuestion": {
+		"message": "このページを離れますか？ - 変更内容が保存されない可能性があります。",
+		"description": "Confirmation dialog message shown when user tries to leave the notepad with unsaved changes"
+	},
+	"js_notepadCaretPosition": {
+		"message": "$LINE_NUMBER$ 行, $COLUMN_NUMBER$ 列",
+		"description": "Status bar text showing the current line and column number in the notepad editor",
+		"placeholders": {
+			"LINE_NUMBER": { "content": "$1" },
+			"COLUMN_NUMBER": { "content": "$2" }
+		}
+	},
+	"js_notepadSelectedCharCount": {
+		"message": "($SELECTED_COUNT$ 選択済み)",
+		"description": "Status bar text showing the number of selected characters in the notepad editor",
+		"placeholders": {
+			"SELECTED_COUNT": { "content": "$1" }
+		}
+	},
+	"js_notepadModifiedTitle": {
+		"message": "変更あり",
+		"description": "Title for the notepad window when there are unsaved changes"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// opml/opml.js messages
+
+	"js_opmlErrorInvalidFile": {
+		"message": "このファイルは有効なOPMLファイルではない可能性があります。",
+		"description": "Error message shown when the imported file is not a valid OPML file"
+	},
+	"js_opmlErrorMissingElements": {
+		"message": "このファイルは有効なOPMLファイルではない可能性があります。要素が不足しています。",
+		"description": "Error message shown when the imported OPML file is missing required elements"
+	},
+	"js_opmlErrorRootFeedsFolderNotSet": {
+		"message": "ルートフィードフォルダIDが設定されていません $ERROR_SOURCE$。",
+		"description": "Error message shown when the root feeds folder ID is not set during OPML import",
+		"placeholders": {
+			"ERROR_SOURCE": { "content": "$1" }
+		}
+	},
+	"js_opmlImportedFolderName": {
+		"message": "インポート - $TITLE$",
+		"description": "Part one of the folder name containing the imported feeds",
+		"placeholders": {
+			"TITLE": { "content": "$1" }
+		}
+	},
+	"js_opmlImportedFolderNameCreated": {
+		"message": "(作成日: $DATE$)",
+		"description": "part two of the folder name containing the imported feeds, showing the creation date",
+		"placeholders": {
+			"DATE": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// pagePopup/pagePopup.html messages
+
+	"htm_popupCaption": {
+		"message": "ページフィード",
+		"description": "Main caption heading displayed at the top of the page feeds popup"
+	},
+	"htm_popupBusyMessage": {
+		"message": "おっと... 操作が速すぎるか、ネットワークが遅すぎます。",
+		"description": "Message shown while the popup is loading feed data"
+	},
+	"htm_popupWaitMessage": {
+		"message": "お待ちください。",
+		"description": "Message shown while the popup is loading feed data"
+	},
+	"htm_popupNoticeNoValidFeeds": {
+		"message": "残念... フィードは見つかりましたが、有効なものがありません。",
+		"description": "Notice message shown when feeds were discovered but none are valid"
+	},
+	"htm_popupBtnAddFeeds": {
+		"message": "Sage-Likeに追加",
+		"description": "Button label for adding selected feeds to Sage-Like"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// pagePopup/pagePopup.js messages
+
+	"js_popupFeedsFolderNotSet": {
+		"message": "フィードフォルダが設定されていません: ",
+		"description": "First part of warning message shown when the feeds bookmark folder has not been configured in preferences"
+	},
+	"js_popupFeedsFolderNotSetLink": {
+		"message": "オプションページ",
+		"description": "Link text part of the warning message shown when the feeds bookmark folder has not been configured in preferences"
+	},
+	"js_popupNothingToAdd": {
+		"message": "追加するものがありません",
+		"description": "Status bar message shown when no feeds are selected for adding"
+	},
+	"js_popupErrorPermissions": {
+		"message": "問題が発生しました！\nおそらくページの権限に関するブラウザの問題です。",
+		"description": "Error message shown when feed discovery fails due to browser permissions issues"
+	},
+	"js_popupAlreadyInTree": {
+		"message": "ツリーに既に存在します: '$FEED_NAME$'",
+		"description": "Status bar message shown when attempting to add a feed that already exists in the tree; includes the feed name as $FEED_NAME$",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// permissions/requiredPermissions.js messages
+
+	"js_permsPermissionName": {
+		"message": "すべてのウェブサイトのデータへのアクセス",
+		"description": "Name of the browser permission required for accessing feed data across all websites"
+	},
+	"js_permsInfoTextPart1": {
+		"message": "アドオン環境の変更（Manifest V3）により、現在オプションの権限",
+		"description": "First part of the permissions info text explaining the Manifest V3 changes"
+	},
+	"js_permsInfoTextPart2": {
+		"message": "は現在ブラウザによって許可されていません。",
+		"description": "Second part of the permissions info text explaining the current permission status"
+	},
+	"js_permsInfoTextPart3": {
+		"message": "この権限がないと、ほとんどのフィードは期待通りに読み込まれない可能性があります。",
+		"description": "Third part of the permissions info text explaining the consequences of denied permission"
+	},
+	"js_permsInfoTextPart4": {
+		"message": "ウェブサイトは、この権限を必要としない方法でフィードを設定することができます。しかし、多くのフィードはそうではなく、その結果、ブラウザの制限（CORS）によるネットワークエラーが発生します。",
+		"description": "Fourth part of the permissions info text explaining technical details about CORS restrictions"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferencesData.js messages
+
+	"js_prefsDataErrorInvalidFile": {
+		"message": "このファイルは有効なJSONファイルではない可能性があります。",
+		"description": "Error message shown when the imported file is not a valid JSON file"
+	},
+	"js_prefsDataErrorModifiedOptionsFile": {
+		"message": "このSage-Likeオプションファイルは変更されています。\n\n変更されていない署名付きファイルのみインポートできます。",
+		"description": "Error message shown when the imported options file has been modified and is not valid for import"
+	},
+	"js_prefsDataErrorMissingPrefSelfSigned": {
+		"message": "このファイルは有効なSage-Likeオプションファイルではない可能性があります。\n\n'$PREF_SELF_SIGNED$' が見つかりません。",
+		"description": "Error message shown when the imported options file is missing the self-signed preference",
+		"placeholders": {
+			"PREF_SELF_SIGNED": { "content": "$1" }
+		}
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferences.js messages
+
+	"js_prefsOptionUserCustomFont": {
+		"message": "$CUSTOM_FONT$ (カスタムフォント)",
+		"description": "Used to display custom user-selected font name in font selector",
+		"placeholders": {
+			"CUSTOM_FONT": { "content": "$1" }
+		}
+	},
+
+	"js_prefsMsgBoxCaptionWarning": {
+		"message": "警告",
+		"description": "Label used for warning message box caption"
+	},
+	"js_prefsMsgBoxCaptionError": {
+		"message": "エラー",
+		"description": "Label used for error message box caption"
+	},
+	"js_prefsMsgBoxCaptionImport": {
+		"message": "インポート",
+		"description": "Label used for import message box caption"
+	},
+	"js_prefsMsgBoxCaptionExport": {
+		"message": "エクスポート",
+		"description": "Label used for export message box caption"
+	},
+
+	"js_prefsImportOPMLMsgBoxMessage": {
+		"message": "$FEED_COUNT$ 件のフィードと $FOLDER_COUNT$ 個のフォルダが正常にインポートされました。",
+		"description": "Message shown after importing an OPML file successfully; displays the number of feeds and folders imported.",
+		"placeholders": {
+			"FEED_COUNT": { "content": "$1" },
+			"FOLDER_COUNT": { "content": "$2" }
+		}
+	},
+	"js_prefsImportOPMLMsgBoxMessageSkipSingular": {
+		"message": "1 件のファイルエントリがスキップされました。",
+		"description": "Message shown when exactly one entry in the OPML file was skipped during import."
+	},
+	"js_prefsImportOPMLMsgBoxMessageSkipPlural": {
+		"message": "$SKIP_COUNT$ 件のファイルエントリがスキップされました。",
+		"description": "Message shown when multiple entries in the OPML file were skipped during import; includes the number of skipped entries.",
+		"placeholders": {
+			"SKIP_COUNT": { "content": "$1" }
+		}
+	},
+	"js_prefsExportOPMLMsgBoxMessage": {
+		"message": "$FEED_COUNT$ 件のフィードと $FOLDER_COUNT$ 個のフォルダが正常にエクスポートされました。\n\nファイル: $FILE_NAME$",
+		"description": "Message shown after exporting feeds and folders to an OPML file successfully; displays counts and the output file name.",
+		"placeholders": {
+			"FEED_COUNT": { "content": "$1" },
+			"FOLDER_COUNT": { "content": "$2" },
+			"FILE_NAME": { "content": "$3" }
+		}
+	},
+	"js_prefsImportPrefsMsgBoxMessage": {
+		"message": "ファイルが正常にインポートされました。\n\nインポートされたオプションを反映するために、このページを再読み込みします。",
+		"description": "Message shown after importing extension options successfully; informs the user the Options page will reload to apply changes."
+	},
+	"js_prefsExportPrefsMsgBoxMessage": {
+		"message": "オプションが正常にエクスポートされました。\n\nファイル: $FILE_NAME$",
+		"description": "Message shown after exporting extension options successfully; includes the output file name.",
+		"placeholders": {
+			"FILE_NAME": { "content": "$1" }
+		}
+	},
+
+	"js_prefsSelectFeedsFolderOptionLabel": {
+		"message": "-フィードフォルダを選択-",
+		"description": "Placeholder option text shown in the Feeds bookmark folder dropdown before a folder is selected."
+	},
+	"js_prefsColorRGBnotation": {
+		"message": "RGB表記:",
+		"description": "Label preceding the RGB color value display (e.g., rgb(255, 255, 255)) in the color picker UI."
+	},
+	"js_prefsColorHTMLnotation": {
+		"message": "HTML表記:",
+		"description": "Label preceding the HTML/hex color value display (e.g., #FFFFFF) in the color picker UI."
+	},
+
+	"js_prefsCssErrorNotFileObject": {
+		"message": "Fileオブジェクトではありません。",
+		"description": "Error message shown when the imported object is not a File"
+	},
+	"js_prefsCssErrorFileEmpty": {
+		"message": "ファイルが空です。",
+		"description": "Error message shown when the imported file is empty"
+	},
+	"js_prefsCssErrorFileTooLarge": {
+		"message": "ファイルが大きすぎます。最大: $BYTE_SIZE$",
+		"description": "Error message shown when the imported file is too large",
+		"placeholders": {
+			"BYTE_SIZE": { "content": "$1" }
+		}
+	},
+	"js_prefsCssErrorFileReaderError": {
+		"message": "FileReaderエラー。",
+		"description": "Error message shown when the file read error"
+	},
+	"js_prefsCssErrorFileNoTextContent": {
+		"message": "ファイルにテキストコンテンツがありません。",
+		"description": "Error message shown when the imported file has no text content"
+	},
+	"js_prefsCssWarningRemoteURL": {
+		"message": "ファイル内にリモートリソースへのURLが見つかりました。これはセキュリティ上のリスクになる可能性があります。\n\nこれらのURLが安全かどうかわからない場合は、このファイルを置き換えるかクリアする必要があります。",
+		"description": "Warning shown when imported CSS contains URLs to remote resources, which may pose a security risk."
+	},
+	"js_prefsCssWarningNoStyleRules": {
+		"message": "ファイル内にスタイルルールが見つかりませんでした。",
+		"description": "Warning shown when imported CSS contains no style rules."
+	},
+	"js_prefsCssWarningNoRules": {
+		"message": "ファイル内にルールが見つかりませんでした。",
+		"description": "Warning shown when imported CSS contains no rules."
+	},
+
+	"js_prefsNotepadEditorOpen": {
+		"message": "メモ帳CSSソースコードエディタが開いている間は、操作を完了できません。\n\nエディタを閉じてください。",
+		"description": "Message shown when trying to perform an operation while the notepad CSS source code editor is open."
+	},
+	"js_prefsProcessingBusyMessage": {
+		"message": "処理中です。お待ちください。",
+		"description": "Message when the preferences page is busy processing an operation"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// preferences/preferences.html messages
+
+	"htm_prefsPageTitle": {
+		"message": "Sage-Like オプション",
+		"description": "Preferences page title"
+	},
+	"htm_prefsNavFeeds": {
+		"message": "フィード",
+		"description": "Navigation item for feeds section"
+	},
+	"htm_prefsNavBehavior": {
+		"message": "動作",
+		"description": "Navigation item for behavior section"
+	},
+	"htm_prefsNavAppearance": {
+		"message": "外観",
+		"description": "Navigation item for appearance section"
+	},
+	"htm_prefsNavMiscellaneous": {
+		"message": "その他",
+		"description": "Navigation item for miscellaneous section"
+	},
+	"htm_prefsNavWriteReview": {
+		"message": "レビューを書く",
+		"description": "External navigation link label for writing a review"
+	},
+	"htm_prefsNavSubmitIssue": {
+		"message": "問題を報告する",
+		"description": "External navigation link label for submitting an issue"
+	},
+	"htm_prefsNavSupportFeedback": {
+		"message": "サポートとフィードバック",
+		"description": "External navigation link label for support and feedback"
+	},
+	"htm_prefsNavCustomCSS": {
+		"message": "フィードプレビュー用カスタムCSS",
+		"description": "External navigation link label for custom CSS info"
+	},
+	"htm_prefsNavBuyBeer": {
+		"message": "開発者にビールをおごる",
+		"description": "External navigation link label for donation"
+	},
+	"htm_prefsFeedsCaption": {
+		"message": "フィード",
+		"description": "Section caption for feeds preferences block"
+	},
+	"htm_prefsFeedsBookmarkFolder": {
+		"message": "フィードブックマークフォルダ",
+		"description": "Label for feeds bookmark folder select"
+	},
+	"htm_prefsRefreshFeedsOnSidebar": {
+		"message": "サイドバー起動時にフィードを更新する",
+		"description": "Label for refresh feeds on sidebar launch checkbox"
+	},
+	"htm_prefsScheduledFeedRefresh": {
+		"message": "定期的なフィード更新",
+		"description": "Label for scheduled feed refresh select"
+	},
+	"htm_prefsScheduleNoThanks": {
+		"message": "自動更新しない",
+		"description": "Option label for scheduled feed refresh: do not auto-refresh"
+	},
+	"htm_prefsScheduleEvery10Min": {
+		"message": "10分ごと",
+		"description": "Option label for scheduled feed refresh interval of 10 minutes"
+	},
+	"htm_prefsScheduleEvery30Min": {
+		"message": "30分ごと",
+		"description": "Option label for scheduled feed refresh interval of 30 minutes"
+	},
+	"htm_prefsScheduleEvery1Hour": {
+		"message": "1時間ごと",
+		"description": "Option label for scheduled feed refresh interval of 1 hour"
+	},
+	"htm_prefsScheduleEvery3Hours": {
+		"message": "3時間ごと",
+		"description": "Option label for scheduled feed refresh interval of 3 hours"
+	},
+	"htm_prefsScheduleEvery6Hours": {
+		"message": "6時間ごと",
+		"description": "Option label for scheduled feed refresh interval of 6 hours"
+	},
+	"htm_prefsScheduleEveryDayAt": {
+		"message": "毎日…",
+		"description": "Option label used to open the time-of-day popup for daily refresh; includes ellipsis."
+	},
+	"htm_prefsNotifyFeedUpdatesClosed": {
+		"message": "サイドバーが閉じていても更新を通知する",
+		"description": "Label for notify feed updates while sidebar is closed checkbox"
+	},
+	"htm_prefsFeedRefreshMethod": {
+		"message": "フィード更新方法",
+		"description": "Label for feed refresh method select"
+	},
+	"htm_prefsFeedRefreshMethodStrenuous": {
+		"message": "厳格",
+		"description": "Feed refresh method option label for Strenuous mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodModerate": {
+		"message": "適度",
+		"description": "Feed refresh method option label for Moderate mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodRelaxed": {
+		"message": "緩やか",
+		"description": "Feed refresh method option label for Relaxed mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodEasy": {
+		"message": "簡易",
+		"description": "Feed refresh method option label for Easy mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsFeedRefreshMethodLazy": {
+		"message": "控えめ",
+		"description": "Feed refresh method option label for Lazy mode. MUST MATCH THE NAME IN ENTRY 'htm_prefsTipTitleFeedRefreshMethod'"
+	},
+	"htm_prefsSingleFeedTimeout": {
+		"message": "単一フィード取得タイムアウト",
+		"description": "Label for single feed fetching timeout input"
+	},
+	"htm_prefsTimeoutSeconds": {
+		"message": "秒",
+		"description": "Label for seconds input"
+	},
+	"htm_prefsShowUnreadStats": {
+		"message": "未読フィードとフィードアイテムの総数を表示する",
+		"description": "Label for show unread feeds and items checkbox"
+	},
+	"htm_prefsOrderFeedItemsChrono": {
+		"message": "フィードアイテムを時系列順に並べる",
+		"description": "Label for order feed-items chronologically checkbox"
+	},
+	"htm_prefsDetectFeedsInWebPage1": {
+		"message": "ウェブページ内のフィードを検出し、購読ボタンを表示する",
+		"description": "Label for detect feeds in web pages checkbox. First part. in between there is an image."
+	},
+	"htm_prefsDetectFeedsInWebPage2": {
+		"message": "（アドレスバー内）",
+		"description": "Label for detect feeds in web pages checkbox. Second part, after the image."
+	},
+	"htm_prefsBehaviorCaption": {
+		"message": "動作",
+		"description": "Section caption for behavior preferences block"
+	},
+	"htm_prefsFolderClickAction": {
+		"message": "フォルダクリック時の動作（開く/閉じる）",
+		"description": "Label for folder click action select"
+	},
+	"htm_prefsFolderClickActionSingleClick": {
+		"message": "シングルクリック",
+		"description": "Label for Single-click option in the folder click action select"
+	},
+	"htm_prefsFolderClickActionDoubleClick": {
+	"message": "ダブルクリック",
+		"description": "Label for Double-click option in the folder click action select"
+	},
+	"htm_prefsFeedClickOpensPreview": {
+		"message": "フィードクリックでプレビューを開く",
+		"description": "Label for feed-click opens preview select"
+	},
+	"htm_prefsClickOpensFeedPreviewNo": {
+		"message": "いいえ (ミドルクリックを使用)",
+		"description": "Label for no automatic feed preview open option"
+	},
+	"htm_prefsClickOpensFeedPreviewCurrentTab": {
+		"message": "現在のタブで",
+		"description": "Label for current tab option"
+	},
+	"htm_prefsClickOpensFeedPreviewNewTab": {
+		"message": "新しいタブで",
+		"description": "Label for new tab option"
+	},
+	"htm_prefsFeedItemsOpenArticles": {
+		"message": "フィードアイテムの記事を開く",
+		"description": "Label for open feed-items articles select"
+	},
+	"htm_prefsFeedItemOpenInCurrentTab": {
+		"message": "現在のタブで",
+		"description": "Label for the in the current tab option"
+	},
+	"htm_prefsFeedItemOpenInNewTab": {
+		"message": "新しいタブで",
+		"description": "Label for the in a new tab option"
+	},
+	"htm_prefsMarkFeedPreviewRead": {
+		"message": "プレビュー表示時に「既読」にする",
+		"description": "Label for mark as read when opening feed preview select"
+	},
+	"htm_prefsMarkReadNoting": {
+		"message": "何もしない",
+		"description": "Option label for the 'mark as read' mode that marks noting"
+	},
+	"htm_prefsMarkReadCollective": {
+		"message": "フィード内のすべてのアイテムを一括で",
+		"description": "Option label for the 'mark as read' mode that marks the whole feed at once"
+	},
+	"htm_prefsMarkReadCollectiveTitle": {
+		"message": "ブラウザに実際に表示されていないアイテムも含め、フィード内のすべてのアイテムが「既読」としてマークされます。",
+		"description": "Title/tooltip for the 'collective' mark-as-read option in the select"
+	},
+	"htm_prefsMarkReadVisible": {
+		"message": "表示された各フィードアイテム",
+		"description": "Option label for the 'mark as read' mode that marks an item when it becomes visible"
+	},
+	"htm_prefsMarkReadVisibleTitle": {
+		"message": "フィードアイテムの領域の約30%がスクロールして表示されるとすぐに「既読」としてマークされます。",
+		"description": "Title/tooltip for the 'visible' mark-as-read option in the select"
+	},
+	"htm_prefsAppearanceCaption": {
+		"message": "外観",
+		"description": "Section caption for appearance preferences block"
+	},
+	"htm_prefsUIDensity": {
+		"message": "UI密度",
+		"description": "Label for UI density select"
+	},
+	"htm_prefsUIDensityCompact": {
+		"message": "コンパクト",
+		"description": "Option label for UI density: Compact"
+	},
+	"htm_prefsUIDensityComfortable": {
+		"message": "標準",
+		"description": "Option label for UI density: Comfortable"
+	},
+	"htm_prefsUIDensitySpacious": {
+		"message": "広め",
+		"description": "Option label for UI density: Spacious"
+	},
+	"htm_prefsUIDensityExtraSpacious": {
+		"message": "非常に広い",
+		"description": "Option label for UI density: Extra Spacious"
+	},
+	"htm_prefsSidebarFont": {
+		"message": "サイドバーのフォント",
+		"description": "Label for sidebar font select"
+	},
+	"htm_prefsSidebarFontDefault": {
+		"message": "（ブラウザのデフォルト）",
+		"description": "Option label for using the browser's default font in the sidebar font select"
+	},
+	"htm_prefsSidebarFontUser": {
+		"message": "カスタムフォント…",
+		"description": "Option label used to open the user font popup for custom font; includes ellipsis."
+	},
+	"htm_prefsFontSize": {
+		"message": "サイズ",
+		"description": "Label for font size select"
+	},
+	"htm_prefsSidebarColors": {
+		"message": "サイドバーの色",
+		"description": "Label for sidebar colors inputs"
+	},
+	"htm_prefsColorWindow": {
+		"message": "ウィンドウ",
+		"description": "Label for window color input in Sidebar colors"
+	},
+	"htm_prefsColorDialog": {
+		"message": "ダイアログ",
+		"description": "Label for dialog color input in Sidebar colors"
+	},
+	"htm_prefsColorActive": {
+		"message": "アクティブ",
+		"description": "Label for active selection color input in Sidebar colors"
+	},
+	"htm_prefsColorText": {
+		"message": "テキスト",
+		"description": "Label for text color input in Sidebar colors"
+	},
+	"htm_prefsColorIcons": {
+		"message": "アイコン",
+		"description": "Label for icons color input in Sidebar colors"
+	},
+	"htm_prefsClassicIconsColor": {
+		"message": "クラシックアイコンの色",
+		"description": "Label for classic icons color radio group"
+	},
+	"htm_prefsIncreaseUnreadFontSize": {
+		"message": "サイドバーの未読アイテムのフォントサイズを大きくする",
+		"description": "Label for increase font size of unread items checkbox"
+	},
+	"htm_prefsShowFeedItemDesc": {
+		"message": "利用可能な場合、フィードアイテムの説明ツールチップを表示する",
+		"description": "Label for show feed-item description tooltips checkbox"
+	},
+	"htm_prefsShowFeedItemDescAttach": {
+		"message": "ツールチップにフィードアイテムの添付リソースを表示する",
+		"description": "Label for show feed-item attached resources checkbox"
+	},
+	"htm_prefsTooltipPopupDelay": {
+		"message": "ツールチップのポップアップ遅延",
+		"description": "Label for tooltip popup delay input"
+	},
+	"htm_prefsUnitMilliseconds": {
+		"message": "ミリ秒",
+		"description": "Unit label for tooltip delay field in sidebar"
+	},
+	"htm_prefsTooltipColors": {
+		"message": "ツールチップの色",
+		"description": "Label for tooltip colors inputs"
+	},
+	"htm_prefsTipColorBackground": {
+		"message": "背景",
+		"description": "Label for tooltip background color input in sidebar"
+	},
+	"htm_prefsTipColorText": {
+		"message": "テキスト",
+		"description": "Label for tooltip text color input in sidebar"
+	},
+	"htm_prefsShowTryOpenLink": {
+		"message": "コンテキストメニューに「フィードプレビューで開く」を表示",
+		"description": "Label for show try open link in feed preview checkbox"
+	},
+	"htm_prefsUseCustomCSSFeedPreview": {
+		"message": "フィードプレビューにカスタムスタイルシートを使用する",
+		"description": "Label for use custom CSS for feed preview checkbox"
+	},
+	"htm_prefsCSSSourceCode": {
+		"message": "CSSソースコード",
+		"description": "Label for CSS source code controls"
+	},
+	"htm_prefsImportCSS": {
+		"message": "インポート…",
+		"description": "Button label for importing custom CSS"
+	},
+	"htm_prefsEditCSS": {
+		"message": "編集…",
+		"description": "Button label for editing custom CSS"
+	},
+	"htm_prefsClearCSS": {
+		"message": "クリア",
+		"description": "Button label for clearing custom CSS"
+	},
+	"htm_prefsMiscellaneousCaption": {
+		"message": "その他",
+		"description": "Section caption for miscellaneous preferences block"
+	},
+	"htm_prefsBackupFeedsOPML": {
+		"message": "フィードのバックアップ (OPML)",
+		"description": "Label for backup feeds OPML controls"
+	},
+	"htm_prefsImportOPML": {
+		"message": "インポート…",
+		"description": "Button label for importing OPML"
+	},
+	"htm_prefsExportOPML": {
+		"message": "エクスポート…",
+		"description": "Button label for exporting OPML"
+	},
+	"htm_prefsProcessingMsg": {
+		"message": "処理が完了するまでこのタブを閉じないでください。",
+		"description": "Processing overlay message displayed during import/export operations"
+	},
+	"htm_prefsManage": {
+		"message": "管理",
+		"description": "Label for manage options controls"
+	},
+	"htm_prefsImportOptions": {
+		"message": "オプションのインポート…",
+		"description": "Button label for importing options"
+	},
+	"htm_prefsExportOptions": {
+		"message": "オプションのエクスポート…",
+		"description": "Button label for exporting options"
+	},
+	"htm_prefsRestoreDefaults": {
+		"message": "初期設定に戻す",
+		"description": "Button label for restoring default options"
+	},
+	"htm_prefsReloadExtension": {
+		"message": "拡張機能を再読み込み",
+		"description": "Button label for reloading the extension"
+	},
+	"htm_prefsUserFontName": {
+		"message": "フォント名:",
+		"description": "Label for user font name text input in user Font popup"
+	},
+	"htm_prefsEveryDayAt": {
+		"message": "毎日:",
+		"description": "Label for time-of-day input in daily schedule popup"
+	},
+	"htm_prefsButtonOK": {
+		"message": "OK",
+		"description": "Button label for confirmation in message box"
+	},
+
+	"htm_prefsTipTitleFeedsBookmarkFolder": {
+		"message": "空のフォルダは記号 '∅' でマークされます。",
+		"description": "Tooltip for feeds bookmark folder label"
+	},
+	"htm_prefsTipTitleRefreshFeedsOnSidebar": {
+		"message": "無効にすると、サイドバーの読み込みプロセスが高速化されます。ただし、手動または定期的な更新が行われるまで、フィードは古いステータスを表示します。",
+		"description": "Tooltip for refresh feeds on sidebar launch label"
+	},
+	"htm_prefsTipTitleNotifyFeedUpdatesClosed": {
+		"message": "サイドバーが閉じている間にフィードの更新が検出されると、拡張機能のツールバーボタンに緑色の「N」バッジを表示します。\n\nサイドバーが閉じている間、フィードはバックグラウンドで更新されません。",
+		"description": "Tooltip for notify feed updates while sidebar is closed label"
+	},
+	"htm_prefsTipTitleFeedRefreshMethod": {
+		"message": "フィード取得方法:\n \u25CF 厳格\u2002–\u2002すべてのフィードを一度にまとめて取得します。\n \u25CF 適度\u2002–\u2002フィードを3つのバッチに分けて取得し、バッチ間に2秒の間隔を置きます。\n \u25CF 緩やか\u2002–\u2002フィードを5つのバッチに分けて取得し、バッチ間に3秒の間隔を置きます。\n \u25CF 簡易\u2002–\u2002フィードを10個のバッチに分けて取得し、バッチ間に4秒の間隔を置きます。\n \u25CF 控えめ\u2002–\u2002フィードを1つずつ取得し、各フィードの間に1.5秒の間隔を置きます。\n",
+		"description": "Tooltip for feed refresh method label"
+	},
+	"htm_prefsTipTitleSingleFeedTimeout": {
+		"message": "タイムアウト範囲: 10 - 300 秒",
+		"description": "Tooltip for single feed fetching timeout label"
+	},
+	"htm_prefsTipTitleShowUnreadStats": {
+		"message": "このオプションを有効にすると、表示更新中に各フィードに追加の処理フェーズが追加されます。",
+		"description": "Tooltip for show unread feeds and items label"
+	},
+	"htm_prefsTipTitleOrderFeedItemsChrono": {
+		"message": "有効にすると、サイドバーとフィードプレビューの両方でフィードアイテムがタイムスタンプ順に並べられます。それ以外の場合は、フィードソースからの元の順序が維持されます。",
+		"description": "Tooltip for order feed-items chronologically label"
+	},
+	"htm_prefsTipTitleDetectFeedsInWebPage": {
+		"message": "この機能を有効にすると、ブラウザの読み込み中に各ウェブページに追加の処理フェーズが追加されます。",
+		"description": "Tooltip for detect feeds in web pages label"
+	},
+	"htm_prefsTipTitleFeedItemsOpenArticles": {
+		"message": "ミドルクリックすると、代替（選択されていない）オプションを使用して記事を開きます。\n\n\u2731 さらに、Ctrl+クリックで新しいタブで開き、Shift+クリックで新しいウィンドウで開きます。",
+		"description": "Tooltip for feed-items open articles label"
+	},
+	"htm_prefsTipTitleMarkFeedPreviewRead": {
+		"message": "この設定は、フィードプレビューがサイドバーのツリービューから開かれた場合にのみ適用されます。",
+		"description": "Tooltip for mark as read when opening feed preview label"
+	},
+	"htm_prefsTipTitleSidebarFont": {
+		"message": "ストックフォントからフォントを選択するか、ドロップダウンリストの最後の項目を使用して独自のフォント名を入力できます。フォントがサポートされていない場合、Sage-Likeはブラウザのデフォルトに戻ります。",
+		"description": "Tooltip for sidebar font label"
+	},
+	"htm_prefsTipTitleIncreaseUnreadFontSize": {
+		"message": "フォントの太さ以上に未読アイテムの視認性を高めます。特にサイドバーで暗いカラーパレットを使用している場合に便利です。",
+		"description": "Tooltip for increase font size of unread items label"
+	},
+	"htm_prefsTipTitleTooltipPopupDelay": {
+		"message": "遅延範囲: 0 ～ 1500 ミリ秒 (最大 1.5 秒)",
+		"description": "Tooltip for tooltip popup delay label"
+	},
+	"htm_prefsTipTitleCSSSourceCode": {
+		"message": "CSSコンテンツは内部に保存されます。ソースファイルを変更した場合は、再インポートする必要があります。\nまたは、「編集...」ボタンを使用して、インポートされたコードを直接変更します。\n\n\u2731 例については、このページの左下にある「フィードプレビュー用カスタムCSS」リンクをクリックしてください。",
+		"description": "Tooltip for CSS source code label"
+	},
+	"htm_prefsTipTitleManage": {
+		"message": "注意:\n\u00A0\u25CF\u00A0「オプションのインポート...」は、選択された「フィードブックマークフォルダ」がブラウザにない場合、設定/復元に失敗することがあります。\n\u00A0\u25CF\u00A0「デフォルトに戻す」は、選択された「フィードブックマークフォルダ」とインポートされた「CSSソースコード」の両方をクリアします。\n\u00A0\u25CF\u00A0「拡張機能を再読み込み」はこのタブを閉じます。",
+		"description": "Tooltip for manage options label"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// syndication/feedFactory.js messages
+
+	"js_feedFactoryErrorFeedFormat": {
+		"message": "フィード形式がXMLでもJSONでもありません。",
+		"description": "Error message shown when the feed document format cannot be identified as XML or JSON"
+	},
+	"js_feedFactoryErrorFeedNotIdentified": {
+		"message": "ドキュメント内でRSSフィードが識別されませんでした",
+		"description": "Error message shown when the RSS feed structure is not recognized in the XML document"
+	},
+	"js_feedFactoryErrorJsonVersionString": {
+		"message": "無効なjsonfeedです。トップレベルの文字列 'version:' が未定義です。",
+		"description": "Error message shown when JSON feed is missing the required 'version' string property"
+	},
+	"js_feedFactoryErrorJsonVersionValue": {
+		"message": "無効なjsonfeedです。予期しないバージョン値です。",
+		"description": "Error message shown when JSON feed has an invalid or unsupported version value"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// syndication/syndication.js messages
+
+	"js_syndicationErrorGetFeedData": {
+		"message": "フィードデータの取得に失敗しました。",
+		"description": "Error message shown when the feed data cannot be retrieved from the parsed feed"
+	},
+	"js_syndicationErrorNoFeedItems": {
+		"message": "ドキュメント内でRSSフィードアイテムが識別されませんでした。",
+		"description": "Error message shown when no feed items are found in the feed document"
+	},
+	"js_syndicationErrorGetFeedItems": {
+		"message": "フィードデータからのフィードアイテムの取得に失敗しました。",
+		"description": "Error message shown when feed items cannot be extracted from the feed data"
+	},
+	"js_syndicationErrorGetResponseStream": {
+		"message": "レスポンスストリーム（blob）の取得に失敗しました。",
+		"description": "Error message shown when the response stream (blob) cannot be obtained during feed fetching"
+	},
+	"js_syndicationErrorRetrieveFeedSource": {
+		"message": "URLからのフィードソースの取得に失敗しました。",
+		"description": "Error message shown when the feed source cannot be retrieved from the specified URL"
+	},
+	"js_syndicationErrorFetchFeedFromURL": {
+		"message": "URLからのフィードの取得に失敗しました。",
+		"description": "Error message shown when the fetch operation fails while retrieving a feed from a URL"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// shared/commmon.js messages
+
+	"js_commonRelativeTimeAgo": {
+		"message": "$UNIT$ 前",
+		"description": "Used for past times, e.g., '5 minutes ago'",
+		"placeholders": {
+			"UNIT": {
+				"content": "$1",
+				"example": "5 days"
+			}
+		}
+	},
+	"js_commonRelativeTimeIn": {
+		"message": "$UNIT$ 後",
+		"description": "Used for future times, e.g., 'in 5 minutes'",
+		"placeholders": {
+			"UNIT": {
+				"content": "$1",
+				"example": "3 minutes"
+			}
+		}
+	},
+	"js_commonRelativeTimeJustNow": {
+		"message": "たった今",
+		"description": "Used for very recent times"
+	},
+	"js_commonRelativeTime_year": {
+		"message": "$NUMBER$ 年",
+		"description": "Singular form of 'year' in relative time expressions",
+		"placeholders": {
+			"NUMBER": {
+				"content": "$1",
+				"example": "5"
+			}
+		}
+	},
+	"js_commonRelativeTime_years": {
+		"message": "$NUMBER$ 年",
+		"description": "Plural form of 'year' in relative time expressions",
+		"placeholders": {
+			"NUMBER": {
+				"content": "$1",
+				"example": "3"
+			}
+		}
+	},
+	"js_commonRelativeTime_month": {
+		"message": "$NUMBER$ ヶ月",
+		"description": "Singular form of 'month' in relative time expressions",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_months": {
+		"message": "$NUMBER$ ヶ月",
+		"description": "Plural form of 'month' in relative time expressions",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_day": {
+		"message": "$NUMBER$ 日",
+		"description": "Singular form of 'day'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_days": {
+		"message": "$NUMBER$ 日",
+		"description": "Plural form of 'day'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_hour": {
+		"message": "$NUMBER$ 時間",
+		"description": "Singular form of 'hour'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_hours": {
+		"message": "$NUMBER$ 時間",
+		"description": "Plural form of 'hour'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_minute": {
+		"message": "$NUMBER$ 分",
+		"description": "Singular form of 'minute'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_minutes": {
+		"message": "$NUMBER$ 分",
+		"description": "Plural form of 'minute'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_second": {
+		"message": "$NUMBER$ 秒",
+		"description": "Singular form of 'second'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTime_seconds": {
+		"message": "$NUMBER$ 秒",
+		"description": "Plural form of 'second'",
+		"placeholders": {
+			"NUMBER": { "content": "$1" }
+		}
+	},
+	"js_commonRelativeTimeShortJustNow": {
+		"message": "今",
+		"description": "Short form of 'just now' from 'js_commonRelativeTimeJustNow'"
+	},
+	"js_commonRelativeTimeShortMinute": {
+		"message": "分",
+		"description": "Short form of 'minute'"
+	},
+	"js_commonRelativeTimeShortSecond": {
+		"message": "秒",
+		"description": "Short form of 'second'"
+	},
+
+	"js_commonUtilClipboardReadError": {
+		"message": "クリップボードからのデータの読み取りに失敗しました",
+		"description": "Error message shown when reading from the clipboard fails"
+	},
+
+	"js_commonUtilIncognitoErrorIntro": {
+		"message": "Sage-Like拡張機能はプライベートウィンドウでの実行が許可されていません。\n興味がある場合は、以下の方法で変更できます:",
+		"description": "Introductory sentence explaining that the extension cannot run in private browsing mode."
+	},
+	"js_commonUtilIncognitoErrorStep1": {
+		"message": "メニューボタン（≡）をクリックします。",
+		"description": "Step 1 in the instructions for enabling the extension in private windows."
+	},
+	"js_commonUtilIncognitoErrorStep2": {
+		"message": "メニューから「アドオン」または「拡張機能」を選択します。",
+		"description": "Step 2: user selects Add-ons or Extensions."
+	},
+	"js_commonUtilIncognitoErrorStep3": {
+		"message": "サイドバーから「拡張機能」を選択します。",
+		"description": "Step 3: user opens the Extensions category."
+	},
+	"js_commonUtilIncognitoErrorStep4": {
+		"message": "「Sage-Like」拡張機能をクリックします。",
+		"description": "Step 4: user opens the Sage-Like extension details page."
+	},
+	"js_commonUtilIncognitoErrorStep5": {
+		"message": "「プライベートウィンドウでの実行」オプションまでスクロールします。",
+		"description": "Step 5: user locates the 'Run in Private Windows' toggle."
+	},
+	"js_commonUtilIncognitoErrorStep6": {
+		"message": "「許可する」ラジオボタンをクリックします。",
+		"description": "Step 6: user enables the extension for private browsing."
+	},
+
+
+	"js_commonUtilFeedTooltipTitle": {
+		"message": "タイトル:",
+		"description": "Label for the feed title in tooltip."
+	},
+	"js_commonUtilFeedTooltipUrl": {
+		"message": "URL:",
+		"description": "Label for the feed URL in tooltip."
+	},
+	"js_commonUtilFeedTooltipError": {
+		"message": "エラー:",
+		"description": "Label for the feed error message in tooltip."
+	},
+	"js_commonUtilFeedTooltipFormat": {
+		"message": "形式:",
+		"description": "Label for the feed format type in tooltip."
+	},
+	"js_commonUtilFeedTooltipUpdate": {
+		"message": "更新:",
+		"description": "Label for the feed update time or date in tooltip."
+	},
+	"js_commonUtilFeedTooltipItems": {
+		"message": "アイテム:",
+		"description": "Label for the feed item count in tooltip."
+	},
+	"js_commonUtilFeedTooltipExpired": {
+		"message": "期限切れ:",
+		"description": "Label indicating whether the feed has expired."
+	},
+	"js_commonUtilFeedTooltipWarning": {
+		"message": "警告:",
+		"description": "Label used before warning messages in tooltip."
+	},
+	"js_commonUtilFeedTooltipYes": {
+		"message": "はい",
+		"description": "Used to indicate an affirmative status (e.g., expired = Yes)."
+	},
+	"js_commonUtilFeedTooltipWarningFixable": {
+		"message": "修正可能な解析エラーがあります。処理に時間がかかる場合があります。",
+		"description": "Warning message for feeds that contain recoverable parsing errors."
+	},
+	"js_commonUtilFeedTooltipInstructionPreview": {
+		"message": "\u2731 ミドルクリックでこのフィードをプレビューします。",
+		"description": "Instruction displayed at the end of the tooltip."
+	},
+
+	"js_commonUtilPermissionRequiredTitle": {
+		"message": "権限が必要です",
+		"description": "Displayed as the title of the warning box when the extension lacks a required permission."
+	},
+	"js_commonUtilPermissionRequiredText": {
+		"message": "必要な権限「すべてのウェブサイトのデータへのアクセス」がブラウザによって許可されていません。",
+		"description": "Explains that the extension cannot function because the browser has blocked the required permission. IMPORTANT: The permission name inside the quotes must exactly match the wording displayed by the browser in its permissions UI."
+	},
+	"js_commonUtilPermissionRequiredLearnMore": {
+		"message": "詳細",
+		"description": "Label of the link that leads to an explanation about the missing permission."
+	},
+	"js_commonUtilPermissionRequiredButtonText": {
+		"message": "権限を要求",
+		"description": "Text displayed on the button that lets the user grant the necessary permissions."
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/panel.html messages
+
+	"htm_panelButtonRefresh": {
+		"message": "フィードを更新",
+		"description": "Tooltip for the refresh feeds button in the toolbar"
+	},
+	"htm_panelButtonDiscover": {
+		"message": "フィードを検出",
+		"description": "Tooltip for the discover feeds button in the toolbar"
+	},
+	"htm_panelButtonMarkRead": {
+		"message": "すべてのフィードを既読にする (R)",
+		"description": "Tooltip for the mark all feeds as read button in the toolbar"
+	},
+	"htm_panelButtonMarkUnread": {
+		"message": "すべてのフィードを未読にする (U)",
+		"description": "Tooltip for the mark all feeds as unread button in the toolbar"
+	},
+	"htm_panelButtonExpandAll": {
+		"message": "すべて展開",
+		"description": "Tooltip for the expand all button in the toolbar"
+	},
+	"htm_panelButtonCollapseAll": {
+		"message": "すべて折りたたむ",
+		"description": "Tooltip for the collapse all button in the toolbar"
+	},
+	"htm_panelButtonFilter": {
+		"message": "フィードをフィルタリング",
+		"description": "Tooltip for the filter button in the filter widget"
+	},
+	"htm_panelButtonReapplyFilter": {
+		"message": "フィルタを再適用",
+		"description": "Tooltip for the reapply filter button in the filter widget"
+	},
+	"htm_panelButtonClearFilter": {
+		"message": "フィルタをクリア",
+		"description": "Tooltip for the clear filter button in the filter widget"
+	},
+	"htm_panelButtonPreferences": {
+		"message": "オプションページ",
+		"description": "Tooltip for the preferences button in the toolbar"
+	},
+
+	"htm_panelTreeFilteredMessage": {
+		"message": "ツリーはフィルタリングされており、一部のフィードは非表示になっています。",
+		"description": "Message shown when the feed tree is filtered"
+	},
+	"htm_panelSplitterTooltip": {
+		"message": "30/70:\u2002Shift + ダブルクリック\n50/50:\u2002ダブルクリック\n70/30:\u2002Ctrl + ダブルクリック",
+		"description": "Tooltip explaining splitter drag ratios and shortcuts"
+	},
+
+	//////////Discovery////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelDiscoveryCaption": {
+		"message": "フィードの検出",
+		"description": "Caption for discover feeds panel"
+	},
+	"htm_panelButtonSelectAll": {
+		"message": "すべてのフィードを選択",
+		"description": "Tooltip for the select all feeds button in discover panel"
+	},
+	"htm_panelButtonRediscover": {
+		"message": "フィードを再検出",
+		"description": "Tooltip for the rediscover feeds button in discover panel"
+	},
+	"htm_panelDiscoveryAggressiveTooltip": {
+		"message": "検出レベル: \n \u25CF なし: 標準的なRSSリンクのみを確認します。 \n \u25CF 低: ページ内の各リンクを確認し、URLがRSSフィードらしいものをチェックします。 \n \u25CF 高: ページ内のすべてのリンクを確認します（時間がかかる場合があります）。 \n\n\u2731 「低」と「高」はiframe（第1レベルのみ）もチェックします。",
+		"description": "Tooltip for aggressiveness control in discover feeds panel"
+	},
+	"htm_panelDiscoveryAggressiveness": {
+		"message": "検出レベル:",
+		"description": "Caption for aggressiveness control in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelNone": {
+		"message": "なし",
+		"description": "Caption for none aggressive level in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelLow": {
+		"message": "低",
+		"description": "Caption for low aggressive level in discover feeds panel"
+	},
+	"htm_panelAggressiveLevelHigh": {
+		"message": "高",
+		"description": "Caption for high aggressive level in discover feeds panel"
+	},
+	"htm_panelButtonAdd": {
+		"message": "追加",
+		"description": "Label for add button in discover feeds panel"
+	},
+	"htm_panelButtonClose": {
+		"message": "閉じる",
+		"description": "Label for close button in discover feeds panel"
+	},
+
+	//////////Properties///////////////////////////////////////////////////////////////////////////
+
+	"htm_panelPropertiesCaption": {
+		"message": "プロパティ",
+		"description": "Caption for properties panel"
+	},
+	"htm_panelLabelTitle": {
+		"message": "タイトル:",
+		"description": "Label for title field in properties panel"
+	},
+	"htm_panelLabelLocation": {
+		"message": "場所:",
+		"description": "Label for Location field in properties panel"
+	},
+	"htm_panelLabelUpdateTitle": {
+		"message": "フィードからタイトルを更新する",
+		"description": "Label for update title checkbox in properties panel"
+	},
+	"htm_panelLabelOpenInPreview": {
+		"message": "フィードプレビューで開く",
+		"description": "Label for open in feed preview checkbox in properties panel"
+	},
+	"htm_panelLabelIgnoreUpdates": {
+		"message": "更新を無視し、常に「既読」にする",
+		"description": "Label for Ignore updates checkbox in properties panel"
+	},
+	"htm_panelLabelFeedMaxItems": {
+		"message": "最大フィードアイテム数 (0で無制限):",
+		"description": "Label for Max feed-items in properties panel"
+	},
+	"htm_panelLabelCreateInFolder": {
+		"message": "選択したフォルダ内に作成",
+		"description": "Label for create inside folder checkbox in properties panel"
+	},
+	"htm_panelButtonSave": {
+		"message": "保存",
+		"description": "Label for save button in properties panel"
+	},
+	"htm_panelButtonCancel": {
+		"message": "キャンセル",
+		"description": "Label for cancel button in properties and signin panels"
+	},
+
+	//////////Sign in//////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelSigninCaption": {
+		"message": "サインイン",
+		"description": "Caption for signin panel"
+	},
+	"htm_panelLabelSigninUserName": {
+		"message": "ユーザー名:",
+		"description": "Label for user name in signin panel"
+	},
+	"htm_panelLabelSigninPassword": {
+		"message": "パスワード:",
+		"description": "Label for password in signin panel"
+	},
+	"htm_panelButtonSignin": {
+		"message": "サインイン",
+		"description": "Label for sign in button in signin panel"
+	},
+
+	//////////Message//////////////////////////////////////////////////////////////////////////////
+
+	"htm_panelButtonOK": {
+		"message": "OK",
+		"description": "Label for OK button in message panel"
+	},
+	"htm_panelButtonYes": {
+		"message": "はい",
+		"description": "Label for Yes button in message panel"
+	},
+	"htm_panelButtonNo": {
+		"message": "いいえ",
+		"description": "Label for No button in message panel"
+	},
+
+	//////////ContextMenu//////////////////////////////////////////////////////////////////////////
+
+	"htm_panelContextMenuOpen": {
+		"message": "開く",
+		"description": "Context menu item to open feed or feed item"
+	},
+	"htm_panelContextMenuOpenNewTab": {
+		"message": "新しいタブで開く",
+		"description": "Context menu item to open feed or feed item in new tab"
+	},
+	"htm_panelContextMenuOpenNewWin": {
+		"message": "新しいウィンドウで開く",
+		"description": "Context menu item to open feed or feed item in new window"
+	},
+	"htm_panelContextMenuOpenNewPrivateWin": {
+		"message": "新しいプライベートウィンドウで開く",
+		"description": "Context menu item to open feed or feed item in private window"
+	},
+	"htm_panelContextMenuOpenAllUnread": {
+		"message": "すべての未読をタブで開く",
+		"description": "Context menu item to open all unread items in new tabs"
+	},
+	"htm_panelContextMenuSignin": {
+		"message": "サインイン…",
+		"description": "Context menu item to sign in to a feed requiring authentication"
+	},
+	"htm_panelContextMenuToggleReadUnread": {
+		"message": "既読/未読の切り替え",
+		"description": "Context menu item to toggle read/unread state"
+	},
+	"htm_panelContextMenuMarkAllRead": {
+		"message": "すべてのツリーフィードを既読にする",
+		"description": "Context menu item to mark all tree feeds as read"
+	},
+	"htm_panelContextMenuMarkAllUnread": {
+		"message": "すべてのツリーフィードを未読にする",
+		"description": "Context menu item to mark all tree feeds as unread"
+	},
+	"htm_panelContextMenuNewFeed": {
+		"message": "新しいフィード…",
+		"description": "Context menu item to create a new feed"
+	},
+	"htm_panelContextMenuNewFolder": {
+		"message": "新しいフォルダ…",
+		"description": "Context menu item to create a new folder"
+	},
+	"htm_panelContextMenuCopyLink": {
+		"message": "リンクをコピー",
+		"description": "Context menu item to copy feed URL"
+	},
+	"htm_panelContextMenuPasteLink": {
+		"message": "リンクを貼り付け",
+		"description": "Context menu item to paste feed URL"
+	},
+	"htm_panelContextMenuDelete": {
+		"message": "削除…",
+		"description": "Context menu item to delete a feed or folder"
+	},
+	"htm_panelContextMenuProperties": {
+		"message": "プロパティ…",
+		"description": "Context menu item to show properties dialog"
+	},
+	"htm_panelContextMenuSummary": {
+		"message": "概要…",
+		"description": "Context menu item to show feed summary"
+	},
+	"htm_panelContextMenuSwitchDirection": {
+		"message": "表示方向の切り替え",
+		"description": "Context menu item to switch view direction"
+	},
+	"htm_panelContextMenuCopy": {
+		"message": "コピー",
+		"description": "Context menu item to copy feed item URL"
+	},
+	"htm_panelContextMenuListMarkAllRead": {
+		"message": "すべて既読にする",
+		"description": "Context menu item to mark all feed items as read"
+	},
+	"htm_panelContextMenuListMarkAllUnread": {
+		"message": "すべて未読にする",
+		"description": "Context menu item to mark all feed items as unread"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/panel.js messages
+
+	"js_panelRequestPermissionsText": {
+		"message": "権限を要求",
+		"description": "Link text for requesting browser permissions"
+	},
+	"js_panelRequiredPermissionsInstructions": {
+		"message": "必要な権限を許可するには、ブラウザの「アドオンマネージャー」に移動し、「拡張機能」を選択してから「Sage-Like」を選択します。「許可」タブを開き、「すべてのウェブサイトのデータへのアクセス」を許可します。または、以下のリンクを選択することもできます:",
+		"description": "Instructions shown to the user explaining how to grant required permissions in the browser"
+	},
+	"js_panelRequiredPermissionsCaption": {
+		"message": "権限が必要です",
+		"description": "Caption for the permissions required message box"
+	},
+	"js_panelNewVersionReleased": {
+		"message": "新しいバージョンがリリースされました。",
+		"description": "Message shown when a new version of the extension is available"
+	},
+	"js_panelNewVersionIncompatibleBrowser": {
+		"message": "更新されたバージョン $NEW_VERSION$ が利用可能です。ただし、現在のブラウザ（Firefox $BROWSER_VERSION$）とは互換性がありません。\n\nブラウザを最新バージョンに更新することを検討してください。",
+		"description": "Message shown when a new version is available but incompatible with the current browser version",
+		"placeholders": {
+			"NEW_VERSION": { "content": "$1" },
+			"BROWSER_VERSION": { "content": "$2" }
+		}
+	},
+	"js_panelNewVersionCaption": {
+		"message": "利用可能な更新",
+		"description": "Caption for the available update notification message box"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/discoveryView.js messages
+
+	"js_discoveryTabLoading": {
+		"message": "現在のタブはまだ読み込み中です。",
+		"description": "Message shown when trying to discover feeds while the current tab is still loading"
+	},
+	"js_discoveryTabNotAccessable": {
+		"message": "現在のタブにアクセスできません。",
+		"description": "Message shown when the extension cannot access the current tab for feed discovery"
+	},
+	"js_discoveryAborted": {
+		"message": " - 中止！",
+		"description": "Suffix message appended to status text when feed discovery is aborted"
+	},
+	"js_discoveryNoValidFeeds": {
+		"message": "有効なフィードが見つかりませんでした。",
+		"description": "Message shown when feed discovery completes but finds no valid feeds"
+	},
+	"js_discoveryNoFeedsDiscovered": {
+		"message": "フィードが見つかりませんでした。",
+		"description": "Message shown when feed discovery completes but finds no feeds at all"
+	},
+	"js_discoveryRequiredPermissions": {
+		"message": "必要な権限",
+		"description": "Message shown when feed discovery cannot proceed due to missing permissions"
+	},
+	"js_discoveryAbort": {
+		"message": "中止",
+		"description": "Button text to abort the feed discovery process"
+	},
+	"js_discoveryAlreadyInTree": {
+		"message": "ツリーに既に存在します: '$FEED_NAME$'",
+		"description": "Message shown when attempting to add a feed that already exists in the feed tree",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+	"js_discoveryNothingToAdd": {
+		"message": "追加するものがありません",
+		"description": "Message shown when no feeds are selected for adding after discovery"
+	},
+	"js_discoveryFeedsFolderNotSet": {
+		"message": "オプションページでフィードフォルダが設定されていません",
+		"description": "Message shown when trying to add feeds but the feeds folder has not been configured"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/messageView.js messages
+
+	"js_messageAttentionCaption": {
+		"message": "注意！",
+		"description": "Default caption for attention/alert message boxes in the sidebar"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/propertiesView.js messages
+
+	"js_propertiesMaxFeedItemsNotification": {
+		"message": "「最大フィードアイテム数」を $FEED_MAX_ITEMS$ に設定しました。\n\n表示数が制限され、かつ「フィードアイテムを時系列順に並べる」が有効な場合、必ずしも最新のアイテムが表示されるとは限りません。\n\nこれは、ソース内のアイテムが時系列順に並んでいないフィードにのみ影響します。\n\n",
+		"description": "Warning notification shown when user sets a maximum feed items limit that could affect chronological ordering",
+		"placeholders": {
+			"FEED_MAX_ITEMS": { "content": "$1" }
+		}
+	},
+	"js_propertiesMaxFeedItemsDontShowLabel": {
+		"message": "このメッセージを今後表示しない",
+		"description": "Label for the checkbox to suppress future max feed items notifications"
+	},
+	"js_propertiesMaxFeedItemsCaption": {
+		"message": "最大フィードアイテム数の制限",
+		"description": "Caption for the max feed items notification dialog"
+	},
+
+	"js_propertiesTitleEmpty": {
+		"message": "タイトルテキストが空です。",
+		"description": "Validation error message when feed/folder title field is empty"
+	},
+	"js_propertiesURLInvalid": {
+		"message": "場所のURLが無効です。",
+		"description": "Validation error message when feed URL is malformed or invalid"
+	},
+	"js_propertiesMaxFeedItemsInvalid": {
+		"message": "最大フィードアイテム数の値が無効です。範囲: $MIN$ - $MAX$",
+		"description": "Validation error message when max feed items value is outside acceptable range",
+		"placeholders": {
+			"MIN": { "content": "$1" },
+			"MAX": { "content": "$1" }
+		}
+	},
+	"js_propertiesNothingToModify": {
+		"message": "変更するものがありません。",
+		"description": "Message shown when user tries to save properties without making any changes"
+	},
+	"js_propertiesFeed": {
+		"message": "フィード",
+		"description": "Label text identifying properties view is for a feed"
+	},
+	"js_propertiesFolder": {
+		"message": "フォルダ",
+		"description": "Label text identifying properties view is for a folder"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/rssListView.js messages
+
+	"js_rssListFailedURL": {
+		"message": "失敗したURL: ",
+		"description": "Prefix text shown before a feed URL that failed to load"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/rssTreeView.js messages
+
+	"js_rssTreeEmptyMessage": {
+		"message": "フィードが登録されていません",
+		"description": "Message displayed when the RSS tree view is empty (no feeds)"
+	},
+	"js_rssTreeNoFeedsFolder": {
+		"message": "オプションページでフィードフォルダが設定されていません。",
+		"description": "Error message when no feeds folder has been configured in preferences"
+	},
+
+	"js_rssTreeFailedLoadFeedsFolder": {
+		"message": "フィードフォルダの読み込みに失敗しました: ",
+		"description": "Error prefix shown when feeds folder cannot be loaded from bookmarks"
+	},
+	"js_rssTreeNewFeed": {
+		"message": "新しいフィード",
+		"description": "Default title for a newly created feed item"
+	},
+	"js_rssTreeNewFolder": {
+		"message": "新しいフォルダ",
+		"description": "Default title for a newly created folder item"
+	},
+	"js_rssTreeSigninFailed": {
+		"message": "サインインに失敗しました",
+		"description": "Error message when authentication/sign-in fails for a feed requiring credentials"
+	},
+	"js_rssTreeDeleteFolderMsg": {
+		"message": "「$FOLDER_NAME$」フォルダとそのすべての内容をブックマークから完全に削除しますか？\n\n「この操作は元に戻せません。」",
+		"description": "Confirmation message when user attempts to delete a folder and all its feed contents",
+		"placeholders": {
+			"FOLDER_NAME": { "content": "$1" }
+		}
+	},
+	"js_rssTreeDeleteFeedMsg": {
+		"message": "$FEED_NAME$ フィードをブックマークから完全に削除しますか？\n\n「この操作は元に戻せません。」",
+		"description": "Confirmation message when user attempts to delete a feed",
+		"placeholders": {
+			"FEED_NAME": { "content": "$1" }
+		}
+	},
+	"js_rssTreeDeleteFolderCaption": {
+		"message": "フォルダの削除",
+		"description": "Caption for the delete folder confirmation dialog"
+	},
+	"js_rssTreeDeleteFeedCaption": {
+		"message": "フィードの削除",
+		"description": "Caption for the delete feed confirmation dialog"
+	},
+	"js_rssTreeIgnored": {
+		"message": "無視されました",
+		"description": "Status text indicating a feed is being ignored/skipped during updates"
+	},
+
+	//////////FilterTooltip////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeFilterTipTitle": {
+		"message": "フィードフィルタリング方法:",
+		"description": "Title for the feed filter tooltip."
+	},
+	"js_rssTreeFilterTipText": {
+		"message": "大文字と小文字を区別しないテキストを使用したフィルタリング。",
+		"description": "Tooltip line for simple text filtering."
+	},
+	"js_rssTreeFilterTipRegex": {
+		"message": "$SLASH$ 記号で囲まれた正規表現パターンを使用したフィルタリング。",
+		"description": "Tooltip line for regex filtering. $SLASH$ will be replaced by the '/' character.",
+		"placeholders": {
+			"SLASH": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipRegexFlag": {
+		"message": "2番目の '/' の後に $FLAG_I$ (大文字小文字を区別しない) フラグを配置できます。",
+		"description": "Tooltip line for regex flag. $FLAG_I$ will be replaced by the 'i' flag.",
+		"placeholders": {
+			"FLAG_I": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipFolder": {
+		"message": "単一の $BACKSLASH$ 記号を接頭辞としたテキストを使用したフォルダタイトルフィルタリング。",
+		"description": "Tooltip line for folder filtering. $BACKSLASH$ will be replaced by the '\\' character.",
+		"placeholders": {
+			"BACKSLASH": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipUrl": {
+		"message": "単一の $PERCENT$ 記号を接頭辞としたテキストを使用したURLフィルタリング。",
+		"description": "Tooltip line for URL filtering. $PERCENT$ will be replaced by the '%' character.",
+		"placeholders": {
+			"PERCENT": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTime": {
+		"message": "単一の $TILDE$ 記号を接頭辞とした相対時間テキストを使用した更新時間フィルタリング。",
+		"description": "Tooltip line for time filtering. $TILDE$ will be replaced by the '~' character.",
+		"placeholders": {
+			"TILDE": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimePattern": {
+		"message": "相対時間表現パターン: $AGO_PATTERN$ ここで $TIME_UNIT$",
+		"description": "Tooltip line for time pattern. $AGO_PATTERN$ is the literal string '[number] [time_unit] ago', $TIME_UNIT$ is '[time_unit]'.",
+		"placeholders": {
+			"AGO_PATTERN": { "content": "$1" },
+			"TIME_UNIT": { "content": "$2" }
+		}
+	},
+	"js_rssTreeFilterTipTimeUnits": {
+		"message": "は次のいずれか: $SECONDS$, $MINUTES$, $HOURS$, $DAYS$, $WEEKS$, $MONTHS$ または $YEARS$。",
+		"description": "List of non-translatable time units. $SECONDS$='seconds', $MINUTES$='minutes', $HOURS$='hours', $DAYS$='days', $WEEKS$='weeks', $MONTHS$='months', $YEARS$='years'.",
+		"placeholders": {
+			"SECONDS": { "content": "$1" },
+			"MINUTES": { "content": "$2" },
+			"HOURS": { "content": "$3" },
+			"DAYS": { "content": "$4" },
+			"WEEKS": { "content": "$5" },
+			"MONTHS": { "content": "$6" },
+			"YEARS": { "content": "$7" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExamples": {
+		"message": "例:",
+		"description": "Tooltip line for time examples."
+	},
+	"js_rssTreeFilterTipTimeExample1": {
+		"message": "$EXAMPLE_AGO_1$ – 5週間前時点で更新されていないフィード。",
+		"description": "Tooltip time example 1. $EXAMPLE_AGO_1$ is the non-translatable example '~5 weeks ago'.",
+		"placeholders": {
+			"EXAMPLE_AGO_1": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExample2": {
+		"message": "$EXAMPLE_AGO_2$ – 12ヶ月前時点で更新されていないフィード。",
+		"description": "Tooltip time example 2. $EXAMPLE_AGO_2$ is the non-translatable example '~12 months ago'.",
+		"placeholders": {
+			"EXAMPLE_AGO_2": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipTimeExample3": {
+		"message": "$EXAMPLE_AGO_3$ – 3日前時点で更新されたフィード ($CARET$ に注意)。",
+		"description": "Tooltip time example 3. $EXAMPLE_AGO_3$ is the non-translatable example '~^3 days ago', $CARET$ is the '^' character.",
+		"placeholders": {
+			"EXAMPLE_AGO_3": { "content": "$1" },
+			"CARET": { "content": "$2" }
+		}
+	},
+	"js_rssTreeFilterTipStatus": {
+		"message": "単一の $GREATER_THAN$ 記号を接頭辞とした特別なコマンドを使用したステータスフィルタリング:",
+		"description": "Tooltip line for status filtering. $GREATER_THAN$ will be replaced by the '>' character.",
+		"placeholders": {
+			"GREATER_THAN": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusUnread": {
+		"message": "未訪問のフィードには $CMD_UNREAD$ を使用します。",
+		"description": "Tooltip status example. $CMD_UNREAD$ is the non-translatable command '>unread'.",
+		"placeholders": {
+			"CMD_UNREAD": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusRead": {
+		"message": "訪問済みのフィードには $CMD_READ$ を使用します。",
+		"description": "Tooltip status example. $CMD_READ$ is the non-translatable command '>read'.",
+		"placeholders": {
+			"CMD_READ": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusOk": {
+		"message": "正常に更新されたフィードには $CMD_OK$ を使用します。",
+		"description": "Tooltip status example. $CMD_OK$ is the non-translatable command '>ok'.",
+		"placeholders": {
+			"CMD_OK": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusError": {
+		"message": "更新に失敗したフィードには $CMD_ERROR$ を使用します。",
+		"description": "Tooltip status example. $CMD_ERROR$ is the non-translatable command '>error'.",
+		"placeholders": {
+			"CMD_ERROR": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusErrorUa": {
+		"message": "クライアント認証がないために更新に失敗したフィードには $CMD_ERROR_UA$ を使用します。",
+		"description": "Tooltip status example. $CMD_ERROR_UA$ is the non-translatable command '>error-ua'.",
+		"placeholders": {
+			"CMD_ERROR_UA": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusLoad": {
+		"message": "まだ読み込み中のフィードには $CMD_LOAD$ を使用します。",
+		"description": "Tooltip status example. $CMD_LOAD$ is the non-translatable command '>load'.",
+		"placeholders": {
+			"CMD_LOAD": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipStatusFixable": {
+		"message": "修正可能な解析エラーがあるフィードには $CMD_FIXABLE$ を使用します。",
+		"description": "Tooltip status example. $CMD_FIXABLE$ is the non-translatable command '>fixable'.",
+		"placeholders": {
+			"CMD_FIXABLE": { "content": "$1" }
+		}
+	},
+	"js_rssTreeFilterTipFooter": {
+		"message": "フィルタが適用された後、フィードのタイトル、更新時間、またはステータスが変更される場合があります。",
+		"description": "Final note for the filter tooltip."
+	},
+
+	//////////Summary//////////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeSummaryCaption": {
+		"message": "概要",
+		"description": "Caption for the feed tree summary dialog showing statistics"
+	},
+	"js_rssTreeSummaryIntro": {
+		"message": "合計 \"$FEEDS$\" フィードと \"$FOLDERS$\" フォルダ。",
+		"description": "Introduction line showing total count of feeds and folders",
+		"placeholders": {
+			"FEEDS": { "content": "$1" },
+			"FOLDERS": { "content": "$2" }
+		}
+	},
+	"js_rssTreeSummaryFeedStatus": {
+		"message": "フィードステータス",
+		"description": "Column header for feed status in summary statistics table"
+	},
+	"js_rssTreeSummaryFeedCount": {
+		"message": "フィード数",
+		"description": "Column header for feed count in summary statistics table"
+	},
+	"js_rssTreeSummaryOK": {
+		"message": "OK",
+		"description": "Status label for feeds that updated successfully"
+	},
+	"js_rssTreeSummaryError": {
+		"message": "エラー",
+		"description": "Status label for feeds that failed to update"
+	},
+	"js_rssTreeSummaryRead": {
+		"message": "既読",
+		"description": "Status label for visited/read feeds"
+	},
+	"js_rssTreeSummaryUnread": {
+		"message": "未読",
+		"description": "Status label for unvisited/unread feeds"
+	},
+	"js_rssTreeSummaryLoading": {
+		"message": "読み込み中",
+		"description": "Status label for feeds currently being loaded/updated"
+	},
+	"js_rssTreeSummaryUnauthorized": {
+		"message": "未認証",
+		"description": "Status label for feeds requiring authentication that user hasn't signed into"
+	},
+	"js_rssTreeSummaryNoUpdates30Days": {
+		"message": "30日以上更新なし",
+		"description": "Status label for feeds that haven't been updated in 30 or more days"
+	},
+	"js_rssTreeSummaryFixableParseErrors": {
+		"message": "修正可能な解析エラー",
+		"description": "Status label for feeds with parsing errors that can be automatically fixed"
+	},
+	"js_rssTreeSummaryDynamicNote": {
+		"message": "フィード数の値は動的であり、表示後に変更される場合があります。",
+		"description": "Note explaining that feed count statistics may change in real-time"
+	},
+	"js_rssTreeSummaryFixableTip1": {
+		"message": "修正可能な解析エラーがあるフィードは、解析と修正により多くのリソースを必要とし、時間がかかります。",
+		"description": "Tip explaining performance impact of feeds with fixable parsing errors"
+	},
+	"js_rssTreeSummaryFixableTip2": {
+		"message": "それらを確認するには、ツールバーのフィルタウィジェットでステータスフィルタ '&gt;fixable' を使用してください。",
+		"description": "Tip instructing how to filter for feeds with fixable parsing errors"
+	},
+
+	//////////InfoBubble///////////////////////////////////////////////////////////////////////////
+
+	"js_rssTreeBubbleMsgDropInside": {
+		"message": "Shiftキーを押すと、アイテムをフォルダ「内」にドロップします。",
+		"description": "Tooltip message shown during drag-and-drop to indicate Shift key usage for dropping inside folders"
+	},
+	"js_rssTreeBubbleMsgDnDError": {
+		"message": "予期しないドラッグアンドドロップエラー (ID不一致)。\nサイドバーを再読み込みするには、ツールバーボタン「フィードを更新」をShift+クリックしてください。",
+		"description": "Error message for unexpected drag-and-drop failures with recovery instructions"
+	},
+	"js_rssTreeBubbleMsgDropTargetRemoved": {
+		"message": "ブックマークエラー: ドロップターゲットが削除された可能性があります。\nサイドバーを再読み込みするには、ツールバーボタン「フィードを更新」をShift+クリックしてください。",
+		"description": "Error message when drag-and-drop target no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgDraggedItemRemoved": {
+		"message": "ブックマークエラー: ドラッグされたアイテムが削除された可能性があります。\nサイドバーを再読み込みするには、ツールバーボタン「フィードを更新」をShift+クリックしてください。",
+		"description": "Error message when dragged item no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgDropUrlInvalid": {
+		"message": "ドロップされたURLは無効です。",
+		"description": "Error message when a dropped URL is malformed or invalid"
+	},
+	"js_rssTreeBubbleMsgDropTextUrlInvalid": {
+		"message": "ドロップされたテキストは有効なURLではありません。",
+		"description": "Error message when dropped text content is not a valid URL"
+	},
+	"js_rssTreeBubbleMsgTargetRemoved": {
+		"message": "ブックマークエラー: ターゲットが削除された可能性があります。\nサイドバーを再読み込みするには、ツールバーボタン「フィードを更新」をShift+クリックしてください。",
+		"description": "Error message when operation target no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgTargetFolderRemoved": {
+		"message": "ブックマークエラー: ターゲットフォルダが削除された可能性があります。\nサイドバーを再読み込みするには、ツールバーボタン「フィードを更新」をShift+クリックしてください。",
+		"description": "Error message when target folder no longer exists in bookmarks"
+	},
+	"js_rssTreeBubbleMsgPasteTextUrlInvalid": {
+		"message": "貼り付けられたテキストは有効なURLではありません。",
+		"description": "Error message when pasted text content is not a valid URL"
+	},
+	"js_rssTreeBubbleMsgItemAlreadyRemoved": {
+		"message": "ブックマークエラー: アイテムは既に削除されている可能性があります。\nサイドバーを再読み込みするには、ツールバーボタン「フィードを更新」をShift+クリックしてください。",
+		"description": "Error message when attempting to operate on an already-deleted item"
+	},
+	"js_rssTreeBubbleMsgFeedRequireSignin": {
+		"message": "フィードにはサインインが必要です。",
+		"description": "Info bubble message indicating the feed requires user authentication"
+	},
+	"js_rssTreeBubbleMsgFeedErroneous": {
+		"message": "フィードにエラーがあります。",
+		"description": "Info bubble message indicating the feed has errors"
+	},
+	"js_rssTreeBubbleMsgFeedsFolderModified": {
+		"message": "フィードフォルダまたはその内容が外部で変更されました。\n再読み込みするにはShift+クリックしてください。",
+		"description": "Warning message when feeds folder has been externally modified"
+	},
+	"js_rssTreeBubbleMsgDfaultFeedsFolder": {
+		"message": "デフォルトのフィードフォルダを作成しています。お待ちください…",
+		"description": "Status message shown while creating the default feeds folder"
+	},
+	"js_rssTreeBubbleMsgHoverFilter": {
+		"message": "重要な情報を表示するには、フィルタテキストボックスの上にマウスを置いてください。",
+		"description": "Hint message instructing users to hover over filter box for help"
+	},
+	"js_rssTreeBubbleMsgReapplyFilter": {
+		"message": "1つ以上のフィードの状態が変更されました。\nフィルタの再適用が必要な場合があります。",
+		"description": "Notification that feed states changed and filter results may be outdated"
+	},
+	"js_rssTreeBubbleMsgSignin": {
+		"message": "未認証です。ロックされたフィードを右クリックしてメニューから「サインイン…」を選択するか、「L」キーを使用してください。",
+		"description": "Instructions for signing into a feed requiring authentication"
+	},
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// sidebar/signinView.js messages
+
+	"js_signinCapsLockOn": {
+		"message": "Caps Lockがオンになっています",
+		"description": "Warning message shown in sign-in form when caps lock is enabled"
+	}
+}
+

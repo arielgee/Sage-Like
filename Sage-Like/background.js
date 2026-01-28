@@ -460,7 +460,7 @@
 		if(showTryOpenLinkInFeedPreview) {
 			browser.menus.create({
 				id: MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW,
-				title: "Try to Open Link in Feed Preview",
+				title: i18n("js_backgroundMenuTryOpenLink"),
 				contexts: ["link", "selection"],
 			});
 		} else {

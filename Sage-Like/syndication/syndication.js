@@ -109,7 +109,7 @@ let syndication = (function() {
 				try {
 					resolve({ feedData: FeedFactory.createFromSource(result.text, url).getFeedData(), responseHeaderDate: result.responseHeaderDate });
 				} catch (error) {
-					reject(new SyndicationError("Failed to get feed data.", error));
+					reject(new SyndicationError(i18n("js_syndicationErrorGetFeedData"), error));	// "Failed to get feed data."
 				}
 
 			}).catch((error) => {
@@ -141,7 +141,7 @@ let syndication = (function() {
 					if(sortItems) sortFeedItemsByDate(list);
 					resolve({ list: list, feedData: result.feedData, responseHeaderDate: result.responseHeaderDate });
 				} else {
-					reject(new SyndicationError("No RSS feed items identified in document."));
+					reject(new SyndicationError(i18n("js_syndicationErrorNoFeedItems")));	// "No RSS feed items identified in document."
 				}
 
 			}).catch((error) => {
@@ -163,11 +163,11 @@ let syndication = (function() {
 				if(sortItems) sortFeedItemsByDate(list);
 				return { list: list, feedData: feedData };
 			} else {
-				throw new SyndicationError("No RSS feed items identified in document.");
+				throw new SyndicationError(i18n("js_syndicationErrorNoFeedItems"));	// "No RSS feed items identified in document."
 			}
 
 		} catch (error) {
-			throw new SyndicationError("Failed to get feed items from feed data.", error);
+			throw new SyndicationError(i18n("js_syndicationErrorGetFeedItems"), error);	// "Failed to get feed items from feed data."
 		}
 	}
 
@@ -324,15 +324,15 @@ let syndication = (function() {
 							}
 						});
 					}).catch((error) => {
-						reject(new SyndicationError("Failed to get response stream (blob).", error));
+						reject(new SyndicationError(i18n("js_syndicationErrorGetResponseStream"), error));	// "Failed to get response stream (blob)."
 					});
 
 				} else {
-					reject(new SyndicationError("Failed to retrieve feed source from URL.", { status: response.status, statusText: response.statusText }));
+					reject(new SyndicationError(i18n("js_syndicationErrorRetrieveFeedSource"), { status: response.status, statusText: response.statusText }));	// "Failed to retrieve feed source from URL."
 				}
 
 			}).catch((error) => {
-				reject(new SyndicationError("Failed to fetch feed from URL.", error));
+				reject(new SyndicationError(i18n("js_syndicationErrorFetchFeedFromURL"), error));	// "Failed to fetch feed from URL."
 			});
 		});
 	}
