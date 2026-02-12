@@ -227,9 +227,15 @@ let slPrototypes = (function() {
 	let m_sRx3PlusBrTags = `(${m_sRxBrTag}\\s*){3,}`;
 	let m_sRxStartMultiBrTags = `^(${m_sRxBrTag}\\s*)+`;
 
+	const REGEX_FORMAT_PLACEHOLDER = /{[0-9]+}/g;
+	const REGEX_MULTIPLE_WHITE_SPACES = /\s{2,}/g;
+	const REGEX_REG_EXP_SPECIAL_CHARS = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;
+	const LONG_DATE_TIME_FORMAT_OPTIONS = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" };
+	const SHORT_DATE_TIME_FORMAT_OPTIONS = { day: "numeric", month: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" };
+
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.format = function(args) {
-		return this.replace(String.prototype.format.regex, (item) => {
+		return this.replace(REGEX_FORMAT_PLACEHOLDER, (item) => {
 			let intVal = parseInt(item.substring(1, item.length - 1));
 			if (intVal >= 0 && (args[intVal] !== undefined)) {
 				return args[intVal];
@@ -237,20 +243,16 @@ let slPrototypes = (function() {
 			return "";
 		});
 	};
-	String.prototype.format.regex = new RegExp("{[0-9]+}", "g");
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.midTrunc = function(n) {
-		return (this.length > n) ? this.slice(0, n/2) + "\u2026" + this.slice(-(n/2)) : this;
+		return (!n || n < 3 || this.length <= n) ? this : this.slice(0, Math.ceil((n-1)/2)) + "\u2026" + this.slice(-Math.floor((n-1)/2));
 	};
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.consolidateWhiteSpaces = function() {
-		return this
-			.trim()
-			.replace(String.prototype.consolidateWhiteSpaces.regexMultipleWhiteSpaces, " ")
+		return this.trim().replace(REGEX_MULTIPLE_WHITE_SPACES, " ")
 	};
-	String.prototype.consolidateWhiteSpaces.regexMultipleWhiteSpaces = new RegExp("\\s{2,}", "g");
 
 	////////////////////////////////////////////////////////////////////////////////////
 	String.prototype.htmlEntityToLiteral = function() {
@@ -376,20 +378,18 @@ let slPrototypes = (function() {
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeRegExp = function() {
-		return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+		return this.replace(REGEX_REG_EXP_SPECIAL_CHARS, "\\$&");
 	};
 
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.toWebExtensionLocaleString = function() {
-		return this.toLocaleString(undefined, Date.prototype.toWebExtensionLocaleString.options);
+		return this.toLocaleString(undefined, LONG_DATE_TIME_FORMAT_OPTIONS);
 	};
-	Date.prototype.toWebExtensionLocaleString.options = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" };
 
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.toWebExtensionLocaleShortString = function() {
-		return this.toLocaleString(undefined, Date.prototype.toWebExtensionLocaleShortString.options);
+		return this.toLocaleString(undefined, SHORT_DATE_TIME_FORMAT_OPTIONS);
 	};
-	Date.prototype.toWebExtensionLocaleShortString.options = { day: "numeric", month: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" };
 
 	//////////////////////////////////////////////////////////////////////
 	Date.prototype.getRelativeTimeString = function() {
