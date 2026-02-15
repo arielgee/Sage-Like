@@ -465,8 +465,8 @@
 			});
 		} else {
 			// if called from initialization(), remove() will not find the menu. There is no get() or exists() method to check first.
-			// The SOB throws: 'Uncaught (in promise) Error: Cannot find menu item with id mnu-try-open-link-in-feed-preview' to console.
-			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW);
+			// '.catch(() => {})' avoids 'Uncaught (in promise) Error: Cannot find menu item with id mnu-try-open-link-in-feed-preview' to console when the menu item does not exist.
+			browser.menus.remove(MENU_ITEM_ID_TRY_OPEN_LINK_IN_FEED_PREVIEW).catch(() => {});
 		}
 	}
 
