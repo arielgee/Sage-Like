@@ -1231,6 +1231,7 @@
 * check remark 'GOTYA MADERFAKER!!!' in feedPreview.js. maybe can be solved with CSS only if I look at waht I did in rssTreeView.createTagLI() and rssTreeView.css.
 * try to make the jumpList in feedPreview a little more pretty - it's ugly as fuck
 * revisit InfoBubble after implementing BIDI. implementation of comment: "Adjust arrowX to account for rotation so the tip points to the center of the reference element". in RTL its not pointing to the center of the reference element. looks like a 2px shift. can it be the width of the reference element margin?
+* consider refactoring function's return block. use `return { value, value, ...}` instead of `return { key: value, key: value, ...}` when the key and value are the same. => NO. not a good idea. it is less readable and more error prone.
 ---
 
 
