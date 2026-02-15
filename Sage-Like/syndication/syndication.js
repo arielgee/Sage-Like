@@ -53,7 +53,7 @@ let syndication = (function() {
 			}
 
 			// array of just the url links (href) as strings for easy filtering of duplicates
-			const linkFeeds = Array.from(doc.querySelectorAll(selector), item => (slUtil.replaceMozExtensionOriginURL(item.href.stripHtmlTags(), origin) || "").toString());	// logical OR expression as short-circuit evaluation
+			const linkFeeds = Array.from(doc.querySelectorAll(selector), item => (slUtil.replaceMozExtensionOriginURL(item.href.removeHTMLTags(), origin) || "").toString());	// logical OR expression as short-circuit evaluation
 			let iframeHosts = [];
 
 			// will NOT check in iframes when aggressive level is 0 ('none')
@@ -222,7 +222,7 @@ let syndication = (function() {
 							let url = new URL(response.url);
 							let txt = await getResponseTextFromBlob(blob, "UTF-8");
 							let doc = g_feed.domParser.parseFromString(txt, "text/html");
-							let links = Array.from(doc.querySelectorAll(selector), n => slUtil.replaceMozExtensionOriginURL(n.href.stripHtmlTags(), url.origin).toString()); // array of string urls
+							let links = Array.from(doc.querySelectorAll(selector), n => slUtil.replaceMozExtensionOriginURL(n.href.removeHTMLTags(), url.origin).toString()); // array of string urls
 							linkFeeds.push(...links);
 							hosts.push(url.host);
 						}

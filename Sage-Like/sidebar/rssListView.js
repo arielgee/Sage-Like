@@ -195,11 +195,11 @@ let rssListView = (function() {
 
 		if(title.length === 0) title = url;		// Global.STR_TITLE_EMPTY ; url.split("/").reduceRight((p, c) => (c.length>0 && p==="<{in^it}>") ? c : p, "<{in^it}>");
 		desc = desc
-			.stripHtmlTags(String.prototype.stripHtmlTags.regexImgTag)
-			.stripHtmlTags(String.prototype.stripHtmlTags.regexATag)
-			.stripHtmlTags(String.prototype.stripHtmlTags.regexAudioVideoTags)
-			.stripHtmlTags(String.prototype.stripHtmlTags.regexMultiBrTag, "<br>")
-			.stripHtmlTags(String.prototype.stripHtmlTags.regexStyleAttr)
+			.replaceHTMLTags(String.HTML_PATTERN.reAnyImgTag)
+			.replaceHTMLTags(String.HTML_PATTERN.reAnyAnchorTag)
+			.replaceHTMLTags(String.HTML_PATTERN.reAudioVideoTag)
+			.replaceHTMLTags(String.HTML_PATTERN.reMultiBrTags, "<br>")
+			.replaceHTMLTags(String.HTML_PATTERN.reStyleAttribute)
 			.escapeMarkup()
 			.trim();
 

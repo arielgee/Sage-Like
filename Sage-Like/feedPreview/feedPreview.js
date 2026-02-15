@@ -277,17 +277,17 @@
 		let itemContent;
 		if(feedItem.htmlContent.length > 0) {
 			itemContent = feedItem.htmlContent
-				.stripHtmlTags(String.prototype.stripHtmlTags.regex3PlusBrTag, "<br><br>")
-				.stripHtmlTags(String.prototype.stripHtmlTags.regexStartMultiBrTags, "");
-		} else if (String.prototype.stripHtmlTags.regexAnyTag.test(feedItem.description)) {
+				.replaceHTMLTags(String.HTML_PATTERN.re3PlusBrTags, "<br><br>")
+				.replaceHTMLTags(String.HTML_PATTERN.reStartMultiBrTags);
+		} else if (String.HTML_PATTERN.reAnyTag.test(feedItem.description)) {
 			itemContent = feedItem.description
-				.stripHtmlTags(String.prototype.stripHtmlTags.regex3PlusBrTag, "<br><br>")
-				.stripHtmlTags(String.prototype.stripHtmlTags.regexStartMultiBrTags, "");
+				.replaceHTMLTags(String.HTML_PATTERN.re3PlusBrTags, "<br><br>")
+				.replaceHTMLTags(String.HTML_PATTERN.reStartMultiBrTags);
 		} else {
 			itemContent = feedItem.description
 				.replace(/(\r\n)/gim, "<br>")
 				.replace(/(\n)/gim, "<br>")
-				.stripHtmlTags(String.prototype.stripHtmlTags.regexStartMultiBrTags, "");
+				.replaceHTMLTags(String.HTML_PATTERN.reStartMultiBrTags);
 		}
 
 		// add feed-item image only if it's not included in the item content

@@ -34,10 +34,10 @@ class XmlFeed extends Feed {
 		let node = doc.querySelector(selector);
 
 		if(!!node) {
-			return node.textContent.stripHtmlTags()
+			return node.textContent.removeHTMLTags()
 		} else if(!!fallbackSelector) {
 			node = doc.querySelector(fallbackSelector);
-			return (node ? node.textContent.stripHtmlTags() : "");
+			return (node ? node.textContent.removeHTMLTags() : "");
 		} else {
 			return "";
 		}
@@ -151,7 +151,7 @@ class XmlFeed extends Feed {
 
 		for(let i=0, len=funcGet.length; i<len; i++) {
 
-			imageUrl = (funcGet[i](item)).stripHtmlTags();
+			imageUrl = (funcGet[i](item)).removeHTMLTags();
 
 			if(imageUrl.length > 0) {
 				return slUtil.validURL(imageUrl) ? imageUrl : "";
@@ -169,10 +169,10 @@ class XmlFeed extends Feed {
 			return null;
 		}
 
-		return this._createFeedItemObject(	!!elmTitle ? elmTitle.textContent.stripHtmlTags() : "",
-											!!elmDesc ? elmDesc.textContent.stripUnsafeHtmlComponents() : "",
-											!!elmContent ? elmContent.textContent.stripUnsafeHtmlComponents() : "",
-											strUrl.stripHtmlTags(),
+		return this._createFeedItemObject(	!!elmTitle ? elmTitle.textContent.removeHTMLTags() : "",
+											!!elmDesc ? elmDesc.textContent.removeUnsafeHTMLTags() : "",
+											!!elmContent ? elmContent.textContent.removeUnsafeHTMLTags() : "",
+											strUrl.removeHTMLTags(),
 											valLastUpdated,
 											imageUrl);
 	}

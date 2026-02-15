@@ -53,7 +53,7 @@ class AtomFeed extends XmlFeed {
 				feedItem = this._createSingleListItemFeed(item.querySelector("title"),
 															this._getFeedItemDescription(item),
 															this._getFeedItemHtmlContent(item),
-															feedItemUrl.stripHtmlTags(),
+															feedItemUrl.removeHTMLTags(),
 															this._getFeedItemLastUpdate(item),
 															this._getFeedItemImageUrl(item));
 

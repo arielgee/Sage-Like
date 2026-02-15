@@ -208,25 +208,6 @@ let Global = (function() {
 /////////////////////////////////////////////////////////////////////////////////////////////
 let slPrototypes = (function() {
 
-	let m_sRxATag = "</?a\\b[^>]*>";
-	let m_sRxScriptTag = "<script\\b[^>]*>(([\\s\\S]*?)</\\s*\\bscript\\b\\s*>)?";
-	let m_sRxAudioTag = "<audio\\b[^>]*>(([\\s\\S]*?)</\\s*\\baudio\\b\\s*>)?";
-	let m_sRxVideoTag = "<video\\b[^>]*>(([\\s\\S]*?)</\\s*\\bvideo\\b\\s*>)?";
-	let m_sRxLinkTag = "</?link\\b[^>]*>";
-	let m_sRxFrameTag = "</?i?frame(set)?\\b[^>]*?>([\\s\\S]*?</i?frame(set)?\\b[^>]*?>)?";
-	let m_sRxEmbedTag = "</?embed\\b[^>]*>";
-	let m_sRxAppletTag = "</?applet\\b[^>]*>";
-	let m_sRxObjectTag = "</?object\\b[^>]*>";
-	let m_sRxStyleTag = "<style\\b[^>]*>(([\\s\\S]*?)</\\s*\\bstyle\\b\\s*>)?";
-	let m_sRxBrTag = "</?br\\b[^>]*?/?>";
-
-	let m_sRxUnsafeTags = m_sRxScriptTag + "|" + m_sRxLinkTag + "|" + m_sRxFrameTag + "|" + m_sRxEmbedTag + "|" + m_sRxAppletTag + "|" + m_sRxObjectTag + "|" + m_sRxStyleTag;
-	let m_sRxContentTags = m_sRxATag + "|" + m_sRxUnsafeTags;
-	let m_sRxAudioVideoTags = m_sRxAudioTag + "|" + m_sRxVideoTag;
-	let m_sRxMultiBrTags = `(${m_sRxBrTag}\\s*){2,}`;
-	let m_sRx3PlusBrTags = `(${m_sRxBrTag}\\s*){3,}`;
-	let m_sRxStartMultiBrTags = `^(${m_sRxBrTag}\\s*)+`;
-
 	const REGEX_FORMAT_PLACEHOLDER = /{[0-9]+}/g;
 	const REGEX_MULTIPLE_WHITE_SPACES = /\s{2,}/g;
 	const REGEX_REG_EXP_SPECIAL_CHARS = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;
@@ -253,128 +234,6 @@ let slPrototypes = (function() {
 	String.prototype.consolidateWhiteSpaces = function() {
 		return this.trim().replace(REGEX_MULTIPLE_WHITE_SPACES, " ")
 	};
-
-	////////////////////////////////////////////////////////////////////////////////////
-	String.prototype.htmlEntityToLiteral = function() {
-		// this is NOT safe; may be used as an attack vector if result is displayed to user
-		return this
-			.replace(/&(amp|#0*38);/gim, "&")	// First handle ampersand for cases like "&amp;#8211;" (long dash)
-			.replace(/&#([\d]+);/gm, (_, number) => { return String.fromCharCode(number); })	// Handle numeric entities (dec)
-			.replace(String.prototype.htmlEntityToLiteral.regex, (matched) => {
-				return String.prototype.htmlEntityToLiteral.entities[matched];	// Handle nemonic entities
-			});
-	};
-	String.prototype.htmlEntityToLiteral.entities = {
-		"&quot;": "\"",
-		"&apos;": "'",
-		"&nbsp;": " ",
-		"&emsp;": " ",
-		"&reg;": "®",
-		"&copy;": "©",
-		"&trade;": "™",
-		"&cent;": "¢",
-		"&pound;": "£",
-		"&yen;": "¥",
-		"&euro;": "€",
-		"&raquo;": "»",
-		"&laquo;": "«",
-		"&bull;": "•",
-		"&mdash;": "—",
-	};
-	String.prototype.htmlEntityToLiteral.regex = new RegExp(Object.keys(String.prototype.htmlEntityToLiteral.entities).join("|"), "gim");
-
-	////////////////////////////////////////////////////////////////////////////////////
-	String.prototype.htmlChevronEntityToLiteral = function() {
-		return this.replace(String.prototype.htmlChevronEntityToLiteral.regex, (matched) => {
-			return String.prototype.htmlChevronEntityToLiteral.entities[matched];	// Handle HTML Tag entities
-		});
-	};
-	String.prototype.htmlChevronEntityToLiteral.entities = {
-		"&gt;": ">",
-		"&lt;": "<",
-	};
-	// regex groups: (positive lookbehind assertion) (chevrons) (positive lookahead assertion)
-	String.prototype.htmlChevronEntityToLiteral.regex = new RegExp(`(?<=<[^<>]*?)(${Object.keys(String.prototype.htmlChevronEntityToLiteral.entities).join("|")})(?=[^<>]*?>)`, "gim");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.escapeMarkup = function() {
-		return this.replace(String.prototype.escapeMarkup.regex, (match) => {
-			return String.prototype.escapeMarkup.markupReservedCharacters[match];
-		});
-	};
-	String.prototype.escapeMarkup.markupReservedCharacters = {
-		"&": "&amp;",
-		"<": "&lt;",
-		">": "&gt;",
-		"\"": "&quot;",
-		"'": "&#039;",
-	};
-	String.prototype.escapeMarkup.regex = new RegExp("[" + Object.keys(String.prototype.escapeMarkup.markupReservedCharacters).join("") + "]", "gm");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.unescapeMarkup = function() {
-		return this.replace(String.prototype.unescapeMarkup.regex, (match) => {
-			return Object.keys(String.prototype.escapeMarkup.markupReservedCharacters).find((key) => String.prototype.escapeMarkup.markupReservedCharacters[key] === match);
-		});
-	};
-	String.prototype.unescapeMarkup.regex = new RegExp(Object.values(String.prototype.escapeMarkup.markupReservedCharacters).join("|"), "gm");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.stripHtmlTags = function(regex = null, substitution = "") {
-		if(regex) {
-			return this.replace(regex, substitution)
-		} else {
-			return this
-				.htmlEntityToLiteral()
-				.htmlChevronEntityToLiteral()
-				.replace(String.prototype.stripHtmlTags.regexContentTags, "")
-				.replace(String.prototype.stripHtmlTags.regexAnyTag, " ");
-		}
-	};
-	// I know, embed, link, cannot have any child nodes. Not taking any risks
-	String.prototype.stripHtmlTags.regexContentTags = new RegExp(m_sRxContentTags, "gim");
-	String.prototype.stripHtmlTags.regexAudioVideoTags = new RegExp(m_sRxAudioVideoTags, "gim");
-	String.prototype.stripHtmlTags.regexATag = new RegExp(m_sRxATag, "gim");
-	String.prototype.stripHtmlTags.regexScriptTag = new RegExp(m_sRxScriptTag, "gim");
-	String.prototype.stripHtmlTags.regexLinkTag = new RegExp(m_sRxLinkTag, "gim");
-	String.prototype.stripHtmlTags.regexFrameTag = new RegExp(m_sRxFrameTag, "gim");
-	String.prototype.stripHtmlTags.regexEmbedTag = new RegExp(m_sRxEmbedTag, "gim");
-	String.prototype.stripHtmlTags.regexAppletTag = new RegExp(m_sRxAppletTag, "gim");
-	String.prototype.stripHtmlTags.regexObjectTag = new RegExp(m_sRxObjectTag, "gim");
-	String.prototype.stripHtmlTags.regexImgTag = new RegExp("</?img\\b[^>]*>", "gim");
-	String.prototype.stripHtmlTags.regexAnyTag = new RegExp("</?[a-zA-Z0-9]+\\b[^>]*?>", "gm");		// faster then: /<\/?[a-z][a-z0-9]*\b[^>]*?>/gim
-	String.prototype.stripHtmlTags.regexMultiBrTag = new RegExp(m_sRxMultiBrTags, "gim");
-	String.prototype.stripHtmlTags.regex3PlusBrTag = new RegExp(m_sRx3PlusBrTags, "gim");
-	String.prototype.stripHtmlTags.regexStartMultiBrTags = new RegExp(m_sRxStartMultiBrTags, "i");
-	String.prototype.stripHtmlTags.regexStyleTag = new RegExp(m_sRxStyleTag, "gim");
-	String.prototype.stripHtmlTags.regexStyleAttr = new RegExp("\\bstyle\\s*=\\s*(\"[\\s\\S]*?\"|'[\\s\\S]*?')", "gim");
-
-	//////////////////////////////////////////////////////////////////////
-	String.prototype.stripUnsafeHtmlComponents = function() {
-		let oRef = String.prototype.stripUnsafeHtmlComponents;
-		return this
-			.htmlEntityToLiteral()
-			.htmlChevronEntityToLiteral()
-			.replace(oRef.regexUnsafeTags, "")
-			.replace(oRef.regexJavascript, "'#striped'")
-			.replace(oRef.regexImg1x1, "")
-			.replace(oRef.regexEventAttr, "$1");
-	};
-	String.prototype.stripUnsafeHtmlComponents.regexUnsafeTags = new RegExp(m_sRxUnsafeTags, "gim");
-	String.prototype.stripUnsafeHtmlComponents.regexJavascript = new RegExp("('\\bjavascript:([\\s\\S]*?)')|(\"\\bjavascript:([\\s\\S]*?)\")", "gim");
-	String.prototype.stripUnsafeHtmlComponents.regexImg1x1 = new RegExp("<img\\b[^>]*\\b(width|height)\\b\\s*=\\s*[\"']0*1[\"'][^>]*\\b(width|height)\\b\\s*=\\s*[\"']0*1[\"'][^>]*>", "gim");
-	String.prototype.stripUnsafeHtmlComponents.regexEventAttr = new RegExp("(<[a-zA-Z0-9]+\\b[^>]*)\\bon[a-zA-Z]+\\s*=\\s*(\"[\\s\\S]*?\"|'[\\s\\S]*?')", "gim");
-
-	/*
-	+ Alternatives for regexImg1x1
-		1.	/<img\b[^>]*(?=[^>]*\bwidth\b\s*=\s*["']0*1["'])(?=[^>]*\bheight\b\s*=\s*["']0*1["'])[^>]*>/
-			Using lookhead and shorter BUT slower. 417 steps for test case.
-		2.	/<img\b[^>]*((\bwidth\b\s*=\s*["']0*1["'][^>]*\bheight\b\s*=\s*["']0*1["'])|(\bheight\b\s*=\s*["']0*1["'][^>]*\bwidth\b\s*=\s*["']0*1["']))[^>]*>/
-			using '|' to match different order ('width, height' or 'height, width'). longer and faster then #1. 185 steps for test case.
-		3.	/<img\b[^>]*\b(width|height)\b\s*=\s*["']0*1["'][^>]*\b(width|height)\b\s*=\s*["']0*1["'][^>]*>/
-			Another way of using '|' to match different order ('width, height' or 'height, width'). faster then #1 and #2. 120 steps for test case.
-			ATTENTION - HAS A FLAW: will also match 'width, width' or 'height, height'. Chosen; faster, unliklly that html tag will have the same attribute twice.
-	*/
 
 	//////////////////////////////////////////////////////////////////////
 	String.prototype.escapeRegExp = function() {
@@ -432,7 +291,122 @@ let slPrototypes = (function() {
 		this.length = j;
 		return this;
 	};
+})();
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+const HTMLStringPrototypes = (() => {
+
+	///////// helper functions to generate regex patterns for tags ///////////////////////////////////////////////////////////////////
+	const regexSrc_anyTag = (tagNames) => `<\\s*\\/??\\s*${tagNames}(?:\\s+[\\s\\S]*?)?>`;
+	const regexSrc_openingTag = (tagNames) => `<\\s*${tagNames}(?:\\s+[\\s\\S]*?)?>`;
+	const regexSrc_containerTag = (tagNames) => `<\\s*${tagNames}(?:\\s+[\\s\\S]*?)?>(?:[\\s\\S]*?<\\s*\\/\\s*${tagNames}\\s*>)?`;
+
+	///////// HTML entities and reserved markup characters ///////////////////////////////////////////////////////////////////////////
+	const HTML_ENTITIES = {
+		"&quot;": "\"",
+		"&apos;": "'",
+		"&nbsp;": " ",
+		"&emsp;": " ",
+		"&reg;": "®",
+		"&copy;": "©",
+		"&trade;": "™",
+		"&cent;": "¢",
+		"&pound;": "£",
+		"&yen;": "¥",
+		"&euro;": "€",
+		"&raquo;": "»",
+		"&laquo;": "«",
+		"&bull;": "•",
+		"&mdash;": "—",
+	};
+	const HTML_CHEVRON_ENTITIES = {
+		"&lt;": "<",
+		"&gt;": ">",
+	};
+	const REGEX_HTML_ENTITIES = new RegExp(Object.keys(HTML_ENTITIES).join("|"), "g");
+	const REGEX_HTML_CHEVRON_ENTITIES = new RegExp(`(?<=<[^<>]*?)(?:${Object.keys(HTML_CHEVRON_ENTITIES).join("|")})(?=[^<>]*?>)`, "g"); // groups legend: (positive lookbehind assertion)(chevrons)(positive lookahead assertion)
+	// to support 'i' flag in the above regex, ensure that map lookups are using the '.toLowerCase()' version of the match
+
+	///////// reserved markup characters that need to be escaped or unescaped ////////////////////////////////////////////////////////
+	const RESERVED_MARKUP_ENTITIES = {
+		"&lt;": "<",
+		"&gt;": ">",
+		"&amp;": "&",
+		"&quot;": "\"",
+		"&#039;": "'",		// Legacy
+		"&#39;": "'",		// Canonical. when reverse in RESERVED_MARKUP_CHARS, last one wins and overwrites legacy
+	};
+	const RESERVED_MARKUP_CHARS = Object.fromEntries(Object.entries(RESERVED_MARKUP_ENTITIES).map(([key, value]) => [value, key]));
+	const REGEX_RESERVED_MARKUP_ENTITIES = new RegExp(Object.keys(RESERVED_MARKUP_ENTITIES).join("|"), "g");	// to support 'i' flag, ensure that map lookups are using the '.toLowerCase()' version of the match
+	const REGEX_RESERVED_MARKUP_CHARS = new RegExp(`[${Object.keys(RESERVED_MARKUP_CHARS).join("")}]`, "g");
+
+	///////// unsafe tags are those that can execute code or load external resources /////////////////////////////////////////////////
+	//										|-------------void-elements--------------||--------------------container-elements---------------------|
+	const UNSAFE_HTML_TAG_NAMES_REGEX_SRC = ["frame", "embed", "link", "meta", "base", "script", "iframe", "frameset", "object", "applet", "style"].join("|");
+	const REGEX_UNSAFE_CONTAINER_TAGS = new RegExp(regexSrc_containerTag(`(?:${UNSAFE_HTML_TAG_NAMES_REGEX_SRC})`), "gi");
+	const REGEX_IMG_OPENING_TAG = new RegExp(regexSrc_openingTag("img"), "gi");
+	const REGEX_WIDTH_ATTR_1PX = /\bwidth\s*=\s*['"]?0*1\b/i;
+	const REGEX_HEIGHT_ATTR_1PX = /\bheight\s*=\s*['"]?0*1\b/i;
+	const REGEX_ANY_OPENING_TAG = new RegExp(regexSrc_openingTag("[a-zA-Z0-9\\-_]+"), "g");
+	const REGEX_EVENT_ATTRIBUTE = /\bon\w+\s*=\s*(?:"[\s\S]*?"|'[\s\S]*?'|[^\s>]+)/gi;
+	const REGEX_JS_PROTOCOL = /\b(?:href|src|action)\s*=\s*(?:"\s*javascript\s*:[\s\S]*?"|'\s*javascript\s*:[\s\S]*?'|javascript\s*:[^\s>]+)/gi;
+
+	///////// generic tags that we might want to remove for other reasons ////////////////////////////////////////////////////////////
+	const PATTERN = {
+		reAnyTag: new RegExp(regexSrc_anyTag("[a-zA-Z0-9\\-_]+"), "g"),
+		reBrTag: new RegExp(regexSrc_anyTag("br"), "gi"),
+		reMultiBrTags: new RegExp(`(?:${regexSrc_anyTag("br")}){2,}`, "gi"),
+		re3PlusBrTags: new RegExp(`(?:${regexSrc_anyTag("br")}){3,}`, "gi"),
+		reStartMultiBrTags: new RegExp(`^(?:\\s*${regexSrc_anyTag("br")}\\s*)+`, "i"),
+		reAnyImgTag: new RegExp(regexSrc_anyTag("img"), "gi"),
+		reAnyAnchorTag: new RegExp(regexSrc_anyTag("a"), "gi"),
+		reStyleAttribute: /\bstyle\s*=\s*(?:"[\s\S]*?"|'[\s\S]*?'|[^\s>]+)/gi,
+		reAudioVideoTag: new RegExp(regexSrc_containerTag("(?:audio|video)"), "gi"),
+		reActiveContainerTags: new RegExp(`(?:${regexSrc_containerTag(`(?:${UNSAFE_HTML_TAG_NAMES_REGEX_SRC})`)}|${regexSrc_anyTag("a")})`, "gi"),
+	};
+
+	//////////////////////////////////////////////////////////////////////////////////
+	function entityToLiteral(inputString) {
+		return inputString
+			.replace(/&(?:amp|#0*38|#x0*26);/gi, "&")													// First handle ampersand for cases like "&amp;#8211;" (long dash)
+			.replace(/&#(\d+);/g, (_, number) => String.fromCharCode(number))							// Handle decimal numeric entities
+			.replace(/&#x([0-9a-fA-F]+);/g, (_, number) => String.fromCharCode(parseInt(number, 16)))	// Handle hexadecimal numeric entities
+			.replace(REGEX_HTML_ENTITIES, (match) => HTML_ENTITIES[match])								// Handle common named HTML entities
+			.replace(REGEX_HTML_CHEVRON_ENTITIES, (match) => HTML_CHEVRON_ENTITIES[match]);				// LAST, Handle chevron entities within tags to ensure proper tag recognition
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	String.HTML_PATTERN = PATTERN;
+
+	//////////////////////////////////////////////////////////////////////////////////
+	String.prototype.escapeMarkup = function() {
+		return this.replace(REGEX_RESERVED_MARKUP_CHARS, (match) => RESERVED_MARKUP_CHARS[match]);
+	};
+
+	//////////////////////////////////////////////////////////////////////////////////
+	String.prototype.unescapeMarkup = function() {
+		return this.replace(REGEX_RESERVED_MARKUP_ENTITIES, (match) => RESERVED_MARKUP_ENTITIES[match]);
+	};
+
+	//////////////////////////////////////////////////////////////////////////////////
+	String.prototype.replaceHTMLTags = function(rePattern, substitution = "") {
+		return this.replace(rePattern, substitution);				// simple wrapper to make code more readable and indicate that the replacement is for HTML tags
+	};
+
+	//////////////////////////////////////////////////////////////////////////////////
+	String.prototype.removeHTMLTags = function() {
+		return entityToLiteral(this)			// ensure that tags are properly recognized and handled, even if they were encoded as entities
+			.replace(PATTERN.reActiveContainerTags, "")
+			.replace(PATTERN.reAnyTag, " ");
+	};
+
+	//////////////////////////////////////////////////////////////////////////////////
+	String.prototype.removeUnsafeHTMLTags = function() {
+		return entityToLiteral(this)			// ensure that tags are properly recognized and handled, even if they were encoded as entities
+			.replace(REGEX_UNSAFE_CONTAINER_TAGS, "")
+			.replace(REGEX_IMG_OPENING_TAG, (match) => (REGEX_WIDTH_ATTR_1PX.test(match) && REGEX_HEIGHT_ATTR_1PX.test(match)) ? "" : match)
+			.replace(REGEX_ANY_OPENING_TAG, (match) => match.replace(REGEX_EVENT_ATTRIBUTE, "").replace(REGEX_JS_PROTOCOL, ""));
+	};
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -584,7 +558,6 @@ let internalPrefs = (function() {
 
 		restoreDefaults: restoreDefaults,
 	};
-
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -921,7 +894,6 @@ let prefs = (function() {
 
 		handleObsoletePreferences: handleObsoletePreferences,
 	}
-
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -997,7 +969,6 @@ let contentHandler = (function() {
 	return {
 		getPageData: getPageData,
 	};
-
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -1903,5 +1874,4 @@ let slUtil = (function() {
 		debug_storedKeys_purge: debug_storedKeys_purge,
 		debug_alarms_list: debug_alarms_list,
 	};
-
 })();

@@ -19,12 +19,12 @@ class JsonFeed extends Feed {
 			feedData.jsonVersion = this.#_feedJson.version.match(/[\d.]+$/)[0];
 			feedData.expired = (this.#_feedJson.expired === true);			// boolean, if absence then it's not expired
 			feedData.feeder = this.#_feedJson.items;
-			feedData.title = (!!this.#_feedJson.title ? this.#_feedJson.title.stripHtmlTags() : "").consolidateWhiteSpaces();
-			feedData.imageUrl = (!!this.#_feedJson.icon ? this.#_feedJson.icon : (!!this.#_feedJson.favicon ? this.#_feedJson.favicon : "")).stripHtmlTags();
-			feedData.description = (!!this.#_feedJson.description ? this.#_feedJson.description.stripHtmlTags() : "");
+			feedData.title = (!!this.#_feedJson.title ? this.#_feedJson.title.removeHTMLTags() : "").consolidateWhiteSpaces();
+			feedData.imageUrl = (!!this.#_feedJson.icon ? this.#_feedJson.icon : (!!this.#_feedJson.favicon ? this.#_feedJson.favicon : "")).removeHTMLTags();
+			feedData.description = (!!this.#_feedJson.description ? this.#_feedJson.description.removeHTMLTags() : "");
 			feedData.lastUpdated = this.#_getFeedLastUpdate(this.#_feedJson.items);
 			feedData.itemCount = this.#_feedJson.items.length;
-			feedData.webPageUrl = (!!this.#_feedJson.home_page_url ? this.#_feedJson.home_page_url.stripHtmlTags() : "");
+			feedData.webPageUrl = (!!this.#_feedJson.home_page_url ? this.#_feedJson.home_page_url.removeHTMLTags() : "");
 			feedData.fixableParseErrors = false;		// Compatibility. Fixable parsing errors are an XML issue.
 		} catch (error) {
 			console.log("[Sage-Like]", "getFeedData error", error);
@@ -99,10 +99,10 @@ class JsonFeed extends Feed {
 			}
 		}
 
-		return this._createFeedItemObject(	this.#_getFeedItemTitle(item).stripHtmlTags(),
-											this.#_getFeedItemDescription(item).stripUnsafeHtmlComponents(),
-											this.#_getFeedItemHtmlContent(item).stripUnsafeHtmlComponents(),
-											itemUrl.stripHtmlTags(),
+		return this._createFeedItemObject(	this.#_getFeedItemTitle(item).removeHTMLTags(),
+											this.#_getFeedItemDescription(item).removeUnsafeHTMLTags(),
+											this.#_getFeedItemHtmlContent(item).removeUnsafeHTMLTags(),
+											itemUrl.removeHTMLTags(),
 											this.#_getFeedItemLastUpdate(item),
 											(!!item.image && slUtil.validURL(item.image)) ? item.image : "");
 	}

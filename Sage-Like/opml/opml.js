@@ -128,7 +128,7 @@ let opml = (function() {
 			let bmCreated;
 			const newBmItem = {
 				parentId: parentId,
-				title: title.stripHtmlTags(),
+				title: title.removeHTMLTags(),
 			};
 
 			if(node.children.length > 0 || !isFeed) {
@@ -148,7 +148,7 @@ let opml = (function() {
 
 			} else {
 
-				newBmItem.url = node.getAttribute("xmlUrl").stripHtmlTags();
+				newBmItem.url = node.getAttribute("xmlUrl").removeHTMLTags();
 				if( !!slUtil.validURL(newBmItem.url) ) {
 
 					newBmItem.type = "bookmark";
