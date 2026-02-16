@@ -1,6 +1,6 @@
 "use strict";
 
-let notepad = (function() {
+const notepad = (function() {
 
 	const DOCUMENT_TITLE = "Notepad - Custom CSS source code";
 

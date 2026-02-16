@@ -1,6 +1,6 @@
 "use strict";
 
-let rssTreeView = (function() {
+const rssTreeView = (function() {
 
 	//==================================================================================
 	//=== Class Declerations

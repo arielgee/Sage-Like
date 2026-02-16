@@ -76,7 +76,7 @@ class StoredKeyedItems {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let Global = (function() {
+const Global = (function() {
 
 	const _EXTRA_URL_PARAM_NO_REDIRECT_SPLIT = Object.freeze(["_SLWxoPenuRl", "nOtinFEeDPREVIew"]);
 
@@ -206,7 +206,7 @@ let Global = (function() {
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let slPrototypes = (function() {
+const slPrototypes = (function() {
 
 	const REGEX_FORMAT_PLACEHOLDER = /{[0-9]+}/g;
 	const REGEX_MULTIPLE_WHITE_SPACES = /\s{2,}/g;
@@ -410,7 +410,7 @@ const HTMLStringPrototypes = (() => {
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let internalPrefs = (function() {
+const internalPrefs = (function() {
 
 	// internal preferences
 
@@ -561,7 +561,7 @@ let internalPrefs = (function() {
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let prefs = (function() {
+const prefs = (function() {
 
 	// user preferences
 
@@ -897,7 +897,7 @@ let prefs = (function() {
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let contentHandler = (function() {
+const contentHandler = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function queryInjectedContent(tabId) {
@@ -972,7 +972,7 @@ let contentHandler = (function() {
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let slUtil = (function() {
+const slUtil = (function() {
 
 	const REGEX_SEP_ZULU = /\s+Z$/;																			// Zulu is seperated by white spaces
 	const REGEX_EURO_FMT = /^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{1,2}:\d{1,2})$/;						// Euro format 'dd/mm/yyyy hh:MM:ss'

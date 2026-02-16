@@ -1,6 +1,6 @@
 "use strict";
 
-let rssListView = (function() {
+const rssListView = (function() {
 
 	//==================================================================================
 	//=== Variables Declerations

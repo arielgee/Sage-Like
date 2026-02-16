@@ -1,6 +1,6 @@
 "use strict";
 
-let signinView = (function () {
+const signinView = (function () {
 
 	let m_elmSigninPanel = null;
 	let m_elmFeedName;

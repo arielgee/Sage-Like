@@ -1,7 +1,7 @@
 "use strict";
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-let syndication = (function() {
+const syndication = (function() {
 
 	const STANDARD_DISCOVERY_SELECTOR = "link[rel=\"alternate\" i][type=\"application/rss+xml\" i]," +		// standard publicized RSS for discovery
 										"link[rel=\"alternate\" i][type=\"application/rdf+xml\" i]," +

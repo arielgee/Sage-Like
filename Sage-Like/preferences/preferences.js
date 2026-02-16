@@ -1,6 +1,6 @@
 "use strict";
 
-let preferences = (function() {
+const preferences = (function() {
 
 	const ID_OPTION_USER_FONT_NAME = "optionUserFontName";
 	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";

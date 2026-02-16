@@ -1,6 +1,6 @@
 "use strict"
 
-let preferencesData = (function() {
+const preferencesData = (function() {
 
 	const PREF_SELF_SIGNED = "pref_selfSigned";
 	const SELF_SIGNED_HASH_SALT = "salt_PreferencesSelfSignedHash-1.0";

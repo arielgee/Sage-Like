@@ -1,6 +1,6 @@
 "use strict";
 
-let discoveryView = (function() {
+const discoveryView = (function() {
 
 	//==================================================================================
 	//=== Variables Declerations

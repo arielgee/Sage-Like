@@ -1,6 +1,6 @@
 "use strict";
 
-let contextMenu = (function() {
+const contextMenu = (function() {
 
 	const ContextAction = Object.freeze({
 		treeOpen:				1,

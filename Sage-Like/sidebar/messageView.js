@@ -1,6 +1,6 @@
 "use strict";
 
-let messageView = (function () {
+const messageView = (function () {
 
 	let ButtonSet = {
 		setOK: 1,

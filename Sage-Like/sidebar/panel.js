@@ -1,6 +1,6 @@
 "use strict";
 
-let panel = (function() {
+const panel = (function() {
 
 	//==================================================================================
 	//=== Variables Declerations
