@@ -10,6 +10,7 @@
 	--width-navigation-bar: 260px;
 	--height-preference: 48px;
 	--padding-top-pref-block: calc(var(--height-preference) * 1.333333);
+	--height-preference-button: 22px;
 	--min-width-main-content: 630px;
 	--max-width-main-content: 700px;
 	--end-start-radius-last-sub-perf: 15px;
@@ -396,9 +397,10 @@ input {
 	background-color: var(--btn-bg-state-color);
 	border: 1px solid rgb(193, 193, 193);
 	border-radius: 2px;
-	height: 22px;
+	height: var(--height-preference-button);
 	width: 90px;
 	text-align: center;
+	align-content: center;
 	margin-inline-start: 10px;
 	font-family: Tahoma, Verdana, Segoe, sans-serif;
 	font-size: 13.3333px;
@@ -430,8 +432,17 @@ input {
 	d: var(--path-sidebar-icon);
 }
 
+.extensionButtons {
+	min-height: var(--height-preference);
+	height: auto;
+	padding-block: 13px;
+}
+
 .extensionButtons .preferenceButton {
+	min-height: var(--height-preference-button);
 	width: 115px;
+	height: auto;
+	white-space: wrap;
 	margin-inline-start: 7px;
 }
 
