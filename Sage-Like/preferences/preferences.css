@@ -46,10 +46,9 @@
 	--background-color-disabled-control: rgb(211, 211, 211);
 	--background-color-textarea-control: rgb(240, 240, 240);
 
-	--background-color-values-button: 6, 6, 5;
-	--background-alpha-button: 0.1;
-	--background-alpha-hover-button: 0.15;
-	--background-alpha-hover-active-button: 0.2;
+	--background-color-button: rgb(230, 230, 230);
+	--background-color-button-hover: rgb(207, 207, 207);
+	--background-color-button-active-hover: rgb(194, 194, 194);
 
 	--color-preference-hover: rgb(242, 242, 242);
 	--color-border-pref-sep: rgb(51, 51, 51);
@@ -81,10 +80,9 @@
 		--background-color-disabled-control: rgb(72, 72, 72);
 		--background-color-textarea-control: rgb(50, 50, 50);
 
-		--background-color-values-button: 249, 249, 250;
-		--background-alpha-button: 0.1;
-		--background-alpha-hover-button: 0.15;
-		--background-alpha-hover-active-button: 0.2;
+		--background-color-button: rgb(56, 55, 63);
+		--background-color-button-hover: rgb(81, 81, 83);
+		--background-color-button-active-hover: rgb(91, 91, 94);
 
 		--color-preference-hover: rgb(52, 52, 55);
 		--color-border-pref-sep: rgb(221, 221, 221);
@@ -391,9 +389,11 @@ input {
 }
 
 .preferenceButton {
+	--btn-bg-state-color: var(--background-color-button);
+
 	padding: 1px 3px 2px 3px;
 	color: var(--foreground-color);
-	background-color: rgba(var(--background-color-values-button), var(--background-alpha-button));
+	background-color: var(--btn-bg-state-color);
 	border: 1px solid rgb(193, 193, 193);
 	border-radius: 2px;
 	height: 22px;
@@ -406,10 +406,10 @@ input {
 	outline-offset: -3px;
 }
 .preferenceButton:hover {
-	background-color: rgba(var(--background-color-values-button), var(--background-alpha-hover-button));
+	--btn-bg-state-color: var(--background-color-button-hover);
 }
 .preferenceButton:active:hover {
-	background-color: rgba(var(--background-color-values-button), var(--background-alpha-hover-active-button));
+	--btn-bg-state-color: var(--background-color-button-active-hover);
 }
 
 .controlImage {
@@ -554,8 +554,7 @@ input {
 	transition: background-position var(--transition-duration-flash) ease-in 0s;
 }
 .preferenceButton.isFlashable {
-	--button-bg-color: rgba(var(--background-color-values-button), var(--background-alpha-button));
-	background-image: linear-gradient(to var(--gradient-to-direction), var(--button-bg-color) 52%, var(--color-flash) 50%);
+	background-image: linear-gradient(to var(--gradient-to-direction), var(--btn-bg-state-color) 52%, var(--color-flash) 50%);
 }
 .preferenceSelect.isFlashable {
 	background-image: linear-gradient(to var(--gradient-to-direction), var(--background-color-select-control) 52%, var(--color-flash) 50%);
