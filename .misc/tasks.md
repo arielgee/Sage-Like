@@ -1232,6 +1232,16 @@
 * try to make the jumpList in feedPreview a little more pretty - it's ugly as fuck
 * revisit InfoBubble after implementing BIDI. implementation of comment: "Adjust arrowX to account for rotation so the tip points to the center of the reference element". in RTL its not pointing to the center of the reference element. looks like a 2px shift. can it be the width of the reference element margin?
 * consider refactoring function's return block. use `return { value, value, ...}` instead of `return { key: value, key: value, ...}` when the key and value are the same. => NO. not a good idea. it is less readable and more error prone.
+* support for manifest key `data_collection_permissions` starting in v140
+	+ in 02/12/2025 about 96.0% of desktop users are on v140.0 or newer.
+	+ in 02/12/2025 v115.29.0 (ESR) was the most used sub-140 version on a peak day with 11 users.
+	+ at Fx release day 09/12/2025 the ESR versions will be v140.6 + v115.31.0
+	+ at Fx release day 24/03/2026 the ESR version will be v140.9. Meaning, after this date almost all users will be on v140 or newer => in 20/04/2026 ESR v115 support was extended up to August 2026.
+	+ the following should be added to manifest.json in `browser_specific_settings.gecko`:
+		"data_collection_permissions": {
+			"required": [ "none" ]
+		}
+* use AI to analyze the code and find out if I can bump the "strict_min_version" from "109.0" to "140.0". and also if "140.0" can allow me to use newer `browser.scripting` capabilities (post-109 changes) or any API whose MDN page states "Firefox X+" where X > 109.
 ---
 
 
@@ -1241,15 +1251,7 @@
 
 
 ## Next
-* support for manifest key `data_collection_permissions` starting in v140
-	+ in 02/12/2025 about 96.0% of desktop users are on v140.0 or newer.
-	+ in 02/12/2025 v115.29.0 (ESR) was the most used sub-140 version on a peak day with 11 users.
-	+ at Fx release day 09/12/2025 the ESR versions will be v140.6 + v115.31.0
-	+ at Fx release day 24/03/2026 the ESR version will be v140.9. Meaning, after this date almost all users will be on v140 or newer.
-	+ the following should be added to manifest.json in `browser_specific_settings.gecko`:
-		"data_collection_permissions": {
-			"required": [ "none" ]
-		}
+* add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
 >`¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯`
 
 
