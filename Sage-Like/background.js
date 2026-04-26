@@ -190,7 +190,7 @@
 		/********************************************************************************************************************
 		+ Listener is called (filtered) for requests whose targets are "http:" or "https:"
 		  and for resources of type "main_frame".
-			> "moz-extension://" will not handled.
+			> "moz-extension://" will not be handled.
 			> Top-level documents loaded into a tab.
 			> details.documentUrl will allways be undefined for top-level documents.
 
