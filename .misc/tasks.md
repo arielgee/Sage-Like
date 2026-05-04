@@ -1242,15 +1242,21 @@
 			"required": [ "none" ]
 		}
 * use AI to analyze the code and find out if I can bump the "strict_min_version" from "109.0" to "140.0". and also if "140.0" can allow me to use newer `browser.scripting` capabilities (post-109 changes) or any API whose MDN page states "Firefox X+" where X > 109.
+* fix the function Content.#_onRuntimeMessage(). Prevents an unresolved Promise when an unhandled runtime message hits the listener.
 ---
 
 
 ## Now
+* In Fx152 script injection in moz-extension documents is removed. feedPreview custom CSS: replace calls to insertCSS/removeCSS with setting styleElement.textContent to source
+* In Fx152 script injection in moz-extension documents is removed. injecting `content.js` into feedPreview is not possible. add `<script type="text/javascript" src="/shared/content.js"></script>` to feedPreview.html ???
 > STANDING TASK: Check the `<select>` control in the preferences page. Are the colors of the `<option>` in dark mode are readable when hovered
 ---
 
 
 ## Next
+* in Firefox 152 File access becomes opt-in. see `IsAllowedForFeedDetection()` and `const REGEXP_URL_FILTER_TAB_STATE_CHANGE`. there is a `file:` there
+* consider adding a guard before or in `injectContentScript` to not be implemented on extension pages. `strUrl.startsWith("moz-extension:")`
+* consider changing the height of the #jumpListContainer when it's opened from `auto` to 95% or `calc(100vh - 50px)`
 * add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
 >`¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯`
 
