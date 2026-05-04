@@ -43,35 +43,28 @@ class Content {
 	//////////////////////////////////////////////////////////////////////
 	#_onRuntimeMessage(message) {
 
-		return new Promise((resolve) => {
+		switch (message.id) {
 
-			switch (message.id) {
+			case this.#_messageIds.MSG_ID_QUERY_INJECTED_CONTENT:
+				return Promise.resolve({ reply: "YES" });
+				//////////////////////////////////////////////////////////////
 
-				case this.#_messageIds.MSG_ID_QUERY_INJECTED_CONTENT:
-					resolve({ reply: "YES" });
-					break;
-					//////////////////////////////////////////////////////////////
+			case this.#_messageIds.MSG_ID_SET_CONFIRMED_PAGE_FEEDS:
+				if(message.confirmedFeeds instanceof Array) {
+					this.#_feeds = message.confirmedFeeds;
+				}
+				this.#_isFeedsArraySet = true;
+				browser.runtime.sendMessage({id: this.#_messageIds.MSG_ID_UPDATE_POPUP_DISPLAY });
+				return Promise.resolve({ feedCount: this.#_feeds.length });
+				//////////////////////////////////////////////////////////////
 
-				case this.#_messageIds.MSG_ID_SET_CONFIRMED_PAGE_FEEDS:
-					if(message.confirmedFeeds instanceof Array) {
-						this.#_feeds = message.confirmedFeeds;
-					}
-					this.#_isFeedsArraySet = true;
-					browser.runtime.sendMessage({id: this.#_messageIds.MSG_ID_UPDATE_POPUP_DISPLAY });
-					resolve({ feedCount: this.#_feeds.length });
-					break;
-					//////////////////////////////////////////////////////////////
+			case this.#_messageIds.MSG_ID_GET_CONFIRMED_PAGE_FEEDS:
+				return Promise.resolve({ isFeedsArraySet: this.#_isFeedsArraySet, title: document.title, feeds: this.#_feeds });
+				//////////////////////////////////////////////////////////////
 
-				case this.#_messageIds.MSG_ID_GET_CONFIRMED_PAGE_FEEDS:
-					resolve({ isFeedsArraySet: this.#_isFeedsArraySet, title: document.title, feeds: this.#_feeds });
-					break;
-					//////////////////////////////////////////////////////////////
-
-				case this.#_messageIds.MSG_ID_GET_PAGE_DATA:
-					resolve({ pageData: this.#_getPageData() });
-					break;
-					//////////////////////////////////////////////////////////////
-			}
-		});
+			case this.#_messageIds.MSG_ID_GET_PAGE_DATA:
+				return Promise.resolve({ pageData: this.#_getPageData() });
+				//////////////////////////////////////////////////////////////
+		}
 	}
 }
