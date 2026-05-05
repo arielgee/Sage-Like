@@ -23,6 +23,7 @@
 	let m_feedItemObserver = null;
 	let m_attContainerObserver = null;
 	let m_refreshInterval = null;
+	let m_objContent = null;
 
 	initialization();
 
@@ -34,8 +35,13 @@
 		document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
 		RequiredPermissions.i.init();
 		browser.runtime.onMessage.addListener(onRuntimeMessage);
-
-		injectCustomCSSSource();
+		m_objContent = new Content({
+			MSG_ID_QUERY_INJECTED_CONTENT:		Global.MSG_ID_QUERY_INJECTED_CONTENT,
+			MSG_ID_SET_CONFIRMED_PAGE_FEEDS: 	Global.MSG_ID_SET_CONFIRMED_PAGE_FEEDS,
+			MSG_ID_GET_CONFIRMED_PAGE_FEEDS: 	Global.MSG_ID_GET_CONFIRMED_PAGE_FEEDS,
+			MSG_ID_GET_PAGE_DATA:				Global.MSG_ID_GET_PAGE_DATA,
+			MSG_ID_UPDATE_POPUP_DISPLAY:		Global.MSG_ID_UPDATE_POPUP_DISPLAY,
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -634,10 +640,10 @@
 
 		prefs.getUseCustomCSSFeedPreview().then((use) => {
 			if(!use) return;
-				prefs.getCustomCSSSource().then((source) => {
+			prefs.getCustomCSSSource().then((source) => {
 				if(source.length === 0) return;
 
-						prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
+				prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
 				m_elmCustomPageStyle.textContent = source;	// source is the full CSS file content including directives like @namespace
 			});
 		});
@@ -662,7 +668,7 @@
 		if(using) {
 			const source = await prefs.getCustomCSSSource();
 			if(source.length === 0) return;
-				prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
+			prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
 			m_elmCustomPageStyle.textContent = source;	// source is the full CSS file content including directives like @namespace
 		}
 	}

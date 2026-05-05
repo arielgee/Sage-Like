@@ -167,7 +167,7 @@ const discoveryView = (function() {
 				// viewer for files like JSON or XML, respectively, try to acquire the feed from the
 				// URL without injection.
 
-				if(/^(about|chrome|resource):/i.test(tab.url)) {
+				if(/^(about|chrome|resource|moz-extension):/i.test(tab.url)) {
 					setDiscoverLoadingState(false);
 					setNoFeedsMsg("Unable to access current tab.");
 				} else {
