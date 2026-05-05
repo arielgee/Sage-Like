@@ -10,6 +10,7 @@
 
 	let m_URL;
 	let m_urlWebPage;
+	let m_elmCustomPageStyle = null;
 	let m_elmFeedBody = null;
 	let m_elmJumpListContainer = null;
 	let m_elmJumpList = null;
@@ -60,7 +61,7 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
 
-		let urlFeed = slUtil.getQueryStringValue("urlFeed");
+		const urlFeed = slUtil.getQueryStringValue("urlFeed");
 		m_URL = new URL(urlFeed);
 
 		m_requestSource = slUtil.getQueryStringValue("src");
@@ -85,6 +86,7 @@
 
 		m_elmAttachmentTooltip = document.getElementById("attachmentTooltip");
 
+		injectCustomCSSSource();
 		createFeedPreview(urlFeed);
 	}
 
@@ -628,29 +630,24 @@
 	////////////////////////////////////////////////////////////////////////////////////
 	function injectCustomCSSSource() {
 
+		m_elmCustomPageStyle = document.getElementById("customPageStyle");	// this function is called only once from onDOMContentLoaded, so it's safe to assign m_elmCustomPageStyle here
+
 		prefs.getUseCustomCSSFeedPreview().then((use) => {
-			if(use) {
+			if(!use) return;
 				prefs.getCustomCSSSource().then((source) => {
-					if(source.length > 0) {
+				if(source.length === 0) return;
 
 						prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
-
-						browser.tabs.getCurrent().then((tab) => {
-							browser.scripting.insertCSS({ target: { tabId: tab.id }, css: source }).catch((err) => {
-								console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
-							});
-						});
-					}
-				});
-			}
+				m_elmCustomPageStyle.textContent = source;	// source is the full CSS file content including directives like @namespace
+			});
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	async function injectReplaceCustomCSSSource(prev) {
 
+		const using = await prefs.getUseCustomCSSFeedPreview();
 		let changed;
-		let using = await prefs.getUseCustomCSSFeedPreview();
 
 		if(using) {
 			changed = (await prefs.getCustomCSSSourceHash()) !== m_hashCustomCSSSource;
@@ -658,25 +655,15 @@
 			changed = (m_hashCustomCSSSource.length > 0);
 		}
 
-		let tabId = (using || changed) ? (await browser.tabs.getCurrent()).id : -1;
-
 		if(changed && !!prev.source) {
-			try {
-				await browser.scripting.removeCSS({ target: { tabId: tabId }, css: prev.source });
-			} catch (error) {
-				console.log("[Sage-Like]", "Removing injected custom CSS source generated an error", error);
-			}
-			prev.source = "";
+			m_elmCustomPageStyle.textContent = prev.source = "";	// remove old source from the page and prev object
 		}
 
 		if(using) {
-			let source = await prefs.getCustomCSSSource();
-			if(source.length > 0) {
+			const source = await prefs.getCustomCSSSource();
+			if(source.length === 0) return;
 				prefs.getCustomCSSSourceHash().then((hash) => m_hashCustomCSSSource = hash );
-				browser.scripting.insertCSS({ target: { tabId: tabId }, css: source }).catch((err) => {
-					console.log("[Sage-Like]", "Custom CSS source injection generated an error", err);
-				});
-			}
+			m_elmCustomPageStyle.textContent = source;	// source is the full CSS file content including directives like @namespace
 		}
 	}
 
