@@ -91,7 +91,7 @@ body {
 }
 #jumpListContainer.open {
 	width: auto;
-	height: auto;
+	height: calc(100vh - 40px);
 	background-color: var(--background-color-jump-list);
 	background-image: none;
 	border: 1px solid rgb(65, 65, 65);
