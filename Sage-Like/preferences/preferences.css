@@ -561,14 +561,16 @@ input {
 
 .isFlashable {
 	background-size: 220% 100%;
+	background-repeat: no-repeat;
 	background-position: var(--background-pos-initial-x-direction) bottom;
+	background-clip: padding-box;
 	transition: background-position var(--transition-duration-flash) ease-in 0s;
 }
 .preferenceButton.isFlashable {
-	background-image: linear-gradient(to var(--gradient-to-direction), var(--btn-bg-state-color) 52%, var(--color-flash) 50%);
+	background-image: linear-gradient(to var(--gradient-to-direction), var(--btn-bg-state-color) 0 50%, var(--color-flash) 50% 100%);
 }
 .preferenceSelect.isFlashable {
-	background-image: linear-gradient(to var(--gradient-to-direction), var(--background-color-select-control) 52%, var(--color-flash) 50%);
+	background-image: linear-gradient(to var(--gradient-to-direction), var(--background-color-select-control) 0 50%, var(--color-flash) 50% 100%);
 }
 .isFlashable.flash {
 	background-position: var(--gradient-to-direction) bottom;
