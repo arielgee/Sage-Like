@@ -71,15 +71,16 @@ atom, channel, discover, easy, feed, feed reader, feedbro, feeder, feedly, pinrs
 --------------------------------------------------------------
 **Changes**
 
-* Fixed a bug where pressing Esc in delete feed or folder confirmation would still delete the item.
-* Fixed OPML import issue where outline nodes without a title could cause problems.
-* Replaced unsafe createContextualFragment() calls with safer DOM parsing methods.
-* Optimized feed discovery by reducing content script size injected into web pages.
-* Added custom tooltips in Options page to ensure they display reliably when the circled question-mark icon is clicked or hovered. Thanks to Korwin for reporting.
-* Refactored sidebar's context menu colors, initialization, and usage.
-* Support and feedback links in the Options page now behave as standard links.
-* Updated various UI labels and messages for clarity.
-* Applied minor fixes, UI refinements, code improvements, and code cleanup.
+* Improved feed preview compatibility with newer Firefox behavior by applying custom styles inline and loading content support directly in preview documents.
+* Improved the feed preview jump list with a refreshed design, more reliable open/close handling, and safer expanded sizing.
+* Added F5 keyboard support to refresh feeds directly from the tree view.
+* Improved Right-to-left and localization support across the interface.
+* Improved Preferences UI consistency with cleaner control styling, more consistent flash timing, and better handling for long labels.
+* Improved feed text processing and sanitization with updated HTML string utilities and XML entity decoding.
+* Improved info bubble visuals and positioning.
+* Improved feed preview cleanup and SVG handling.
+* Changed browser compatibility baseline: the extension now requires Firefox 140 or later, and Firefox versions below 140 are no longer supported.
+* Minor code improvements and stylesheet cleanup.
 
 + To see changes in browser’s extension page: change this preferences in 'about:config' to 1
 --------------------------------------------------------------
