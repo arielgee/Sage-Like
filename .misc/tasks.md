@@ -1251,12 +1251,20 @@
 
 
 ## Now
-* in Firefox 152 File access becomes opt-in. see `IsAllowedForFeedDetection()` and `const REGEXP_URL_FILTER_TAB_STATE_CHANGE`. there is a `file:` there
 > STANDING TASK: Check the `<select>` control in the preferences page. Are the colors of the `<option>` in dark mode are readable when hovered
 ---
 
 
 ## Next
+* File access opt-in impact on feed detection:
+	* in Firefox 153 File access becomes opt-in
+	* at the time of writing this, the file access opt-in is still not available in Fx153 nightly, but it is expected to be added before the release. see: https://bugzilla.mozilla.org/show_bug.cgi?id=1834417
+	* see `IsAllowedForFeedDetection()` and `const REGEXP_URL_FILTER_TAB_STATE_CHANGE`. there is a `file:` there
+	* check if the feed detection from address-bar and discovery-view is affected by the file access opt-in. if so, add a message to the user about enabling file access for the extension in order to use these features.
+* its time to rewrite the "Permissions Are Required" message box body. the "Due to changes in..." and the "now optional permission" are outdated.
+	* when (and if) the file access opt-in is added, it may be required to handle it the same way.
+* consider adding support for basic CSS syntax highlighting in the custom CSS notepad editor. home made solution only for the most basic CSS syntax.
+* to avoid confusion when the feed is protected consider adding a "Feed is protected" message in the feed preview and in the sidebar list view
 * add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
 >`¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯`
 
