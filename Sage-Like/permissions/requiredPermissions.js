@@ -50,12 +50,11 @@ class RequiredPermissions {
 			lineBreak2 = "\n\n";
 		}
 
-		return `Due to changes in the add-ons environment (Manifest V3) the now optional permission ` +
-				`${strongOpen}Access your data for all websites${strongClose} is ` +
-				`currently not allowed by the browser.${lineBreak2}` +
-				`Without this permission, most feeds will probably not load as expected.${lineBreak2}` +
-				`A website can set up its feeds in a way that does not require this permission. But many ` +
-				`feeds are not, and the result is a network error caused by browser's restrictions (CORS).`;
+		return `The optional permission ${strongOpen}Access your data for all websites${strongClose} is ` +
+				`currently disallowed by the browser for the Sage-Like extension.${lineBreak2}` +
+				`This permission is necessary for the extension to access and load feeds from various ` +
+				`websites. Without it, most feeds would likely fail to load due to browser restrictions (CORS).`;
+
 	}
 
 	//////////////////////////////////////////

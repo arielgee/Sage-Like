@@ -1247,6 +1247,7 @@
 * In Fx152 script injection in moz-extension documents is removed. injecting `content.js` into feedPreview is not possible. => added `content.js` to feedPreview.html as script tag and initialize the Content object in feedPreview.initialization().
 * consider adding a guard before or in `injectContentScript` to not be implemented on extension pages. `strUrl.startsWith("moz-extension:")` = > no need.
 * consider changing the height of the #jumpListContainer when it's opened from `auto` to 95% or `calc(100vh - 40px)`
+* its time to rewrite the "Permissions Are Required" message box body. the "Due to changes in..." and the "now optional permission" are outdated.
 ---
 
 
@@ -1261,11 +1262,14 @@
 	* at the time of writing this, the file access opt-in is still not available in Fx153 nightly, but it is expected to be added before the release. see: https://bugzilla.mozilla.org/show_bug.cgi?id=1834417
 	* see `IsAllowedForFeedDetection()` and `const REGEXP_URL_FILTER_TAB_STATE_CHANGE`. there is a `file:` there
 	* check if the feed detection from address-bar and discovery-view is affected by the file access opt-in. if so, add a message to the user about enabling file access for the extension in order to use these features.
-* its time to rewrite the "Permissions Are Required" message box body. the "Due to changes in..." and the "now optional permission" are outdated.
-	* when (and if) the file access opt-in is added, it may be required to handle it the same way.
 * consider adding support for basic CSS syntax highlighting in the custom CSS notepad editor. home made solution only for the most basic CSS syntax.
 * to avoid confusion when the feed is protected consider adding a "Feed is protected" message in the feed preview and in the sidebar list view
 * add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
+* for manifest key `gecko.data_collection_permissions`, AMO also checks Android compatibility. setting Android minimum to 142 prevents warning compatibility.
+	"gecko_android": {
+		"strict_min_version": "142.0"
+	}
+* add to the summary view 2 more rows: `Filtered` and `Unfiltered` or `Filtered out` and `Visible`.
 >`¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯ + ¯\_(ツ)_/¯`
 
 
