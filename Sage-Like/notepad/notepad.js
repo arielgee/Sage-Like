@@ -4,7 +4,7 @@ const notepad = (function() {
 
 	const DOCUMENT_TITLE = "Notepad - Custom CSS source code";
 
-	let m_elmHelpPopup
+	let m_elmHelpPopup;
 	let m_elmSourceEditor;
 	let m_elmStatusBar;
 
@@ -163,12 +163,11 @@ const notepad = (function() {
 
 			event.preventDefault();
 			// NOTE: This action (reseting the value property) clears the undo buffer
-			let newCaretPos = m_elmSourceEditor.selectionStart + 1;
-			let v = m_elmSourceEditor.value;
+			const newCaretPos = m_elmSourceEditor.selectionStart + 1;
+			const v = m_elmSourceEditor.value;
 			m_elmSourceEditor.value = v.substring(0, m_elmSourceEditor.selectionStart) + "\t" + v.substring(m_elmSourceEditor.selectionEnd, v.length);
 			m_elmSourceEditor.selectionStart = m_elmSourceEditor.selectionEnd = newCaretPos;
 		}
-
 		updateStatusBarDebounced();
 	}
 
@@ -308,17 +307,25 @@ const notepad = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function updateStatusBar() {
 
-		let selStart = m_elmSourceEditor.selectionStart;
-		let selEnd = m_elmSourceEditor.selectionEnd;
+		const selStart = m_elmSourceEditor.selectionStart;
+		const selEnd = m_elmSourceEditor.selectionEnd;
 
 		if( (m_saveSelectionStart !== selStart) || (m_saveSelectionEnd !== selEnd) ) {
 
-			let lines = m_elmSourceEditor.value.substring(0, (m_elmSourceEditor.selectionDirection==="forward" ? selEnd : selStart)).split("\n");
-			let diff = selEnd - selStart;
-			//let lfCount = (m_elmSourceEditor.value.substring(m_selStart, m_selEnd).match(/\n/g) || []).length
+			// get text up to caret position (considering the selection direction) and normalize newlines to '\n'
+			const text = m_elmSourceEditor.value.substring(0, Math.max(selStart, selEnd));
+			const cursorIndex = (m_elmSourceEditor.selectionDirection === "backward" ? selStart : selEnd);
+			const lines = text.substring(0, cursorIndex).split("\n");
+			const diff = selEnd - selStart;
+			let lfCount = 1;
 
-			m_elmStatusBar.textContent = `Ln ${lines.length}, Col ${lines[lines.length-1].length+1}` + (!!diff ? ` (${Math.abs(diff)} selected)` : ``);
+			if(diff !== 0) {		// if there's a selection, count number of LFs in the selected text to show in status bar
+				const selectedText = text.substring(selStart, selEnd).replace(/(?:\n)$/, "");		// trim the last Lf if it's the last character in the selection
+				const reLf = /\n/g;
+				while(reLf.exec(selectedText) !== null) ++lfCount;
+			}
 
+			m_elmStatusBar.textContent = `Ln ${lines.length}, Col ${lines[lines.length-1].length+1}` + (!!diff ? ` (${lfCount>1 ? `${lfCount}, ` : ``}${Math.abs(diff)} selected)` : ``);
 			m_saveSelectionStart = selStart;
 			m_saveSelectionEnd = selEnd;
 		}
