@@ -318,14 +318,17 @@ const notepad = (function() {
 			const lines = text.substring(0, cursorIndex).split("\n");
 			const diff = selEnd - selStart;
 			let lfCount = 1;
+			let selected = "";
 
 			if(diff !== 0) {		// if there's a selection, count number of LFs in the selected text to show in status bar
 				const selectedText = text.substring(selStart, selEnd).replace(/(?:\n)$/, "");		// trim the last Lf if it's the last character in the selection
 				const reLf = /\n/g;
 				while(reLf.exec(selectedText) !== null) ++lfCount;
+
+				selected = (lfCount>1 ? ` (${lfCount}, ${Math.abs(diff)} selected)` : ` (${Math.abs(diff)} selected)`);
 			}
 
-			m_elmStatusBar.textContent = `Ln ${lines.length}, Col ${lines[lines.length-1].length+1}` + (!!diff ? ` (${lfCount>1 ? `${lfCount}, ` : ``}${Math.abs(diff)} selected)` : ``);
+			m_elmStatusBar.textContent = `Ln ${lines.length}, Col ${lines[lines.length-1].length+1}` + selected;
 			m_saveSelectionStart = selStart;
 			m_saveSelectionEnd = selEnd;
 		}
