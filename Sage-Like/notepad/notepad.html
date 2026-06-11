@@ -5,6 +5,7 @@
 	<meta charset="utf-8" />
 	<title>Notepad</title>
 	<script src="/shared/common.js"></script>
+	<script src="cssSyntaxHighlight.js"></script>
 	<script src="notepad.js"></script>
 	<link rel="stylesheet" href="notepad.css" />
 </head>
@@ -51,7 +52,10 @@
 
 		</div>
 	</div>
-	<textarea id="sourceEditor" dir="ltr" autofocus tabindex="1" spellcheck="false" autocomplete="off" wrap="hard"></textarea>
+	<div id="sourceEditorHost">
+		<pre id="sourceHighlight" dir="ltr" aria-hidden="true"></pre>
+		<textarea id="sourceEditor" dir="ltr" autofocus tabindex="1" spellcheck="false" autocomplete="off" wrap="hard"></textarea>
+	</div>
 	<div id="statusBar" tabindex="-1"></div>
 </body>
 </html>

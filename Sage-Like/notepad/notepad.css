@@ -13,6 +13,17 @@
 	--invert-filter-help-popup: none;
 	--color-help-popup-caption: rgb(0, 0, 255);
 	--border-color-help-popup-key: rgb(51, 51, 51);
+
+	--color-syntax-comment: rgb(105, 105, 105);
+	--color-syntax-string: rgb(0, 120, 0);
+	--color-syntax-atrule: rgb(135, 0, 175);
+	--color-syntax-id: rgb(180, 90, 0);
+	--color-syntax-class: rgb(140, 110, 0);
+	--color-syntax-func: rgb(0, 85, 190);
+	--color-syntax-variable: rgb(0, 130, 140);
+	--color-syntax-units: rgb(180, 90, 0);
+	--color-syntax-property: rgb(0, 85, 190);
+	--color-syntax-punctuation: rgb(45, 45, 45);
 }
 
 html.darkColorScheme {
@@ -26,6 +37,17 @@ html.darkColorScheme {
 	--invert-filter-help-popup: invert(100%);
 	--color-help-popup-caption: rgb(30, 144, 255);
 	--border-color-help-popup-key: rgb(181, 181, 181);
+
+	--color-syntax-comment: rgb(140, 140, 140);
+	--color-syntax-string: rgb(120, 220, 120);
+	--color-syntax-atrule: rgb(210, 140, 255);
+	--color-syntax-id: rgb(255, 185, 90);
+	--color-syntax-class: rgb(240, 220, 120);
+	--color-syntax-func: rgb(100, 180, 255);
+	--color-syntax-variable: rgb(100, 220, 220);
+	--color-syntax-units: rgb(255, 185, 90);
+	--color-syntax-property: rgb(100, 180, 255);
+	--color-syntax-punctuation: rgb(220, 220, 220);
 }
 
 html, body {
@@ -40,6 +62,7 @@ html, body {
 	position: fixed;
 	top: 0;
 	right: calc(var(--source-editor-scrollbar-width) + 1px);
+	z-index: 2;
 	margin: 0;
 	padding: 0;
 	border: 0 solid var(--foreground-color-help-popup);
@@ -129,22 +152,60 @@ body {
 	flex-direction: column;
 }
 
-#sourceEditor {
+#sourceEditorHost {
+	position: relative;
+	flex: 1 1 auto;
+	background-color: var(--background-color-source-editor);
+	overflow: hidden;
+}
+
+#sourceEditor,
+#sourceHighlight {
+	position: absolute;
+	inset: 0;
 	margin: 0;
 	padding: 8px;
-	resize: none;
 	border: 0;
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
 	white-space: pre;
-	background-color: var(--background-color-source-editor);
-	color: var(--foreground-color-source-editor);
+	tab-size: 4;
 	font-family: Consolas, 'Courier New', monospace;
 	font-size: 0.875em;
+	line-height: 1.35;
 	font-weight: normal;
 }
+
+#sourceEditor {
+	z-index: 1;
+	color: transparent;
+	background-color: transparent;
+	caret-color: var(--foreground-color-source-editor);
+	resize: none;
+}
+
+#sourceHighlight {
+	z-index: 0;
+	color: var(--foreground-color-source-editor);
+	pointer-events: none;
+	user-select: none;
+}
+#sourceHighlight::after {
+	content: " ";
+	white-space: pre;
+}
+#sourceHighlight .syntax-comment { color: var(--color-syntax-comment); }
+#sourceHighlight .syntax-string { color: var(--color-syntax-string); }
+#sourceHighlight .syntax-atrule { color: var(--color-syntax-atrule); }
+#sourceHighlight .syntax-id { color: var(--color-syntax-id); }
+#sourceHighlight .syntax-class { color: var(--color-syntax-class); }
+#sourceHighlight .syntax-func { color: var(--color-syntax-func); }
+#sourceHighlight .syntax-variable { color: var(--color-syntax-variable); }
+#sourceHighlight .syntax-units { color: var(--color-syntax-units); }
+#sourceHighlight .syntax-property { color: var(--color-syntax-property); }
+#sourceHighlight .syntax-punctuation { color: var(--color-syntax-punctuation); }
 
 #statusBar {
 	padding-block: 5px;

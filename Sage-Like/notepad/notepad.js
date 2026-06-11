@@ -5,12 +5,14 @@ const notepad = (function() {
 	const DOCUMENT_TITLE = "Notepad - Custom CSS source code";
 
 	let m_elmHelpPopup;
+	let m_elmSourceHighlight;
 	let m_elmSourceEditor;
 	let m_elmStatusBar;
 
 	let m_isDarkColorScheme;
 	let m_windowLayoutReqIdDebouncer = null;
 	let m_statusBarReqIdDebouncer = null;
+	let m_renderHighlightedSourceReqIdDebouncer = null;
 	let m_isDirty;
 	let m_savedCSSSource;
 	let m_savedCSSSourceHash = "";
@@ -31,6 +33,7 @@ const notepad = (function() {
 		document.title = DOCUMENT_TITLE;
 
 		m_elmHelpPopup = document.getElementById("helpPopup");
+		m_elmSourceHighlight = document.getElementById("sourceHighlight");
 		m_elmSourceEditor = document.getElementById("sourceEditor");
 		m_elmStatusBar = document.getElementById("statusBar");
 
@@ -44,6 +47,7 @@ const notepad = (function() {
 		m_elmSourceEditor.addEventListener("mousedown", onCaretMoveSourceEditor);
 		m_elmSourceEditor.addEventListener("mouseup", onCaretMoveSourceEditor);
 		m_elmSourceEditor.addEventListener("mousemove", onMouseMoveSourceEditor);
+		m_elmSourceEditor.addEventListener("scroll", onScrollSourceEditor);
 
 		getInitialColorScheme();
 		await setSavedCSSSourceToEditor();
@@ -149,8 +153,14 @@ const notepad = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onScrollSourceEditor() {
+		syncSourceHighlightScroll();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function onInputSourceEditor() {
 		setDirty((m_savedCSSSourceHash !== await slUtil.hashCode(m_elmSourceEditor.value)));
+		renderHighlightedSourceDebounced();
 		updateLayoutDebounced();
 		updateStatusBarDebounced();
 	}
@@ -167,6 +177,8 @@ const notepad = (function() {
 			const v = m_elmSourceEditor.value;
 			m_elmSourceEditor.value = v.substring(0, m_elmSourceEditor.selectionStart) + "\t" + v.substring(m_elmSourceEditor.selectionEnd, v.length);
 			m_elmSourceEditor.selectionStart = m_elmSourceEditor.selectionEnd = newCaretPos;
+			onInputSourceEditor();
+			return;
 		}
 		updateStatusBarDebounced();
 	}
@@ -192,6 +204,7 @@ const notepad = (function() {
 
 		m_elmSourceEditor.value = m_savedCSSSource;
 		m_elmSourceEditor.selectionStart = m_elmSourceEditor.selectionEnd = 0;
+		renderHighlightedSource();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -290,6 +303,15 @@ const notepad = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function renderHighlightedSourceDebounced() {
+		window.cancelAnimationFrame(m_renderHighlightedSourceReqIdDebouncer);
+		m_renderHighlightedSourceReqIdDebouncer = window.requestAnimationFrame(() => {
+			renderHighlightedSource();
+			m_renderHighlightedSourceReqIdDebouncer = null;
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function setEditorScrollbarWidth() {
 
 		// set CSS variable accordingly depending if has VScroll
@@ -302,6 +324,18 @@ const notepad = (function() {
 		} else {
 			document.documentElement.style.setProperty("--source-editor-scrollbar-width", "0px");
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function renderHighlightedSource() {
+		m_elmSourceHighlight.replaceChildren(cssSyntaxHighlight.renderSource(m_elmSourceEditor.value));
+		syncSourceHighlightScroll();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function syncSourceHighlightScroll() {
+		m_elmSourceHighlight.scrollTop = m_elmSourceEditor.scrollTop;
+		m_elmSourceHighlight.scrollLeft = m_elmSourceEditor.scrollLeft;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
