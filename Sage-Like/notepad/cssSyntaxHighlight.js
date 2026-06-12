@@ -2,13 +2,24 @@
 
 const cssSyntaxHighlight = (function() {
 
-	const m_cssChunkPattern = /\/\*[\s\S]*?\*\/|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g;
+	let m_cssChunkPattern = null;
 	let m_cssTokenPattern = null;
 
 	initialize();
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialize() {
+
+		const CSS_PATTERN_CHUNK_COMMENT = String.raw`\/\*[\s\S]*?\*\/`;
+		const CSS_PATTERN_CHUNK_DOUBLE_QUOTED_STRING = String.raw`"(?:\\.|[^"\\])*"`;
+		const CSS_PATTERN_CHUNK_SINGLE_QUOTED_STRING = String.raw`'(?:\\.|[^'\\])*'`;
+
+		m_cssChunkPattern = new RegExp(
+			CSS_PATTERN_CHUNK_COMMENT +
+			"|" + CSS_PATTERN_CHUNK_DOUBLE_QUOTED_STRING +
+			"|" + CSS_PATTERN_CHUNK_SINGLE_QUOTED_STRING,
+			"g"
+		);
 
 		const CSS_PATTERN_G1_PROPERTY_CONTEXT = String.raw`(^|[;{\n]\s*)`;
 		const CSS_PATTERN_G2_PROPERTY_NAME = String.raw`((?:--[\w-]+)|(?:[\w-]+))`;
@@ -17,22 +28,22 @@ const cssSyntaxHighlight = (function() {
 		const CSS_PATTERN_G5_VARIABLE_NAME = String.raw`(--[\w-]+)`;
 		const CSS_PATTERN_G6_ID_NAME = String.raw`(#(?![0-9a-fA-F]{3,8}(?=[^\w-]|$))[_A-Za-z-][\w-]*)`;
 		const CSS_PATTERN_G7_CLASS_NAME = String.raw`(\.[_A-Za-z-][\w-]*)`;
-		const CSS_PATTERN_Gn_SELECTOR_SUFFIX = String.raw`(?=(?:\s*[.#:[>+~,{)])|(?:\s+[\w*|:-]+)|(?:\s*$))`;
 		const CSS_PATTERN_G8_FUNCTION_NAME = String.raw`(-?[A-Za-z_][\w-]*)(?=\s*\()`;
 		const CSS_PATTERN_G9_UNIT_CONTEXT = String.raw`(^|[^#\w-])`;
 		const CSS_PATTERN_G10_NUMERIC_VALUE = String.raw`(-?(?:\d+\.\d+|\d+|\.\d+)(?:[eE][+-]?\d+)?)`;
 		const CSS_PATTERN_G11_UNIT_NAME = String.raw`(cap|ch|cm|cqb|cqh|cqi|cqmax|cqmin|cqw|deg|dpcm|dpi|dppx|em|ex|fr|grad|Hz|ic|in|kHz|lh|lvb|lvi|lvh|lvmax|lvmin|lvw|mm|ms|pc|pt|px|Q|rad|rcap|rch|rem|rex|ric|rlh|s|svb|svi|svh|svmax|svmin|svw|turn|vb|vh|vi|vmax|vmin|vw|x|%)?`;
-		const CSS_PATTERN_G11_UNIT_SUFFIX = String.raw`(?=[^\w-]|$)`;
 		const CSS_PATTERN_G12_PUNCTUATION = String.raw`([{}:;(),])`;
+		const CSS_PATTERN_SELECTOR_SUFFIX = String.raw`(?=(?:\s*[.#:[>+~,{)])|(?:\s+[\w*|:-]+)|(?:\s*$))`;
+		const CSS_PATTERN_UNIT_SUFFIX = String.raw`(?=[^\w-]|$)`;
 
 		m_cssTokenPattern = new RegExp(
 			CSS_PATTERN_G1_PROPERTY_CONTEXT + CSS_PATTERN_G2_PROPERTY_NAME + CSS_PATTERN_G3_PROPERTY_SUFFIX +
 			"|" + CSS_PATTERN_G4_AT_RULE +
 			"|" + CSS_PATTERN_G5_VARIABLE_NAME +
-			"|" + CSS_PATTERN_G6_ID_NAME + CSS_PATTERN_Gn_SELECTOR_SUFFIX +
-			"|" + CSS_PATTERN_G7_CLASS_NAME + CSS_PATTERN_Gn_SELECTOR_SUFFIX +
+			"|" + CSS_PATTERN_G6_ID_NAME + CSS_PATTERN_SELECTOR_SUFFIX +
+			"|" + CSS_PATTERN_G7_CLASS_NAME + CSS_PATTERN_SELECTOR_SUFFIX +
 			"|" + CSS_PATTERN_G8_FUNCTION_NAME +
-			"|" + CSS_PATTERN_G9_UNIT_CONTEXT + CSS_PATTERN_G10_NUMERIC_VALUE + CSS_PATTERN_G11_UNIT_NAME + CSS_PATTERN_G11_UNIT_SUFFIX +
+			"|" + CSS_PATTERN_G9_UNIT_CONTEXT + CSS_PATTERN_G10_NUMERIC_VALUE + CSS_PATTERN_G11_UNIT_NAME + CSS_PATTERN_UNIT_SUFFIX +
 			"|" + CSS_PATTERN_G12_PUNCTUATION,
 			"gm"
 		);
