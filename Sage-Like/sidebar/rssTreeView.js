@@ -2479,10 +2479,11 @@ const rssTreeView = (function() {
 		const nFeeds = elms.length;
 
 		let cList;
-		let nVisited, nUnvisited, nLoading, nUnauthorized, nError, nResponsive, nNoUpdate30Days, nFixableParseErrors;
+		let nVisited, nUnvisited, nLoading, nUnauthorized, nError, nResponsive, nNoUpdate30Days, nFixableParseErrors, nFilteredOut, nVisible;
 
 		// initialize counters
-		nVisited = nUnvisited = nLoading = nUnauthorized = nError = nResponsive = nNoUpdate30Days = nFixableParseErrors = 0;
+		nVisited = nUnvisited = nLoading = nUnauthorized = nError = nResponsive = nNoUpdate30Days = nFixableParseErrors = nFilteredOut = 0;
+		nVisible = nFeeds;
 
 		let ms30DaysAgo = new Date();
 		ms30DaysAgo = ms30DaysAgo.setDate(ms30DaysAgo.getDate()-30);
@@ -2513,6 +2514,11 @@ const rssTreeView = (function() {
 			if( cList.contains("fixableParseErrors") ) {
 				++nFixableParseErrors;
 			}
+
+			if( m_isFilterApplied && cList.contains("filtered") ) {
+				++nFilteredOut;
+				--nVisible;
+			}
 		}
 
 		const FMT_ROW = "<div class='gridItem row text{3}' title='{2}'>{0}</div><div class='gridItem row value'>{1}</div>"
@@ -2529,6 +2535,10 @@ const rssTreeView = (function() {
 			FMT_ROW.format(["Unauthorized", nUnauthorized]),
 			FMT_ROW.format(["No updates in 30+ days", nNoUpdate30Days]),
 			FMT_ROW.format(["Fixable parsing errors", nFixableParseErrors, FIXABLE_HELP, " dottedUnderline"]),
+			...(!m_isFilterApplied ? [] : [
+				FMT_ROW.format(["Visible", nVisible]),
+				FMT_ROW.format(["Filtered out", nFilteredOut])
+			]),
 			"</div>",
 			"<div class='smallText'>\u2731 Feed Count values are dynamic and may change after display.</div>",
 		];
