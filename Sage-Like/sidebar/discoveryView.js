@@ -159,7 +159,7 @@ const discoveryView = (function() {
 
 					loadDiscoverFeedsList(pd.txtHTML, (!!pd.domainName ? pd.domainName : pd.title), pd.origin, tab.url);
 				}
-			}).catch((error) => {
+			}).catch(async (error) => {
 
 				// Code injection failure most likely is due to "Missing host permission for the tab".
 				// This usually happens with built-in browser pages like "about:" or "view-source:".
@@ -170,6 +170,10 @@ const discoveryView = (function() {
 				if(/^(about|chrome|resource|moz-extension):/i.test(tab.url)) {
 					setDiscoverLoadingState(false);
 					setNoFeedsMsg("Unable to access current tab.");
+				} else if( (/^file:/i.test(tab.url)) && !(await browser.extension.isAllowedFileSchemeAccess()) ) {
+					// For local files, the user must allow the extension to access local files
+					setDiscoverLoadingState(false);
+					setNoFeedsMsg("Unable to access local files.", true);
 				} else {
 
 					// For XML/JSON pages loaded by the browser's viewers
@@ -364,24 +368,30 @@ const discoveryView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setNoFeedsMsg(text) {
-		let elm = document.createElement("li");
+	function setNoFeedsMsg(text, notAllowedFileSchema = false) {
+		const elm = document.createElement("li");
 		elm.className = "dfItem novalidfeeds";
 		elm.textContent = text;
 		emptyDiscoverFeedsList();
 		m_elmDiscoverFeedsList.appendChild(elm);
 
+		const createNoFeedsMsgLink = (text, onClickListener) => {
+			const eA = document.createElement("a");
+			eA.textContent = text;
+			eA.href = "#";
+			const newLen = m_abortCtrlEvents.push(new AbortController());
+			eA.addEventListener("click", onClickListener, { signal: m_abortCtrlEvents[newLen-1].signal });
+			return eA;
+		};
+		let elmA = null;
+
 		if(!RequiredPermissions.i.granted) {
+			elmA = createNoFeedsMsgLink("Required permissions", async () => panel.askForRequiredPermissions() );
+		} else if(notAllowedFileSchema) {
+			elmA = createNoFeedsMsgLink("Learn more", async () => panel.informAboutLocalFilesAccessPermission() );
+		}
 
-			let elmA = document.createElement("a");
-			elmA.textContent = "Required permissions";
-			elmA.href = "#";
-
-			let newLen = m_abortCtrlEvents.push(new AbortController());
-			elmA.addEventListener("click", async () => {
-				panel.askForRequiredPermissions();
-			}, { signal: m_abortCtrlEvents[newLen-1].signal });
-
+		if(!!elmA) {
 			elm.textContent += "\u2002";
 			elm.appendChild(elmA);
 		}

@@ -466,6 +466,19 @@ const panel = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function informAboutLocalFilesAccessPermission() {
+		const messageDetails = {
+			text: "The optional permission \"Access local files on your computer\" is " +
+					"currently disallowed by the browser for the Sage-Like extension. " +
+					"This permission is required for the extension to access and read local files.\n\n" +
+					"To allow the required permission, go to the browser's \"Add-ons Manager\", choose \"Extensions\" " +
+					"and then \"Sage-Like\". Open the \"Permissions\" tab and allow \"Access local files on your computer\". ",
+			caption: "Permissions Are Required",
+		};
+		messageView.open(messageDetails);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function checkForNewVersion() {
 
 		const manifest = browser.runtime.getManifest();
@@ -526,6 +539,7 @@ const panel = (function() {
 		notifyViewContentLoaded: notifyViewContentLoaded,
 		disable: disable,
 		askForRequiredPermissions: askForRequiredPermissions,
+		informAboutLocalFilesAccessPermission: informAboutLocalFilesAccessPermission,
 	};
 
 })();

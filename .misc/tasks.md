@@ -1253,6 +1253,7 @@
 * consider adding support for basic CSS syntax highlighting in the custom CSS notepad editor. home made solution only for the most basic CSS syntax.
 * use `String.raw` for existing regular expressions strings => no real benefit
 * add to the summary view 2 more rows: `Filtered` and `Unfiltered` or `Filtered out` and `Visible`.
+* in Firefox 153 File access becomes opt-in. impact on feed detection only. added user info and handled error for it in feed detection code.
 ---
 
 
@@ -1262,11 +1263,6 @@
 
 
 ## Next
-* File access opt-in impact on feed detection:
-	* in Firefox 153 File access becomes opt-in
-	* at the time of writing this, the file access opt-in is still not available in Fx153 nightly, but it is expected to be added before the release. see: https://bugzilla.mozilla.org/show_bug.cgi?id=1834417
-	* see `IsAllowedForFeedDetection()` and `const REGEXP_URL_FILTER_TAB_STATE_CHANGE`. there is a `file:` there
-	* check if the feed detection from address-bar and discovery-view is affected by the file access opt-in. if so, add a message to the user about enabling file access for the extension in order to use these features.
 * add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
 * for manifest key `gecko.data_collection_permissions`, AMO also checks Android compatibility. setting Android minimum to 142 prevents warning compatibility.
 	"gecko_android": {
@@ -1373,3 +1369,64 @@
 			...
 9. webextension SHOULD be loaded on the mobile firefox.
 10. On the dev computer click on the `connect` button next to the USB Android device and select it.
+
+
+
+
+# Backup My Uncommitted Changes To A New Branch
+Use the following step-by-step instructions in Git Bash to create a remote backup of your uncommitted work while maintaining your local workspace.
+This procedure explicitly references the specific stash index to ensure no interference occurs with your existing local stash stack.
+
+---
+
+### Step 1: Stash all changes and note the index
+Run the following command to move all modifications, including entirely new, untracked files, into Git's temporary storage with a clear descriptive label:
+```bash
+git stash save -u "temp-i18n-backup-04"
+```
+
+Immediately verify the stash list to identify the specific index assigned to this entry:
+
+```bash
+git stash list
+```
+
+* **Why:** The most recent stash entry always takes the top position, which is indexed as `stash@{0}`.
+Even if you have multiple existing stashes, your newly created backup will occupy this `stash@{0}` slot immediately after creation.
+
+
+### Step 2: Create and switch to the backup branch
+Create the new dedicated backup branch and switch your working directory to it:
+```bash
+git checkout -b i18n-backup-04
+```
+
+
+### Step 3: Apply the specific stashed changes
+Bring the changes out of the designated stash storage slot and apply them to the new branch by targeting its exact index:
+```bash
+git stash apply stash@{0}
+```
+
+* **Why:** Specifying `stash@{0}` guarantees that Git applies only the backup you just created in Step 1, completely ignoring any
+older historical stashes currently saved in your stack. Using `apply` keeps the data safely in the stash list for the duration of the process.
+
+
+### Step 4: Commit and push to GitHub
+Stage all files, commit them to the local history of the backup branch, and push the branch to your remote repository:
+```bash
+git add .
+git commit -m "Backup of uncommitted i18n changes"
+git push origin i18n-backup-04
+```
+
+* **Result:** A copy of your uncommitted changes is now securely saved in the cloud under the `i18n-backup-04` branch.
+
+
+### Step 5: Restore your original workspace and clear the backup stash
+Switch back to your active development branch, restore your uncommitted files using the exact stash index, and then
+remove that specific temporary entry from your stash history:
+```bash
+git checkout i18n
+git stash pop stash@{0}
+```
