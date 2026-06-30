@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<title>Sage-Like Options</title>
+	<title data-i18n="htm_prefsPageTitle">Sage-Like Options</title>
 	<script src="/shared/common.js"></script>
 	<script src="/shared/rssTreeData.js"></script>
 	<script src="/opml/opml.js"></script>
@@ -20,27 +20,27 @@
 	<div class="navigationBar">
 
 		<div id="navigationItems">
-			<div class="navigationItem internal" data-jumpTargetId="prefBlockFeeds">&#10045;&emsp13;Feeds</div>
-			<div class="navigationItem internal" data-jumpTargetId="prefBlockBehavior">&#10045;&emsp13;Behavior</div>
-			<div class="navigationItem internal" data-jumpTargetId="prefBlockAppearance">&#10045;&emsp13;Appearance</div>
-			<div class="navigationItem internal" data-jumpTargetId="prefBlockMiscellaneous">&#10045;&emsp13;Miscellaneous</div>
+			<div class="navigationItem internal" data-jumpTargetId="prefBlockFeeds">&#10045;&emsp13;<span data-i18n="htm_prefsNavFeeds">Feeds</span></div>
+			<div class="navigationItem internal" data-jumpTargetId="prefBlockBehavior">&#10045;&emsp13;<span data-i18n="htm_prefsNavBehavior">Behavior</span></div>
+			<div class="navigationItem internal" data-jumpTargetId="prefBlockAppearance">&#10045;&emsp13;<span data-i18n="htm_prefsNavAppearance">Appearance</span></div>
+			<div class="navigationItem internal" data-jumpTargetId="prefBlockMiscellaneous">&#10045;&emsp13;<span data-i18n="htm_prefsNavMiscellaneous">Miscellaneous</span></div>
 		</div>
 
 		<div id="navigationFooter">
 			<a class="navigationLink" target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/sage-like/">
-				<div class="navigationItem external">&#10020;&ensp;Write a Review</div>
+				<div class="navigationItem external">&#10020;&ensp;<span data-i18n="htm_prefsNavWriteReview">Write a Review</span></div>
 			</a>
 			<a class="navigationLink" target="_blank" href="https://github.com/arielgee/Sage-Like/issues">
-				<div class="navigationItem external">&#10020;&ensp;Submit an Issue</div>
+				<div class="navigationItem external">&#10020;&ensp;<span data-i18n="htm_prefsNavSubmitIssue">Submit an Issue</span></div>
 			</a>
 			<a class="navigationLink" target="_blank" href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">
-				<div class="navigationItem external">&#10020;&ensp;Support & Feedback</div>
+				<div class="navigationItem external">&#10020;&ensp;<span data-i18n="htm_prefsNavSupportFeedback">Support & Feedback</span></div>
 			</a>
 			<a class="navigationLink" target="_blank" href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18">
-				<div class="navigationItem external">&#10020;&ensp;Custom CSS for Feed Preview</div>
+				<div class="navigationItem external">&#10020;&ensp;<span data-i18n="htm_prefsNavCustomCSS">Custom CSS for Feed Preview</span></div>
 			</a>
 			<a class="navigationLink" target="_blank" href="https://www.paypal.com/paypalme/4arielg">
-				<div class="navigationItem external">&#10084;&ensp;Buy the Developer a Beer</div>
+				<div class="navigationItem external">&#10084;&ensp;<span data-i18n="htm_prefsNavBuyBeer">Buy the Developer a Beer</span></div>
 			</a>
 		</div>
 	</div>
@@ -50,10 +50,10 @@
 		<!-- //////////////// Preference Block: Feeds //////////////// -->
 		<div id="prefBlockFeeds" class="prefBlock">
 
-			<div class="prefBlockCaption first">Feeds</div>
+			<div class="prefBlockCaption first" data-i18n="htm_prefsFeedsCaption">Feeds</div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Feeds bookmark folder<span class="helpInfo" data-title="Empty folders are marked with the symbol '∅'.">?</span></label>
+				<label class="preferenceLabel"><span data-i18n="htm_prefsFeedsBookmarkFolder">Feeds bookmark folder</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleFeedsBookmarkFolder">?</span></label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect isFlashable" name="rootFeedsFolder" id="rootFeedsFolder"></select>
 				</div>
@@ -61,7 +61,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="checkFeedsOnSbOpen" class="preferenceLabel">Refresh feeds on sidebar launch<span class="helpInfo" data-title="When disabled, this option speeds up the sidebar loading process. However, feeds will display outdated status until refreshed manually or through scheduled refresh.">?</span></label>
+				<label for="checkFeedsOnSbOpen" class="preferenceLabel"><span data-i18n="htm_prefsRefreshFeedsOnSidebar">Refresh feeds on sidebar launch</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleRefreshFeedsOnSidebar">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="checkFeedsOnSbOpen">
 				</div>
@@ -69,25 +69,25 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Scheduled feed refresh</label>
+				<label class="preferenceLabel" data-i18n="htm_prefsScheduledFeedRefresh">Scheduled feed refresh</label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect" name="checkFeedsInterval" id="checkFeedsInterval">
-						<option value="0">No thanks, I'll do it myself</option>
-						<option value="600000">Every 10 minutes</option>
-						<option value="1800000">Every 30 minutes</option>
-						<option value="3600000">Every 1 hour</option>
-						<option value="10800000">Every 3 hours</option>
-						<option value="21600000">Every 6 hours</option>
+						<option value="0" data-i18n="htm_prefsScheduleNoThanks">No thanks, I'll do it myself</option>
+						<option value="600000" data-i18n="htm_prefsScheduleEvery10Min">Every 10 minutes</option>
+						<option value="1800000" data-i18n="htm_prefsScheduleEvery30Min">Every 30 minutes</option>
+						<option value="3600000" data-i18n="htm_prefsScheduleEvery1Hour">Every 1 hour</option>
+						<option value="10800000" data-i18n="htm_prefsScheduleEvery3Hours">Every 3 hours</option>
+						<option value="21600000" data-i18n="htm_prefsScheduleEvery6Hours">Every 6 hours</option>
 						<option class="option-seperator" disabled>&nbsp;</option>
 						<option class="option-seperator seperator-line" disabled>&nbsp;</option>
 						<option class="option-seperator" disabled>&nbsp;</option>
-						<option value="-1">Every Day at&hellip;</option>
+						<option value="-1" data-i18n="htm_prefsScheduleEveryDayAt">Every Day at&hellip;</option>
 					</select>
 				</div>
 			</div>
 
 			<div class="preference subPref last">
-				<label for="checkFeedsWhenSbClosed" class="preferenceLabel">Notify if any feed updates while sidebar is closed<span class="helpInfo" data-title="Displays a green 'N' badge on the extension toolbar button when a feed update is detected while the sidebar is closed.&NewLine;&NewLine;Feeds are not refreshed in the background while the sidebar is closed.">?</span></label>
+				<label for="checkFeedsWhenSbClosed" class="preferenceLabel"><span data-i18n="htm_prefsNotifyFeedUpdatesClosed">Notify if any feed updates while sidebar is closed</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleNotifyFeedUpdatesClosed">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="checkFeedsWhenSbClosed">
 				</div>
@@ -95,30 +95,30 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Feed refresh method<span id="checkFeedsMethodInfo" class="helpInfo" data-extra-width>?</span></label>
+				<label class="preferenceLabel"><span data-i18n="htm_prefsFeedRefreshMethod">Feed refresh method</span><span class="helpInfo" data-extra-width data-i18n-tooltip-title="htm_prefsTipTitleFeedRefreshMethod">?</span></label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect" name="checkFeedsMethod" id="checkFeedsMethod">
-						<option value="1;0">Strenuous</option>
-						<option value="3;2000">Moderate</option>
-						<option value="5;3000">Relaxed</option>
-						<option value="10;4000">Easy</option>
-						<option value="0;1500">Lazy</option>
+						<option value="1;0" data-i18n="htm_prefsFeedRefreshMethodStrenuous">Strenuous</option>
+						<option value="3;2000" data-i18n="htm_prefsFeedRefreshMethodModerate">Moderate</option>
+						<option value="5;3000" data-i18n="htm_prefsFeedRefreshMethodRelaxed">Relaxed</option>
+						<option value="10;4000" data-i18n="htm_prefsFeedRefreshMethodEasy">Easy</option>
+						<option value="0;1500" data-i18n="htm_prefsFeedRefreshMethodLazy">Lazy</option>
 					</select>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="fetchTimeout" class="preferenceLabel">Single feed fetching timeout<span class="helpInfo" data-title="Timeout range: 10 - 300 seconds">?</span></label>
+				<label for="fetchTimeout" class="preferenceLabel"><span data-i18n="htm_prefsSingleFeedTimeout">Single feed fetching timeout</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleSingleFeedTimeout">?</span></label>
 				<div class="preferenceControl">
 					<input type="text" id="fetchTimeout" class="preferenceTextInput numericInput" required minlength="2" maxlength="3"
-						pattern="^([1-9][0-9]|[12][0-9]{2}|300)$"><label for="fetchTimeout" class="controlLabel">seconds</label>
+						pattern="^([1-9][0-9]|[12][0-9]{2}|300)$"><label for="fetchTimeout" class="controlLabel" data-i18n="htm_prefsTimeoutSeconds">seconds</label>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="showFeedStats" class="preferenceLabel">Show total number of unread feeds and feed-items<span class="helpInfo" data-title="Enabling this option adds an extra processing phase to each feed during display updates.">?</span></label>
+				<label for="showFeedStats" class="preferenceLabel"><span data-i18n="htm_prefsShowUnreadStats">Show total number of unread feeds and feed-items</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleShowUnreadStats">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="showFeedStats">
 				</div>
@@ -126,7 +126,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="sortFeedItems" class="preferenceLabel">Order feed-items chronologically<span class="helpInfo" data-title="When enabled, feed items in both the sidebar and Feed Preview will be ordered by timestamp. Otherwise, they will maintain their original order from the feed source.">?</span></label>
+				<label for="sortFeedItems" class="preferenceLabel"><span data-i18n="htm_prefsOrderFeedItemsChrono">Order feed-items chronologically</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleOrderFeedItemsChrono">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="sortFeedItems">
 				</div>
@@ -134,7 +134,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="detectFeedsInWebPage" class="preferenceLabel">Detect feeds in web pages and show subscribe button <img src="../icons/pagePopup-16.png"> in address bar<span class="helpInfo" data-title="Enabling this feature adds an extra processing phase to each web page during browser loading.">?</span></label>
+				<label for="detectFeedsInWebPage" class="preferenceLabel"><span data-i18n="htm_prefsDetectFeedsInWebPage1">Detect feeds in web pages and show subscribe button</span> <img src="../icons/pagePopup-16.png"> <span data-i18n="htm_prefsDetectFeedsInWebPage2">in address bar</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleDetectFeedsInWebPage">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="detectFeedsInWebPage"/>
 				</div>
@@ -147,49 +147,49 @@
 		<!-- //////////////// Preference Block: Behavior //////////////// -->
 		<div id="prefBlockBehavior" class="prefBlock">
 
-			<div class="prefBlockCaption">Behavior</div>
+			<div class="prefBlockCaption" data-i18n="htm_prefsBehaviorCaption">Behavior</div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Folder click action (open/close)</label>
+				<label class="preferenceLabel" data-i18n="htm_prefsFolderClickAction">Folder click action (open/close)</label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect" name="folderClickAction" id="folderClickAction">
-						<option value="0">Single-click</option>
-						<option value="1">Double-click</option>
+						<option value="0" data-i18n="htm_prefsFolderClickActionSingleClick">Single-click</option>
+						<option value="1" data-i18n="htm_prefsFolderClickActionDoubleClick">Double-click</option>
 					</select>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">A feed-click automatically opens the Feed Preview</label>
+				<label class="preferenceLabel" data-i18n="htm_prefsFeedClickOpensPreview">A feed-click automatically opens the Feed Preview</label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect" name="clickOpensFeedPreview" id="clickOpensFeedPreview">
-						<option value="0">No, I'll use Middle-click</option>
-						<option value="1">In the current tab</option>
-						<option value="2">In a new tab</option>
+						<option value="0" data-i18n="htm_prefsClickOpensFeedPreviewNo">No, I'll use Middle-click</option>
+						<option value="1" data-i18n="htm_prefsClickOpensFeedPreviewCurrentTab">In the current tab</option>
+						<option value="2" data-i18n="htm_prefsClickOpensFeedPreviewNewTab">In a new tab</option>
 					</select>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Open feed-item articles<span class="helpInfo" data-extra-width data-title="Middle-click opens the article using the alternate (not selected) option.&NewLine;&NewLine;&#10033; Additionally, use Ctrl+Click to open in a new tab or Shift+Click to open in a new window.">?</span></label>
+				<label class="preferenceLabel"><span data-i18n="htm_prefsFeedItemsOpenArticles">Open feed-item articles</span><span class="helpInfo" data-extra-width data-i18n-tooltip-title="htm_prefsTipTitleFeedItemsOpenArticles">?</span></label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect" name="feedItemOpenMethod" id="feedItemOpenMethod">
-						<option value="0">In the current tab</option>
-						<option value="1">In a new tab</option>
+						<option value="0" data-i18n="htm_prefsFeedItemOpenInCurrentTab">In the current tab</option>
+						<option value="1" data-i18n="htm_prefsFeedItemOpenInNewTab">In a new tab</option>
 					</select>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">When opening Feed Preview, mark as &quot;Read&quot;<span class="helpInfo" data-title="This setting only applies when the Feed Preview is opened from the sidebar's tree view.">?</span></label>
+				<label class="preferenceLabel"><span data-i18n="htm_prefsMarkFeedPreviewRead">When opening Feed Preview, mark as "Read"</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleMarkFeedPreviewRead">?</span></label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect" name="markFeedPreviewUrlsAsVisited" id="markFeedPreviewUrlsAsVisited">
-						<option value="0">Nothing</option>
-						<option value="1" title="All feed-items in the feed will be marked as &quot;Read&quot; even if not all were actually displayed in the browser.">All feed-items in feed collectively</option>
-						<option value="2" title="A feed-item will be marked as &quot;Read&quot; as soon as about 30% of its area has been scrolled into view.">Each feed-item as it becomes visible</option>
+						<option value="0" data-i18n="htm_prefsMarkReadNoting">Nothing</option>
+						<option value="1" data-i18n="htm_prefsMarkReadCollective" data-i18n-title="htm_prefsMarkReadCollectiveTitle">All feed-items in feed collectively</option>
+						<option value="2" data-i18n="htm_prefsMarkReadVisible" data-i18n-title="htm_prefsMarkReadVisibleTitle">Each feed-item as it becomes visible</option>
 					</select>
 				</div>
 			</div>
@@ -201,27 +201,27 @@
 		<!-- //////////////// Preference Block: Appearance //////////////// -->
 		<div id="prefBlockAppearance" class="prefBlock">
 
-			<div class="prefBlockCaption">Appearance</div>
+			<div class="prefBlockCaption" data-i18n="htm_prefsAppearanceCaption">Appearance</div>
 
 			<div class="preference">
-				<label class="preferenceLabel">UI density</label>
+				<label class="preferenceLabel" data-i18n="htm_prefsUIDensity">UI density</label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect" name="UIDensity" id="UIDensity">
-						<option value="14;16">Compact</option>
-						<option value="19;18">Comfortable</option>
-						<option value="24;20">Spacious</option>
-						<option value="29;22">Extra Spacious</option>
+						<option value="14;16" data-i18n="htm_prefsUIDensityCompact">Compact</option>
+						<option value="19;18" data-i18n="htm_prefsUIDensityComfortable">Comfortable</option>
+						<option value="24;20" data-i18n="htm_prefsUIDensitySpacious">Spacious</option>
+						<option value="29;22" data-i18n="htm_prefsUIDensityExtraSpacious">Extra Spacious</option>
 					</select>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Sidebar font<span class="helpInfo" data-title="You can pick a font from the stock fonts or type in your own font name using the last item in the dropdown list. If a font is not supported Sage-Like will fall back to the browser default.">?</span></label>
+				<label class="preferenceLabel"><span data-i18n="htm_prefsSidebarFont">Sidebar font</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleSidebarFont">?</span></label>
 				<div class="preferenceControl">
 					<select class="preferenceSelect" name="fontName" id="fontName">
 						<!-- Modification are first done in '/.res/fonts.txt' -->
-						<option value="(Browser Default)">(Browser Default)</option>
+						<option value="(Browser Default)" data-i18n="htm_prefsSidebarFontDefault">(Browser Default)</option>
 						<option value="Arial">Arial</option>
 						<option value="Arial Narrow">Arial Narrow</option>
 						<option value="Calibri">Calibri</option>
@@ -239,9 +239,9 @@
 						<option class="option-seperator" disabled>&nbsp;</option>
 						<option class="option-seperator seperator-line" disabled>&nbsp;</option>
 						<option class="option-seperator" disabled>&nbsp;</option>
-						<option value="-1">Custom Font&hellip;</option>
+						<option value="-1" data-i18n="htm_prefsSidebarFontUser">Custom Font&hellip;</option>
 					</select>
-					<label class="precedingControlLabel">Size</label>
+					<label class="precedingControlLabel" data-i18n="htm_prefsFontSize">Size</label>
 					<select class="preferenceSelect" name="fontSizePercent" id="fontSizePercent">
 						<option value="50">0.5x</option>
 						<option value="60">0.6x</option>
@@ -260,18 +260,18 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label class="preferenceLabel">Sidebar colors</label>
+				<label class="preferenceLabel" data-i18n="htm_prefsSidebarColors">Sidebar colors</label>
 				<div class="preferenceControl">
-					<input type="color" class="preferenceColorInput" id="colorBk"><label for="colorBk" class="controlLabel">Window</label>
-					<input type="color" class="preferenceColorInput" id="colorDlgBk"><label for="colorDlgBk" class="controlLabel">Dialog</label>
-					<input type="color" class="preferenceColorInput" id="colorSelect"><label for="colorSelect" class="controlLabel">Active</label>
-					<input type="color" class="preferenceColorInput" id="colorText"><label for="colorText" class="controlLabel">Text</label>
-					<input type="color" class="preferenceColorInput" id="colorIcons"><label for="colorIcons" class="controlLabel">Icons</label>
+					<input type="color" class="preferenceColorInput" id="colorBk"><label for="colorBk" class="controlLabel" data-i18n="htm_prefsColorWindow">Window</label>
+					<input type="color" class="preferenceColorInput" id="colorDlgBk"><label for="colorDlgBk" class="controlLabel" data-i18n="htm_prefsColorDialog">Dialog</label>
+					<input type="color" class="preferenceColorInput" id="colorSelect"><label for="colorSelect" class="controlLabel" data-i18n="htm_prefsColorActive">Active</label>
+					<input type="color" class="preferenceColorInput" id="colorText"><label for="colorText" class="controlLabel" data-i18n="htm_prefsColorText">Text</label>
+					<input type="color" class="preferenceColorInput" id="colorIcons"><label for="colorIcons" class="controlLabel" data-i18n="htm_prefsColorIcons">Icons</label>
 				</div>
 			</div>
 
 			<div class="preference subPref last">
-				<label class="preferenceLabel">Classic icons color</label>
+				<label class="preferenceLabel" data-i18n="htm_prefsClassicIconsColor">Classic icons color</label>
 				<div class="preferenceControl">
 					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="0" id="iconsColor0"><label for="iconsColor0" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
 					<input type="radio" class="preferenceRadioInput" name="iconsColor" value="1" id="iconsColor1"><label for="iconsColor1" class="controlImage"><svg viewBox="0 0 16 16"><path /></svg></label>
@@ -285,7 +285,7 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="increaseUnvisitedFontSize" class="preferenceLabel">Increase font size of unread items in sidebar<span class="helpInfo" data-title="Increases visibility of unread items beyond font boldness, particularly useful when using a dark color palette in the sidebar.">?</span></label>
+				<label for="increaseUnvisitedFontSize" class="preferenceLabel"><span data-i18n="htm_prefsIncreaseUnreadFontSize">Increase font size of unread items in sidebar</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleIncreaseUnreadFontSize">?</span></label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="increaseUnvisitedFontSize">
 				</div>
@@ -293,38 +293,38 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="showFeedItemDesc" class="preferenceLabel">Show feed-item description tooltips, if available</label>
+				<label for="showFeedItemDesc" class="preferenceLabel" data-i18n="htm_prefsShowFeedItemDesc">Show feed-item description tooltips, if available</label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="showFeedItemDesc">
 				</div>
 			</div>
 
 			<div class="preference subPref">
-				<label for="showFeedItemDescAttach" class="preferenceLabel">Show feed-item attached resources in tooltip</label>
+				<label for="showFeedItemDescAttach" class="preferenceLabel" data-i18n="htm_prefsShowFeedItemDescAttach">Show feed-item attached resources in tooltip</label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="showFeedItemDescAttach">
 				</div>
 			</div>
 
 			<div class="preference subPref">
-				<label for="feedItemDescDelay" class="preferenceLabel">Tooltip popup delay<span class="helpInfo" data-title="Delay range: 0 to 1500 milliseconds (up to 1.5 seconds)">?</span></label>
+				<label for="feedItemDescDelay" class="preferenceLabel"><span data-i18n="htm_prefsTooltipPopupDelay">Tooltip popup delay</span><span class="helpInfo" data-i18n-tooltip-title="htm_prefsTipTitleTooltipPopupDelay">?</span></label>
 				<div class="preferenceControl">
 					<input type="text" id="feedItemDescDelay" class="preferenceTextInput numericInput" required minlength="1" maxlength="4"
-						pattern="^([0-9]|[1-9][0-9]{1,2}|1[0-4][0-9]{2}|1500)$"><label for="fetchTimeout" class="controlLabel">milliseconds</label>
+						pattern="^([0-9]|[1-9][0-9]{1,2}|1[0-4][0-9]{2}|1500)$"><label for="fetchTimeout" class="controlLabel" data-i18n="htm_prefsUnitMilliseconds">milliseconds</label>
 				</div>
 			</div>
 
 			<div class="preference subPref last">
-				<label for="feedItemDescColors" class="preferenceLabel">Tooltip colors</label>
+				<label for="feedItemDescColors" class="preferenceLabel" data-i18n="htm_prefsTooltipColors">Tooltip colors</label>
 				<div class="preferenceControl">
-					<input type="color" class="preferenceColorInput" id="colorFeedItemDescBk"><label for="colorFeedItemDescBk" class="controlLabel">Background</label>
-					<input type="color" class="preferenceColorInput" id="colorFeedItemDescText"><label for="colorFeedItemDescText" class="controlLabel">Text</label>
+					<input type="color" class="preferenceColorInput" id="colorFeedItemDescBk"><label for="colorFeedItemDescBk" class="controlLabel" data-i18n="htm_prefsTipColorBackground">Background</label>
+					<input type="color" class="preferenceColorInput" id="colorFeedItemDescText"><label for="colorFeedItemDescText" class="controlLabel" data-i18n="htm_prefsTipColorText">Text</label>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="showTryOpenLinkInFeedPreview" class="preferenceLabel">Show context menu item "Try to Open Link in Feed Preview" for page links</label>
+				<label for="showTryOpenLinkInFeedPreview" class="preferenceLabel" data-i18n="htm_prefsShowTryOpenLink">Show context menu item "Try to Open Link in Feed Preview" for page links</label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="showTryOpenLinkInFeedPreview">
 				</div>
@@ -332,19 +332,19 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
-				<label for="useCustomCSSFeedPreview" class="preferenceLabel">Use custom style sheet for Feed Preview</label>
+				<label for="useCustomCSSFeedPreview" class="preferenceLabel" data-i18n="htm_prefsUseCustomCSSFeedPreview">Use custom style sheet for Feed Preview</label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="useCustomCSSFeedPreview">
 				</div>
 			</div>
 
 			<div class="preference subPref last">
-				<label class="preferenceLabel">CSS source code<span class="helpInfo" data-extra-width data-title="CSS content is saved internally. If you modify the source file, you must re-import it.&NewLine;Alternatively, use the 'Edit...' button to modify the imported code directly.&NewLine;&NewLine;&#10033; For examples, click the 'Custom CSS for Feed Preview' link at the bottom left corner of this page.">?</span></label>
+				<label class="preferenceLabel"><span data-i18n="htm_prefsCSSSourceCode">CSS source code</span><span class="helpInfo" data-extra-width data-i18n-tooltip-title="htm_prefsTipTitleCSSSourceCode">?</span></label>
 				<div class="preferenceControl">
 					<input type="file" class="preferenceFileInput" id="importCustomCSSSource" accept="text/css,.css">
-					<label id="labelForImportCustomCSSSource" for="importCustomCSSSource" class="preferenceButton isFlashable" tabindex="0">Import...</label>
-					<button type="button" id="btnEditCSSSource" class="preferenceButton">Edit...</button>
-					<button type="button" id="btnClearCSSSource" class="preferenceButton">Clear</button>
+					<label id="labelForImportCustomCSSSource" for="importCustomCSSSource" class="preferenceButton isFlashable" tabindex="0" data-i18n="htm_prefsImportCSS">Import...</label>
+					<button type="button" id="btnEditCSSSource" class="preferenceButton" data-i18n="htm_prefsEditCSS">Edit...</button>
+					<button type="button" id="btnClearCSSSource" class="preferenceButton" data-i18n="htm_prefsClearCSS">Clear</button>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -355,39 +355,39 @@
 		<!-- //////////////// Preference Block: Miscellaneous //////////////// -->
 		<div id="prefBlockMiscellaneous" class="prefBlock">
 
-			<div class="prefBlockCaption">Miscellaneous</div>
+			<div class="prefBlockCaption" data-i18n="htm_prefsMiscellaneousCaption">Miscellaneous</div>
 
 			<div class="prefContainerOverlay">
 				<div class="preference">
-					<label class="preferenceLabel">Backup feeds (OPML)</label>
+					<label class="preferenceLabel" data-i18n="htm_prefsBackupFeedsOPML">Backup feeds (OPML)</label>
 					<div class="preferenceControl">
-						<label for="inputImportOPML" class="preferenceButton" tabindex="0">Import...</label>
-						<button type="button" class="preferenceButton" id="btnExportOPML">Export...</button>
+						<label for="inputImportOPML" class="preferenceButton" tabindex="0" data-i18n="htm_prefsImportOPML">Import...</label>
+						<button type="button" class="preferenceButton" id="btnExportOPML" data-i18n="htm_prefsExportOPML">Export...</button>
 						<input type="file" class="preferenceFileInput" id="inputImportOPML" accept="text/xml,.opml">
 					</div>
 				</div>
 				<div id="prefOverlayFeedTrans" class="preferenceOverlay">
 					<div class="busyAnimPrefOverlay"></div>
-					<div class="processingMsgPrefOverlay">Do not close this tab until the process is completed.</div>
+					<div class="processingMsgPrefOverlay" data-i18n="htm_prefsProcessingMsg">Do not close this tab until the process is completed.</div>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
 
 			<div class="prefContainerOverlay">
 				<div class="preference extensionButtons">
-					<label class="preferenceLabel">Manage<span class="helpInfo" data-extra-width data-title="Notes:&NewLine;&#x00A0;&#x25CF;&#x00A0;&quot;Import Options...&quot; may fail to set/restore the selected &quot;Feeds bookmark folder&quot; if it's missing from the browser.&NewLine;&#x00A0;&#x25CF;&#x00A0;&quot;Restore Defaults&quot; will clear both the selected &quot;Feeds bookmark folder&quot; and any imported &quot;CSS source code&quot;.&NewLine;&#x00A0;&#x25CF;&#x00A0;&quot;Reload Extension&quot; will close this tab.">?</span></label>
+					<label class="preferenceLabel"><span data-i18n="htm_prefsManage">Manage</span><span class="helpInfo" data-extra-width data-i18n-tooltip-title="htm_prefsTipTitleManage">?</span></label>
 					<div class="preferenceControl">
-						<label for="inputImportPreferences" class="preferenceButton" tabindex="0">Import Options...</label>
-						<button type="button" class="preferenceButton" id="btnExportPreferences">Export Options...</button>
+						<label for="inputImportPreferences" class="preferenceButton" tabindex="0" data-i18n="htm_prefsImportOptions">Import Options...</label>
+						<button type="button" class="preferenceButton" id="btnExportPreferences" data-i18n="htm_prefsExportOptions">Export Options...</button>
 						<input type="file" class="preferenceFileInput" id="inputImportPreferences" accept="text/json,.json">
 
-						<button type="button" class="preferenceButton" id="btnRestoreDefaults">Restore Defaults</button>
-						<button type="button" class="preferenceButton" id="btnReloadExtension">Reload Extension</button>
+						<button type="button" class="preferenceButton" id="btnRestoreDefaults" data-i18n="htm_prefsRestoreDefaults">Restore Defaults</button>
+						<button type="button" class="preferenceButton" id="btnReloadExtension" data-i18n="htm_prefsReloadExtension">Reload Extension</button>
 					</div>
 				</div>
 				<div id="prefOverlayManage" class="preferenceOverlay">
 					<div class="busyAnimPrefOverlay"></div>
-					<div class="processingMsgPrefOverlay">Do not close this tab until the process is completed.</div>
+					<div class="processingMsgPrefOverlay" data-i18n="htm_prefsProcessingMsg">Do not close this tab until the process is completed.</div>
 				</div>
 			</div>
 			<div class="prefSeperator"></div>
@@ -401,14 +401,14 @@
 		<!-- ////////////////////////// User Font Box ////////////////////////// -->
 		<div id="userFontBox" class="popupBox preferenceReferenced" tabindex="-1">
 			<div class="preferenceControl">
-				<label for="userFontName" class="controlLabel">Font Name:</label><input type="text" class="preferenceTextInput inputPopupBox" id="userFontName">
+				<label for="userFontName" class="controlLabel" data-i18n="htm_prefsUserFontName">Font Name:</label><input type="text" class="preferenceTextInput inputPopupBox" id="userFontName">
 			</div>
 		</div>
 
 		<!-- ////////////////////////// Time of Day Box ////////////////////////// -->
 		<div id="timeOfDayBox" class="popupBox preferenceReferenced" tabindex="-1">
 			<div class="preferenceControl">
-				<label for="inputTime" class="controlLabel">Every Day at:</label><input type="time" class="inputPopupBox" id="inputTime">
+				<label for="inputTime" class="controlLabel" data-i18n="htm_prefsEveryDayAt">Every Day at:</label><input type="time" class="inputPopupBox" id="inputTime">
 			</div>
 		</div>
 
@@ -419,7 +419,7 @@
 		<div id="messageBoxCaption" class="popupBoxElementMargined popupBoxCaption"></div>
 		<div id="messageBoxText" class="popupBoxElementMargined"></div>
 		<div class="popupBoxElementMargined popupBoxButtons">
-			<button type="button" id="btnMessageBoxOK" class="preferenceButton">OK</button>
+			<button type="button" id="btnMessageBoxOK" class="preferenceButton" data-i18n="htm_prefsButtonOK">OK</button>
 		</div>
 	</div>
 
