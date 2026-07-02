@@ -2,7 +2,7 @@
 
 const notepad = (function() {
 
-	const DOCUMENT_TITLE = "Notepad - Custom CSS source code";
+	const DOCUMENT_TITLE = i18n("js_notepadDocumentTitle");
 
 	let m_elmHelpPopup;
 	let m_elmSourceHighlight;
@@ -30,6 +30,7 @@ const notepad = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	async function onDOMContentLoaded() {
 
+		slUtil.initializeI18nDocument(document);
 		document.title = DOCUMENT_TITLE;
 
 		m_elmHelpPopup = document.getElementById("helpPopup");
@@ -65,7 +66,7 @@ const notepad = (function() {
 	function onBeforeUnloadWindow(event) {
 		if(isDirty()) {
 			event.preventDefault();
-			return (event.returnValue = "Do you want to leave? - Changes you made may not be saved.");
+			return (event.returnValue = i18n("js_notepadLeaveWithoutSaveQuestion"));
 		}
 	}
 
@@ -359,10 +360,10 @@ const notepad = (function() {
 				const reLf = /\n/g;
 				while(reLf.exec(selectedText) !== null) ++lfCount;
 
-				selected = (lfCount>1 ? ` (${lfCount}, ${Math.abs(diff)} selected)` : ` (${Math.abs(diff)} selected)`);
+				selected = (lfCount>1 ? i18n("js_notepadSelectedLineCharCount", [lfCount, Math.abs(diff)]) : i18n("js_notepadSelectedCharCount", [Math.abs(diff)]));
 			}
 
-			m_elmStatusBar.textContent = `Ln ${lines.length}, Col ${lines[lines.length-1].length+1}` + selected;
+			m_elmStatusBar.textContent = i18n("js_notepadCaretPosition", [lines.length, lines[lines.length-1].length+1]) + selected;
 			m_saveSelectionStart = selStart;
 			m_saveSelectionEnd = selEnd;
 		}
@@ -380,7 +381,7 @@ const notepad = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function setDirty(dirty) {
-		document.title = DOCUMENT_TITLE + ((m_isDirty = dirty) ? " - [[ Modified ]]" : "");
+		document.title = DOCUMENT_TITLE + ((m_isDirty = dirty) ? ` - [[ ${i18n("js_notepadModifiedTitle")} ]]` : "");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
