@@ -1265,6 +1265,8 @@
 ## Next
 * add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
 * for manifest key `gecko.data_collection_permissions`, AMO also checks Android compatibility. setting Android minimum to 142 prevents warning compatibility.
+	- BUT IT MARKS THE EXTENSION AS COMPATIBLE WITH ANDROID IN THE 'Submit a New Version' PAGE AFTER VALIDATION AS A DISABLED CHECKBOX THAT CAN'T BE UNCHECKED.
+	- it should be OK since the 'Firefox for Android' compatibility most likely can be removed in the 'Manage Version x.xx' page.
 	"gecko_android": {
 		"strict_min_version": "142.0"
 	}
@@ -1382,7 +1384,7 @@ This procedure explicitly references the specific stash index to ensure no inter
 ### Step 1: Stash all changes and note the index
 Run the following command to move all modifications, including entirely new, untracked files, into Git's temporary storage with a clear descriptive label:
 ```bash
-git stash save -u "temp-i18n-backup-04"
+git stash save -u "temp-i18n-backup-XX"
 ```
 
 Immediately verify the stash list to identify the specific index assigned to this entry:
@@ -1398,7 +1400,7 @@ Even if you have multiple existing stashes, your newly created backup will occup
 ### Step 2: Create and switch to the backup branch
 Create the new dedicated backup branch and switch your working directory to it:
 ```bash
-git checkout -b i18n-backup-04
+git checkout -b i18n-backup-XX
 ```
 
 
@@ -1417,10 +1419,10 @@ Stage all files, commit them to the local history of the backup branch, and push
 ```bash
 git add .
 git commit -m "Backup of uncommitted i18n changes"
-git push origin i18n-backup-04
+git push origin i18n-backup-XX
 ```
 
-* **Result:** A copy of your uncommitted changes is now securely saved in the cloud under the `i18n-backup-04` branch.
+* **Result:** A copy of your uncommitted changes is now securely saved in the cloud under the `i18n-backup-XX` branch.
 
 
 ### Step 5: Restore your original workspace and clear the backup stash
