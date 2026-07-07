@@ -400,7 +400,7 @@ const rssTreeView = (function() {
 		let elmStats = document.createElement("span");
 		let elmCaption = document.createElement("div");
 		let elmPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-		let elmIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+		let elmIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		let elmIconCaption = document.createElement("div");
 		let elm = document.createElement("li");
 
