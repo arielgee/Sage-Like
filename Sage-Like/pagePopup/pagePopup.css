@@ -167,7 +167,8 @@ body {
 	overflow: hidden;
 }
 
-#statusBar a {
-	color: blue;
-	filter: invert(100%);
+.pseudo-anchor {
+	color: #ffff00;
+	text-decoration: underline;
+	cursor: pointer;
 }

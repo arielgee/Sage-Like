@@ -447,16 +447,18 @@ const panel = (function() {
 				window.location.reload();
 			}
 		};
+		const linkStyle = "color:blue; text-decoration:underline; cursor:pointer;";		// link style
 		const messageDetails = {
 			text: RequiredPermissions.i.getInfoText(false) +
 					"\n\nTo allow the required permission, go to the browser's \"Add-ons Manager\", choose \"Extensions\" " +
 					"and then \"Sage-Like\". Open the \"Permissions\" tab and allow \"Access your data for all websites\". " +
-					"Alternatively, you can select the link below:\n\n<a href='#' id='msgViewReqPermissions'>Request Permissions</a>",
+					`Alternatively, you can select the link below:\n\n<span id='msgViewReqPermissions' style='${linkStyle}'>Request Permissions</span>`,
 			caption: "Permissions Are Required",
 			clickableElements: [
 				{
 					elementId: "msgViewReqPermissions",
 					onClickCallback: onRequestPermissions,
+					anchorStyle: true,
 				},
 			],
 		};

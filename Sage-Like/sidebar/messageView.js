@@ -77,10 +77,10 @@ const messageView = (function () {
 						const elm = document.getElementById(clickElement.elementId);
 
 						if(!!elm) {
-							if(elm.tagName === "A") {
+							if(elm.tagName === "A" || (!!clickElement.anchorStyle && clickElement.anchorStyle === true)) {
 								prefs.getColorDialogBackground().then(color => {
 									if(color < "#888888") {		// quick fix - on dark bk anchor will invert from blue to yellow. Will not adapt if bk color changes while messageView is open
-										elm.style.filter = "invert(100%)";
+										elm.style.color = slUtil.contrastColor(color);
 									}
 								});
 							}

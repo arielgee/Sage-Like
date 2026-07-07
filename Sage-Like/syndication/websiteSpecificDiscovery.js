@@ -7,7 +7,7 @@ class WebsiteSpecificDiscoveryBase {
 			href: this._href = "",
 			doc: this._document = undefined,
 		} = source);
-        this.instanceOf = new.target.name;
+		this.instanceOf = new.target.name;
 	}
 
 	//////////////////////////////////////////////////////////////////////

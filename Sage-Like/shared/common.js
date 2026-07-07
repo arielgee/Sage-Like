@@ -1727,13 +1727,14 @@ const slUtil = (function() {
 	function createMissingPermissionsDocFrag(style) {
 
 		const frameStyle = "color:black; background:#fff3cd; border:1px solid #ffeeba; border-inline-start:5px solid #ffb100; border-radius:6px;";
-		const buttonStyle = "display:inline-block; background:#0056b3; color:white; text-decoration:none; padding:6px 12px; border-radius:4px; line-height:1.4em;";
+		const buttonStyle = "display:inline-block; background:#0056b3; color:white; padding:6px 12px; border-radius:4px; line-height:1.4em; cursor:pointer; user-select:none;";
+		const linkStyle = "color:blue; text-decoration:underline; cursor:pointer;";
 
 		const str =	`<div id='requiredPermissionsMsg' style='all:revert;${frameStyle}${style}'>` +
 						"<strong style='color:#795100; line-height:2em;'>Permission Required</strong><br>" +
 						"The required permission <b>Access your data for all websites</b> is not allowed by the browser. " +
-						"<span><a href='#' id='learnMoreLink' style='color:#0056b3;'>Learn more</a></span><br><br>" +
-						`<a href='#' id='requestPermissionsLink' style='all:revert;${buttonStyle}'>Request Permissions</a>` +
+						`<span><span id='learnMoreLink' style='${linkStyle}'>Learn more</span></span><br><br>` +
+						`<span id='requestPermissionsLink' style='${buttonStyle}'>Request Permissions</span>` +
 					"</div>";
 		return {
 			docFragment: (new DOMParser).parseFromString(str, "text/html").body.firstChild,

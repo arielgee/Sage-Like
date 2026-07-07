@@ -376,9 +376,9 @@ const discoveryView = (function() {
 		m_elmDiscoverFeedsList.appendChild(elm);
 
 		const createNoFeedsMsgLink = (text, onClickListener) => {
-			const eA = document.createElement("a");
+			const eA = document.createElement("span");
 			eA.textContent = text;
-			eA.href = "#";
+			eA.style.cssText = "color:blue; text-decoration:underline; cursor:pointer;";		// link style
 			const newLen = m_abortCtrlEvents.push(new AbortController());
 			eA.addEventListener("click", onClickListener, { signal: m_abortCtrlEvents[newLen-1].signal });
 			return eA;

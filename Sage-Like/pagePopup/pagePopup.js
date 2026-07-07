@@ -70,7 +70,7 @@
 
 			if(folderId === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET) {
 				m_elmPageFeedsList.style.display = "none";
-				updateStatusBar("Feeds folder not set in <a href='#' id='pagePopupOptionsHref'>Options page</a>");
+				updateStatusBar("Feeds folder not set in <span class='pseudo-anchor' id='pagePopupOptionsHref'>Options page</span>");
 				//browser.runtime.openOptionsPage();		Opening the options page closes the popup
 			} else {
 				createFeedList();
