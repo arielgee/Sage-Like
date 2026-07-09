@@ -1704,9 +1704,8 @@ const slUtil = (function() {
 			throw new Error("Invalid function parameters");
 		}
 
-		containerElement.replaceChildren();
 		const doc = (new DOMParser).parseFromString(htmlString, "text/html");
-		containerElement.append(...doc.body.childNodes);
+		containerElement.replaceChildren(...doc.body.childNodes);
 		return containerElement;
 	}
 
