@@ -428,14 +428,14 @@
 			.getAttribute("href") - returns the attribute text value
 			.href - returns the full path URL;
 		*/
-		const invalidUrls = new Set(["#", ""]);
+		const invalidUrls = ["#", ""];
 		let url;
 		let elmsWithUrl = elm.getElementsByTagName("a");
 
 		for(let idx=0, len=elmsWithUrl.length; idx<len; ++idx) {
 
 			// Link to a fake anchor result in href pointing to this webExt top page - remove it
-			if(invalidUrls.has(elmsWithUrl[idx].getAttribute("href"))) {
+			if(invalidUrls.includes(elmsWithUrl[idx].getAttribute("href"))) {
 				elmsWithUrl[idx].removeAttribute("href");
 				continue;
 			}
