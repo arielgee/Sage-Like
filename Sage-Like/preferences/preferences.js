@@ -1101,27 +1101,16 @@ const preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function createSelectFeedsFolderElements() {
+		return browser.bookmarks.getSubTree(Global.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
+			const frag = document.createDocumentFragment();
+			const elmOption = createTagOption(Global.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
+			frag.appendChild(elmOption);
 
-		return new Promise((resolve) => {
-
-			let frag = document.createDocumentFragment();
-			frag.append(...m_elmRootFeedsFolder.children);
-
-			frag.replaceChildren();
-
-			browser.bookmarks.getSubTree(Global.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
-
-				let elmOption = createTagOption(Global.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
-				frag.appendChild(elmOption);
-
-				let folderChildren = bookmarks[0].children;
-				for(let i=0, len=folderChildren.length; i<len; i++) {
-					createSelectFeedsFolderSingleElement(frag, folderChildren[i], 0);
-				}
-				m_elmRootFeedsFolder.appendChild(frag);
-				resolve();
-			});
-
+			const folderChildren = bookmarks[0].children;
+			for(let i=0, len=folderChildren.length; i<len; ++i) {
+				createSelectFeedsFolderSingleElement(frag, folderChildren[i], 0);
+			}
+			m_elmRootFeedsFolder.replaceChildren(frag);
 		});
 	}
 
