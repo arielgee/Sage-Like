@@ -6,6 +6,14 @@ const rssListView = (function() {
 	//=== Variables Declerations
 	//==================================================================================
 
+	const URLOpenMethod = {
+		INVALID: 0,
+		IN_TAB: 1,
+		IN_NEW_TAB: 2,
+		IN_NEW_WIN: 3,
+		IN_NEW_PRIVATE_WIN: 4,
+	};
+
 	let m_elmSidebarBody;
 	let m_elmList;
 	let m_elmFeedItemDescPanel;
@@ -21,14 +29,6 @@ const rssListView = (function() {
 	let m_msPrefFeedItemDescDelay = prefs.DEFAULTS.feedItemDescDelay;
 	let m_timeoutMouseOver = null;
 	let m_abortCtrlEvents = [];		// abortController used to remove event handlers
-
-	let URLOpenMethod = Object.freeze({
-		INVALID: 0,
-		IN_TAB: 1,
-		IN_NEW_TAB: 2,
-		IN_NEW_WIN: 3,
-		IN_NEW_PRIVATE_WIN: 4,
-	});
 
 	initialization();
 

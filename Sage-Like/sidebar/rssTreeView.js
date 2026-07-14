@@ -48,6 +48,14 @@ const rssTreeView = (function() {
 		DIALOG: 2,	// Result of an interaction with a dialog (SlideDownPanel)
 	};
 
+	const URLOpenMethod = {
+		INVALID: 0,
+		IN_TAB: 1,
+		IN_NEW_TAB: 2,
+		IN_NEW_WIN: 3,
+		IN_NEW_PRIVATE_WIN: 4,
+	};
+
 	let m_elmToolbar;
 	let m_elmCheckTreeFeeds;
 	let m_elmFilterWidget;
@@ -847,37 +855,22 @@ const rssTreeView = (function() {
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyO":
-				if(TreeItemType.isFeed(elmTarget)) {
-					browser.tabs.update({ url: getFeedPreviewUrl(elmTarget.getAttribute("href")) });
-				}
+				openTreeItemFeedPreview(elmTarget, URLOpenMethod.IN_TAB);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyT":
-				if(TreeItemType.isFeed(elmTarget)) {
-					browser.tabs.create({ url: getFeedPreviewUrl(elmTarget.getAttribute("href")) });
-				}
+				openTreeItemFeedPreview(elmTarget, URLOpenMethod.IN_NEW_TAB);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyW":
-				if(TreeItemType.isFeed(elmTarget)) {
-					browser.windows.create({
-						url: getFeedPreviewUrl(elmTarget.getAttribute("href")),
-						type: "normal",
-					});
-				}
+				openTreeItemFeedPreview(elmTarget, URLOpenMethod.IN_NEW_WIN);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "KeyV":
-				if(TreeItemType.isFeed(elmTarget)) {
-					browser.windows.create({
-						url: getFeedPreviewUrl(elmTarget.getAttribute("href")),
-						type: "normal",
-						incognito: true,
-					}).catch((error) => messageView.open({ text: slUtil.incognitoErrorMessage(error) }) );
-				}
+				openTreeItemFeedPreview(elmTarget, URLOpenMethod.IN_NEW_PRIVATE_WIN);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -992,11 +985,11 @@ const rssTreeView = (function() {
 				// open feed preview
 				prefs.getClickOpensFeedPreview().then((value) => {
 					if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openNewTab) {
-						browser.tabs.create({ url: getFeedPreviewUrl(elmLI.getAttribute("href")) });
+						openTreeItemFeedPreview(elmLI, URLOpenMethod.IN_NEW_TAB);
 					} else if(value === prefs.CLICK_OPENS_FEED_PREVIEW_VALUES.openTab) {
-						browser.tabs.update({ url: getFeedPreviewUrl(elmLI.getAttribute("href")) });
+						openTreeItemFeedPreview(elmLI, URLOpenMethod.IN_TAB);
 					} else if(m_objTreeFeedsData.value(elmLI.id).openInFeedPreview) {
-						browser.tabs.create({ url: getFeedPreviewUrl(elmLI.getAttribute("href")) });
+						openTreeItemFeedPreview(elmLI, URLOpenMethod.IN_NEW_TAB);
 					}
 				});
 
@@ -1016,9 +1009,9 @@ const rssTreeView = (function() {
 
 					// open feed preview
 					if(event.shiftKey) {
-						browser.windows.create({ url: getFeedPreviewUrl(elmLI.getAttribute("href")), type: "normal" });	// in new window
+						openTreeItemFeedPreview(elmLI, URLOpenMethod.IN_NEW_WIN);
 					} else {
-						browser.tabs.create({ url: getFeedPreviewUrl(elmLI.getAttribute("href")) });						// in new tab
+						openTreeItemFeedPreview(elmLI, URLOpenMethod.IN_NEW_TAB);
 					}
 					setFeedVisitedState(elmLI, true);
 					m_objTreeFeedsData.set(elmLI.id, { lastVisited: Date.now() });
@@ -1271,6 +1264,24 @@ const rssTreeView = (function() {
 		}
 		elmDropTarget.classList.remove("draggedOver", "dropInside");
 		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function openTreeItemFeedPreview(elm, openMethod) {
+
+		if( !TreeItemType.isFeed(elm) ) return;
+
+		const url = getFeedPreviewUrl(elm.getAttribute("href"));
+
+		switch (openMethod) {
+			case URLOpenMethod.IN_TAB:				browser.tabs.update({ url: url });						break;
+			case URLOpenMethod.IN_NEW_TAB:			browser.tabs.create({ url: url });						break;
+			case URLOpenMethod.IN_NEW_WIN:			browser.windows.create({ url: url, type: "normal" });	break;
+			case URLOpenMethod.IN_NEW_PRIVATE_WIN:
+				browser.windows.create({ url: url, type: "normal", incognito: true })
+					.catch((error) => messageView.open({ text: slUtil.incognitoErrorMessage(error) }) );
+				break;
+		}
 	}
 
 	//==================================================================================
@@ -3239,6 +3250,8 @@ const rssTreeView = (function() {
 	}
 
 	return {
+		URLOpenMethod: URLOpenMethod,
+
 		setFeedSelectionState: setFeedSelectionState,
 		addNewFeeds: addNewFeeds,
 		openNewFeedProperties: openNewFeedProperties,
@@ -3260,6 +3273,7 @@ const rssTreeView = (function() {
 		disable: disable,
 		updateLayoutWidth: updateLayoutWidth,
 		setTreeFeedDataLastStatusMembers: setTreeFeedDataLastStatusMembers,
+		openTreeItemFeedPreview: openTreeItemFeedPreview,
 	};
 
 })();

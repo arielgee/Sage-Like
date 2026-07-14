@@ -42,14 +42,6 @@ const contextMenu = (function() {
 		ContextAction.treeSummary,
 	];
 
-	const OpenInFeedPreviewActions = [
-		ContextAction.treeOpen,
-		ContextAction.treeOpenNewTab,
-		ContextAction.treeOpenNewWin,
-		ContextAction.treeOpenNewPrivateWin,
-		// ContextAction.treeOpenAllInTabs,	// Calls rssTreeView.openAllFeedsInTabs() so url is handled there
-	];
-
 	//==================================================================================
 	//=== Variables Declerations
 	//==================================================================================
@@ -220,7 +212,7 @@ const contextMenu = (function() {
 
 		// The 'Sign in...' menu item (acceleratorKey:'L') is an oddball. Its visibility depends not only on the
 		// element context (tree feed item) but also on the element's state (unauthorized). So in order to prevent
-		// the context menu from being closed (from handleTreeMenuActions()), as if some action is being performed,
+		// the context menu from being closed (from handleMenuActions()), as if some action is being performed,
 		// exit here when its acceleratorKey is pressed and the 'Sign in...' menu item is not relevent.
 		if((keyCode === "KeyL") && (m_currentContext === "treeitemcontext") && !TreeItemType.isUnauthorized(m_elmEventTarget)) {
 			return;
@@ -287,66 +279,66 @@ const contextMenu = (function() {
 
 		if(m_currentContext === "treeitemfoldercontext") {
 			switch (keyCode) {
-				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
-				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
-				case "KeyS":	handleTreeMenuActions(ContextAction.treePasteUrl);			break;
-				case "KeyA":	handleTreeMenuActions(ContextAction.treeOpenAllInTabs);		break;
-				case "KeyG":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
-				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
-				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
-				case "KeyD":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
-				case "KeyP":	handleTreeMenuActions(ContextAction.treeProperties);		break;
-				case "KeyM":	handleTreeMenuActions(ContextAction.treeSummary);			break;
-				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+				case "KeyN":	handleMenuActions(ContextAction.treeNewFeed);			break;
+				case "KeyF":	handleMenuActions(ContextAction.treeNewFolder);			break;
+				case "KeyS":	handleMenuActions(ContextAction.treePasteUrl);			break;
+				case "KeyA":	handleMenuActions(ContextAction.treeOpenAllInTabs);		break;
+				case "KeyG":	handleMenuActions(ContextAction.treeToggleReadUnread);	break;
+				case "KeyR":	handleMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "KeyU":	handleMenuActions(ContextAction.treeMarkAllUnread);		break;
+				case "KeyD":	handleMenuActions(ContextAction.treeDeleteTreeItem);	break;
+				case "KeyP":	handleMenuActions(ContextAction.treeProperties);		break;
+				case "KeyM":	handleMenuActions(ContextAction.treeSummary);			break;
+				case "KeyI":	handleMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "treeitemcontext") {
 			switch (keyCode) {
-				case "KeyO":	handleTreeMenuActions(ContextAction.treeOpen);				break;
-				case "KeyT":	handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
-				case "KeyW":	handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
-				case "KeyV":	handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
-				case "KeyL":	handleTreeMenuActions(ContextAction.treeSigninFeed);		break;
-				case "KeyG":	handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
-				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
-				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
-				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
-				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
-				case "KeyC":	handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
-				case "KeyS":	handleTreeMenuActions(ContextAction.treePasteUrl);			break;
-				case "KeyD":	handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
-				case "KeyP":	handleTreeMenuActions(ContextAction.treeProperties);		break;
-				case "KeyM":	handleTreeMenuActions(ContextAction.treeSummary);			break;
-				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+				case "KeyO":	handleMenuActions(ContextAction.treeOpen);				break;
+				case "KeyT":	handleMenuActions(ContextAction.treeOpenNewTab);		break;
+				case "KeyW":	handleMenuActions(ContextAction.treeOpenNewWin);		break;
+				case "KeyV":	handleMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
+				case "KeyL":	handleMenuActions(ContextAction.treeSigninFeed);		break;
+				case "KeyG":	handleMenuActions(ContextAction.treeToggleReadUnread);	break;
+				case "KeyR":	handleMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "KeyU":	handleMenuActions(ContextAction.treeMarkAllUnread);		break;
+				case "KeyN":	handleMenuActions(ContextAction.treeNewFeed);			break;
+				case "KeyF":	handleMenuActions(ContextAction.treeNewFolder);			break;
+				case "KeyC":	handleMenuActions(ContextAction.treeCopyUrl);			break;
+				case "KeyS":	handleMenuActions(ContextAction.treePasteUrl);			break;
+				case "KeyD":	handleMenuActions(ContextAction.treeDeleteTreeItem);	break;
+				case "KeyP":	handleMenuActions(ContextAction.treeProperties);		break;
+				case "KeyM":	handleMenuActions(ContextAction.treeSummary);			break;
+				case "KeyI":	handleMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listitemcontext") {
 			switch (keyCode) {
-				case "KeyO":	handleListMenuActions(ContextAction.listOpen);				break;
-				case "KeyT":	handleListMenuActions(ContextAction.listOpenNewTab);		break;
-				case "KeyW":	handleListMenuActions(ContextAction.listOpenNewWin);		break;
-				case "KeyV":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
-				case "KeyA":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
-				case "KeyG":	handleListMenuActions(ContextAction.listToggleReadUnread);	break;
-				case "KeyR":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
-				case "KeyU":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
-				case "KeyC":	handleListMenuActions(ContextAction.listCopyUrl);			break;
-				case "KeyI":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
+				case "KeyO":	handleMenuActions(ContextAction.listOpen);				break;
+				case "KeyT":	handleMenuActions(ContextAction.listOpenNewTab);		break;
+				case "KeyW":	handleMenuActions(ContextAction.listOpenNewWin);		break;
+				case "KeyV":	handleMenuActions(ContextAction.listOpenNewPrivateWin);	break;
+				case "KeyA":	handleMenuActions(ContextAction.listOpenAllInTabs);		break;
+				case "KeyG":	handleMenuActions(ContextAction.listToggleReadUnread);	break;
+				case "KeyR":	handleMenuActions(ContextAction.listMarkAllRead);		break;
+				case "KeyU":	handleMenuActions(ContextAction.listMarkAllUnread);		break;
+				case "KeyC":	handleMenuActions(ContextAction.listCopyUrl);			break;
+				case "KeyI":	handleMenuActions(ContextAction.listSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "treecontext") {
 			switch (keyCode) {
-				case "KeyR":	handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
-				case "KeyU":	handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
-				case "KeyN":	handleTreeMenuActions(ContextAction.treeNewFeed);			break;
-				case "KeyF":	handleTreeMenuActions(ContextAction.treeNewFolder);			break;
-				case "KeyS":	handleTreeMenuActions(ContextAction.treePasteUrl);			break;
-				case "KeyM":	handleTreeMenuActions(ContextAction.treeSummary);			break;
-				case "KeyI":	handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+				case "KeyR":	handleMenuActions(ContextAction.treeMarkAllRead);		break;
+				case "KeyU":	handleMenuActions(ContextAction.treeMarkAllUnread);		break;
+				case "KeyN":	handleMenuActions(ContextAction.treeNewFeed);			break;
+				case "KeyF":	handleMenuActions(ContextAction.treeNewFolder);			break;
+				case "KeyS":	handleMenuActions(ContextAction.treePasteUrl);			break;
+				case "KeyM":	handleMenuActions(ContextAction.treeSummary);			break;
+				case "KeyI":	handleMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
 		} else if(m_currentContext === "listcontext") {
 			switch (keyCode) {
-				case "KeyA":	handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
-				case "KeyR":	handleListMenuActions(ContextAction.listMarkAllRead);		break;
-				case "KeyU":	handleListMenuActions(ContextAction.listMarkAllUnread);		break;
-				case "KeyI":	handleListMenuActions(ContextAction.listSwitchDirection);	break;
+				case "KeyA":	handleMenuActions(ContextAction.listOpenAllInTabs);		break;
+				case "KeyR":	handleMenuActions(ContextAction.listMarkAllRead);		break;
+				case "KeyU":	handleMenuActions(ContextAction.listMarkAllUnread);		break;
+				case "KeyI":	handleMenuActions(ContextAction.listSwitchDirection);	break;
 			}
 		}
 	}
@@ -367,79 +359,52 @@ const contextMenu = (function() {
 	function handleMenuItemsAction(menuId) {
 
 		switch (menuId) {
-			case "mnuTreeOpenFeed":						handleTreeMenuActions(ContextAction.treeOpen);				break;
-			case "mnuTreeOpenFeedNewTab":				handleTreeMenuActions(ContextAction.treeOpenNewTab);		break;
-			case "mnuTreeOpenFeedNewWin":				handleTreeMenuActions(ContextAction.treeOpenNewWin);		break;
-			case "mnuTreeOpenFeedNewPrivateWin":		handleTreeMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
-			case "mnuTreeOpenAllFeedsInNewTabs":		handleTreeMenuActions(ContextAction.treeOpenAllInTabs);		break;
-			case "mnuTreeSigninFeed":					handleTreeMenuActions(ContextAction.treeSigninFeed);		break;
-			case "mnuTreeToggleFeedReadUnread":			handleTreeMenuActions(ContextAction.treeToggleReadUnread);	break;
-			case "mnuTreeMarkAllFeedsRead":				handleTreeMenuActions(ContextAction.treeMarkAllRead);		break;
-			case "mnuTreeMarkAllFeedsUnread":			handleTreeMenuActions(ContextAction.treeMarkAllUnread);		break;
-			case "mnuTreeNewFeed":						handleTreeMenuActions(ContextAction.treeNewFeed);			break;
-			case "mnuTreeNewFolder":					handleTreeMenuActions(ContextAction.treeNewFolder);			break;
-			case "mnuTreeCopyFeedUrl":					handleTreeMenuActions(ContextAction.treeCopyUrl);			break;
-			case "mnuTreePasteFeedUrl":					handleTreeMenuActions(ContextAction.treePasteUrl);			break;
-			case "mnuTreeDeleteTreeItem":				handleTreeMenuActions(ContextAction.treeDeleteTreeItem);	break;
-			case "mnuTreeProperties":					handleTreeMenuActions(ContextAction.treeProperties);		break;
-			case "mnuTreeSummary":						handleTreeMenuActions(ContextAction.treeSummary);			break;
-			case "mnuTreeSwitchDirection":				handleTreeMenuActions(ContextAction.treeSwitchDirection);	break;
+			case "mnuTreeOpenFeed":						handleMenuActions(ContextAction.treeOpen);				break;
+			case "mnuTreeOpenFeedNewTab":				handleMenuActions(ContextAction.treeOpenNewTab);		break;
+			case "mnuTreeOpenFeedNewWin":				handleMenuActions(ContextAction.treeOpenNewWin);		break;
+			case "mnuTreeOpenFeedNewPrivateWin":		handleMenuActions(ContextAction.treeOpenNewPrivateWin);	break;
+			case "mnuTreeOpenAllFeedsInNewTabs":		handleMenuActions(ContextAction.treeOpenAllInTabs);		break;
+			case "mnuTreeSigninFeed":					handleMenuActions(ContextAction.treeSigninFeed);		break;
+			case "mnuTreeToggleFeedReadUnread":			handleMenuActions(ContextAction.treeToggleReadUnread);	break;
+			case "mnuTreeMarkAllFeedsRead":				handleMenuActions(ContextAction.treeMarkAllRead);		break;
+			case "mnuTreeMarkAllFeedsUnread":			handleMenuActions(ContextAction.treeMarkAllUnread);		break;
+			case "mnuTreeNewFeed":						handleMenuActions(ContextAction.treeNewFeed);			break;
+			case "mnuTreeNewFolder":					handleMenuActions(ContextAction.treeNewFolder);			break;
+			case "mnuTreeCopyFeedUrl":					handleMenuActions(ContextAction.treeCopyUrl);			break;
+			case "mnuTreePasteFeedUrl":					handleMenuActions(ContextAction.treePasteUrl);			break;
+			case "mnuTreeDeleteTreeItem":				handleMenuActions(ContextAction.treeDeleteTreeItem);	break;
+			case "mnuTreeProperties":					handleMenuActions(ContextAction.treeProperties);		break;
+			case "mnuTreeSummary":						handleMenuActions(ContextAction.treeSummary);			break;
+			case "mnuTreeSwitchDirection":				handleMenuActions(ContextAction.treeSwitchDirection);	break;
 
-			case "mnuListOpenFeedItem":					handleListMenuActions(ContextAction.listOpen);				break;
-			case "mnuListOpenFeedItemNewTab":			handleListMenuActions(ContextAction.listOpenNewTab);		break;
-			case "mnuListOpenFeedItemNewWin":			handleListMenuActions(ContextAction.listOpenNewWin);		break;
-			case "mnuListOpenFeedItemNewPrivateWin":	handleListMenuActions(ContextAction.listOpenNewPrivateWin);	break;
-			case "mnuListOpenAllFeedItemsTabs":			handleListMenuActions(ContextAction.listOpenAllInTabs);		break;
-			case "mnuListToggleFeedItemReadUnread":		handleListMenuActions(ContextAction.listToggleReadUnread);	break;
-			case "mnuListMarkAllFeedItemsRead":			handleListMenuActions(ContextAction.listMarkAllRead);		break;
-			case "mnuListMarkAllFeedItemsUnread":		handleListMenuActions(ContextAction.listMarkAllUnread);		break;
-			case "mnuListCopyFeedItemUrl":				handleListMenuActions(ContextAction.listCopyUrl);			break;
-			case "mnuListSwitchDirection":				handleListMenuActions(ContextAction.listSwitchDirection);	break;
+			case "mnuListOpenFeedItem":					handleMenuActions(ContextAction.listOpen);				break;
+			case "mnuListOpenFeedItemNewTab":			handleMenuActions(ContextAction.listOpenNewTab);		break;
+			case "mnuListOpenFeedItemNewWin":			handleMenuActions(ContextAction.listOpenNewWin);		break;
+			case "mnuListOpenFeedItemNewPrivateWin":	handleMenuActions(ContextAction.listOpenNewPrivateWin);	break;
+			case "mnuListOpenAllFeedItemsTabs":			handleMenuActions(ContextAction.listOpenAllInTabs);		break;
+			case "mnuListToggleFeedItemReadUnread":		handleMenuActions(ContextAction.listToggleReadUnread);	break;
+			case "mnuListMarkAllFeedItemsRead":			handleMenuActions(ContextAction.listMarkAllRead);		break;
+			case "mnuListMarkAllFeedItemsUnread":		handleMenuActions(ContextAction.listMarkAllUnread);		break;
+			case "mnuListCopyFeedItemUrl":				handleMenuActions(ContextAction.listCopyUrl);			break;
+			case "mnuListSwitchDirection":				handleMenuActions(ContextAction.listSwitchDirection);	break;
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function handleTreeMenuActions(menuAction) {
+	function handleMenuActions(menuAction) {
 
 		closeContextMenu();
 
-		// do noting if no target element
-		if (!m_elmEventTarget) return;
+		if (!m_elmEventTarget) return;			// do noting if no target element
 
 		if(OpenPanelActions.includes(menuAction)) {
 			m_bActivePanelOpened = true;
 		}
 
-		const actionData = { url: "" };
-
-		if(OpenInFeedPreviewActions.includes(menuAction)) {
-			actionData.url = slUtil.getFeedPreviewUrl(m_elmEventTarget.getAttribute("href"), Global.FEED_PREVIEW_REQ_SOURCE.RSS_TREE_VIEW);
-		} else {
-			actionData.url = m_elmEventTarget.getAttribute("href");
-		}
-
-		handleMenuActions(menuAction, actionData);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function handleListMenuActions(menuAction) {
-
-		closeContextMenu();
-
-		// do noting if no target element
-		if (!m_elmEventTarget) return;
-
-		const url = m_elmEventTarget.getAttribute("href");
-		handleMenuActions(menuAction, { url: url });
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function handleMenuActions(menuAction, actionData) {
-
 		switch (menuAction) {
 
 			case ContextAction.treeOpen:
-				browser.tabs.update({ url: actionData.url });
+				rssTreeView.openTreeItemFeedPreview(m_elmEventTarget, rssTreeView.URLOpenMethod.IN_TAB);
 				break;
 				///////////////////////////////////////////
 
@@ -449,7 +414,7 @@ const contextMenu = (function() {
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewTab:
-				browser.tabs.create({ url: actionData.url });
+				rssTreeView.openTreeItemFeedPreview(m_elmEventTarget, rssTreeView.URLOpenMethod.IN_NEW_TAB);
 				break;
 				///////////////////////////////////////////
 
@@ -459,7 +424,7 @@ const contextMenu = (function() {
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewWin:
-				browser.windows.create({ url: actionData.url, type: "normal" });
+				rssTreeView.openTreeItemFeedPreview(m_elmEventTarget, rssTreeView.URLOpenMethod.IN_NEW_WIN);
 				break;
 				///////////////////////////////////////////
 
@@ -469,8 +434,7 @@ const contextMenu = (function() {
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewPrivateWin:
-				browser.windows.create({ url: actionData.url, type: "normal", incognito: true })
-					.catch((error) => messageView.open({ text: slUtil.incognitoErrorMessage(error) }) );
+				rssTreeView.openTreeItemFeedPreview(m_elmEventTarget, rssTreeView.URLOpenMethod.IN_NEW_PRIVATE_WIN);
 				break;
 				///////////////////////////////////////////
 
@@ -516,7 +480,7 @@ const contextMenu = (function() {
 
 			case ContextAction.treeCopyUrl:
 			case ContextAction.listCopyUrl:
-				slUtil.writeTextToClipboard(actionData.url);
+				slUtil.writeTextToClipboard(m_elmEventTarget.getAttribute("href"));
 				break;
 				///////////////////////////////////////////
 
