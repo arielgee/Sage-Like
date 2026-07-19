@@ -1254,6 +1254,9 @@
 * use `String.raw` for existing regular expressions strings => no real benefit
 * add to the summary view 2 more rows: `Filtered` and `Unfiltered` or `Filtered out` and `Visible`.
 * in Firefox 153 File access becomes opt-in. impact on feed detection only. added user info and handled error for it in feed detection code.
+* take a long hard look at `createSelectFeedsFolderElements` in preferences.js. why do `frag.append(...m_elmRootFeedsFolder.children);` and immediately after that `frag.replaceChildren();`.
+* add `...` to `Open in New Container Tab` in the context menu.
+* add `ContextAction.treeOpenNewContainerTab` in the `contextMenu.OpenPanelActions` array
 ---
 
 
@@ -1263,7 +1266,75 @@
 
 
 ## Next
+* add support to customize the sidebar context menu. add new preference `Customize sidebar context menu`
+	* from `background.js`, read and store context menu items from `/sidebar/panel.html`:
+		```js
+		////////////////////////////////////////////////////////////////////////////////////
+		function getSidebarContextMenuItemsFromHTMLFile() {
+			console.time("[Sage-Like] getSidebarContextMenuItemsFromHTMLFile");
+			fetch(browser.runtime.getURL("/sidebar/panel.html"))
+				.then((response) => response.text())
+				.then((htmlText) => {
+
+					const regExp = /^\s*<div id="(mnu(?:Tree|List)[^"]*)".*?>([^<]*)<\/div>/gm;
+					// const regExp = /^\s*<div id="(mnu(?:Tree|List)[^"]*)"[^>]*? data-i18n="([^"]*)".*?>/gm;
+
+					const matches = htmlText.matchAll(regExp);
+					const ctxMnuItems = Array.from(matches, (m) => ({ id: m[1], textContent: m[2] }));
+					internalPrefs.setSidebarContextMenuItems(ctxMnuItems);
+					console.timeEnd("[Sage-Like] getSidebarContextMenuItemsFromHTMLFile");
+					console.log("[Sage-Like]", "To Preferences", ctxMnuItems.length, "\n", ctxMnuItems);
+				})
+				.catch((error) => {
+					console.timeEnd("[Sage-Like] getSidebarContextMenuItemsFromHTMLFile");
+					throw error;
+				});
+		}
+		```
+	* the storing part in `internalPrefs`:
+		```js
+		// ...
+		SIDEBAR_CONTEXT_MENU_ITEMS:				{ name: "pref_sidebarContextMenuItems",			default: []			},
+		// ...
+		function getSidebarContextMenuItems()			{ return _getPreferenceValue(PREF.SIDEBAR_CONTEXT_MENU_ITEMS); }
+		// ...
+		function setSidebarContextMenuItems(value)			{ return _setPreferenceValue(PREF.SIDEBAR_CONTEXT_MENU_ITEMS, value); }
+		// ...
+		getSidebarContextMenuItems: getSidebarContextMenuItems,
+		setSidebarContextMenuItems: setSidebarContextMenuItems,
+		```
+	* in `preferences` page, add a new section to display the context menu items and allow the user to hide/show items.
 * add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
+	* split view minimal support start at v149, and not fully implemented at v152.0.6 (when this was written).
+	* the context menu item `Open in Split View` should only be shown when the current tab is NOT in a split view.
+	* browser.tabs.SPLIT_VIEW_ID_NONE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/SPLIT_VIEW_ID_NONE
+	* tabs.Tab.splitViewId: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/Tab
+	* some related code in contextMenu.js:
+		```js
+		// ...
+		let m_currentSplitViewId = browser.tabs.SPLIT_VIEW_ID_NONE;		// from v149 :`(
+		// ...
+				browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+					m_currentSplitViewId = tabs[0].splitViewId || browser.tabs.SPLIT_VIEW_ID_NONE;
+				});
+		// ...
+			////////////////////////////////////////////////////////////////////////////////////
+			function showMenuItemsByClassName(className, targetClassList) {
+
+				const moreClasses = [];
+
+				if(targetClassList.contains("unauthorized")) {
+					moreClasses.push("treeitemunauthorizedcontext");
+				}
+				if(m_currentSplitViewId !== browser.tabs.SPLIT_VIEW_ID_NONE) {
+					moreClasses.push("treeitem-split-view-context");
+				}
+
+				m_elmContextMenu.classList.remove("treeitemfoldercontext", "treeitemcontext", "listitemcontext", "treecontext", "listcontext", "treeitemunauthorizedcontext", "treeitem-split-view-context");
+				m_elmContextMenu.classList.add(className, ...moreClasses);
+			}
+		// ...
+		```
 * for manifest key `gecko.data_collection_permissions`, AMO also checks Android compatibility. setting Android minimum to 142 prevents warning compatibility.
 	- BUT IT MARKS THE EXTENSION AS COMPATIBLE WITH ANDROID IN THE 'Submit a New Version' PAGE AFTER VALIDATION AS A DISABLED CHECKBOX THAT CAN'T BE UNCHECKED.
 	- it should be OK since the 'Firefox for Android' compatibility most likely can be removed in the 'Manage Version x.xx' page.

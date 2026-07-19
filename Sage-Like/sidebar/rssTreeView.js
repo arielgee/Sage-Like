@@ -52,8 +52,9 @@ const rssTreeView = (function() {
 		INVALID: 0,
 		IN_TAB: 1,
 		IN_NEW_TAB: 2,
-		IN_NEW_WIN: 3,
-		IN_NEW_PRIVATE_WIN: 4,
+		IN_NEW_CONTAINER_TAB: 3,
+		IN_NEW_WIN: 4,
+		IN_NEW_PRIVATE_WIN: 5,
 	};
 
 	let m_elmToolbar;
@@ -864,6 +865,11 @@ const rssTreeView = (function() {
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
+			case "KeyB":
+				openTreeItemFeedPreview(elmTarget, URLOpenMethod.IN_NEW_CONTAINER_TAB);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
 			case "KeyW":
 				openTreeItemFeedPreview(elmTarget, URLOpenMethod.IN_NEW_WIN);
 				break;
@@ -1274,9 +1280,10 @@ const rssTreeView = (function() {
 		const url = getFeedPreviewUrl(elm.getAttribute("href"));
 
 		switch (openMethod) {
-			case URLOpenMethod.IN_TAB:				browser.tabs.update({ url: url });						break;
-			case URLOpenMethod.IN_NEW_TAB:			browser.tabs.create({ url: url });						break;
-			case URLOpenMethod.IN_NEW_WIN:			browser.windows.create({ url: url, type: "normal" });	break;
+			case URLOpenMethod.IN_TAB:					browser.tabs.update({ url: url });						break;
+			case URLOpenMethod.IN_NEW_TAB:				browser.tabs.create({ url: url });						break;
+			case URLOpenMethod.IN_NEW_CONTAINER_TAB:	panel.showOpenInContainerPicker(url);					break;
+			case URLOpenMethod.IN_NEW_WIN:				browser.windows.create({ url: url, type: "normal" });	break;
 			case URLOpenMethod.IN_NEW_PRIVATE_WIN:
 				browser.windows.create({ url: url, type: "normal", incognito: true })
 					.catch((error) => messageView.open({ text: slUtil.incognitoErrorMessage(error) }) );

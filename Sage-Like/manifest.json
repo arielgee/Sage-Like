@@ -25,7 +25,9 @@
 		"scripting",
 		"alarms",
 		"webRequest",
-		"webRequestBlocking"
+		"webRequestBlocking",
+		"contextualIdentities",
+		"cookies"
 	],
 	"host_permissions": [
 		"<all_urls>"

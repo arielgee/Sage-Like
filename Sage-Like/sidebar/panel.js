@@ -536,12 +536,51 @@ const panel = (function() {
 		} catch {}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function showOpenInContainerPicker(url) {
+		return browser.contextualIdentities.query({}).then((userContexts) => {
+
+			const clickableElements = [];
+			let text = "<div class='message-menu-subtitle'>Choose where it should open.</div><div class='message-menu-container'>";
+			for(let i=0, len=userContexts.length; i<len; ++i) {
+				const userCtx = userContexts[i];
+
+				text += `<div id='${userCtx.cookieStoreId}' class='message-menu-item' tabindex='0'>` +
+							`<span class='message-menu-item-icon' style='mask-image:url(${userCtx.iconUrl}); background-color:${userCtx.colorCode};'></span>` +
+							`<span class='message-menu-item-name'>${userCtx.name}</span>` +
+						"</div>" +
+						(i < (len-1) ? "<hr class='message-menu-item-separator'/>" : "");
+
+				clickableElements.push({
+					elementId: userCtx.cookieStoreId,
+					onClickCallback: () => {
+						browser.tabs.create({url: url, cookieStoreId: userCtx.cookieStoreId});
+						messageView.close();
+					},
+				});
+			}
+			text += "</div>";
+
+			const messageDetails = {
+				text: text,
+				btnSet: messageView.ButtonSet.setCancel,
+				caption: "Open in Container",
+				isAlertive: false,
+				boldDoubleQuotedText: false,
+				breakNewLine: false,
+				clickableElements: clickableElements,
+			};
+			messageView.open(messageDetails);
+		});
+	}
+
 	return {
 		getWindowId: getWindowId,
 		notifyViewContentLoaded: notifyViewContentLoaded,
 		disable: disable,
 		askForRequiredPermissions: askForRequiredPermissions,
 		informAboutLocalFilesAccessPermission: informAboutLocalFilesAccessPermission,
+		showOpenInContainerPicker: showOpenInContainerPicker,
 	};
 
 })();

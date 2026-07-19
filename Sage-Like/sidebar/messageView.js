@@ -5,6 +5,7 @@ const messageView = (function () {
 	let ButtonSet = {
 		setOK: 1,
 		setYesNo: 2,
+		setCancel: 3,
 	};
 
 	let ButtonCode = {
@@ -12,15 +13,21 @@ const messageView = (function () {
 		OK: 1,
 		Yes: 2,
 		No: 3,
+		Cancel: 4,
 	};
 
 	let m_elmMessagePanel = null;
+	let m_elmMessageText;
 	let m_elmButtonSetOK;
 	let m_elmButtonSetYesNo;
+	let m_elmButtonSetCancel;
 	let m_elmButtonOK;
 	let m_elmButtonYes;
 	let m_elmButtonNo;
+	let m_elmButtonCancel;
 	let m_clickableElements = [];
+	let m_elmMenuItems;
+	let m_activeMenuItemIndex;
 
 	let m_buttonSet;
 	let m_buttonCodeResult = ButtonCode.none;
@@ -59,13 +66,13 @@ const messageView = (function () {
 				textMsg = textMsg.replace(/\n/mg, "<br>");
 			}
 
-			let elmMsgText = document.getElementById("msgText");
-
 			m_elmMessagePanel.classList.toggle("alertive", isAlertive);
 			document.getElementById("msgCaption").textContent = caption;
-			slUtil.replaceInnerContent(elmMsgText, textMsg);
+			slUtil.replaceInnerContent(m_elmMessageText, textMsg);
+			m_elmMenuItems = Array.from(m_elmMessagePanel.querySelectorAll(".message-menu-item"));
 			m_elmButtonSetOK.classList.toggle("visible", m_buttonSet === ButtonSet.setOK);
 			m_elmButtonSetYesNo.classList.toggle("visible", m_buttonSet === ButtonSet.setYesNo);
+			m_elmButtonSetCancel.classList.toggle("visible", m_buttonSet === ButtonSet.setCancel);
 
 			if(clickableElements instanceof Array) {
 				m_clickableElements = clickableElements;
@@ -95,7 +102,15 @@ const messageView = (function () {
 			});
 			panel.disable(true);
 
-			m_elmMessagePanel.focus();
+			// focus first menu item if any, otherwise focus the panel itself
+			if(m_elmMenuItems.length > 0) {
+				m_elmMenuItems[0].focus();
+				m_activeMenuItemIndex = 0;
+			} else {
+				m_elmMessagePanel.focus();
+				m_activeMenuItemIndex = -2;
+			}
+
 
 			m_funcPromiseResolve = resolve;
 		});
@@ -115,6 +130,10 @@ const messageView = (function () {
 
 		m_funcPromiseResolve(m_buttonCodeResult);
 		rssTreeView.setFocus();
+
+		m_elmMenuItems = [];
+		m_clickableElements = [];
+		m_elmMessageText.replaceChildren();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -127,15 +146,19 @@ const messageView = (function () {
 
 		if(m_elmMessagePanel === null) {
 			m_elmMessagePanel = document.getElementById("messagePanel");
+			m_elmMessageText = document.getElementById("msgText");
 			m_elmButtonSetOK = document.getElementById("btnSetOK");
 			m_elmButtonSetYesNo = document.getElementById("btnSetYesNo");
+			m_elmButtonSetCancel = document.getElementById("btnSetCancel");
 			m_elmButtonOK = document.getElementById("btnMsgOK");
 			m_elmButtonYes = document.getElementById("btnMsgYes");
 			m_elmButtonNo = document.getElementById("btnMsgNo");
+			m_elmButtonCancel = document.getElementById("btnMsgCancel");
 
 			m_slideDownPanel = new SlideDownPanel(m_elmMessagePanel);
 		}
 		m_clickableElements = [];		// re-initialize in each display
+		m_elmMenuItems = [];
 
 		m_buttonCodeResult = ButtonCode.none;
 	}
@@ -150,6 +173,7 @@ const messageView = (function () {
 		m_elmButtonOK.addEventListener("click", onClickButtonOK);
 		m_elmButtonYes.addEventListener("click", onClickButtonYes);
 		m_elmButtonNo.addEventListener("click", onClickButtonNo);
+		m_elmButtonCancel.addEventListener("click", onClickButtonCancel);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -158,6 +182,7 @@ const messageView = (function () {
 		m_elmButtonOK.removeEventListener("click", onClickButtonOK);
 		m_elmButtonYes.removeEventListener("click", onClickButtonYes);
 		m_elmButtonNo.removeEventListener("click", onClickButtonNo);
+		m_elmButtonCancel.removeEventListener("click", onClickButtonCancel);
 		for(let i=0, len=m_clickableElements.length; i<len; i++) {
 			const clickElement = m_clickableElements[i];
 			if(!!clickElement.elementId && typeof(clickElement.onClickCallback) === "function") {
@@ -171,15 +196,38 @@ const messageView = (function () {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownMessagePanel(event) {
+
+		m_activeMenuItemIndex = (m_elmMenuItems.length > 0) ? m_elmMenuItems.indexOf(document.activeElement) : -2;
+
 		switch (event.code) {
+			case "ArrowDown":
+				if(m_activeMenuItemIndex === -1) {
+					m_elmMenuItems[0].focus();
+				} else if(m_activeMenuItemIndex > -1) {
+					m_elmMenuItems[(m_activeMenuItemIndex + 1) % m_elmMenuItems.length].focus();
+				}
+				break;
+				//////////////////////////////
+			case "ArrowUp":
+				if(m_activeMenuItemIndex === -1) {
+					m_elmMenuItems[m_elmMenuItems.length - 1].focus();
+				} else if(m_activeMenuItemIndex > -1) {
+					m_elmMenuItems[(m_activeMenuItemIndex - 1 + m_elmMenuItems.length) % m_elmMenuItems.length].focus();
+				}
+				break;
+				//////////////////////////////
 			case "Enter":
 			case "NumpadEnter":
-				if(m_buttonSet === ButtonSet.setOK) {
+				if(m_activeMenuItemIndex > -1) {
+					m_elmMenuItems[m_activeMenuItemIndex].click();
+				} else if(m_buttonSet === ButtonSet.setOK) {
 					onClickButtonOK({});
 				} else if(m_buttonSet === ButtonSet.setYesNo && document.activeElement === m_elmButtonNo) {
 					onClickButtonNo({});
 				} else if(m_buttonSet === ButtonSet.setYesNo) {
 					onClickButtonYes({});
+				} else if(m_buttonSet === ButtonSet.setCancel) {
+					onClickButtonCancel({});
 				}
 				break;
 				//////////////////////////////
@@ -205,6 +253,12 @@ const messageView = (function () {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickButtonNo(event) {
 		m_buttonCodeResult = ButtonCode.No;
+		close();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickButtonCancel(event) {
+		m_buttonCodeResult = ButtonCode.Cancel;
 		close();
 	}
 
