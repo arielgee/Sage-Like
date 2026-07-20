@@ -81,6 +81,7 @@ const panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
+		slUtil.initializeI18nDocument(document);
 		contextMenu.initialize();
 
 		m_elmBody = document.body;
@@ -449,11 +450,10 @@ const panel = (function() {
 		};
 		const linkStyle = "color:blue; text-decoration:underline; cursor:pointer;";		// link style
 		const messageDetails = {
-			text: RequiredPermissions.i.getInfoText(false) +
-					"\n\nTo allow the required permission, go to the browser's \"Add-ons Manager\", choose \"Extensions\" " +
-					"and then \"Sage-Like\". Open the \"Permissions\" tab and allow \"Access your data for all websites\". " +
-					`Alternatively, you can select the link below:\n\n<span id='msgViewReqPermissions' style='${linkStyle}'>Request Permissions</span>`,
-			caption: "Permissions Are Required",
+			text: `${RequiredPermissions.i.getInfoText(false)}\n\n` +
+					`${i18n("js_panelRequiredPermissionsInstructions")}\n\n` +
+					`<span id='msgViewReqPermissions' style='${linkStyle}'>${i18n("js_panelRequestPermissionsText")}</span>`,
+			caption: i18n("js_panelRequiredPermissionsCaption"),
 			clickableElements: [
 				{
 					elementId: "msgViewReqPermissions",
@@ -470,12 +470,8 @@ const panel = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function informAboutLocalFilesAccessPermission() {
 		const messageDetails = {
-			text: "The optional permission \"Access local files on your computer\" is " +
-					"currently disallowed by the browser for the Sage-Like extension. " +
-					"This permission is required for the extension to access and read local files.\n\n" +
-					"To allow the required permission, go to the browser's \"Add-ons Manager\", choose \"Extensions\" " +
-					"and then \"Sage-Like\". Open the \"Permissions\" tab and allow \"Access local files on your computer\".",
-			caption: "Permissions Are Required",
+			text: i18n("js_panelRequiredLocalFileAccessInstructions"),
+			caption: i18n("js_panelRequiredPermissionsCaption"),
 		};
 		messageView.open(messageDetails);
 	}
@@ -510,16 +506,15 @@ const panel = (function() {
 					let msg;
 
 					// browser version is greater or equal to current compatibility min version
-					if(browserVer >= browserCompatStrictMinVer) {
-						msg = `A new version was released.\n\nSage-Like v${localVer}\u2002\u2794\u2002${anchorNewVer}`;
+					if(browserVer < browserCompatStrictMinVer) {
+						msg = `${i18n("js_panelNewVersionReleased")}\n\nSage-Like v${localVer}\u2002\u2794\u2002${anchorNewVer}`;
 					} else {
-						msg = `An updated version is available, ${anchorNewVer}. However, it is not compatible with your ` +
-								`current browser (Firefox ${browserVer}).\n\nConsider updating your browser to the latest version.`;
+						msg = i18n("js_panelNewVersionIncompatibleBrowser", [anchorNewVer, browserVer]);
 					}
 
 					const messageDetails = {
 						text: msg,
-						caption: "Available Update",	// "What's New",
+						caption: i18n("js_panelNewVersionCaption"),	// "What's New",
 						isAlertive: false,
 						clickableElements: [
 							{
@@ -541,7 +536,7 @@ const panel = (function() {
 		return browser.contextualIdentities.query({}).then((userContexts) => {
 
 			const clickableElements = [];
-			let text = "<div class='message-menu-subtitle'>Choose where it should open.</div><div class='message-menu-container'>";
+			let text = `<div class='message-menu-subtitle'>${i18n("js_panelChooseContainerSubtitle")}</div><div class='message-menu-container'>`;
 			for(let i=0, len=userContexts.length; i<len; ++i) {
 				const userCtx = userContexts[i];
 
@@ -564,7 +559,7 @@ const panel = (function() {
 			const messageDetails = {
 				text: text,
 				btnSet: messageView.ButtonSet.setCancel,
-				caption: "Open in Container",
+				caption: i18n("js_panelChooseContainerTitle"),
 				isAlertive: false,
 				boldDoubleQuotedText: false,
 				breakNewLine: false,
