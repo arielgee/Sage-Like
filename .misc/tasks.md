@@ -1454,6 +1454,7 @@ This procedure explicitly references the specific stash index to ensure no inter
 
 ### Step 1: Stash all changes and note the index
 Run the following command to move all modifications, including entirely new, untracked files, into Git's temporary storage with a clear descriptive label:
+> close `GitHub Desktop` or `Total Commander` and any other application that may be locking files or directories in the repository before executing this command.
 ```bash
 git stash save -u "temp-i18n-backup-XX"
 ```
