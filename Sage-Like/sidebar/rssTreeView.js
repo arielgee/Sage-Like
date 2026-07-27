@@ -978,6 +978,8 @@ const rssTreeView = (function() {
 
 		if(!!!elmLI) return;
 
+		m_objTreeFeedsData.update(elmLI.id); // feed may not exist in m_objTreeFeedsData when 'Refresh feeds on sidebar launch' is off and user just changed `Feeds bookmark folder`
+
 		// event.detail: check the current click count to avoid the double-click's second click.
 		if(clickCount === 1 && TreeItemType.isFeed(elmLI)) {
 
