@@ -431,12 +431,12 @@ const contextMenu = (function() {
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewContainerTab:
-				rssTreeView.openTreeItemFeedPreview(m_elmEventTarget, rssTreeView.URLOpenMethod.IN_NEW_CONTAINER_TAB);
+				rssTreeView.openTreeItemFeedPreview(m_elmEventTarget, rssTreeView.URLOpenMethod.IN_NEW_TAB_CONTAINER);
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.listOpenNewContainerTab:
-				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_CONTAINER_TAB);
+				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_TAB_CONTAINER);
 				break;
 				///////////////////////////////////////////
 
@@ -451,12 +451,12 @@ const contextMenu = (function() {
 				///////////////////////////////////////////
 
 			case ContextAction.treeOpenNewPrivateWin:
-				rssTreeView.openTreeItemFeedPreview(m_elmEventTarget, rssTreeView.URLOpenMethod.IN_NEW_PRIVATE_WIN);
+				rssTreeView.openTreeItemFeedPreview(m_elmEventTarget, rssTreeView.URLOpenMethod.IN_NEW_WIN_PRIVATE);
 				break;
 				///////////////////////////////////////////
 
 			case ContextAction.listOpenNewPrivateWin:
-				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_PRIVATE_WIN);
+				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_WIN_PRIVATE);
 				break;
 				///////////////////////////////////////////
 
