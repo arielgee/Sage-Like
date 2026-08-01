@@ -6,6 +6,7 @@
 	<meta charset="utf-8"/>
 	<title>Sage-Like Options</title>
 	<script src="/shared/common.js"></script>
+	<script src="/sidebar/sidebarContextMenuItems.js"></script>
 	<script src="/shared/rssTreeData.js"></script>
 	<script src="/opml/opml.js"></script>
 	<script src="preferencesData.js"></script>
@@ -293,6 +294,15 @@
 			<div class="prefSeperator"></div>
 
 			<div class="preference">
+				<label class="preferenceLabel">Show/Hide sidebar context menu items</label>
+				<div class="preferenceControl">
+					<button type="button" id="btnCustomTreeCtxMenu" class="preferenceButton">Tree View...</button>
+					<button type="button" id="btnCustomListCtxMenu" class="preferenceButton">List View...</button>
+				</div>
+			</div>
+			<div class="prefSeperator"></div>
+
+			<div class="preference">
 				<label for="showFeedItemDesc" class="preferenceLabel">Show feed-item description tooltips, if available</label>
 				<div class="preferenceControl">
 					<input type="checkbox" class="preferenceCheckboxInput" id="showFeedItemDesc">
@@ -409,6 +419,14 @@
 		<div id="timeOfDayBox" class="popupBox preferenceReferenced" tabindex="-1">
 			<div class="preferenceControl">
 				<label for="inputTime" class="controlLabel">Every Day at:</label><input type="time" class="inputPopupBox" id="inputTime">
+			</div>
+		</div>
+
+		<!-- ////////////////////////// Custom Context Menu Box ////////////////////////// -->
+ 		<div id="customCtxMenuBox" class="popupBox preferenceReferenced" tabindex="-1">
+			<div id="customCtxMenuBoxCaption" class="popupBoxCaption"></div>
+			<div class="customCtxMenuBoxSubtitle">Choose what to show.<span class="helpInfo" data-title="Use Shift+Click to toggle all items">?</span></div>
+			<div id="customCtxMenuItemsContainer"></div>
 			</div>
 		</div>
 

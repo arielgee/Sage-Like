@@ -182,8 +182,10 @@ const Global = (function() {
 		MSGD_PREF_CHANGE_SORT_FEED_ITEMS:						1018,
 		MSGD_PREF_CHANGE_STRICT_RSS_CONTENT_TYPES:				1019,
 		MSGD_PREF_CHANGE_SHOW_TRY_OPEN_LINK_IN_FEED_PREVIEW:	1020,
-		MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE:			1021,
-		MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN:				1022,
+		MSGD_PREF_CHANGE_TREE_CTX_MNU_HIDDEN_ITEMS:				1021,
+		MSGD_PREF_CHANGE_LIST_CTX_MNU_HIDDEN_ITEMS:				1022,
+		MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE:			1023,
+		MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN:				1024,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: "_rootFeedsFolderIdNotSet_",
 		BOOKMARKS_ROOT_GUID: "root________",
@@ -613,6 +615,8 @@ const prefs = (function() {
 		COLOR_SELECT:						{ name: "pref_colorSelect",						default: "#F3C8BA"										},
 		COLOR_TEXT:							{ name: "pref_colorText",						default: "#000000"										},
 		ICONS_COLOR:						{ name: "pref_iconsColor",						default: 0												},
+		TREE_CTX_MNU_HIDDEN_ITEMS:			{ name: "pref_treeCtxMnuHiddenItems",			default: []												},
+		LIST_CTX_MNU_HIDDEN_ITEMS:			{ name: "pref_listCtxMnuHiddenItems",			default: []												},
 		INCREASE_UNVISITED_FONT_SIZE:		{ name: "pref_increaseUnvisitedFontSize",		default: false											},
 		USE_CUSTOM_CSS_FEED_PREVIEW:		{ name: "pref_useCustomCSSFeedPreview",			default: false											},
 		ANIMATED_SLIDE_DOWN_PANEL:			{ name: "pref_animatedSlideDownPanel",			default: true											},
@@ -664,6 +668,8 @@ const prefs = (function() {
 	function getColorSelect()					{ return _getPreferenceValue(PREF.COLOR_SELECT); }
 	function getColorText()						{ return _getPreferenceValue(PREF.COLOR_TEXT); }
 	function getIconsColor()					{ return _getPreferenceValue(PREF.ICONS_COLOR); }
+	function getTreeCtxMnuHiddenItems()			{ return _getPreferenceValue(PREF.TREE_CTX_MNU_HIDDEN_ITEMS); }
+	function getListCtxMnuHiddenItems()			{ return _getPreferenceValue(PREF.LIST_CTX_MNU_HIDDEN_ITEMS); }
 	function getIncreaseUnvisitedFontSize()		{ return _getPreferenceValue(PREF.INCREASE_UNVISITED_FONT_SIZE); }
 	function getUseCustomCSSFeedPreview()		{ return _getPreferenceValue(PREF.USE_CUSTOM_CSS_FEED_PREVIEW); }
 	function getAnimatedSlideDownPanel()		{ return _getPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL); }
@@ -700,6 +706,8 @@ const prefs = (function() {
 	function setColorSelect(value)					{ return _setPreferenceValue(PREF.COLOR_SELECT, value); }
 	function setColorText(value)					{ return _setPreferenceValue(PREF.COLOR_TEXT, value); }
 	function setIconsColor(value)					{ return _setPreferenceValue(PREF.ICONS_COLOR, value); }
+	function setTreeCtxMnuHiddenItems(value)		{ return _setPreferenceValue(PREF.TREE_CTX_MNU_HIDDEN_ITEMS, value); }
+	function setListCtxMnuHiddenItems(value)		{ return _setPreferenceValue(PREF.LIST_CTX_MNU_HIDDEN_ITEMS, value); }
 	function setIncreaseUnvisitedFontSize(value)	{ return _setPreferenceValue(PREF.INCREASE_UNVISITED_FONT_SIZE, value); }
 	function setUseCustomCSSFeedPreview(value)		{ return _setPreferenceValue(PREF.USE_CUSTOM_CSS_FEED_PREVIEW, value); }
 	function setAnimatedSlideDownPanel(value)		{ return _setPreferenceValue(PREF.ANIMATED_SLIDE_DOWN_PANEL, value); }
@@ -843,6 +851,8 @@ const prefs = (function() {
 		getColorSelect: getColorSelect,
 		getColorText: getColorText,
 		getIconsColor: getIconsColor,
+		getTreeCtxMnuHiddenItems: getTreeCtxMnuHiddenItems,
+		getListCtxMnuHiddenItems: getListCtxMnuHiddenItems,
 		getIncreaseUnvisitedFontSize: getIncreaseUnvisitedFontSize,
 		getUseCustomCSSFeedPreview: getUseCustomCSSFeedPreview,
 		getAnimatedSlideDownPanel: getAnimatedSlideDownPanel,
@@ -878,6 +888,8 @@ const prefs = (function() {
 		setColorSelect: setColorSelect,
 		setColorText: setColorText,
 		setIconsColor: setIconsColor,
+		setTreeCtxMnuHiddenItems: setTreeCtxMnuHiddenItems,
+		setListCtxMnuHiddenItems: setListCtxMnuHiddenItems,
 		setIncreaseUnvisitedFontSize: setIncreaseUnvisitedFontSize,
 		setUseCustomCSSFeedPreview: setUseCustomCSSFeedPreview,
 		setAnimatedSlideDownPanel: setAnimatedSlideDownPanel,

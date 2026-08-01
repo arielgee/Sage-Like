@@ -56,6 +56,7 @@ const contextMenu = (function() {
 	let m_currentContext = "";
 	let m_bActivePanelOpened = false;
 	let m_isContextMenuOpen = false;
+	let m_userHiddenItems = [];
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialize() {
@@ -91,9 +92,9 @@ const contextMenu = (function() {
 		m_elmContextMenu.removeEventListener("click", onClickContextMenuItem);
 
 		if(m_bActivePanelOpened === false) {
-			if(["treeitemfoldercontext", "treeitemcontext", "treecontext"].includes(m_currentContext)) {
+			if(["tree-item-folder-ctx", "tree-item-ctx", "tree-ctx"].includes(m_currentContext)) {
 				rssTreeView.setFocus();
-			} else if(["listitemcontext", "listcontext"].includes(m_currentContext)) {
+			} else if(["list-item-ctx", "list-ctx"].includes(m_currentContext)) {
 				rssListView.setFocus();
 			}
 		}
@@ -102,7 +103,7 @@ const contextMenu = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onContextMenu(event) {
+	async function onContextMenu(event) {
 
 		m_elmEventTarget = event.target;
 
@@ -120,80 +121,83 @@ const contextMenu = (function() {
 
 		m_bActivePanelOpened = false;
 
-		let showMenu = true;
-
 		if (TreeItemType.isFolder(m_elmEventTarget)) {
 
-			m_currentContext = "treeitemfoldercontext";
+			m_currentContext = "tree-item-folder-ctx";
+			m_userHiddenItems = await prefs.getTreeCtxMnuHiddenItems();
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
 		} else if (TreeItemType.isFeed(m_elmEventTarget)) {
 
-			m_currentContext = "treeitemcontext";
+			m_currentContext = "tree-item-ctx";
+			m_userHiddenItems = await prefs.getTreeCtxMnuHiddenItems();
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);
 
 		} else if (m_elmEventTarget.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) {
 
-			m_currentContext = "listitemcontext";
+			m_currentContext = "list-item-ctx";
+			m_userHiddenItems = await prefs.getListCtxMnuHiddenItems();
 			rssListView.setFeedItemSelectionState(m_elmEventTarget);
 
 		} else if (m_elmEventTarget.closest("#" + Global.ID_UL_RSS_TREE_VIEW) !== null) {
 
-			m_currentContext = "treecontext";
+			m_currentContext = "tree-ctx";
+			m_userHiddenItems = await prefs.getTreeCtxMnuHiddenItems();
 			rssTreeView.setFeedSelectionState(m_elmEventTarget);	// select folder
 
 		} else if ((m_elmEventTarget.closest("#" + Global.ID_UL_RSS_LIST_VIEW) !== null) && rssListView.isRssListOK()) {	// don't show menu if list has issues
 
-			m_currentContext = "listcontext";
+			m_currentContext = "list-ctx";
+			m_userHiddenItems = await prefs.getListCtxMnuHiddenItems();
 
 		} else {
-			showMenu = false;
+			return;
 		}
 
-		if (showMenu) {
-
-			m_elmContextMenu.addEventListener("mousemove", onMouseMoveContextMenu);
-			m_elmContextMenu.addEventListener("blur", onBlurContextMenu, true);
-			m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
-			m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
-
-			showMenuItemsByClassName(m_currentContext, m_elmEventTarget.classList);
-
-			const isRTL = getComputedStyle(m_elmSidebarBody).direction === "rtl";
-			let logicalX = (isRTL ? (m_elmSidebarBody.offsetWidth - event.clientX) : event.clientX);
-			let y = event.clientY;
-
-			// do it first so element will have dimentions (offsetWidth > 0)
-			m_elmContextMenu.style.display = "block";
-
-			if ((logicalX + m_elmContextMenu.offsetWidth) > m_elmSidebarBody.offsetWidth) {
-				logicalX = m_elmSidebarBody.offsetWidth - m_elmContextMenu.offsetWidth;
-			}
-
-			if ((y + m_elmContextMenu.offsetHeight) > m_elmSidebarBody.offsetHeight) {
-				y = m_elmSidebarBody.offsetHeight - m_elmContextMenu.offsetHeight;
-			}
-
-			if(isRTL) {
-				m_elmContextMenu.style.right = logicalX + "px";
-			} else {
-				m_elmContextMenu.style.left = logicalX + "px";
-			}
-			m_elmContextMenu.style.top = y + "px";
-
-			let item = m_elmContextMenu.querySelector(".contextmenuitem." + m_currentContext);	// first visible items
-			if(!!item) {
-				item.focus();
-			} else {
-				m_elmContextMenu.focus();
-			}
-			m_isContextMenuOpen = true;
+		// if no menu items are visible for the current context, then don't show the context menu
+		if(showRequiredMenuItems() === false) {
+			return;
 		}
+
+		m_elmContextMenu.addEventListener("mousemove", onMouseMoveContextMenu);
+		m_elmContextMenu.addEventListener("blur", onBlurContextMenu, true);
+		m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
+		m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
+
+		const isRTL = getComputedStyle(m_elmSidebarBody).direction === "rtl";
+		let logicalX = (isRTL ? (m_elmSidebarBody.offsetWidth - event.clientX) : event.clientX);
+		let y = event.clientY;
+
+		// do it first so element will have dimentions (offsetWidth > 0)
+		m_elmContextMenu.style.display = "block";
+
+		if ((logicalX + m_elmContextMenu.offsetWidth) > m_elmSidebarBody.offsetWidth) {
+			logicalX = m_elmSidebarBody.offsetWidth - m_elmContextMenu.offsetWidth;
+		}
+
+		if ((y + m_elmContextMenu.offsetHeight) > m_elmSidebarBody.offsetHeight) {
+			y = m_elmSidebarBody.offsetHeight - m_elmContextMenu.offsetHeight;
+		}
+
+		if(isRTL) {
+			m_elmContextMenu.style.right = logicalX + "px";
+		} else {
+			m_elmContextMenu.style.left = logicalX + "px";
+		}
+		m_elmContextMenu.style.top = y + "px";
+
+		const item = m_elmContextMenu.querySelector(`.ctx-menu-item.${m_currentContext}:not(.user-hidden)`);	// first visible items
+		if(!!item) {
+			item.focus();
+		} else {
+			m_elmContextMenu.focus();
+		}
+		m_isContextMenuOpen = true;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseMoveContextMenu(event) {
-		if(event.target.classList.contains("contextmenuitem")) {
+		if(event.target.classList.contains("ctx-menu-item")) {
 			event.target.focus();
 		} else {
 			m_elmContextMenu.focus();	// move focus to parent (may be an <hr> line)
@@ -217,7 +221,7 @@ const contextMenu = (function() {
 		// element context (tree feed item) but also on the element's state (unauthorized). So in order to prevent
 		// the context menu from being closed (from handleMenuActions()), as if some action is being performed,
 		// exit here when its acceleratorKey is pressed and the 'Sign in...' menu item is not relevent.
-		if((keyCode === "KeyL") && (m_currentContext === "treeitemcontext") && !TreeItemType.isUnauthorized(m_elmEventTarget)) {
+		if((keyCode === "KeyL") && (m_currentContext === "tree-item-ctx") && !TreeItemType.isUnauthorized(m_elmEventTarget)) {
 			return;
 		}
 
@@ -228,7 +232,7 @@ const contextMenu = (function() {
 			case "ArrowUp":
 				elm = event.target;
 				while( !!(elm = elm.previousElementSibling) ) {
-					if( !!elm.offsetParent && elm.classList.contains("contextmenuitem") ) {		// visible menu item
+					if( !!elm.offsetParent && elm.classList.contains("ctx-menu-item") ) {		// visible menu item
 						elm.focus();
 						break;
 					}
@@ -236,7 +240,7 @@ const contextMenu = (function() {
 				if(!!!elm) {
 					elm = m_elmContextMenu.lastElementChild;
 					do {
-						if( !!elm.offsetParent && elm.classList.contains("contextmenuitem") ) {
+						if( !!elm.offsetParent && elm.classList.contains("ctx-menu-item") ) {
 							elm.focus();
 							break;
 						}
@@ -248,7 +252,7 @@ const contextMenu = (function() {
 			case "ArrowDown":
 				elm = event.target;
 				while( !!(elm = elm.nextElementSibling) ) {
-					if( !!elm.offsetParent && elm.classList.contains("contextmenuitem") ) {
+					if( !!elm.offsetParent && elm.classList.contains("ctx-menu-item") ) {
 						elm.focus();
 						break;
 					}
@@ -256,7 +260,7 @@ const contextMenu = (function() {
 				if(!!!elm) {
 					elm = m_elmContextMenu.firstElementChild;
 					do {
-						if( !!elm.offsetParent && elm.classList.contains("contextmenuitem") ) {
+						if( !!elm.offsetParent && elm.classList.contains("ctx-menu-item") ) {
 							elm.focus();
 							break;
 						}
@@ -280,7 +284,7 @@ const contextMenu = (function() {
 		// if key was handled then no need to continue
 		if(["ArrowUp", "ArrowDown", "Enter", "NumpadEnter", "Escape"].includes(keyCode)) return;
 
-		if(m_currentContext === "treeitemfoldercontext") {
+		if(m_currentContext === "tree-item-folder-ctx") {
 			switch (keyCode) {
 				case "KeyN":	handleMenuActions(ContextAction.treeNewFeed);			break;
 				case "KeyF":	handleMenuActions(ContextAction.treeNewFolder);			break;
@@ -294,7 +298,7 @@ const contextMenu = (function() {
 				case "KeyM":	handleMenuActions(ContextAction.treeSummary);			break;
 				case "KeyI":	handleMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
-		} else if(m_currentContext === "treeitemcontext") {
+		} else if(m_currentContext === "tree-item-ctx") {
 			switch (keyCode) {
 				case "KeyO":	handleMenuActions(ContextAction.treeOpen);					break;
 				case "KeyT":	handleMenuActions(ContextAction.treeOpenNewTab);			break;
@@ -314,7 +318,7 @@ const contextMenu = (function() {
 				case "KeyM":	handleMenuActions(ContextAction.treeSummary);				break;
 				case "KeyI":	handleMenuActions(ContextAction.treeSwitchDirection);		break;
 			}
-		} else if(m_currentContext === "listitemcontext") {
+		} else if(m_currentContext === "list-item-ctx") {
 			switch (keyCode) {
 				case "KeyO":	handleMenuActions(ContextAction.listOpen);					break;
 				case "KeyT":	handleMenuActions(ContextAction.listOpenNewTab);			break;
@@ -328,7 +332,7 @@ const contextMenu = (function() {
 				case "KeyC":	handleMenuActions(ContextAction.listCopyUrl);				break;
 				case "KeyI":	handleMenuActions(ContextAction.listSwitchDirection);		break;
 			}
-		} else if(m_currentContext === "treecontext") {
+		} else if(m_currentContext === "tree-ctx") {
 			switch (keyCode) {
 				case "KeyR":	handleMenuActions(ContextAction.treeMarkAllRead);		break;
 				case "KeyU":	handleMenuActions(ContextAction.treeMarkAllUnread);		break;
@@ -338,7 +342,7 @@ const contextMenu = (function() {
 				case "KeyM":	handleMenuActions(ContextAction.treeSummary);			break;
 				case "KeyI":	handleMenuActions(ContextAction.treeSwitchDirection);	break;
 			}
-		} else if(m_currentContext === "listcontext") {
+		} else if(m_currentContext === "list-ctx") {
 			switch (keyCode) {
 				case "KeyA":	handleMenuActions(ContextAction.listOpenAllInTabs);		break;
 				case "KeyR":	handleMenuActions(ContextAction.listMarkAllRead);		break;
@@ -350,9 +354,7 @@ const contextMenu = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickContextMenuItem(event) {
-
 		event.preventDefault();
-
 		handleMenuItemsAction(event.target.id);
 	}
 
@@ -560,38 +562,41 @@ const contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function initializeHTML() {
 
-		const items = m_elmContextMenu.querySelectorAll('.contextmenuitem');
+		const fragment = document.createDocumentFragment();
+		let prevMenuItemGroup = 1;
 
-		let item, shortcutKey, acceleratorKey;
-		let text, index;
-		let before, key, after;
-		let elmWrapper, elmAcceleratorKey, elmU;
+		for(let i=0, len=SidebarContextMenuItems.length; i<len; ++i) {
 
-		for(let i=0, len=items.length; i<len; ++i) {
+			const menuItem = SidebarContextMenuItems[i];
+			const elm = document.createElement("div");
 
-			item = items[i];
-			text = item.textContent;
-			elmWrapper = document.createElement("div");
+			// menuItem must have an id, class and group
+			elm.id = menuItem.id;
+			elm.className = menuItem.class;
+			elm.tabIndex = 0;								// make focusable
+			elm.setAttribute("data-group", menuItem.group);
 
-			shortcutKey = item.getAttribute("data-shortcut-key");
-			if(!!shortcutKey) {
+			// menuItem must have a text
+			const text = menuItem.text;
+			const elmWrapper = document.createElement("div");
 
-				index = text.indexOf(shortcutKey.toUpperCase());		// prefer uppercase match
+			// if menuItem has a shortcut, underline the shortcut key in the text
+			if(!!menuItem.shortcut) {
+				let index = text.indexOf(menuItem.shortcut.toUpperCase());	// prefer uppercase match
 				if(index === -1) {
-					index = text.toLowerCase().indexOf(shortcutKey.toLowerCase());
+					index = text.toLowerCase().indexOf(menuItem.shortcut.toLowerCase());	// compromise with lowercase match
 				}
 
 				if(index > -1) {
-
-					before = text.substring(0, index);
-					key = text.charAt(index);
-					after = text.substring(index + 1);
+					const before = text.substring(0, index);
+					const key = text.charAt(index);
+					const after = text.substring(index + 1);
 
 					if(!!before) {
 						elmWrapper.appendChild(document.createTextNode(before));
 					}
 
-					elmU = document.createElement("u");
+					const elmU = document.createElement("u");
 					elmU.textContent = key;
 					elmWrapper.appendChild(elmU);
 
@@ -604,28 +609,86 @@ const contextMenu = (function() {
 			} else {
 				elmWrapper.textContent = text;
 			}
-			item.textContent = "";
-			item.appendChild(elmWrapper);
+			elm.appendChild(elmWrapper);
 
-			acceleratorKey = item.getAttribute("data-accelerator-key");
-			if(!!acceleratorKey) {
-				elmAcceleratorKey = document.createElement("div");
+			// if menuItem has an accelerator key, add it to the menu item
+			if(!!menuItem.accelerator) {
+				const elmAcceleratorKey = document.createElement("div");
 				elmAcceleratorKey.className = "acceleratorKey";
-				elmAcceleratorKey.textContent = acceleratorKey;
-				item.appendChild(elmAcceleratorKey);
+				elmAcceleratorKey.textContent = menuItem.accelerator;
+				elm.appendChild(elmAcceleratorKey);
 			}
+
+			// if previous menuItem group is less than current menuItem group, add a seperator
+			if(prevMenuItemGroup < menuItem.group) {
+				const elmHr = document.createElement("hr");
+				elmHr.className = "ctx-menu-sep";
+				elmHr.setAttribute("data-group", prevMenuItemGroup);
+				fragment.appendChild(elmHr);
+				prevMenuItemGroup = menuItem.group;
+			}
+			fragment.appendChild(elm);
 		}
+
+		m_elmContextMenu.replaceChildren(fragment);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function showMenuItemsByClassName(className, targetClassList) {
+	function showRequiredMenuItems() {
 
-		m_elmContextMenu.classList.remove("treeitemfoldercontext", "treeitemcontext", "listitemcontext", "treecontext", "listcontext", "treeitemunauthorizedcontext");
-		if(targetClassList.contains("unauthorized")) {
-			m_elmContextMenu.classList.add(className, "treeitemunauthorizedcontext");
+		const isUnauthorized = m_elmEventTarget.classList.contains("unauthorized");
+
+		////////////////////////////////////////////////////////////////////////////
+		// handle the display of the context menu items based on the current context
+
+		m_elmContextMenu.classList.remove("tree-item-folder-ctx", "tree-item-ctx", "list-item-ctx", "tree-ctx", "list-ctx", "tree-item-unauthorized-ctx");
+		if(isUnauthorized) {
+			m_elmContextMenu.classList.add(m_currentContext, "tree-item-unauthorized-ctx");
 		} else {
-			m_elmContextMenu.classList.add(className);
+			m_elmContextMenu.classList.add(m_currentContext);
 		}
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// handle the display of the context menu items based on the user customization as defined in m_userHiddenItems
+
+		const menuItemElements = m_elmContextMenu.children;
+		let lastVisibleGroup = 0;			// group number is one based, so 0 means no visible group
+		let lastVisibleSeparator = null;
+
+		for(let i=0, len=menuItemElements.length; i<len; ++i) {
+
+			const elm = menuItemElements[i];
+			const elmClsLst = elm.classList;
+
+			// for the menu items of the current context
+			if( elmClsLst.contains("ctx-menu-item") && elmClsLst.contains(m_currentContext) || (isUnauthorized && elmClsLst.contains("tree-item-unauthorized-ctx")) ) {
+
+				// hide or show menu item based on the user customization as defined in m_userHiddenItems
+				if(m_userHiddenItems.includes(elm.id)) {
+					elmClsLst.add("user-hidden");
+				} else {
+					elmClsLst.remove("user-hidden");
+					lastVisibleGroup = elm.getAttribute("data-group");
+				}
+
+			} else if(elmClsLst.contains("ctx-menu-sep")) {
+
+				// hide or show separator based on the visibility of the menu items in the same group
+				if(elm.getAttribute("data-group") === lastVisibleGroup) {
+					elmClsLst.remove("user-hidden");
+					lastVisibleSeparator = elm;
+				} else {
+					elmClsLst.add("user-hidden");
+				}
+			}
+		}
+
+		// hide the last visible separator if it belongs to the last visible group
+		if( !!lastVisibleSeparator && lastVisibleSeparator.getAttribute("data-group") === lastVisibleGroup ) {
+			lastVisibleSeparator.classList.add("user-hidden");
+		}
+
+		return lastVisibleGroup > 0;	// return true if there is at least one visible menu item
 	}
 
 	return {

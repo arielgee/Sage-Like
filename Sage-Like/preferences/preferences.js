@@ -45,6 +45,9 @@ const preferences = (function() {
 	let m_elmColorIcons;
 	let m_elmRadioIconsColors;
 	let m_elmIncreaseUnvisitedFontSize;
+	let m_elmBtnCustomTreeCtxMenu;
+	let m_elmBtnCustomListCtxMenu;
+	let m_elmCustomCtxMenuBox;
 	let m_elmShowTryOpenLinkInFeedPreview;
 	let m_elmUseCustomCSSFeedPreview;
 	let m_elmImportCustomCSSSource;
@@ -67,6 +70,7 @@ const preferences = (function() {
 
 	let m_funcResolveGetTimeOfDay;
 	let m_funcResolveGetUserFontName;
+	let m_funcResolveGetCustomCtxMenu;
 
 	let m_winIdNotepad = [0];
 
@@ -116,6 +120,8 @@ const preferences = (function() {
 		m_elmColorIcons = document.getElementById("colorIcons");
 		m_elmRadioIconsColors = document.getElementsByName("iconsColor");
 		m_elmIncreaseUnvisitedFontSize = document.getElementById("increaseUnvisitedFontSize");
+		m_elmBtnCustomTreeCtxMenu = document.getElementById("btnCustomTreeCtxMenu");
+		m_elmBtnCustomListCtxMenu = document.getElementById("btnCustomListCtxMenu");
 		m_elmShowTryOpenLinkInFeedPreview = document.getElementById("showTryOpenLinkInFeedPreview");
 		m_elmUseCustomCSSFeedPreview = document.getElementById("useCustomCSSFeedPreview");
 		m_elmImportCustomCSSSource = document.getElementById("importCustomCSSSource");
@@ -173,6 +179,8 @@ const preferences = (function() {
 		m_elmColorIcons.addEventListener("change", onChangeColorIcons);
 		m_elmRadioIconsColors.forEach(r => r.addEventListener("click", onClickRadioIconsColor));
 		m_elmIncreaseUnvisitedFontSize.addEventListener("change", onChangeIncreaseUnvisitedFontSize);
+		m_elmBtnCustomTreeCtxMenu.addEventListener("click", onClickBtnCustomTreeCtxMenu);
+		m_elmBtnCustomListCtxMenu.addEventListener("click", onClickBtnCustomListCtxMenu);
 		m_elmShowTryOpenLinkInFeedPreview.addEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
 		m_elmUseCustomCSSFeedPreview.addEventListener("change", onChangeUseCustomCSSFeedPreview);
 		m_elmImportCustomCSSSource.addEventListener("change", onChangeImportCustomCSSSource);
@@ -718,6 +726,20 @@ const preferences = (function() {
 		prefs.setIconsColor(pair.id).then(() => {
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_COLORS);
 		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function onClickBtnCustomTreeCtxMenu(event) {
+		const hiddenItems = await prefs.getTreeCtxMnuHiddenItems();
+		const result = await getCustomContextMenu("tree", hiddenItems);
+		if(Array.isArray(result)) prefs.setTreeCtxMnuHiddenItems(result);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function onClickBtnCustomListCtxMenu(event) {
+		const hiddenItems = await prefs.getListCtxMnuHiddenItems();
+		const result = await getCustomContextMenu("list", hiddenItems);
+		if(Array.isArray(result)) prefs.setListCtxMnuHiddenItems(result);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1282,6 +1304,172 @@ const preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurInputTime(event) {
 		closeTimeOfDayBox();
+	}
+
+	//==================================================================================
+	//=== Custom Context Menu box functions
+	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getCustomContextMenu(setName, hiddenItems) {
+
+		const ItemSet = {
+			tree: {
+				classes: ["tree-item-ctx", "tree-item-folder-ctx", "tree-ctx"],	// "tree-item-unauthorized-ctx" is not included. it can't be hidden; it's only shown when a feed is unauthorized
+				caption: "Tree View Context Menu Items",
+			},
+			list: {
+				classes: ["list-item-ctx", "list-ctx"],
+				caption: "List View Context Menu Items",
+			},
+		};
+		const theSet = ItemSet[setName];
+
+		if(!theSet) throw new Error("[Sage-Like] Invalid setName. It must be " + Object.keys(ItemSet).map(k => `'${k}'`).join(" or "));
+		if(!Array.isArray(hiddenItems)) throw new Error("[Sage-Like] hiddenItems must be an array");
+
+		return new Promise((resolve) => {
+
+			m_funcResolveGetCustomCtxMenu = resolve;
+
+			if(!!!m_elmCustomCtxMenuBox) {
+				m_elmCustomCtxMenuBox = document.getElementById("customCtxMenuBox");
+			}
+
+			m_elmCustomCtxMenuBox.addEventListener("click", onClickCustomContextMenuBox);
+			m_elmCustomCtxMenuBox.addEventListener("keydown", onKeyDownCustomContextMenuBox);
+			m_elmCustomCtxMenuBox.addEventListener("blur", onBlurCustomContextMenuBox);
+
+			document.getElementById("customCtxMenuBoxCaption").textContent = theSet.caption;
+
+			const frag = document.createDocumentFragment();
+
+			const createCtxMnuItem = (item) => {
+
+				const checkbox = document.createElement("input");
+				checkbox.type = "checkbox";
+				checkbox.id = `cbx-${item.id}`;
+				checkbox.className = "preferenceCheckboxInput ctxMenuItemCheckbox";
+				checkbox.checked = !hiddenItems.includes(item.id);					// checked if not in the hidden items list
+				checkbox.setAttribute("data-id", item.id);
+				checkbox.addEventListener("blur", onBlurCustomContextMenuBox);
+
+				const span = document.createElement("span");
+				span.className = "ctxMenuItemText";
+				span.textContent = item.text;
+
+				// Label element contains both checkbox & span. this allows ommitting checkbox's 'for' attribute.
+				// checkbox & span have 'pointer-events: none;' in CSS, so clicking anywhere on the label will toggle the checkbox
+				const elm = document.createElement("div");
+				elm.className = "ctxMenuItemContainer";
+				elm.append(checkbox, span);
+
+				frag.appendChild(elm);
+			};
+
+			const viewItems = SidebarContextMenuItems.filter(item => item.class.split(" ").some(cls => theSet.classes.includes(cls)));
+			let prevMenuItemGroup = viewItems[0].group;	// if viewItems is empty, i have worse problems than this. it should never be empty.
+
+			for(let i=0, len=viewItems.length; i<len; ++i) {
+
+				if(prevMenuItemGroup < viewItems[i].group) {
+					const sep = document.createElement("hr");
+					sep.className = "ctxMenuItemSeparator";
+					frag.appendChild(sep);
+					prevMenuItemGroup = viewItems[i].group;
+				}
+
+				createCtxMnuItem(viewItems[i]);
+			}
+
+			document.getElementById("customCtxMenuItemsContainer").replaceChildren(frag);
+
+			m_elmCustomCtxMenuBox.style.display = "block";
+			document.documentElement.style.overflow = "hidden";
+
+			const elmMain = document.querySelector(".mainContent");
+			const x = window.scrollX + elmMain.offsetLeft + ((elmMain.clientWidth - m_elmCustomCtxMenuBox.offsetWidth) / 2);
+			const y = window.scrollY + ((document.documentElement.clientHeight - m_elmCustomCtxMenuBox.offsetHeight) / 2);
+
+			m_elmCustomCtxMenuBox.style.left = Math.max(0, x) + "px";
+			m_elmCustomCtxMenuBox.style.top = Math.max(0, y) + "px";
+
+			m_elmCustomCtxMenuBox.focus();
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function closeCustomContextMenuBox(bApply = false) {
+
+		m_elmCustomCtxMenuBox.style.display = "none";
+		document.documentElement.style.overflow = "";
+
+		const checkBoxes = m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox");
+		checkBoxes.forEach(cb => cb.removeEventListener("blur", onBlurCustomContextMenuBox));
+
+		m_elmCustomCtxMenuBox.removeEventListener("click", onClickCustomContextMenuBox);
+		m_elmCustomCtxMenuBox.removeEventListener("keydown", onKeyDownCustomContextMenuBox);
+		m_elmCustomCtxMenuBox.removeEventListener("blur", onBlurCustomContextMenuBox);
+
+		if(typeof(m_funcResolveGetCustomCtxMenu) === "function") {
+
+			if(bApply) {
+				const uncheckedItemIds = Array.from(checkBoxes).filter(cb => !cb.checked).map(cb => cb.getAttribute("data-id"));
+				m_funcResolveGetCustomCtxMenu(uncheckedItemIds);
+			} else {
+				m_funcResolveGetCustomCtxMenu(null);
+			}
+		}
+		m_funcResolveGetCustomCtxMenu = null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickCustomContextMenuBox(event) {
+
+		if(event.target.classList.contains("ctxMenuItemContainer")) {		// the label element was clicked
+
+			const checkbox = event.target.querySelector(".ctxMenuItemCheckbox");
+
+			if(event.shiftKey) {
+				const bChecked = !checkbox.checked;
+				m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = bChecked);
+			} else if(event.ctrlKey) {
+				m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = !cb.checked);
+			} else {
+				checkbox.checked = !checkbox.checked;
+			}
+			event.preventDefault();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onKeyDownCustomContextMenuBox(event) {
+
+		if( ["Enter","NumpadEnter"].includes(event.code) ) {
+			closeCustomContextMenuBox(true);
+		} else if("Escape" === event.code) {
+			closeCustomContextMenuBox();
+		} else if("Space" === event.code) {
+
+			if(event.target.classList.contains("ctxMenuItemCheckbox")) {	// if a checkbox is focused while holding the Shift key
+
+				if(event.shiftKey) {
+					const bChecked = !event.target.checked;
+					m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = bChecked);
+					event.preventDefault();
+				} else if(event.ctrlKey) {
+					m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = !cb.checked);
+					event.preventDefault();
+				}
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onBlurCustomContextMenuBox(event) {
+		if( !m_elmCustomCtxMenuBox.contains(event.relatedTarget) ) {
+			closeCustomContextMenuBox(true);
+		}
 	}
 
 	//==================================================================================

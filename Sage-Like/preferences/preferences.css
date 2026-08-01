@@ -495,10 +495,12 @@ input {
 	white-space: pre-line;
 }
 
-/*** User font box and Time of day box ***/
+/****************************************************************************/
+/* User Font Box | Time of Day Box | Custom Context Menu Box | Message Box **/
+/****************************************************************************/
 .popupBox {
 	display: none;
-	border: 1px solid var(--border-color-popup-box);
+	border: 3px solid var(--border-color-popup-box);
 	border-radius: 8px;
 	padding: 12px;
 	background-color: var(--background-color-popup-box);
@@ -524,6 +526,34 @@ input {
 	pointer-events: initial;
 	border: 1px solid var(--border-color-popup-box);
 	padding: 2px;
+}
+
+.customCtxMenuBoxSubtitle {
+	font-size: 1.167rem;
+	line-height: 1.5;
+	margin-block: 12px;
+}
+
+.ctxMenuItemContainer {
+	display: flex;
+	gap: 12px;
+	padding-block: 3px;
+	padding-inline-end: 8px;
+	font-size: 1.167rem;
+	line-height: 1.5;
+}
+.ctxMenuItemContainer:hover {
+	background-color: var(--color-preference-hover);
+}
+
+.ctxMenuItemSeparator {
+	margin-block: 4px;
+	border-width: 1px 0 0 0;
+}
+
+.ctxMenuItemCheckbox,
+.ctxMenuItemText {
+	pointer-events: none;
 }
 
 .popupBoxElementMargined {

@@ -13,12 +13,13 @@
 	z-index: 1;
 	border: 1px solid #e0e0e0;
 	font-weight: normal;
+	padding-bottom: 1px;
 }
 .contextmenu:dir(rtl) {
 	box-shadow: -3px 3px 10px rgba(0,0,0,0.5);
 }
 
-.contextmenu .contextmenuitem {
+.contextmenu .ctx-menu-item {
 	display: none;
 	color: var(--color-menu);
 	padding: 2px 13px;
@@ -27,19 +28,19 @@
 	white-space: nowrap;
 }
 
-.contextmenu .contextmenuitem * {
+.contextmenu .ctx-menu-item * {
 	pointer-events: none;
 }
 
-.contextmenu .contextmenuitem .acceleratorKey {
+.contextmenu .ctx-menu-item .acceleratorKey {
 	margin-inline-start: 15px;
 	color: rgb(105, 105, 105);
 	width: 22px;
 	text-align: center;
 }
 
-.contextmenu .contextmenuitem:focus,
-.contextmenu .contextmenuitem:focus .acceleratorKey {
+.contextmenu .ctx-menu-item:focus,
+.contextmenu .ctx-menu-item:focus .acceleratorKey {
 	background-color: var(--color-menu);
 	color: var(--background-color-menu);
 }
@@ -48,17 +49,21 @@
 	border: 0.5px solid #e0e0e0;
 }
 
-.contextmenu > .treeitemcontext,
-.contextmenu > .treeitemunauthorizedcontext,
-.contextmenu > .listitemcontext {
+.contextmenu > .tree-item-ctx,
+.contextmenu > .tree-item-unauthorized-ctx,
+.contextmenu > .list-item-ctx {
 	display: none;
 }
 
-.contextmenu.treeitemfoldercontext > .treeitemfoldercontext,
-.contextmenu.treeitemcontext > .treeitemcontext,
-.contextmenu.treeitemunauthorizedcontext > .treeitemunauthorizedcontext,
-.contextmenu.listitemcontext > .listitemcontext,
-.contextmenu.treecontext > .treecontext,
-.contextmenu.listcontext > .listcontext {
+.contextmenu.tree-item-folder-ctx > .tree-item-folder-ctx:not(.user-hidden),
+.contextmenu.tree-item-ctx > .tree-item-ctx:not(.user-hidden),
+.contextmenu.tree-item-unauthorized-ctx > .tree-item-unauthorized-ctx:not(.user-hidden),
+.contextmenu.list-item-ctx > .list-item-ctx:not(.user-hidden),
+.contextmenu.tree-ctx > .tree-ctx:not(.user-hidden),
+.contextmenu.list-ctx > .list-ctx:not(.user-hidden) {
 	display: flex;
+}
+
+.ctx-menu-sep.user-hidden {
+	display: none;
 }
