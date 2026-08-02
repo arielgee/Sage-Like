@@ -1,7 +1,7 @@
 "use strict";
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-const SidebarContextMenuItems = [
+const ContextMenuItems = [
 	{
 		id: "mnuTreeOpenFeed",
 		class: "ctx-menu-item tree-item-ctx",

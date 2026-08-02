@@ -565,9 +565,9 @@ const contextMenu = (function() {
 		const fragment = document.createDocumentFragment();
 		let prevMenuItemGroup = 1;
 
-		for(let i=0, len=SidebarContextMenuItems.length; i<len; ++i) {
+		for(let i=0, len=ContextMenuItems.length; i<len; ++i) {
 
-			const menuItem = SidebarContextMenuItems[i];
+			const menuItem = ContextMenuItems[i];
 			const elm = document.createElement("div");
 
 			// menuItem must have an id, class and group

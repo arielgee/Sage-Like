@@ -1367,7 +1367,7 @@ const preferences = (function() {
 				frag.appendChild(elm);
 			};
 
-			const viewItems = SidebarContextMenuItems.filter(item => item.class.split(" ").some(cls => theSet.classes.includes(cls)));
+			const viewItems = ContextMenuItems.filter(item => item.class.split(" ").some(cls => theSet.classes.includes(cls)));
 			let prevMenuItemGroup = viewItems[0].group;	// if viewItems is empty, i have worse problems than this. it should never be empty.
 
 			for(let i=0, len=viewItems.length; i<len; ++i) {
