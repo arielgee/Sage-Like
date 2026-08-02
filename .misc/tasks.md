@@ -1257,6 +1257,7 @@
 * take a long hard look at `createSelectFeedsFolderElements` in preferences.js. why do `frag.append(...m_elmRootFeedsFolder.children);` and immediately after that `frag.replaceChildren();`.
 * add `...` to `Open in New Container Tab` in the context menu.
 * add `ContextAction.treeOpenNewContainerTab` in the `contextMenu.OpenPanelActions` array
+* add support to customize the sidebar context menu. add new preference `Customize sidebar context menu`
 ---
 
 
@@ -1266,44 +1267,6 @@
 
 
 ## Next
-* add support to customize the sidebar context menu. add new preference `Customize sidebar context menu`
-	* from `background.js`, read and store context menu items from `/sidebar/panel.html`:
-		```js
-		////////////////////////////////////////////////////////////////////////////////////
-		function getSidebarContextMenuItemsFromHTMLFile() {
-			console.time("[Sage-Like] getSidebarContextMenuItemsFromHTMLFile");
-			fetch(browser.runtime.getURL("/sidebar/panel.html"))
-				.then((response) => response.text())
-				.then((htmlText) => {
-
-					const regExp = /^\s*<div id="(mnu(?:Tree|List)[^"]*)".*?>([^<]*)<\/div>/gm;
-					// const regExp = /^\s*<div id="(mnu(?:Tree|List)[^"]*)"[^>]*? data-i18n="([^"]*)".*?>/gm;
-
-					const matches = htmlText.matchAll(regExp);
-					const ctxMnuItems = Array.from(matches, (m) => ({ id: m[1], textContent: m[2] }));
-					internalPrefs.setSidebarContextMenuItems(ctxMnuItems);
-					console.timeEnd("[Sage-Like] getSidebarContextMenuItemsFromHTMLFile");
-					console.log("[Sage-Like]", "To Preferences", ctxMnuItems.length, "\n", ctxMnuItems);
-				})
-				.catch((error) => {
-					console.timeEnd("[Sage-Like] getSidebarContextMenuItemsFromHTMLFile");
-					throw error;
-				});
-		}
-		```
-	* the storing part in `internalPrefs`:
-		```js
-		// ...
-		SIDEBAR_CONTEXT_MENU_ITEMS:				{ name: "pref_sidebarContextMenuItems",			default: []			},
-		// ...
-		function getSidebarContextMenuItems()			{ return _getPreferenceValue(PREF.SIDEBAR_CONTEXT_MENU_ITEMS); }
-		// ...
-		function setSidebarContextMenuItems(value)			{ return _setPreferenceValue(PREF.SIDEBAR_CONTEXT_MENU_ITEMS, value); }
-		// ...
-		getSidebarContextMenuItems: getSidebarContextMenuItems,
-		setSidebarContextMenuItems: setSidebarContextMenuItems,
-		```
-	* in `preferences` page, add a new section to display the context menu items and allow the user to hide/show items.
 * add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
 	* split view minimal support start at v149, and not fully implemented at v152.0.6 (when this was written).
 	* the context menu item `Open in Split View` should only be shown when the current tab is NOT in a split view.
