@@ -1152,10 +1152,8 @@ const slUtil = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function sleep(timeout) {
-		return new Promise((resolve) => {
-			setTimeout(() => resolve(), timeout);
-		});
+	function sleep(ms) {
+		return new Promise(r => setTimeout(r, ms));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
