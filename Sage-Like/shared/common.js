@@ -423,7 +423,7 @@ const internalPrefs = (function() {
 		TREE_SELECTED_ITEM_ID:					{ name: "pref_treeSelectedItemId",				default: null		},
 		TREE_SCROLL_TOP:						{ name: "pref_treeScrollTop",					default: 0			},
 		SPLITTER_TOP:							{ name: "pref_splitterTop",						default: undefined	},
-		DROP_INSIDE_FOLDER_SHOW_MSG_COUNT:		{ name: "pref_dropInsideFolderShowMsgCount",	default: 5			},
+		MSG_SHOW_COUNT_DROP_INSIDE_FOLDER:		{ name: "pref_dropInsideFolderShowMsgCount",	default: 5			},
 		FEEDS_FILTER:							{ name: "pref_feedsFilter",						default: ""			},
 		AGGRESSIVE_DISCOVERY_LEVEL:				{ name: "pref_aggressiveDiscoveryLevel",		default: "0"		},
 		MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX:	{ name: "pref_hoverFilterTextBoxShowMsgCount",	default: 3			},
@@ -446,7 +446,7 @@ const internalPrefs = (function() {
 	function getTreeSelectedItemId()				{ return _getPreferenceValue(PREF.TREE_SELECTED_ITEM_ID); }
 	function getTreeScrollTop()						{ return _getPreferenceValue(PREF.TREE_SCROLL_TOP); }
 	function getSplitterTop()						{ return _getPreferenceValue(PREF.SPLITTER_TOP); }
-	function getDropInsideFolderShowMsgCount()		{ return _getPreferenceValue(PREF.DROP_INSIDE_FOLDER_SHOW_MSG_COUNT); }
+	function getDropInsideFolderShowMsgCount()		{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_DROP_INSIDE_FOLDER); }
 	function getFeedsFilter()						{ return _getPreferenceValue(PREF.FEEDS_FILTER); }
 	function getAggressiveDiscoveryLevel()			{ return _getPreferenceValue(PREF.AGGRESSIVE_DISCOVERY_LEVEL); }
 	function getMsgShowCountHoverFilterTextBox()	{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX); }
@@ -466,7 +466,7 @@ const internalPrefs = (function() {
 	function setTreeSelectedItemId(value)				{ return _setPreferenceValue(PREF.TREE_SELECTED_ITEM_ID, value); }
 	function setTreeScrollTop(value)					{ return _setPreferenceValue(PREF.TREE_SCROLL_TOP, value); }
 	function setSplitterTop(value)						{ return _setPreferenceValue(PREF.SPLITTER_TOP, value); }
-	function setDropInsideFolderShowMsgCount(value)		{ return _setPreferenceValue(PREF.DROP_INSIDE_FOLDER_SHOW_MSG_COUNT, value); }
+	function setDropInsideFolderShowMsgCount(value)		{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_DROP_INSIDE_FOLDER, value); }
 	function setFeedsFilter(value)						{ return _setPreferenceValue(PREF.FEEDS_FILTER, value); }
 	function setAggressiveDiscoveryLevel(value)			{ return _setPreferenceValue(PREF.AGGRESSIVE_DISCOVERY_LEVEL, value); }
 	function setMsgShowCountHoverFilterTextBox(value)	{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX, value); }
