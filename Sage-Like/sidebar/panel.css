@@ -258,10 +258,10 @@ body * {
 	background: transparent url("/icons/filter.png") no-repeat center center;
 }
 #reapplyFilter {
-	background: transparent url("/icons/filter-reapply.png") no-repeat center center;
+	background: transparent url("/icons/reapply.png") no-repeat center center;
 }
 #clearFilter {
-	background: transparent url("/icons/filter-clear.png") no-repeat center center;
+	background: transparent url("/icons/clear.png") no-repeat center center;
 }
 #preferences {
 	background: transparent url("/icons/preferences.png") no-repeat center center;
