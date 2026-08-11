@@ -1258,6 +1258,7 @@
 * add `...` to `Open in New Container Tab` in the context menu.
 * add `ContextAction.treeOpenNewContainerTab` in the `contextMenu.OpenPanelActions` array
 * add support to customize the sidebar context menu. add new preference `Customize sidebar context menu`
+* consider renaming `DROP_INSIDE_FOLDER_SHOW_MSG_COUNT` to `MSG_SHOW_COUNT_DROP_INSIDE_FOLDER`
 ---
 
 
@@ -1298,6 +1299,12 @@
 			}
 		// ...
 		```
+* Some websites set the `Cache-Control: max-age` value too high for RSS, so the “Ignore Cache-Control value” option would be useful for those specific websites.
+	* look into the possibility of adding a new per-feed option (feed properties) to ignore the cache.
+	* https://chatgpt.com/c/6a6b4fda-b758-83eb-a708-acf05945ca2c
+	* https://claude.ai/chat/65f1433e-f326-4e63-b952-d36fac86e37f
+* open a feed-item in a container tab renders the feed-item as 'read' even if the user clicked on cancel in the 'Open in Container' dialog.
+* can Feed Preview benefit from Shadow DOM?
 * for manifest key `gecko.data_collection_permissions`, AMO also checks Android compatibility. setting Android minimum to 142 prevents warning compatibility.
 	- BUT IT MARKS THE EXTENSION AS COMPATIBLE WITH ANDROID IN THE 'Submit a New Version' PAGE AFTER VALIDATION AS A DISABLED CHECKBOX THAT CAN'T BE UNCHECKED.
 	- it should be OK since the 'Firefox for Android' compatibility most likely can be removed in the 'Manage Version x.xx' page.

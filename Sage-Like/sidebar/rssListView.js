@@ -258,7 +258,7 @@ const rssListView = (function() {
 
 				if(!event.ctrlKey && !event.shiftKey) {
 
-					// left+click
+					// default-click
 					let prefOpenMethod = await prefs.getFeedItemOpenMethod();
 					if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInNewTab) {
 						openMethod = URLOpenMethod.IN_NEW_TAB;
@@ -463,7 +463,7 @@ const rssListView = (function() {
 
 			case "Enter":
 			case "NumpadEnter":
-				openListFeedItem(elmTargetLI, event.ctrlKey ? URLOpenMethod.IN_NEW_TAB : (event.shiftKey ? URLOpenMethod.IN_NEW_WIN: URLOpenMethod.IN_TAB));
+				openListFeedItem(elmTargetLI, event.ctrlKey ? URLOpenMethod.IN_NEW_TAB : (event.shiftKey ? URLOpenMethod.IN_NEW_WIN : URLOpenMethod.IN_TAB));
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
