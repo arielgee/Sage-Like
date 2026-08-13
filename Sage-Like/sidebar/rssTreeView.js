@@ -1286,12 +1286,12 @@ const rssTreeView = (function() {
 			case URLOpenMethod.IN_NEW_TAB:				browser.tabs.create({ url: url });						break;
 			case URLOpenMethod.IN_NEW_TAB_CONTAINER:	panel.showOpenInContainerPicker(url);					break;
 			case URLOpenMethod.IN_NEW_WIN:				browser.windows.create({ url: url, type: "normal" });	break;
-			case URLOpenMethod.IN_NEW_WIN_PRIVATE:		openTreeItemInWinPrivate(url);							break;
+			case URLOpenMethod.IN_NEW_WIN_PRIVATE:		openTreeItemFeedPreviewInWinPrivate(url);				break;
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openTreeItemInWinPrivate(url) {
+	function openTreeItemFeedPreviewInWinPrivate(url) {
 		browser.windows.create({ url: url, type: "normal", incognito: true })
 			.catch((error) => messageView.open({ text: slUtil.incognitoErrorMessage(error) }) );
 	}
