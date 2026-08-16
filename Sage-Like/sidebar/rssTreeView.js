@@ -1282,12 +1282,18 @@ const rssTreeView = (function() {
 		const url = getFeedPreviewUrl(elm.getAttribute("href"));
 
 		switch (openMethod) {
-			case URLOpenMethod.IN_TAB:					browser.tabs.update({ url: url });						break;
+			case URLOpenMethod.IN_TAB:					openTreeItemFeedPreviewInTab(url);						break;
 			case URLOpenMethod.IN_NEW_TAB:				browser.tabs.create({ url: url });						break;
 			case URLOpenMethod.IN_NEW_TAB_CONTAINER:	panel.showOpenInContainerPicker(url);					break;
 			case URLOpenMethod.IN_NEW_WIN:				browser.windows.create({ url: url, type: "normal" });	break;
 			case URLOpenMethod.IN_NEW_WIN_PRIVATE:		openTreeItemFeedPreviewInWinPrivate(url);				break;
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function openTreeItemFeedPreviewInTab(url) {
+		const tabs = await browser.tabs.query({ currentWindow: true, active: true });
+		tabs[0].pinned ? browser.tabs.create({ url: url }) : browser.tabs.update({ url: url }); // respect pinned tab and open in new tab if pinned
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
