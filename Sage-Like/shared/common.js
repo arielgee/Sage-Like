@@ -160,6 +160,7 @@ const Global = (function() {
 		MSG_ID_UPDATE_RLV_FEED_ITEMS_STATE_TO_VISITED:	112,
 		MSG_ID_QUERY_INJECTED_CONTENT:					113,
 		MSG_ID_UPDATE_POPUP_DISPLAY:					114,
+		MSG_ID_DONT_SHOW_READER_MODE_FAILED_MSG:		115,
 
 		// Message Details IDs
 		MSGD_PREF_CHANGE_ALL:									1001,
@@ -435,6 +436,8 @@ const internalPrefs = (function() {
 		NOTIFIED_ABOUT_PERMISSIONS:				{ name: "pref_notifiedAboutPermissions",		default: false		},
 		SHOW_FEED_MAX_ITEMS_MSG:				{ name: "pref_showFeedMaxItemsMsg",				default: true		},
 		FEEDS_WITH_PARSING_ERRORS:				{ name: "pref_feedsWithParsingErrors",			default: {}			},
+		MSG_SHOW_COUNT_READER_MODE_FAILED:		{ name: "pref_readerModeFailedShowMsgCount",	default: 3			},
+		SHOW_READER_MODE_FAILED_MSG:			{ name: "pref_showReaderModeFailedMsg",			default: true		},
 	});
 
 	let m_localStorage = browser.storage.local;
@@ -458,6 +461,8 @@ const internalPrefs = (function() {
 	function getNotifiedAboutPermissions()			{ return _getPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS); }
 	function getShowFeedMaxItemsMsg()				{ return _getPreferenceValue(PREF.SHOW_FEED_MAX_ITEMS_MSG); }
 	function getFeedsWithParsingErrors()			{ return _getPreferenceValue(PREF.FEEDS_WITH_PARSING_ERRORS); }
+	function getMsgShowCountReaderModeFailed()		{ return _getPreferenceValue(PREF.MSG_SHOW_COUNT_READER_MODE_FAILED); }
+	function getShowReaderModeFailedMsg()			{ return _getPreferenceValue(PREF.SHOW_READER_MODE_FAILED_MSG); }
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function setOpenTreeFolders(value)					{ return _setPreferenceValue(PREF.OPEN_TREE_FOLDERS, value); }
@@ -478,6 +483,8 @@ const internalPrefs = (function() {
 	function setNotifiedAboutPermissions(value)			{ return _setPreferenceValue(PREF.NOTIFIED_ABOUT_PERMISSIONS, value); }
 	function setShowFeedMaxItemsMsg(value)				{ return _setPreferenceValue(PREF.SHOW_FEED_MAX_ITEMS_MSG, value); }
 	function setFeedsWithParsingErrors(value)			{ return _setPreferenceValue(PREF.FEEDS_WITH_PARSING_ERRORS, value); }
+	function setMsgShowCountReaderModeFailed(value)		{ return _setPreferenceValue(PREF.MSG_SHOW_COUNT_READER_MODE_FAILED, value); }
+	function setShowReaderModeFailedMsg(value)			{ return _setPreferenceValue(PREF.SHOW_READER_MODE_FAILED_MSG, value); }
 
 	//////////////////////////////////////////////////////////////////////
 	function getTreeViewRestoreData() {
@@ -536,6 +543,8 @@ const internalPrefs = (function() {
 		getNotifiedAboutPermissions: getNotifiedAboutPermissions,
 		getShowFeedMaxItemsMsg: getShowFeedMaxItemsMsg,
 		getFeedsWithParsingErrors: getFeedsWithParsingErrors,
+		getMsgShowCountReaderModeFailed: getMsgShowCountReaderModeFailed,
+		getShowReaderModeFailedMsg: getShowReaderModeFailedMsg,
 
 		setOpenTreeFolders: setOpenTreeFolders,
 		setTreeFeedsData: setTreeFeedsData,
@@ -555,6 +564,8 @@ const internalPrefs = (function() {
 		setNotifiedAboutPermissions: setNotifiedAboutPermissions,
 		setShowFeedMaxItemsMsg: setShowFeedMaxItemsMsg,
 		setFeedsWithParsingErrors: setFeedsWithParsingErrors,
+		setMsgShowCountReaderModeFailed: setMsgShowCountReaderModeFailed,
+		setShowReaderModeFailedMsg: setShowReaderModeFailedMsg,
 
 		getTreeViewRestoreData: getTreeViewRestoreData,
 

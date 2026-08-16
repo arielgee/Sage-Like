@@ -24,15 +24,16 @@ const contextMenu = (function() {
 
 		listOpen:					19,
 		listOpenNewTab:				20,
-		listOpenNewContainerTab:	21,
-		listOpenNewWin:				22,
-		listOpenNewPrivateWin:		23,
-		listOpenAllInTabs:			24,
-		listToggleReadUnread:		25,
-		listMarkAllRead:			26,
-		listMarkAllUnread:			27,
-		listCopyUrl:				28,
-		listSwitchDirection:		29,
+		listOpenNewReaderTab:		21,
+		listOpenNewContainerTab:	22,
+		listOpenNewWin:				23,
+		listOpenNewPrivateWin:		24,
+		listOpenAllInTabs:			25,
+		listToggleReadUnread:		26,
+		listMarkAllRead:			27,
+		listMarkAllUnread:			28,
+		listCopyUrl:				29,
+		listSwitchDirection:		30,
 	});
 
 	const OpenPanelActions = [
@@ -322,6 +323,7 @@ const contextMenu = (function() {
 			switch (keyCode) {
 				case "KeyO":	handleMenuActions(ContextAction.listOpen);					break;
 				case "KeyT":	handleMenuActions(ContextAction.listOpenNewTab);			break;
+				case "KeyE":	handleMenuActions(ContextAction.listOpenNewReaderTab);		break;
 				case "KeyB":	handleMenuActions(ContextAction.listOpenNewContainerTab);	break;
 				case "KeyW":	handleMenuActions(ContextAction.listOpenNewWin);			break;
 				case "KeyV":	handleMenuActions(ContextAction.listOpenNewPrivateWin);		break;
@@ -387,6 +389,7 @@ const contextMenu = (function() {
 
 			case "mnuListOpenFeedItem":					handleMenuActions(ContextAction.listOpen);					break;
 			case "mnuListOpenFeedItemNewTab":			handleMenuActions(ContextAction.listOpenNewTab);			break;
+			case "mnuListOpenFeedItemNewReaderTab":		handleMenuActions(ContextAction.listOpenNewReaderTab);		break;
 			case "mnuListOpenFeedItemNewContainerTab":	handleMenuActions(ContextAction.listOpenNewContainerTab);	break;
 			case "mnuListOpenFeedItemNewWin":			handleMenuActions(ContextAction.listOpenNewWin);			break;
 			case "mnuListOpenFeedItemNewPrivateWin":	handleMenuActions(ContextAction.listOpenNewPrivateWin);		break;
@@ -429,6 +432,11 @@ const contextMenu = (function() {
 
 			case ContextAction.listOpenNewTab:
 				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_TAB);
+				break;
+				///////////////////////////////////////////
+
+			case ContextAction.listOpenNewReaderTab:
+				rssListView.openListFeedItem(m_elmEventTarget, rssListView.URLOpenMethod.IN_NEW_TAB_READER);
 				break;
 				///////////////////////////////////////////
 

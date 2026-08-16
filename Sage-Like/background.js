@@ -85,6 +85,11 @@
 				setTimeout(() => hidePageAction(message.tabId), message.msWait);
 				break;
 				/////////////////////////////////////////////////////////////////////////
+
+			case Global.MSG_ID_DONT_SHOW_READER_MODE_FAILED_MSG:
+				internalPrefs.setShowReaderModeFailedMsg(false);
+				break;
+				/////////////////////////////////////////////////////////////////////////
 		}
 	}
 

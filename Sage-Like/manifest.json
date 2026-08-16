@@ -43,6 +43,8 @@
 	"web_accessible_resources": [
 		{
 			"resources": [
+				"/icons/sageLike-16.png",
+				"/icons/clear.png",
 				"/feedPreview/feedPreview.html"
 			],
 			"matches": [ "*://*/*" ]

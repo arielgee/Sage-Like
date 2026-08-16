@@ -160,6 +160,14 @@ const ContextMenuItems = [
 		group: 9,
 	},
 	{
+		id: "mnuListOpenFeedItemNewReaderTab",
+		class: "ctx-menu-item list-item-ctx",
+		text: "Open in New Reader Tab",
+		shortcut: "e",
+		accelerator: "E",
+		group: 9,
+	},
+	{
 		id: "mnuListOpenFeedItemNewContainerTab",
 		class: "ctx-menu-item list-item-ctx",
 		text: "Open in New Container Tab...",

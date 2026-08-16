@@ -13,6 +13,8 @@ const rssListView = (function() {
 		IN_NEW_TAB_CONTAINER: 3,
 		IN_NEW_WIN: 4,
 		IN_NEW_WIN_PRIVATE: 5,
+		IN_NEW_TAB_READER: 6,		// open in Reader Mode and if fails, open in normal page
+		IN_NEW_TAB_READER_P2R: 7,	// open in normal page and then switch to Reader Mode (toggleReaderMode)
 	};
 
 	let m_elmSidebarBody;
@@ -393,6 +395,8 @@ const rssListView = (function() {
 			case URLOpenMethod.IN_NEW_TAB_CONTAINER:	panel.showOpenInContainerPicker(url);					break;
 			case URLOpenMethod.IN_NEW_WIN:				browser.windows.create({ url: url, type: "normal" });	break;
 			case URLOpenMethod.IN_NEW_WIN_PRIVATE:		openFeedItemInWinPrivate(url);							break;
+			case URLOpenMethod.IN_NEW_TAB_READER:		openFeedItemInReader(url);								break;
+			case URLOpenMethod.IN_NEW_TAB_READER_P2R:	openFeedItemInReader_Page2Reader(url);					break;
 		}
 
 		elm.focus();
@@ -420,6 +424,76 @@ const rssListView = (function() {
 	function openFeedItemInWinPrivate(url) {
 		browser.windows.create({ url: url, type: "normal", incognito: true })
 			.catch((error) => messageView.open({ text: slUtil.incognitoErrorMessage(error) }) );
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function openFeedItemInReader(url) {
+
+		let finalCleanupTimer;
+		let cleanupTimer = null;
+		let isInjectionResolved = false;
+
+		const cleanupAndFinalize = async () => {
+			clearTimeout(finalCleanupTimer);
+			clearTimeout(cleanupTimer);
+			browser.tabs.onUpdated.removeListener(fallbackListener);
+			if(isInjectionResolved) {
+				const count = await internalPrefs.getMsgShowCountReaderModeFailed();
+				if(count>0) internalPrefs.setMsgShowCountReaderModeFailed(count-1);
+			}
+		};
+		const fallbackListener = async (tabId, changeInfo) => {
+
+			if(changeInfo.status === "loading") {
+				clearTimeout(cleanupTimer);		// cancel any previous cleanup since the page is reloading (may be a redirect)
+				isInjectionResolved = false;
+				return;
+			}
+
+			if(changeInfo.status === "complete" && !isInjectionResolved) {
+				clearTimeout(cleanupTimer);
+				const message = "Reader Mode failed to load the article. The page has been opened in normal mode.";
+				const dismissTimeout = (await internalPrefs.getMsgShowCountReaderModeFailed()) > 0 ? 15000 : 8000;	// first n failures: 15 seconds, Subsequent failures: 8 seconds
+				injectPageNotification(tabId, message, Global.MSG_ID_DONT_SHOW_READER_MODE_FAILED_MSG, document.documentElement.dir, dismissTimeout);
+				isInjectionResolved = true;
+				cleanupTimer = setTimeout(cleanupAndFinalize, 800);	// cleanup after 0.8 sec; give time for any redirects to occur before removing the listener.
+			}
+		};
+		const readerListener = async (tabId, changeInfo, tabInfo) => {
+			if(changeInfo.status === "complete") {
+				browser.tabs.onUpdated.removeListener(readerListener);
+
+				// FRAGILE! - if reader successful => has no title property. if fails => title for English language is: "Failed to load article from page" (language dependent)
+				// when the result is 404 the reader fails and STILL there is no title!!! - I got no solution for this case.
+				if(!!tabInfo.title && tabInfo.title.length > 0) {
+					if(await internalPrefs.getShowReaderModeFailedMsg()) {
+						browser.tabs.onUpdated.addListener(fallbackListener, { properties: ["status"], tabId: tabId });
+					}
+					browser.tabs.update(tabId, { url: url });
+				}
+			}
+		};
+		const readerUrl = [ `about:reader?url=${encodeURIComponent(url)}` ];
+		const tab = await browser.tabs.create({ url: url, openInReaderMode: true });
+
+		browser.tabs.onUpdated.addListener(readerListener, { properties: ["status"], tabId: tab.id, urls: readerUrl });
+		finalCleanupTimer = setTimeout(cleanupAndFinalize, 60000);	// 1 min
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function openFeedItemInReader_Page2Reader(url) {
+		let finalCleanupTimer;
+		const listener = (tabId, changeInfo) => {
+			if(changeInfo.status === "complete") {
+				clearTimeout(finalCleanupTimer);
+				browser.tabs.onUpdated.removeListener(listener);
+				browser.tabs.toggleReaderMode(tabId).catch(error => console.log("[Sage-Like]", "Open feed-item in reader mode", error) );
+			}
+		};
+		const tab = await browser.tabs.create({ url: url });
+
+		browser.tabs.onUpdated.addListener(listener, { properties: ["status"], tabId: tab.id });
+		finalCleanupTimer = setTimeout(() => browser.tabs.onUpdated.removeListener(listener), 60000);	// 1 min
 	}
 
 	//==================================================================================
@@ -538,6 +612,11 @@ const rssListView = (function() {
 
 			case "KeyT":
 				openListFeedItem(elmTargetLI, URLOpenMethod.IN_NEW_TAB);
+				break;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "KeyE":
+				openListFeedItem(elmTargetLI, URLOpenMethod.IN_NEW_TAB_READER);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -912,6 +991,125 @@ const rssListView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function isRssListOK() {
 		return m_elmList.children.length > 0 && !m_elmList.firstElementChild.classList.contains("errormsg");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function injectPageNotification(tabId, message, msgIdDontShowMsgAgain, direction = "ltr", dismissTimeout = 12000) {
+
+		return browser.scripting.executeScript({
+			injectImmediately: false,
+			target: { tabId: tabId },
+			args: [message, dismissTimeout, direction, msgIdDontShowMsgAgain],
+			func: (message, dismissTimeout, notificationDir, msgIdDontShowAgain) => {
+
+				const fadeOutDuration = 500;
+				const boxAlign = (document.documentElement.dir === "rtl") ? "left" : "right";
+				const indicatorAlign = (notificationDir === "rtl") ? "right" : "left";
+
+				const cssBox =	`position:fixed; top:15px; ${boxAlign}:20px; width:300px; padding:8px;` +
+								`border:1px solid #423b1d; background-color:#fff3a1; color:#000; z-index:2147483647; direction:${notificationDir};` +
+								`opacity:1; transition:opacity ${fadeOutDuration}ms ease; user-select:none;`;
+				const cssContainer = "display:flex;";
+				const cssIcon = "width:16px; height:16px;";
+				const cssCaption = "font-weight:bold;";
+				const cssMessage = "margin-block:2px 10px;";
+				const cssCheckbox = "margin-block:auto; margin-inline:0 4px; cursor:pointer; color-scheme:light;";
+				const cssChkLabel = "cursor:pointer;";
+				const cssChkContainer = "display:flex; margin-block-end:4px;";
+				const cssInner = "margin-inline:6px; font-family:sans-serif; font-size:12px; line-height:18px;";
+				const cssClose = "width:18px; height:18px; margin-block:0 auto; margin-inline:auto 0; cursor:pointer;";
+				const cssFadeOutIndicator = `position:absolute; bottom:0; ${indicatorAlign}:0; height:4px; width:100%; background-color:#008a3b;` +
+											`transition:width ${dismissTimeout}ms linear;`;
+
+				let fadeAndCloseTimer = null;
+
+				const elmHost = document.createElement("div");
+				const shadowRoot = elmHost.attachShadow({ mode: "open" });
+				const elmBox = document.createElement("div");
+				const close = () => {
+					if(elmCheckbox.checked) browser.runtime.sendMessage({ id: msgIdDontShowAgain });
+					elmHost.remove();
+				};
+				const fadeAndClose = () => {
+					elmBox.style.opacity = "0";
+					if(elmCheckbox.checked) browser.runtime.sendMessage({ id: msgIdDontShowAgain });
+					setTimeout(() => elmHost.remove(), fadeOutDuration+100);
+				};
+				const setFadeOutIndicator = (show) => {
+					if(show) {
+						elmFadeOutIndicator.style.width = "100%";
+						elmFadeOutIndicator.style.display = "block";
+						setTimeout(() => elmFadeOutIndicator.style.width = "0%", 100);
+					} else {
+						elmFadeOutIndicator.style.display = "none";
+					}
+				};
+				const onMEnterClearFadeTimeout = () => {
+					clearTimeout(fadeAndCloseTimer);
+					fadeAndCloseTimer = null;
+					setFadeOutIndicator(false);
+				};
+				const onMLeaveResetFadeTimeout = () => {
+					if(fadeAndCloseTimer === null) {
+						fadeAndCloseTimer = setTimeout(fadeAndClose, dismissTimeout);
+						setFadeOutIndicator(true);
+					}
+				};
+				elmBox.style.cssText = cssBox;
+				elmBox.addEventListener("mouseenter", onMEnterClearFadeTimeout);
+				elmBox.addEventListener("mouseleave", onMLeaveResetFadeTimeout);
+
+				const elmIcon = document.createElement("img");
+				elmIcon.style.cssText = cssIcon;
+				elmIcon.src = browser.runtime.getURL("/icons/sageLike-16.png");
+				elmIcon.alt = "Sage-Like";
+
+				const elmClose = document.createElement("img");
+				elmClose.style.cssText = cssClose;
+				elmClose.src = browser.runtime.getURL("/icons/clear.png");
+				elmClose.alt = "Close";
+				elmClose.addEventListener("click", close);
+
+				const elmCaption = document.createElement("div");
+				elmCaption.style.cssText = cssCaption;
+				elmCaption.textContent = "Sage-Like";
+
+				const elmMessage = document.createElement("div");
+				elmMessage.style.cssText = cssMessage;
+				elmMessage.textContent = message;
+
+				const elmCheckbox = document.createElement("input");
+				elmCheckbox.id = "chk-dont-show-notification-again";
+				elmCheckbox.style.cssText = cssCheckbox;
+				elmCheckbox.type = "checkbox";
+
+				const elmChkLabel = document.createElement("label");
+				elmChkLabel.style.cssText = cssChkLabel;
+				elmChkLabel.setAttribute("for", "chk-dont-show-notification-again");
+				elmChkLabel.textContent = "Don't show this message again";
+
+				const elmChkContainer = document.createElement("div");
+				elmChkContainer.style.cssText = cssChkContainer;
+				elmChkContainer.append(elmCheckbox, elmChkLabel);
+
+				const elmInner = document.createElement("div");
+				elmInner.style.cssText = cssInner;
+				elmInner.append(elmCaption, elmMessage, elmChkContainer);
+
+				const elmContainer = document.createElement("div");
+				elmContainer.style.cssText = cssContainer;
+				elmContainer.append(elmIcon, elmInner, elmClose);
+
+				const elmFadeOutIndicator = document.createElement("div");
+				elmFadeOutIndicator.style.cssText = cssFadeOutIndicator;
+
+				elmBox.append(elmContainer, elmFadeOutIndicator);
+				shadowRoot.appendChild(elmBox);
+				document.body.appendChild(elmHost);
+				fadeAndCloseTimer = setTimeout(fadeAndClose, dismissTimeout);	// auto close
+				setTimeout(() => elmFadeOutIndicator.style.width = "0%", 100);
+			}
+		});
 	}
 
 	return {
