@@ -452,7 +452,7 @@ const rssListView = (function() {
 
 			if(changeInfo.status === "complete" && !isInjectionResolved) {
 				clearTimeout(cleanupTimer);
-				const message = "Reader Mode failed to load the article. The page has been opened in normal mode.";
+				const message = i18n("js_readerModeFailed");
 				const dismissTimeout = (await internalPrefs.getMsgShowCountReaderModeFailed()) > 0 ? 15000 : 8000;	// first n failures: 15 seconds, Subsequent failures: 8 seconds
 				injectPageNotification(tabId, message, Global.MSG_ID_DONT_SHOW_READER_MODE_FAILED_MSG, document.documentElement.dir, dismissTimeout);
 				isInjectionResolved = true;
@@ -787,7 +787,7 @@ const rssListView = (function() {
 		elmLi.className = "errormsg";
 		elmLi.tabIndex = 0;
 		elmInner.className = "innerErrormsg";
-		elmInner.title = "Failed URL: " + decodeURIComponent(url);
+		elmInner.title = i18n("js_rssListFailedURL") + decodeURIComponent(url);
 		elmImg.className = "img-errormsg";
 		elmImg.src = "/icons/errormsg.png";
 		elmSpan.textContent = textContent;

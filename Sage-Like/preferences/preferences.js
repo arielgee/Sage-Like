@@ -5,13 +5,6 @@ const preferences = (function() {
 	const ID_OPTION_USER_FONT_NAME = "optionUserFontName";
 	const ID_OPTION_CHECK_FEEDS_TIME_OF_DAY = "optionCheckFeedsTimeOfDay";
 
-	const TXT_HELP_INFO_CHECK_FEED_METHOD = "Feed Fetching Methods:\n" +
-											" \u25cf Strenuous\u2002–\u2002Fetches all feeds simultaneously in a single batch.\n" +
-											" \u25cf Moderate\u2002–\u2002Fetches feeds in 3 batches, with 2-second pauses between batches.\n" +
-											" \u25cf Relaxed\u2002–\u2002Fetches feeds in 5 batches, with 3-second pauses between batches.\n" +
-											" \u25cf Easy\u2002–\u2002Fetches feeds in 10 batches, with 4-second pauses between batches.\n" +
-											" \u25cf Lazy\u2002–\u2002Fetches feeds one at a time, with a 1.5-second pause between each feed.\n";
-
 	let m_elmNavigationItems;
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsOnSbOpen;
@@ -90,6 +83,8 @@ const preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
+
+		slUtil.initializeI18nDocument(document);
 
 		m_elmNavigationItems = document.getElementById("navigationItems");
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
@@ -797,11 +792,11 @@ const preferences = (function() {
 				flashCustomCSSImportButton();
 
 				if(!!result.warning) {
-					showMessageBox("Warning", result.warning);
+					showMessageBox(i18n("js_prefsMsgBoxCaptionWarning"), result.warning);
 				}
 
 			}).catch((error) => {
-				showMessageBox("Error", error.message);
+				showMessageBox(i18n("js_prefsMsgBoxCaptionError"), error.message);
 				console.log("[Sage-Like]", "CSS file validation error", error.cause);
 			});
 		}).catch(() => { /* if open do nothing */ });
@@ -858,14 +853,14 @@ const preferences = (function() {
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ROOT_FOLDER);
 
 			let skipped = result.stats.outlineCount - (result.stats.feedCount + result.stats.folderCount);
-			let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully imported.";
+			let msg = i18n("js_prefsImportOPMLMsgBoxMessage", [result.stats.feedCount, result.stats.folderCount]);
 			if(skipped > 0) {
-				msg += "\n\n" + skipped +" file " + (skipped>1 ? "entries were" : "entry was") + " skipped.";
+				msg += "\n\n" + ( (skipped>1) ? i18n("js_prefsImportOPMLMsgBoxMessageSkipPlural", skipped) : i18n("js_prefsImportOPMLMsgBoxMessageSkipSingular") );
 			}
-			showMessageBox("Import", msg);
+			showMessageBox(i18n("js_prefsMsgBoxCaptionImport"), msg);
 
 		}).catch((error) => {
-			showMessageBox("Error", error);
+			showMessageBox(i18n("js_prefsMsgBoxCaptionError"), error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			browser.runtime.sendMessage({ id: Global.MSG_ID_RESTORE_BOOKMARKS_EVENT_LISTENER });
@@ -886,12 +881,12 @@ const preferences = (function() {
 
 			// fileName is missing when download was canceled by user
 			if(!!result.fileName) {
-				let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully exported.\n\nFile: " + result.fileName;
-				showMessageBox("Export", msg);
+				let msg = i18n("js_prefsExportOPMLMsgBoxMessage", [result.stats.feedCount, result.stats.folderCount, result.fileName]);
+				showMessageBox(i18n("js_prefsMsgBoxCaptionExport"), msg);
 			}
 
 		}).catch((error) => {
-			showMessageBox("Error", error);
+			showMessageBox(i18n("js_prefsMsgBoxCaptionError"), error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			slUtil.disableElementTree(elmPref, false);
@@ -910,11 +905,11 @@ const preferences = (function() {
 		preferencesData.import.run(event.target.files[0]).then(() => {
 
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ALL);
-			let msg = "File was successfully imported.\n\nThis page will now be reloaded to reflect imported options.";
-			showMessageBox("Import", msg, () => browser.tabs.reload({ bypassCache: true }) );
+			let msg = i18n("js_prefsImportPrefsMsgBoxMessage");
+			showMessageBox(i18n("js_prefsMsgBoxCaptionImport"), msg, () => browser.tabs.reload({ bypassCache: true }) );
 
 		}).catch((error) => {
-			showMessageBox("Error", error);
+			showMessageBox(i18n("js_prefsMsgBoxCaptionError"), error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			elmPrefOverlay.classList.remove("processing");
@@ -932,11 +927,11 @@ const preferences = (function() {
 
 			// fileName is missing when download was canceled by user
 			if(!!result.fileName) {
-				showMessageBox("Export", `Options were successfully exported.\n\nFile: ${result.fileName}`);
+				showMessageBox(i18n("js_prefsMsgBoxCaptionExport"), i18n("js_prefsExportPrefsMsgBoxMessage", result.fileName));
 			}
 
 		}).catch((error) => {
-			showMessageBox("Error", error);
+			showMessageBox(i18n("js_prefsMsgBoxCaptionError"), error);
 			console.log("[Sage-Like]", error);
 		}).finally(() => {
 			slUtil.disableElementTree(elmPref, false);
@@ -1014,7 +1009,7 @@ const preferences = (function() {
 
 		m_timeoutHelpInfo = setTimeout(() => {
 
-			m_elmHelpInfoTooltipBox.querySelector(".tooltipBoxText").textContent = target.getAttribute("data-title");
+			m_elmHelpInfoTooltipBox.querySelector(".tooltipBoxText").textContent = i18n(target.getAttribute("data-i18n-tooltip-title"));
 
 			const helpInfoTooltipBoxStyle = m_elmHelpInfoTooltipBox.style;
 
@@ -1125,7 +1120,7 @@ const preferences = (function() {
 	function createSelectFeedsFolderElements() {
 		return browser.bookmarks.getSubTree(Global.BOOKMARKS_ROOT_GUID).then((bookmarks) => {
 			const frag = document.createDocumentFragment();
-			const elmOption = createTagOption(Global.ROOT_FEEDS_FOLDER_ID_NOT_SET, "-Select feeds folder-");
+			const elmOption = createTagOption(Global.ROOT_FEEDS_FOLDER_ID_NOT_SET, i18n("js_prefsSelectFeedsFolderOptionLabel"));
 			frag.appendChild(elmOption);
 
 			const folderChildren = bookmarks[0].children;
@@ -1316,11 +1311,11 @@ const preferences = (function() {
 		const ItemSet = {
 			tree: {
 				classes: ["tree-item-ctx", "tree-item-folder-ctx", "tree-ctx"],	// "tree-item-unauthorized-ctx" is not included. it can't be hidden; it's only shown when a feed is unauthorized
-				caption: "Tree View Context Menu Items",
+				caption: i18n("js_prefsTreeViewContextMenuBoxCaption"),
 			},
 			list: {
 				classes: ["list-item-ctx", "list-ctx"],
-				caption: "List View Context Menu Items",
+				caption: i18n("js_prefsListViewContextMenuBoxCaption"),
 			},
 		};
 		const theSet = ItemSet[setName];
@@ -1495,7 +1490,7 @@ const preferences = (function() {
 		placePageOverlay(true);
 		m_elmMessageBox.style.display = "block";
 		document.documentElement.style.overflow = "hidden";
-		m_elmMessageBox.style.color = (["Error", "Warning"].includes(msgCaption) ? "#db0000" : "");
+		m_elmMessageBox.style.color = ([i18n("js_prefsMsgBoxCaptionError"), i18n("js_prefsMsgBoxCaptionWarning")].includes(msgCaption) ? "#db0000" : "");
 
 		m_elmBtnMessageBoxOK.focus();
 	}
@@ -1534,19 +1529,17 @@ const preferences = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getUserFontNameTagOptionText(fontName) {
-		const TXT_TAG_OPTION_USER_FONT_NAME = " (custom font)";
 		const MAX_FONT_NAME_LENGTH = 24;
-
 		if(fontName.length > MAX_FONT_NAME_LENGTH) {
-			return `${fontName.substring(0, MAX_FONT_NAME_LENGTH).trim()}…${TXT_TAG_OPTION_USER_FONT_NAME}`;
+			return i18n("js_prefsOptionUserCustomFont", fontName.substring(0, MAX_FONT_NAME_LENGTH).trim() + "…");
 		} else {
-			return fontName + TXT_TAG_OPTION_USER_FONT_NAME;
+			return i18n("js_prefsOptionUserCustomFont", fontName);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function getEveryDayAtTagOptionText(value) {
-		const TXT_TAG_OPTION_EVERY_DAY_AT = "Every day at ";
+		const TXT_TAG_OPTION_EVERY_DAY_AT = i18n("htm_prefsScheduleEveryDayAt").replace("…", " ").toLowerCase().replace(/^[a-z]/g, x => x.toUpperCase());	// replace ellipsis with space and capitalize first letter
 		return TXT_TAG_OPTION_EVERY_DAY_AT + formatTimeToLocalShortString(value);
 	}
 
@@ -1554,17 +1547,17 @@ const preferences = (function() {
 	function setVariousElementsTitles() {
 
 		document.getElementById("webExtVersion").textContent = `Sage-Like v${browser.runtime.getManifest().version}`;
-		document.getElementById("checkFeedsMethodInfo").setAttribute("data-title", TXT_HELP_INFO_CHECK_FEED_METHOD);
 
+		const txtHelpInfoCheckFeedMethod = i18n("htm_prefsTipTitleFeedRefreshMethod");
 		let re, found, items = m_elmCheckFeedsMethod.children;
 
 		for(let i=0, len=items.length; i<len; i++) {
 
 			re = new RegExp("\\b" + items[i].textContent + "\\b[^A-Z]*([A-Z].+\\.)\\s?$", "m");
-			found = TXT_HELP_INFO_CHECK_FEED_METHOD.match(re);
+			found = txtHelpInfoCheckFeedMethod.match(re);
 
-			if( !!found && !!found[1] ) {
-				items[i].title = found[1];
+		 	if( !!found && !!found[1] ) {
+		 		items[i].title = found[1];
 			}
 		}
 
@@ -1583,8 +1576,8 @@ const preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function colorInputTitle(colorValue) {
 		if(/^#[a-fA-F0-9]{6}$/.test(colorValue)) {
-			return "RGB notation: rgb(" + colorValue.replace("#", "").match(/.{2}/g).map(x => parseInt(x, 16)).join(", ") + ")\n" +
-					"HTML notation: " + colorValue.toLowerCase();
+			return `${i18n("js_prefsColorRGBnotation")} rgb(${colorValue.replace("#", "").match(/.{2}/g).map(x => parseInt(x, 16)).join(", ")})\n` +
+					`${i18n("js_prefsColorHTMLnotation")} ${colorValue.toLowerCase()}`;
 		}
 		return "";
 	}
@@ -1613,18 +1606,18 @@ const preferences = (function() {
 
 			if( !(cssFile instanceof File) ) {
 				// Error.message for the MessageBox and Error.cause for the console log
-				reject(new Error("Not a File object.", { cause: "Not a File object" }));
+				reject(new Error(i18n("js_prefsCssErrorNotFileObject"), { cause: "Not a File object" }));
 			} else if(cssFile.size === MIN_FILE_BYTE_SIZE) {
-				reject(new Error("File is empty.", { cause: "File is empty" }));
+				reject(new Error(i18n("js_prefsCssErrorFileEmpty"), { cause: "File is empty" }));
 			} else if(cssFile.size > MAX_FILE_BYTE_SIZE) {
-				reject(new Error("File too large. Maximum: " + slUtil.asPrettyByteSize(MAX_FILE_BYTE_SIZE), { cause: "File too large" }));
+				reject(new Error(i18n("js_prefsCssErrorFileTooLarge", slUtil.asPrettyByteSize(MAX_FILE_BYTE_SIZE)), { cause: "File too large" }));
 			} else {
 
 				let reader = new FileReader();
 
 				reader.onerror = (event) => {
 					console.log("[Sage-Like]", "FileReader error", event);
-					reject(new Error("FileReader error.", { cause: "FileReader error" }));
+					reject(new Error(i18n("js_prefsCssErrorFileReaderError"), { cause: "FileReader error" }));
 				};
 
 				reader.onload = (event) => {
@@ -1632,7 +1625,7 @@ const preferences = (function() {
 					let source = event.target.result.replace(/\r\n?/g, "\n");	// css source will be saved in prefs w/o CR, replaced by \n
 
 					if(source.length === 0) {
-						reject(new Error("File has no text content.", { cause: "File has no text content" }));
+						reject(new Error(i18n("js_prefsCssErrorFileNoTextContent"), { cause: "File has no text content" }));
 					} else {
 
 						let resolveObj = { source: source };
@@ -1658,16 +1651,15 @@ const preferences = (function() {
 								if( !(rules[i] instanceof CSSNamespaceRule) ) {
 									hasStyleRule = true;
 									if(rules[i].cssText.match(rxRemoteURI)) {
-										resolveObj["warning"] = "URLs to remote resources were found in the file which could potentially be a security risk.\n\n" +
-															"If you are not sure that those URLs are safe you should replace or clear this file.";
+										resolveObj["warning"] = i18n("js_prefsCssWarningRemoteURL");
 										break;
 									}
 								}
 							}
-							if(!hasStyleRule) resolveObj["warning"] = "No style rules where found in file.";
+							if(!hasStyleRule) resolveObj["warning"] = i18n("js_prefsCssWarningNoStyleRules");
 
 						} else {
-							resolveObj["warning"] = "No rules where found in file.";
+							resolveObj["warning"] = i18n("js_prefsCssWarningNoRules");
 						}
 						resolve(resolveObj);
 
@@ -1686,9 +1678,9 @@ const preferences = (function() {
 	function ifNotepadWindowIsClosed() {
 		return new Promise((resolve, reject) => {
 			browser.windows.get(m_winIdNotepad[0]).then(() => {
-				let msg = "The Operation cannot be completed while the notepad CSS source code editor is open.\n\nClose the editor.";
+				let msg = i18n("js_prefsNotepadEditorOpen");
 				let funcOnCloseBox = () => browser.windows.update(m_winIdNotepad[0], { focused: true }).catch(() => {});
-				showMessageBox("Error", msg, funcOnCloseBox);
+				showMessageBox(i18n("js_prefsMsgBoxCaptionError"), msg, funcOnCloseBox);
 				reject();
 			}).catch(() => {
 				resolve();
@@ -1724,7 +1716,7 @@ const preferences = (function() {
 
 			// delay the display of text to avoid flickering when the wait is short
 			if(bShowBusyText) {
-				setTimeout(() => m_elmPageOverlay.textContent = "I'm Busy, Please Wait.", 120);
+				setTimeout(() => m_elmPageOverlay.textContent = i18n("js_prefsProcessingBusyMessage"), 120);
 			}
 
 		} else {

@@ -50,11 +50,10 @@ class RequiredPermissions {
 			lineBreak2 = "\n\n";
 		}
 
-		return `The optional permission ${strongOpen}Access your data for all websites${strongClose} is ` +
-				`currently disallowed by the browser for the Sage-Like extension.${lineBreak2}` +
-				`This permission is necessary for the extension to access and load feeds from various ` +
-				`websites. Without it, most feeds would likely fail to load due to browser restrictions (CORS).`;
-
+		return i18n("js_permsInfoTextPart1") +
+				` ${strongOpen}${i18n("js_permsPermissionName")}${strongClose} ` +
+				i18n("js_permsInfoTextPart2") + lineBreak2 +
+				i18n("js_permsInfoTextPart3");
 	}
 
 	//////////////////////////////////////////

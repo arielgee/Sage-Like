@@ -5,7 +5,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeOpenFeed",
 		class: "ctx-menu-item tree-item-ctx",
-		text: "Open",
+		text: i18n("js_contextMenuOpen"),
 		shortcut: "o",
 		accelerator: "O",
 		group: 1,
@@ -13,7 +13,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeOpenFeedNewTab",
 		class: "ctx-menu-item tree-item-ctx",
-		text: "Open in New Tab",
+		text: i18n("js_contextMenuOpenNewTab"),
 		shortcut: "t",
 		accelerator: "T",
 		group: 1,
@@ -21,7 +21,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeOpenFeedNewContainerTab",
 		class: "ctx-menu-item tree-item-ctx",
-		text: "Open in New Container Tab...",
+		text: i18n("js_contextMenuOpenNewContainerTab"),
 		shortcut: "b",
 		accelerator: "B",
 		group: 1,
@@ -29,7 +29,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeOpenFeedNewWin",
 		class: "ctx-menu-item tree-item-ctx",
-		text: "Open in New Window",
+		text: i18n("js_contextMenuOpenNewWin"),
 		shortcut: "w",
 		accelerator: "W",
 		group: 1,
@@ -37,7 +37,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeOpenFeedNewPrivateWin",
 		class: "ctx-menu-item tree-item-ctx",
-		text: "Open in New Private Window",
+		text: i18n("js_contextMenuOpenNewPrivateWin"),
 		shortcut: "v",
 		accelerator: "V",
 		group: 1,
@@ -45,7 +45,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeOpenAllFeedsInNewTabs",
 		class: "ctx-menu-item tree-item-folder-ctx",
-		text: "Open All Unread in Tabs",
+		text: i18n("js_contextMenuOpenAllUnread"),
 		shortcut: "a",
 		accelerator: "A",
 		group: 1,
@@ -53,14 +53,14 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeSigninFeed",
 		class: "ctx-menu-item tree-item-unauthorized-ctx",
-		text: "Sign in...",
+		text: i18n("js_contextMenuSignin"),
 		accelerator: "L",
 		group: 2,
 	},
 	{
 		id: "mnuTreeToggleFeedReadUnread",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx",
-		text: "Toggle Read/Unread",
+		text: i18n("js_contextMenuToggleReadUnread"),
 		shortcut: "g",
 		accelerator: "G",
 		group: 3,
@@ -68,7 +68,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeMarkAllFeedsRead",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx tree-ctx",
-		text: "Mark All Tree Feeds as Read",
+		text: i18n("js_contextMenuMarkAllRead"),
 		shortcut: "r",
 		accelerator: "R",
 		group: 4,
@@ -76,7 +76,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeMarkAllFeedsUnread",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx tree-ctx",
-		text: "Mark All Tree Feeds as Unread",
+		text: i18n("js_contextMenuMarkAllUnread"),
 		shortcut: "u",
 		accelerator: "U",
 		group: 4,
@@ -84,7 +84,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeNewFeed",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx tree-ctx",
-		text: "New Feed...",
+		text: i18n("js_contextMenuNewFeed"),
 		shortcut: "n",
 		accelerator: "N",
 		group: 5,
@@ -92,7 +92,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeNewFolder",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx tree-ctx",
-		text: "New Folder...",
+		text: i18n("js_contextMenuNewFolder"),
 		shortcut: "f",
 		accelerator: "F",
 		group: 5,
@@ -100,7 +100,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeCopyFeedUrl",
 		class: "ctx-menu-item tree-item-ctx",
-		text: "Copy Link",
+		text: i18n("js_contextMenuCopyLink"),
 		shortcut: "c",
 		accelerator: "C",
 		group: 5,
@@ -108,7 +108,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreePasteFeedUrl",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx tree-ctx",
-		text: "Paste Link",
+		text: i18n("js_contextMenuPasteLink"),
 		shortcut: "s",
 		accelerator: "S",
 		group: 5,
@@ -116,7 +116,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeDeleteTreeItem",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx",
-		text: "Delete...",
+		text: i18n("js_contextMenuDelete"),
 		shortcut: "d",
 		accelerator: "D",
 		group: 5,
@@ -124,7 +124,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeProperties",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx",
-		text: "Properties...",
+		text: i18n("js_contextMenuProperties"),
 		shortcut: "p",
 		accelerator: "P",
 		group: 6,
@@ -132,21 +132,21 @@ const ContextMenuItems = [
 	{
 		id: "mnuTreeSummary",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx tree-ctx",
-		text: "Summary...",
+		text: i18n("js_contextMenuSummary"),
 		shortcut: "m",
 		group: 7,
 	},
 	{
 		id: "mnuTreeSwitchDirection",
 		class: "ctx-menu-item tree-item-ctx tree-item-folder-ctx tree-ctx",
-		text: "Switch View Direction",
+		text: i18n("js_contextMenuSwitchDirection"),
 		shortcut: "i",
 		group: 8,
 	},
 	{
 		id: "mnuListOpenFeedItem",
 		class: "ctx-menu-item list-item-ctx",
-		text: "Open",
+		text: i18n("js_contextMenuOpen"),
 		shortcut: "o",
 		accelerator: "O",
 		group: 9,
@@ -154,7 +154,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListOpenFeedItemNewTab",
 		class: "ctx-menu-item list-item-ctx",
-		text: "Open in New Tab",
+		text: i18n("js_contextMenuOpenNewTab"),
 		shortcut: "t",
 		accelerator: "T",
 		group: 9,
@@ -162,7 +162,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListOpenFeedItemNewReaderTab",
 		class: "ctx-menu-item list-item-ctx",
-		text: "Open in New Reader Tab",
+		text: i18n("js_contextMenuOpenNewReaderTab"),
 		shortcut: "e",
 		accelerator: "E",
 		group: 9,
@@ -170,7 +170,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListOpenFeedItemNewContainerTab",
 		class: "ctx-menu-item list-item-ctx",
-		text: "Open in New Container Tab...",
+		text: i18n("js_contextMenuOpenNewContainerTab"),
 		shortcut: "b",
 		accelerator: "B",
 		group: 9,
@@ -178,7 +178,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListOpenFeedItemNewWin",
 		class: "ctx-menu-item list-item-ctx",
-		text: "Open in New Window",
+		text: i18n("js_contextMenuOpenNewWin"),
 		shortcut: "w",
 		accelerator: "W",
 		group: 9,
@@ -186,7 +186,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListOpenFeedItemNewPrivateWin",
 		class: "ctx-menu-item list-item-ctx",
-		text: "Open in New Private Window",
+		text: i18n("js_contextMenuOpenNewPrivateWin"),
 		shortcut: "v",
 		accelerator: "V",
 		group: 9,
@@ -194,7 +194,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListOpenAllFeedItemsTabs",
 		class: "ctx-menu-item list-item-ctx list-ctx",
-		text: "Open All Unread in Tabs",
+		text: i18n("js_contextMenuOpenAllUnread"),
 		shortcut: "a",
 		accelerator: "A",
 		group: 9,
@@ -202,7 +202,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListToggleFeedItemReadUnread",
 		class: "ctx-menu-item list-item-ctx",
-		text: "Toggle Read/Unread",
+		text: i18n("js_contextMenuToggleReadUnread"),
 		shortcut: "g",
 		accelerator: "G",
 		group: 10,
@@ -210,7 +210,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListMarkAllFeedItemsRead",
 		class: "ctx-menu-item list-item-ctx list-ctx",
-		text: "Mark All as Read",
+		text: i18n("js_contextMenuListMarkAllRead"),
 		shortcut: "r",
 		accelerator: "R",
 		group: 11,
@@ -218,7 +218,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListMarkAllFeedItemsUnread",
 		class: "ctx-menu-item list-item-ctx list-ctx",
-		text: "Mark All as Unread",
+		text: i18n("js_contextMenuListMarkAllUnread"),
 		shortcut: "u",
 		accelerator: "U",
 		group: 11,
@@ -226,7 +226,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListCopyFeedItemUrl",
 		class: "ctx-menu-item list-item-ctx",
-		text: "Copy",
+		text: i18n("js_contextMenuCopy"),
 		shortcut: "c",
 		accelerator: "C",
 		group: 12,
@@ -234,7 +234,7 @@ const ContextMenuItems = [
 	{
 		id: "mnuListSwitchDirection",
 		class: "ctx-menu-item list-item-ctx list-ctx",
-		text: "Switch View Direction",
+		text: i18n("js_contextMenuSwitchDirection"),
 		shortcut: "i",
 		group: 13,
 	},
