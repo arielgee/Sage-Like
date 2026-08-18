@@ -15,7 +15,7 @@
 	--bk-color-window-contrasted: #000000;
 	--bk-color-dialog: #E3E3E3;
 	--bk-color-dialog-contrasted: #000000;
-	--bk-color-dialog-contrasted-alfa: #00000080;
+	--bk-color-dialog-contrasted-alpha: #00000080;
 	--bk-color-active: #F3C8BA;
 	--bk-color-active-contrasted: #000000;
 	--bk-color-info-window: #FFFEDF;
@@ -109,7 +109,7 @@ body * {
 }
 
 .toolbar .button:hover {
-	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted-alfa);
+	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted-alpha);
 }
 
 .toolbar .button:active {

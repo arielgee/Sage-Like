@@ -70,7 +70,7 @@
 }
 
 #discoverPanel .button:hover {
-	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted-alfa);
+	box-shadow: 0 0 4px 2px var(--bk-color-dialog-contrasted-alpha);
 }
 
 #discoverPanel .button:active {

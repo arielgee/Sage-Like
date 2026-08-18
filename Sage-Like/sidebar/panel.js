@@ -173,7 +173,7 @@ const panel = (function() {
 		prefs.getColorDialogBackground().then(color => {
 			style.setProperty("--bk-color-dialog", color);
 			style.setProperty("--bk-color-dialog-contrasted", slUtil.contrastColor(color));
-			style.setProperty("--bk-color-dialog-contrasted-alfa", slUtil.contrastColor(color) + "80");
+			style.setProperty("--bk-color-dialog-contrasted-alpha", slUtil.contrastColor(color) + "80");
 		});
 		prefs.getColorSelect().then(color => {
 			style.setProperty("--bk-color-active", color);

@@ -133,7 +133,7 @@ class JsonFeed extends Feed {
 			return "";
 		}
 
-		// some feed put an empty object in the summery (WTF?)			// https://matthiasott.com/articles/feed.json
+		// some feed put an empty object in the summary (WTF?)			// https://matthiasott.com/articles/feed.json
 		return (typeof(retVal) === "string" ? retVal : "");
 	}
 
@@ -147,7 +147,7 @@ class JsonFeed extends Feed {
 
 			prop = itemAllDescProperties[i];
 
-			// some feed put an empty object in the summery (WTF?)			// https://matthiasott.com/articles/feed.json
+			// some feed put an empty object in the summary (WTF?)			// https://matthiasott.com/articles/feed.json
 			if( !!prop && (typeof(prop) === "string") && (prop.length > 0) ) {
 				return prop;
 			}
