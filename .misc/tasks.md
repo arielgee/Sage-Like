@@ -1307,6 +1307,7 @@
 * open a feed-item in a container tab renders the feed-item as 'read' even if the user clicked on cancel in the 'Open in Container' dialog.
 * can Feed Preview benefit from Shadow DOM?
 * consider having sub-menus in the context menu.
+* update the PR screenshots
 * for manifest key `gecko.data_collection_permissions`, AMO also checks Android compatibility. setting Android minimum to 142 prevents warning compatibility.
 	- BUT IT MARKS THE EXTENSION AS COMPATIBLE WITH ANDROID IN THE 'Submit a New Version' PAGE AFTER VALIDATION AS A DISABLED CHECKBOX THAT CAN'T BE UNCHECKED.
 	- it should be OK since the 'Firefox for Android' compatibility most likely can be removed in the 'Manage Version x.xx' page.

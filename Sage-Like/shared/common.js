@@ -1765,17 +1765,20 @@ const slUtil = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function isVersionLessThen(version1, version2) {
-		const v1Numbers = version1.split(".").map(x => parseInt(x, 10) || 0 );
-		const v2Numbers = version2.split(".").map(x => parseInt(x, 10) || 0 );
-		const maxLen = Math.max(v1Numbers.length, v2Numbers.length);
-		let v1Num, v2Num;
-		for(let i=0; i<maxLen; ++i) {
-			v1Num = v1Numbers[i] || 0;
-			v2Num = v2Numbers[i] || 0;
-			if(v1Num < v2Num) return true;
-			if(v1Num > v2Num) return false;
-		}
-		return false;	// equal versions
+		const compare = (v1, v2) => {
+			const v1Numbers = v1.split(".").map(x => parseInt(x, 10) || 0);
+			const v2Numbers = v2.split(".").map(x => parseInt(x, 10) || 0);
+			const maxLen = Math.max(v1Numbers.length, v2Numbers.length);
+			for(let i=0; i<maxLen; ++i) {
+				const v1Num = v1Numbers[i] || 0;
+				const v2Num = v2Numbers[i] || 0;
+				if(v1Num < v2Num) return true;
+				if(v1Num > v2Num) return false;
+			}
+			return false; // equal versions
+		};
+		const targets = Array.isArray(version2) ? version2 : [version2];
+		return targets.some(v => compare(version1, v));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
