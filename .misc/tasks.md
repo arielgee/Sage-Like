@@ -1259,6 +1259,7 @@
 * add `ContextAction.treeOpenNewContainerTab` in the `contextMenu.OpenPanelActions` array
 * add support to customize the sidebar context menu. add new preference `Customize sidebar context menu`
 * consider renaming `DROP_INSIDE_FOLDER_SHOW_MSG_COUNT` to `MSG_SHOW_COUNT_DROP_INSIDE_FOLDER`
+* add a new feed property to open items in reader mode in the propertiesView. this is a per-feed property and not a global preference. the feed property will be saved in the TreeFeedsData.
 ---
 
 
@@ -1305,6 +1306,7 @@
 	* https://claude.ai/chat/65f1433e-f326-4e63-b952-d36fac86e37f
 * open a feed-item in a container tab renders the feed-item as 'read' even if the user clicked on cancel in the 'Open in Container' dialog.
 * can Feed Preview benefit from Shadow DOM?
+* consider having sub-menus in the context menu.
 * for manifest key `gecko.data_collection_permissions`, AMO also checks Android compatibility. setting Android minimum to 142 prevents warning compatibility.
 	- BUT IT MARKS THE EXTENSION AS COMPATIBLE WITH ANDROID IN THE 'Submit a New Version' PAGE AFTER VALIDATION AS A DISABLED CHECKBOX THAT CAN'T BE UNCHECKED.
 	- it should be OK since the 'Firefox for Android' compatibility most likely can be removed in the 'Manage Version x.xx' page.

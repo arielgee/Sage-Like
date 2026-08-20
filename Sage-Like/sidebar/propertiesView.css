@@ -63,6 +63,10 @@
 	margin-inline: auto 0;
 }
 
+#insertInsideFolderContainer {
+	border-block-start: 1px solid var(--bk-color-dialog-contrasted-alpha);
+}
+
 .fpButtonContainer {
 	display: flex;
 	justify-content: flex-end;

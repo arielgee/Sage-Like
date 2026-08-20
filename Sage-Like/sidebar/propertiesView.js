@@ -32,6 +32,7 @@ class PropertiesViewElements {
 		this.elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
 		this.elmChkOpenInFeedPreview = document.getElementById("chkFpOpenInFeedPreview");
 		this.elmChkIgnoreUpdates = document.getElementById("chkFpIgnoreUpdates");
+		this.elmChkOpenItemsInReaderMode = document.getElementById("chkFpOpenItemsInReaderMode");
 		this.elmTextFeedMaxItems = document.getElementById("txtFpFeedMaxItems");
 		this.elmInsertInsideFolderContainer = document.getElementById("insertInsideFolderContainer");
 		this.elmChkInsertInsideFolder = document.getElementById("chkInsertInsideFolder");
@@ -111,6 +112,7 @@ class PropertiesView {
 		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
 		this.m_elmChkOpenInFeedPreview.checked = this.m_initialProperties.openInFeedPreview;
 		this.m_elmChkIgnoreUpdates.checked = this.m_initialProperties.ignoreUpdates;
+		this.m_elmChkOpenItemsInReaderMode.checked = this.m_initialProperties.openItemsInReaderMode;
 		this.m_elmTextFeedMaxItems.value = this.m_initialProperties.feedMaxItems;
 		this.m_elmChkInsertInsideFolder.checked = false;
 		this.m_elmLabelErrorMsgs.textContent = "";
@@ -166,6 +168,7 @@ class PropertiesView {
 		this.m_elmChkUpdateTitle = PropertiesViewElements.i.elmChkUpdateTitle;
 		this.m_elmChkOpenInFeedPreview = PropertiesViewElements.i.elmChkOpenInFeedPreview;
 		this.m_elmChkIgnoreUpdates = PropertiesViewElements.i.elmChkIgnoreUpdates;
+		this.m_elmChkOpenItemsInReaderMode = PropertiesViewElements.i.elmChkOpenItemsInReaderMode;
 		this.m_elmTextFeedMaxItems = PropertiesViewElements.i.elmTextFeedMaxItems;
 		this.m_elmInsertInsideFolderContainer = PropertiesViewElements.i.elmInsertInsideFolderContainer;
 		this.m_elmChkInsertInsideFolder = PropertiesViewElements.i.elmChkInsertInsideFolder;
@@ -186,6 +189,7 @@ class PropertiesView {
 			updateTitle: false,
 			openInFeedPreview: false,
 			ignoreUpdates: false,
+			openItemsInReaderMode: false,
 			feedMaxItems: 0,
 		};
 
@@ -269,6 +273,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.updateTitle = true;
 			this.m_initialProperties.openInFeedPreview = false;
 			this.m_initialProperties.ignoreUpdates = false;
+			this.m_initialProperties.openItemsInReaderMode = false;
 			this.m_initialProperties.feedMaxItems = 0;
 
 			this._initData(this.m_elmTextLocation);
@@ -285,6 +290,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			updateTitle: this.m_elmChkUpdateTitle.checked,
 			openInFeedPreview: this.m_elmChkOpenInFeedPreview.checked,
 			ignoreUpdates: this.m_elmChkIgnoreUpdates.checked,
+			openItemsInReaderMode: this.m_elmChkOpenItemsInReaderMode.checked,
 			feedMaxItems: Number(this.m_elmTextFeedMaxItems.value),
 			inFolder: this.m_elmChkInsertInsideFolder.checked,
 		}
@@ -374,6 +380,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			updateTitle = true,
 			openInFeedPreview = false,
 			ignoreUpdates = false,
+			openItemsInReaderMode = false,
 			feedMaxItems = 0,
 		} = details;
 
@@ -390,6 +397,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.updateTitle = updateTitle;
 			this.m_initialProperties.openInFeedPreview = openInFeedPreview;
 			this.m_initialProperties.ignoreUpdates = ignoreUpdates;
+			this.m_initialProperties.openItemsInReaderMode = openItemsInReaderMode;
 			this.m_initialProperties.feedMaxItems = feedMaxItems;
 
 			this._initData(this.m_elmTextTitle);
@@ -406,6 +414,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			updateTitle: this.m_elmChkUpdateTitle.checked,
 			openInFeedPreview: this.m_elmChkOpenInFeedPreview.checked,
 			ignoreUpdates: this.m_elmChkIgnoreUpdates.checked,
+			openItemsInReaderMode: this.m_elmChkOpenItemsInReaderMode.checked,
 			feedMaxItems: Number(this.m_elmTextFeedMaxItems.value),
 		}
 
@@ -415,6 +424,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.updateTitle === result.updateTitle &&
 			this.m_initialProperties.openInFeedPreview === result.openInFeedPreview &&
 			this.m_initialProperties.ignoreUpdates === result.ignoreUpdates &&
+			this.m_initialProperties.openItemsInReaderMode === result.openItemsInReaderMode &&
 			this.m_initialProperties.feedMaxItems === result.feedMaxItems) {
 			this.m_elmLabelErrorMsgs.textContent = "Nothing to modify.";
 			return;

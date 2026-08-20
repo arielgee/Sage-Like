@@ -1660,6 +1660,7 @@ const rssTreeView = (function() {
 				updateTitle: result.updateTitle,
 				openInFeedPreview: result.openInFeedPreview,
 				ignoreUpdates: result.ignoreUpdates,
+				openItemsInReaderMode: result.openItemsInReaderMode,
 				feedMaxItems: result.feedMaxItems,
 			};
 			createNewFeedExtended(result.elmLI, result.title, result.url, result.inFolder, exDetails);
@@ -1673,6 +1674,7 @@ const rssTreeView = (function() {
 			updateTitle = true,
 			openInFeedPreview = false,
 			ignoreUpdates = false,
+			openItemsInReaderMode = false,
 			feedMaxItems = 0,
 		} = exDetails;
 
@@ -1680,6 +1682,7 @@ const rssTreeView = (function() {
 			updateTitle: updateTitle,
 			openInFeedPreview: openInFeedPreview,
 			ignoreUpdates: ignoreUpdates,
+			openItemsInReaderMode: openItemsInReaderMode,
 			feedMaxItems: feedMaxItems,
 		};
 
@@ -1697,6 +1700,7 @@ const rssTreeView = (function() {
 			updateTitle,
 			openInFeedPreview,
 			ignoreUpdates,
+			openItemsInReaderMode,
 			feedMaxItems,
 		} = details;
 
@@ -1733,6 +1737,7 @@ const rssTreeView = (function() {
 						updateTitle: updateTitle,
 						openInFeedPreview: openInFeedPreview,
 						ignoreUpdates: ignoreUpdates,
+						openItemsInReaderMode: openItemsInReaderMode,
 						feedMaxItems: feedMaxItems,
 					};
 					m_objTreeFeedsData.set(created.id, properties);
@@ -1753,6 +1758,7 @@ const rssTreeView = (function() {
 			updateTitle,
 			openInFeedPreview,
 			ignoreUpdates,
+			openItemsInReaderMode,
 			feedMaxItems,
 		} = details;
 
@@ -1783,6 +1789,7 @@ const rssTreeView = (function() {
 						updateTitle: updateTitle,
 						openInFeedPreview: openInFeedPreview,
 						ignoreUpdates: ignoreUpdates,
+						openItemsInReaderMode: openItemsInReaderMode,
 						feedMaxItems: feedMaxItems,
 					};
 					m_objTreeFeedsData.set(created.id, properties);
@@ -2107,6 +2114,7 @@ const rssTreeView = (function() {
 				updateTitle: treeFeed.updateTitle,
 				openInFeedPreview: treeFeed.openInFeedPreview,
 				ignoreUpdates: treeFeed.ignoreUpdates,
+				openItemsInReaderMode: treeFeed.openItemsInReaderMode,
 				feedMaxItems: treeFeed.feedMaxItems,
 			};
 
@@ -2115,6 +2123,7 @@ const rssTreeView = (function() {
 					newUpdateTitle: result.updateTitle,
 					newOpenInFeedPreview: result.openInFeedPreview,
 					newIgnoreUpdates: result.ignoreUpdates,
+					newOpenItemsInReaderMode: result.openItemsInReaderMode,
 					newFeedMaxItems: result.feedMaxItems,
 				};
 				updateFeedProperties(result.elmLI, result.title, result.url, updateDetails);
@@ -2129,6 +2138,7 @@ const rssTreeView = (function() {
 			newUpdateTitle,
 			newOpenInFeedPreview,
 			newIgnoreUpdates,
+			newOpenItemsInReaderMode,
 			newFeedMaxItems,
 		} = details;
 
@@ -2156,6 +2166,7 @@ const rssTreeView = (function() {
 					updateTitle: newUpdateTitle,
 					openInFeedPreview: newOpenInFeedPreview,
 					ignoreUpdates: newIgnoreUpdates,
+					openItemsInReaderMode: newOpenItemsInReaderMode,
 					feedMaxItems: newFeedMaxItems,
 				};
 				m_objTreeFeedsData.set(updated.id, properties);
@@ -3267,6 +3278,17 @@ const rssTreeView = (function() {
 				"\u2731 Feeds may change their title, update time and/or status after the filter was applied.".replace(/ /g, "\u00a0"); // 'NO-BREAK SPACE'
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	async function getTreeFeedData(feedId = null) {
+		await m_objTreeFeedsData.getStorage();
+		if(!!feedId) {
+			return m_objTreeFeedsData.value(feedId);
+		} else if(TreeItemType.isFeed(m_elmCurrentlySelected)) {
+			return m_objTreeFeedsData.value(m_elmCurrentlySelected.id);
+		}
+		return null;
+	}
+
 	return {
 		URLOpenMethod: URLOpenMethod,
 
@@ -3292,6 +3314,7 @@ const rssTreeView = (function() {
 		updateLayoutWidth: updateLayoutWidth,
 		setTreeFeedDataLastStatusMembers: setTreeFeedDataLastStatusMembers,
 		openTreeItemFeedPreview: openTreeItemFeedPreview,
+		getTreeFeedData: getTreeFeedData,
 	};
 
 })();

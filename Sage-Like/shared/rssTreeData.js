@@ -77,6 +77,7 @@ class TreeFeedsData extends StoredKeyedItems {
 		updateTitle: true,
 		openInFeedPreview: false,
 		ignoreUpdates: false,
+		openItemsInReaderMode: false,
 		feedMaxItems: 0,
 		// for restoring feeds last status after sidebar is reopened when pref 'checkFeedsOnSbOpen' is false.
 		lastStatusIsVisited: false,

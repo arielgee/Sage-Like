@@ -261,11 +261,16 @@ const rssListView = (function() {
 				if(!event.ctrlKey && !event.shiftKey) {
 
 					// default-click
-					let prefOpenMethod = await prefs.getFeedItemOpenMethod();
-					if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInNewTab) {
-						openMethod = URLOpenMethod.IN_NEW_TAB;
-					} else if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInTab) {
-						openMethod = URLOpenMethod.IN_TAB;
+					const objTreeFeedData = await rssTreeView.getTreeFeedData(m_elmLITreeFeed?.id);
+					if(!!objTreeFeedData && objTreeFeedData.openItemsInReaderMode) {
+						openMethod = URLOpenMethod.IN_NEW_TAB_READER;
+					} else {
+						const prefOpenMethod = await prefs.getFeedItemOpenMethod();
+						if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInNewTab) {
+							openMethod = URLOpenMethod.IN_NEW_TAB;
+						} else if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInTab) {
+							openMethod = URLOpenMethod.IN_TAB;
+						}
 					}
 
 				} else if(event.ctrlKey) {
@@ -282,7 +287,7 @@ const rssListView = (function() {
 			} else if(event.button === 1) {
 
 				// middle-click
-				let prefOpenMethod = await prefs.getFeedItemOpenMethod();
+				const prefOpenMethod = await prefs.getFeedItemOpenMethod();
 				if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInTab) {
 					openMethod = URLOpenMethod.IN_NEW_TAB;
 				} else if(prefOpenMethod === prefs.FEED_ITEM_OPEN_METHOD_VALUES.openInNewTab) {
@@ -464,7 +469,7 @@ const rssListView = (function() {
 				browser.tabs.onUpdated.removeListener(readerListener);
 
 				// FRAGILE! - if reader successful => has no title property. if fails => title for English language is: "Failed to load article from page" (language dependent)
-				// when the result is 404 the reader fails and STILL there is no title!!! - I got no solution for this case.
+				// when the result is 404, the reader fails and STILL there is no title!!! - I got no solution for this case.
 				if(!!tabInfo.title && tabInfo.title.length > 0) {
 					if(await internalPrefs.getShowReaderModeFailedMsg()) {
 						browser.tabs.onUpdated.addListener(fallbackListener, { properties: ["status"], tabId: tabId });
