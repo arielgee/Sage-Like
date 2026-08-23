@@ -128,7 +128,7 @@ const messageView = (function () {
 
 		removeEventListeners();
 
-		m_funcPromiseResolve(m_buttonCodeResult);
+		m_funcPromiseResolve({ buttonCode: m_buttonCodeResult });
 		rssTreeView.setFocus();
 
 		m_elmMenuItems = [];

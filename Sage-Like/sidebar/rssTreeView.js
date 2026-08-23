@@ -1928,7 +1928,7 @@ const rssTreeView = (function() {
 
 		messageView.open({ text: text, btnSet: messageView.ButtonSet.setYesNo, caption: "Delete " + (isFolder ? "Folder" : "Feed") }).then(async (result) => {
 
-			if(result !== messageView.ButtonCode.Yes) {
+			if(result.buttonCode !== messageView.ButtonCode.Yes) {
 				return;
 			}
 
