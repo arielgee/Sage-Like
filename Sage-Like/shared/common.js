@@ -417,6 +417,7 @@ const internalPrefs = (function() {
 
 	// internal preferences
 
+	// ATTENTION: If you add any new member to this object, you may need to update PREF_COUNTERS_FLAGS in resetCountersAndFlags() accordingly.
 	const PREF = Object.freeze({
 		OPEN_TREE_FOLDERS:						{ name: "pref_openSubTrees",					default: {}			},
 		TREE_FEEDS_DATA:						{ name: "pref_treeFeedsData",					default: {}			},
@@ -511,6 +512,25 @@ const internalPrefs = (function() {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	function resetCountersAndFlags() {
+		const PREF_COUNTERS_FLAGS = [
+			PREF.MSG_SHOW_COUNT_DROP_INSIDE_FOLDER,
+			PREF.MSG_SHOW_COUNT_HOVER_FILTER_TEXT_BOX,
+			PREF.MSG_SHOW_COUNT_REAPPLY_FILTER,
+			PREF.POPUP_SHOW_COUNT_NOTEPAD_HELP,
+			PREF.MSG_SHOW_COUNT_UNAUTHORIZED_FEED,
+			PREF.NOTIFIED_FOR_NEW_VERSION_VALUE,
+			PREF.NOTIFIED_ABOUT_PERMISSIONS,
+			PREF.SHOW_FEED_MAX_ITEMS_MSG,
+			PREF.MSG_SHOW_COUNT_READER_MODE_FAILED,
+			PREF.SHOW_READER_MODE_FAILED_MSG,
+		];
+		for(let i=0, len=PREF_COUNTERS_FLAGS.length; i<len; ++i) {
+			_setPreferenceValue(PREF_COUNTERS_FLAGS[i], PREF_COUNTERS_FLAGS[i].default);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	function _getPreferenceValue(pref) {
 		return new Promise((resolve) => {
 			m_localStorage.get(pref.name).then((result) => {
@@ -570,6 +590,7 @@ const internalPrefs = (function() {
 		getTreeViewRestoreData: getTreeViewRestoreData,
 
 		restoreDefaults: restoreDefaults,
+		resetCountersAndFlags: resetCountersAndFlags,
 	};
 })();
 
@@ -1840,6 +1861,11 @@ const slUtil = (function() {
 		});
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	function debug_reset_counter_and_flag_prefs() {
+		internalPrefs.resetCountersAndFlags();
+	}
+
 	return {
 		randomInteger: randomInteger,
 		disableElementTree: disableElementTree,
@@ -1897,5 +1923,6 @@ const slUtil = (function() {
 		debug_storedKeys_list: debug_storedKeys_list,
 		debug_storedKeys_purge: debug_storedKeys_purge,
 		debug_alarms_list: debug_alarms_list,
+		debug_reset_counter_and_flag_prefs: debug_reset_counter_and_flag_prefs,
 	};
 })();
