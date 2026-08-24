@@ -14,6 +14,7 @@ const messageView = (function () {
 		Yes: 2,
 		No: 3,
 		Cancel: 4,
+		MenuItem: 5,
 	};
 
 	let m_elmMessagePanel = null;
@@ -91,7 +92,16 @@ const messageView = (function () {
 									}
 								});
 							}
-							elm.addEventListener("click", clickElement.onClickCallback);
+
+							if(elm.classList.contains("message-menu-item")) {
+								elm.addEventListener("click", () => {
+									clickElement.onClickCallback();
+									m_buttonCodeResult = ButtonCode.MenuItem;
+									close();
+								});
+							} else {
+								elm.addEventListener("click", clickElement.onClickCallback);
+							}
 						}
 					}
 				}

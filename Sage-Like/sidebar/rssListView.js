@@ -387,17 +387,18 @@ const rssListView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function openListFeedItem(elm, openMethod) {
+	async function openListFeedItem(elm, openMethod) {
 
 		// only for list item elements
 		if(!!!elm || !elm.classList.contains(Global.CLS_RLV_LI_LIST_ITEM)) return;
 
-		let url = elm.getAttribute("href");
+		const url = elm.getAttribute("href");
+		let addToHist = true;
 
 		switch (openMethod) {
 			case URLOpenMethod.IN_TAB:					openFeedItemInTab(url);									break;
 			case URLOpenMethod.IN_NEW_TAB:				browser.tabs.create({ url: url });						break;
-			case URLOpenMethod.IN_NEW_TAB_CONTAINER:	panel.showOpenInContainerPicker(url);					break;
+			case URLOpenMethod.IN_NEW_TAB_CONTAINER:	addToHist = await panel.showOpenInContainerPicker(url);	break;
 			case URLOpenMethod.IN_NEW_WIN:				browser.windows.create({ url: url, type: "normal" });	break;
 			case URLOpenMethod.IN_NEW_WIN_PRIVATE:		openFeedItemInWinPrivate(url);							break;
 			case URLOpenMethod.IN_NEW_TAB_READER:		openFeedItemInReader(url);								break;
@@ -406,17 +407,16 @@ const rssListView = (function() {
 
 		elm.focus();
 
-		if(openMethod !== URLOpenMethod.IN_NEW_WIN_PRIVATE) {
+		if(!addToHist || openMethod === URLOpenMethod.IN_NEW_WIN_PRIVATE) return;
 
-			// Redirect are not saved in history. So when a feed url is
-			// redirected from http to https or from feedproxy.google.com
-			// to the target page it cannot be found in browser.history.
-			// So this function will record the redirecting url in history
-			// https://wiki.mozilla.org/Browser_History:Redirects
-			slUtil.addUrlToBrowserHistory(url, elm.textContent).then(() => {
-				setItemRealVisitedState(elm, url);
-			});
-		}
+		// Redirect are not saved in history. So when a feed url is
+		// redirected from http to https or from feedproxy.google.com
+		// to the target page it cannot be found in browser.history.
+		// So this function will record the redirecting url in history
+		// https://wiki.mozilla.org/Browser_History:Redirects
+		slUtil.addUrlToBrowserHistory(url, elm.textContent).then(() => {
+			setItemRealVisitedState(elm, url);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

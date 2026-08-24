@@ -1260,6 +1260,8 @@
 * add support to customize the sidebar context menu. add new preference `Customize sidebar context menu`
 * consider renaming `DROP_INSIDE_FOLDER_SHOW_MSG_COUNT` to `MSG_SHOW_COUNT_DROP_INSIDE_FOLDER`
 * add a new feed property to open items in reader mode in the propertiesView. this is a per-feed property and not a global preference. the feed property will be saved in the TreeFeedsData.
+* can Feed Preview benefit from Shadow DOM? => NO. benefit is small to none
+* open a feed-item in a container tab renders the feed-item as 'read' even if the user clicked on cancel in the 'Open in Container' dialog.
 ---
 
 
@@ -1304,8 +1306,6 @@
 	* look into the possibility of adding a new per-feed option (feed properties) to ignore the cache.
 	* https://chatgpt.com/c/6a6b4fda-b758-83eb-a708-acf05945ca2c
 	* https://claude.ai/chat/65f1433e-f326-4e63-b952-d36fac86e37f
-* open a feed-item in a container tab renders the feed-item as 'read' even if the user clicked on cancel in the 'Open in Container' dialog.
-* can Feed Preview benefit from Shadow DOM?
 * consider having sub-menus in the context menu.
 * update the PR screenshots
 * for manifest key `gecko.data_collection_permissions`, AMO also checks Android compatibility. setting Android minimum to 142 prevents warning compatibility.
