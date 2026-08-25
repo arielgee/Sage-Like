@@ -111,48 +111,7 @@ const rssTreeView = (function() {
 		switch (message.id) {
 
 			case Global.MSG_ID_PREFERENCES_CHANGED:
-				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
-					message.details === Global.MSGD_PREF_CHANGE_ROOT_FOLDER) {
-					messageView.close();
-					discoveryView.close();
-					NewFeedPropertiesView.close();
-					NewFolderPropertiesView.close();
-					EditFeedPropertiesView.close();
-					EditFolderPropertiesView.close();
-					InfoBubble.i.dismiss();
-					rssListView.disposeList();
-					createRSSTree();
-				}
-
-				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
-					message.details === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN) {
-					setCheckFeedsOnSbOpenFromPreferences();
-				}
-
-				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
-					message.details === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
-					resetRSSTreeFeedsTimer();
-				}
-
-				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
-					message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_STATS) {
-					setShowFeedStatsFromPreferences();
-				}
-
-				if (message.details === Global.MSGD_PREF_CHANGE_ALL ||
-					message.details === Global.MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE) {
-					setIncreaseUnvisitedFontSizeFromPreferences();
-				}
-
-				// Entire tree is recreated when: message.details === Global.MSGD_PREF_CHANGE_ALL
-				if (message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC ||
-					message.details === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH ||
-					message.details === Global.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
-
-					if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
-						openTreeFeed(m_elmCurrentlySelected, false, UserInput.NONE);
-					}
-				}
+				handlePreferencesChanged(message.details);
 				break;
 				/////////////////////////////////////////////////////////////////////////
 
@@ -241,10 +200,45 @@ const rssTreeView = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function setCheckFeedsOnSbOpenFromPreferences() {
-		prefs.getCheckFeedsOnSbOpen().then(checkOnSbOpen => {
-			m_bPrefCheckFeedsOnSbOpen = checkOnSbOpen;
-		});
+	function handlePreferencesChanged(msgDetails) {
+
+		if (msgDetails === Global.MSGD_PREF_CHANGE_ALL ||
+			msgDetails === Global.MSGD_PREF_CHANGE_ROOT_FOLDER) {
+			messageView.close();
+			discoveryView.close();
+			NewFeedPropertiesView.close();
+			NewFolderPropertiesView.close();
+			EditFeedPropertiesView.close();
+			EditFolderPropertiesView.close();
+			InfoBubble.i.dismiss();
+			rssListView.disposeList();
+			createRSSTree();
+		}
+		if (msgDetails === Global.MSGD_PREF_CHANGE_ALL ||
+			msgDetails === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN) {
+			prefs.getCheckFeedsOnSbOpen().then(checkOnSbOpen => m_bPrefCheckFeedsOnSbOpen = checkOnSbOpen );
+		}
+		if (msgDetails === Global.MSGD_PREF_CHANGE_ALL ||
+			msgDetails === Global.MSGD_PREF_CHANGE_CHECK_FEEDS_INTERVAL) {
+			resetRSSTreeFeedsTimer();
+		}
+		if (msgDetails === Global.MSGD_PREF_CHANGE_ALL ||
+			msgDetails === Global.MSGD_PREF_CHANGE_SHOW_FEED_STATS) {
+			setShowFeedStatsFromPreferences();
+		}
+		if (msgDetails === Global.MSGD_PREF_CHANGE_ALL ||
+			msgDetails === Global.MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE) {
+			setIncreaseUnvisitedFontSizeFromPreferences();
+		}
+		// Entire tree is recreated when: msgDetails === Global.MSGD_PREF_CHANGE_ALL
+		if (msgDetails === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC ||
+			msgDetails === Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH ||
+			msgDetails === Global.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
+
+			if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
+				openTreeFeed(m_elmCurrentlySelected, false, UserInput.NONE);
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
