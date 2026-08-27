@@ -266,22 +266,23 @@
 		// collect all feed urls into an array
 		await slUtil.bookmarksFeedsAsCollection(true).then(async (bmFeeds) => {
 
-			let objTreeFeedsData = new TreeFeedsData();
+			const bBypassCache = await prefs.getBypassCache();
+			const objTreeFeedsData = new TreeFeedsData();
 
 			await objTreeFeedsData.getStorage();
 			await g_feed.feedsWithParsingErrors.getStorage();
 
 			// scan all feed urls for the first updated one
-			let feed, showNewBadge = false;
+			let showNewBadge = false;
 			for (let i=0, len=bmFeeds.length; i<len; ++i) {
 
-				feed = bmFeeds[i];
+				const feed = bmFeeds[i];
 				// add if not already exists or just update the lastChecked
 				objTreeFeedsData.update(feed.id);
 
 				try {
 					const msFetchTime = Date.now();
-					const result = await syndication.fetchFeedData(feed.url, 10000, false);		// minimal timeout
+					const result = await syndication.fetchFeedData(feed.url, 10000, bBypassCache);		// minimal timeout
 
 					let msUpdateTime = slUtil.asSafeNumericDate(result.feedData.lastUpdated);
 					msUpdateTime = syndication.fixUnreliableUpdateTime(msUpdateTime, result, feed.url, msFetchTime);

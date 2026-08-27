@@ -21,6 +21,7 @@ const preferences = (function() {
 	let m_elmInputTime;
 	let m_elmCheckFeedsMethod;
 	let m_elmFetchTimeout;
+	let m_elmBypassCache;
 	let m_elmSortFeedItems;
 	let m_elmFolderClickAction;
 	let m_elmClickOpensFeedPreview;
@@ -98,6 +99,7 @@ const preferences = (function() {
 		m_elmCheckFeedsWhenSbClosed = document.getElementById("checkFeedsWhenSbClosed");
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
+		m_elmBypassCache = document.getElementById("bypassCache");
 		m_elmSortFeedItems = document.getElementById("sortFeedItems");
 		m_elmFolderClickAction = document.getElementById("folderClickAction");
 		m_elmClickOpensFeedPreview = document.getElementById("clickOpensFeedPreview");
@@ -157,6 +159,7 @@ const preferences = (function() {
 		m_elmCheckFeedsWhenSbClosed.addEventListener("change", onChangeCheckFeedsWhenSbClosed);
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
+		m_elmBypassCache.addEventListener("change", onChangeBypassCache);
 		m_elmSortFeedItems.addEventListener("change", onChangeSortFeedItems);
 		m_elmFolderClickAction.addEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreview.addEventListener("change", onChangeClickOpensFeedPreview);
@@ -249,6 +252,10 @@ const preferences = (function() {
 
 		prefs.getFetchTimeout().then((timeoutSec) => {
 			m_elmFetchTimeout.value = timeoutSec;
+		});
+
+		prefs.getBypassCache().then((checked) => {
+			m_elmBypassCache.checked = checked;
 		});
 
 		prefs.getSortFeedItems().then((checked) => {
@@ -507,6 +514,13 @@ const preferences = (function() {
 		} else {
 			prefs.setFetchTimeout(m_elmFetchTimeout.value);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeBypassCache(event) {
+		prefs.setBypassCache(m_elmBypassCache.checked).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_BYPASS_CACHE);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -967,6 +981,7 @@ const preferences = (function() {
 		m_elmCheckFeedsMethod.value = defPrefs.checkFeedsMethod;
 		m_elmCheckFeedsMethod.title = m_elmCheckFeedsMethod.options[m_elmCheckFeedsMethod.selectedIndex].title;
 		m_elmFetchTimeout.value = defPrefs.fetchTimeout;
+		m_elmBypassCache.checked = defPrefs.bypassCache;
 		m_elmSortFeedItems.checked = defPrefs.sortFeedItems;
 		m_elmFolderClickAction.value = defPrefs.folderClickAction;
 		m_elmClickOpensFeedPreview.value = defPrefs.clickOpensFeedPreview;

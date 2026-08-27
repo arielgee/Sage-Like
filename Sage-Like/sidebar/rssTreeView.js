@@ -87,6 +87,7 @@ const rssTreeView = (function() {
 	let m_msgShowCountReapplyFilter = 0;
 	let m_bPrefShowFeedStats = prefs.DEFAULTS.showFeedStats;
 	let m_bPrefCheckFeedsOnSbOpen = prefs.DEFAULTS.checkFeedsOnSbOpen;
+	let m_bPrefBypassCache = prefs.DEFAULTS.bypassCache;
 
 	let m_filterChangeDebouncer = null;
 	let m_titleUpdateDebouncer = null;
@@ -187,6 +188,7 @@ const rssTreeView = (function() {
 		browser.bookmarks.onMoved.addListener(onBookmarksEventHandler);
 
 		m_bPrefCheckFeedsOnSbOpen = await prefs.getCheckFeedsOnSbOpen();
+		m_bPrefBypassCache = await prefs.getBypassCache();
 		m_bPrefShowFeedStats = await prefs.getShowFeedStats();
 		setIncreaseUnvisitedFontSizeFromPreferences();
 
@@ -223,6 +225,10 @@ const rssTreeView = (function() {
 			resetRSSTreeFeedsTimer();
 		}
 		if (msgDetails === Global.MSGD_PREF_CHANGE_ALL ||
+			msgDetails === Global.MSGD_PREF_CHANGE_BYPASS_CACHE) {
+			prefs.getBypassCache().then(bypassCache => m_bPrefBypassCache = bypassCache );
+		}
+		if (msgDetails === Global.MSGD_PREF_CHANGE_ALL ||
 			msgDetails === Global.MSGD_PREF_CHANGE_SHOW_FEED_STATS) {
 			setShowFeedStatsFromPreferences();
 		}
@@ -236,7 +242,7 @@ const rssTreeView = (function() {
 			msgDetails === Global.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
 
 			if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
-				openTreeFeed(m_elmCurrentlySelected, false, UserInput.NONE);
+				openTreeFeed(m_elmCurrentlySelected, m_bPrefBypassCache, UserInput.NONE);
 			}
 		}
 	}
@@ -460,7 +466,7 @@ const rssTreeView = (function() {
 				setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
 
 				if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
-					openTreeFeed(m_elmCurrentlySelected, false, UserInput.NONE);
+					openTreeFeed(m_elmCurrentlySelected, m_bPrefBypassCache, UserInput.NONE);
 				}
 
 			} else {
@@ -574,7 +580,9 @@ const rssTreeView = (function() {
 		};
 
 		const msFetchTime = Date.now();
-		const fetching = m_bPrefShowFeedStats ? syndication.fetchFeedItems(url, timeout, false, details) : syndication.fetchFeedData(url, timeout, false);
+		const fetching = m_bPrefShowFeedStats
+							? syndication.fetchFeedItems(url, timeout, m_bPrefBypassCache, details)
+							: syndication.fetchFeedData(url, timeout, m_bPrefBypassCache);
 
 		fetching.then((fetchResult) => {
 
@@ -702,7 +710,7 @@ const rssTreeView = (function() {
 			case "Enter":
 			case "NumpadEnter":
 				if(TreeItemType.isFeed(elmTarget)) {
-					openTreeFeed(elmTarget, event.shiftKey);
+					openTreeFeed(elmTarget, event.shiftKey || m_bPrefBypassCache);
 				} else {
 					toggleFolderState(elmTarget);
 				}
@@ -982,7 +990,7 @@ const rssTreeView = (function() {
 			if(event.button === 0) {						// left click
 
 				// default action: load feed items in list
-				openTreeFeed(elmLI, event.shiftKey);
+				openTreeFeed(elmLI, event.shiftKey || m_bPrefBypassCache);
 
 				// open feed preview
 				prefs.getClickOpensFeedPreview().then((value) => {
@@ -2000,7 +2008,7 @@ const rssTreeView = (function() {
 		if(TreeItemType.isUnauthorized(elmLI)) {
 			signinView.open(getTreeItemText(elmLI)).then((signinCredential) => {
 				if(!!signinCredential && signinCredential.initialized) {
-					openTreeFeed(elmLI, false, UserInput.DIALOG, signinCredential);
+					openTreeFeed(elmLI, m_bPrefBypassCache, UserInput.DIALOG, signinCredential);
 				}
 			});
 		}

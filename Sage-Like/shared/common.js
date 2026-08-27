@@ -187,6 +187,7 @@ const Global = (function() {
 		MSGD_PREF_CHANGE_LIST_CTX_MNU_HIDDEN_ITEMS:				1022,
 		MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE:			1023,
 		MSGD_PREF_CHANGE_CHECK_FEEDS_ON_SB_OPEN:				1024,
+		MSGD_PREF_CHANGE_BYPASS_CACHE:							1025,
 
 		ROOT_FEEDS_FOLDER_ID_NOT_SET: "_rootFeedsFolderIdNotSet_",
 		BOOKMARKS_ROOT_GUID: "root________",
@@ -441,7 +442,7 @@ const internalPrefs = (function() {
 		SHOW_READER_MODE_FAILED_MSG:			{ name: "pref_showReaderModeFailedMsg",			default: true		},
 	});
 
-	let m_localStorage = browser.storage.local;
+	const m_localStorage = browser.storage.local;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function getOpenTreeFolders()					{ return _getPreferenceValue(PREF.OPEN_TREE_FOLDERS); }
@@ -628,6 +629,7 @@ const prefs = (function() {
 		CHECK_FEEDS_WHEN_SB_CLOSED:			{ name: "pref_checkFeedsWhenSbClosed",			default: true											},
 		CHECK_FEEDS_METHOD:					{ name: "pref_checkFeedsMethod",				default: "3;2000"										},
 		FETCH_TIMEOUT:						{ name: "pref_fetchTimeout",					default: "60"											},
+		BYPASS_CACHE:						{ name: "pref_bypassCache",						default: false											},
 		SORT_FEED_ITEMS:					{ name: "pref_sortFeedItems",					default: true											},
 		FOLDER_CLICK_ACTION:				{ name: "pref_folderClickAction",				default: FOLDER_CLICK_ACTION_VALUES.doubleClick			},
 		CLICK_OPENS_FEED_PREVIEW:			{ name: "pref_clickOpensFeedPreview",			default: CLICK_OPENS_FEED_PREVIEW_VALUES.openNo			},
@@ -672,7 +674,7 @@ const prefs = (function() {
 		PREF.SINGLE_BLOCK_MODE_IN_PREFS_PAGE.name,
 	];
 
-	let m_localStorage = browser.storage.local;
+	const m_localStorage = browser.storage.local;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	function getRootFeedsFolderId()				{ return _getPreferenceValue(PREF.ROOT_FEEDS_FOLDER_ID); }
@@ -681,6 +683,7 @@ const prefs = (function() {
 	function getCheckFeedsWhenSbClosed()		{ return _getPreferenceValue(PREF.CHECK_FEEDS_WHEN_SB_CLOSED); }
 	function getCheckFeedsMethod()				{ return _getPreferenceValue(PREF.CHECK_FEEDS_METHOD); }
 	function getFetchTimeout()					{ return _getPreferenceValue(PREF.FETCH_TIMEOUT); }
+	function getBypassCache()					{ return _getPreferenceValue(PREF.BYPASS_CACHE); }
 	function getSortFeedItems()					{ return _getPreferenceValue(PREF.SORT_FEED_ITEMS); }
 	function getFolderClickAction()				{ return _getPreferenceValue(PREF.FOLDER_CLICK_ACTION); }
 	function getClickOpensFeedPreview()			{ return _getPreferenceValue(PREF.CLICK_OPENS_FEED_PREVIEW); }
@@ -719,6 +722,7 @@ const prefs = (function() {
 	function setCheckFeedsWhenSbClosed(value)		{ return _setPreferenceValue(PREF.CHECK_FEEDS_WHEN_SB_CLOSED, value); }
 	function setCheckFeedsMethod(value)				{ return _setPreferenceValue(PREF.CHECK_FEEDS_METHOD, value); }
 	function setFetchTimeout(value)					{ return _setPreferenceValue(PREF.FETCH_TIMEOUT, value); }
+	function setBypassCache(value)					{ return _setPreferenceValue(PREF.BYPASS_CACHE, value); }
 	function setSortFeedItems(value)				{ return _setPreferenceValue(PREF.SORT_FEED_ITEMS, value); }
 	function setFolderClickAction(value)			{ return _setPreferenceValue(PREF.FOLDER_CLICK_ACTION, value); }
 	function setClickOpensFeedPreview(value)		{ return _setPreferenceValue(PREF.CLICK_OPENS_FEED_PREVIEW, value); }
@@ -864,6 +868,7 @@ const prefs = (function() {
 		getCheckFeedsWhenSbClosed: getCheckFeedsWhenSbClosed,
 		getCheckFeedsMethod: getCheckFeedsMethod,
 		getFetchTimeout: getFetchTimeout,
+		getBypassCache: getBypassCache,
 		getSortFeedItems: getSortFeedItems,
 		getFolderClickAction: getFolderClickAction,
 		getClickOpensFeedPreview: getClickOpensFeedPreview,
@@ -901,6 +906,7 @@ const prefs = (function() {
 		setCheckFeedsWhenSbClosed: setCheckFeedsWhenSbClosed,
 		setCheckFeedsMethod: setCheckFeedsMethod,
 		setFetchTimeout: setFetchTimeout,
+		setBypassCache: setBypassCache,
 		setSortFeedItems: setSortFeedItems,
 		setFolderClickAction: setFolderClickAction,
 		setClickOpensFeedPreview: setClickOpensFeedPreview,
