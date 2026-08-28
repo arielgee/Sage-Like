@@ -13,31 +13,30 @@ const preferences = (function() {
 											" \u25cf Lazy\u2002–\u2002Fetches feeds one at a time, with a 1.5-second pause between each feed.\n";
 
 	let m_elmNavigationItems;
+
+	// Feeds block
 	let m_elmRootFeedsFolder;
 	let m_elmCheckFeedsOnSbOpen;
 	let m_elmCheckFeedsInterval;
 	let m_elmCheckFeedsWhenSbClosed;
-	let m_elmTimeOfDayBox;
-	let m_elmInputTime;
 	let m_elmCheckFeedsMethod;
 	let m_elmFetchTimeout;
 	let m_elmBypassCache;
+	let m_elmShowFeedStats;
 	let m_elmSortFeedItems;
+	let m_elmDetectFeedsInWebPage;
+	let m_elmTimeOfDayBox;
+	let m_elmInputTime;
+
+	// Behavior block
 	let m_elmFolderClickAction;
 	let m_elmClickOpensFeedPreview;
-	let m_elmMarkFeedPreviewUrlsAsVisited;
 	let m_elmFeedItemOpenMethod;
-	let m_elmShowFeedStats;
-	let m_elmShowFeedItemDesc;
-	let m_elmFeedItemDescDelay;
-	let m_elmShowFeedItemDescAttach;
-	let m_elmColorFeedItemDescBackground;
-	let m_elmColorFeedItemDescText;
-	let m_elmDetectFeedsInWebPage;
+	let m_elmMarkFeedPreviewUrlsAsVisited;
+
+	// Appearance block
 	let m_elmUIDensity;
 	let m_elmFontName;
-	let m_elmUserFontBox;
-	let m_elmUserFontName;
 	let m_elmFontSizePercent;
 	let m_elmColorBackground;
 	let m_elmColorDialogBackground;
@@ -48,37 +47,41 @@ const preferences = (function() {
 	let m_elmIncreaseUnvisitedFontSize;
 	let m_elmBtnCustomTreeCtxMenu;
 	let m_elmBtnCustomListCtxMenu;
-	let m_elmCustomCtxMenuBox;
+	let m_elmShowFeedItemDesc;
+	let m_elmShowFeedItemDescAttach;
+	let m_elmFeedItemDescDelay;
+	let m_elmColorFeedItemDescBackground;
+	let m_elmColorFeedItemDescText;
 	let m_elmShowTryOpenLinkInFeedPreview;
 	let m_elmUseCustomCSSFeedPreview;
 	let m_elmImportCustomCSSSource;
 	let m_elmBtnEditCSSSource;
 	let m_elmBtnClearCSSSource;
-	let m_elmImportOpml;
-	let m_elmExportOpml;
-	let m_elmImportPreferences;
-	let m_elmExportPreferences;
+	let m_elmUserFontBox;
+	let m_elmUserFontName;
+	let m_elmCustomCtxMenuBox;
 
-	let m_elmHelpInfoTooltipBox;
-	let m_elmPageOverlay;
+	// Miscellaneous block
+	let m_elmExportOpml;
+	let m_elmImportOpml;
+	let m_elmExportPreferences;
+	let m_elmImportPreferences;
+	let m_elmBtnRestoreDefaults;
+	let m_elmBtnReloadExtension;
 
 	let m_elmMessageBox;
 	let m_elmBtnMessageBoxOK;
 	let m_funcOnCloseMessageBox;
-
-	let m_elmBtnReloadExtension;
-	let m_elmBtnRestoreDefaults;
+	let m_elmHelpInfoTooltipBox;
+	let m_elmPageOverlay;
 
 	let m_funcResolveGetTimeOfDay;
 	let m_funcResolveGetUserFontName;
 	let m_funcResolveGetCustomCtxMenu;
 
+	const m_lockBookmarksEventHandler = new Locker();
 	let m_winIdNotepad = [0];
-
-	let m_lockBookmarksEventHandler = new Locker();
-
 	let m_singleBlockMode = false;
-
 	let m_timeoutHelpInfo = null;
 
 	initialization();
@@ -93,6 +96,8 @@ const preferences = (function() {
 	function onDOMContentLoaded() {
 
 		m_elmNavigationItems = document.getElementById("navigationItems");
+
+		// Feeds block
 		m_elmRootFeedsFolder = document.getElementById("rootFeedsFolder");
 		m_elmCheckFeedsOnSbOpen = document.getElementById("checkFeedsOnSbOpen");
 		m_elmCheckFeedsInterval = document.getElementById("checkFeedsInterval");
@@ -100,18 +105,17 @@ const preferences = (function() {
 		m_elmCheckFeedsMethod = document.getElementById("checkFeedsMethod");
 		m_elmFetchTimeout = document.getElementById("fetchTimeout");
 		m_elmBypassCache = document.getElementById("bypassCache");
+		m_elmShowFeedStats = document.getElementById("showFeedStats");
 		m_elmSortFeedItems = document.getElementById("sortFeedItems");
+		m_elmDetectFeedsInWebPage = document.getElementById("detectFeedsInWebPage");
+
+		// Behavior block
 		m_elmFolderClickAction = document.getElementById("folderClickAction");
 		m_elmClickOpensFeedPreview = document.getElementById("clickOpensFeedPreview");
-		m_elmMarkFeedPreviewUrlsAsVisited = document.getElementById("markFeedPreviewUrlsAsVisited");
 		m_elmFeedItemOpenMethod = document.getElementById("feedItemOpenMethod");
-		m_elmShowFeedStats = document.getElementById("showFeedStats");
-		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
-		m_elmFeedItemDescDelay = document.getElementById("feedItemDescDelay");
-		m_elmShowFeedItemDescAttach = document.getElementById("showFeedItemDescAttach");
-		m_elmColorFeedItemDescBackground = document.getElementById("colorFeedItemDescBk");
-		m_elmColorFeedItemDescText = document.getElementById("colorFeedItemDescText");
-		m_elmDetectFeedsInWebPage = document.getElementById("detectFeedsInWebPage");
+		m_elmMarkFeedPreviewUrlsAsVisited = document.getElementById("markFeedPreviewUrlsAsVisited");
+
+		// Appearance block
 		m_elmUIDensity = document.getElementById("UIDensity");
 		m_elmFontName = document.getElementById("fontName");
 		m_elmFontSizePercent = document.getElementById("fontSizePercent");
@@ -124,24 +128,29 @@ const preferences = (function() {
 		m_elmIncreaseUnvisitedFontSize = document.getElementById("increaseUnvisitedFontSize");
 		m_elmBtnCustomTreeCtxMenu = document.getElementById("btnCustomTreeCtxMenu");
 		m_elmBtnCustomListCtxMenu = document.getElementById("btnCustomListCtxMenu");
+		m_elmShowFeedItemDesc = document.getElementById("showFeedItemDesc");
+		m_elmShowFeedItemDescAttach = document.getElementById("showFeedItemDescAttach");
+		m_elmFeedItemDescDelay = document.getElementById("feedItemDescDelay");
+		m_elmColorFeedItemDescBackground = document.getElementById("colorFeedItemDescBk");
+		m_elmColorFeedItemDescText = document.getElementById("colorFeedItemDescText");
 		m_elmShowTryOpenLinkInFeedPreview = document.getElementById("showTryOpenLinkInFeedPreview");
 		m_elmUseCustomCSSFeedPreview = document.getElementById("useCustomCSSFeedPreview");
 		m_elmImportCustomCSSSource = document.getElementById("importCustomCSSSource");
 		m_elmBtnEditCSSSource = document.getElementById("btnEditCSSSource");
 		m_elmBtnClearCSSSource = document.getElementById("btnClearCSSSource");
-		m_elmImportOpml = document.getElementById("inputImportOPML");
+
+		// Miscellaneous block
 		m_elmExportOpml = document.getElementById("btnExportOPML");
-		m_elmImportPreferences = document.getElementById("inputImportPreferences");
+		m_elmImportOpml = document.getElementById("inputImportOPML");
 		m_elmExportPreferences = document.getElementById("btnExportPreferences");
+		m_elmImportPreferences = document.getElementById("inputImportPreferences");
+		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
+		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 
 		m_elmHelpInfoTooltipBox = document.getElementById("helpInfoTooltipBox");
 		m_elmPageOverlay = document.getElementById("pageOverlay");
 
-		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
-		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
-
 		setVariousElementsTitles();
-
 		addEventListeners();
 		getSavedPreferences();
 	}
@@ -153,6 +162,8 @@ const preferences = (function() {
 		window.addEventListener("click", () => window.scrollTo({ left: 0 }) );
 
 		m_elmNavigationItems.addEventListener("click", onClickNavigationItem);
+
+		// Feeds block
 		m_elmRootFeedsFolder.addEventListener("change", onChangeRootFeedsFolder);
 		m_elmCheckFeedsOnSbOpen.addEventListener("change", onChangeCheckFeedsOnSbOpen);
 		m_elmCheckFeedsInterval.addEventListener("change", onChangeCheckFeedsInterval);
@@ -160,18 +171,17 @@ const preferences = (function() {
 		m_elmCheckFeedsMethod.addEventListener("change", onChangeCheckFeedsMethod);
 		m_elmFetchTimeout.addEventListener("change", onChangeFetchTimeout);
 		m_elmBypassCache.addEventListener("change", onChangeBypassCache);
+		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
 		m_elmSortFeedItems.addEventListener("change", onChangeSortFeedItems);
+		m_elmDetectFeedsInWebPage.addEventListener("change", onChangeDetectFeedsInWebPage);
+
+		// Behavior block
 		m_elmFolderClickAction.addEventListener("change", onChangeFolderClickAction);
 		m_elmClickOpensFeedPreview.addEventListener("change", onChangeClickOpensFeedPreview);
-		m_elmMarkFeedPreviewUrlsAsVisited.addEventListener("change", onChangeMarkFeedPreviewUrlsAsVisited);
 		m_elmFeedItemOpenMethod.addEventListener("change", onChangeFeedItemOpenMethod);
-		m_elmShowFeedStats.addEventListener("change", onChangeShowFeedStats);
-		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
-		m_elmFeedItemDescDelay.addEventListener("change", onChangeFeedItemDescDelay);
-		m_elmShowFeedItemDescAttach.addEventListener("change", onChangeShowFeedItemDescAttach);
-		m_elmColorFeedItemDescBackground.addEventListener("change", onChangeColorFeedItemDescBackground);
-		m_elmColorFeedItemDescText.addEventListener("change", onChangeColorFeedItemDescText);
-		m_elmDetectFeedsInWebPage.addEventListener("change", onChangeDetectFeedsInWebPage);
+		m_elmMarkFeedPreviewUrlsAsVisited.addEventListener("change", onChangeMarkFeedPreviewUrlsAsVisited);
+
+		// Appearance block
 		m_elmUIDensity.addEventListener("change", onChangeUIDensity);
 		m_elmFontName.addEventListener("change", onChangeFontName);
 		m_elmFontSizePercent.addEventListener("change", onChangeFontSizePercent);
@@ -184,18 +194,24 @@ const preferences = (function() {
 		m_elmIncreaseUnvisitedFontSize.addEventListener("change", onChangeIncreaseUnvisitedFontSize);
 		m_elmBtnCustomTreeCtxMenu.addEventListener("click", onClickBtnCustomTreeCtxMenu);
 		m_elmBtnCustomListCtxMenu.addEventListener("click", onClickBtnCustomListCtxMenu);
+		m_elmShowFeedItemDesc.addEventListener("change", onChangeShowFeedItemDesc);
+		m_elmShowFeedItemDescAttach.addEventListener("change", onChangeShowFeedItemDescAttach);
+		m_elmFeedItemDescDelay.addEventListener("change", onChangeFeedItemDescDelay);
+		m_elmColorFeedItemDescBackground.addEventListener("change", onChangeColorFeedItemDescBackground);
+		m_elmColorFeedItemDescText.addEventListener("change", onChangeColorFeedItemDescText);
 		m_elmShowTryOpenLinkInFeedPreview.addEventListener("change", onChangeShowTryOpenLinkInFeedPreview);
 		m_elmUseCustomCSSFeedPreview.addEventListener("change", onChangeUseCustomCSSFeedPreview);
 		m_elmImportCustomCSSSource.addEventListener("change", onChangeImportCustomCSSSource);
 		m_elmBtnEditCSSSource.addEventListener("click", onClickBtnEditCSSSource);
 		m_elmBtnClearCSSSource.addEventListener("click", onClickBtnClearCSSSource);
-		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
-		m_elmExportOpml.addEventListener("click", onClickExportOpml);
-		m_elmImportPreferences.addEventListener("change", onChangeImportPreferences);
-		m_elmExportPreferences.addEventListener("click", onClickExportPreferences);
 
-		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
+		// Miscellaneous block
+		m_elmExportOpml.addEventListener("click", onClickExportOpml);
+		m_elmImportOpml.addEventListener("change", onChangeImportOpml);
+		m_elmExportPreferences.addEventListener("click", onClickExportPreferences);
+		m_elmImportPreferences.addEventListener("change", onChangeImportPreferences);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
+		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 
 		document.documentElement.addEventListener("click", onClickPreference);	// handle check boxs and text boxs
 
@@ -229,9 +245,9 @@ const preferences = (function() {
 				}
 			}),
 
+			// Feeds block /////////////////////////////////////////////////////////////////////////////////
 			initializeSelectFeedsFolder(),
 			prefs.getCheckFeedsOnSbOpen().then((checked) => m_elmCheckFeedsOnSbOpen.checked = checked ),
-
 			prefs.getCheckFeedsInterval().then((value) => {
 				if(value.includes(":")) {
 					appendCustomTagOption(m_elmCheckFeedsInterval, value, getEveryDayAtTagOptionText(value), ID_OPTION_CHECK_FEEDS_TIME_OF_DAY);
@@ -239,37 +255,25 @@ const preferences = (function() {
 				m_elmCheckFeedsInterval.value = value;
 				slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, value === "0");
 			}),
-
 			prefs.getCheckFeedsWhenSbClosed().then((checked) => m_elmCheckFeedsWhenSbClosed.checked = checked ),
-
 			prefs.getCheckFeedsMethod().then((value) => {
 				m_elmCheckFeedsMethod.value = value;
 				m_elmCheckFeedsMethod.title = m_elmCheckFeedsMethod.options[m_elmCheckFeedsMethod.selectedIndex].title;
 			}),
-
 			prefs.getFetchTimeout().then((timeoutSec) => m_elmFetchTimeout.value = timeoutSec ),
 			prefs.getBypassCache().then((checked) => m_elmBypassCache.checked = checked ),
+			prefs.getShowFeedStats().then((checked) => m_elmShowFeedStats.checked = checked ),
 			prefs.getSortFeedItems().then((checked) => m_elmSortFeedItems.checked = checked ),
+			prefs.getDetectFeedsInWebPage().then((checked) => m_elmDetectFeedsInWebPage.checked = checked ),
+
+			// Behavior block //////////////////////////////////////////////////////////////////////////////
 			prefs.getFolderClickAction().then((value) => m_elmFolderClickAction.value = value ),
 			prefs.getClickOpensFeedPreview().then((value) => m_elmClickOpensFeedPreview.value = value ),
-			prefs.getMarkFeedPreviewUrlsAsVisited().then((value) => m_elmMarkFeedPreviewUrlsAsVisited.value = value ),
 			prefs.getFeedItemOpenMethod().then((value) => m_elmFeedItemOpenMethod.value = value ),
-			prefs.getShowFeedStats().then((checked) => m_elmShowFeedStats.checked = checked ),
+			prefs.getMarkFeedPreviewUrlsAsVisited().then((value) => m_elmMarkFeedPreviewUrlsAsVisited.value = value ),
 
-			prefs.getShowFeedItemDesc().then((checked) => {
-				m_elmShowFeedItemDesc.checked = checked;
-				slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !checked);
-				slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !checked);
-				slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !checked);
-			}),
-
-			prefs.getFeedItemDescDelay().then((delayMillisec) => m_elmFeedItemDescDelay.value = delayMillisec ),
-			prefs.getShowFeedItemDescAttach().then((checked) => m_elmShowFeedItemDescAttach.checked = checked ),
-			prefs.getColorFeedItemDescBackground().then((color) => setColorInput(m_elmColorFeedItemDescBackground, color) ),
-			prefs.getColorFeedItemDescText().then((color) => setColorInput(m_elmColorFeedItemDescText, color) ),
-			prefs.getDetectFeedsInWebPage().then((checked) => m_elmDetectFeedsInWebPage.checked = checked ),
+			// Appearance block ////////////////////////////////////////////////////////////////////////////
 			prefs.getUIDensity().then((value) => m_elmUIDensity.value = value ),
-
 			prefs.getFontName().then((fontName) => {
 				let inStock = false;
 				Array.prototype.map.call(m_elmFontName.options, e => inStock |= (e.value === fontName) );
@@ -278,13 +282,11 @@ const preferences = (function() {
 				}
 				m_elmFontName.value = fontName;
 			}),
-
 			prefs.getFontSizePercent().then((value) => m_elmFontSizePercent.value = value ),
 			prefs.getColorBackground().then((color) => setColorInput(m_elmColorBackground, color) ),
 			prefs.getColorDialogBackground().then((color) => setColorInput(m_elmColorDialogBackground, color) ),
 			prefs.getColorSelect().then((color) => setColorInput(m_elmColorSelect, color) ),
 			prefs.getColorText().then((color) => setColorInput(m_elmColorText, color) ),
-
 			prefs.getIconsColor().then((color) => {
 				const pair = Global.SIDEBAR_ICONS_COLOR_PAIR(color);
 				setColorInput(m_elmColorIcons, pair.color);
@@ -295,10 +297,18 @@ const preferences = (function() {
 					prefs.setIconsColor(pair.id);
 				}
 			}),
-
 			prefs.getIncreaseUnvisitedFontSize().then((checked) => m_elmIncreaseUnvisitedFontSize.checked = checked ),
+			prefs.getShowFeedItemDesc().then((checked) => {
+				m_elmShowFeedItemDesc.checked = checked;
+				slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !checked);
+				slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !checked);
+				slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !checked);
+			}),
+			prefs.getShowFeedItemDescAttach().then((checked) => m_elmShowFeedItemDescAttach.checked = checked ),
+			prefs.getFeedItemDescDelay().then((delayMillisec) => m_elmFeedItemDescDelay.value = delayMillisec ),
+			prefs.getColorFeedItemDescBackground().then((color) => setColorInput(m_elmColorFeedItemDescBackground, color) ),
+			prefs.getColorFeedItemDescText().then((color) => setColorInput(m_elmColorFeedItemDescText, color) ),
 			prefs.getShowTryOpenLinkInFeedPreview().then((checked) => m_elmShowTryOpenLinkInFeedPreview.checked = checked ),
-
 			prefs.getUseCustomCSSFeedPreview().then(async (checked) => {
 				m_elmUseCustomCSSFeedPreview.checked = checked;
 				if(checked) {
@@ -452,9 +462,23 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeShowFeedStats(event) {
+		prefs.setShowFeedStats(m_elmShowFeedStats.checked).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_STATS);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeSortFeedItems(event) {
 		prefs.setSortFeedItems(m_elmSortFeedItems.checked).then(() => {
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SORT_FEED_ITEMS);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeDetectFeedsInWebPage(event) {
+		prefs.setDetectFeedsInWebPage(m_elmDetectFeedsInWebPage.checked).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
 		});
 	}
 
@@ -469,73 +493,13 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeMarkFeedPreviewUrlsAsVisited(event) {
-		prefs.setMarkFeedPreviewUrlsAsVisited(parseInt(m_elmMarkFeedPreviewUrlsAsVisited.value));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeFeedItemOpenMethod(event) {
 		prefs.setFeedItemOpenMethod(parseInt(m_elmFeedItemOpenMethod.value));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeShowFeedStats(event) {
-		prefs.setShowFeedStats(m_elmShowFeedStats.checked).then(() => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_STATS);
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeShowFeedItemDesc(event) {
-		prefs.setShowFeedItemDesc(m_elmShowFeedItemDesc.checked).then(() => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC);
-		});
-		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
-		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
-		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeFeedItemDescDelay(event) {
-		if(m_elmFeedItemDescDelay.value.match(m_elmFeedItemDescDelay.pattern) === null) {
-			prefs.getFeedItemDescDelay().then((delayMillisec) => {
-				m_elmFeedItemDescDelay.value = delayMillisec;
-			});
-		} else {
-			prefs.setFeedItemDescDelay(m_elmFeedItemDescDelay.value).then(() => {
-				broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY);
-			});
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeShowFeedItemDescAttach(event) {
-		prefs.setShowFeedItemDescAttach(m_elmShowFeedItemDescAttach.checked).then(() => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH);
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeColorFeedItemDescBackground(event) {
-		m_elmColorFeedItemDescBackground.title = colorInputTitle(m_elmColorFeedItemDescBackground.value);
-		prefs.setColorFeedItemDescBackground(m_elmColorFeedItemDescBackground.value).then(() => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeColorFeedItemDescText(event) {
-		m_elmColorFeedItemDescText.title = colorInputTitle(m_elmColorFeedItemDescText.value);
-		prefs.setColorFeedItemDescText(m_elmColorFeedItemDescText.value).then(() =>{
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeDetectFeedsInWebPage(event) {
-		prefs.setDetectFeedsInWebPage(m_elmDetectFeedsInWebPage.checked).then(() => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_DETECT_FEEDS_IN_WEB_PAGE);
-		});
+	function onChangeMarkFeedPreviewUrlsAsVisited(event) {
+		prefs.setMarkFeedPreviewUrlsAsVisited(parseInt(m_elmMarkFeedPreviewUrlsAsVisited.value));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -670,6 +634,13 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeIncreaseUnvisitedFontSize(event) {
+		prefs.setIncreaseUnvisitedFontSize(m_elmIncreaseUnvisitedFontSize.checked).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	async function onClickBtnCustomTreeCtxMenu(event) {
 		const hiddenItems = await prefs.getTreeCtxMnuHiddenItems();
 		const result = await getCustomContextMenu("tree", hiddenItems);
@@ -684,9 +655,48 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onChangeIncreaseUnvisitedFontSize(event) {
-		prefs.setIncreaseUnvisitedFontSize(m_elmIncreaseUnvisitedFontSize.checked).then(() => {
-			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_INCREASE_UNVISITED_FONT_SIZE);
+	function onChangeShowFeedItemDesc(event) {
+		prefs.setShowFeedItemDesc(m_elmShowFeedItemDesc.checked).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC);
+		});
+		slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
+		slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
+		slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !m_elmShowFeedItemDesc.checked);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeShowFeedItemDescAttach(event) {
+		prefs.setShowFeedItemDescAttach(m_elmShowFeedItemDescAttach.checked).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_SHOW_FEED_ITEM_DESC_ATTACH);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeFeedItemDescDelay(event) {
+		if(m_elmFeedItemDescDelay.value.match(m_elmFeedItemDescDelay.pattern) === null) {
+			prefs.getFeedItemDescDelay().then((delayMillisec) => {
+				m_elmFeedItemDescDelay.value = delayMillisec;
+			});
+		} else {
+			prefs.setFeedItemDescDelay(m_elmFeedItemDescDelay.value).then(() => {
+				broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_DELAY);
+			});
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeColorFeedItemDescBackground(event) {
+		m_elmColorFeedItemDescBackground.title = colorInputTitle(m_elmColorFeedItemDescBackground.value);
+		prefs.setColorFeedItemDescBackground(m_elmColorFeedItemDescBackground.value).then(() => {
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeColorFeedItemDescText(event) {
+		m_elmColorFeedItemDescText.title = colorInputTitle(m_elmColorFeedItemDescText.value);
+		prefs.setColorFeedItemDescText(m_elmColorFeedItemDescText.value).then(() =>{
+			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_FEED_ITEM_DESC_COLORS);
 		});
 	}
 
@@ -781,6 +791,28 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onClickExportOpml(event) {
+
+		let elmPref = m_elmImportOpml.parentElement.parentElement;
+		slUtil.disableElementTree(elmPref, true);
+
+		opml.exportFeeds.run().then((result) => {
+
+			// fileName is missing when download was canceled by user
+			if(!!result.fileName) {
+				let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully exported.\n\nFile: " + result.fileName;
+				showMessageBox("Export", msg);
+			}
+
+		}).catch((error) => {
+			showMessageBox("Error", error);
+			console.log("[Sage-Like]", error);
+		}).finally(() => {
+			slUtil.disableElementTree(elmPref, false);
+		});
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeImportOpml(event) {
 
 		browser.runtime.sendMessage({ id: Global.MSG_ID_SUSPEND_BOOKMARKS_EVENT_LISTENER });
@@ -818,17 +850,16 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function onClickExportOpml(event) {
+	function onClickExportPreferences(event) {
 
-		let elmPref = m_elmImportOpml.parentElement.parentElement;
+		let elmPref = m_elmImportPreferences.parentElement.parentElement;
 		slUtil.disableElementTree(elmPref, true);
 
-		opml.exportFeeds.run().then((result) => {
+		preferencesData.export.run().then((result) => {
 
 			// fileName is missing when download was canceled by user
 			if(!!result.fileName) {
-				let msg = result.stats.feedCount + " feed(s) and " + result.stats.folderCount + " folder(s) were successfully exported.\n\nFile: " + result.fileName;
-				showMessageBox("Export", msg);
+				showMessageBox("Export", `Options were successfully exported.\n\nFile: ${result.fileName}`);
 			}
 
 		}).catch((error) => {
@@ -861,32 +892,6 @@ const preferences = (function() {
 			elmPrefOverlay.classList.remove("processing");
 			slUtil.disableElementTree(elmPref, false);
 		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickExportPreferences(event) {
-
-		let elmPref = m_elmImportPreferences.parentElement.parentElement;
-		slUtil.disableElementTree(elmPref, true);
-
-		preferencesData.export.run().then((result) => {
-
-			// fileName is missing when download was canceled by user
-			if(!!result.fileName) {
-				showMessageBox("Export", `Options were successfully exported.\n\nFile: ${result.fileName}`);
-			}
-
-		}).catch((error) => {
-			showMessageBox("Error", error);
-			console.log("[Sage-Like]", error);
-		}).finally(() => {
-			slUtil.disableElementTree(elmPref, false);
-		});
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-	function onClickBtnReloadExtension(event) {
-		browser.runtime.reload();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -937,6 +942,11 @@ const preferences = (function() {
 		flashRootFeedsFolderElement();
 		flashCustomCSSImportButton();
 		broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_ALL);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onClickBtnReloadExtension(event) {
+		browser.runtime.reload();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
