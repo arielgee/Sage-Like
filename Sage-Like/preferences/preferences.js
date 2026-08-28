@@ -216,175 +216,103 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function getSavedPreferences() {
+	async function getSavedPreferences() {
 
 		placePageOverlay(true, true);
 
-		prefs.getSingleBlockModeInPrefsPage().then((singleBlockMode) => {
-			if( (m_singleBlockMode = singleBlockMode) ) {
-				document.body.style.marginBottom = "0";	// Remove margin-bottom. Its size is to enable scrolling the Miscellaneous block to the top.
-				setSingleBlockMode("prefBlockFeeds");
-			}
-		});
+		await Promise.allSettled([
 
-		initializeSelectFeedsFolder();
+			prefs.getSingleBlockModeInPrefsPage().then((singleBlockMode) => {
+				if( (m_singleBlockMode = singleBlockMode) ) {
+					document.body.style.marginBottom = "0";	// Remove margin-bottom. Its size is to enable scrolling the Miscellaneous block to the top.
+					setSingleBlockMode("prefBlockFeeds");
+				}
+			}),
 
-		prefs.getCheckFeedsOnSbOpen().then((checked) => {
-			m_elmCheckFeedsOnSbOpen.checked = checked;
-		});
+			initializeSelectFeedsFolder(),
+			prefs.getCheckFeedsOnSbOpen().then((checked) => m_elmCheckFeedsOnSbOpen.checked = checked ),
 
-		prefs.getCheckFeedsInterval().then((value) => {
-			if(value.includes(":")) {
-				appendCustomTagOption(m_elmCheckFeedsInterval, value, getEveryDayAtTagOptionText(value), ID_OPTION_CHECK_FEEDS_TIME_OF_DAY);
-			}
-			m_elmCheckFeedsInterval.value = value;
-			slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, value === "0");
-		});
+			prefs.getCheckFeedsInterval().then((value) => {
+				if(value.includes(":")) {
+					appendCustomTagOption(m_elmCheckFeedsInterval, value, getEveryDayAtTagOptionText(value), ID_OPTION_CHECK_FEEDS_TIME_OF_DAY);
+				}
+				m_elmCheckFeedsInterval.value = value;
+				slUtil.disableElementTree(m_elmCheckFeedsWhenSbClosed.parentElement.parentElement, value === "0");
+			}),
 
-		prefs.getCheckFeedsWhenSbClosed().then((checked) => {
-			m_elmCheckFeedsWhenSbClosed.checked = checked;
-		});
+			prefs.getCheckFeedsWhenSbClosed().then((checked) => m_elmCheckFeedsWhenSbClosed.checked = checked ),
 
-		prefs.getCheckFeedsMethod().then((value) => {
-			m_elmCheckFeedsMethod.value = value;
-			m_elmCheckFeedsMethod.title = m_elmCheckFeedsMethod.options[m_elmCheckFeedsMethod.selectedIndex].title;
-		});
+			prefs.getCheckFeedsMethod().then((value) => {
+				m_elmCheckFeedsMethod.value = value;
+				m_elmCheckFeedsMethod.title = m_elmCheckFeedsMethod.options[m_elmCheckFeedsMethod.selectedIndex].title;
+			}),
 
-		prefs.getFetchTimeout().then((timeoutSec) => {
-			m_elmFetchTimeout.value = timeoutSec;
-		});
+			prefs.getFetchTimeout().then((timeoutSec) => m_elmFetchTimeout.value = timeoutSec ),
+			prefs.getBypassCache().then((checked) => m_elmBypassCache.checked = checked ),
+			prefs.getSortFeedItems().then((checked) => m_elmSortFeedItems.checked = checked ),
+			prefs.getFolderClickAction().then((value) => m_elmFolderClickAction.value = value ),
+			prefs.getClickOpensFeedPreview().then((value) => m_elmClickOpensFeedPreview.value = value ),
+			prefs.getMarkFeedPreviewUrlsAsVisited().then((value) => m_elmMarkFeedPreviewUrlsAsVisited.value = value ),
+			prefs.getFeedItemOpenMethod().then((value) => m_elmFeedItemOpenMethod.value = value ),
+			prefs.getShowFeedStats().then((checked) => m_elmShowFeedStats.checked = checked ),
 
-		prefs.getBypassCache().then((checked) => {
-			m_elmBypassCache.checked = checked;
-		});
+			prefs.getShowFeedItemDesc().then((checked) => {
+				m_elmShowFeedItemDesc.checked = checked;
+				slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !checked);
+				slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !checked);
+				slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !checked);
+			}),
 
-		prefs.getSortFeedItems().then((checked) => {
-			m_elmSortFeedItems.checked = checked;
-		});
+			prefs.getFeedItemDescDelay().then((delayMillisec) => m_elmFeedItemDescDelay.value = delayMillisec ),
+			prefs.getShowFeedItemDescAttach().then((checked) => m_elmShowFeedItemDescAttach.checked = checked ),
+			prefs.getColorFeedItemDescBackground().then((color) => setColorInput(m_elmColorFeedItemDescBackground, color) ),
+			prefs.getColorFeedItemDescText().then((color) => setColorInput(m_elmColorFeedItemDescText, color) ),
+			prefs.getDetectFeedsInWebPage().then((checked) => m_elmDetectFeedsInWebPage.checked = checked ),
+			prefs.getUIDensity().then((value) => m_elmUIDensity.value = value ),
 
-		prefs.getFolderClickAction().then((value) => {
-			m_elmFolderClickAction.value = value;
-		});
+			prefs.getFontName().then((fontName) => {
+				let inStock = false;
+				Array.prototype.map.call(m_elmFontName.options, e => inStock |= (e.value === fontName) );
+				if(!inStock) {
+					appendCustomTagOption(m_elmFontName, fontName, getUserFontNameTagOptionText(fontName), ID_OPTION_USER_FONT_NAME);
+				}
+				m_elmFontName.value = fontName;
+			}),
 
-		prefs.getClickOpensFeedPreview().then((value) => {
-			m_elmClickOpensFeedPreview.value = value;
-		});
+			prefs.getFontSizePercent().then((value) => m_elmFontSizePercent.value = value ),
+			prefs.getColorBackground().then((color) => setColorInput(m_elmColorBackground, color) ),
+			prefs.getColorDialogBackground().then((color) => setColorInput(m_elmColorDialogBackground, color) ),
+			prefs.getColorSelect().then((color) => setColorInput(m_elmColorSelect, color) ),
+			prefs.getColorText().then((color) => setColorInput(m_elmColorText, color) ),
 
-		prefs.getMarkFeedPreviewUrlsAsVisited().then((value) => {
-			m_elmMarkFeedPreviewUrlsAsVisited.value = value;
-		});
+			prefs.getIconsColor().then((color) => {
+				const pair = Global.SIDEBAR_ICONS_COLOR_PAIR(color);
+				setColorInput(m_elmColorIcons, pair.color);
+				if(pair.hasOwnProperty("id")) {
+					m_elmRadioIconsColors[pair.id].checked = true;
+				}
+				if(pair.hasOwnProperty("invalid")) {
+					prefs.setIconsColor(pair.id);
+				}
+			}),
 
-		prefs.getFeedItemOpenMethod().then((value) => {
-			m_elmFeedItemOpenMethod.value = value;
-		});
+			prefs.getIncreaseUnvisitedFontSize().then((checked) => m_elmIncreaseUnvisitedFontSize.checked = checked ),
+			prefs.getShowTryOpenLinkInFeedPreview().then((checked) => m_elmShowTryOpenLinkInFeedPreview.checked = checked ),
 
-		prefs.getShowFeedStats().then((checked) => {
-			m_elmShowFeedStats.checked = checked;
-		});
+			prefs.getUseCustomCSSFeedPreview().then(async (checked) => {
+				m_elmUseCustomCSSFeedPreview.checked = checked;
+				if(checked) {
+					const hash = await prefs.getCustomCSSSourceHash();
+					slUtil.disableElementTree(m_elmBtnEditCSSSource, (hash.length === 0));
+					slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
+					flashCustomCSSImportButton();
+				} else {
+					slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
+				}
+			}),
+		]);
 
-		prefs.getShowFeedItemDesc().then((checked) => {
-			m_elmShowFeedItemDesc.checked = checked;
-			slUtil.disableElementTree(m_elmFeedItemDescDelay.parentElement.parentElement, !checked);
-			slUtil.disableElementTree(m_elmShowFeedItemDescAttach.parentElement.parentElement, !checked);
-			slUtil.disableElementTree(m_elmColorFeedItemDescBackground.parentElement.parentElement, !checked);
-		});
-
-		prefs.getFeedItemDescDelay().then((delayMillisec) => {
-			m_elmFeedItemDescDelay.value = delayMillisec;
-		});
-
-		prefs.getShowFeedItemDescAttach().then((checked) => {
-			m_elmShowFeedItemDescAttach.checked = checked;
-		});
-
-		prefs.getColorFeedItemDescBackground().then((color) => {
-			m_elmColorFeedItemDescBackground.value = color;
-			m_elmColorFeedItemDescBackground.title = colorInputTitle(color);
-		});
-
-		prefs.getColorFeedItemDescText().then((color) => {
-			m_elmColorFeedItemDescText.value = color;
-			m_elmColorFeedItemDescText.title = colorInputTitle(color);
-		});
-
-		prefs.getDetectFeedsInWebPage().then((checked) => {
-			m_elmDetectFeedsInWebPage.checked = checked;
-		});
-
-		prefs.getUIDensity().then((value) => {
-			m_elmUIDensity.value = value;
-		});
-
-		prefs.getFontName().then((fontName) => {
-
-			let inStock = false;
-
-			Array.prototype.map.call(m_elmFontName.options, e => inStock |= (e.value === fontName) );
-
-			if(!inStock) {
-				appendCustomTagOption(m_elmFontName, fontName, getUserFontNameTagOptionText(fontName), ID_OPTION_USER_FONT_NAME);
-			}
-			m_elmFontName.value = fontName;
-		});
-
-		prefs.getFontSizePercent().then((value) => {
-			m_elmFontSizePercent.value = value;
-		});
-
-		prefs.getColorBackground().then((color) => {
-			m_elmColorBackground.value = color;
-			m_elmColorBackground.title = colorInputTitle(color);
-		});
-
-		prefs.getColorDialogBackground().then((color) => {
-			m_elmColorDialogBackground.value = color;
-			m_elmColorDialogBackground.title = colorInputTitle(color);
-		});
-
-		prefs.getColorSelect().then((color) => {
-			m_elmColorSelect.value = color;
-			m_elmColorSelect.title = colorInputTitle(color);
-		});
-
-		prefs.getColorText().then((color) => {
-			m_elmColorText.value = color;
-			m_elmColorText.title = colorInputTitle(color);
-		});
-
-		prefs.getIconsColor().then((color) => {
-			const pair = Global.SIDEBAR_ICONS_COLOR_PAIR(color);
-			m_elmColorIcons.value = pair.color;
-			m_elmColorIcons.title = colorInputTitle(pair.color);
-
-			if(pair.hasOwnProperty("id")) {
-				m_elmRadioIconsColors[pair.id].checked = true;
-			}
-			if(pair.hasOwnProperty("invalid")) {
-				prefs.setIconsColor(pair.id);
-			}
-		});
-
-		prefs.getIncreaseUnvisitedFontSize().then((checked) => {
-			m_elmIncreaseUnvisitedFontSize.checked = checked;
-		});
-
-		prefs.getShowTryOpenLinkInFeedPreview().then((checked) => {
-			m_elmShowTryOpenLinkInFeedPreview.checked = checked;
-		});
-
-		prefs.getUseCustomCSSFeedPreview().then(async (checked) => {
-			m_elmUseCustomCSSFeedPreview.checked = checked;
-			if(checked) {
-				const hash = await prefs.getCustomCSSSourceHash();
-				slUtil.disableElementTree(m_elmBtnEditCSSSource, (hash.length === 0));
-				slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
-				flashCustomCSSImportButton();
-			} else {
-				slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
-			}
-		}).finally(() => {
-			placePageOverlay(false);	// This will most likely (and hopefully) be executed after all Promises in getSavedPreferences() were settled
-		});
+		placePageOverlay(false);
 	}
 
 	//==================================================================================
@@ -735,8 +663,7 @@ const preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickRadioIconsColor(event) {
 		const pair = Global.SIDEBAR_ICONS_COLOR_PAIR(event.target.value);
-		m_elmColorIcons.value = pair.color;
-		m_elmColorIcons.title = colorInputTitle(pair.color);
+		setColorInput(m_elmColorIcons, pair.color);
 		prefs.setIconsColor(pair.id).then(() => {
 			broadcastPreferencesUpdated(Global.MSGD_PREF_CHANGE_COLORS);
 		});
@@ -991,24 +918,17 @@ const preferences = (function() {
 		m_elmShowFeedItemDesc.checked = defPrefs.showFeedItemDesc;
 		m_elmFeedItemDescDelay.value = defPrefs.feedItemDescDelay;
 		m_elmShowFeedItemDescAttach.checked = defPrefs.showFeedItemDescAttach;
-		m_elmColorFeedItemDescBackground.value = defPrefs.colorFeedItemDescBk;
-		m_elmColorFeedItemDescText.value = defPrefs.colorFeedItemDescText;
-		m_elmColorFeedItemDescBackground.title = colorInputTitle(m_elmColorFeedItemDescBackground.value);
-		m_elmColorFeedItemDescText.title = colorInputTitle(m_elmColorFeedItemDescText.value);
+		setColorInput(m_elmColorFeedItemDescBackground, defPrefs.colorFeedItemDescBk);
+		setColorInput(m_elmColorFeedItemDescText, defPrefs.colorFeedItemDescText);
 		m_elmDetectFeedsInWebPage.checked = defPrefs.detectFeedsInWebPage;
 		m_elmUIDensity.value = defPrefs.UIDensity;
 		m_elmFontName.value = defPrefs.fontName;
 		m_elmFontSizePercent.value = defPrefs.fontSizePercent;
-		m_elmColorBackground.value = defPrefs.colorBk;
-		m_elmColorDialogBackground.value = defPrefs.colorDlgBk;
-		m_elmColorSelect.value = defPrefs.colorSelect;
-		m_elmColorText.value = defPrefs.colorText;
-		m_elmColorIcons.value = Global.SIDEBAR_ICONS_COLOR_PAIR(defPrefs.iconsColor).color;
-		m_elmColorBackground.title = colorInputTitle(m_elmColorBackground.value);
-		m_elmColorDialogBackground.title = colorInputTitle(m_elmColorDialogBackground.value);
-		m_elmColorSelect.title = colorInputTitle(m_elmColorSelect.value);
-		m_elmColorText.title = colorInputTitle(m_elmColorText.value);
-		m_elmColorIcons.title = colorInputTitle(m_elmColorIcons.value);
+		setColorInput(m_elmColorBackground, defPrefs.colorBk);
+		setColorInput(m_elmColorDialogBackground, defPrefs.colorDlgBk);
+		setColorInput(m_elmColorSelect, defPrefs.colorSelect);
+		setColorInput(m_elmColorText, defPrefs.colorText);
+		setColorInput(m_elmColorIcons, Global.SIDEBAR_ICONS_COLOR_PAIR(defPrefs.iconsColor).color);
 		m_elmRadioIconsColors[defPrefs.iconsColor].checked = true;		// default is the index value 0, so its safe to use it as an index
 		m_elmIncreaseUnvisitedFontSize.checked = defPrefs.increaseUnvisitedFontSize;
 		m_elmShowTryOpenLinkInFeedPreview.checked = defPrefs.showTryOpenLinkInFeedPreview;
@@ -1116,24 +1036,21 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function initializeSelectFeedsFolder() {
+	async function initializeSelectFeedsFolder() {
 
-		let gettingFolderId = prefs.getRootFeedsFolderId();
-		let creatingSelect = createSelectFeedsFolderElements();
+		const [folderId] = await Promise.all([
+			prefs.getRootFeedsFolderId(),
+			createSelectFeedsFolderElements()
+		]);
 
-		gettingFolderId.then((folderId) => {
-			creatingSelect.then(() => {
+		m_elmRootFeedsFolder.value = folderId;
 
-				m_elmRootFeedsFolder.value = folderId;
-
-				// if folderId is no longer valid (deleted)
-				if(m_elmRootFeedsFolder.options[m_elmRootFeedsFolder.selectedIndex] === undefined) {
-					m_elmRootFeedsFolder.value = Global.ROOT_FEEDS_FOLDER_ID_NOT_SET
-				}
-				slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET);
-				setTimeout(() => flashRootFeedsFolderElement(), 500);
-			});
-		});
+		// if folderId is no longer valid (deleted)
+		if(m_elmRootFeedsFolder.options[m_elmRootFeedsFolder.selectedIndex] === undefined) {
+			m_elmRootFeedsFolder.value = Global.ROOT_FEEDS_FOLDER_ID_NOT_SET;
+		}
+		slUtil.disableElementTree(m_elmImportOpml.parentElement.parentElement, m_elmRootFeedsFolder.value === Global.ROOT_FEEDS_FOLDER_ID_NOT_SET);
+		setTimeout(() => flashRootFeedsFolderElement(), 500);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1602,6 +1519,12 @@ const preferences = (function() {
 					"HTML notation: " + colorValue.toLowerCase();
 		}
 		return "";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function setColorInput(elm, color) {
+		elm.value = color;
+		elm.title = colorInputTitle(color);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
