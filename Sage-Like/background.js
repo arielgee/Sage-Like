@@ -110,7 +110,7 @@
 			// version 2.9 added ignoreUpdates to TreeFeedsData
 			// version 3.6 added feedMaxItems, lastStatusIsVisited, lastStatusUnreadCount & lastStatusErrorState to TreeFeedsData
 			// version 3.8 added lastStatusUpdateTime, lastStatusFixableParseErrors & lastStatusUnauthorized to TreeFeedsData
-			// version 3.15 added openItemsInReaderMode to TreeFeedsData
+			// version 3.15 added openItemsInReaderMode & bypassCache to TreeFeedsData
 			if (slUtil.isVersionLessThen(prevVer, ["1.9.0", "2.9.0", "3.6.0", "3.8.0", "3.15.0"])) {
 				(new TreeFeedsData()).maintenance();
 			}

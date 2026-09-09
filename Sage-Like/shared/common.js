@@ -128,6 +128,12 @@ const Global = (function() {
 		return { id: 0, color: "#000000", invalid: true };	// Default to black
 	};
 
+	const _CHECKBOX_TRI_STATES = {
+		UNCHECKED: 0,
+		INDETERMINATE: 1,
+		CHECKED: 2,
+	};
+
 	return Object.freeze({
 		ID_UL_RSS_TREE_VIEW: "rssTreeView",
 		ID_UL_RSS_LIST_VIEW: "rssListView",
@@ -206,6 +212,8 @@ const Global = (function() {
 		DEFAULT_DATE: _DEFAULT_DATE,
 
 		SIDEBAR_ICONS_COLOR_PAIR: _SIDEBAR_ICONS_COLOR_PAIR,
+
+		CHECKBOX_TRI_STATES: _CHECKBOX_TRI_STATES,
 	});
 })();
 

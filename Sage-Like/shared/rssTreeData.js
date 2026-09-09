@@ -70,11 +70,18 @@ class OpenTreeFolders extends StoredKeyedItems {
 /////////////////////////////////////////////////////////////////////////////////////////////
 class TreeFeedsData extends StoredKeyedItems {
 
+	static TRI_STATE_SETTING = {
+		USE_GLOBAL: "global",
+		YES: "yes",
+		NO: "no",
+	};
+
 	// ATTENTION: If you add any new member to this object, update onRuntimeInstalled() in background.js
 	#_defaultObject = {
 		lastChecked: 0,
 		lastVisited: 0,
 		updateTitle: true,
+		bypassCache: TreeFeedsData.TRI_STATE_SETTING.USE_GLOBAL,
 		openInFeedPreview: false,
 		ignoreUpdates: false,
 		openItemsInReaderMode: false,

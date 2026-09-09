@@ -30,6 +30,7 @@ class PropertiesViewElements {
 		this.elmTextTitle = document.getElementById("txtFpTitle");
 		this.elmTextLocation = document.getElementById("txtFpLocation");
 		this.elmChkUpdateTitle = document.getElementById("chkFpUpdateTitle");
+		this.elmChkBypassCache = document.getElementById("chkFpBypassCache");
 		this.elmChkOpenInFeedPreview = document.getElementById("chkFpOpenInFeedPreview");
 		this.elmChkIgnoreUpdates = document.getElementById("chkFpIgnoreUpdates");
 		this.elmChkOpenItemsInReaderMode = document.getElementById("chkFpOpenItemsInReaderMode");
@@ -47,6 +48,8 @@ class PropertiesViewElements {
 class PropertiesView {
 
 	#_isOpen = false;
+	#_bypassCacheChkboxStateValue = Global.CHECKBOX_TRI_STATES.INDETERMINATE;
+	#_onClickCheckboxBypassCacheBound;
 	#_onClickButtonSaveBound;
 	#_onClickButtonCancelBound;
 	#_onKeyDownPropertiesPanelBound;
@@ -110,6 +113,7 @@ class PropertiesView {
 		this.m_elmTextTitle.value = this.m_initialProperties.title;
 		this.m_elmTextLocation.value = this.m_initialProperties.location;
 		this.m_elmChkUpdateTitle.checked = this.m_initialProperties.updateTitle;
+		this._setBypassCacheCheckboxState(this.m_initialProperties.bypassCache);
 		this.m_elmChkOpenInFeedPreview.checked = this.m_initialProperties.openInFeedPreview;
 		this.m_elmChkIgnoreUpdates.checked = this.m_initialProperties.ignoreUpdates;
 		this.m_elmChkOpenItemsInReaderMode.checked = this.m_initialProperties.openItemsInReaderMode;
@@ -160,12 +164,33 @@ class PropertiesView {
 	}
 
 	///////////////////////////////////////////////////////////////
+	_setBypassCacheCheckboxState(state) {
+		this.#_bypassCacheChkboxStateValue = state;
+		if(this.#_bypassCacheChkboxStateValue === Global.CHECKBOX_TRI_STATES.INDETERMINATE) {
+			this.m_elmChkBypassCache.indeterminate = true;
+			return;
+		}
+		this.m_elmChkBypassCache.indeterminate = false;
+		this.m_elmChkBypassCache.checked = (this.#_bypassCacheChkboxStateValue === Global.CHECKBOX_TRI_STATES.CHECKED);
+	}
+
+	///////////////////////////////////////////////////////////////
+	_getBypassCacheCheckboxState() {
+		if(this.m_elmChkBypassCache.indeterminate) {
+			return Global.CHECKBOX_TRI_STATES.INDETERMINATE;
+		} else {
+			return (this.m_elmChkBypassCache.checked ? Global.CHECKBOX_TRI_STATES.CHECKED : Global.CHECKBOX_TRI_STATES.UNCHECKED);
+		}
+	}
+
+	///////////////////////////////////////////////////////////////
 	#_initMembers() {
 		this.m_elmPropertiesPanel = PropertiesViewElements.i.elmPropertiesPanel;
 		this.m_elmCaption = PropertiesViewElements.i.elmCaption;
 		this.m_elmTextTitle = PropertiesViewElements.i.elmTextTitle;
 		this.m_elmTextLocation = PropertiesViewElements.i.elmTextLocation;
 		this.m_elmChkUpdateTitle = PropertiesViewElements.i.elmChkUpdateTitle;
+		this.m_elmChkBypassCache = PropertiesViewElements.i.elmChkBypassCache;
 		this.m_elmChkOpenInFeedPreview = PropertiesViewElements.i.elmChkOpenInFeedPreview;
 		this.m_elmChkIgnoreUpdates = PropertiesViewElements.i.elmChkIgnoreUpdates;
 		this.m_elmChkOpenItemsInReaderMode = PropertiesViewElements.i.elmChkOpenItemsInReaderMode;
@@ -178,6 +203,7 @@ class PropertiesView {
 
 		this.m_slideDownPanel = new SlideDownPanel(this.m_elmPropertiesPanel);
 
+		this.#_onClickCheckboxBypassCacheBound = this.#_onClickCheckboxBypassCache.bind(this);
 		this.#_onClickButtonSaveBound = this.#_onClickButtonSave.bind(this);
 		this.#_onClickButtonCancelBound = this.#_onClickButtonCancel.bind(this);
 		this.#_onKeyDownPropertiesPanelBound = this.#_onKeyDownPropertiesPanel.bind(this);
@@ -187,6 +213,7 @@ class PropertiesView {
 			title: "",
 			location: "",
 			updateTitle: false,
+			bypassCache: Global.CHECKBOX_TRI_STATES.INDETERMINATE,
 			openInFeedPreview: false,
 			ignoreUpdates: false,
 			openItemsInReaderMode: false,
@@ -194,6 +221,7 @@ class PropertiesView {
 		};
 
 		this.#_isOpen = false;
+		this.#_bypassCacheChkboxStateValue = Global.CHECKBOX_TRI_STATES.INDETERMINATE;
 		this.m_funcPromiseResolve = null;
 	}
 
@@ -208,6 +236,7 @@ class PropertiesView {
 
 	///////////////////////////////////////////////////////////////
 	#_addEventListeners() {
+		this.m_elmChkBypassCache.addEventListener("click", this.#_onClickCheckboxBypassCacheBound);
 		this.m_elmButtonSave.addEventListener("click", this.#_onClickButtonSaveBound);
 		this.m_elmButtonCancel.addEventListener("click", this.#_onClickButtonCancelBound);
 		this.m_elmPropertiesPanel.addEventListener("keydown", this.#_onKeyDownPropertiesPanelBound);
@@ -215,9 +244,19 @@ class PropertiesView {
 
 	///////////////////////////////////////////////////////////////
 	#_removeEventListeners() {
+		this.m_elmChkBypassCache.removeEventListener("click", this.#_onClickCheckboxBypassCacheBound);
 		this.m_elmButtonSave.removeEventListener("click", this.#_onClickButtonSaveBound);
 		this.m_elmButtonCancel.removeEventListener("click", this.#_onClickButtonCancelBound);
 		this.m_elmPropertiesPanel.removeEventListener("keydown", this.#_onKeyDownPropertiesPanelBound);
+	}
+
+	///////////////////////////////////////////////////////////////
+	#_onClickCheckboxBypassCache() {
+		switch(this.#_bypassCacheChkboxStateValue) {
+			case Global.CHECKBOX_TRI_STATES.INDETERMINATE:	this._setBypassCacheCheckboxState(Global.CHECKBOX_TRI_STATES.CHECKED);			break;
+			case Global.CHECKBOX_TRI_STATES.CHECKED:		this._setBypassCacheCheckboxState(Global.CHECKBOX_TRI_STATES.UNCHECKED);		break;
+			case Global.CHECKBOX_TRI_STATES.UNCHECKED:		this._setBypassCacheCheckboxState(Global.CHECKBOX_TRI_STATES.INDETERMINATE);	break;
+		}
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -271,6 +310,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.title = title;
 			this.m_initialProperties.location = location;
 			this.m_initialProperties.updateTitle = true;
+			this.m_initialProperties.bypassCache = Global.CHECKBOX_TRI_STATES.INDETERMINATE;
 			this.m_initialProperties.openInFeedPreview = false;
 			this.m_initialProperties.ignoreUpdates = false;
 			this.m_initialProperties.openItemsInReaderMode = false;
@@ -288,6 +328,7 @@ class NewFeedPropertiesView extends PropertiesView {
 			title: this.m_elmTextTitle.value,
 			url: this.m_elmTextLocation.value,
 			updateTitle: this.m_elmChkUpdateTitle.checked,
+			bypassCache: this._getBypassCacheCheckboxState(),
 			openInFeedPreview: this.m_elmChkOpenInFeedPreview.checked,
 			ignoreUpdates: this.m_elmChkIgnoreUpdates.checked,
 			openItemsInReaderMode: this.m_elmChkOpenItemsInReaderMode.checked,
@@ -378,6 +419,7 @@ class EditFeedPropertiesView extends PropertiesView {
 
 		const {
 			updateTitle = true,
+			bypassCache = Global.CHECKBOX_TRI_STATES.INDETERMINATE,
 			openInFeedPreview = false,
 			ignoreUpdates = false,
 			openItemsInReaderMode = false,
@@ -395,6 +437,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			this.m_initialProperties.title = rssTreeView.getTreeItemText(this.m_elmTreeItemLI);
 			this.m_initialProperties.location = this.m_elmTreeItemLI.getAttribute("href");
 			this.m_initialProperties.updateTitle = updateTitle;
+			this.m_initialProperties.bypassCache = bypassCache;
 			this.m_initialProperties.openInFeedPreview = openInFeedPreview;
 			this.m_initialProperties.ignoreUpdates = ignoreUpdates;
 			this.m_initialProperties.openItemsInReaderMode = openItemsInReaderMode;
@@ -412,6 +455,7 @@ class EditFeedPropertiesView extends PropertiesView {
 			title: this.m_elmTextTitle.value,
 			url: this.m_elmTextLocation.value,
 			updateTitle: this.m_elmChkUpdateTitle.checked,
+			bypassCache: this._getBypassCacheCheckboxState(),
 			openInFeedPreview: this.m_elmChkOpenInFeedPreview.checked,
 			ignoreUpdates: this.m_elmChkIgnoreUpdates.checked,
 			openItemsInReaderMode: this.m_elmChkOpenItemsInReaderMode.checked,
@@ -422,6 +466,7 @@ class EditFeedPropertiesView extends PropertiesView {
 		if (this.m_initialProperties.title === result.title &&
 			this.m_initialProperties.location === result.url &&
 			this.m_initialProperties.updateTitle === result.updateTitle &&
+			this.m_initialProperties.bypassCache === result.bypassCache &&
 			this.m_initialProperties.openInFeedPreview === result.openInFeedPreview &&
 			this.m_initialProperties.ignoreUpdates === result.ignoreUpdates &&
 			this.m_initialProperties.openItemsInReaderMode === result.openItemsInReaderMode &&

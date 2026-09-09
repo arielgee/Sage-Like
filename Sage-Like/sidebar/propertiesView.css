@@ -52,6 +52,13 @@
 	outline: 1px dotted gray;
 }
 
+.propContainer > input[type="checkbox"]:not(indeterminate) {
+	accent-color: AccentColor;
+}
+.propContainer > input[type="checkbox"].threeState:indeterminate {
+	accent-color: GrayText;
+}
+
 .propertiesContainer.showFirstOnly .propContainer:not(:first-child) {
 	display: none;
 }

@@ -242,7 +242,7 @@ const rssTreeView = (function() {
 			msgDetails === Global.MSGD_PREF_CHANGE_SORT_FEED_ITEMS) {
 
 			if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
-				openTreeFeed(m_elmCurrentlySelected, m_bPrefBypassCache, UserInput.NONE);
+				getFeedBypassCache().then((bypassCache) => openTreeFeed(m_elmCurrentlySelected, bypassCache, UserInput.NONE) );
 			}
 		}
 	}
@@ -458,7 +458,7 @@ const rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function restoreTreeViewState() {
 
-		internalPrefs.getTreeViewRestoreData().then((restoreData) => {
+		internalPrefs.getTreeViewRestoreData().then(async (restoreData) => {
 
 			m_elmTreeRoot.parentElement.scrollTop = restoreData.treeScrollTop;
 
@@ -466,7 +466,7 @@ const rssTreeView = (function() {
 				setFeedSelectionState(document.getElementById(restoreData.treeSelectedItemId));
 
 				if (TreeItemType.isFeed(m_elmCurrentlySelected)) {
-					openTreeFeed(m_elmCurrentlySelected, m_bPrefBypassCache, UserInput.NONE);
+					openTreeFeed(m_elmCurrentlySelected, (await getFeedBypassCache()), UserInput.NONE);
 				}
 
 			} else {
@@ -579,10 +579,11 @@ const rssTreeView = (function() {
 			feedMaxItems: treeFeedData.feedMaxItems,
 		};
 
+		const bypassCache = await getFeedBypassCache({ feedDataBypassCache: treeFeedData.bypassCache });
 		const msFetchTime = Date.now();
 		const fetching = m_bPrefShowFeedStats
-							? syndication.fetchFeedItems(url, timeout, m_bPrefBypassCache, details)
-							: syndication.fetchFeedData(url, timeout, m_bPrefBypassCache);
+							? syndication.fetchFeedItems(url, timeout, bypassCache, details)
+							: syndication.fetchFeedData(url, timeout, bypassCache);
 
 		fetching.then((fetchResult) => {
 
@@ -710,7 +711,7 @@ const rssTreeView = (function() {
 			case "Enter":
 			case "NumpadEnter":
 				if(TreeItemType.isFeed(elmTarget)) {
-					openTreeFeed(elmTarget, event.shiftKey || m_bPrefBypassCache);
+					getFeedBypassCache({ force: event.shiftKey, feedId: elmTarget.id }).then((bypassCache) => openTreeFeed(elmTarget, bypassCache) );
 				} else {
 					toggleFolderState(elmTarget);
 				}
@@ -990,7 +991,7 @@ const rssTreeView = (function() {
 			if(event.button === 0) {						// left click
 
 				// default action: load feed items in list
-				openTreeFeed(elmLI, event.shiftKey || m_bPrefBypassCache);
+				getFeedBypassCache({ force: event.shiftKey, feedId: elmLI.id }).then((bypassCache) => openTreeFeed(elmLI, bypassCache) );
 
 				// open feed preview
 				prefs.getClickOpensFeedPreview().then((value) => {
@@ -1658,8 +1659,9 @@ const rssTreeView = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function openNewFeedProperties(elmLI) {
 		NewFeedPropertiesView.i.open(elmLI, "New Feed", "").then((result) => {
-			let exDetails = {
+			const exDetails = {
 				updateTitle: result.updateTitle,
+				bypassCache: resolveTriStateChkboxToTriStateSetting(result.bypassCache),
 				openInFeedPreview: result.openInFeedPreview,
 				ignoreUpdates: result.ignoreUpdates,
 				openItemsInReaderMode: result.openItemsInReaderMode,
@@ -1674,14 +1676,16 @@ const rssTreeView = (function() {
 
 		const {
 			updateTitle = true,
+			bypassCache = TreeFeedsData.TRI_STATE_SETTING.USE_GLOBAL,
 			openInFeedPreview = false,
 			ignoreUpdates = false,
 			openItemsInReaderMode = false,
 			feedMaxItems = 0,
 		} = exDetails;
 
-		let details = {
+		const details = {
 			updateTitle: updateTitle,
+			bypassCache: bypassCache,
 			openInFeedPreview: openInFeedPreview,
 			ignoreUpdates: ignoreUpdates,
 			openItemsInReaderMode: openItemsInReaderMode,
@@ -1700,6 +1704,7 @@ const rssTreeView = (function() {
 
 		const {
 			updateTitle,
+			bypassCache,
 			openInFeedPreview,
 			ignoreUpdates,
 			openItemsInReaderMode,
@@ -1735,8 +1740,9 @@ const rssTreeView = (function() {
 					updateLayoutWidth();
 					setFeedVisitedState(newElm, ignoreUpdates);	// if feed should ignore updates then set as visited
 					updateTreeBranchFoldersStats(newElm);
-					let properties = {
+					const properties = {
 						updateTitle: updateTitle,
+						bypassCache: bypassCache,
 						openInFeedPreview: openInFeedPreview,
 						ignoreUpdates: ignoreUpdates,
 						openItemsInReaderMode: openItemsInReaderMode,
@@ -1758,6 +1764,7 @@ const rssTreeView = (function() {
 
 		const {
 			updateTitle,
+			bypassCache,
 			openInFeedPreview,
 			ignoreUpdates,
 			openItemsInReaderMode,
@@ -1787,8 +1794,9 @@ const rssTreeView = (function() {
 
 					updateLayoutWidth();
 					setFeedVisitedState(newElm, ignoreUpdates);	// if feed should ignore updates then set as visited
-					let properties = {
+					const properties = {
 						updateTitle: updateTitle,
+						bypassCache: bypassCache,
 						openInFeedPreview: openInFeedPreview,
 						ignoreUpdates: ignoreUpdates,
 						openItemsInReaderMode: openItemsInReaderMode,
@@ -2008,7 +2016,7 @@ const rssTreeView = (function() {
 		if(TreeItemType.isUnauthorized(elmLI)) {
 			signinView.open(getTreeItemText(elmLI)).then((signinCredential) => {
 				if(!!signinCredential && signinCredential.initialized) {
-					openTreeFeed(elmLI, m_bPrefBypassCache, UserInput.DIALOG, signinCredential);
+					getFeedBypassCache({ feedId: elmLI.id }).then((bypassCache) => openTreeFeed(elmLI, bypassCache, UserInput.DIALOG, signinCredential) );
 				}
 			});
 		}
@@ -2111,9 +2119,10 @@ const rssTreeView = (function() {
 
 			m_objTreeFeedsData.setIfNotExist(elmLI.id);
 
-			let treeFeed = m_objTreeFeedsData.value(elmLI.id);
-			let details = {
+			const treeFeed = m_objTreeFeedsData.value(elmLI.id);
+			const details = {
 				updateTitle: treeFeed.updateTitle,
+				bypassCache: resolveTriStateSettingToTriStateChkbox(treeFeed.bypassCache),
 				openInFeedPreview: treeFeed.openInFeedPreview,
 				ignoreUpdates: treeFeed.ignoreUpdates,
 				openItemsInReaderMode: treeFeed.openItemsInReaderMode,
@@ -2121,8 +2130,9 @@ const rssTreeView = (function() {
 			};
 
 			EditFeedPropertiesView.i.open(elmLI, details).then((result) => {
-				let updateDetails = {
+				const updateDetails = {
 					newUpdateTitle: result.updateTitle,
+					newBypassCache: resolveTriStateChkboxToTriStateSetting(result.bypassCache),
 					newOpenInFeedPreview: result.openInFeedPreview,
 					newIgnoreUpdates: result.ignoreUpdates,
 					newOpenItemsInReaderMode: result.openItemsInReaderMode,
@@ -2138,6 +2148,7 @@ const rssTreeView = (function() {
 
 		const {
 			newUpdateTitle,
+			newBypassCache,
 			newOpenInFeedPreview,
 			newIgnoreUpdates,
 			newOpenItemsInReaderMode,
@@ -2164,8 +2175,9 @@ const rssTreeView = (function() {
 					setFeedVisitedState(elmLI, true);
 				}
 				setTreeItemTooltip(elmLI);
-				let properties = {
+				const properties = {
 					updateTitle: newUpdateTitle,
+					bypassCache: newBypassCache,
 					openInFeedPreview: newOpenInFeedPreview,
 					ignoreUpdates: newIgnoreUpdates,
 					openItemsInReaderMode: newOpenItemsInReaderMode,
@@ -3289,6 +3301,60 @@ const rssTreeView = (function() {
 			return m_objTreeFeedsData.value(m_elmCurrentlySelected.id);
 		}
 		return null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function resolveTriStateChkboxToTriStateSetting(triStateChkboxValue) {
+		switch(triStateChkboxValue) {
+			case Global.CHECKBOX_TRI_STATES.INDETERMINATE:	return TreeFeedsData.TRI_STATE_SETTING.USE_GLOBAL;
+			case Global.CHECKBOX_TRI_STATES.CHECKED:		return TreeFeedsData.TRI_STATE_SETTING.YES;
+			case Global.CHECKBOX_TRI_STATES.UNCHECKED:		return TreeFeedsData.TRI_STATE_SETTING.NO;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function resolveTriStateSettingToTriStateChkbox(triStateSetting) {
+		switch(triStateSetting) {
+			case TreeFeedsData.TRI_STATE_SETTING.USE_GLOBAL:	return Global.CHECKBOX_TRI_STATES.INDETERMINATE;
+			case TreeFeedsData.TRI_STATE_SETTING.YES:			return Global.CHECKBOX_TRI_STATES.CHECKED;
+			case TreeFeedsData.TRI_STATE_SETTING.NO:			return Global.CHECKBOX_TRI_STATES.UNCHECKED;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	async function getFeedBypassCache(details = null) {
+		const {
+			force = false,				// force bypass cache regardless of any other settings. usually when user pressed shiftKey
+			feedDataBypassCache = null,	// the bypassCache value from feedData object.
+			feedId = null,				// Id of the feed to check bypassCache value from TreeFeedsData object.
+		} = details || {};
+
+		const resolve = (bypassCache) => {
+			switch(bypassCache) {
+				case TreeFeedsData.TRI_STATE_SETTING.USE_GLOBAL:	return m_bPrefBypassCache;
+				case TreeFeedsData.TRI_STATE_SETTING.YES:			return true;
+				case TreeFeedsData.TRI_STATE_SETTING.NO:			return false;
+			}
+			return m_bPrefBypassCache;		// SHOULD NEVER REACH HERE. just in case, return the global setting.
+		};
+
+		if(!!!details) {
+			await m_objTreeFeedsData.getStorage();
+			const fd = m_objTreeFeedsData.value(m_elmCurrentlySelected.id);
+			return resolve(fd?.bypassCache);
+		}
+		if(force) {
+			return true;
+		}
+		if(!!feedDataBypassCache) {
+			return resolve(feedDataBypassCache);
+		}
+		if(!!feedId) {
+			await m_objTreeFeedsData.getStorage();
+			const fd = m_objTreeFeedsData.value(feedId);
+			return resolve(fd?.bypassCache);
+		}
+		return m_bPrefBypassCache;		// SHOULD NEVER REACH HERE. just in case, return the global setting.
 	}
 
 	return {
