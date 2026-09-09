@@ -1266,6 +1266,9 @@
 	* look into the possibility of adding a new per-feed option (feed properties) to ignore the cache.
 	* https://chatgpt.com/c/6a6b4fda-b758-83eb-a708-acf05945ca2c
 	* https://claude.ai/chat/65f1433e-f326-4e63-b952-d36fac86e37f
+* when the preferences `Always bypass the cache when fetching feeds` is checked, the delay in fetching feeds is noticable. consider adding a new per-feed option (feed properties).
+* improve helpInfo tooltip for the preferences `Always bypass the cache when fetching feeds`. note that the data is fresh and most recent. note that it may be slower. note that this can be overriden by a per-feed option (feed properties).
+* open signinView on unauthorized feed. type in junk and click on 'Sign In' button. the Sign In Failed message is displayed AND ALSO the infoBubble "Unauthorized" on top of the dialog pointing to feed behind the dialog.
 ---
 
 

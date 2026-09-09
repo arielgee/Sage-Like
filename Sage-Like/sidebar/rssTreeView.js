@@ -1372,7 +1372,9 @@ const rssTreeView = (function() {
 						setFeedErrorState(elmLI, true, error);
 						setFeedFixableParseErrors(elmLI, false);
 						updateTreeItemStats(elmLI, 0);		// will remove the stats
-						showUnauthorizedInfoBubble(elmLI, error);
+						if(userInput !== UserInput.DIALOG) {		// do not show the bubble if this is a result of an interaction with a dialog (signinView)
+							showUnauthorizedInfoBubble(elmLI, error);
+						}
 
 						// change the rssListView content only if this is the last user click.
 						if(thisFeedClickTime === m_lastClickedFeedTime) {
