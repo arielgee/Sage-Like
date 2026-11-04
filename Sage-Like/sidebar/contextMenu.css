@@ -7,8 +7,9 @@
 	display: none;
 	position: absolute;
 	background-color: var(--background-color-menu);
-	min-width: 160px;
-	overflow: auto;
+	min-width: 150px;
+	overflow-x: hidden;
+	overflow-y: auto;
 	box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
 	z-index: 1;
 	border: 1px solid #e0e0e0;
@@ -45,25 +46,57 @@
 	color: var(--background-color-menu);
 }
 
+.contextmenu .ctx-menu-item.ctx-menu-submenu-parent::after {
+	content: "";
+	box-sizing: border-box;
+	width: 10px;
+	height: 10px;
+	border-top: 2px solid currentColor;
+	border-right: 2px solid currentColor;
+	transform: rotate(45deg);
+	margin-inline: 8px;
+	align-self: center;
+	color: var(--color-menu);
+}
+.contextmenu .ctx-menu-item.ctx-menu-submenu-parent:focus::after {
+	color: var(--background-color-menu);
+}
+.contextmenu:dir(rtl) .ctx-menu-item.ctx-menu-submenu-parent::after {
+	transform: rotate(-135deg);
+}
+
+.contextmenu .ctx-menu-submenu {
+	display: none;
+	position: fixed;
+	background-color: var(--background-color-menu);
+	min-width: 120px;
+	overflow: hidden;
+	box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+	z-index: 2;
+	border: 1px solid #a0a0a0;
+	padding-bottom: 1px;
+}
+.contextmenu .ctx-menu-submenu.open {
+	display: block;
+}
+.contextmenu:dir(rtl) .ctx-menu-submenu {
+	box-shadow: -3px 3px 10px rgba(0,0,0,0.5);
+}
+
 .contextmenu hr {
 	border: 0.5px solid #e0e0e0;
 }
 
-.contextmenu > .tree-item-ctx,
-.contextmenu > .tree-item-unauthorized-ctx,
-.contextmenu > .list-item-ctx {
+.contextmenu .ctx-menu-item,
+.contextmenu .ctx-menu-group-separator.group-empty-hidden {
 	display: none;
 }
 
-.contextmenu.tree-item-folder-ctx > .tree-item-folder-ctx:not(.user-hidden),
-.contextmenu.tree-item-ctx > .tree-item-ctx:not(.user-hidden),
-.contextmenu.tree-item-unauthorized-ctx > .tree-item-unauthorized-ctx:not(.user-hidden),
-.contextmenu.list-item-ctx > .list-item-ctx:not(.user-hidden),
-.contextmenu.tree-ctx > .tree-ctx:not(.user-hidden),
-.contextmenu.list-ctx > .list-ctx:not(.user-hidden) {
+.contextmenu.tree-item-folder-ctx .tree-item-folder-ctx:not(.user-hidden),
+.contextmenu.tree-item-ctx .tree-item-ctx:not(.user-hidden),
+.contextmenu.tree-item-unauthorized-ctx .tree-item-unauthorized-ctx:not(.user-hidden),
+.contextmenu.list-item-ctx .list-item-ctx:not(.user-hidden),
+.contextmenu.tree-ctx .tree-ctx:not(.user-hidden),
+.contextmenu.list-ctx .list-ctx:not(.user-hidden) {
 	display: flex;
-}
-
-.ctx-menu-sep.user-hidden {
-	display: none;
 }

@@ -83,6 +83,7 @@ const preferences = (function() {
 	let m_winIdNotepad = [0];
 	let m_singleBlockMode = false;
 	let m_timeoutHelpInfo = null;
+	let m_ignoreFocusBlur = false;
 
 	initialization();
 
@@ -1286,7 +1287,7 @@ const preferences = (function() {
 
 			const frag = document.createDocumentFragment();
 
-			const createCtxMnuItem = (item) => {
+			const createCtxMnuItem = (item, isSubmenuParentItem, isSubmenuItem) => {
 
 				const checkbox = document.createElement("input");
 				checkbox.type = "checkbox";
@@ -1300,29 +1301,36 @@ const preferences = (function() {
 				span.className = "ctxMenuItemText";
 				span.textContent = item.text;
 
-				// Label element contains both checkbox & span. this allows ommitting checkbox's 'for' attribute.
-				// checkbox & span have 'pointer-events: none;' in CSS, so clicking anywhere on the label will toggle the checkbox
+				// Div container element contains both checkbox & span. this allows ommitting checkbox's 'for' attribute.
+				// checkbox & span have 'pointer-events: none;' in CSS, so clicking anywhere on the div container will toggle the checkbox
 				const elm = document.createElement("div");
-				elm.className = "ctxMenuItemContainer";
+				elm.className = "ctxMenuItemContainer" + (isSubmenuParentItem ? " submenu-parent-item" : "") + (isSubmenuItem ? " submenu-item" : "");
 				elm.append(checkbox, span);
 
 				frag.appendChild(elm);
 			};
 
+			// ASSUMPTION: If some of an item's classes are in the set, its submenu items (if any) are too. submenu items share the exact same classes as their parent item
 			const viewItems = ContextMenuItems.filter(item => item.class.split(" ").some(cls => theSet.classes.includes(cls)));
-			let prevMenuItemGroup = viewItems[0].group;	// if viewItems is empty, i have worse problems than this. it should never be empty.
 
 			for(let i=0, len=viewItems.length; i<len; ++i) {
 
-				if(prevMenuItemGroup < viewItems[i].group) {
+				const item = viewItems[i];
+				const submenuItems = item.submenuItems ?? [];
+
+				createCtxMnuItem(item, !!item.submenuItems, false);
+				for(let j=0, jLen=submenuItems.length; j<jLen; ++j) {
+					createCtxMnuItem(submenuItems[j], false, true);	// ASSUMPTION: submenu items are never a submenu parent item
+				}
+
+				// if a new group is coming up then add a separator
+				if( (i < viewItems.length-1) && (item.group < viewItems[i+1].group) ) {
 					const sep = document.createElement("hr");
 					sep.className = "ctxMenuItemSeparator";
 					frag.appendChild(sep);
-					prevMenuItemGroup = viewItems[i].group;
 				}
-
-				createCtxMnuItem(viewItems[i]);
 			}
+			handleCustomContextMenuSubmenuItemsState(Array.from(frag.children));
 
 			document.getElementById("customCtxMenuItemsContainer").replaceChildren(frag);
 
@@ -1341,6 +1349,65 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function handleCustomContextMenuSubmenuItemsState(elms) {
+
+		let parents;
+		if( Array.isArray(elms) && elms.length > 0 && elms[0].classList.contains("ctxMenuItemContainer") ) {
+			parents = elms.filter(c => c.classList.contains("submenu-parent-item"));
+		} else {
+			parents = m_elmCustomCtxMenuBox.querySelectorAll(".submenu-parent-item");
+		}
+
+		m_ignoreFocusBlur = true;
+		for(let i=0, len=parents.length; i<len; ++i) {
+			let item = parents[i];
+			// handle the menu item if it's not a submenu and the following item is a submenu
+			if( item.nextElementSibling?.classList.contains("submenu-item") && !item.classList.contains("submenu-item")) {
+
+				const bChecked = item.firstElementChild.checked;
+				do {
+					item = item.nextElementSibling;
+					item.classList.toggle("disabled", !bChecked);
+					Array.from(item.children).forEach(c => c.disabled = !bChecked);	// disabling a focused element triggers blur and closes the box
+				} while (item.nextElementSibling?.classList.contains("submenu-item"));
+			}
+		}
+		setTimeout(() => m_ignoreFocusBlur = false, 250);	// wait for potential blur events to finish before allowing focus/blur handling again
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getChildlessCustomContextMenuParentSubmenuItems() {
+
+		const parents = m_elmCustomCtxMenuBox.querySelectorAll(".submenu-parent-item");
+		const childlessIds = [];
+
+		for(let i=0, len=parents.length; i<len; ++i) {
+			let item = parents[i];
+
+			// handle only childless parent menu items that are checked
+			if(!item.firstElementChild.checked) continue;
+
+			// handle the menu item if it's not a submenu and the following item is a submenu
+			if( item.nextElementSibling?.classList.contains("submenu-item") && !item.classList.contains("submenu-item")) {
+
+				let hasChecked = false;
+				do {
+					item = item.nextElementSibling;
+					if(item.firstElementChild.checked) {
+						hasChecked = true;
+						break;
+					}
+				} while (item.nextElementSibling?.classList.contains("submenu-item"));
+
+				if(!hasChecked) {
+					childlessIds.push(parents[i].firstElementChild.getAttribute("data-id"));
+				}
+			}
+		}
+		return childlessIds;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function closeCustomContextMenuBox(bApply = false) {
 
 		m_elmCustomCtxMenuBox.style.display = "none";
@@ -1356,7 +1423,8 @@ const preferences = (function() {
 		if(typeof(m_funcResolveGetCustomCtxMenu) === "function") {
 
 			if(bApply) {
-				const uncheckedItemIds = Array.from(checkBoxes).filter(cb => !cb.checked).map(cb => cb.getAttribute("data-id"));
+				let uncheckedItemIds = Array.from(checkBoxes).filter(cb => !cb.checked).map(cb => cb.getAttribute("data-id"));
+				uncheckedItemIds = uncheckedItemIds.concat(getChildlessCustomContextMenuParentSubmenuItems());	// a parent item that all its children are unchecked is considered unchecked
 				m_funcResolveGetCustomCtxMenu(uncheckedItemIds);
 			} else {
 				m_funcResolveGetCustomCtxMenu(null);
@@ -1366,27 +1434,30 @@ const preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function toggleCheckboxesOnKeyEvent(checkbox, event) {
+		if(event.shiftKey) {
+			const bChecked = !checkbox.checked;
+			m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = bChecked);
+			handleCustomContextMenuSubmenuItemsState();
+		} else if(event.ctrlKey) {
+			m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = !cb.checked);
+			handleCustomContextMenuSubmenuItemsState();
+		} else {
+			checkbox.checked = !checkbox.checked;
+			handleCustomContextMenuSubmenuItemsState([checkbox.parentElement]);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onClickCustomContextMenuBox(event) {
-
 		if(event.target.classList.contains("ctxMenuItemContainer")) {		// the label element was clicked
-
-			const checkbox = event.target.querySelector(".ctxMenuItemCheckbox");
-
-			if(event.shiftKey) {
-				const bChecked = !checkbox.checked;
-				m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = bChecked);
-			} else if(event.ctrlKey) {
-				m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = !cb.checked);
-			} else {
-				checkbox.checked = !checkbox.checked;
-			}
 			event.preventDefault();
+			toggleCheckboxesOnKeyEvent(event.target.querySelector(".ctxMenuItemCheckbox"), event);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownCustomContextMenuBox(event) {
-
 		if( ["Enter","NumpadEnter"].includes(event.code) ) {
 			closeCustomContextMenuBox(true);
 		} else if("Escape" === event.code) {
@@ -1394,22 +1465,15 @@ const preferences = (function() {
 		} else if("Space" === event.code) {
 
 			if(event.target.classList.contains("ctxMenuItemCheckbox")) {	// if a checkbox is focused while holding the Shift key
-
-				if(event.shiftKey) {
-					const bChecked = !event.target.checked;
-					m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = bChecked);
-					event.preventDefault();
-				} else if(event.ctrlKey) {
-					m_elmCustomCtxMenuBox.querySelectorAll(".ctxMenuItemCheckbox").forEach(cb => cb.checked = !cb.checked);
-					event.preventDefault();
-				}
+				event.preventDefault();
+				toggleCheckboxesOnKeyEvent(event.target, event);
 			}
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onBlurCustomContextMenuBox(event) {
-		if( !m_elmCustomCtxMenuBox.contains(event.relatedTarget) ) {
+		if( !m_ignoreFocusBlur && !m_elmCustomCtxMenuBox.contains(event.relatedTarget) ) {
 			closeCustomContextMenuBox(true);
 		}
 	}

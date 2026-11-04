@@ -58,6 +58,9 @@ const contextMenu = (function() {
 	let m_bActivePanelOpened = false;
 	let m_isContextMenuOpen = false;
 	let m_userHiddenItems = [];
+	let m_elmOpenedSubmenu = null;
+	let m_subMenuCloseTimer = null;
+	let m_isRTL = null;
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function initialize() {
@@ -86,6 +89,8 @@ const contextMenu = (function() {
 	function closeContextMenu() {
 
 		m_elmContextMenu.style.display = "none";
+
+		closeSubMenu();
 
 		m_elmContextMenu.removeEventListener("mousemove", onMouseMoveContextMenu);
 		m_elmContextMenu.removeEventListener("blur", onBlurContextMenu, true);
@@ -121,6 +126,7 @@ const contextMenu = (function() {
 		}
 
 		m_bActivePanelOpened = false;
+		m_isRTL = getComputedStyle(m_elmSidebarBody).direction === "rtl";
 
 		if (TreeItemType.isFolder(m_elmEventTarget)) {
 
@@ -165,32 +171,18 @@ const contextMenu = (function() {
 		m_elmContextMenu.addEventListener("keydown", onKeyDownContextMenu);
 		m_elmContextMenu.addEventListener("click", onClickContextMenuItem);
 
-		const isRTL = getComputedStyle(m_elmSidebarBody).direction === "rtl";
-		let logicalX = (isRTL ? (m_elmSidebarBody.offsetWidth - event.clientX) : event.clientX);
-		let y = event.clientY;
-
 		// do it first so element will have dimentions (offsetWidth > 0)
 		m_elmContextMenu.style.display = "block";
 
-		if ((logicalX + m_elmContextMenu.offsetWidth) > m_elmSidebarBody.offsetWidth) {
-			logicalX = m_elmSidebarBody.offsetWidth - m_elmContextMenu.offsetWidth;
-		}
+		// calculate position for context menu
+		const preferredX = (m_isRTL ? event.clientX - m_elmContextMenu.offsetWidth : event.clientX);
+		const x = Math.max(0, Math.min(preferredX, window.innerWidth - m_elmContextMenu.offsetWidth));
+		const y = Math.max(5, Math.min(event.clientY, window.innerHeight - m_elmContextMenu.offsetHeight));
 
-		if ((y + m_elmContextMenu.offsetHeight) > m_elmSidebarBody.offsetHeight) {
-			y = m_elmSidebarBody.offsetHeight - m_elmContextMenu.offsetHeight;
-		}
-
-		if(isRTL) {
-			m_elmContextMenu.style.right = logicalX + "px";
-		} else {
-			m_elmContextMenu.style.left = logicalX + "px";
-		}
+		m_elmContextMenu.style.left = x + "px";
 		m_elmContextMenu.style.top = y + "px";
 
-		const item = m_elmContextMenu.querySelector(`.ctx-menu-item.${m_currentContext}:not(.user-hidden)`);	// first visible items
-		if(!!item) {
-			item.focus();
-		} else {
+		if( !focusFirstVisibleMenuItem(m_elmContextMenu) ) {
 			m_elmContextMenu.focus();
 		}
 		m_isContextMenuOpen = true;
@@ -198,11 +190,30 @@ const contextMenu = (function() {
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onMouseMoveContextMenu(event) {
-		if(event.target.classList.contains("ctx-menu-item")) {
-			event.target.focus();
-		} else {
-			m_elmContextMenu.focus();	// move focus to parent (may be an <hr> line)
+		const menuItem = event.target.closest(".ctx-menu-item");
+
+		if(event.target.closest(".ctx-menu-submenu")) {
+			cancelScheduledSubMenuClose();
+			menuItem?.focus();
+			return;
 		}
+
+		if(!menuItem) {
+			scheduleSubMenuClose();
+			m_elmContextMenu.focus();	// move focus to parent (may be an <hr> line)
+			return;
+		}
+
+		if(isSubMenuParent(menuItem)) {
+			cancelScheduledSubMenuClose();
+			if (m_elmOpenedSubmenu !== getSubMenuElement(menuItem.id)) {
+				openSubMenu(menuItem);
+			}
+		} else {
+			scheduleSubMenuClose();
+		}
+
+		menuItem.focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -216,7 +227,7 @@ const contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onKeyDownContextMenu(event) {
 
-		let elm, keyCode = event.code;
+		let keyCode = event.code;
 
 		// The 'Sign in...' menu item (acceleratorKey:'L') is an oddball. Its visibility depends not only on the
 		// element context (tree feed item) but also on the element's state (unauthorized). So in order to prevent
@@ -228,62 +239,45 @@ const contextMenu = (function() {
 
 		event.preventDefault();
 
+		if(m_isRTL) {
+			if(keyCode === "ArrowRight")     keyCode = "ArrowLeft";
+			else if(keyCode === "ArrowLeft") keyCode = "ArrowRight";
+		}
+
 		switch(keyCode) {
 
 			case "ArrowUp":
-				elm = event.target;
-				while( !!(elm = elm.previousElementSibling) ) {
-					if( !!elm.offsetParent && elm.classList.contains("ctx-menu-item") ) {		// visible menu item
-						elm.focus();
-						break;
-					}
-				}
-				if(!!!elm) {
-					elm = m_elmContextMenu.lastElementChild;
-					do {
-						if( !!elm.offsetParent && elm.classList.contains("ctx-menu-item") ) {
-							elm.focus();
-							break;
-						}
-					} while(!!(elm = elm.previousElementSibling));
-				}
-				break;
+				focusAdjacentVisibleMenuItem(event.target, false);
+				return;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "ArrowDown":
-				elm = event.target;
-				while( !!(elm = elm.nextElementSibling) ) {
-					if( !!elm.offsetParent && elm.classList.contains("ctx-menu-item") ) {
-						elm.focus();
-						break;
-					}
-				}
-				if(!!!elm) {
-					elm = m_elmContextMenu.firstElementChild;
-					do {
-						if( !!elm.offsetParent && elm.classList.contains("ctx-menu-item") ) {
-							elm.focus();
-							break;
-						}
-					} while(!!(elm = elm.nextElementSibling));
-				}
-				break;
+				focusAdjacentVisibleMenuItem(event.target, true);
+				return;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowRight":
+				if(isSubMenuParent(event.target)) openSubMenu(event.target, true);
+				return;
+				/////////////////////////////////////////////////////////////////////////
+
+			case "ArrowLeft":
+				if(!!event.target.closest(".ctx-menu-submenu")) closeSubMenu(true);
+				return;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "Enter":
 			case "NumpadEnter":
-				handleMenuItemsAction(event.target.id);
-				break;
+				isSubMenuParent(event.target) ? openSubMenu(event.target, true) : handleMenuItemsAction(event.target.id);
+				return;
 				/////////////////////////////////////////////////////////////////////////
 
 			case "Escape":
-				closeContextMenu();
-				break;
+				!!m_elmOpenedSubmenu ? closeSubMenu(true) : closeContextMenu();
+				return;
 				/////////////////////////////////////////////////////////////////////////
 		}
-
-		// if key was handled then no need to continue
-		if(["ArrowUp", "ArrowDown", "Enter", "NumpadEnter", "Escape"].includes(keyCode)) return;
+		// if key was handled by the case above, it would have returned, so reaching here means it wasn't handled
 
 		if(m_currentContext === "tree-item-folder-ctx") {
 			switch (keyCode) {
@@ -357,7 +351,15 @@ const contextMenu = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onClickContextMenuItem(event) {
 		event.preventDefault();
-		handleMenuItemsAction(event.target.id);
+
+		const target = event.target;
+		if(!target.classList.contains("ctx-menu-item")) return;
+
+		if( isSubMenuParent(target) && (m_elmOpenedSubmenu !== getSubMenuElement(target.id)) ) {
+			openSubMenu(target);
+		} else {
+			handleMenuItemsAction(target.id);
+		}
 	}
 
 	//==================================================================================
@@ -571,80 +573,231 @@ const contextMenu = (function() {
 	function initializeHTML() {
 
 		const fragment = document.createDocumentFragment();
-		let prevMenuItemGroup = 1;
 
 		for(let i=0, len=ContextMenuItems.length; i<len; ++i) {
 
 			const menuItem = ContextMenuItems[i];
-			const elm = document.createElement("div");
 
-			// menuItem must have an id, class and group
-			elm.id = menuItem.id;
-			elm.className = menuItem.class;
-			elm.tabIndex = 0;								// make focusable
-			elm.setAttribute("data-group", menuItem.group);
+			fragment.appendChild(createMenuItemElement(menuItem));
 
-			// menuItem must have a text
-			const text = menuItem.text;
-			const elmWrapper = document.createElement("div");
+			if(menuItem.submenuItems) {
+				const elmSubmenu = createSubMenuElement(menuItem.id);
+				const submenuItems = menuItem.submenuItems;
+				for(let iSub=0, lenSub=submenuItems.length; iSub<lenSub; ++iSub) {
+					elmSubmenu.appendChild(createMenuItemElement(submenuItems[iSub]));
+				}
+				fragment.appendChild(elmSubmenu);
+			}
 
-			// if menuItem has a shortcut, underline the shortcut key in the text
-			if(!!menuItem.shortcut) {
-				let index = text.indexOf(menuItem.shortcut.toUpperCase());	// prefer uppercase match
-				if(index === -1) {
-					index = text.toLowerCase().indexOf(menuItem.shortcut.toLowerCase());	// compromise with lowercase match
+			// if a new group is coming up then add a separator
+			if( (i < ContextMenuItems.length-1) && (menuItem.group < ContextMenuItems[i+1].group) ) {
+				const elmHr = document.createElement("hr");
+				elmHr.className = "ctx-menu-group-separator";
+				elmHr.setAttribute("data-group", menuItem.group);
+				fragment.appendChild(elmHr);
+			}
+		}
+		m_elmContextMenu.replaceChildren(fragment);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createMenuItemElement(menuItem) {
+
+		const elm = document.createElement("div");
+
+		// menuItem must have an id, class and group
+		elm.id = menuItem.id;
+		elm.className = menuItem.class;
+		elm.tabIndex = 0;								// make focusable
+		elm.setAttribute("data-group", menuItem.group);
+
+		// menuItem must have a text
+		const text = menuItem.text;
+		const elmWrapper = document.createElement("div");
+
+		// if menuItem has a shortcut, underline the shortcut key in the text
+		if(!!menuItem.shortcut) {
+			let index = text.indexOf(menuItem.shortcut.toUpperCase());	// prefer uppercase match
+			if(index === -1) {
+				index = text.toLowerCase().indexOf(menuItem.shortcut.toLowerCase());	// compromise with lowercase match
+			}
+
+			if(index > -1) {
+				const before = text.substring(0, index);
+				const key = text.charAt(index);
+				const after = text.substring(index + 1);
+
+				if(!!before) {
+					elmWrapper.appendChild(document.createTextNode(before));
 				}
 
-				if(index > -1) {
-					const before = text.substring(0, index);
-					const key = text.charAt(index);
-					const after = text.substring(index + 1);
+				const elmU = document.createElement("u");
+				elmU.textContent = key;
+				elmWrapper.appendChild(elmU);
 
-					if(!!before) {
-						elmWrapper.appendChild(document.createTextNode(before));
-					}
-
-					const elmU = document.createElement("u");
-					elmU.textContent = key;
-					elmWrapper.appendChild(elmU);
-
-					if(!!after) {
-						elmWrapper.appendChild(document.createTextNode(after));
-					}
-				} else {
-					elmWrapper.textContent = text;
+				if(!!after) {
+					elmWrapper.appendChild(document.createTextNode(after));
 				}
 			} else {
 				elmWrapper.textContent = text;
 			}
-			elm.appendChild(elmWrapper);
+		} else {
+			elmWrapper.textContent = text;
+		}
+		elm.appendChild(elmWrapper);
 
-			// if menuItem has an accelerator key, add it to the menu item
-			if(!!menuItem.accelerator) {
-				const elmAcceleratorKey = document.createElement("div");
-				elmAcceleratorKey.className = "acceleratorKey";
-				elmAcceleratorKey.textContent = menuItem.accelerator;
-				elm.appendChild(elmAcceleratorKey);
-			}
-
-			// if previous menuItem group is less than current menuItem group, add a seperator
-			if(prevMenuItemGroup < menuItem.group) {
-				const elmHr = document.createElement("hr");
-				elmHr.className = "ctx-menu-sep";
-				elmHr.setAttribute("data-group", prevMenuItemGroup);
-				fragment.appendChild(elmHr);
-				prevMenuItemGroup = menuItem.group;
-			}
-			fragment.appendChild(elm);
+		// if menuItem has an accelerator key, add it to the menu item
+		if(!!menuItem.accelerator) {
+			const elmAcceleratorKey = document.createElement("div");
+			elmAcceleratorKey.className = "acceleratorKey";
+			elmAcceleratorKey.textContent = menuItem.accelerator;
+			elm.appendChild(elmAcceleratorKey);
 		}
 
-		m_elmContextMenu.replaceChildren(fragment);
+		return elm;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function isSubMenuParent(elm) {
+		return elm?.classList.contains("ctx-menu-submenu-parent") ?? false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getSubMenuParentElement(elmSubmenu) {
+		if(!elmSubmenu) return null;
+		const parentId = elmSubmenu.getAttribute("data-parent-id");
+		return m_elmContextMenu.querySelector(`#${parentId}`);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function createSubMenuElement(parentMenuId) {
+		const elmSubmenu = document.createElement("div");
+		elmSubmenu.className = "ctx-menu-submenu";
+		elmSubmenu.setAttribute("data-parent-id", parentMenuId);
+		return elmSubmenu;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getSubMenuElement(parentMenuId) {
+		return m_elmContextMenu.querySelector(`.ctx-menu-submenu[data-parent-id='${parentMenuId}']`);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function openSubMenu(elmParentMenuItem, focusFirstItem = false) {
+
+		if(!isSubMenuParent(elmParentMenuItem) || elmParentMenuItem.classList.contains("user-hidden")) return;
+
+		closeSubMenu();
+
+		const elmSubmenu = getSubMenuElement(elmParentMenuItem.id);
+		elmSubmenu.classList.add("open");
+
+		const rcMenu = m_elmContextMenu.getBoundingClientRect();
+		const rcParent = elmParentMenuItem.getBoundingClientRect();
+		const submenuWidth = elmSubmenu.offsetWidth;
+
+		let x;
+		const y = Math.max(0, Math.min(rcParent.top, window.innerHeight - elmSubmenu.offsetHeight));
+		const maxViewportX = Math.max(0, window.innerWidth - submenuWidth);
+
+		if(m_isRTL) {
+			const preferredLeftX = rcMenu.left - submenuWidth + 5;
+			const preferredRightX = rcMenu.right - 5;
+
+			if(preferredLeftX >= 0) {
+				x = preferredLeftX;											// Prefer opening to the left when there is enough space.
+			} else if(preferredRightX <= maxViewportX) {
+				x = preferredRightX;										// If left side does not fit, open fully to the right when possible.
+			} else {
+				x = Math.max(0, Math.min(preferredLeftX, maxViewportX));	// If neither side fully fits, open left and shift right as needed.
+			}
+		} else {
+			const preferredRightX = rcMenu.right - 5;
+			const preferredLeftX = rcMenu.left - submenuWidth + 5;
+
+			if(preferredRightX <= maxViewportX) {
+				x = preferredRightX;										// Prefer opening to the right when there is enough space.
+			} else if(preferredLeftX >= 0) {
+				x = preferredLeftX;											// If right side does not fit, open fully to the left when possible.
+			} else {
+				x = Math.max(0, Math.min(preferredRightX, maxViewportX));	// If neither side fully fits, open right and shift left as needed.
+			}
+		}
+
+		elmSubmenu.style.left = x + "px";
+		elmSubmenu.style.top = y + "px";
+
+		if(focusFirstItem) {
+			focusFirstVisibleMenuItem(elmSubmenu);
+		}
+		m_elmOpenedSubmenu = elmSubmenu;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function closeSubMenu(restoreFocusToParent = false) {
+
+		cancelScheduledSubMenuClose();
+
+		if(!m_elmOpenedSubmenu) return;
+		m_elmOpenedSubmenu.classList.remove("open");
+
+		if(restoreFocusToParent) {
+			getSubMenuParentElement(m_elmOpenedSubmenu)?.focus();
+		}
+		m_elmOpenedSubmenu = null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function scheduleSubMenuClose() {
+		if(!m_elmOpenedSubmenu || m_subMenuCloseTimer) return;
+		m_subMenuCloseTimer = setTimeout(() => {
+			m_subMenuCloseTimer = null;
+			closeSubMenu();
+		}, 300);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function cancelScheduledSubMenuClose() {
+		clearTimeout(m_subMenuCloseTimer);
+		m_subMenuCloseTimer = null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function getFirstVisibleMenuItem(elmMenu, additionalSelectors = "") { // additionalSelector must start with ','
+		return elmMenu.querySelector(`.ctx-menu-item.${m_currentContext}:not(.user-hidden)` + (additionalSelectors || ""));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function focusFirstVisibleMenuItem(elmMenu) {
+		const first = getFirstVisibleMenuItem(elmMenu);
+		first?.focus();
+		return !!first;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function focusAdjacentVisibleMenuItem(elmCurrent, isNext) {
+
+		const visibleItems = Array.from(m_elmContextMenu.querySelectorAll(".ctx-menu-item")).filter(elm => !!elm.offsetParent);
+		if(visibleItems.length === 0) return;
+
+		let index = visibleItems.indexOf(elmCurrent);
+		if(index === -1) {
+			visibleItems[0].focus();
+			return;
+		}
+
+		index = (index + (isNext ? 1 : -1) + visibleItems.length) % visibleItems.length;
+		if(!visibleItems[index].closest(".ctx-menu-submenu")) {
+			closeSubMenu();
+		}
+		visibleItems[index].focus();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function showRequiredMenuItems() {
 
 		const isUnauthorized = m_elmEventTarget.classList.contains("unauthorized");
+		let contextSelectors;
 
 		////////////////////////////////////////////////////////////////////////////
 		// handle the display of the context menu items based on the current context
@@ -652,14 +805,16 @@ const contextMenu = (function() {
 		m_elmContextMenu.classList.remove("tree-item-folder-ctx", "tree-item-ctx", "list-item-ctx", "tree-ctx", "list-ctx", "tree-item-unauthorized-ctx");
 		if(isUnauthorized) {
 			m_elmContextMenu.classList.add(m_currentContext, "tree-item-unauthorized-ctx");
+			contextSelectors = `.ctx-menu-item.${m_currentContext},.ctx-menu-group-separator,.tree-item-unauthorized-ctx`;
 		} else {
 			m_elmContextMenu.classList.add(m_currentContext);
+			contextSelectors = `.ctx-menu-item.${m_currentContext},.ctx-menu-group-separator`;
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// handle the display of the context menu items based on the user customization as defined in m_userHiddenItems
 
-		const menuItemElements = m_elmContextMenu.children;
+		const menuItemElements = m_elmContextMenu.querySelectorAll(contextSelectors);
 		let lastVisibleGroup = 0;			// group number is one based, so 0 means no visible group
 		let lastVisibleSeparator = null;
 
@@ -669,9 +824,10 @@ const contextMenu = (function() {
 			const elmClsLst = elm.classList;
 
 			// for the menu items of the current context
-			if( elmClsLst.contains("ctx-menu-item") && elmClsLst.contains(m_currentContext) || (isUnauthorized && elmClsLst.contains("tree-item-unauthorized-ctx")) ) {
+			if( elmClsLst.contains("ctx-menu-item") ) {
 
 				// hide or show menu item based on the user customization as defined in m_userHiddenItems
+				// note: 'mnuTreeSigninFeed' item will never be in 'm_userHiddenItems' but the separator that comes immediately after it will be hidden if needed
 				if(m_userHiddenItems.includes(elm.id)) {
 					elmClsLst.add("user-hidden");
 				} else {
@@ -679,24 +835,25 @@ const contextMenu = (function() {
 					lastVisibleGroup = elm.getAttribute("data-group");
 				}
 
-			} else if(elmClsLst.contains("ctx-menu-sep")) {
+			} else if(elmClsLst.contains("ctx-menu-group-separator")) {
 
 				// hide or show separator based on the visibility of the menu items in the same group
 				if(elm.getAttribute("data-group") === lastVisibleGroup) {
-					elmClsLst.remove("user-hidden");
+					elmClsLst.remove("group-empty-hidden");
 					lastVisibleSeparator = elm;
 				} else {
-					elmClsLst.add("user-hidden");
+					elmClsLst.add("group-empty-hidden");
 				}
 			}
 		}
 
 		// hide the last visible separator if it belongs to the last visible group
-		if( !!lastVisibleSeparator && lastVisibleSeparator.getAttribute("data-group") === lastVisibleGroup ) {
-			lastVisibleSeparator.classList.add("user-hidden");
+		if( lastVisibleSeparator?.getAttribute("data-group") === lastVisibleGroup ) {
+			lastVisibleSeparator.classList.add("group-empty-hidden");
 		}
 
-		return lastVisibleGroup > 0;	// return true if there is at least one visible menu item
+		const isAnyVisible = !!getFirstVisibleMenuItem(m_elmContextMenu, ( isUnauthorized ? ",.tree-item-unauthorized-ctx" : "" ));
+		return isAnyVisible;	// return true if there is at least one visible menu item
 	}
 
 	return {
