@@ -398,7 +398,7 @@ input {
 	border: 1px solid rgb(193, 193, 193);
 	border-radius: 2px;
 	height: var(--height-preference-button);
-	width: 90px;
+	width: 115px;
 	text-align: center;
 	align-content: center;
 	margin-inline-start: 10px;
@@ -440,7 +440,6 @@ input {
 
 .extensionButtons .preferenceButton {
 	min-height: var(--height-preference-button);
-	width: 115px;
 	height: auto;
 	white-space: wrap;
 	margin-inline-start: 7px;

@@ -1273,17 +1273,17 @@
 * consider having sub-menus in the context menu.
 * fix diagonal mouse movement issue from the context menu item to its submenu.
 * fix the padding of the page popup body. the new Fx theme increased the page popup border-radius. it looks ugly with the current padding.
+* in Japanese the text in preferences buttons is overflowing
 ---
 
 
 ## Now
-* in Japanese the text in preferences buttons is overflowing
+* in preferences, when viewport is smaller then the page width and pressing the tab key moves focus to an element outside the viewport, the page layout gets fucked.
 > STANDING TASK: Check the `<select>` control in the preferences page. Are the colors of the `<option>` in dark mode are readable when hovered
 ---
 
 
 ## Next
-* in preferences, when viewport is smaller then the page width and pressing the tab key moves focus to an element outside the viewport, the page layout gets fucked.
 * add support for opening feed and feed-item links in split-view from the context menu. this feature is still not implemented in Fx as an extension API. [bugzilla: `bug 2016749` `bug 2016928`]
 	* split view minimal support start at v149, and not fully implemented at v152.0.6 (when this was written).
 	* the context menu item `Open in Split View` should only be shown when the current tab is NOT in a split view.
