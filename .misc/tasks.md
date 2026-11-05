@@ -1272,11 +1272,12 @@
 * consider adding to the seperators in context menu the menu context class name of the group. this may simplify hiding/showing them. a seperator is part of a group/menu-context = NO
 * consider having sub-menus in the context menu.
 * fix diagonal mouse movement issue from the context menu item to its submenu.
+* fix the padding of the page popup body. the new Fx theme increased the page popup border-radius. it looks ugly with the current padding.
 ---
 
 
 ## Now
-* fix the padding of the page popup body. the new Fx theme increased the page popup border-radius. it looks ugly with the current padding.
+* in Japanese the text in preferences buttons is overflowing
 > STANDING TASK: Check the `<select>` control in the preferences page. Are the colors of the `<option>` in dark mode are readable when hovered
 ---
 
