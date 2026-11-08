@@ -1274,11 +1274,11 @@
 * fix diagonal mouse movement issue from the context menu item to its submenu.
 * fix the padding of the page popup body. the new Fx theme increased the page popup border-radius. it looks ugly with the current padding.
 * in Japanese the text in preferences buttons is overflowing
+* in preferences, when viewport is smaller then the page width and pressing the tab key moves focus to an element outside the viewport, the page layout gets fucked.
 ---
 
 
 ## Now
-* in preferences, when viewport is smaller then the page width and pressing the tab key moves focus to an element outside the viewport, the page layout gets fucked.
 > STANDING TASK: Check the `<select>` control in the preferences page. Are the colors of the `<option>` in dark mode are readable when hovered
 ---
 

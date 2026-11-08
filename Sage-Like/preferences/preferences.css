@@ -141,6 +141,8 @@ body * {
 	padding-block: calc(var(--padding-top-pref-block) - 8px) 20px;
 	padding-inline: 22px 10px;
 	overflow: hidden;
+	background-color: var(--background-color-body);
+	z-index: 9;
 }
 
 #navigationFooter {

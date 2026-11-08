@@ -160,7 +160,7 @@ const preferences = (function() {
 	function addEventListeners() {
 
 		// handle scrolling of the .mainContent div when an input gets focus
-		window.addEventListener("click", () => window.scrollTo({ left: 0 }) );
+		window.addEventListener("focus", () => window.scrollTo({ left: 0 }), true);
 
 		m_elmNavigationItems.addEventListener("click", onClickNavigationItem);
 
