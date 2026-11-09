@@ -12,7 +12,7 @@
 
 <body>
 
-	<div id="popupCaption">Page Feeds</div>
+	<div id="popupCaption" data-i18n="htm_popupCaption">Page Feeds</div>
 
 	<div id="popupSubCaption"></div>
 
@@ -20,18 +20,18 @@
 
 		<div id="busyContainer" class="feedsListInfo">
 			<div id="busyAnimLoading"></div>
-			<div id="busyText" class="infoMessage">Oops... Either you're too fast, or the network is too slow.<br>Please wait.</div>
+			<div id="busyText" class="infoMessage"><span data-i18n="htm_popupBusyMessage">Oops... Either you're too fast, or the network is too slow.</span><br><span data-i18n="htm_popupWaitMessage">Please wait.</span></div>
 		</div>
 
 		<div id="noticeContainer" class="feedsListInfo">
-			<div id="noticeText" class="infoMessage">Bummer... Feeds were found, but none of them are valid.</div>
+			<div id="noticeText" class="infoMessage" data-i18n="htm_popupNoticeNoValidFeeds">Bummer... Feeds were found, but none of them are valid.</div>
 		</div>
 
 	</ul>
 
 	<div class="footerContainer">
 		<div id="statusBar"></div>
-		<button type="button" class="pfButton" id="btnAddFeeds" disabled>Add to Sage-Like</button>
+		<button type="button" class="pfButton" id="btnAddFeeds" disabled data-i18n="htm_popupBtnAddFeeds">Add to Sage-Like</button>
 	</div>
 
 </body>

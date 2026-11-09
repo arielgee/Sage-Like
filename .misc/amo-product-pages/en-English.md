@@ -1,0 +1,84 @@
+# LISTING FOR: English
+
+
+## Name
+RSS Sage-Like
+
+
+## Summary
+A fast and lightweight sidebar-based feed reader. Supports Atom, RSS, JSON, and RDF feeds with customizable UI and seamless integration with your browser’s bookmarks and sync capabilities.
+
+
+## Description / About this extension – (_HTML w/ some Markdown_)
+```markdown
+Sage-Like is a simple, sidebar based feed reader (Atom, RSS, JSON and RDF). Like its add-on predecessors, Sage by Peter Andrews and the Sage++ by Higmmer, I did my best to keep it lightweight and fast.
+
+◼ **FEATURES**
+&emsp;● A sidebar based display.
+&emsp;● Feed discovery from the sidebar and from the address bar.
+&emsp;● Customized discovery of "hidden" RSS feeds on YouTube, Reddit, DeviantArt,
+&emsp;&emsp;Pinterest and Behance.
+&emsp;● Integrated with the browser's native bookmarks.
+&emsp;● Feeds automatically sync across your devices when using Firefox Sync.
+&emsp;● Fully customizable tree view. Add/Edit/Delete/Copy/Paste/Drag-n-drop directly
+&emsp;&emsp;in the sidebar.
+&emsp;● Various filtering capabilities to the tree feeds (filter by title, URL or status).
+&emsp;● Context menus for feeds and for feed-items (articles) offer more actions.
+&emsp;● Support for *middle-click*, *ctrl-click* & *shift-click* in the feed-items list.
+&emsp;● Rendered Feed Preview via *middle-click* or context menu (support custom
+&emsp;&emsp;style sheet).
+&emsp;● Support for import & export feed subscriptions using an OPML file.
+&emsp;● Customizable UI font & colors.
+&emsp;● Support Manifest V3.
+
+◼ **MANIFEST VERSION**
+Sage-Like v3.2.2 is the latest version supporting Manifest V2, available on the extension's version history page: https://addons.mozilla.org/en-US/firefox/addon/sage-like/versions
+
+◼ **PERMISSION JUSTIFICATION**
+&emsp;● 'Read and modify bookmarks' – Integration with the browser's native
+&emsp;&emsp;bookmarks.
+&emsp;● 'Get data from the clipboard' – Support for Copy/Paste operations in the
+&emsp;&emsp;sidebar.
+&emsp;● 'Input data to the clipboard' – Support for Copy/Paste operations in the
+&emsp;&emsp;sidebar.
+&emsp;● 'Download files and read and modify the browser’s download history' –
+&emsp;&emsp;Exporting feeds to a file (OPML).
+&emsp;● 'Access browsing history' – Managing feed state (read/unread).
+&emsp;● 'Access browser tabs' – Opening feed articles, feed Previews, etc.
+&emsp;● 'Access your data for all websites' – Feed fetching and feed discovery.
+&emsp;● "storage" – Storing extension preferences.
+&emsp;● "webRequest" – Intercepting clicks on RSS links to display feed previews.
+&emsp;● "webRequestBlocking" – Intercepting clicks on RSS links to display feed
+&emsp;&emsp;previews.
+&emsp;● "menus" – Try to open page links in Feed Preview from context menu.
+&emsp;● "contextualIdentities" – Opening feed articles and feed Previews in
+&emsp;&emsp;container tabs.
+&emsp;● "cookies" – Opening feed articles and feed Previews in container tabs.
+
+◼ **CUSTOM CSS FILES**
+A selection of custom CSS files for the Feed Preview page, provided as ready-to-use styles or as examples for customization. Available on Mozilla’s Discourse forum: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18
+
+◼ **SUPPORT & FEEDBACK**
+For assistance, troubleshooting, or feedback, visit the support page on Mozilla’s Discourse forum: https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383
+
+◼ **SUBMIT AN ISSUE**
+For bugs or feature requests, please submit an issue on the GitHub repository: https://github.com/arielgee/Sage-Like/issues. When reporting a bug, include your browser version, extension version, and detailed steps to reproduce the issue.
+```
+
+
+## Manage Version 3.14 ➜ Version Notes – (_HTML w/ some Markdown_)
+```markdown
+**Changes**
+
+* Improved feed preview compatibility with newer Firefox behavior by applying custom styles inline and loading content support directly in preview documents.
+* Improved the feed preview jump list with a refreshed design, more reliable open/close handling, and safer expanded sizing.
+* Added F5 keyboard support to refresh feeds directly from the tree view.
+* Improved Right-to-left and localization support across the interface.
+* Improved Preferences UI consistency with cleaner control styling, more consistent flash timing, and better handling for long labels.
+* Improved feed text processing and sanitization with updated HTML string utilities and XML entity decoding.
+* Improved info bubble visuals and positioning.
+* Improved feed preview cleanup and SVG handling.
+* Changed browser compatibility baseline: the extension now requires Firefox 140 or later, and Firefox versions below 140 are no longer supported.
+* Minor code improvements and stylesheet cleanup.
+```
+
