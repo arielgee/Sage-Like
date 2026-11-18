@@ -16,9 +16,20 @@
 
 <body>
 
-	<div id="webExtVersion"></div>
+	<!-- defined once -->
+	<svg width="0" height="0" style="position:absolute;left:-9999px;overflow:hidden" aria-hidden="true" focusable="false">
+		<symbol id="icon-external-link" viewBox="0 0 24 24">
+			<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+			<polyline points="15 3 21 3 21 9"></polyline>
+			<line x1="10" y1="14" x2="21" y2="3"></line>
+		</symbol>
+	</svg>
 
 	<div class="navigationBar">
+
+		<div class="navigationBarTitle">
+			<div id="webExtNameVersion"></div>
+		</div>
 
 		<div id="navigationItems">
 			<div class="navigationItem internal" data-jumpTargetId="prefBlockFeeds">&#10045;&emsp13;Feeds</div>
@@ -27,7 +38,7 @@
 			<div class="navigationItem internal" data-jumpTargetId="prefBlockMiscellaneous">&#10045;&emsp13;Miscellaneous</div>
 		</div>
 
-		<div id="navigationFooter">
+		<div class="navigationFooter">
 			<a class="navigationLink" target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/sage-like/">
 				<div class="navigationItem external">&#10020;&ensp;Write a Review</div>
 			</a>
@@ -36,9 +47,6 @@
 			</a>
 			<a class="navigationLink" target="_blank" href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383">
 				<div class="navigationItem external">&#10020;&ensp;Support & Feedback</div>
-			</a>
-			<a class="navigationLink" target="_blank" href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18">
-				<div class="navigationItem external">&#10020;&ensp;Custom CSS for Feed Preview</div>
 			</a>
 			<a class="navigationLink" target="_blank" href="https://www.paypal.com/paypalme/4arielg">
 				<div class="navigationItem external">&#10084;&ensp;Buy the Developer a Beer</div>
@@ -356,14 +364,22 @@
 				</div>
 			</div>
 
-			<div class="preference subPref last">
-				<label class="preferenceLabel">CSS source code<span class="helpInfo" data-extra-width data-title="CSS content is saved internally. If you modify the source file, you must re-import it.&NewLine;Alternatively, use the 'Edit...' button to modify the imported code directly.&NewLine;&NewLine;&#10033; For examples, click the 'Custom CSS for Feed Preview' link at the bottom left corner of this page.">?</span></label>
+			<div class="preference subPref">
+				<label class="preferenceLabel">CSS source code<span class="helpInfo" data-extra-width data-title="CSS content is saved internally. If you modify the source file, you must re-import it.&NewLine;Alternatively, use the 'Edit...' button to modify the imported code directly.">?</span></label>
 				<div class="preferenceControl">
 					<input type="file" class="preferenceFileInput" id="importCustomCSSSource" accept="text/css,.css">
 					<label id="labelForImportCustomCSSSource" for="importCustomCSSSource" class="preferenceButton isFlashable" tabindex="0">Import...</label>
 					<button type="button" id="btnEditCSSSource" class="preferenceButton">Edit...</button>
 					<button type="button" id="btnClearCSSSource" class="preferenceButton">Clear</button>
 				</div>
+			</div>
+
+			<div class="preference subPref last" id="customCSSLinkPreference">
+				<label class="preferenceLabel">Looking for examples?</label>
+				<a class="preferenceLink" target="_blank" href="https://discourse.mozilla.org/t/support-sage-like-sidebar-based-rss-feed-reader/43383/18">
+					<span class="preferenceLinkText">Download ready-to-use sample stylesheets</span>
+					<svg class="iconExternalLink" viewBox="0 0 24 24" focusable="false" aria-hidden="true"><use href="#icon-external-link"></use></svg>
+				</a>
 			</div>
 			<div class="prefSeperator"></div>
 

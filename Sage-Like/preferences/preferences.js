@@ -319,6 +319,7 @@ const preferences = (function() {
 					flashCustomCSSImportButton();
 				} else {
 					slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
+					slUtil.disableElementTree(document.getElementById("customCSSLinkPreference"), true);
 				}
 			}),
 		]);
@@ -715,10 +716,12 @@ const preferences = (function() {
 
 				if(m_elmUseCustomCSSFeedPreview.checked) {
 					slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, false);
+					slUtil.disableElementTree(document.getElementById("customCSSLinkPreference"), false);
 					slUtil.disableElementTree(m_elmBtnEditCSSSource, (hash.length === 0));
 					slUtil.disableElementTree(m_elmBtnClearCSSSource, (hash.length === 0));
 				} else {
 					slUtil.disableElementTree(m_elmImportCustomCSSSource.parentElement.parentElement, true);
+					slUtil.disableElementTree(document.getElementById("customCSSLinkPreference"), true);
 				}
 
 				flashCustomCSSImportButton();
@@ -1559,7 +1562,8 @@ const preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function setVariousElementsTitles() {
 
-		document.getElementById("webExtVersion").textContent = `Sage-Like v${browser.runtime.getManifest().version}`;
+		const manifest = browser.runtime.getManifest();
+		document.getElementById("webExtNameVersion").textContent = `${manifest.name} ${manifest.version}`;
 		document.getElementById("checkFeedsMethodInfo").setAttribute("data-title", TXT_HELP_INFO_CHECK_FEED_METHOD);
 
 		let re, found, items = m_elmCheckFeedsMethod.children;
