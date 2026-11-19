@@ -56,6 +56,7 @@
 	--color-flash: rgb(255, 192, 192);
 	--filter-brightness-navigation-item: brightness(100%);
 	--stroke-color-external-link: rgb(100, 116, 139);
+	--filter-brightness-nav-item-ico-ex-lnk: brightness(100%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -91,6 +92,7 @@
 		--color-flash: rgb(255, 88, 88);
 		--filter-brightness-navigation-item: brightness(150%);
 		--stroke-color-external-link: rgb(154, 152, 168);
+		--filter-brightness-nav-item-ico-ex-lnk: brightness(66.67%);
 	}
 }
 
@@ -156,12 +158,19 @@ body * {
 	font-size: 1.667rem;
 }
 .navigationItem.external {
+	display: flex;
+	align-items: center;
+	gap: 1px;
 	height: 32px;
 	padding-inline-start: 12px;
 	font-size: 1.167rem;
 }
 .navigationItem:hover {
 	background-color: var(--color-preference-hover);
+}
+
+.navigationItem.external > svg|svg.iconExternalLink {
+	filter: var(--filter-brightness-nav-item-ico-ex-lnk);	/* revert brightness due to .navigationItem's filter 'var(--filter-brightness-navigation-item)' */
 }
 
 .navigationLink {
